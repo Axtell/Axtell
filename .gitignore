@@ -101,4 +101,6 @@ ENV/
 .mypy_cache/
 
 # PyCharm
-.idea/
+.idea/dictionaries/
+.idea/inspectionProfiles/
+.idea/*.xml
