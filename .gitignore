@@ -104,3 +104,6 @@ ENV/
 .idea/dictionaries/
 .idea/inspectionProfiles/
 .idea/*.xml
+
+# Sensitive configuration details
+config.py
