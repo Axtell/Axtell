@@ -9,10 +9,6 @@ app = Flask("PPCG v2")
 db_conn = None
 
 
-def next_row_to_dict(cursor):
-    return dict(zip(cursor.column_names, cursor.fetchone()))
-
-
 @app.route("/")
 def hello():
     return render_template('index.html')
@@ -21,9 +17,9 @@ def hello():
 @app.route("/post/<int:post_id>")
 @app.route("/post/<int:post_id>/<post_title>")
 def get_post(post_id, post_title=None):
-    cursor = db_conn.cursor()
+    cursor = db_conn.cursor(dictionary=True)
     cursor.execute("SELECT * FROM posts WHERE id = %s", (post_id,))
-    post_data = next_row_to_dict(cursor)
+    post_data = cursor.fetchone()
     cursor.close()
     return render_template('post.html', post_data=post_data)
 
