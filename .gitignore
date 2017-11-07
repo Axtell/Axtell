@@ -104,6 +104,7 @@ ENV/
 .idea/dictionaries/
 .idea/inspectionProfiles/
 .idea/*.xml
+.idea/dataSources
 
 # Sensitive configuration details
 config.py

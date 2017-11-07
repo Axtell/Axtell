@@ -109,6 +109,7 @@ DROP TABLE IF EXISTS `posts`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `posts` (
   `id`        INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `title`     LONGTEXT         NOT NULL,
   `content`   LONGTEXT         NOT NULL,
   `tag1`      INT(11)          NOT NULL,
   `tag2`      INT(11)                   DEFAULT NULL,
