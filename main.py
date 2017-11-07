@@ -22,7 +22,7 @@ def get_post_no_title(post_id):
     cursor.close()
     if post_data is None:
         return render_template('notfound.html'), 404
-    return redirect('/post/%s/%s' % (post_id, post_data['title']))
+    return redirect('/post/%s/%s' % (post_id, post_data['title']), code=302)
 
 
 @app.route("/post/<int:post_id>/<post_title>")
