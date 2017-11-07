@@ -15,18 +15,8 @@ def hello():
 
 
 @app.route("/post/<int:post_id>")
-def get_post_no_title(post_id):
-    cursor = db_conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM posts WHERE id = %s", (post_id,))
-    post_data = cursor.fetchone()
-    cursor.close()
-    if post_data is None:
-        return render_template('notfound.html'), 404
-    return redirect('/post/%s/%s' % (post_id, post_data['title']), code=302)
-
-
 @app.route("/post/<int:post_id>/<post_title>")
-def get_post(post_id, post_title):
+def get_post(post_id, post_title = None):
     cursor = db_conn.cursor(dictionary=True)
     cursor.execute("SELECT * FROM posts WHERE id = %s", (post_id,))
     post_data = cursor.fetchone()
