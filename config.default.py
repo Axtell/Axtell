@@ -1,5 +1,5 @@
 db_config = {
-    'user': 'USERNAME',
+    'user': 'root',
     'password': 'PASSWORD',
     'host': '127.0.0.1',
     'database': 'ppcg'
