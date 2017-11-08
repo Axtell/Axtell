@@ -13,3 +13,19 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0;
     display: inline-block;
 }
+
+a {
+    color: #222;
+    
+    &:hover {
+        color: black;
+    }
+    
+    &:visited {
+        color: black;
+    }
+    
+    &:active {
+        color: black;
+    }
+}

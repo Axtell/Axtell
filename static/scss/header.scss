@@ -16,9 +16,12 @@ div#header {
         .expand { flex: 1; }
         
         a {
-            transtion: 0.1s linear background;
+            transition: 0.1s ease-in background;
+            padding: 5px 8px;
+            border-radius: 4px;
+            
             &:hover {
-                background: #DEDEDE;
+                background: #EEE;
             }
         }
         
