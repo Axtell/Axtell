@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-import app.start
+from app.start import run
+from app.db import db_conn
 
 if __name__ == '__main__':
     try:

@@ -1,4 +1,4 @@
-import app.flask
+from app.app import app
 import app.routes
 
 def run(host, port):

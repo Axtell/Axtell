@@ -1,6 +1,6 @@
-import app.flask
-import app.db
-from flask import Flask, render_template, redirect
+from app.app import app
+from app.db import db_conn
+from flask import render_template
 
 @app.route("/")
 def hello():
