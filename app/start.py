@@ -1,5 +1,5 @@
-from app.app import app
+from app.server import server
 import app.routes
 
 def run(host, port):
-    app.run(host=host, port=port)
+    server.run(host=host, port=port)
