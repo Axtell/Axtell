@@ -1,7 +1,7 @@
-{% extends "layout.html" %}
+{% extends "layouts/page.html" %}
 
 {% block title %}{{ post_data['title'] }}{% endblock %}
-{% block body %}
+{% block context %}
 <p>{{ post_data['title'] }}</p>
 <p>{{ post_data['content'] }}</p>
 <p>{{ post_data['user_id'] }}</p>

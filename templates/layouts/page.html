@@ -1,0 +1,21 @@
+{% extends "layouts/layout.html" %}
+
+{% block head %}
+    {{ super() }}
+    <link href="https://fonts.googleapis.com/css?family=Lato|Roboto:300" rel="stylesheet">
+    {% assets "css_all" %}
+    <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
+    {% endassets %}
+{% endblock %}
+
+{% block body %}
+    {{ super() }}
+    
+    {% include "includes/header.html" %}
+    <div id="content">
+        <div class="content">
+        {% block context %}
+        {% endblock %}
+        </div>
+    </div>
+{% endblock %}

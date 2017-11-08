@@ -1,0 +1,27 @@
+div#header {
+    background: $header;
+    border-bottom: 1px solid $header-border;
+    
+    align-items: stretch;
+    flex-wrap: nowrap;
+    
+    padding: 0.5rem 0;
+    
+    .content {
+        display: flex;
+        justify-content: center;
+        padding: 3px 0px 2px 0px;
+        
+        .section { padding: 0 12px; }
+        .expand { flex: 1; }
+        
+        a {
+            transtion: 0.1s linear background;
+            &:hover {
+                background: #DEDEDE;
+            }
+        }
+        
+        h1 { font-size: 1.2em; }
+    }
+}

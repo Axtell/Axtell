@@ -7,6 +7,8 @@ To get started make sure you have the following installed:
 
  - Python 3
  - MySQL
+ - gems: `sass` (`gem install sass`)
+ - npms: `autoprefixer`, `postcss-cli`, `clean-css-cli` from npm (`npm i -g autoprefixer postcss-cli clean-css@3.4.24`)
  
 and the python plugins (may be missing certain see `requirements.txt` for all):
 
@@ -16,6 +18,8 @@ and the python plugins (may be missing certain see `requirements.txt` for all):
 additionally you need to know:
 
  - MySQL username + password
+
+You can use `setup.sh MYSQL_USERNAME MYSQL_PASSWORD` to try to automatically setup most things.
 
 ### Setup
 
