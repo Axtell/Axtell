@@ -1,0 +1,9 @@
+@mixin full {
+    width: 100%;
+    height: 100%;
+}
+
+@mixin fit {
+    margin: 0;
+    padding: 0;
+}

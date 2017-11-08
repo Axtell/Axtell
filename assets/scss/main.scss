@@ -1,0 +1,6 @@
+@import "mixins.scss";
+
+html, body {
+    @include full;
+    @include fit;
+}
