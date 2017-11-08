@@ -28,5 +28,5 @@ additionally you need to know:
 To run do:
 
 ```bash
-$ pytho3 main.py
+$ python3 main.py
 ```
