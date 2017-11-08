@@ -16,7 +16,7 @@ div#header {
         .expand { flex: 1; }
         
         a {
-            transtion: 0.1s linear background;
+            transition: 0.1s linear background;
             &:hover {
                 background: #DEDEDE;
             }
