@@ -1,6 +1,30 @@
 @import "mixins.scss";
+@import "variables.scss";
 
 html, body {
     @include full;
     @include fit;
 }
+
+body {
+    display: flex;
+    flex-direction: column;
+    
+    font-family: $body-font;
+    font-size: $font-size;
+    
+    > div {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        
+        > .content {
+            width: $page-width;
+        }
+    }
+    
+    @import "header.scss";
+    @import "content.scss";
+}
+
+@import "nodes.scss";
