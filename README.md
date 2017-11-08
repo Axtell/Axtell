@@ -8,9 +8,9 @@ To get started make sure you have the following installed:
  - Python 3
  - MySQL
  
-and the python plugins:
+and the python plugins (may be missing certain see `requirements.txt` for all):
 
- - Flask (`pip3 install flask`)
+ - All plugins in `requirements.txt` (`pip install -r requirements.txt`)
  - MySQL (available at: https://dev.mysql.com/downloads/file/?id=472643)
 
 additionally you need to know:

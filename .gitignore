@@ -108,3 +108,6 @@ ENV/
 
 # Sensitive configuration details
 config.py
+
+# Generated files
+static/css
