@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import mysql.connector
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template
 
 import config
 
@@ -14,9 +14,10 @@ def hello():
     return render_template('index.html')
 
 
+# noinspection PyUnusedLocal
 @app.route("/post/<int:post_id>")
 @app.route("/post/<int:post_id>/<post_title>")
-def get_post(post_id, post_title = None):
+def get_post(post_id, post_title=None):
     cursor = db_conn.cursor(dictionary=True)
     cursor.execute("SELECT * FROM posts WHERE id = %s", (post_id,))
     post_data = cursor.fetchone()
