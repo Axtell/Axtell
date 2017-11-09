@@ -7,3 +7,5 @@ install:
     - pip install -r requirements.txt
     - mysql -u root -e 'CREATE DATABASE ppcg;'
     - mysql -u root ppcg < ppcg.sql
+script:
+    - echo -e "\e[1:32mStarting Tests...\e[0m"
