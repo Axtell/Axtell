@@ -1,0 +1,5 @@
+language: python
+services:
+    - mysql
+install:
+    - yes | bash setup.sh
