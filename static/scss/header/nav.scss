@@ -25,12 +25,11 @@ nav {
                 flex: 1;
                 align-items: center;
                 
-                padding: 0 1.5em;
-                
+                padding: $nav-border-width 1.5em;
                 text-decoration: none;
                 color: $big-fg;
                 
-                padding-bottom: $nav-border-width;
+                font-size: 1rem;
             }
         }
     }
