@@ -21,8 +21,8 @@ if [[ $should_mysql == "y" ]]; then
     read -s -p "MySQL password: " sql_username
 
     cp config.default.py config.py
-    sed -i '' 'config.py' "s/root/$sql_username/g"
-    sed -i '' 'config.py' "s/MYSQL_PASSWORD/$sql_password/$2/g"
+    sed -i '' "s/root/$sql_username/g" config.py
+    sed -i '' "s/MYSQL_PASSWORD/$sql_password/g" config.py
 
     echo "CREATE DATABASE ppcg;" | mysql -u "$sql_username"
     mysql -u "$sql_password" ppcg < ppcg.sql
