@@ -7,11 +7,13 @@ To get started make sure you have the following installed:
 
  - Python 3
  - MySQL
- - gems: `sass` (`gem install sass`)
- - npms: `autoprefixer`, `postcss-cli`, `clean-css-cli` from npm (`npm i -g autoprefixer postcss-cli clean-css@3.4.24`)
+ - `bundle`
+ - `node`/`npm`
  
-and the python plugins (may be missing certain see `requirements.txt` for all):
+and the plugins (may be missing certain see `requirements.txt` for all):
 
+ - Ruby gems (`bundle install`)
+ - Node.js packages (`npm install`)
  - All plugins in `requirements.txt` (`pip install -r requirements.txt`)
 
 additionally you need to know:

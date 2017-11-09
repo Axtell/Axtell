@@ -5,8 +5,20 @@ $bold-font: "Lato";
 $light-font: "Roboto";
 
 // System fonts
-$body-font: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+$body-font: $light-font;
+
+$em-text: #000;
+$main-text: #333;
+$label-text: #676767;
+$dim-text: #999;
+
+// BGs
+$dim-bg: #ECECEC;
 
 // Header colors
-$header: #FCFCFC;
-$header-border: #EEE;
+$header: #FFF;
+$header-border: #DDD;
+$header-shadow-color: #EEE;
+
+$big-fg: #555;
+$big-bg: #F6F6F6;

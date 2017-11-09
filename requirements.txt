@@ -1,4 +1,3 @@
 flask>=0.12.2
 Flask-Assets>=0.12
-Flask-Webpack>=0.1.0
 mysqlpy>=2.1.7
