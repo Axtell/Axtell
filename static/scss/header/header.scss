@@ -13,15 +13,20 @@ div#header {
         justify-content: center;
         align-items: stretch;
         
-        // .section {  }
+        .section {
+            &:last-child {
+                margin-right: 0;
+            }
+            
+            margin-right: 1em;
+            > * { display: block; }
+        }
         .expand { flex: 1; }
         
-        a {
+        @import "header/nav.scss";
+        
+        .h-target {
             transition: 0.1s ease-in background;
-            
-            display: inline-block;
-            box-sizing: border-box;
-            margin-right: 1em;
             
             &:hover {
                 background: $big-bg;

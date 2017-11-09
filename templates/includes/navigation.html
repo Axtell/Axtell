@@ -1,0 +1,12 @@
+{% macro nav_item(url, name) -%}
+    <li class="h-target {{ 'selected' if request.path.startswith(url) }}">
+        <a href="{{ url }}">{{ name }}</a>
+    </li>
+{%- endmacro %}
+
+<nav>
+    <ul>
+        {{ nav_item('/posts', 'Posts') }}
+        {{ nav_item('/tags', 'Tags') }}
+    </ul>
+</nav>
