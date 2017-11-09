@@ -14,22 +14,31 @@ div#header {
         align-items: stretch;
         
         .section {
-            &:last-child {
-                margin-right: 0;
-            }
-            
+            &:last-child { margin-right: 0; }
             margin-right: 1em;
+            
             > * { display: block; }
         }
         .expand { flex: 1; }
+        .h-target {
+            transition: 0.1s ease-in background;
+            &:hover { background: $big-bg; }
+        }
         
         @import "header/nav.scss";
         
-        .h-target {
-            transition: 0.1s ease-in background;
+        .r-reveal { display: none; }
+        @media screen and (max-width: 320px) {
+            .r-collapse { display: none; }
+            .r-reveal { display: block }
             
-            &:hover {
-                background: $big-bg;
+            #r-pop {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                > div { padding: 1em }
+                svg { stroke: $dim-text; }
             }
         }
         
