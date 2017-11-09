@@ -2,4 +2,8 @@ language: python
 services:
     - mysql
 install:
-    - yes | bash setup.sh
+    - npm i
+    - bundle install
+    - pip install -r requirements.txt
+    - mysql -u root -e 'CREATE DATABASE ppcg;'
+    - mysql -u root ppcg < ppcg.sql
