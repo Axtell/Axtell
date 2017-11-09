@@ -1,2 +1,3 @@
-flask
-Flask-Assets
+flask>=0.12.2
+Flask-Assets>=0.12
+mysqlpy>=2.1.7

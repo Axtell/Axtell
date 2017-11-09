@@ -15,7 +15,6 @@ and the plugins (may be missing certain see `requirements.txt` for all):
  - Ruby gems (`bundle install`)
  - Node.js packages (`npm install`)
  - All plugins in `requirements.txt` (`pip install -r requirements.txt`)
- - MySQL (available at: https://dev.mysql.com/downloads/file/?id=472643)
 
 additionally you need to know:
 
