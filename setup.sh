@@ -2,12 +2,12 @@
 
 read -p "Install gems (yn): " should_gems
 if [[ $should_gems = "y" ]]; then
-    gem install sass
+    bundle install
 fi
 
 read -p "Install npm packages (yn): " should_npm
 if [[ $should_npm = "y" ]]; then
-    npm i -g autoprefixer postcss-cli clean-css@3.4.24
+    npm install
 fi
 
 read -p "Install python packages (yn): " should_pip

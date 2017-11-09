@@ -1,0 +1,11 @@
+{
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mego/PPCG-v2.git"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "autoprefixer-cli": "^1.0.0",
+    "clean-css": "^3.4.24"
+  }
+}

@@ -109,5 +109,9 @@ ENV/
 # Sensitive configuration details
 config.py
 
+# Node.js
+package-lock.json
+node_modules
+
 # Generated files
 static/css
