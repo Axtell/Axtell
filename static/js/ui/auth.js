@@ -18,7 +18,8 @@ class AuthModal extends Modal {
         gapi.load('auth2', () => {
             gapi.auth2.init({
                 client_id: window.config.pv_gid,
-                cookiepolicy: 'single_host_origin'
+                cookiepolicy: 'single_host_origin',
+                fetch_basic_profile: true
             }).attachClickHandler(
                 document.getElementById("am-pgoogle"), {}, (googleUser) => {
                 // This attaches a 'click-handler' when google authorization is
@@ -26,21 +27,27 @@ class AuthModal extends Modal {
                 
                 // This is the authorization token we pass to server
                 let { id_token } = googleUser.getAuthResponse();
+                let profile = googleUser.getBasicProfile()
                 
-                this._login(id_token);
+                this._login(id_token, {
+                    name: profile.getName(),
+                    email: profile.getEmail(),
+                    avatar: profile.getImageUrl()
+                });
             });
         });
     }
     
     /**
      * Logs in using a provider.
-     * @param  {string} authToken OpenID auth token.
+     * @param {string} authToken OpenID auth token.
+     * @param {AuthProfile} profile Authorization profile
      */
-    _login(authToken) {
+    _login(authToken, profile) {
         Auth.shared()
             .then(async auth => {
                 let response = await auth.login(
-                    new AuthData(authToken)
+                    new AuthData(authToken, profile)
                 );
             })
             .catch(error => { throw error });

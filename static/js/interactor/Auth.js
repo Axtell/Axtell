@@ -29,11 +29,18 @@ class Auth {
      */
     async login(authData) {
         let userData = await axios.post(
-            '/login',
+            '/auth/login',
             authData.json
         );
     }
 }
+
+/**
+ * @typedef {AuthProfile}
+ * @property {string} email
+ * @property {string} display_name
+ * @property {string} avatar
+ */
 
 /**
  * Manages data for a login authorization instance
@@ -42,15 +49,18 @@ class Auth {
 export class AuthData {
     /**
      * @param {string} jwt - Base-64 JWT representing a OpenID auth JSON.
+     * @param {AuthProfile} profile - Profile information
      */
-    constructor(authToken) {
+    constructor(authToken, profile) {
         this._authToken = authToken;
+        this._profile = profile;
     }
     
     /** @override */
     get json() {
         return JSON.stringify({
-            token: this._authToken
+            token: this._authToken,
+            profile: this._profile
         })
     }
 }
