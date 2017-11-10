@@ -46,9 +46,13 @@ class AuthModal extends Modal {
     _login(authToken, profile) {
         Auth.shared()
             .then(async auth => {
-                let response = await auth.login(
+                await auth.login(
                     new AuthData(authToken, profile)
                 );
+                
+                // When finished just reload page
+                // Page will obviously change which is why why must reload
+                window.location.reload(true);
             })
             .catch(error => { throw error });
     }
