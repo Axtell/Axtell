@@ -1,4 +1,4 @@
-import './ui';
+import "~/ui";
 
 setTimeout(
     console.log.bind(console,

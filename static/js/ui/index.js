@@ -1,1 +1,1 @@
-import './auth';
+import '~/ui/auth';

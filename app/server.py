@@ -27,6 +27,10 @@ assets.register('css_all', css)
 
 # JS
 js = Bundle('js/main.js', filters=('browserify'), output='lib/main.js')
+
+if server.debug:
+    js.config['BROWSERIFY_EXTRA_ARGS'] = ['--debug']
+
 js.config['BROWSERIFY_BIN'] = 'node_modules/.bin/browserify'
 js.config['BROWSERIFY_TRANSFORMS'] = ['babelify']
 assets.register('js_all', js)

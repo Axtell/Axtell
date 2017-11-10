@@ -7,6 +7,8 @@ html, body {
 }
 
 body {
+    position: relative;
+    
     display: flex;
     flex-direction: column;
     
@@ -44,3 +46,4 @@ body {
 }
 
 @import "nodes.scss";
+@import "modal.scss";

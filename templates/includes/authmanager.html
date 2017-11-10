@@ -1,9 +1,12 @@
 {% if g.user is not none %}
 {% else %}
 <div>
-    <a id="am-login" href="#" class="button accent">
+    <a id="am-login" class="button accent">
         {% include "svg/user.html" %}
         <span>Login</span>
     </a>
+    <div id="ammd-auth" class="md-template">
+        content foo bar
+    </div>
 </div>
 {% endif %}
