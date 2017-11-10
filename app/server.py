@@ -1,9 +1,11 @@
-from flask import Flask, url_for
+from flask import Flask
 from flask_assets import Environment, Bundle
 from os import path, getcwd
 
+
 class PPCGFlask(Flask):
-    template_folder="assets/templates"
+    template_folder = "assets/templates"
+
 
 server = PPCGFlask("PPCG v2")
 

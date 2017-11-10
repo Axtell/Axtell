@@ -2,6 +2,8 @@ from app.server import server
 from app.controllers import post
 from flask import render_template
 
+
+# noinspection PyUnusedLocal
 @server.route("/post/<int:post_id>")
 @server.route("/post/<int:post_id>/<post_title>")
 def get_post(post_id, post_title=None):
