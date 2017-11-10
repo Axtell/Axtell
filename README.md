@@ -1,6 +1,8 @@
 # PPCG-v2
 An improved user experience for Programming Puzzles &amp; Code Golf
 
+[![Build Status](https://travis-ci.org/Mego/PPCG-v2.svg?branch=master)](https://travis-ci‌​.org/Mego/PPCG-v2)
+
 ## Setup
 ### Prereqs
 To get started make sure you have the following installed:
@@ -31,8 +33,14 @@ You can use `setup.sh` to try to automatically setup most things.
  4. Set `secret_skey` to some random string. It doesn't matter what it is as long as it is random.
 
 ### Run
-To run do:
+Production run:
 
 ```bash
-$ python3 main.py
+$ ./run.py
+```
+
+Development run:
+
+```bash
+$ ./debug.sh
 ```
