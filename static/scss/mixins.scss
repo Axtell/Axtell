@@ -12,3 +12,10 @@
     display: flex;
     align-items: center;
 }
+
+@mixin icon-link {
+    svg {
+        height: 1.2em;
+        margin-right: 8px;
+    }
+}

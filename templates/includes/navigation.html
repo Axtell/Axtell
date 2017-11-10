@@ -1,12 +1,17 @@
-{% macro nav_item(url, name) -%}
+{% macro nav_item(url, name, icon=none) -%}
     <li class="h-target{{ ' selected' if request.path.startswith(url) }}">
-        <a href="{{ url }}">{{ name }}</a>
+        <a href="{{ url }}">
+            {% if icon is not none %}
+            {% include icon %}
+            {% endif %}
+            <span>{{ name }}</span>
+        </a>
     </li>
 {%- endmacro %}
 
 <nav>
     <ul>
-        {{ nav_item('/posts', 'Posts') }}
-        {{ nav_item('/tags', 'Tags') }}
+        {{ nav_item('/posts', 'Posts', 'svg/list.html') }}
+        {{ nav_item('/tags', 'Tags', 'svg/tag.html') }}
     </ul>
 </nav>

@@ -26,6 +26,10 @@
     span, svg { vertical-align: middle; }
 }
 
-.accent, .blue {
+.blue {
     @include button-style(#09F, white);
+}
+
+.accent {
+    @include button-style($accent-color, white);
 }
