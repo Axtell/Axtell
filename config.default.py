@@ -5,4 +5,10 @@ db_config = {
     'database': 'ppcg'
 }
 
-secret_skey = 'aaf7639b94d05c02daf9a6d8a9c5d983b61696dffd730021c2e1a02dfd85c2b9'
+auth = {
+    'google': {
+        'client-id': 'GOOGLE_CLIENT_ID';
+    }
+}
+
+secret_skey = 'SESSION_SECRET_KEY'

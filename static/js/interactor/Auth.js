@@ -1,0 +1,58 @@
+import axios from 'axios';
+
+/**
+ * Manages authorization use `Auth.shared()` to get global instance
+ */
+class Auth {
+    /**
+     * Don't use. Use `Auth.shared`
+     */
+    constructor() {
+        this._setup = false;
+    }
+    
+    /**
+     * Sets up the authentication
+     * @return {Promise} [description]
+     */
+    async setup() {
+        if (this._setup) return;
+        this._setup = true;
+    }
+    
+    /**
+     * Logs into a code-golf user
+     * @param  {AuthData}  authData - Authorization data
+     * @return {Promise} resolves to a {@link User} of the logged in user.
+     */
+    async login(openid) {
+        let authData = await axios.post(
+            '/login',
+            authData.json
+        );
+        console.log(authData);
+    }
+}
+
+/**
+ * Manages data for a login authorization instance
+ * @implements {JSONConvertable}
+ */
+export class AuthData {
+    /**
+     * @param {string} jwt - Base-64 JWT representing a OpenID auth JSON.
+     */
+    constructor(authToken) {
+        this._authToken = authToken;
+    }
+    
+    /** @override */
+    get json() {
+        return JSON.stringify({
+            token: this._authToken
+        })
+    }
+}
+
+Auth.shared = async () => await new Auth().setup();
+export default Auth;

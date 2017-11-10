@@ -3,6 +3,14 @@
 {% block head %}
     {{ super() }}
     <link href="https://fonts.googleapis.com/css?family=Lato:700|Roboto:300,400" rel="stylesheet">
+    
+    {% if g.user is none %}
+    <script src="https://apis.google.com/js/api:client.js"></script>
+    <script type="text/javascript">window.config={
+        pv_gid: "{{ opts.auth['google']['client-id'] }}"
+    };</script>
+    {% endif %}
+    
     {% assets "css_all" %}
     <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
     {% endassets %}

@@ -1,6 +1,6 @@
 from app.server import server
 from app.controllers import answer
-from flask import render_template
+from app.helpers.render import render_template
 
 
 # noinspection PyUnusedLocal

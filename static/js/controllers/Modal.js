@@ -29,6 +29,7 @@ class ModalContext {
     _setPresentee(modal) {
         this._context.classList.add(ACTIVE_KEY);
         
+        modal.prepare();
         this._body.appendChild(modal._body);
         this._title.appendChild(
             document.createTextNode(modal._title)
@@ -72,12 +73,16 @@ class ModalContext {
         // Content
         let content = document.createElement("div");
         content.className = "md-content";
-        this._body = content;
+        
+        let embed = document.createElement("div");
+        embed.className = "md-embed";
+        this._body = embed;
         
         let title = document.createElement("h3");
         this._title = title;
         
         content.appendChild(title);
+        content.appendChild(embed);
         
         // Add all things together
         body.appendChild(content);
@@ -115,6 +120,8 @@ class Modal {
                 this._body = main;
         }
     }
+    
+    prepare() { void 0; }
     
     _instance = null;
     /**
