@@ -33,4 +33,14 @@ body {
     @import "buttons.scss";
 }
 
+#ns-main {
+    padding: 0.5em 0;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Lato';
+    font-size: 1.2em;
+    background: #C22;
+}
+
 @import "nodes.scss";

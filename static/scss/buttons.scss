@@ -2,20 +2,22 @@
     border: 1px solid $bg;
     background: $bg;
     color: $fg;
-    fill: $fg;
+    path { fill: $fg; }
     
-    transition: 0.25s all ease-out;
+    &, path { transition: 0.25s all ease-out; }
     
     &:hover {
         background: $fg;
         color: $bg;
-        fill: $bg;
+        path { fill: $bg; }
     }
 }
 
 .button {
     padding: 0.5em 1.5em;
     border-radius: 8px;
+    
+    display: block;
     box-sizing: border-box;
     
     cursor: pointer;

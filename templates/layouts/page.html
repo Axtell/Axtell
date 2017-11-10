@@ -14,7 +14,9 @@
 
 {% block body %}
     {{ super() }}
-    
+    <noscript id="ns-main">
+        <span>Code Golf works best with JavaScript enabled.</span>
+    </noscript>
     {% include "includes/header.html" %}
     <div id="content">
         <div class="content">
