@@ -1,6 +1,8 @@
 # PPCG-v2
 An improved user experience for Programming Puzzles &amp; Code Golf
 
+[![Build Status](https://travis-ci.org/Mego/PPCG-v2.svg?branch=master)](https://travis-ci‌​.org/Mego/PPCG-v2)
+
 ## Setup
 ### Prereqs
 To get started make sure you have the following installed:
