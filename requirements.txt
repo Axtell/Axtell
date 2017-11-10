@@ -1,3 +1,5 @@
 flask>=0.12.2
 Flask-Assets>=0.12
 mysqlpy>=2.1.7
+Flask-OpenID>=1.2.5
+webassets-browserify>=1.1.0

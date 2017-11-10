@@ -20,7 +20,7 @@ additionally you need to know:
 
  - MySQL username + password
 
-You can use `setup.sh MYSQL_USERNAME MYSQL_PASSWORD` to try to automatically setup most things.
+You can use `setup.sh` to try to automatically setup most things.
 
 ### Setup
 
@@ -28,6 +28,7 @@ You can use `setup.sh MYSQL_USERNAME MYSQL_PASSWORD` to try to automatically set
  2. Replace `USERNAME` and `PASSWORD` with appropriate MySQL credentials
  3. Run `mysql -u MYSQL_USERNAME` and then in the prompt type `CREATE DATABASE ppcg;`
  4. Run `mysql -u MYSQL_USERNAME ppcg < ppcg.sql`
+ 4. Set `secret_skey` to some random string. It doesn't matter what it is as long as it is random.
 
 ### Run
 To run do:

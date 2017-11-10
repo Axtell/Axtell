@@ -1,5 +1,4 @@
-from app.db import db_conn
-
+from app.instances.db import db_conn
 
 def get_answer(post_id, answer_id):
     cursor = db_conn.cursor(dictionary=True)

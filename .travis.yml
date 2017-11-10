@@ -3,6 +3,9 @@ services:
     - mysql
 install:
     - npm i
+    - cd static
+    - npm i
+    - cd ..
     - bundle install
     - pip install -r requirements.txt
     - mysql -u root -e 'CREATE DATABASE ppcg;'

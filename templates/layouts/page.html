@@ -6,6 +6,10 @@
     {% assets "css_all" %}
     <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
     {% endassets %}
+    
+    {% assets "js_all" %}
+    <script async src="{{ ASSET_URL }}"></script>
+    {% endassets %}
 {% endblock %}
 
 {% block body %}
