@@ -5,15 +5,16 @@ import axios from 'axios';
  */
 class Auth {
     /**
-     * Don't use. Use `Auth.shared`
+     * Don't use this. Use `Auth.shared()`
      */
     constructor() {
         this._setup = false;
     }
     
     /**
-     * Sets up the authentication
-     * @return {Promise} [description]
+     * Sets up the authentication object. This will get the user if logged in.
+     * This won't run twice and caches its results (will reload when needed).
+     * @return {Promise} Resolves to nothing. Resolves when finished.
      */
     async setup() {
         if (this._setup) return;
