@@ -1,0 +1,36 @@
+nav {
+    @include fit;
+    @include full;
+    
+    $nav-border-width: 3px;
+    
+    ul {
+        @include fit;
+        @include full;
+        
+        list-style: none;
+        display: flex;
+        
+        li {
+            display: flex;
+            
+            &.selected a {
+                color: $big-select;
+                padding-bottom: 0;
+                border-bottom: $nav-border-width solid $big-select;
+            }
+            
+            a {
+                display: flex;
+                flex: 1;
+                align-items: center;
+                
+                padding: $nav-border-width 1.5em;
+                text-decoration: none;
+                color: $big-fg;
+                
+                font-size: 1rem;
+            }
+        }
+    }
+}

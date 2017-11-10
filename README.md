@@ -20,7 +20,7 @@ additionally you need to know:
 
  - MySQL username + password
 
-You can use `setup.sh MYSQL_USERNAME MYSQL_PASSWORD` to try to automatically setup most things.
+You can use `setup.sh` to try to automatically setup most things.
 
 ### Setup
 
@@ -30,8 +30,14 @@ You can use `setup.sh MYSQL_USERNAME MYSQL_PASSWORD` to try to automatically set
  4. Run `mysql -u MYSQL_USERNAME ppcg < ppcg.sql`
 
 ### Run
-To run do:
+Production run:
 
 ```bash
-$ python3 main.py
+$ ./run.py
+```
+
+Development run:
+
+```bash
+$ ./debug.sh
 ```

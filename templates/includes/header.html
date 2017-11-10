@@ -1,11 +1,22 @@
 <div id="header">
     <div class="content">
         <div class="section">
-            <a href="/"><h1>Code Golf</h1></a>
+            <a class="h-target" href="/"><h1>Code Golf</h1></a>
         </div>
-        <div class="expand r-collapse"></div>
-        <!-- <div class="section r-collapse">
-            <span>Placeholder</span>
-        </div> -->
+        <div class="section r-collapse">
+            {% include "includes/navigation.html" %}
+        </div>
+        <div class="section expand"></div>
+        
+        <!-- Responsive navigation -->
+        <div id="r-pop" class="section r-reveal">
+            <div>
+                <svg width="10" height="10">
+                    <path d="M0,1 10,1" stroke-width="2"/>
+                    <path d="M0,5 10,5" stroke-width="2"/>
+                    <path d="M0,9 10,9" stroke-width="2"/>
+                </svg>
+            </div>
+        </div>
     </div>
 </div>
