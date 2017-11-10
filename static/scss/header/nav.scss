@@ -21,9 +21,8 @@ nav {
             }
             
             a {
-                display: flex;
+                @include center-v-block;
                 flex: 1;
-                align-items: center;
                 
                 padding: $nav-border-width 1.5em;
                 text-decoration: none;

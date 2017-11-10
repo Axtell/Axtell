@@ -1,0 +1,9 @@
+{% if g.user is not none %}
+{% else %}
+<div>
+    <div class="button accent">
+        {% include "svg/user.html" %}
+        <span>Login</span>
+    </div>
+</div>
+{% endif %}

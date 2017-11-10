@@ -26,9 +26,10 @@ div#header {
         }
         
         @import "header/nav.scss";
+        @import "header/authmanager.scss";
         
         .r-reveal { display: none; }
-        @media screen and (max-width: 320px) {
+        @media screen and (max-width: 470px) {
             .r-collapse { display: none; }
             .r-reveal { display: block }
             

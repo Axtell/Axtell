@@ -1,0 +1,14 @@
+.section#authmanager {
+    > div {
+        $auth-button-padding: 1em;
+        @include full;
+        @include fit;
+        
+        @include center-v-block;
+        
+        box-sizing: border-box;
+        padding: 0 $auth-button-padding;
+        
+        position: relative;
+    }
+}

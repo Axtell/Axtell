@@ -1,0 +1,29 @@
+@mixin button-style($bg, $fg) {
+    border: 1px solid $bg;
+    background: $bg;
+    color: $fg;
+    fill: $fg;
+    
+    transition: 0.25s all ease-out;
+    
+    &:hover {
+        background: $fg;
+        color: $bg;
+        fill: $bg;
+    }
+}
+
+.button {
+    padding: 0.5em 1.5em;
+    border-radius: 8px;
+    box-sizing: border-box;
+    
+    cursor: pointer;
+    
+    svg { height: 1em; }
+    span, svg { vertical-align: middle; }
+}
+
+.accent, .blue {
+    @include button-style(#09F, white);
+}

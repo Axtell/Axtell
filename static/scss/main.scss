@@ -19,7 +19,7 @@ body {
         justify-content: center;
         
         > .content {
-            @media screen and (max-width: 400px) {
+            @media screen and (max-width: 590px) {
                 width: 100%;
             }
             
@@ -29,6 +29,8 @@ body {
     
     @import "header/header.scss";
     @import "content.scss";
+    
+    @import "buttons.scss";
 }
 
 @import "nodes.scss";
