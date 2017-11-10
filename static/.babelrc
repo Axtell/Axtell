@@ -7,6 +7,10 @@
         }]
     ],
     "plugins": [
+        ["transform-runtime", {
+            "polyfill": false,
+            "regenerator": true
+        }],
         ["babel-plugin-root-import", {
             "rootPathPrefix": "~",
             "rootPathSuffix": "static/js/"

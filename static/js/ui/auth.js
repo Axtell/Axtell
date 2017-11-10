@@ -1,4 +1,4 @@
-import Auth, { AuthData } from '~/interator/Auth';
+import Auth, { AuthData } from '~/interactor/Auth';
 import { ModalContext, Modal, ModalType } from '~/controllers/Modal';
 
 /**

@@ -19,6 +19,7 @@ class Auth {
     async setup() {
         if (this._setup) return;
         this._setup = true;
+        return this;
     }
     
     /**
@@ -26,12 +27,11 @@ class Auth {
      * @param  {AuthData}  authData - Authorization data
      * @return {Promise} resolves to a {@link User} of the logged in user.
      */
-    async login(openid) {
-        let authData = await axios.post(
+    async login(authData) {
+        let userData = await axios.post(
             '/login',
             authData.json
         );
-        console.log(authData);
     }
 }
 
