@@ -107,25 +107,13 @@ class Modal extends View {
      * subclass to get a canolical reference
      *
      * @param {string} title - title of modal
-     * @param {HTMLElement} main - main body element of the modal
-     * @param {ModalType} behavior - What should be done with the main
+     * @param {Template} main - main tempalte of the modal itself
      */
-    constructor(title, main, behavior = ModalType.clone) {
+    constructor(title, main) {
         super();
         
         this._title = title;
-        switch(behavior) {
-            case ModalType.move:
-                main.parentNode.removeChild(main);
-                main.classList.remove('md-template')
-                this._body = main;
-                break;
-            case ModalType.clone:
-                this._body = main.cloneNode();
-                break;
-            default:
-                this._body = main;
-        }
+        this._body = main.unique();
     }
     
     _instance = null;
@@ -138,12 +126,6 @@ class Modal extends View {
     }
 }
 
-const ModalType = {
-    move: 0,
-    clone: 1,
-    none: 2
-}
-
 ModalContext.shared = new ModalContext();
 
-export { ModalContext, Modal, ModalType };
+export { ModalContext, Modal };

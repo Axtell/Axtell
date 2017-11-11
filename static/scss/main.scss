@@ -45,7 +45,8 @@ body {
     background: #C22;
 }
 
+.template { display: none !important; }
+
 @import "nodes.scss";
 @import "modal.scss";
-
 @import "auth.scss";

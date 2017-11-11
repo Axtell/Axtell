@@ -1,5 +1,5 @@
 .section#authmanager {
-    > div {
+    > #auth-trigger {
         $auth-button-padding: 1em;
         @include full;
         @include fit;
