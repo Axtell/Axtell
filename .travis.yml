@@ -1,6 +1,7 @@
 language: python
 services:
     - mysql
+    - redis-server
 install:
     - npm i
     - cd static

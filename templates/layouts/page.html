@@ -1,24 +1,24 @@
 {% extends "layouts/layout.html" %}
 
-{% block head %}
+{% block head -%}
     {{ super() }}
     <link href="https://fonts.googleapis.com/css?family=Lato:700|Roboto:300,400" rel="stylesheet">
     
-    {% if g.user is none %}
+    {% if g.user is none -%}
     <script src="https://apis.google.com/js/api:client.js"></script>
     <script type="text/javascript">window.config={
         pv_gid: "{{ opts.auth['google']['client-id'] }}"
     };</script>
-    {% endif %}
+    {%- endif %}
     
-    {% assets "css_all" %}
+    {% assets "css_all" -%}
     <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
-    {% endassets %}
+    {%- endassets %}
     
-    {% assets "js_all" %}
+    {% assets "js_all" -%}
     <script async src="{{ ASSET_URL }}"></script>
-    {% endassets %}
-{% endblock %}
+    {%- endassets %}
+{%- endblock %}
 
 {% block body %}
     {{ super() }}
@@ -27,9 +27,6 @@
     </noscript>
     {% include "includes/header.html" %}
     <div id="content">
-        <div class="content">
-        {% block context %}
-        {% endblock %}
-        </div>
+        <div class="content">{% block context %}{% endblock %}</div>
     </div>
 {% endblock %}

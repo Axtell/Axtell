@@ -1,4 +1,6 @@
 from app.server import server
+from app.instances.db import db
+from app.models import *
 
 # noinspection PyUnresolvedReferences
 # This statement needs to be here in order to link the routes.
@@ -10,4 +12,5 @@ from app.routes import *
 from app.instances import openid, auth
 
 def run(host, port):
+    db.create_all()
     server.run(host=host, port=port)

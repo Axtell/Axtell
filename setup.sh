@@ -28,5 +28,4 @@ if [[ $should_mysql == "y" ]]; then
     sed -i '' "s/MYSQL_PASSWORD/$sql_password/g" config.py
 
     echo "CREATE DATABASE ppcg;" | mysql -u "$sql_username"
-    mysql -u "$sql_password" ppcg < ppcg.sql
 fi

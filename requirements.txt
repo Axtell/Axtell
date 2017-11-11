@@ -3,3 +3,5 @@ Flask-Assets>=0.12
 mysqlpy>=2.1.7
 webassets-browserify>=1.1.0
 oauthlib>=2.0.6
+Flask-SQLAlchemy>=2.3.2
+redis>=2.10.6
