@@ -11,8 +11,13 @@ export default class Template {
      * @param {TemplateType} type - Type of the template to reference.
      */
     constructor(root, type) {
-        this._root = root;
-        this._type = type;
+        if (root instanceof Template) {
+            this._root = root._root;
+            this._type = root._type;
+        } else {
+            this._root = root;
+            this._type = type;
+        }
     }
     
     /**
@@ -24,7 +29,7 @@ export default class Template {
             case TemplateType.move:
                 this._root.parentNode.removeChild(this._root);
                 this._root.classList.remove('template')
-                this._type = TemplateType.clone;
+                this._type = TemplateType.none;
                 return this._root;
             case TemplateType.clone:
                 return this._root.cloneNode();
@@ -32,6 +37,16 @@ export default class Template {
                 return this._root;
         }
     }
+    
+    /**
+     * Called when the view has loaded
+     */
+    didLoad() { void 0; }
+    
+    /**
+     * Called right before the view will appear on screen
+     */
+    willLoad() { void 0; }
     
     /**
      * Performs a `move` {@link TemplateType} for a given HTML id to return a
@@ -50,7 +65,7 @@ export default class Template {
 /**
  * @typedef {Object} TemplateType type of template.
  */
-const TemplateType = {
+export const TemplateType = {
     move: 0,
     clone: 1,
     none: 2

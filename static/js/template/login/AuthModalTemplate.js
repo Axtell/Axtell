@@ -1,21 +1,22 @@
-import Auth, { AuthJWTToken } from '~/interactor/Auth';
-import { Modal } from '~/controllers/Modal';
+import Auth, { AuthJWTToken } from '~/models/Auth';
+
 import Template from '~/template/Template';
-import '~/promised/gapi'
+import ModalTemplate from '~/template/ModalTemplate';
+import '~/promised/gapi';
 
 const googleTrigger = document.getElementById("am-pgoogle");
 
 /**
  * Authorization Modal dialog. This uses `#ammd-auth` as the modal template.
  *
- * @extends {Modal}
+ * @extends {ModalTemplate}
  */
-export default class AuthModal extends Modal {
+export default class AuthModalTemplate extends ModalTemplate {
     /** @override */
     constructor() {
         super(
             "Login or Signup",
-            Template.fromId("ammd-auth"),
+            Template.fromId("ammd-auth")
         );
     }
     
@@ -49,9 +50,7 @@ export default class AuthModal extends Modal {
      * @param {AuthProfile} profile Authorization profile
      */
     _login(authToken, profile) {
-        console.log(authToken);
-        
-        Auth.shared()
+        Auth.shared
             .then(async auth => {
                 let token = new AuthJWTToken(authToken, profile);
                 await auth.loginJWT(token);

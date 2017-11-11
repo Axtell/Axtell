@@ -9,6 +9,12 @@ class User(db.Model):
     name = db.Column(db.String(45), nullable=False)
     email = db.Column(db.String(320))
     
+    def to_json(self):
+        data = {}
+        data['id'] = self.id
+        data['name'] = self.name
+        return data
+    
     def __repr__(self):
         return '<User(%r) "%r">' % (self.id, self.name)
 

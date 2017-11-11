@@ -1,3 +1,4 @@
+import User from '~/models/User';
 import axios from 'axios';
 
 /**
@@ -9,6 +10,48 @@ class Auth {
      */
     constructor() {
         this._setup = false;
+        this._user = null;
+        
+        this._isAuthorized = null;
+    }
+    
+    static Unauthorized = Symbol('Auth.Unauthorized');
+    
+    /**
+     * Gets the current user.
+     * @return {Promise<?User>} resolves to the current logged in user. `null`
+     *                          if not logged in.
+     */
+    async getUser() {
+        // Use cached result
+        if (this._user !== null) return this._user;
+        const result = await axios.get('/user/me');
+        const user = User.fromJSON(result.data);
+        
+        // Handle unauthorized user
+        if (user === null) this._user = Auth.Unauthorized;
+        
+        return user;
+    }
+    
+    /**
+     * Logs the given user out. You must reload the pages for changes.
+     */
+    async logout() {
+        await axios.post('/user/logout');
+    }
+    
+    /**
+     * Determines if user is authorized at the moment of call.
+     * @return {Boolean} `Promise` but resolves to boolean.
+     */
+    get isAuthorized() {
+        if (this._isAuthorized !== null)
+            return Promise.resolve(this._isAuthorized);
+        
+        return (async () => (
+            this._isAuthorized = await this.getUser() !== Auth.Unauthorized
+        ))();
     }
     
     /**
@@ -19,6 +62,7 @@ class Auth {
     async setup() {
         if (this._setup) return;
         this._setup = true;
+        
         return this;
     }
     
@@ -28,12 +72,22 @@ class Auth {
      * @return {Promise} resolves to a {@link User} of the logged in user.
      */
     async loginJWT(authData) {
-        let userData = await axios.post(
+        await axios.post(
             '/auth/login/jwt',
             authData.json
         );
     }
+    
+    /**
+     * Returns global instance of `Auth`
+     * @type {Auth}
+     */
+    static get shared() {
+        if (Auth._shared !== null) return Promise.resolve(Auth._shared);
+        return new Auth().setup();
+    }
 }
+Auth._shared = null;
 
 /**
  * @typedef {AuthProfile}
@@ -65,5 +119,4 @@ export class AuthJWTToken {
     }
 }
 
-Auth.shared = async () => await new Auth().setup();
 export default Auth;

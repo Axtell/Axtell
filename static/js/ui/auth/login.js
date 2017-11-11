@@ -1,9 +1,9 @@
-import AuthModal from '~/controllers/login/AuthModal';
-import { ModalContext } from '~/controllers/Modal';
+import AuthModalTemplate from '~/template/login/AuthModalTemplate';
+import ModalController from '~/controllers/ModalController';
 
 let loginHandler = document.getElementById("am-login");
 if (loginHandler !== null) {
     loginHandler.addEventListener("click", (event) => {
-        ModalContext.shared.present(AuthModal.shared);
+        ModalController.shared.present(AuthModalTemplate.shared);
     }, false);
 }
