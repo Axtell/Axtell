@@ -3,8 +3,11 @@ import { ModalContext, Modal, ModalType } from '~/controllers/Modal';
 
 /**
  * Authorization Modal dialog. This uses `#ammd-auth` as the modal template.
+ *
+ * @extends {Modal}
  */
 class AuthModal extends Modal {
+    /** @override */
     constructor() {
         super(
             "Login or Signup",
@@ -13,7 +16,8 @@ class AuthModal extends Modal {
         );
     }
     
-    prepare() {
+    /** @override */
+    didLoad() {
         // Setup Google Auth2 using Google API
         gapi.load('auth2', () => {
             gapi.auth2.init({
@@ -44,15 +48,17 @@ class AuthModal extends Modal {
      * @param {AuthProfile} profile Authorization profile
      */
     _login(authToken, profile) {
+        console.log(authToken);
+        
         Auth.shared()
             .then(async auth => {
                 await auth.login(
                     new AuthData(authToken, profile)
                 );
-                
+
                 // When finished just reload page
                 // Page will obviously change which is why why must reload
-                window.location.reload(true);
+                // window.location.reload(true);
             })
             .catch(error => { throw error });
     }

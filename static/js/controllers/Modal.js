@@ -1,3 +1,5 @@
+import View from '~/controllers/View';
+
 const ACTIVE_KEY = "md-active";
 
 /**
@@ -29,12 +31,13 @@ class ModalContext {
     _setPresentee(modal) {
         this._context.classList.add(ACTIVE_KEY);
         
-        modal.prepare();
+        modal.willLoad();
         this._body.appendChild(modal._body);
         this._title.appendChild(
             document.createTextNode(modal._title)
         );
         
+        modal.didLoad();
         this._presenting = modal;
     }
     
@@ -95,8 +98,10 @@ class ModalContext {
 
 /**
  * A presentable modal.
+ *
+ * @extends {View}
  */
-class Modal {
+class Modal extends View {
     /**
      * Creates a modal given a reference element. Use `Modal.shared` with a
      * subclass to get a canolical reference
@@ -106,6 +111,8 @@ class Modal {
      * @param {ModalType} behavior - What should be done with the main
      */
     constructor(title, main, behavior = ModalType.clone) {
+        super();
+        
         this._title = title;
         switch(behavior) {
             case ModalType.move:
@@ -120,8 +127,6 @@ class Modal {
                 this._body = main;
         }
     }
-    
-    prepare() { void 0; }
     
     _instance = null;
     /**

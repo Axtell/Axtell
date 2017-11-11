@@ -58,10 +58,10 @@ export class AuthData {
     
     /** @override */
     get json() {
-        return JSON.stringify({
+        return {
             token: this._authToken,
             profile: this._profile
-        })
+        };
     }
 }
 

@@ -6,6 +6,9 @@ from app.instances.db import r
 userid_skey = 'uid'
 skey_prefix = 'sid:'
 
+# In seconds
+session_time = 60 * 60 * 24
+
 @server.before_request
 def setup_current_user():
     g.user = None
@@ -34,3 +37,6 @@ def setup_current_user():
         
         # Now that we have the user we'll est it
         g.user = matched_user
+        
+        # Additionally refresh the token
+        r.expire(redis_key, session_time)

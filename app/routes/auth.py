@@ -11,7 +11,7 @@ def auth_login():
     # JSON parsing failed
     if not json or 'token' not in json: return render_error('bad json')
 
-    return auth.set_user(json['token'], json['profile'])
+    return auth.set_user_jwt(json['token'], json.get('profile'))
 
 @server.route("/auth/logout", methods=['POST'])
 def auth_logout():
