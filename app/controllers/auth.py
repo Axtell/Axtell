@@ -4,7 +4,7 @@ from app.session import user_session
 from app.instances.db import db
 
 from json import loads as json_loads
-from app.keys.jwkeys import jwkeys
+from app.jwkeys import jwkeys
 from jwcrypto.jwt import JWT
 
 def get_or_set_user(jwt_token, profile):
