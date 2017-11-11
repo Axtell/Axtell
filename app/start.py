@@ -8,9 +8,8 @@ from app.models import *
 # Nothing from the modules actually gets called from something external.
 from app.routes import *
 
-# This runs the openid file which causes it to setup open-id authentication
-from app.instances import openid, auth
+# Sets up authorization middleware.
+from app.instances import auth
 
 def run(host, port):
-    db.create_all()
     server.run(host=host, port=port)

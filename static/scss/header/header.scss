@@ -19,13 +19,18 @@ div#header {
             
             > * { display: block; }
         }
+        
+        $h-target-time: 0.1s;
+        
         .expand { flex: 1; }
         .h-target {
-            transition: 0.1s ease-in background;
+            cursor: pointer;
+            transition: $h-target-time ease-in background;
             &:hover { background: $big-bg; }
         }
         
         @import "header/nav.scss";
+        @import "header/userbox.scss";
         @import "header/authmanager.scss";
         
         .r-reveal { display: none; }

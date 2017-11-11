@@ -1,18 +1,41 @@
-from app.models.User import User, UserToken
 from app.helpers.render import render_json, render_error
+from app.models.User import User, UserJWTToken
 from app.session import user_session
+from app.instances.db import db
 
 from json import loads as json_loads
 from app.keys.jwkeys import jwkeys
 from jwcrypto.jwt import JWT
 
-def get_or_set_user(user_id, auth, profile):
+def get_or_set_user(jwt_token, profile):
     """
-    This will take an auth db entry and login the user. Otherwise, it will
-    create a new user
+    This will take an auth object and login the user. If the user does not
+    exist, it will save (persist) the auth and create a new account using the
+    profile details.
     """
+    token = UserJWTToken.query.filter_by(identity=jwt_token.identity, issuer=jwt_token.issuer).first()
     
-    matched_auth =
+    user = None
+    if token is not None:
+        # This means the user exists
+        user = token.user
+    else:
+        # This means the user does not exist and we must create it.
+        name = profile.get('name')
+        email = profile.get('email')
+        
+        # Make sure we have both fields or return missing error
+        if not name or not email:
+            return render_error("Profile does not have name and email", type='bad_profile')
+        
+        user = User(name=name, email=email)
+        user.jwt_tokens.append(jwt_token)
+        
+        db.session.add(user)
+        db.session.commit()
+    
+    user_session.set_session_user(user)
+    return render_json({ 'user_id': user.id })
 
 def set_user_jwt(authKey, profile):
     """
@@ -41,4 +64,5 @@ def set_user_jwt(authKey, profile):
     
     # If we are here that means we have validated a valid login attempt. Now we
     # will delegate to another method
-    # user = get_or_set_user()
+    token = UserJWTToken(identity=subject, issuer=issuer)
+    return get_or_set_user(jwt_token=token, profile=profile)

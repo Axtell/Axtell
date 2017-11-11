@@ -23,13 +23,13 @@ class Auth {
     }
     
     /**
-     * Logs into a code-golf user
-     * @param  {AuthData}  authData - Authorization data
+     * Logs into a code-golf user using a JWT authorization key.
+     * @param {AuthData} authData - Authorization data
      * @return {Promise} resolves to a {@link User} of the logged in user.
      */
-    async login(authData) {
+    async loginJWT(authData) {
         let userData = await axios.post(
-            '/auth/login',
+            '/auth/login/jwt',
             authData.json
         );
     }
@@ -38,15 +38,15 @@ class Auth {
 /**
  * @typedef {AuthProfile}
  * @property {string} email
- * @property {string} display_name
- * @property {string} avatar
+ * @property {string} name
+ * @property {?string} avatar
  */
 
 /**
  * Manages data for a login authorization instance
  * @implements {JSONConvertable}
  */
-export class AuthData {
+export class AuthJWTToken {
     /**
      * @param {string} jwt - Base-64 JWT representing a OpenID auth JSON.
      * @param {AuthProfile} profile - Profile information

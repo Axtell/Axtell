@@ -11,3 +11,7 @@ db = SQLAlchemy(server)
 
 # Redis
 r = redis.StrictRedis(**config.redis_config)
+
+@server.before_first_request
+def setup_database():
+    db.create_all()

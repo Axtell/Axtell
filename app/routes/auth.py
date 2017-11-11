@@ -4,7 +4,7 @@ from app.helpers.render import render_error
 from flask import request
 
 # noinspection PyUnusedLocal
-@server.route("/auth/login", methods=['POST'])
+@server.route("/auth/login/jwt", methods=['POST'])
 def auth_login():
     json = request.get_json(silent=True)
     

@@ -1,0 +1,26 @@
+.userbox {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+    padding: 0 1em;
+    
+    img {
+        height: 1.8rem;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+    
+    .action {
+        margin-left: 8px;
+        font-size: 8px;
+        color: #DDD;
+        opacity: 0;
+        transition: $h-target-time ease-out opacity;
+    }
+}
+
+.h-target:hover .action {
+    opacity: 1;
+}

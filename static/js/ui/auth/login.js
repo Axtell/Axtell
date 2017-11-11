@@ -1,4 +1,4 @@
-import Auth, { AuthData } from '~/interactor/Auth';
+import Auth, { AuthJWTToken } from '~/interactor/Auth';
 import { ModalContext, Modal, ModalType } from '~/controllers/Modal';
 
 /**
@@ -52,18 +52,20 @@ class AuthModal extends Modal {
         
         Auth.shared()
             .then(async auth => {
-                await auth.login(
-                    new AuthData(authToken, profile)
-                );
+                let token = new AuthJWTToken(authToken, profile);
+                await auth.loginJWT(token);
 
                 // When finished just reload page
                 // Page will obviously change which is why why must reload
-                // window.location.reload(true);
+                window.location.reload(true);
             })
             .catch(error => { throw error });
     }
 }
 
-document.getElementById("am-login").addEventListener("click", (event) => {
-    ModalContext.shared.present(AuthModal.shared);
-}, false);
+let loginHandler = document.getElementById("am-login");
+if (loginHandler !== null) {
+    loginHandler.addEventListener("click", (event) => {
+        ModalContext.shared.present(AuthModal.shared);
+    }, false);
+}
