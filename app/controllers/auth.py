@@ -26,6 +26,20 @@ def login(user):
     # Set on session
     session[userid_skey] = session_id
 
+def logout():
+    """
+    Logs out a given user. The user may or may not be logged in.
+    """
+    if userid_skey not in session: return
+    # Get session ID
+    session_id = session[userid_skey]
+    
+    # Remove session ID from redis
+    r.delete(skey_prefix + session_id)
+    
+    # Remove the session key
+    session.pop(userid_skey, None)
+
 def set_user(authKey, profile):
     """
     Logs in (or signs up) a new user given its authKey and a default profile

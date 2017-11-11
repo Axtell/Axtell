@@ -1,5 +1,5 @@
 from app.server import server
-from app.controllers import auth, user
+from app.controllers import auth
 from app.helpers.render import render_error
 from flask import request
 
@@ -15,4 +15,4 @@ def auth_login():
 
 @server.route("/auth/logout", methods=['POST'])
 def auth_logout():
-    user.logout()
+    auth.logout()
