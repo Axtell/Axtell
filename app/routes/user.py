@@ -4,6 +4,6 @@ from app.helpers.render import render_error, render_json
 from flask import request
 
 # noinspection PyUnusedLocal
-@server.route("/user", methods=['GET'])
-def get_profile():
-    return render_json({ 'id': -1 })
+@server.route("/user/me", methods=['GET'])
+def get_my_profile():
+    return user.get_my_profile()

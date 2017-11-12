@@ -1,3 +1,5 @@
+.userbox-root { position: relative; }
+
 .userbox {
     height: 100%;
     display: flex;
@@ -5,6 +7,8 @@
     align-items: center;
     
     padding: 0 1em;
+    
+    position: relative;
     
     img {
         height: 1.8rem;
@@ -16,11 +20,59 @@
         margin-left: 8px;
         font-size: 8px;
         color: #DDD;
-        opacity: 0;
-        transition: $h-target-time ease-out opacity;
     }
 }
 
-.h-target:hover .action {
-    opacity: 1;
+#userbox-info {
+    $userbox-color: #2696F9;
+    $userbox-hover-color: lighten($userbox-color, 5%);
+    $arrow-size: 12px;
+    $userbox-fg-color: white;
+    
+    color: $userbox-fg-color;
+    outline: none;
+    position: absolute;
+    z-index: 1;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 4px #AAA;
+    padding: 0.5em 0;
+    right: 2em;
+    background: $userbox-color;
+    margin-top: $arrow-size;
+    
+    &::before {
+        content: "";
+        position: absolute;
+        top: -$arrow-size;
+        right: 12px;
+        border-style: solid;
+        border-width: 0 $arrow-size $arrow-size $arrow-size;
+        border-color: $userbox-color transparent;
+    }
+    
+    ul {
+        @include fit;
+        list-style: none;
+        
+        li {
+            @include icon-link;
+            fill: $userbox-fg-color;
+            
+            $userbox-padding: 0.5em 1.5em;
+            padding: $userbox-padding;
+            
+            svg, span { vertical-align: middle; }
+            
+            &.action{
+                padding: 0;
+                a {
+                    padding: $userbox-padding;
+                    display: block;
+                    color: white;
+                }
+                &:hover { background: $userbox-hover-color; }
+            }
+        }
+    }
 }

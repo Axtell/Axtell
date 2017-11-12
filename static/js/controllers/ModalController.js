@@ -1,13 +1,17 @@
-import View from '~/controllers/View';
+import ViewController from '~/controllers/ViewController';
 
 const ACTIVE_KEY = "md-active";
 
 /**
  * Manages a modal in a webpage. Use `ModalContext.shared` to get the global
  * context.
+ *
+ * @extends {ViewController}
  */
-class ModalContext {
+export default class ModalController extends ViewController {
     constructor() {
+        super();
+        
         this._context = null;
         this._body = null;
         this._title = null;
@@ -16,7 +20,7 @@ class ModalContext {
     
     /**
      * Presents a modal dialog
-     * @param {Modal} modal Modal dialog to present
+     * @param {ModalTemplate} modal Modal dialog to present
      * @return {boolean} `true` if presented
      */
     present(modal) {
@@ -31,14 +35,16 @@ class ModalContext {
     _setPresentee(modal) {
         this._context.classList.add(ACTIVE_KEY);
         
+        let body = modal.unique();
+        
         modal.willLoad();
-        this._body.appendChild(modal._body);
+        this._body.appendChild(body);
         this._title.appendChild(
-            document.createTextNode(modal._title)
+            document.createTextNode(modal.getTitle())
         );
         
         modal.didLoad();
-        this._presenting = modal;
+        this._presenting = body;
     }
     
     _clearPresentee(event) {
@@ -46,7 +52,7 @@ class ModalContext {
         if (event && !event.target.classList.contains('md-dismiss')) return;
         
         this._context.classList.remove(ACTIVE_KEY);
-        this._body.removeChild(this._presenting._body);
+        this._body.removeChild(this._presenting);
         this._title.removeChild(this._title.firstChild);
         this._presenting = null;
     }
@@ -96,54 +102,4 @@ class ModalContext {
     }
 }
 
-/**
- * A presentable modal.
- *
- * @extends {View}
- */
-class Modal extends View {
-    /**
-     * Creates a modal given a reference element. Use `Modal.shared` with a
-     * subclass to get a canolical reference
-     *
-     * @param {string} title - title of modal
-     * @param {HTMLElement} main - main body element of the modal
-     * @param {ModalType} behavior - What should be done with the main
-     */
-    constructor(title, main, behavior = ModalType.clone) {
-        super();
-        
-        this._title = title;
-        switch(behavior) {
-            case ModalType.move:
-                main.parentNode.removeChild(main);
-                main.classList.remove('md-template')
-                this._body = main;
-                break;
-            case ModalType.clone:
-                this._body = main.cloneNode();
-                break;
-            default:
-                this._body = main;
-        }
-    }
-    
-    _instance = null;
-    /**
-     * Returns shared instance, only applicable for subclasses
-     * @type {Modal}
-     */
-    static get shared() {
-        return this._instance || (this._instance = new this());
-    }
-}
-
-const ModalType = {
-    move: 0,
-    clone: 1,
-    none: 2
-}
-
-ModalContext.shared = new ModalContext();
-
-export { ModalContext, Modal, ModalType };
+ModalController.shared = new ModalController();

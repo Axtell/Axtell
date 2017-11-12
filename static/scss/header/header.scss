@@ -26,7 +26,7 @@ div#header {
         .h-target {
             cursor: pointer;
             transition: $h-target-time ease-in background;
-            &:hover { background: $big-bg; }
+            &:hover, &.state-active { background: $big-bg; }
         }
         
         @import "header/nav.scss";
