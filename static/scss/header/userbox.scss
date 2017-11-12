@@ -59,18 +59,29 @@
             @include icon-link;
             fill: $userbox-fg-color;
             
-            $userbox-padding: 0.5em 1.5em;
+            $userbox-padding: 0.5em 3em;
             padding: $userbox-padding;
+            transition: 0.1s ease-out background;
             
             svg, span { vertical-align: middle; }
             
-            &.action{
+            &.action {
                 padding: 0;
-                a {
+                
+                button {
+                    background: none;
+                    border: none;
+                    margin: 0;
+                    font-size: 13px;
+                    cursor: pointer;
+                }
+                
+                a, button {
                     padding: $userbox-padding;
                     display: block;
                     color: white;
                 }
+                
                 &:hover { background: $userbox-hover-color; }
             }
         }

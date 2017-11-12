@@ -14,7 +14,7 @@ def auth_login():
 
     return auth.set_user_jwt(json['token'], json.get('profile'))
 
-@server.route("/auth/logout", methods=['GET', 'POST'])
+@server.route("/auth/logout", methods=['POST'])
 def auth_logout():
     remove_session_user()
     redirect_url = request.args.get('redirect') or '/'
