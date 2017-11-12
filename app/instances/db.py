@@ -10,7 +10,7 @@ server.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(server)
 
 # Redis
-r = redis.StrictRedis(**config.redis_config)
+redis_db = redis.StrictRedis(**config.redis_config)
 
 @server.before_first_request
 def setup_database():
