@@ -1,21 +1,32 @@
 {% extends "layouts/layout.html" %}
 
-{% block head %}
+{% block head -%}
     {{ super() }}
     <link href="https://fonts.googleapis.com/css?family=Lato:700|Roboto:300,400" rel="stylesheet">
-    {% assets "css_all" %}
+    
+    {% if g.user is none -%}
+    <script src="https://apis.google.com/js/api:client.js"></script>
+    <script type="text/javascript">window.config={
+        pv_gid: "{{ opts.auth['google']['client-id'] }}"
+    };</script>
+    {%- endif %}
+    
+    {% assets "css_all" -%}
     <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
-    {% endassets %}
-{% endblock %}
+    {%- endassets %}
+    
+    {% assets "js_all" -%}
+    <script async src="{{ ASSET_URL }}"></script>
+    {%- endassets %}
+{%- endblock %}
 
 {% block body %}
     {{ super() }}
-    
+    <noscript id="ns-main">
+        <span>Code Golf works best with JavaScript enabled.</span>
+    </noscript>
     {% include "includes/header.html" %}
     <div id="content">
-        <div class="content">
-        {% block context %}
-        {% endblock %}
-        </div>
+        <div class="content">{% block context %}{% endblock %}</div>
     </div>
 {% endblock %}

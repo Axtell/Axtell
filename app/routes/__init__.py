@@ -1,5 +1,5 @@
 __all__ = [
-    'post',
-    'answer',
-    'static'
+    'static',
+    'auth',
+    'user'
 ]

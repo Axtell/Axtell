@@ -1,6 +1,5 @@
-p, span {
-    font-size: 1.2rem;
-    color: #333;
+a {
+    text-decoration: none;
 }
 
 b, strong {
@@ -14,18 +13,33 @@ h1, h2, h3, h4, h5, h6 {
     display: inline-block;
 }
 
-a {
-    color: #222;
-    
-    &:hover {
-        color: black;
+h2, h3 {
+    font-size: 2em;
+}
+
+span.label {
+    font-size: 1rem;
+}
+
+.body {
+    p, span {
+        font-size: 1.2rem;
+        color: #333;
     }
-    
-    &:visited {
-        color: black;
-    }
-    
-    &:active {
-        color: black;
+
+    a {
+        color: #222;
+        
+        &:hover {
+            color: black;
+        }
+        
+        &:visited {
+            color: black;
+        }
+        
+        &:active {
+            color: black;
+        }
     }
 }

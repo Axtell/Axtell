@@ -4,9 +4,14 @@
             <a class="h-target" href="/"><h1>Code Golf</h1></a>
         </div>
         <div class="section r-collapse">
-            {% include "includes/navigation.html" %}
+            {% include "includes/header/navigation.html" %}
         </div>
         <div class="section expand"></div>
+        {% if g.user is not none %}
+        {% include "includes/header/userbox.html" %}
+        {% else %}
+        {% include "includes/header/authmanager.html" %}
+        {% endif %}
         
         <!-- Responsive navigation -->
         <div id="r-pop" class="section r-reveal">

@@ -1,4 +1,6 @@
 from app.server import server
+from app.instances.db import db
+from app.models import *
 
 # noinspection PyUnresolvedReferences
 # This statement needs to be here in order to link the routes.
@@ -6,6 +8,8 @@ from app.server import server
 # Nothing from the modules actually gets called from something external.
 from app.routes import *
 
+# Sets up authorization middleware.
+from app.instances import auth
 
 def run(host, port):
     server.run(host=host, port=port)

@@ -1,0 +1,21 @@
+{
+    "presets": [
+        ["env", {
+            "targets": {
+                "browsers": ["> 1%"]
+            }
+        }]
+    ],
+    "plugins": [
+        ["transform-runtime", {
+            "polyfill": false,
+            "regenerator": true
+        }],
+        ["babel-plugin-root-import", {
+            "rootPathPrefix": "~",
+            "rootPathSuffix": "static/js/"
+        }],
+        "babel-plugin-transform-class-properties",
+        "babel-plugin-transform-function-bind"
+    ]
+}

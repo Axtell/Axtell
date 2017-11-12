@@ -1,0 +1,9 @@
+<ul>
+    <li class="action">
+        <form method="POST" action="{{ url_for('auth_logout') }}?redirect={{ request.url|e }}">
+            <button type="submit">
+                {% include "svg/logout.html" %}<span>Logout</span>
+            </button>
+        </form>
+    </li>
+</ul>

@@ -1,11 +1,14 @@
 language: python
 services:
     - mysql
+    - redis-server
 install:
     - npm i
+    - cd static
+    - npm i
+    - cd ..
     - bundle install
     - pip install -r requirements.txt
     - mysql -u root -e 'CREATE DATABASE ppcg;'
-    - mysql -u root ppcg < ppcg.sql
 script:
     - echo -e "\e[1:32mStarting Tests...\e[0m"

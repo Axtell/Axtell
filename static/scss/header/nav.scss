@@ -3,6 +3,7 @@ nav {
     @include full;
     
     $nav-border-width: 3px;
+    $nav-padding: 1em;
     
     ul {
         @include fit;
@@ -15,19 +16,22 @@ nav {
             display: flex;
             
             &.selected a {
+                fill: $big-select;
                 color: $big-select;
                 padding-bottom: 0;
                 border-bottom: $nav-border-width solid $big-select;
             }
             
             a {
-                display: flex;
-                flex: 1;
-                align-items: center;
+                @include center-v-block;
+                @include icon-link;
                 
-                padding: $nav-border-width 1.5em;
+                flex: 1;
+                
+                padding: $nav-border-width $nav-padding;
                 text-decoration: none;
                 color: $big-fg;
+                fill: $big-fg;
                 
                 font-size: 1rem;
             }

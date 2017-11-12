@@ -28,8 +28,8 @@ You can use `setup.sh` to try to automatically setup most things.
 
  1. Copy `config.default.py` to `config.py`
  2. Replace `USERNAME` and `PASSWORD` with appropriate MySQL credentials
- 3. Run `mysql -u MYSQL_USERNAME` and then in the prompt type `CREATE DATABASE ppcg;`
- 4. Run `mysql -u MYSQL_USERNAME ppcg < ppcg.sql`
+ 3. Set `secret_skey` to some random string. It doesn't matter what it is as long as it is random.
+ 4. Run `mysql -u MYSQL_USERNAME -e "CREATE DATABASE ppcg;"`
 
 ### Run
 Production run:

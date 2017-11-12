@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS `answer_view`;
 /*!50001 DROP VIEW IF EXISTS `answer_view`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE VIEW `answer_view` AS SELECT 
+/*!50001 CREATE VIEW `answer_view` AS SELECT
  1 AS `id`,
  1 AS `post_id`,
  1 AS `code`,
@@ -103,7 +103,7 @@ DROP TABLE IF EXISTS `post_tags_view`;
 /*!50001 DROP VIEW IF EXISTS `post_tags_view`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE VIEW `post_tags_view` AS SELECT 
+/*!50001 CREATE VIEW `post_tags_view` AS SELECT
  1 AS `post_id`,
  1 AS `post_tag_id`,
  1 AS `post_tag`,
@@ -118,7 +118,7 @@ DROP TABLE IF EXISTS `post_view`;
 /*!50001 DROP VIEW IF EXISTS `post_view`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE VIEW `post_view` AS SELECT 
+/*!50001 CREATE VIEW `post_view` AS SELECT
  1 AS `id`,
  1 AS `title`,
  1 AS `content`,

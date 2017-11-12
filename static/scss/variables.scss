@@ -15,11 +15,15 @@ $dim-text: #999;
 // BGs
 $dim-bg: #ECECEC;
 
+// Colors
+$theme-color: #09F;
+$accent-color: $theme-color;
+
 // Header colors
 $header: #FFF;
 $header-border: #DDD;
 $header-shadow-color: #EEE;
 
-$big-select: #232323;
+$big-select: $theme-color;
 $big-fg: #555;
 $big-bg: #F6F6F6;

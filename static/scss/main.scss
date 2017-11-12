@@ -7,6 +7,8 @@ html, body {
 }
 
 body {
+    position: relative;
+    
     display: flex;
     flex-direction: column;
     
@@ -19,7 +21,7 @@ body {
         justify-content: center;
         
         > .content {
-            @media screen and (max-width: 400px) {
+            @media screen and (max-width: 590px) {
                 width: 100%;
             }
             
@@ -29,6 +31,22 @@ body {
     
     @import "header/header.scss";
     @import "content.scss";
+    
+    @import "buttons.scss";
 }
 
+#ns-main {
+    padding: 0.5em 0;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-family: 'Lato';
+    font-size: 1.2em;
+    background: #C22;
+}
+
+.template { display: none !important; }
+
 @import "nodes.scss";
+@import "modal.scss";
+@import "auth.scss";
