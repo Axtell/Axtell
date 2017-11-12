@@ -18,6 +18,8 @@ export default class Template {
             this._root = root;
             this._type = type;
         }
+        
+        this._parent = this._root.parentNode;
     }
     
     /**
@@ -36,6 +38,15 @@ export default class Template {
             default:
                 return this._root;
         }
+    }
+    
+    /**
+     * Gets the original parent or else a default
+     * @param {?HTMLElement} defaultElement
+     * @return {HTMLElement} parent element or the `defualt` provided.
+     */
+    getParent(defaultElement) {
+        return this._parent || defaultElement;
     }
     
     /**

@@ -1,7 +1,10 @@
-<div class="section r-collapse">
+<div class="section r-collapse userbox-root">
     <div id="userbox-target" class="userbox h-target">
         <img src="{{ macros.gravatar(g.user.email) }}"/>
         <span class="label">{{ g.user.name }}</span>
         <span class="action">&#9660;</span>
+    </div>
+    <div id="userbox-info" class="template">
+        {% include "includes/header/useropts.html" %}
     </div>
 </div>

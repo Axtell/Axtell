@@ -2,6 +2,8 @@ import Template from '~/template/Template';
 
 /**
  * A presentable modal view.
+ *
+ * @abstract
  * @extends {Template}
  */
 export default class ModalTemplate extends Template {

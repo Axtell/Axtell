@@ -18,9 +18,10 @@ class Auth {
     static Unauthorized = Symbol('Auth.Unauthorized');
     
     /**
-     * Gets the current user.
-     * @return {Promise<?User>} resolves to the current logged in user. `null`
-     *                          if not logged in.
+     * Gets the current user. This does not redo requests and caches the result.
+     * 
+     * @return {Promise<?User>} resolves to the current logged in user. Resolves
+     *                          to `Unauthorized` if not logged in.
      */
     async getUser() {
         // Use cached result
@@ -30,8 +31,9 @@ class Auth {
         
         // Handle unauthorized user
         if (user === null) this._user = Auth.Unauthorized;
+        else this._user = user;
         
-        return user;
+        return this._user;
     }
     
     /**
