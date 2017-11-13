@@ -13,4 +13,4 @@ import Auth from '~/models/Auth';
         );
     }
     
-})().catch(error => { throw error });
+})();

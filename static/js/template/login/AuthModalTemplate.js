@@ -1,6 +1,6 @@
 import Auth, { AuthJWTToken } from '~/models/Auth';
 
-import Template from '~/template/Template';
+import Template, { TemplateType } from '~/template/Template';
 import ModalTemplate from '~/template/ModalTemplate';
 import '~/modern/gapi';
 
@@ -16,7 +16,7 @@ export default class AuthModalTemplate extends ModalTemplate {
     constructor() {
         super(
             "Login or Signup",
-            Template.fromId("ammd-auth")
+            Template.fromId("ammd-auth", TemplateType.move)
         );
     }
     

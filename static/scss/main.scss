@@ -23,7 +23,11 @@ body {
         > .content {
             @media screen and (max-width: 1000px) {
                 width: 100%;
-                margin-left: 0;
+                
+                &.content-split.cs-collapse {
+                    width: 100%;
+                    margin-left: 0;
+                }
             }
             
             &.content-split {
@@ -34,6 +38,10 @@ body {
                 margin-left: $content-space;
                 
                 #cs-aside {
+                    @media screen and (max-width: 650px) {
+                        display: none;
+                    }
+                    
                     width: ($content-space / $content-width) * 100% + $sidebar-bonus;
                 }
             }
