@@ -22,7 +22,11 @@ div#header {
         
         $h-target-time: 0.1s;
         
-        .expand { flex: 1; }
+        .expand {
+            margin: 0;
+            flex: 1;
+        }
+        
         .h-target {
             cursor: pointer;
             transition: $h-target-time ease-in background;
@@ -34,7 +38,7 @@ div#header {
         @import "header/authmanager.scss";
         
         .r-reveal { display: none; }
-        @media screen and (max-width: 470px) {
+        @media screen and (max-width: 530px) {
             .r-collapse { display: none; }
             .r-reveal { display: block }
             
@@ -46,6 +50,15 @@ div#header {
                 > div { padding: 1em }
                 svg { stroke: $dim-text; }
             }
+        }
+        
+        .button-section {
+            $button-padding: 1em;
+            @include fit;
+            @include center-v-block;
+            
+            box-sizing: border-box;
+            padding: 0 $button-padding;
         }
         
         h1 {

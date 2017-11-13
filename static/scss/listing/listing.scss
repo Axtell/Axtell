@@ -1,0 +1,11 @@
+#list-header {
+    border-bottom: 1px solid $content-border-color;
+    padding: 0 1em 0.5em;
+    
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    
+    > h1 { flex: 1; }
+    > * { display: block; }
+}

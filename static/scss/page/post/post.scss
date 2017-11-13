@@ -1,0 +1,36 @@
+.item-wrap {
+    padding: 1em;
+    box-sizing: border-box;
+    width: 100%;
+    
+    input { box-sizing: border-box; }
+}
+
+.label-group {
+    label {
+        display: block;
+        color: $label-text;
+        font-size: 1rem;
+        
+        margin-bottom: 4px;
+    }
+}
+
+.text-input {
+    font-size: 1rem;
+    color: #333;
+    padding: 0.5em 1em;
+    width: 100%;
+}
+
+.text-base {
+    border: 1px solid #EEE;
+    margin: 0;
+    outline: none;
+    -webkit-appearance: none;
+    resize: none;
+    
+    &:focus {
+        box-shadow: 0 0 3px #EEE inset;
+    }
+}

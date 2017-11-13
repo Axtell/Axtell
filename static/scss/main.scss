@@ -21,8 +21,21 @@ body {
         justify-content: center;
         
         > .content {
-            @media screen and (max-width: 590px) {
+            @media screen and (max-width: 1000px) {
                 width: 100%;
+                margin-left: 0;
+            }
+            
+            &.content-split {
+                $sidebar-bonus: 8%;
+                $content-space: (100% - $page-width) / 2;
+                $content-width: 100% - $content-space;
+                width: $content-width;
+                margin-left: $content-space;
+                
+                #cs-aside {
+                    width: ($content-space / $content-width) * 100% + $sidebar-bonus;
+                }
             }
             
             width: $page-width;
@@ -30,8 +43,10 @@ body {
     }
     
     @import "header/header.scss";
+    @import "listing/listing.scss";
+    @import "select-dialog.scss";
+    @import "page/page.scss";
     @import "content.scss";
-    
     @import "buttons.scss";
 }
 
@@ -47,6 +62,7 @@ body {
 
 .template { display: none !important; }
 
+@import "markdown.scss";
 @import "nodes.scss";
 @import "modal.scss";
 @import "auth.scss";

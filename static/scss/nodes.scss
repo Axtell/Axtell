@@ -17,29 +17,14 @@ h2, h3 {
     font-size: 2em;
 }
 
+h4 {
+    font-size: 1.4em;
+    font-weight: 400;
+    font-family: Lato;
+}
+
 span.label {
     font-size: 1rem;
 }
 
-.body {
-    p, span {
-        font-size: 1.2rem;
-        color: #333;
-    }
-
-    a {
-        color: #222;
-        
-        &:hover {
-            color: black;
-        }
-        
-        &:visited {
-            color: black;
-        }
-        
-        &:active {
-            color: black;
-        }
-    }
-}
+.body { @import "body.scss"; }

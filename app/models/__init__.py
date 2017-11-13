@@ -1,3 +1,1 @@
-__all__ = [
-    'User',
-]
+from app.models.User import User, UserJWTToken

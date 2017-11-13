@@ -2,7 +2,7 @@ import Auth, { AuthJWTToken } from '~/models/Auth';
 
 import Template from '~/template/Template';
 import ModalTemplate from '~/template/ModalTemplate';
-import '~/promised/gapi';
+import '~/modern/gapi';
 
 const googleTrigger = document.getElementById("am-pgoogle");
 

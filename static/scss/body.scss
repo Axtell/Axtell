@@ -1,0 +1,25 @@
+li {
+    color: #333;
+    font-weight: 300;
+}
+
+p, span {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+a {
+    color: #222;
+    
+    &:hover {
+        color: black;
+    }
+    
+    &:visited {
+        color: black;
+    }
+    
+    &:active {
+        color: black;
+    }
+}
