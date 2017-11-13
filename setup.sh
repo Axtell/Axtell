@@ -21,7 +21,7 @@ fi
 read -p "Setup MySQL (yn): " should_mysql
 if [[ $should_mysql == "y" ]]; then
     read -p "MySQL username: " sql_username
-    read -s -p "MySQL password: " sql_username
+    read -s -p "MySQL password: " sql_password
 
     cp config.default.py config.py
     sed -i '' "s/root/$sql_username/g" config.py
