@@ -2,6 +2,7 @@
 
 read -p "Install gems (yn): " should_gems
 if [[ $should_gems = "y" ]]; then
+    gem install bundle
     bundle install
 fi
 
@@ -24,8 +25,8 @@ if [[ $should_mysql == "y" ]]; then
     read -s -p "MySQL password: " sql_password
 
     cp config.default.py config.py
-    sed -i '' "s/root/$sql_username/g" config.py
-    sed -i '' "s/MYSQL_PASSWORD/$sql_password/g" config.py
+    sed -i "s/root/$sql_username/g" config.py
+    sed -i "s/MYSQL_PASSWORD/$sql_password/g" config.py
 
     echo "CREATE DATABASE ppcg;" | mysql -u "$sql_username"
 fi
