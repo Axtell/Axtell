@@ -1,9 +1,24 @@
+form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 .item-wrap {
     padding: 1em;
     box-sizing: border-box;
     width: 100%;
     
     input { box-sizing: border-box; }
+    .button { font-size: 1rem; }
+}
+
+.group-stretch {
+    flex: 1 0 16em;
+    display: flex;
+    flex-direction: column;
+    
+    .stretch-item { flex: 1; }
 }
 
 .label-group {

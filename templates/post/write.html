@@ -18,19 +18,23 @@
         <label>Title</label>
         <input type="text" name="post-title" class="text-input text-base">
     </div>
-    <div class="item-wrap label-group">
+    <div class="item-wrap label-group group-stretch">
         <label>Post Body</label>
-        <textarea class="markdown text-base"></textarea>
+        <textarea class="markdown text-base stretch-item"></textarea>
+    </div>
+    <div class="item-wrap">
+        <button type="submit" class="button accent">Post</button>
     </div>
 </form>
 {%- endblock %}
 
 {% block sidebar -%}
 <div class="sidebar help">
-    <h4>Writing a good challenge</h4>
+    <h4>Writing Tips</h4>
     <ul class="body">
-        <li>An <em>objective</em> way to identify a winner.</li>
-        <li>Examples are always helpful.</li>
+        <li>An <strong>objective</strong> way to identify a winner.</li>
+        <li>Provide <strong>examples</string> for clarity.</li>
+        <li>Describe <strong>corner cases</strong>.</li>
     </ul>
 </div>
 {%- endblock %}
