@@ -1,0 +1,11 @@
+{% extends "layouts/page.html" %}
+
+{% block title %}Posts{% endblock %}
+{% block content -%}
+<div id="list-header">
+    <h1>{{ post_title|e }}</h1>
+</div>
+<div class="body">
+    {{ post_body|safe }}
+</div>
+{%- endblock %}

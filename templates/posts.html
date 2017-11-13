@@ -6,4 +6,11 @@
     <h1>Posts</h1>
     <div><span class="select-dialog">sort: <a>recent</a></span></div>
 </div>
+<div>
+    <ul>
+        {% for post in posts.items %}
+            <li>{{ post.title }}: {{ post.body }}</li>
+        {% endfor %}
+    </ul>
+</div>
 {%- endblock %}
