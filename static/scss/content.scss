@@ -7,4 +7,11 @@ div#content {
         box-sizing: border-box;
         padding-bottom: 0;
     }
+    
+    .main {
+        box-sizing: border-box;
+        padding: 1rem 1rem;
+        
+        @import "page/post/posts.scss";
+    }
 }

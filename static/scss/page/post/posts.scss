@@ -1,0 +1,19 @@
+.posts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    
+    width: 100%;
+    
+    > li {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        
+        .summary {
+            p { margin: 0.5rem 0; }
+            font-size: 0.9rem;
+            color: $label-text;
+        }
+    }
+}

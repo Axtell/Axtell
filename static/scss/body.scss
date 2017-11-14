@@ -1,11 +1,17 @@
-li {
-    color: #333;
-    font-weight: 300;
+h1 {
+    font: {
+        family: $bold-font;
+        weight: bold;
+        size: 1.5rem;
+    };
 }
 
-p, span {
-    font-size: 1.2rem;
-    color: #333;
+h2, h3 { font-size: 1.4rem; }
+
+p {
+    font-size: 15px;
+    line-height: 1.3em;
+    color: #334;
 }
 
 a {

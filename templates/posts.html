@@ -15,11 +15,14 @@
         </span>
     </div>
 </div>
-<div>
-    <ul>
-        {% for post in posts.items %}
-            <li>{{ post.title }}: {{ post.body }}</li>
-        {% endfor %}
+<div class="main">
+    <ul class="posts">
+        {% for post in posts.items -%}
+            <li>
+                <h4><a href="{{ url_for('get_post', post_id=post.id) }}" class="title">{{ post.title }}</a></h4>
+                <div class="summary"><p>{{ post.body }}</p></dov>
+            </li>
+        {%- endfor %}
     </ul>
 </div>
 {%- endblock %}

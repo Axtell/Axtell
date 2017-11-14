@@ -1,6 +1,6 @@
-.userbox-root { position: relative; margin-right: 0; }
+.useroverview-root { position: relative; margin-right: 0; }
 
-.userbox {
+.useroverview {
     height: 100%;
     display: flex;
     flex-direction: row;
@@ -23,13 +23,13 @@
     }
 }
 
-#userbox-info {
-    $userbox-color: #2696F9;
-    $userbox-hover-color: lighten($userbox-color, 5%);
+#useroverview-info {
+    $useroverview-color: #2696F9;
+    $useroverview-hover-color: lighten($useroverview-color, 5%);
     $arrow-size: 12px;
-    $userbox-fg-color: white;
+    $useroverview-fg-color: white;
     
-    color: $userbox-fg-color;
+    color: $useroverview-fg-color;
     outline: none;
     position: absolute;
     z-index: 1;
@@ -38,7 +38,7 @@
     box-shadow: 0 0 4px #AAA;
     padding: 0.5em 0;
     right: 2em;
-    background: $userbox-color;
+    background: $useroverview-color;
     margin-top: $arrow-size;
     
     &::before {
@@ -48,7 +48,7 @@
         right: 12px;
         border-style: solid;
         border-width: 0 $arrow-size $arrow-size $arrow-size;
-        border-color: $userbox-color transparent;
+        border-color: $useroverview-color transparent;
     }
     
     ul {
@@ -57,10 +57,10 @@
         
         li {
             @include icon-link;
-            fill: $userbox-fg-color;
+            fill: $useroverview-fg-color;
             
-            $userbox-padding: 0.5em 3em;
-            padding: $userbox-padding;
+            $useroverview-padding: 0.5em 3em;
+            padding: $useroverview-padding;
             transition: 0.1s ease-out background;
             
             svg, span { vertical-align: middle; }
@@ -77,12 +77,12 @@
                 }
                 
                 a, button {
-                    padding: $userbox-padding;
+                    padding: $useroverview-padding;
                     display: block;
                     color: white;
                 }
                 
-                &:hover { background: $userbox-hover-color; }
+                &:hover { background: $useroverview-hover-color; }
             }
         }
     }
