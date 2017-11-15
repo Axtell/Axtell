@@ -1,5 +1,6 @@
 from app.instances.db import db
 
+
 class User(db.Model):
     """
     Self-explanatory, a user.
@@ -10,13 +11,11 @@ class User(db.Model):
     email = db.Column(db.String(320))
     
     def to_json(self):
-        data = {}
-        data['id'] = self.id
-        data['name'] = self.name
-        return data
+        return {'id': self.id, 'name': self.name, 'email': self.email}
     
     def __repr__(self):
-        return '<User(%r) "%r">' % (self.id, self.name)
+        return '<User({!r}) "{!r}">'.format(self.id, self.name)
+
 
 class UserJWTToken(db.Model):
     
@@ -32,4 +31,4 @@ class UserJWTToken(db.Model):
     user = db.relationship('User', backref=db.backref('jwt_tokens', lazy=True))
     
     def __repr__(self):
-        return '<UserToken for %r>' % (self.user_id)
+        return '<UserToken for {!r}>'.format(self.user_id)

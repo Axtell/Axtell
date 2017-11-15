@@ -25,8 +25,15 @@ if [[ $should_mysql == "y" ]]; then
     read -s -p "MySQL password: " sql_password
 
     cp config.default.py config.py
-    sed -i "s/root/$sql_username/g" config.py
+    sed -i "s/MYSQL_USERNAME/$sql_username/g" config.py
     sed -i "s/MYSQL_PASSWORD/$sql_password/g" config.py
 
     echo "CREATE DATABASE ppcg IF NOT EXISTS;" | mysql -u "$sql_username" -p"$sql_password"
+fi
+
+read -p "Setup Redis (yn): " should_redis
+if [[ $should_redis == "y" ]]; then
+    read -s -p "Redis password: " redis_password
+
+    sed -i "s/REDIS_PASSWORD/$redis_password/g" config.py
 fi

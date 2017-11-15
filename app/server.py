@@ -5,6 +5,7 @@ from webassets_browserify import Browserify
 from webassets.filter import register_filter
 import config
 
+
 class PPCGFlask(Flask):
     template_folder = "assets/templates"
 
@@ -26,7 +27,7 @@ css.config['AUTOPREFIXER_BROWSERS'] = ['> 1%']
 assets.register('css_all', css)
 
 # JS
-js = Bundle('js/main.js', filters=('browserify'), output='lib/main.js')
+js = Bundle('js/main.js', filters=('browserify',), output='lib/main.js')
 
 if server.debug:
     js.config['BROWSERIFY_EXTRA_ARGS'] = ['--debug']

@@ -4,7 +4,7 @@ app = {
 }
 
 db_config = {
-    'user': 'root',
+    'user': 'MYSQL_USERNAME',
     'password': 'MYSQL_PASSWORD',
     'host': '127.0.0.1',
     'port': 3306,
@@ -13,13 +13,14 @@ db_config = {
 
 redis_config = {
     'host': 'localhost',
+    'password': 'REDIS_PASSWORD',
     'port': 6379,
     'db': 0
 }
 
 auth = {
     'google': {
-        'client-id': 'GOOGLE_CLIENT_ID';
+        'client-id': 'GOOGLE_CLIENT_ID'
     }
 }
 
