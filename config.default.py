@@ -23,4 +23,6 @@ auth = {
     }
 }
 
+post_len = 16384
+posts_per_page = 10
 secret_skey = 'SESSION_SECRET_KEY'

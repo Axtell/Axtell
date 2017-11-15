@@ -1,5 +1,6 @@
 __all__ = [
     'static',
     'auth',
-    'user'
+    'user',
+    'post'
 ]
