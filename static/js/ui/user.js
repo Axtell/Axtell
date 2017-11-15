@@ -8,9 +8,9 @@ import Auth from '~/models/Auth';
     
     if (await auth.isAuthorized) {
         const userInfo = new PopoverViewController(
-            document.getElementById("userbox-target"),
-            Template.fromId("userbox-info")
+            document.getElementById("useroverview-target"),
+            Template.fromId("useroverview-info")
         );
     }
     
-})().catch(error => { throw error });
+})();

@@ -1,0 +1,8 @@
+{% extends "layouts/page.html" %}
+
+{% block base_content -%}
+<div class="content content-split cs-collapse">
+    <div id="cs-main">{% block main %}{% endblock %}</div>
+    <div id="cs-aside">{% block sidebar %}{% endblock %}</div>
+</div>
+{%- endblock %}

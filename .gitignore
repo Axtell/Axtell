@@ -108,6 +108,7 @@ ENV/
 
 # Sensitive configuration details
 config.py
+/key
 
 # Node.js
 package-lock.json

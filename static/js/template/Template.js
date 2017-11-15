@@ -8,9 +8,9 @@ export default class Template {
      * DOM or a JS-based HTMLElement
      *
      * @param {HTMLElement} root - Root view of the template
-     * @param {TemplateType} type - Type of the template to reference.
+     * @param {TemplateType} [type=none] - Type of the template to reference.
      */
-    constructor(root, type) {
+    constructor(root, type = TemplateType.none) {
         if (root instanceof Template) {
             this._root = root._root;
             this._type = root._type;
@@ -62,13 +62,14 @@ export default class Template {
     /**
      * Performs a `move` {@link TemplateType} for a given HTML id to return a
      * template based on the id's root.
-     * @param  {string} id HTML ID of a {@link HTMLElement}
+     * @param {string} id HTML ID of a {@link HTMLElement}
+     * @param {TemplateType} type Type of the template
      * @return {Template} New template.
      */
-    static fromId(id) {
+    static fromId(id, type = TemplateType.none) {
         return new Template(
             document.getElementById(id),
-            TemplateType.move
+            type
         );
     }
 }

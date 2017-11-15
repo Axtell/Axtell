@@ -2,7 +2,8 @@
 
 {% block head -%}
     {{ super() }}
-    <link href="https://fonts.googleapis.com/css?family=Lato:700|Roboto:300,400" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:700|Roboto:300,400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Fira+Mono&amp;subset=greek,latin-ext" rel="stylesheet">
     
     {% if g.user is none -%}
     <script src="https://apis.google.com/js/api:client.js"></script>
@@ -27,6 +28,8 @@
     </noscript>
     {% include "includes/header.html" %}
     <div id="content">
-        <div class="content">{% block context %}{% endblock %}</div>
+        {% block base_content -%}
+        <div class="content">{% block content %}{% endblock %}</div>
+        {%- endblock %}
     </div>
 {% endblock %}
