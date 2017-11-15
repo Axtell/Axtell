@@ -11,5 +11,10 @@ from app.routes import *
 # Sets up authorization middleware.
 from app.instances import auth
 
+# Sets up Celery connection
+from app.helpers import tasks
+
+
 def run(host, port):
+    tasks.init.delay()
     server.run(host=host, port=port)
