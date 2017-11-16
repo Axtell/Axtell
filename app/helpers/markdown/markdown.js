@@ -10,15 +10,15 @@ let md = new MarkdownIt({
     html: false, // No html = no xss
     linkify: true,
     highlight: function(string, language) {
-        if (lang && hljs.getLanguage(lang)) {
+        if (language && hljs.getLanguage(language)) {
           try {
             return '<pre class="hljs"><code>' +
-                   hljs.highlight(lang, str, true).value +
+                   hljs.highlight(language, string, true).value +
                    '</code></pre>';
           } catch (__) {}
         }
 
-        return '<pre class="hljs"><code>' + md.utils.escapeHtml(str) + '</code></pre>';
+        return '<pre class="hljs"><code>' + md.utils.escapeHtml(string) + '</code></pre>';
     }
 });
 

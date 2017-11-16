@@ -13,19 +13,3 @@ p {
     line-height: 1.3em;
     color: #334;
 }
-
-a {
-    color: #222;
-    
-    &:hover {
-        color: black;
-    }
-    
-    &:visited {
-        color: black;
-    }
-    
-    &:active {
-        color: black;
-    }
-}
