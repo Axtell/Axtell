@@ -18,6 +18,10 @@ div#header {
             margin-right: 1em;
             
             > * { display: block; }
+            
+            &.r-tight {
+                margin-right: 0rem;
+            }
         }
         
         $h-target-time: 0.1s;
