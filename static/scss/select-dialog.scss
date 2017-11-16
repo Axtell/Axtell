@@ -28,6 +28,10 @@
             transition: 0.05s ease-in background;
             &:hover { background: #F6F6F6 }
             &.state-active { color: $big-select; }
+            
+            a {
+                color: inherit;
+            }
         }
     }
 }

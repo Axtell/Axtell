@@ -106,6 +106,9 @@ ENV/
 .idea/*.xml
 .idea/dataSources
 
+# Celery things
+w1*
+
 # Sensitive configuration details
 config.py
 /key

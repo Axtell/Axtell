@@ -3,6 +3,7 @@
 //  things in redis
 
 var MarkdownIt = require('markdown-it'),
+    KaTeX = require('markdown-it-katex'),
     hljs = require('highlight.js'),
     os = require('os');
 
@@ -20,6 +21,9 @@ let md = new MarkdownIt({
 
         return '<pre class="hljs"><code>' + md.utils.escapeHtml(string) + '</code></pre>';
     }
+}).use(KaTeX, {
+    'throwOnError': false,
+    'errorColor' : '#cc0000'
 });
 
 process.stdin.resume();
