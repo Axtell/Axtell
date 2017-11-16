@@ -1,4 +1,4 @@
-from app.models.User import User
+from app.models import User
 from app.instances.db import redis_db
 from flask import session
 from uuid import uuid4

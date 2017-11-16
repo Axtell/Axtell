@@ -27,8 +27,8 @@ class UserJWTToken(db.Model):
     
     identity = db.Column(db.String(255), primary_key=True, nullable=False)
     issuer = db.Column(db.String(255), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    user = db.relationship('User', backref=db.backref('jwt_tokens', lazy=True))
+    user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
+    user = db.relationship(User, backref=db.backref('jwt_tokens', lazy=True))
     
     def __repr__(self):
         return '<UserToken for {!r}>'.format(self.user_id)

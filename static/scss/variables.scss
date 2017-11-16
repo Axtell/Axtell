@@ -1,8 +1,9 @@
-$page-width: 80%;
+$page-width: 70%;
 $font-size: 14px;
 
 $bold-font: "Lato";
 $light-font: "Roboto";
+$monospace: Menlo, 'Fira Mono', monospace;
 
 // System fonts
 $body-font: $light-font;
@@ -18,6 +19,9 @@ $dim-bg: #ECECEC;
 // Colors
 $theme-color: #09F;
 $accent-color: $theme-color;
+
+// Seperators
+$content-border-color: #EEE;
 
 // Header colors
 $header: #FFF;

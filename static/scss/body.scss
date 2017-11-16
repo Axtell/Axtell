@@ -1,0 +1,15 @@
+h1 {
+    font: {
+        family: $bold-font;
+        weight: bold;
+        size: 1.5rem;
+    };
+}
+
+h2, h3 { font-size: 1.4rem; }
+
+p {
+    font-size: 15px;
+    line-height: 1.3em;
+    color: #334;
+}

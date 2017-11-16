@@ -18,7 +18,9 @@ export default class PopoverViewController extends ViewController {
         
         this._parent = template.getParent(document.body);
         this._node.classList.add("template");
-        this._parent.appendChild(this._node);
+        if (this._node.parentNode === null) {
+            this._parent.appendChild(this._node);
+        }
         
         this._node.addEventListener("focusout", () => {
             this.untrigger();

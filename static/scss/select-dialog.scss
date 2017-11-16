@@ -1,0 +1,37 @@
+.select-dialog {
+    margin-top: auto;
+    color: #CCC;
+    font-weight: 300;
+    
+    cursor: pointer;
+    
+    a {
+        color: $theme-color;
+    }
+    
+    position: relative;
+    
+    .drop {
+        outline: none;
+        position: absolute;
+        right: 0;
+        margin-top: 4px;
+        background: white;
+        box-shadow: 0 0 5px #AAA;
+        
+        .opt {
+            padding: 0.5em 1em;
+            color: $big-fg;
+            font-weight: 400;
+            
+            background: white;
+            transition: 0.05s ease-in background;
+            &:hover { background: #F6F6F6 }
+            &.state-active { color: $big-select; }
+            
+            a {
+                color: inherit;
+            }
+        }
+    }
+}

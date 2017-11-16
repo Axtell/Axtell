@@ -1,0 +1,51 @@
+form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.item-wrap {
+    padding: 1em;
+    box-sizing: border-box;
+    width: 100%;
+    
+    input { box-sizing: border-box; }
+    .button { font-size: 1rem; }
+}
+
+.group-stretch {
+    flex: 1 0 16em;
+    display: flex;
+    flex-direction: column;
+    
+    .stretch-item { flex: 1; }
+}
+
+.label-group {
+    label {
+        display: block;
+        color: $label-text;
+        font-size: 1rem;
+        
+        margin-bottom: 4px;
+    }
+}
+
+.text-input {
+    font-size: 1rem;
+    color: #333;
+    padding: 0.5em 1em;
+    width: 100%;
+}
+
+.text-base {
+    border: 1px solid #EEE;
+    margin: 0;
+    outline: none;
+    -webkit-appearance: none;
+    resize: none;
+    
+    &:focus {
+        box-shadow: 0 0 3px #EEE inset;
+    }
+}
