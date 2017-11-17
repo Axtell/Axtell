@@ -16,5 +16,4 @@ from app.helpers import tasks
 
 
 def run(host, port):
-    tasks.init.delay()
     server.run(host=host, port=port)

@@ -22,7 +22,7 @@ def get_post(post_id):
         return abort(404)
 
     # TODO: async loading
-    body = tasks.render_markdown.delay(matched_post.body, id="P" + str(matched_post.id)).wait()
+    body = tasks.render_markdown.delay(matched_post.body).wait()
     if body is None:
         return abort(500)
 
