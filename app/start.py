@@ -1,4 +1,4 @@
-import app.server as app_server
+import app.server
 from app.instances.db import db
 from app.models import *
 
@@ -16,4 +16,4 @@ from app.helpers import tasks
 
 
 def run(host, port):
-    app_server.server.run(host=host, port=port)
+    app.server.server.run(host=host, port=port)
