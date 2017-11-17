@@ -1,4 +1,4 @@
-from app.server import server
+from app import server
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import sessionmaker
 import redis
