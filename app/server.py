@@ -3,7 +3,7 @@ from flask_assets import Environment, Bundle
 from os import path, getcwd
 from webassets_browserify import Browserify
 from webassets.filter import register_filter
-from app.helpers import tasks
+import app.helpers.tasks
 import config
 
 
@@ -17,7 +17,7 @@ server.secret_key = config.secret_skey
 
 @server.before_first_request
 def init_celery():
-    tasks.init.delay()
+    app.helpers.tasks.init.delay()
 
 
 register_filter(Browserify)

@@ -1,9 +1,9 @@
-import app.server as app_server
+import app.server
 from flask_sqlalchemy import SQLAlchemy
 import redis
 import config
 
-server = app_server.server
+server = app.server.server
 
 # SQL
 db_config = config.db_config

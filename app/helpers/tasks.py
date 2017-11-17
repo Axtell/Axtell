@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
 from celery import Celery
-from app.instances import db
-from app.models import User
 from config import redis_config
 from os import path
 from subprocess import Popen, PIPE
@@ -22,7 +20,8 @@ render_proc = None
 @celery_app.task
 def init():
     global db_session, render_proc
-    db_session = db.db.session()
+    import app.instances.db
+    db_session = app.instances.db.db.session()
     exec_path = path.join(path.dirname(path.realpath(__file__)), 'markdown', 'markdown.js')
     render_proc = Popen(['node', exec_path], stdout=PIPE, stdin=PIPE)
 
@@ -30,7 +29,8 @@ def init():
 @celery_app.task
 def create_user(name, email):
     global db_session
-    new_user = User(name=name, email=email)
+    import app.models.User
+    new_user = app.models.User.User(name=name, email=email)
     db_session.add(new_user)
     db_session.commit()
     return new_user.to_json()
