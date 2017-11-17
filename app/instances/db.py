@@ -1,4 +1,4 @@
-from app import server as app_server
+from app.session import server as app_server
 from flask_sqlalchemy import SQLAlchemy
 import redis
 import config
