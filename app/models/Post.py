@@ -1,13 +1,8 @@
 from app.instances.db import db
 from app.models.User import User
-from app.models.Category import Category
+from app.models.Category import Category, categories
 from sqlalchemy.dialects.mysql import LONGTEXT
 import datetime
-
-categories = db.Table(
-    db.Column('category_name', db.Integer, db.ForeignKey('category.name'), primary_key=True),
-    db.Column('post_id', db.Integer, db.ForeignKey('post.id'), primary_key=True)
-)
 
 class Post(db.Model):
     """
