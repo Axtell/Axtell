@@ -11,7 +11,8 @@ def auth_login():
     json = request.get_json(silent=True)
     
     # JSON parsing failed
-    if not json or 'token' not in json: return render_error('bad json')
+    if not json or 'token' not in json:
+        return render_error('bad json')
 
     return auth.set_user_jwt(json['token'], json.get('profile'))
 

@@ -3,7 +3,7 @@
 from celery import Celery
 from config import redis_config
 from os import path
-from subprocess import Popen, PIPE
+from subprocess import Popen, PIPE, run
 from struct import unpack
 
 redis_url = f"redis://:{redis_config['password']}@{redis_config['host']}:{redis_config['port']}/{redis_config['db']}"
@@ -42,3 +42,8 @@ def render_markdown(string):
     render_proc.stdin.flush()
     read_len, = unpack('<i', render_proc.stdout.read(4))
     return render_proc.stdout.read(read_len).decode('utf-8')
+
+
+@celery_app.task
+def update(commit):
+    return run(["git", "checkout", commit]).returncode == 0
