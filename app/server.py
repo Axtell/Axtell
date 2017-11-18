@@ -17,7 +17,7 @@ server.secret_key = config.secret_skey
 
 @server.before_first_request
 def init_celery():
-    app.helpers.tasks.init.delay()
+    app.helpers.tasks.init.delay().wait()
 
 
 register_filter(Browserify)
