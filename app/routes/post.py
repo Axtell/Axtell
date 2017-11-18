@@ -1,6 +1,6 @@
 from app.server import server
 from app.helpers.render import render_template, render_json
-from app.helpers import tasks
+import app.helpers.tasks as tasks
 from app.controllers import post
 from flask import request, redirect, url_for, g, abort
 
