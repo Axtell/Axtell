@@ -9,9 +9,6 @@
     
     {% if g.user is none -%}
     <script src="https://apis.google.com/js/api:client.js"></script>
-    <script type="text/javascript">window.config={
-        pv_gid: "{{ opts.auth['google']['client-id'] }}"
-    };</script>
     {%- endif %}
     
     {% assets "css_all" -%}
