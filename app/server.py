@@ -32,6 +32,13 @@ js = Bundle('js/main.js', filters=('browserify',), output='lib/main.js')
 if server.debug:
     js.config['BROWSERIFY_EXTRA_ARGS'] = ['--debug']
 
+js_envs = {
+    'GAPI_KEY': config.auth['google']['client-id']
+}
+
 js.config['BROWSERIFY_BIN'] = 'node_modules/.bin/browserify'
-js.config['BROWSERIFY_TRANSFORMS'] = ['babelify']
+js.config['BROWSERIFY_TRANSFORMS'] = [
+    'babelify',
+    ['envify', *[arg for (key, value) in js_envs.items() for arg in ('--' + key, value)]]
+]
 assets.register('js_all', js)
