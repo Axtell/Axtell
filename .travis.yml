@@ -1,6 +1,6 @@
 language: python
 python:
-    - "3.6"
+    - '3.6'
 services:
     - mysql
     - redis-server
@@ -20,3 +20,8 @@ install:
     - sed -i "s/REDIS_PASSWORD//" config.py
 script:
     - python -m unittest discover tests -v
+after_success:
+    - ./deploy.sh
+env:
+  global:
+    secure: X7fu8WHBAiWv95hfDuqKeytDgc0ZH+I9kcjn39yoj8DVAzBqjDOuRDDT8bwq0v02qq8JdTJkF5jK+YhpyR6WCMkxiTJdfI/+iNhiquUdPmzrpxk5L+qYeFrNvvwcuiZwVYruYtd677rEmFzdrLuPG0ynRh2xhLOaMNr0gCn+vW2AEOzQAWgMsK8Na6/+hJlhOj/wQziNH3kDU+ZZLDIU6SFP/HAhJkluFQB2E6Yn1vAZJBl6/rrSQW4H4DWHHBcrtODbRYyxhNsm0SGGB7SffTcPkGepQw5eJqtJFgh3PjUuafNXaRfYTB9xvtPOa7/wEB9AKpGgDdl8gH4117PnEN2Ha1AvQ2p4uQggxjw8xUHkTKUMWpoU+zd/UiSYgpHkecE5X9WKOQuhaFIWmO6ZTDF9xHABbXd3u1d1t/K9Qsw+YNvj63l8v4yKCCs/DR7VGZbnZhlUKQfMO2Hmad4X6Hi7plQA7KxaWTxqatm+Ntt26QovxFDJ9H3AjChtxdScucVXxa2kTF38cK4Y8mjicHgQTcTwdm8n5WVkTsXubpC2nUdRidHKo7vJ6e+yNtuDp9bFltHQHeY2jcxwgKXxUiNXqCzQuhKJlLiR6xsB9KgfcLIwuulT6sH4tWPnmUk3qJKGcu2hi+oS5vXmozlWMOtcZRNJ1TJJ3f7xrusNxxU=

@@ -112,6 +112,7 @@ w1*
 # Sensitive configuration details
 config.py
 /key
+deploy.txt
 
 # Node.js
 package-lock.json
