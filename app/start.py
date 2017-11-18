@@ -1,5 +1,5 @@
-import app.server
-from app.instances.db import db
+from app.server import server
+from app.instances.db import db, redis_db
 from app.models import *
 
 # noinspection PyUnresolvedReferences
