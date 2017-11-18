@@ -11,9 +11,8 @@ class TestBase:
     class TestDB(unittest.TestCase):
         def setUp(self):
             super().setUp()
-            self.connection = db.engine.connect()
-            self.transaction = self.connection.begin()
+            self.session = db.session
+            self.session.begin_nested()
             
         def tearDown(self):
-            self.transaction.rollback()
-            self.connection.close()
+            self.session.rollback()

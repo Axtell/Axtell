@@ -1,5 +1,4 @@
 from tests.test_base import TestBase
-from app.start import db
 from app.models import User
 import json
 
@@ -8,8 +7,8 @@ class TestUserAPI(TestBase.TestFlask, TestBase.TestDB):
         super().setUp()
         
         self.user = User(name='Test User', email='test@user.com')
-        db.session.add(self.user)
-        db.session.commit()
+        self.session.add(self.user)
+        self.session.commit()
     
     def test_user_get(self):
         result = self.app.get(f'/user/{self.user.id}')
