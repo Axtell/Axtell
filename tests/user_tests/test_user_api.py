@@ -3,7 +3,7 @@ from app.start import db
 from app.models import User
 import json
 
-class TestUserAPI(TestBase.TestFlaskWithDB):
+class TestUserAPI(TestBase.TestFlask, TestBase.TestDB):
     def setUp(self):
         super().setUp()
         
