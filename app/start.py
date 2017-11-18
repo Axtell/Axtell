@@ -14,6 +14,8 @@ from app.instances import auth
 # Sets up Celery connection
 from app.helpers import tasks
 
+# Exports server to please Flask CLI 
+server = app.server.server
 
 def run(host, port):
     app.server.server.run(host=host, port=port)
