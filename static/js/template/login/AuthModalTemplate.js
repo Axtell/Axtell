@@ -26,7 +26,7 @@ export default class AuthModalTemplate extends ModalTemplate {
         await gapi.loadAsync('auth2');
         
         gapi.auth2.init({
-            client_id: window.config.pv_gid,
+            client_id: process.env.GAPI_KEY,
             cookiepolicy: 'single_host_origin',
             fetch_basic_profile: true
         }).attachClickHandler(googleTrigger, {}, (googleUser) => {
