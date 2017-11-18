@@ -12,5 +12,11 @@ install:
     - bundle install
     - pip install -r requirements.txt
     - mysql -u root -e 'CREATE DATABASE ppcg;'
+    
+    # Setup travis config
+    - cp config.default.py config.py
+    - sed -i "s/MYSQL_USERNAME/root/" config.py
+    - sed -i "s/MYSQL_PASSWORD//" config.py
+    - sed -i "s/REDIS_PASSWORD//" config.py
 script:
-    - echo -e "\e[1:32mStarting Tests...\e[0m"
+    - python -m unittest discover tests -v
