@@ -1,6 +1,6 @@
 from app.server import server
 from app.helpers.render import render_template, render_json
-import app.helpers.tasks as tasks
+import app.tasks as tasks
 from app.controllers import post
 from flask import request, redirect, url_for, g, abort
 
@@ -22,7 +22,7 @@ def get_post(post_id):
         return abort(404)
 
     # TODO: async loading
-    body = tasks.render_markdown.delay(matched_post.body).wait()
+    body = tasks.markdown.render_markdown.delay(matched_post.body).wait()
     if body is None:
         return abort(500)
 

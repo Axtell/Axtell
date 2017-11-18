@@ -3,7 +3,6 @@ from flask_assets import Environment, Bundle
 from os import path, getcwd
 from webassets_browserify import Browserify
 from webassets.filter import register_filter
-import app.helpers.tasks
 import config
 
 

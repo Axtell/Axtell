@@ -12,9 +12,9 @@ from app.routes import *
 from app.instances import auth
 
 # Sets up Celery connection
-from app.helpers import tasks
+from app.tasks import *
 
-# Exports server to please Flask CLI 
+# Exports server to please Flask CLI
 server = app.server.server
 
 def run(host, port):
