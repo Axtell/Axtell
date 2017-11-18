@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
-import app.helpers.tasks
+from app.tasks import *
+from app.instances.celery import celery_app
 
-celery = app.helpers.tasks.celery_app
+celery = celery_app
 
 if __name__ == '__main__':
-    app.helpers.tasks.celery_app.start()
+    celery_app.start()

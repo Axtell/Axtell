@@ -2,6 +2,7 @@
 if [ -f w1.pid ]; then
     if ps -p $(< w1.pid) > /dev/null 2>&1; then
         kill $(< w1.pid)
+        rm w1.pid
         echo "Restarted Celery"
     fi
 fi
