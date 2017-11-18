@@ -1,4 +1,4 @@
-from app.server import server
+import app.server
 from app.instances.db import db, redis_db
 from app.models import *
 
