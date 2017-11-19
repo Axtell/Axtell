@@ -12,7 +12,7 @@ def fork_helper():
     return markdown_local.render_proc
 
 @celery_app.task
-def render_markdown(string, id=None, force=False):
+def render_markdown(string):
     helper = fork_helper()
     
     helper.stdin.write(string.encode('utf-8'))
