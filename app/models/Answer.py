@@ -1,5 +1,6 @@
 from app.instances.db import db
-from app.models import Post, User
+from app.models.Post import Post
+from app.models.User import User
 import datetime
 
 
