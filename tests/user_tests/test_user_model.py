@@ -1,8 +1,8 @@
-import app.models
-from tests.test_base import TestBase
+import tests.test_base
+import app.models.User
 
 
-class TestUserModel(TestBase.TestDB):
+class TestUserModel(tests.test_base.TestBase.TestDB):
     def setUp(self):
         super().setUp()
 

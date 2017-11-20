@@ -1,1 +1,5 @@
-from . import Answer, Post, User
+__all__ = [
+    'User',
+    'Post',
+    'Answer'
+]

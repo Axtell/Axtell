@@ -1,13 +1,13 @@
 from tests.test_base import TestBase
-from app.models import User
+import app.models.User
 import json
 
 
 class TestUserAPI(TestBase.TestFlask, TestBase.TestDB):
     def setUp(self):
         super().setUp()
-        
-        self.user = User(name='Test User', email='test@user.com')
+
+        self.user = app.models.User.User(name='Test User', email='test@user.com')
         self.session.add(self.user)
         self.session.commit()
     
