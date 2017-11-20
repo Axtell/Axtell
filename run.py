@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-from app.start import run
+import app.start
 import config
 
 if __name__ == '__main__':
-    run(host=config.app['host'], port=config.app['port'])
+    app.start.run(host=config.app['host'], port=config.app['port'])

@@ -1,6 +1,4 @@
 from app.instances.db import db
-import app.models.Post
-import app.models.User
 import datetime
 
 
@@ -10,13 +8,6 @@ class Answer(db.Model):
     """
 
     id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    post_id = db.Column(db.INTEGER, db.ForeignKey(app.models.Post.Post.id), nullable=False)
-    code = db.Column(db.TEXT, default=db.null)
-    commentary = db.Column(db.TEXT, default=db.null)
-    user_id = db.Column(db.INTEGER, db.ForeignKey(app.models.User.User.id), nullable=False)
-    date_created = db.Column(db.DATETIME, default=datetime.datetime.utcnow)
-
-    user = db.relationship(app.models.User.User, backref=db.backref('answers'))
 
     def to_json(self):
         data = {}
@@ -27,3 +18,15 @@ class Answer(db.Model):
 
     def __repr__(self):
         return '<Answer(%r) by %r>' % (self.id, self.user.name)
+
+
+def delayed_load():
+    import app.models.Post
+
+    Answer.post_id = db.Column(db.INTEGER, db.ForeignKey(app.models.Post.Post.id), nullable=False)
+    Answer.code = db.Column(db.TEXT, default=db.null)
+    Answer.commentary = db.Column(db.TEXT, default=db.null)
+    Answer.user_id = db.Column(db.INTEGER, db.ForeignKey(app.models.User.User.id), nullable=False)
+    Answer.date_created = db.Column(db.DATETIME, default=datetime.datetime.utcnow)
+
+    Answer.user = db.relationship(app.models.User.User, backref=db.backref('answers'))
