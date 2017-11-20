@@ -1,5 +1,6 @@
 from tests.test_base import TestBase
 import app.models.User
+import app.routes.user
 import json
 
 
