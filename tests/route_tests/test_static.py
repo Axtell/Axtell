@@ -1,4 +1,5 @@
 from tests.test_base import TestBase
+import app.routes.static
 
 
 class TestStatic(TestBase.TestFlask):

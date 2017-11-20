@@ -1,17 +1,18 @@
-from app.server import server
-from app.helpers.render import render_template
+import app.server
+import app.helpers.render
+import app.routes.static
 
 
-@server.route("/")
+@app.server.server.route("/")
 def home():
-    return render_template('index.html')
+    return app.helpers.render.render_template('index.html')
 
 
-@server.errorhandler(404)
+@app.server.server.errorhandler(404)
 def error_404(e):
-    return render_template('notfound.html'), 404
+    return app.helpers.render.render_template('notfound.html'), 404
 
 
-@server.errorhandler(500)
+@app.server.server.errorhandler(500)
 def error_500(e):
-    return render_template('servererror.html'), 500
+    return app.helpers.render.render_template('servererror.html'), 500
