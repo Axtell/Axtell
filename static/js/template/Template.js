@@ -23,6 +23,14 @@ export default class Template {
     }
     
     /**
+     * Returns the underlying element
+     * @type {HTMLElement}
+     */
+    get getUnderlyingNode() {
+        return this._root;
+    }
+    
+    /**
      * Returns a unique instance of the template as an HTMLElement.
      * @return {HTMLElement} unique instance of the DOM element.
      */
@@ -34,7 +42,7 @@ export default class Template {
                 this._type = TemplateType.none;
                 return this._root;
             case TemplateType.clone:
-                return this._root.cloneNode();
+                return this._root.cloneNode(true);
             default:
                 return this._root;
         }
@@ -60,6 +68,19 @@ export default class Template {
     willLoad() { void 0; }
     
     /**
+     * Loads the template in a context
+     * @param {HTMLElement} parent - Will be appended to this node.
+     * @return {HTMLElement} rendered element
+     */
+    loadInContext(parent) {
+        let elem = this.unique();
+        this.willLoad();
+        parent.appendChild(elem);
+        this.didLoad();
+        return elem;
+    }
+    
+    /**
      * Performs a `move` {@link TemplateType} for a given HTML id to return a
      * template based on the id's root.
      * @param {string} id HTML ID of a {@link HTMLElement}
@@ -71,6 +92,18 @@ export default class Template {
             document.getElementById(id),
             type
         );
+    }
+    
+    /**
+     * Creates template `<div>` with text.
+     * @param {string} text - text of new elem
+     * @param {TemplateType} [type=none] - Type of the generated template.
+     * @return {Template} new template.
+     */
+    static fromText(text, type) {
+        let elem = document.createElement('div');
+        elem.appendChild(document.createTextNode(text));
+        return new Template(elem, type);
     }
 }
 

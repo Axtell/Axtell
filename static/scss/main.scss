@@ -70,6 +70,7 @@ body {
 
 .template { display: none !important; }
 
+@import "tio.scss";
 @import "markdown.scss";
 @import "nodes.scss";
 @import "modal.scss";

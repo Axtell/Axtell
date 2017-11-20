@@ -13,13 +13,13 @@ let md = new MarkdownIt({
     highlight: function(string, language) {
         if (language && hljs.getLanguage(language)) {
           try {
-            return '<pre class="hljs"><code class="exec-target" data-lang="' + language + '">' +
+            return '<pre class="hljs exec-target" data-lang="' + language + '"><code>' +
                    hljs.highlight(language, string, true).value +
                    '</code></pre>';
           } catch (__) {}
         }
 
-        return '<pre class="hljs"><code class="exec-target" data-lang="' + language + '">' + md.utils.escapeHtml(string) + '</code></pre>';
+        return '<pre class="hljs exec-target" data-lang="' + language + '"><code>' + md.utils.escapeHtml(string) + '</code></pre>';
     }
 }).use(KaTeX, {
     'throwOnError': false,
