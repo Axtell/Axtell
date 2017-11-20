@@ -1,6 +1,7 @@
 from app.instances.db import db
 from sqlalchemy.dialects.mysql import LONGTEXT
 import datetime
+import app.models
 
 
 class Post(db.Model):
@@ -9,6 +10,13 @@ class Post(db.Model):
     """
 
     id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
+    title = db.Column(db.String(50), nullable=False)
+    body = db.Column(LONGTEXT, nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+
+    user_id = db.Column(db.Integer, db.ForeignKey(app.models.User.User.id), nullable=False)
+    user = db.relationship(app.models.User.User, backref=db.backref('posts'))
+    answers = db.relationship(app.models.Answer.Answer, backref=db.backref('posts'))
     
     def to_json(self):
         data = {}
@@ -20,16 +28,3 @@ class Post(db.Model):
     
     def __repr__(self):
         return '<Post(%r) by %r>' % (self.id, self.user.name)
-
-
-def delayed_load():
-    import app.models.User
-    import app.models.Answer
-
-    Post.title = db.Column(db.String(50), nullable=False)
-    Post.body = db.Column(LONGTEXT, nullable=False)
-    Post.date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-
-    Post.user_id = db.Column(db.Integer, db.ForeignKey(app.models.User.User.id), nullable=False)
-    Post.user = db.relationship(app.models.User.User, backref=db.backref('posts'))
-    Post.answers = db.relationship(app.models.Answer.Answer, backref=db.backref('posts'))

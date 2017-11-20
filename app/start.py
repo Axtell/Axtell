@@ -10,13 +10,9 @@ import app.routes
 import app.instances.auth
 
 # Sets up Celery connection
-from app.tasks import *
+import app.tasks
 
-# Delayed loading of table data to fix insane import issues
 import app.models
-
-app.models.Post.delayed_load()
-app.models.Answer.delayed_load()
 
 # Exports server to please Flask CLI
 server = app.server.server

@@ -1,1 +1,1 @@
-from . import Answer, Post
+from . import Answer, Post, User
