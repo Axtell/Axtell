@@ -12,6 +12,7 @@ def get_my_profile():
     else:
         return render_json({ 'unauthorized': True })
 
+
 def get_profile(user_id):
     """
     Returns a user's user_id
