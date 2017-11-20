@@ -13,3 +13,8 @@ p {
     line-height: 1.3em;
     color: #334;
 }
+
+.katex-display {
+    // Default margin results in no extra space.
+    margin-bottom: 2em;
+}
