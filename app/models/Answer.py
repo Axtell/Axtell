@@ -1,6 +1,6 @@
 from app.instances.db import db
-from app.models.Post import Post
-from app.models.User import User
+import app.models.Post
+import app.models.User
 import datetime
 
 
@@ -10,13 +10,13 @@ class Answer(db.Model):
     """
 
     id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    post_id = db.Column(db.INTEGER, db.ForeignKey(Post.id), nullable=False)
+    post_id = db.Column(db.INTEGER, db.ForeignKey(app.models.Post.Post.id), nullable=False)
     code = db.Column(db.TEXT, default=db.null)
     commentary = db.Column(db.TEXT, default=db.null)
-    user_id = db.Column(db.INTEGER, db.ForeignKey(User.id), nullable=False)
+    user_id = db.Column(db.INTEGER, db.ForeignKey(app.models.User.User.id), nullable=False)
     date_created = db.Column(db.DATETIME, default=datetime.datetime.utcnow)
 
-    user = db.relationship(User, backref=db.backref('answers'))
+    user = db.relationship(app.models.User.User, backref=db.backref('answers'))
 
     def to_json(self):
         data = {}

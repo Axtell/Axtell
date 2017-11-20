@@ -1,6 +1,6 @@
 from flask import g, session, abort, redirect, url_for
 from app.helpers.render import render_json, render_error
-from app.models import Post
+from app.models.Post import Post
 from app.instances.db import db
 from config import posts_per_page
 

@@ -2,6 +2,7 @@ from tests.test_base import TestBase
 from app.models import User
 import json
 
+
 class TestUserModel(TestBase.TestDB):
     def setUp(self):
         super().setUp()
