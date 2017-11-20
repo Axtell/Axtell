@@ -1,4 +1,7 @@
 import axios from 'axios';
+import TIOSerializer from '~/models/TIO/TIOSerializer';
+
+export const TIO_API_ENDPOINT = "https://tio.run/cgi-bin/run/api";
 
 /**
  * Runs some code on TIO.
@@ -14,8 +17,23 @@ export default class TIORun {
         this.language = language;
     }
     
+    /**
+     * Returns a TIOSerializer for the current request
+     * @return {TIOSerializer} Fully prepared serialization object with run.
+     */
+    serializer() {
+        let serializer = new TIOSerializer();
+        serializer.addVariable('lang', this.language.tioId);
+        serializer.addFile('.code.tio', this.code);
+        serializer.addFile('.input.tio', '');
+        serializer.addVariable('args', []);
+        serializer.addRun();
+        return serializer;
+    }
+    
     async run() {
-        return new TIOResult(this, "", "");
+        let res = await axios.post(TIO_API_ENDPOINT, this.serializer().serialize());
+        console.log(res);
     }
 }
 

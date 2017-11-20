@@ -25,7 +25,7 @@ TIO.shared.then(tio => {
                 elem.tioExecController = controller;
             } catch(e) {
                 if (e.id === InvalidLanguage) return;
-                else throw e;
+                throw e;
             }
         });
     
