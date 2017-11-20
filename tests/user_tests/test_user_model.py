@@ -1,6 +1,5 @@
-from tests.test_base import TestBase
 import app.models
-import json
+from tests.test_base import TestBase
 
 
 class TestUserModel(TestBase.TestDB):

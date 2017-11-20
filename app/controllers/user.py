@@ -1,4 +1,5 @@
-from flask import g, session
+from flask import g
+
 from app.helpers.render import render_json, render_error
 from app.models.User import User
 

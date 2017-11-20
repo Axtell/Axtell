@@ -58,7 +58,7 @@ export default class ModalController extends ViewController {
     }
     
     _createContext() {
-        let context = document.createElement("div")
+        let context = document.createElement("div");
         context.id = "md-context";
         context.className = "md-dismiss";
         context.addEventListener("click", ::this._clearPresentee);
@@ -70,8 +70,8 @@ export default class ModalController extends ViewController {
         // Head
         let head = document.createElement("div");
         head.className = "md-head";
-        
-        let exit = document.createElement("a")
+
+        let exit = document.createElement("a");
         exit.href = "#";
         exit.className = "md-exit md-dismiss";
         exit.appendChild(document.createTextNode("x"));

@@ -38,7 +38,7 @@ export default class Template {
         switch(this._type) {
             case TemplateType.move:
                 this._root.parentNode.removeChild(this._root);
-                this._root.classList.remove('template')
+                this._root.classList.remove('template');
                 this._type = TemplateType.none;
                 return this._root;
             case TemplateType.clone:
@@ -114,4 +114,4 @@ export const TemplateType = {
     move: 0,
     clone: 1,
     none: 2
-}
+};

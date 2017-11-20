@@ -1,8 +1,9 @@
 from flask import request, redirect, url_for, g, abort
-from app.helpers.render import render_template, render_json
-from app.controllers import post, answer
-from app.server import server
+
 import app.tasks as tasks
+from app.controllers import answer
+from app.helpers.render import render_template
+from app.server import server
 
 
 @server.route('/post/<int:post_id>/answers')

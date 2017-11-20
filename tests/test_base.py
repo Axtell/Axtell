@@ -1,4 +1,5 @@
 import unittest
+import app.models
 import app.start
 import app.instances.db
 

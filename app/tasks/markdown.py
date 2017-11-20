@@ -1,7 +1,8 @@
-from app.instances.celery import celery_app
-from subprocess import Popen, PIPE, STDOUT
-from misc import md_exe
+from subprocess import Popen, PIPE
 from threading import local
+
+from app.instances.celery import celery_app
+from misc import md_exe
 
 markdown_local = local()
 

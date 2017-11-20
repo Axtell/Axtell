@@ -34,7 +34,7 @@ export default class AuthModalTemplate extends ModalTemplate {
             // finished, this is called
             // This is the authorization token we pass to server
             let { id_token } = googleUser.getAuthResponse();
-            let profile = googleUser.getBasicProfile()
+            let profile = googleUser.getBasicProfile();
             
             this._login(id_token, {
                 name: profile.getName(),

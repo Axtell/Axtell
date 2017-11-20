@@ -29,7 +29,7 @@ export default {
      * A handled or non-critical error. Logs to console.
      */
     silent(error, message, ...args) {
-        let title = "Error:"
+        let title = "Error:";
         if (error instanceof AnyError) {
             message = error.message + '; ' + message;
             title = error.idString;
