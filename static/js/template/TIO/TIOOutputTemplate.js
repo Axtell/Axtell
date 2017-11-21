@@ -11,7 +11,12 @@ export default class TIOOutputTemplate extends Template {
         let elem = document.createElement("div");
         elem.classList.add('result');
         
+        let textHolder = document.createElement("div");
+        elem.appendChild(textHolder);
+        
         super(elem, TemplateType.none);
+        
+        this._textbox = textHolder;
     }
     
     /**
@@ -19,9 +24,10 @@ export default class TIOOutputTemplate extends Template {
      * @type {string} text - String to set to
      */
     setText(text) {
-        let node = this.getUnderlyingNode;
-        while (node.hasChildNodes()) node.removeChild(node.firstChild);
-        node.appendChild(document.createTextNode(text));
+        while (this._textbox.hasChildNodes()) {
+            this._textbox.removeChild(this._textbox.firstChild);
+        }
+        this._textbox.appendChild(document.createTextNode(text));
     }
     
     /**
