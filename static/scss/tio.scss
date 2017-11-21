@@ -16,14 +16,17 @@
         overflow-x: scroll;
         
         min-height: 24px;
-        padding: 0.5rem 1rem;
-        
         border-top: 1px solid rgba(127, 127, 127, 0.1);
         
         font-size: 0.8rem;
         color: rgba(0, 0, 0, 0.8);
         
         display: none;
+        
+        div {
+            padding: 0.5rem 1rem;
+            overflow-x: auto;
+        }
         
         &.out {
             display: block;
