@@ -1,7 +1,5 @@
 from subprocess import run
-
 from app.instances.celery import celery_app
-
 
 
 @celery_app.task
