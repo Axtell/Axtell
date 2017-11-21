@@ -11,15 +11,19 @@ let md = new MarkdownIt({
     html: false, // No html = no xss
     linkify: true,
     highlight: function(string, language) {
+        var langExec = "";
+        if (language) {
+            langExec = ' exec-target" data-lang="' + language;
+        }
         if (language && hljs.getLanguage(language)) {
           try {
-            return '<pre class="hljs exec-target" data-lang="' + language + '"><code>' +
+            return '<pre class="hljs' + langExec + '"><code>' +
                    hljs.highlight(language, string, true).value +
                    '</code></pre>';
           } catch (__) {}
         }
 
-        return '<pre class="hljs exec-target" data-lang="' + language + '"><code>' + md.utils.escapeHtml(string) + '</code></pre>';
+        return '<pre class="hljs' + langExec + '"><code>' + md.utils.escapeHtml(string) + '</code></pre>';
     }
 }).use(KaTeX, {
     'throwOnError': false,
