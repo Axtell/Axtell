@@ -45,7 +45,7 @@
         
         &.state-stderr {
             &::before { content: "STDERR"; }
-            background: rgb(64, 0, 64);
+            background: rgba(159, 56, 133, 0.1);
             @extend .result.out;
         }
     }
