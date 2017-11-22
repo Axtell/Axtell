@@ -47,10 +47,7 @@ export default class TIORun {
             TIO_API_ENDPOINT + this.token,
             this.serializer().serialize(),
             {
-                responseType: 'arraybuffer',
-                headers: {
-                    'Content-Type': 'application/octet-stream'
-                }
+                responseType: 'arraybuffer'
             }
         );
         

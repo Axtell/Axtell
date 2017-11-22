@@ -41,7 +41,7 @@ pre, pre.hljs, .body pre {
     code {
         padding: 1rem 1.5rem;
         display: block;
-        overflow: scroll;
+        overflow-x: auto;
         font-family: inherit;
     }
 }

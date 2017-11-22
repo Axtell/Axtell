@@ -120,3 +120,4 @@ node_modules
 
 # Generated files
 static/css
+nohup.out
