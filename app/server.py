@@ -20,11 +20,17 @@ assets = Environment(server)
 nodebin = path.join(getcwd(), 'node_modules', '.bin')
 
 # CSS
-css = Bundle('scss/main.scss', filters=('scss','autoprefixer','cleancss'), output='css/all.css')
-css.config['CLEANCSS_BIN'] = path.join(nodebin, 'cleancss')
-css.config['AUTOPREFIXER_BIN'] = path.join(nodebin, 'autoprefixer-cli')
-css.config['AUTOPREFIXER_BROWSERS'] = ['> 1%']
-assets.register('css_all', css)
+css_light = Bundle('scss/entry-light.scss', filters=('scss','autoprefixer','cleancss'), output='css/all.css')
+css_light.config['CLEANCSS_BIN'] = path.join(nodebin, 'cleancss')
+css_light.config['AUTOPREFIXER_BIN'] = path.join(nodebin, 'autoprefixer-cli')
+css_light.config['AUTOPREFIXER_BROWSERS'] = ['> 1%']
+assets.register('css_light_all', css_light)
+
+css_dark = Bundle('scss/entry-dark.scss', filters=('scss','autoprefixer','cleancss'), output='css/all-dark.css')
+css_dark.config['CLEANCSS_BIN'] = path.join(nodebin, 'cleancss')
+css_dark.config['AUTOPREFIXER_BIN'] = path.join(nodebin, 'autoprefixer-cli')
+css_dark.config['AUTOPREFIXER_BROWSERS'] = ['> 1%']
+assets.register('css_dark_all', css_dark)
 
 # JS
 js = Bundle('js/main.js', filters=('browserify',), output='lib/main.js')

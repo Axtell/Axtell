@@ -33,19 +33,20 @@ form {
 
 .text-input {
     font-size: 1rem;
-    color: #333;
     padding: 0.5em 1em;
     width: 100%;
 }
 
 .text-base {
-    border: 1px solid #EEE;
+    background: $editor-bg;
+    color: $editor-fg;
+    border: 1px solid $editor-border;
     margin: 0;
     outline: none;
     -webkit-appearance: none;
     resize: none;
     
     &:focus {
-        box-shadow: 0 0 3px #EEE inset;
+        box-shadow: 0 0 3px $header-shadow-color inset;
     }
 }

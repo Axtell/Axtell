@@ -1,5 +1,4 @@
 @import "mixins.scss";
-@import "variables.scss";
 
 html, body {
     @include full;
@@ -14,6 +13,8 @@ body {
     
     font-family: $body-font;
     font-size: $font-size;
+    
+    background: $main-bg;
     
     > div {
         width: 100%;

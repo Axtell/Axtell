@@ -1,5 +1,9 @@
 a {
     text-decoration: none;
+    
+    &.title {
+        color: $title-text;
+    }
 }
 
 b, strong {
@@ -7,6 +11,7 @@ b, strong {
 }
 
 h1, h2, h3, h4, h5, h6 {
+    color: $em-text;
     font-weight: 300;
     font-family: $light-font;
     margin: 0;
@@ -32,11 +37,11 @@ pre, pre.hljs, .body pre {
     font-size: 15px;
     line-height: 1.3;
     
-    background: #fafafa;
+    background: $code-block-bg;
     padding: 0;
     box-sizing: border-box;
     border-radius: 3px;
-    border-left: 8px solid #ededed;
+    border-left: 8px solid $code-block-indent;
     
     code {
         padding: 1rem 1.5rem;
