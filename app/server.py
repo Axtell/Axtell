@@ -39,7 +39,11 @@ if server.debug:
     js.config['BROWSERIFY_EXTRA_ARGS'] = ['--debug']
 
 js_envs = {
-    'GAPI_KEY': config.auth['google']['client-id']
+    'GAPI_KEY': config.auth['google']['client-id'],
+    'POST_TITLE_MIN': str(config.posts['min_title']),
+    'POST_TITLE_MAX': str(config.posts['max_title']),
+    'POST_BODY_MIN': str(config.posts['min_len']),
+    'POST_BODY_MAX': str(config.posts['max_len'])
 }
 
 js.config['BROWSERIFY_BIN'] = 'node_modules/.bin/browserify'

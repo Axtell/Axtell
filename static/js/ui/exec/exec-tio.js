@@ -1,6 +1,6 @@
 import TIO from '~/models/TIO';
 import Template, { TemplateType } from '~/template/Template';
-import * as TIOController from '~/controllers/TIOController';
+import TIOExec from '~/controllers/TIOController/TIOExec';
 import ErrorManager from '~/helper/ErrorManager';
 import { InvalidLanguage } from '~/models/Language';
 import { filter, forEach } from '~/modern/array';
@@ -19,7 +19,7 @@ TIO.shared.then(tio => {
         ::forEach(elem => {
             try {
                 // Create a controller for it
-                const controller = new TIOController.TIOExec(tio, elem, trigger);
+                const controller = new TIOExec(tio, elem, trigger);
                 
                 // Attach controller to elem
                 elem.tioExecController = controller;

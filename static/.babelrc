@@ -21,7 +21,6 @@
             }]
         ],
         "babel-plugin-transform-class-properties",
-        "babel-plugin-transform-function-bind",
-        "babel-plugin-wildcard"
+        "babel-plugin-transform-function-bind"
     ]
 }
