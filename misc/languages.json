@@ -1,17 +1,17 @@
 {
-    "tio": {
-        "js": "javascript-node",
-        "es": "javascript-babel-node"
+  "tio": {
+    "js": "javascript-node",
+    "es": "javascript-babel-node"
+  },
+  "languages": {
+    "js": {
+      "highlight": "js",
+      "display": "JavaScript"
     },
-    "languages": {
-        "js": {
-            "highlight": "js",
-            "display": "JavaScript"
-        },
-        "es": {
-            "display": "JavaScript (ES6+)"
-        },
-        "jelly": {},
-        "haskell": {}
-    }
+    "es": {
+      "display": "JavaScript (ES6+)"
+    },
+    "jelly": {},
+    "haskell": {}
+  }
 }

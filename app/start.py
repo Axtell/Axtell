@@ -17,5 +17,6 @@ from app.tasks import *
 # Exports server to please Flask CLI
 server = app.server.server
 
+
 def run(host, port):
     app.server.server.run(host=host, port=port)

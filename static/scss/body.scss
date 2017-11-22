@@ -1,20 +1,23 @@
 h1 {
-    font: {
-        family: $bold-font;
-        weight: bold;
-        size: 1.5rem;
-    };
+  font: {
+    family: $bold-font;
+    weight: bold;
+    size: 1.5rem;
+  }
+;
 }
 
-h2, h3 { font-size: 1.4rem; }
+h2, h3 {
+  font-size: 1.4rem;
+}
 
 p {
-    font-size: 15px;
-    line-height: 1.3em;
-    color: #334;
+  font-size: 15px;
+  line-height: 1.3em;
+  color: #334;
 }
 
 .katex-display {
-    // Default margin results in no extra space.
-    margin-bottom: 2em;
+  // Default margin results in no extra space.
+  margin-bottom: 2em;
 }

@@ -9,7 +9,7 @@ from flask import request, redirect
 @server.route("/auth/login/jwt", methods=['POST'])
 def auth_login():
     json = request.get_json(silent=True)
-    
+
     # JSON parsing failed
     if not json or 'token' not in json:
         return render_error('bad json')

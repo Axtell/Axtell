@@ -7,5 +7,7 @@ export default class JSONConvertable {
      * Returns a JSON string representing the objcet
      * @return {Object} A lossless JSON-convertable object.
      */
-    get json() { return ({}); }
+    get json() {
+        return ({});
+    }
 }

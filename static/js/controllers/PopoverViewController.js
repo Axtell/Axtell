@@ -12,27 +12,27 @@ export default class PopoverViewController extends ViewController {
      */
     constructor(trigger, template) {
         super();
-        
+
         this._trigger = trigger;
         this._node = template.unique();
-        
+
         this._parent = template.getParent(document.body);
         this._node.classList.add("template");
         if (this._node.parentNode === null) {
             this._parent.appendChild(this._node);
         }
-        
+
         this._node.addEventListener("focusout", () => {
             this.untrigger();
         });
-        
+
         if (!(this._node.tabIndex >= 0)) {
             this._node.tabIndex = 0;
         }
-        
+
         this.bindTrigger(trigger);
     }
-    
+
     /**
      * Adds a new trigger node.
      * @param {HTMLElement} trigger - A new trigger to add
@@ -42,7 +42,7 @@ export default class PopoverViewController extends ViewController {
             this.trigger();
         }, false);
     }
-    
+
     /**
      * Sets into an active state
      */
@@ -51,7 +51,7 @@ export default class PopoverViewController extends ViewController {
         this._node.classList.remove("template");
         this._node.focus();
     }
-    
+
     /**
      * Sets into inactive state.
      */

@@ -1,6 +1,6 @@
-import Auth, { AuthJWTToken } from '~/models/Auth';
+import Auth, {AuthJWTToken} from '~/models/Auth';
 
-import Template, { TemplateType } from '~/template/Template';
+import Template, {TemplateType} from '~/template/Template';
 import ModalTemplate from '~/template/ModalTemplate';
 import '~/modern/gapi';
 
@@ -19,12 +19,12 @@ export default class AuthModalTemplate extends ModalTemplate {
             Template.fromId("ammd-auth", TemplateType.move)
         );
     }
-    
+
     /** @override */
     async didLoad() {
         // Setup Google Auth2 using Google API
         await gapi.loadAsync('auth2');
-        
+
         gapi.auth2.init({
             client_id: process.env.GAPI_KEY,
             cookiepolicy: 'single_host_origin',
@@ -33,9 +33,9 @@ export default class AuthModalTemplate extends ModalTemplate {
             // This attaches a 'click-handler' when google authorization is
             // finished, this is called
             // This is the authorization token we pass to server
-            let { id_token } = googleUser.getAuthResponse();
-            let profile = googleUser.getBasicProfile()
-            
+            let {id_token} = googleUser.getAuthResponse();
+            let profile = googleUser.getBasicProfile();
+
             this._login(id_token, {
                 name: profile.getName(),
                 email: profile.getEmail(),
@@ -43,7 +43,7 @@ export default class AuthModalTemplate extends ModalTemplate {
             });
         });
     }
-    
+
     /**
      * Logs in using a provider.
      * @param {string} authToken OpenID auth token.
@@ -59,6 +59,8 @@ export default class AuthModalTemplate extends ModalTemplate {
                 // Page will obviously change which is why why must reload
                 window.location.reload(true);
             })
-            .catch(error => { throw error });
+            .catch(error => {
+                throw error
+            });
     }
 }

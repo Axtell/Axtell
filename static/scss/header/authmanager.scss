@@ -1,8 +1,8 @@
 .section#authmanager {
-    margin-right: 0;
-    
-    > #auth-trigger {
-        @include full;
-        position: relative;
-    }
+  margin-right: 0;
+
+  > #auth-trigger {
+    @include full;
+    position: relative;
+  }
 }

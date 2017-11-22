@@ -1,29 +1,29 @@
 @mixin full {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 @mixin full-abs {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 @mixin fit {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 @mixin center-v-block {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 @mixin icon-link {
-    svg {
-        height: 1.2em;
-        margin-right: 8px;
-    }
+  svg {
+    height: 1.2em;
+    margin-right: 8px;
+  }
 }

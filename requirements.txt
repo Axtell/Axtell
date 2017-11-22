@@ -9,3 +9,4 @@ jwcrypto>=0.4.2
 celery[redis]>=4.1.0
 webassets>=0.12.1
 markdown>=2.6.9
+bleach>=2.1.1

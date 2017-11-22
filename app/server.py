@@ -20,7 +20,7 @@ assets = Environment(server)
 nodebin = path.join(getcwd(), 'node_modules', '.bin')
 
 # CSS
-css = Bundle('scss/main.scss', filters=('scss','autoprefixer','cleancss'), output='css/all.css')
+css = Bundle('scss/main.scss', filters=('scss', 'autoprefixer', 'cleancss'), output='css/all.css')
 css.config['CLEANCSS_BIN'] = path.join(nodebin, 'cleancss')
 css.config['AUTOPREFIXER_BIN'] = path.join(nodebin, 'autoprefixer-cli')
 css.config['AUTOPREFIXER_BROWSERS'] = ['> 1%']
