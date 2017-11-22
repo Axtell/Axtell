@@ -9,9 +9,11 @@ h1 {
 h2, h3 { font-size: 1.4rem; }
 
 p {
-    font-size: 15px;
-    line-height: 1.3em;
-    color: #334;
+    color: $main-text;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.5;
+    margin-top: 8px;
 }
 
 .katex-display {

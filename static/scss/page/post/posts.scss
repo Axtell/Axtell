@@ -18,8 +18,10 @@
         
         .summary {
             p { margin: 0.5rem 0; }
-            font-size: 0.9rem;
             color: $label-text;
+            font-weight: 300;
+            font-size: 15px;
+            line-height: 1.3;
         }
     }
 }
