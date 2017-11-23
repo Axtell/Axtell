@@ -11,7 +11,6 @@ def home():
 def error_404(e):
     return render_template('notfound.html'), 404
 
-
 @server.errorhandler(500)
 def error_500(e):
     return render_template('servererror.html'), 500

@@ -1,27 +1,25 @@
 &.google {
-  padding: 2px 12px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-around;
-
-  font-family: Roboto;
-  font-size: 1em;
-  font-weight: 400;
-
-  color: #757575;
-
-  border-radius: 4px;
-  border: 1px solid #DDD;
-
-  cursor: pointer;
-
-  transition: 0.1s all ease-out;
-  &:hover {
-    background: #EEE;
-  }
-
-  svg {
-    margin-right: 1em;
-  }
+    padding: 2px 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    
+    font-family: Roboto;
+    font-size: 1em;
+    font-weight: 400;
+    
+    color: #757575;
+    
+    border-radius: 4px;
+    border: 1px solid #DDD;
+    
+    cursor: pointer;
+    
+    transition: 0.1s all ease-out;
+    &:hover {
+        background: #EEE;
+    }
+    
+    svg { margin-right: 1em; }
 }

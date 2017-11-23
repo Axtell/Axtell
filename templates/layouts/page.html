@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css" crossorigin="anonymous">
     
     {% if g.user is none -%}
-        <script src="https://apis.google.com/js/api:client.js"></script>
+    <script src="https://apis.google.com/js/api:client.js"></script>
     {%- endif %}
     
     {% if session['dark_theme'] == true %}
@@ -23,7 +23,7 @@
     {% endif %}
     
     {% assets "js_all" -%}
-        <script async src="{{ ASSET_URL }}"></script>
+    <script async src="{{ ASSET_URL }}"></script>
     {%- endassets %}
 {%- endblock %}
 
@@ -35,7 +35,7 @@
     {% include "includes/header.html" %}
     <div id="content">
         {% block base_content -%}
-            <div class="content">{% block content %}{% endblock %}</div>
+        <div class="content">{% block content %}{% endblock %}</div>
         {%- endblock %}
     </div>
 {% endblock %}

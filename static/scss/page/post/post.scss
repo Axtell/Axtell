@@ -4,36 +4,30 @@ form {
 }
 
 .item-wrap {
-  padding: 1em;
-  box-sizing: border-box;
-  width: 100%;
-
-  input {
+    padding: 1em;
     box-sizing: border-box;
-  }
-  .button {
-    font-size: 1rem;
-  }
+    width: 100%;
+    
+    input { box-sizing: border-box; }
+    .button { font-size: 1rem; }
 }
 
 .group-stretch {
-  flex: 1 0 16em;
-  display: flex;
-  flex-direction: column;
-
-  .stretch-item {
-    flex: 1;
-  }
+    flex: 1 0 16em;
+    display: flex;
+    flex-direction: column;
+    
+    .stretch-item { flex: 1; }
 }
 
 .label-group {
-  label {
-    display: block;
-    color: $label-text;
-    font-size: 1rem;
-
-    margin-bottom: 4px;
-  }
+    label {
+        display: block;
+        color: $label-text;
+        font-size: 1rem;
+        
+        margin-bottom: 4px;
+    }
 }
 
 .text-input {

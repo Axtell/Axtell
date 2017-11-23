@@ -1,67 +1,15 @@
 div#header {
-  background: $header;
-  border-bottom: 1px solid $header-border;
-
-  box-shadow: 0px 1px 1px $header-shadow-color;
-  z-index: 1;
-
-  align-items: stretch;
-  flex-wrap: nowrap;
-
-  .content {
-    display: flex;
-    justify-content: center;
+    background: $header;
+    border-bottom: 1px solid $header-border;
+    
+    box-shadow: 0px 1px 1px $header-shadow-color;
+    z-index: 1;
+    
     align-items: stretch;
-
-    .section {
-      &:last-child {
-        margin-right: 0;
-      }
-      margin-right: 1em;
-
-      > * {
-        display: block;
-      }
-
-      &.r-tight {
-        margin-right: 0rem;
-      }
-    }
-
-    $h-target-time: 0.1s;
-
-    .expand {
-      margin: 0;
-      flex: 1;
-    }
-
-    .h-target {
-      cursor: pointer;
-      transition: $h-target-time ease-in background;
-      &:hover, &.state-active {
-        background: $big-bg;
-      }
-    }
-
-    @import "header/nav.scss";
-    @import "header/useroverview.scss";
-    @import "header/authmanager.scss";
-
-    .r-reveal {
-      display: none;
-    }
-    @media screen and (max-width: 530px) {
-      .r-collapse {
-        display: none;
-      }
-      .r-reveal {
-        display: block
-      }
-
-      #r-pop {
+    flex-wrap: nowrap;
+    
+    .content {
         display: flex;
-        flex-direction: column;
-        align-items: center;
         justify-content: center;
         align-items: stretch;
         
@@ -82,26 +30,46 @@ div#header {
             margin: 0;
             flex: 1;
         }
-        svg {
-          stroke: $dim-text;
+        
+        .h-target {
+            cursor: pointer;
+            transition: $h-target-time ease-in background;
+            &:hover, &.state-active { background: $big-bg; }
         }
-      }
+        
+        @import "header/nav.scss";
+        @import "header/useroverview.scss";
+        @import "header/authmanager.scss";
+        
+        .r-reveal { display: none; }
+        @media screen and (max-width: 530px) {
+            .r-collapse { display: none; }
+            .r-reveal { display: block }
+            
+            #r-pop {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                > div { padding: 1em }
+                svg { stroke: $dim-text; }
+            }
+        }
+        
+        .button-section {
+            $button-padding: 1em;
+            @include fit;
+            @include center-v-block;
+            
+            box-sizing: border-box;
+            padding: 0 $button-padding;
+        }
+        
+        h1 {
+            color: $theme-color;
+            font-size: 1.5em;
+            padding: 0.6em;
+            white-space: nowrap
+        }
     }
-
-    .button-section {
-      $button-padding: 1em;
-      @include fit;
-      @include center-v-block;
-
-      box-sizing: border-box;
-      padding: 0 $button-padding;
-    }
-
-    h1 {
-      color: $theme-color;
-      font-size: 1.5em;
-      padding: 0.6em;
-      white-space: nowrap
-    }
-  }
 }

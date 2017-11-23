@@ -11,7 +11,7 @@ export default class User {
         this._id = id;
         this._name = name;
     }
-
+    
     /**
      * Unwraps a user from an API JSON object.
      * @param {Object} json User JSON object.
@@ -22,7 +22,7 @@ export default class User {
         if (json.unauthorized === true) return null;
         if (!(json['id'] && json['name']))
             throw new TypeError('Invalid input to User#fromJSON');
-
+        
         return new User(
             json.id,
             json.name

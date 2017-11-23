@@ -7,7 +7,7 @@ a {
 }
 
 b, strong {
-  font-family: $bold-font;
+    font-family: $bold-font;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -19,17 +19,17 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h2, h3 {
-  font-size: 2em;
+    font-size: 2em;
 }
 
 h4 {
-  font-size: 1.4em;
-  font-weight: 400;
-  font-family: Lato;
+    font-size: 1.4em;
+    font-weight: 400;
+    font-family: Lato;
 }
 
 span.label {
-  font-size: 1rem;
+    font-size: 1rem;
 }
 
 pre, pre.hljs, .body pre {

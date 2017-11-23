@@ -1,46 +1,36 @@
 @mixin button-style($bg, $fg) {
-  border: 1px solid $bg;
-  background: $bg;
-  color: $fg;
-  path {
-    fill: $fg;
-  }
-
-  border-bottom: 1px solid darken($bg, 10%);
-
-  &, path {
-    transition: 0.25s all ease-out;
-  }
-
-  &:hover {
-    background: $fg;
-    color: $bg;
-    path {
-      fill: $bg;
+    border: 1px solid $bg;
+    background: $bg;
+    color: $fg;
+    path { fill: $fg; }
+    
+    border-bottom: 1px solid darken($bg, 10%);
+    
+    &, path { transition: 0.25s all ease-out; }
+    
+    &:hover {
+        background: $fg;
+        color: $bg;
+        path { fill: $bg; }
     }
-  }
 }
 
 .button {
-  padding: 0.5em 1.5em;
-  border-radius: 8px;
-  box-sizing: border-box;
-  white-space: nowrap;
-
-  cursor: pointer;
-
-  svg {
-    height: 1em;
-  }
-  span, svg {
-    vertical-align: middle;
-  }
+    padding: 0.5em 1.5em;
+    border-radius: 8px;
+    box-sizing: border-box;
+    white-space: nowrap;
+    
+    cursor: pointer;
+    
+    svg { height: 1em; }
+    span, svg { vertical-align: middle; }
 }
 
 .blue {
-  @include button-style(#09F, white);
+    @include button-style(#09F, white);
 }
 
 .accent {
-  @include button-style($accent-color, white);
+    @include button-style($accent-color, white);
 }

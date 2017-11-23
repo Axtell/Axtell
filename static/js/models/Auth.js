@@ -11,35 +11,15 @@ class Auth {
     constructor() {
         this._setup = false;
         this._user = null;
-
+        
         this._isAuthorized = null;
     }
-
+    
     static Unauthorized = Symbol('Auth.Unauthorized');
-
-    /**
-     * Determines if user is authorized at the moment of call.
-     * @return {Boolean} `Promise` but resolves to boolean.
-     */
-    get isAuthorized() {
-        if (this._isAuthorized !== null)
-            return Promise.resolve(this._isAuthorized);
-
-        return (async () => (
-            this._isAuthorized = await this.getUser() !== Auth.Unauthorized
-        ))();
-    }
-
-    /**
-     * Logs the given user out. You must reload the pages for changes.
-     */
-    async logout() {
-        await axios.post('/user/logout');
-    }
-
+    
     /**
      * Gets the current user. This does not redo requests and caches the result.
-     *
+     * 
      * @return {Promise<?User>} resolves to the current logged in user. Resolves
      *                          to `Unauthorized` if not logged in.
      */
@@ -48,14 +28,34 @@ class Auth {
         if (this._user !== null) return this._user;
         const result = await axios.get('/user/me');
         const user = User.fromJSON(result.data);
-
+        
         // Handle unauthorized user
         if (user === null) this._user = Auth.Unauthorized;
         else this._user = user;
-
+        
         return this._user;
     }
-
+    
+    /**
+     * Logs the given user out. You must reload the pages for changes.
+     */
+    async logout() {
+        await axios.post('/user/logout');
+    }
+    
+    /**
+     * Determines if user is authorized at the moment of call.
+     * @return {Boolean} `Promise` but resolves to boolean.
+     */
+    get isAuthorized() {
+        if (this._isAuthorized !== null)
+            return Promise.resolve(this._isAuthorized);
+        
+        return (async () => (
+            this._isAuthorized = await this.getUser() !== Auth.Unauthorized
+        ))();
+    }
+    
     /**
      * Sets up the authentication object. This will get the user if logged in.
      * This won't run twice and caches its results (will reload when needed).
@@ -64,10 +64,10 @@ class Auth {
     async setup() {
         if (this._setup) return;
         this._setup = true;
-
+        
         return this;
     }
-
+    
     /**
      * Logs into a code-golf user using a JWT authorization key.
      * @param {AuthData} authData - Authorization data
@@ -79,7 +79,7 @@ class Auth {
             authData.json
         );
     }
-
+    
     /**
      * Returns global instance of `Auth`
      * @type {Auth}
@@ -89,7 +89,6 @@ class Auth {
         return new Auth().setup();
     }
 }
-
 Auth._shared = null;
 
 /**
@@ -112,7 +111,7 @@ export class AuthJWTToken {
         this._authToken = authToken;
         this._profile = profile;
     }
-
+    
     /** @override */
     get json() {
         return {
