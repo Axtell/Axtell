@@ -18,6 +18,11 @@ redis_config = {
     'db': 0
 }
 
+memcached_config = {
+    'host': 'localhost',
+    'port': 11211
+}
+
 auth = {
     'google': {
         'client-id': 'GOOGLE_CLIENT_ID'
