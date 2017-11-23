@@ -43,6 +43,8 @@
     background: $useroverview-color;
     margin-top: $arrow-size;
     
+    top: 100%;
+    
     &::before {
         content: "";
         position: absolute;
