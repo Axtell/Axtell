@@ -12,6 +12,10 @@ export default class Language {
      * @param {string} id Language id from languages.json
      */
     constructor(id) {
+        // Check if alias
+        let alias = languages.alias[id]
+        if (alias) return new Language(alias);
+        
         this.info = languages.languages[id];
         
         if (!this.info) {
