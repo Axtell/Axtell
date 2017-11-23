@@ -9,11 +9,13 @@
         <div class="section expand"></div>
         {% if g.user is not none -%}
         {% if not request.path.startswith(url_for('write_post')) %}
-        <div class="section r-collapse button-section">
-            <a class="button accent" href="{{ url_for('write_post') }}">
-                {% include "svg/plus.html" %}
-                <span>Create Post</span>
-            </a>
+        <div class="section r-collapse">
+            <div class="button-section">
+                <a class="button accent" href="{{ url_for('write_post') }}">
+                    {% include "svg/plus.html" %}
+                    <span>Create Post</span>
+                </a>
+            </div>
         </div>
         {% endif %}
         {% include "includes/header/useroverview.html" %}
