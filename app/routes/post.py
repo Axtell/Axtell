@@ -20,9 +20,9 @@ def get_post(post_id):
     matched_post = post.get_post(post_id=post_id)
     if matched_post is None:
         return abort(404)
-    
+
     body = tasks.markdown.render_markdown.delay(matched_post.body).wait()
-    
+
     if body is None:
         return abort(500)
 

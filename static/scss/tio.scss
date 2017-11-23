@@ -1,13 +1,50 @@
 .tio-exec {
+  position: relative;
+
+  .exec-float {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    font-size: 10px;
+    font-family: Lato;
+    cursor: pointer;
+  }
+
+  .result {
     position: relative;
-    
-    .exec-float {
+    box-sizing: border-box;
+    overflow-x: scroll;
+
+    min-height: 24px;
+    border-top: 1px solid rgba(127, 127, 127, 0.1);
+
+    font-size: 0.8rem;
+    color: rgba(0, 0, 0, 0.8);
+
+    display: none;
+
+    div {
+      padding: 0.5rem 1rem;
+      overflow-x: auto;
+    }
+
+    &.out {
+      display: block;
+
+      &::before {
         position: absolute;
+        color: rgba(0, 0, 0, 0.7);
+        font-size: 10px;
         top: 4px;
         right: 4px;
-        font-size: 10px;
-        font-family: Lato;
-        cursor: pointer;
+      }
+    }
+
+    &.state-stdout {
+      &::before {
+        content: "STDOUT";
+      }
+      @extend .result.out;
     }
     
     .result {
@@ -51,4 +88,5 @@
             @extend .result.out;
         }
     }
+  }
 }

@@ -1,4 +1,7 @@
-.useroverview-root { position: relative; margin-right: 0; }
+.useroverview-root {
+  position: relative;
+  margin-right: 0;
+}
 
 .useroverview {
     height: 100%;
@@ -26,13 +29,25 @@
 }
 
 #useroverview-info {
-    $useroverview-color: #2696F9;
-    $useroverview-hover-color: lighten($useroverview-color, 5%);
-    $arrow-size: 12px;
-    $useroverview-fg-color: white;
-    
-    color: $useroverview-fg-color;
-    outline: none;
+  $useroverview-color: #2696F9;
+  $useroverview-hover-color: lighten($useroverview-color, 5%);
+  $arrow-size: 12px;
+  $useroverview-fg-color: white;
+
+  color: $useroverview-fg-color;
+  outline: none;
+  position: absolute;
+  z-index: 1;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 4px #AAA;
+  padding: 0.5em 0;
+  right: 2em;
+  background: $useroverview-color;
+  margin-top: $arrow-size;
+
+  &::before {
+    content: "";
     position: absolute;
     z-index: 1;
     background: white;
@@ -93,5 +108,7 @@
                 &:hover { background: $useroverview-hover-color; }
             }
         }
+      }
     }
+  }
 }

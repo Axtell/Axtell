@@ -2,8 +2,8 @@ import TIO from '~/models/TIO';
 import Template, { TemplateType } from '~/template/Template';
 import TIOExec from '~/controllers/TIOController/TIOExec';
 import ErrorManager from '~/helper/ErrorManager';
-import { InvalidLanguage } from '~/models/Language';
-import { filter, forEach } from '~/modern/array';
+import {InvalidLanguage} from '~/models/Language';
+import {filter, forEach} from '~/modern/array';
 
 const TIO_EXEC_CLASS = 'exec-target';
 
@@ -13,7 +13,7 @@ trigger.getUnderlyingNode.classList.add('exec-float');
 
 // Load TIO
 TIO.shared.then(tio => {
-    
+
     document.getElementsByClassName(TIO_EXEC_CLASS)
         ::filter(elem => elem.dataset.lang)
         ::forEach(elem => {

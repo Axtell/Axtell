@@ -1,4 +1,11 @@
 nav {
+  @include fit;
+  @include full;
+
+  $nav-border-width: 3px;
+  $nav-padding: 1em;
+
+  ul {
     @include fit;
     @include full;
     @include expand;
@@ -38,4 +45,5 @@ nav {
             }
         }
     }
+  }
 }

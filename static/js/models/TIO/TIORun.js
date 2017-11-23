@@ -24,10 +24,10 @@ export default class TIORun {
     constructor(code, language) {
         this.code = code;
         this.language = language;
-        
+
         this.token = crypto.randomBytes(16).toString('hex');
     }
-    
+
     /**
      * Returns a TIOSerializer for the current request
      * @return {TIOSerializer} Fully prepared serialization object with run.
@@ -41,7 +41,7 @@ export default class TIORun {
         serializer.addRun();
         return serializer;
     }
-    
+
     async run() {
         let res = await axios.post(
             TIO_API_ENDPOINT + this.token,
@@ -50,7 +50,7 @@ export default class TIORun {
                 responseType: 'arraybuffer'
             }
         );
-        
+
         return new TIOResult(this, res.data);
     }
 }
@@ -60,8 +60,8 @@ export class TIOResult {
     static Section = {
         Output: 0,
         Debug: 1
-    }
-    
+    };
+
     /**
      * Represents the result of a TIO execution.
      *
@@ -74,46 +74,35 @@ export class TIOResult {
      */
     constructor(request, data) {
         this._request = request;
-        
+
         this._data = Buffer.from(data);
         this._id = this._data.slice(0, TIO_ID_WIDTH);
-        
+
         this._stdout = null;
         this._stderr = null;
-        
+
         this._seperators = null;
     }
-    
+
+    /**
+     * Checks if there is an error
+     * @type {boolean}
+     */
+    get isError() {
+        return this.getError.substr(-1) !== '0';
+    }
+
     // TODO: modify to use KMP
     _findSeperators() {
         this._seperators = [];
-        
+
         let index;
         do {
             index = this._data.indexOf(this._id, index + TIO_ID_WIDTH);
             this._seperators.push(index);
         } while (index !== -1);
     }
-    
-    _getIndice(n) {
-        if (this._seperators === null) this._findSeperators();
-        
-        let seperatorCount = this._seperators.length;
-        if (seperatorCount <= n) {
-            ErrorManager.raise(
-                `Indice ${n} does not exist. Count is ${seperatorCount}`,
-                NoIndice);
-        }
-        
-        // Returns the matching section
-        let section = this._data.slice(
-            this._seperators[n] + TIO_ID_WIDTH,
-            this._seperators[n + 1]
-        );
-        
-        return section;
-    }
-    
+
     /**
      * All non-error output of TIO request.
      * @type {string}
@@ -123,7 +112,7 @@ export class TIOResult {
         this._stdout = this._getIndice(TIOResult.Section.Output).toString('utf-8');
         return this._stdout;
     }
-    
+
     /**
      * Error output of TIO. Empty = no error
      * @type {string}
@@ -133,10 +122,23 @@ export class TIOResult {
         this._stderr = this._getIndice(TIOResult.Section.Debug).toString('utf-8');
         return this._stderr;
     }
-    
-    /**
-     * Checks if there is an error
-     * @type {boolean}
-     */
-    get isError() { return this.getError.substr(-1) !== '0'; }
+
+    _getIndice(n) {
+        if (this._seperators === null) this._findSeperators();
+
+        let seperatorCount = this._seperators.length;
+        if (seperatorCount <= n) {
+            ErrorManager.raise(
+                `Indice ${n} does not exist. Count is ${seperatorCount}`,
+                NoIndice);
+        }
+
+        // Returns the matching section
+        let section = this._data.slice(
+            this._seperators[n] + TIO_ID_WIDTH,
+            this._seperators[n + 1]
+        );
+
+        return section;
+    }
 }
