@@ -1,6 +1,7 @@
 nav {
     @include fit;
     @include full;
+    @include expand;
     
     $nav-border-width: 3px;
     $nav-padding: 1em;
