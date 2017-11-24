@@ -1,5 +1,6 @@
-from jwcrypto.jwk import JWKSet
 from urllib.request import urlopen
+
+from jwcrypto.jwk import JWKSet
 
 jwkeys = JWKSet()
 jwk_sets = [

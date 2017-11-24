@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-from app.tasks import *
 from app.instances.celery import celery_app
 
 celery = celery_app

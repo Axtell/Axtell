@@ -5,6 +5,8 @@ import axios from 'axios';
  * Manages authorization use `Auth.shared()` to get global instance
  */
 class Auth {
+    static Unauthorized = Symbol('Auth.Unauthorized');
+
     /**
      * Don't use this. Use `Auth.shared()`
      */
@@ -15,7 +17,27 @@ class Auth {
         this._isAuthorized = null;
     }
 
-    static Unauthorized = Symbol('Auth.Unauthorized');
+    /**
+     * Returns global instance of `Auth`
+     * @type {Auth}
+     */
+    static get shared() {
+        if (Auth._shared !== null) return Promise.resolve(Auth._shared);
+        return new Auth().setup();
+    }
+
+    /**
+     * Determines if user is authorized at the moment of call.
+     * @return {Boolean} `Promise` but resolves to boolean.
+     */
+    get isAuthorized() {
+        if (this._isAuthorized !== null)
+            return Promise.resolve(this._isAuthorized);
+
+        return (async () => (
+            this._isAuthorized = await this.getUser() !== Auth.Unauthorized
+        ))();
+    }
 
     /**
      * Gets the current user. This does not redo requests and caches the result.
@@ -44,19 +66,6 @@ class Auth {
     }
 
     /**
-     * Determines if user is authorized at the moment of call.
-     * @return {Boolean} `Promise` but resolves to boolean.
-     */
-    get isAuthorized() {
-        if (this._isAuthorized !== null)
-            return Promise.resolve(this._isAuthorized);
-
-        return (async () => (
-            this._isAuthorized = await this.getUser() !== Auth.Unauthorized
-        ))();
-    }
-
-    /**
      * Sets up the authentication object. This will get the user if logged in.
      * This won't run twice and caches its results (will reload when needed).
      * @return {Promise} Resolves to nothing. Resolves when finished.
@@ -79,16 +88,8 @@ class Auth {
             authData.json
         );
     }
-
-    /**
-     * Returns global instance of `Auth`
-     * @type {Auth}
-     */
-    static get shared() {
-        if (Auth._shared !== null) return Promise.resolve(Auth._shared);
-        return new Auth().setup();
-    }
 }
+
 Auth._shared = null;
 
 /**

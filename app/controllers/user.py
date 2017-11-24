@@ -1,4 +1,5 @@
-from flask import g, session
+from flask import g
+
 from app.helpers.render import render_json, render_error
 from app.models import User
 
@@ -10,7 +11,8 @@ def get_my_profile():
     if isinstance(g.user, User):
         return render_json(g.user.to_json())
     else:
-        return render_json({ 'unauthorized': True })
+        return render_json({'unauthorized': True})
+
 
 def get_profile(user_id):
     """

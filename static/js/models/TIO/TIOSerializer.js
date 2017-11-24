@@ -20,7 +20,7 @@ export default class TIOSerializer {
      * @param {string[]|data} data - List of data for this variable.
      */
     addVariable(name, data) {
-        if (!(data instanceof Array)) data = [ data ];
+        if (!(data instanceof Array)) data = [data];
         let buffer = 'V' + name + '\0' + (data.length >>> 0) + '\0';
 
         for (let i = 0; i < data.length; i++) {
@@ -53,6 +53,6 @@ export default class TIOSerializer {
      * @return {Uint8Array} Returns a `Uint8Array` compatible object
      */
     serialize() {
-        return pako.deflateRaw(Buffer.concat(this.data), { "level": 9 });
+        return pako.deflateRaw(Buffer.concat(this.data), {"level": 9});
     }
 }

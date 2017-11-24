@@ -1,5 +1,5 @@
-from app.server import server
 from app.helpers.render import render_template
+from app.server import server
 
 
 @server.route("/")
@@ -10,6 +10,7 @@ def home():
 @server.errorhandler(404)
 def error_404(e):
     return render_template('notfound.html'), 404
+
 
 @server.errorhandler(500)
 def error_500(e):

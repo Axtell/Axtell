@@ -1,6 +1,8 @@
 from flask import jsonify, render_template as flask_render_template
-from app.helpers import macros
+
 import config
+from app.helpers import macros
+
 
 def render_template(path, **kwargs):
     return flask_render_template(path, **{
@@ -9,11 +11,13 @@ def render_template(path, **kwargs):
         **kwargs
     })
 
+
 def render_json(data):
     data['success'] = True
     return jsonify(data)
 
+
 def render_error(message, type=None):
-    error = { 'error': True, 'message': message }
+    error = {'error': True, 'message': message}
     if type is not None: error['type'] = type
     return jsonify(error)

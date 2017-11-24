@@ -13,7 +13,7 @@ export default class Language {
      */
     constructor(id) {
         // Check if alias
-        let alias = languages.alias[id]
+        let alias = languages.alias[id];
         if (alias) return new Language(alias);
 
         this.info = languages.languages[id];
@@ -35,4 +35,4 @@ export default class Language {
     }
 }
 
-export { InvalidLanguage };
+export {InvalidLanguage};

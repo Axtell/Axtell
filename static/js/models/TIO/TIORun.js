@@ -60,7 +60,7 @@ export class TIOResult {
     static Section = {
         Output: 0,
         Debug: 1
-    }
+    };
 
     /**
      * Represents the result of a TIO execution.
@@ -82,6 +82,34 @@ export class TIOResult {
         this._stderr = null;
 
         this._seperators = null;
+    }
+
+    /**
+     * All non-error output of TIO request.
+     * @type {string}
+     */
+    get getOutput() {
+        if (this._stdout !== null) return this._stdout;
+        this._stdout = this._getIndice(TIOResult.Section.Output).toString('utf-8');
+        return this._stdout;
+    }
+
+    /**
+     * Error output of TIO. Empty = no error
+     * @type {string}
+     */
+    get getError() {
+        if (this._stderr !== null) return this._stderr;
+        this._stderr = this._getIndice(TIOResult.Section.Debug).toString('utf-8');
+        return this._stderr;
+    }
+
+    /**
+     * Checks if there is an error
+     * @type {boolean}
+     */
+    get isError() {
+        return this.getError.substr(-1) !== '0';
     }
 
     // TODO: modify to use KMP
@@ -113,30 +141,4 @@ export class TIOResult {
 
         return section;
     }
-
-    /**
-     * All non-error output of TIO request.
-     * @type {string}
-     */
-    get getOutput() {
-        if (this._stdout !== null) return this._stdout;
-        this._stdout = this._getIndice(TIOResult.Section.Output).toString('utf-8');
-        return this._stdout;
-    }
-
-    /**
-     * Error output of TIO. Empty = no error
-     * @type {string}
-     */
-    get getError() {
-        if (this._stderr !== null) return this._stderr;
-        this._stderr = this._getIndice(TIOResult.Section.Debug).toString('utf-8');
-        return this._stderr;
-    }
-
-    /**
-     * Checks if there is an error
-     * @type {boolean}
-     */
-    get isError() { return this.getError.substr(-1) !== '0'; }
 }

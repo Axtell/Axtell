@@ -1,17 +1,23 @@
 {
-    "tio": {
-        "js": "javascript-babel-node"
+  "tio": {
+    "js": "javascript-babel-node"
+  },
+  "alias": {
+    "javascript": "js",
+    "apl": "apl-dyalog",
+    "osabie": "05ab1e"
+  },
+  "languages": {
+    "jelly": {},
+    "haskell": {},
+    "apl-dyalog": {
+      "display": "APL (Dyalog)"
     },
-    "alias": {
-        "javascript": "js",
-        "apl": "apl-dyalog",
-        "osabie": "05ab1e"
+    "apl-ngn": {
+      "display": "APL (ngn)"
     },
-    "languages": {
-        "jelly": {},
-        "haskell": {},
-        "apl-dyalog": { "display": "APL (Dyalog)" },
-        "apl-ngn": { "display": "APL (ngn)" },
-        "05ab1e": { "display": "05AB1E" }
+    "05ab1e": {
+      "display": "05AB1E"
     }
+  }
 }

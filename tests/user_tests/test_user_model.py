@@ -1,6 +1,6 @@
-from tests.test_base import TestBase
 from app.models import User
-import json
+from tests.test_base import TestBase
+
 
 class TestUserModel(TestBase.TestDB):
     def setUp(self):
@@ -13,10 +13,10 @@ class TestUserModel(TestBase.TestDB):
 
         # Test retrieving user
         user_query = User.query.filter_by(id=new_user.id)
-        
+
         user_count = user_query.count()
         self.assertEqual(user_count, 1)
-        
+
         matched_user = user_query.first()
         self.assertEqual(matched_user.id, new_user.id)
         self.assertEqual(matched_user.name, new_user.name)

@@ -1,8 +1,9 @@
-from app.server import server
+from flask import request, redirect
+
 from app.controllers import auth
 from app.helpers.render import render_error
+from app.server import server
 from app.session.user_session import remove_session_user
-from flask import request, redirect
 
 
 # noinspection PyUnusedLocal

@@ -1,15 +1,15 @@
 #ammd-auth {
-    margin: 1em;
+  margin: 1em;
 
-    #providers {
+  #providers {
 
-        display: flex;
-        flex-direction: column;
-        align-items: stretch;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 
-        .am-provider {
-            height: 2em;
-            @import "providers/google.scss";
-        }
+    .am-provider {
+      height: 2em;
+      @import "providers/google.scss";
     }
+  }
 }

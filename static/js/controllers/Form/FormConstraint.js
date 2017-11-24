@@ -45,7 +45,7 @@ export default class FormConstraint {
      * @param {string} error String to print on error if the validation fails.
      */
     addValidator(callback, error) {
-        this._validators.push({ callback, error });
+        this._validators.push({callback, error});
         return this;
     }
 

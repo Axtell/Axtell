@@ -1,75 +1,77 @@
 @import "mixins.scss";
 
 html, body {
-    @include full;
-    @include fit;
+  @include full;
+  @include fit;
 }
 
 body {
-    position: relative;
+  position: relative;
 
+  display: flex;
+  flex-direction: column;
+
+  font-family: $body-font;
+  font-size: $font-size;
+
+  background: $main-bg;
+
+  > div {
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
 
-    font-family: $body-font;
-    font-size: $font-size;
-
-    background: $main-bg;
-
-    > div {
+    > .content {
+      @media screen and (max-width: 1000px) {
         width: 100%;
-        display: flex;
-        justify-content: center;
 
-        > .content {
-            @media screen and (max-width: 1000px) {
-                width: 100%;
-
-                &.content-split.cs-collapse {
-                    width: 100%;
-                    margin-left: 0;
-                }
-            }
-
-            &.content-split {
-                $sidebar-bonus: 8%;
-                $content-space: (100% - $page-width) / 2;
-                $content-width: 100% - $content-space;
-                width: $content-width;
-                margin-left: $content-space;
-
-                #cs-aside {
-                    @media screen and (max-width: 650px) {
-                        display: none;
-                    }
-
-                    width: ($content-space / $content-width) * 100% + $sidebar-bonus;
-                }
-            }
-
-            width: $page-width;
+        &.content-split.cs-collapse {
+          width: 100%;
+          margin-left: 0;
         }
-    }
+      }
 
-    @import "header/header.scss";
-    @import "listing/listing.scss";
-    @import "select-dialog.scss";
-    @import "page/page.scss";
-    @import "content.scss";
-    @import "buttons.scss";
+      &.content-split {
+        $sidebar-bonus: 8%;
+        $content-space: (100% - $page-width) / 2;
+        $content-width: 100% - $content-space;
+        width: $content-width;
+        margin-left: $content-space;
+
+        #cs-aside {
+          @media screen and (max-width: 650px) {
+            display: none;
+          }
+
+          width: ($content-space / $content-width) * 100% + $sidebar-bonus;
+        }
+      }
+
+      width: $page-width;
+    }
+  }
+
+  @import "header/header.scss";
+  @import "listing/listing.scss";
+  @import "select-dialog.scss";
+  @import "page/page.scss";
+  @import "content.scss";
+  @import "buttons.scss";
 }
 
 #ns-main {
-    padding: 0.5em 0;
-    color: white;
-    text-align: center;
-    font-weight: bold;
-    font-family: 'Lato';
-    font-size: 1.2em;
-    background: #C22;
+  padding: 0.5em 0;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  font-family: 'Lato';
+  font-size: 1.2em;
+  background: #C22;
 }
 
-.template { display: none !important; }
+.template {
+  display: none !important;
+}
 
 @import "tio.scss";
 @import "markdown.scss";
