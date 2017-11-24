@@ -1,11 +1,13 @@
+from json import loads as json_loads
+
+from jwcrypto.jwt import JWT
+
 from app.helpers.render import render_json, render_error
+from app.instances.db import db
+from app.jwkeys import jwkeys
 from app.models import User, UserJWTToken
 from app.session import user_session
-from app.instances.db import db
 
-from json import loads as json_loads
-from app.jwkeys import jwkeys
-from jwcrypto.jwt import JWT
 
 def get_or_set_user(jwt_token, profile):
     """
@@ -35,14 +37,15 @@ def get_or_set_user(jwt_token, profile):
         db.session.commit()
 
     user_session.set_session_user(user)
-    return render_json({ 'user_id': user.id })
+    return render_json({'user_id': user.id})
 
-def set_user_jwt(authKey, profile):
+
+def set_user_jwt(auth_key, profile):
     """
     Logs in (or signs up) a new user given its JWT and a default profile
     """
     try:
-        jwt = JWT(jwt=authKey, key=jwkeys)
+        jwt = JWT(jwt=auth_key, key=jwkeys)
         claims = json_loads(jwt.claims)
     except:
         # This is called if the authorization failed (auth key has been forged)

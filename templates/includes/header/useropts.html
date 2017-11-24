@@ -1,17 +1,17 @@
 <ul>
     <li class="action">
         {% if session['dark_theme'] == true -%}
-        <form method="POST" action="{{ url_for('set_light_theme') }}?redirect={{ request.url|e }}">
+            <form method="POST" action="{{ url_for('set_light_theme') }}?redirect={{ request.url|e }}">
         {%- else -%}
-        <form method="POST" action="{{ url_for('set_dark_theme') }}?redirect={{ request.url|e }}">
+            <form method="POST" action="{{ url_for('set_dark_theme') }}?redirect={{ request.url|e }}">
         {%- endif %}
-            <button type="submit">
-                {% include "svg/brush.html" %}<span>{% if session['dark_theme'] == true -%}
-                Light Theme
-                {%- else -%}
-                Dark Theme
-                {%- endif %}</span>
-            </button>
+        <button type="submit">
+            {% include "svg/brush.html" %}<span>{% if session['dark_theme'] == true -%}
+            Light Theme
+        {%- else -%}
+            Dark Theme
+        {%- endif %}</span>
+        </button>
         </form>
     </li>
     <li class="action">

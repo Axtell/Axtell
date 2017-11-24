@@ -1,7 +1,7 @@
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 import PopoverViewController from '~/controllers/PopoverViewController'
 import Template from '~/template/Template';
-import { forEach, find } from '~/modern/array';
+import {find, forEach} from '~/modern/array';
 
 /**
  * Manages a select dialog drop-down
@@ -56,7 +56,7 @@ export default class SelectDialogViewController extends PopoverViewController {
             }
         });
         let state = option.textContent.trim();
-        this.didSetStateTo({ id: state }, this);
+        this.didSetStateTo({id: state}, this);
         this._setName(option.textContent.trim());
         this.untrigger();
     }

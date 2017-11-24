@@ -1,15 +1,18 @@
-from app.instances.celery import celery_app
-from subprocess import Popen, PIPE, STDOUT
-from misc import md_exe
+from subprocess import Popen, PIPE
 from threading import local
 
+from app.instances.celery import celery_app
+from misc import md_exe
+
 markdown_local = local()
+
 
 def fork_helper():
     if not (hasattr(markdown_local, 'render_proc') and markdown_local.render_proc is not None):
         markdown_local.render_proc = Popen(['node', md_exe], stdout=PIPE, stdin=PIPE)
 
     return markdown_local.render_proc
+
 
 @celery_app.task
 def render_markdown(string):

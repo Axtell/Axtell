@@ -3,7 +3,7 @@ import TIORun from '~/models/TIO/TIORun';
 import Language from '~/models/Language';
 import ErrorManager from '~/helper/ErrorManager';
 import ViewController from '~/controllers/ViewController';
-import TIOOutputTemplate, { TIOOutputState } from '~/template/TIO/TIOOutputTemplate';
+import TIOOutputTemplate, {TIOOutputState} from '~/template/TIO/TIOOutputTemplate';
 
 export const NoCode = Symbol('TIO.TIOExecControllerError.NoCode');
 

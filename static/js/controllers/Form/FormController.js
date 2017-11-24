@@ -87,7 +87,7 @@ export default class FormController extends ViewController {
 
         this.clearDisplays();
         for (let i = 0; i < errors.length; i++) {
-            let { error, node } = errors[i];
+            let {error, node} = errors[i];
 
             if (sortedErrors.has(node)) {
                 sortedErrors.get(node).push(error);

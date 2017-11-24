@@ -18,7 +18,6 @@ class User(db.Model):
 
 
 class UserJWTToken(db.Model):
-
     """
     Represents an authentication scheme for a user based on a JWT-key style with
     an issuer and an identity. You **must** validate the key before inserting it

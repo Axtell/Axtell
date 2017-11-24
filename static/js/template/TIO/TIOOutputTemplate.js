@@ -1,6 +1,6 @@
-import Template, { TemplateType } from '~/template/Template';
+import Template, {TemplateType} from '~/template/Template';
 import ErrorManager from '~/helper/ErrorManager';
-import { filter, forEach } from '~/modern/array';
+import {filter, forEach} from '~/modern/array';
 
 /**
  * TIO output template. **Unique** instance per template.
@@ -41,7 +41,7 @@ export default class TIOOutputTemplate extends Template {
             ::filter(className => className.indexOf('state-') === 0)
             ::forEach(::node.classList.remove);
 
-        switch(state) {
+        switch (state) {
             case TIOOutputState.Default:
                 break;
             case TIOOutputState.STDOUT:

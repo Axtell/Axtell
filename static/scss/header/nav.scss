@@ -1,41 +1,41 @@
 nav {
+  @include fit;
+  @include full;
+  @include expand;
+
+  $nav-border-width: 3px;
+  $nav-padding: 1em;
+
+  ul {
     @include fit;
     @include full;
-    @include expand;
 
-    $nav-border-width: 3px;
-    $nav-padding: 1em;
+    list-style: none;
+    display: flex;
 
-    ul {
-        @include fit;
-        @include full;
+    li {
+      display: flex;
 
-        list-style: none;
-        display: flex;
+      &.selected a {
+        fill: $big-select;
+        color: $big-select;
+        padding-bottom: 0;
+        border-bottom: $nav-border-width solid $big-select;
+      }
 
-        li {
-            display: flex;
+      a {
+        @include center-v-block;
+        @include icon-link;
 
-            &.selected a {
-                fill: $big-select;
-                color: $big-select;
-                padding-bottom: 0;
-                border-bottom: $nav-border-width solid $big-select;
-            }
+        flex: 1;
 
-            a {
-                @include center-v-block;
-                @include icon-link;
+        padding: $nav-border-width $nav-padding;
+        text-decoration: none;
+        color: $big-fg;
+        fill: $big-fg;
 
-                flex: 1;
-
-                padding: $nav-border-width $nav-padding;
-                text-decoration: none;
-                color: $big-fg;
-                fill: $big-fg;
-
-                font-size: 1rem;
-            }
-        }
+        font-size: 1rem;
+      }
     }
+  }
 }

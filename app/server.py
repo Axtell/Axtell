@@ -1,8 +1,10 @@
+from os import path, getcwd
+
 from flask import Flask
 from flask_assets import Environment, Bundle
-from os import path, getcwd
-from webassets_browserify import Browserify
 from webassets.filter import register_filter
+from webassets_browserify import Browserify
+
 import config
 
 
@@ -20,13 +22,13 @@ assets = Environment(server)
 nodebin = path.join(getcwd(), 'node_modules', '.bin')
 
 # CSS
-css_light = Bundle('scss/entry-light.scss', filters=('scss','autoprefixer','cleancss'), output='css/all.css')
+css_light = Bundle('scss/entry-light.scss', filters=('scss', 'autoprefixer', 'cleancss'), output='css/all.css')
 css_light.config['CLEANCSS_BIN'] = path.join(nodebin, 'cleancss')
 css_light.config['AUTOPREFIXER_BIN'] = path.join(nodebin, 'autoprefixer-cli')
 css_light.config['AUTOPREFIXER_BROWSERS'] = ['> 1%']
 assets.register('css_light_all', css_light)
 
-css_dark = Bundle('scss/entry-dark.scss', filters=('scss','autoprefixer','cleancss'), output='css/all-dark.css')
+css_dark = Bundle('scss/entry-dark.scss', filters=('scss', 'autoprefixer', 'cleancss'), output='css/all-dark.css')
 css_dark.config['CLEANCSS_BIN'] = path.join(nodebin, 'cleancss')
 css_dark.config['AUTOPREFIXER_BIN'] = path.join(nodebin, 'autoprefixer-cli')
 css_dark.config['AUTOPREFIXER_BROWSERS'] = ['> 1%']

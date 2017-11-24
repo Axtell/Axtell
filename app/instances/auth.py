@@ -1,4 +1,5 @@
 from flask import g
+
 from app.server import server
 from app.session import user_session
 

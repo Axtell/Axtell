@@ -1,6 +1,4 @@
 import app.server
-from app.instances.db import db, redis_db
-from app.models import *
 
 # noinspection PyUnresolvedReferences
 # This statement needs to be here in order to link the routes.
@@ -9,13 +7,13 @@ from app.models import *
 from app.routes import *
 
 # Sets up authorization middleware.
-from app.instances import auth
-
+import app.instances.auth
 # Sets up Celery connection
-from app.tasks import *
+import app.instances.celery
 
 # Exports server to please Flask CLI
 server = app.server.server
+
 
 def run(host, port):
     app.server.server.run(host=host, port=port)

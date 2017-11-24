@@ -1,7 +1,3 @@
-import SelectDialogViewController from '~/controllers/SelectDialogViewController';
-import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
-import Template from '~/template/Template';
-
 import FormControllerDelegate from '~/delegate/FormControllerDelegate';
 import FormConstraint from '~/controllers/Form/FormConstraint';
 import * as Post from '~/models/Post';

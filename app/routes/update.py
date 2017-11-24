@@ -1,7 +1,9 @@
+from os import path, getcwd
+
+from flask import request, abort
+
 import app.tasks as tasks
 from app.server import server
-from flask import request, abort
-from os import path, getcwd
 
 
 @server.route("/update", methods=["POST"])
