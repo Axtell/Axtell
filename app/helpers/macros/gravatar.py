@@ -1,6 +1,5 @@
 from hashlib import md5
 
-
 def gravatar(email, size=128, rating='g', default='identicon', force_default=False):
     hashemail = md5(email.encode('utf-8')).hexdigest()
 

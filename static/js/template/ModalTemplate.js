@@ -25,9 +25,7 @@ export default class ModalTemplate extends Template {
      * Returns the modal title
      * @return {string} the modal title.
      */
-    getTitle() {
-        return this._title;
-    }
+    getTitle() { return this._title; }
 
     _instance = null;
 

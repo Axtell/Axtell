@@ -9,7 +9,6 @@ skey_prefix = 'sid:'
 # In seconds
 session_time = 60 * 60 * 24
 
-
 def get_session_user():
     # If there is a session ID.
     if userid_skey in session:
@@ -36,12 +35,10 @@ def get_session_user():
         # Now that we have the user we'll est it
         return matched_user
 
-
 def reset_session_time():
     session_id = session[userid_skey]
     redis_key = skey_prefix + session_id
     redis_db.expire(redis_key, session_time)
-
 
 def set_session_user(user):
     """
@@ -57,7 +54,6 @@ def set_session_user(user):
 
     # Set on session
     session[userid_skey] = session_id
-
 
 def remove_session_user():
     """

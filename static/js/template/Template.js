@@ -35,10 +35,10 @@ export default class Template {
      * @return {HTMLElement} unique instance of the DOM element.
      */
     unique() {
-        switch (this._type) {
+        switch(this._type) {
             case TemplateType.move:
                 this._root.parentNode.removeChild(this._root);
-                this._root.classList.remove('template');
+                this._root.classList.remove('template')
                 this._type = TemplateType.none;
                 return this._root;
             case TemplateType.clone:
@@ -60,16 +60,12 @@ export default class Template {
     /**
      * Called when the view has loaded
      */
-    didLoad() {
-        void 0;
-    }
+    didLoad() { void 0; }
 
     /**
      * Called right before the view will appear on screen
      */
-    willLoad() {
-        void 0;
-    }
+    willLoad() { void 0; }
 
     /**
      * Loads the template in a context
@@ -118,4 +114,4 @@ export const TemplateType = {
     move: 0,
     clone: 1,
     none: 2
-};
+}

@@ -1,7 +1,6 @@
 import unittest
 from app.start import server, db
 
-
 class TestBase:
     class TestFlask(unittest.TestCase):
         def setUp(self):
@@ -14,6 +13,6 @@ class TestBase:
             super().setUp()
             self.session = db.session
             self.session.begin_nested()
-
+            
         def tearDown(self):
             self.session.rollback()

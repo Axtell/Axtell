@@ -2,9 +2,9 @@
 
 {% block title %}Posts{% endblock %}
 {% block content -%}
-    <div id="list-header">
-        <h1>Posts</h1>
-        <div>
+<div id="list-header">
+    <h1>Posts</h1>
+    <div>
         <span class="select-dialog">
             <span>sort by: <a>recent</a></span>
             <div class="drop template">
@@ -13,16 +13,16 @@
                 <div class="opt">active</div>
             </div>
         </span>
-        </div>
     </div>
-    <div class="main">
-        <ul class="posts">
-            {% for post in posts.items -%}
-                <li>
-                    <h4><a href="{{ url_for('get_post', post_id=post.id) }}" class="title">{{ post.title }}</a></h4>
-                    <div class="summary"><p>{{ post.body }}</p></dov>
-                </li>
-            {%- endfor %}
-        </ul>
-    </div>
+</div>
+<div class="main">
+    <ul class="posts">
+        {% for post in posts.items -%}
+            <li>
+                <h4><a href="{{ url_for('get_post', post_id=post.id) }}" class="title">{{ post.title }}</a></h4>
+                <div class="summary"><p>{{ post.body }}</p></dov>
+            </li>
+        {%- endfor %}
+    </ul>
+</div>
 {%- endblock %}

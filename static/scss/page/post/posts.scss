@@ -1,27 +1,27 @@
 .posts {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 
-  width: 100%;
+    width: 100%;
 
-  > li {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    > li {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
 
-    &:not(:last-child) {
-      padding-bottom: 1em;
-      margin-bottom: 1em;
-      border-bottom: 1px solid #EEE;
+        &:not(:last-child) {
+            padding-bottom: 1em;
+            margin-bottom: 1em;
+            border-bottom: 1px solid $subcontent-border-color;
+        }
+
+        .summary {
+            p { margin: 0.5rem 0; }
+            color: $label-text;
+            font-weight: 300;
+            font-size: 15px;
+            line-height: 1.3;
+        }
     }
-
-    .summary {
-      p {
-        margin: 0.5rem 0;
-      }
-      font-size: 0.9rem;
-      color: $label-text;
-    }
-  }
 }

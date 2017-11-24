@@ -29,12 +29,12 @@ export default {
      * A handled or non-critical error. Logs to console.
      */
     silent(error, message, ...args) {
-        let title = "Error";
+        let title = "Error"
         if (error instanceof AnyError) {
             message = error.message + '; ' + message;
             title = error.idString;
         } else {
-            args = [error];
+            args = [ error ];
         }
 
         console.error(`%c${title}:%c ${message}`, 'font-weight: 700', '', ...args);

@@ -10,8 +10,7 @@ def get_my_profile():
     if isinstance(g.user, User):
         return render_json(g.user.to_json())
     else:
-        return render_json({'unauthorized': True})
-
+        return render_json({ 'unauthorized': True })
 
 def get_profile(user_id):
     """

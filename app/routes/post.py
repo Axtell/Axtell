@@ -41,8 +41,8 @@ def write_post():
 def publish_post():
     if g.user is None: return abort(403)
 
-    title = request.form['post-title']
-    body = request.form['post-body']
+    title = request.form.get('post-title', '').encode('utf-8')
+    body = request.form.get('post-body', '').encode('utf-8')
 
     return post.create_post(
         title=title,

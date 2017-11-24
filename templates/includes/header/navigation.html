@@ -2,7 +2,7 @@
     <li class="h-target{{ ' selected' if request.path.startswith(url) }}">
         <a href="{{ url }}">
             {% if icon is not none %}
-                {% include icon %}
+            {% include icon %}
             {% endif %}
             <span>{{ name }}</span>
         </a>

@@ -7,7 +7,6 @@ from json import loads as json_loads
 from app.jwkeys import jwkeys
 from jwcrypto.jwt import JWT
 
-
 def get_or_set_user(jwt_token, profile):
     """
     This will take an auth object and login the user. If the user does not
@@ -36,8 +35,7 @@ def get_or_set_user(jwt_token, profile):
         db.session.commit()
 
     user_session.set_session_user(user)
-    return render_json({'user_id': user.id})
-
+    return render_json({ 'user_id': user.id })
 
 def set_user_jwt(authKey, profile):
     """

@@ -3,23 +3,27 @@
 {% block head -%}
     {{ super() }}
     <link type="text/css" href="https://fonts.googleapis.com/css?family=Lato:700|Roboto:300,400,700" rel="stylesheet">
-    <link type="text/css" href="https://fonts.googleapis.com/css?family=Fira+Mono&amp;subset=greek,latin-ext"
-          rel="stylesheet">
-    <link type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow.min.css"
-          rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css"
-          integrity="sha384-8QOKbPtTFvh/lMY0qPVbXj9hDh+v8US0pD//FcoYFst2lCIf0BmT58+Heqj0IGyx" crossorigin="anonymous">
-
+    <link type="text/css" href="https://fonts.googleapis.com/css?family=Fira+Mono&amp;subset=greek,latin-ext" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.6.0/katex.min.css" crossorigin="anonymous">
+    
     {% if g.user is none -%}
-        <script src="https://apis.google.com/js/api:client.js"></script>
+    <script src="https://apis.google.com/js/api:client.js"></script>
     {%- endif %}
-
-    {% assets "css_all" -%}
-        <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
+    
+    {% if session['dark_theme'] == true %}
+    <link type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night-eighties.min.css" rel="stylesheet">
+    {% assets "css_dark_all" -%}
+    <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
     {%- endassets %}
-
+    {% else %}
+    <link type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow.min.css" rel="stylesheet">
+    {% assets "css_light_all" -%}
+    <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
+    {%- endassets %}
+    {% endif %}
+    
     {% assets "js_all" -%}
-        <script async src="{{ ASSET_URL }}"></script>
+    <script async src="{{ ASSET_URL }}"></script>
     {%- endassets %}
 {%- endblock %}
 
@@ -31,7 +35,7 @@
     {% include "includes/header.html" %}
     <div id="content">
         {% block base_content -%}
-            <div class="content">{% block content %}{% endblock %}</div>
+        <div class="content">{% block content %}{% endblock %}</div>
         {%- endblock %}
     </div>
 {% endblock %}

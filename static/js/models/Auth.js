@@ -18,26 +18,6 @@ class Auth {
     static Unauthorized = Symbol('Auth.Unauthorized');
 
     /**
-     * Determines if user is authorized at the moment of call.
-     * @return {Boolean} `Promise` but resolves to boolean.
-     */
-    get isAuthorized() {
-        if (this._isAuthorized !== null)
-            return Promise.resolve(this._isAuthorized);
-
-        return (async () => (
-            this._isAuthorized = await this.getUser() !== Auth.Unauthorized
-        ))();
-    }
-
-    /**
-     * Logs the given user out. You must reload the pages for changes.
-     */
-    async logout() {
-        await axios.post('/user/logout');
-    }
-
-    /**
      * Gets the current user. This does not redo requests and caches the result.
      *
      * @return {Promise<?User>} resolves to the current logged in user. Resolves
@@ -54,6 +34,26 @@ class Auth {
         else this._user = user;
 
         return this._user;
+    }
+
+    /**
+     * Logs the given user out. You must reload the pages for changes.
+     */
+    async logout() {
+        await axios.post('/user/logout');
+    }
+
+    /**
+     * Determines if user is authorized at the moment of call.
+     * @return {Boolean} `Promise` but resolves to boolean.
+     */
+    get isAuthorized() {
+        if (this._isAuthorized !== null)
+            return Promise.resolve(this._isAuthorized);
+
+        return (async () => (
+            this._isAuthorized = await this.getUser() !== Auth.Unauthorized
+        ))();
     }
 
     /**
@@ -89,7 +89,6 @@ class Auth {
         return new Auth().setup();
     }
 }
-
 Auth._shared = null;
 
 /**

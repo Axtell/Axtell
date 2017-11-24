@@ -29,6 +29,12 @@ auth = {
     }
 }
 
-post_len = 16384
-posts_per_page = 10
+posts = {
+    'max_len': 16384,
+    'min_len': 30,
+    'min_title': 15,
+    'max_title': 60,
+    'per_page': 10
+}
+
 secret_skey = 'SESSION_SECRET_KEY'

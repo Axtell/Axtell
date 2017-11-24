@@ -1,96 +1,97 @@
-.useroverview-root {
-  position: relative;
-  margin-right: 0;
-}
+.useroverview-root { position: relative; margin-right: 0; }
 
 .useroverview {
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 
-  padding: 0 1em;
+    padding: 0 1em;
 
-  position: relative;
+    position: relative;
 
-  img {
-    height: 1.8rem;
-    border-radius: 50%;
-    margin-right: 8px;
-  }
+    color: $em-text;
 
-  .action {
-    margin-left: 8px;
-    font-size: 8px;
-    color: #DDD;
-  }
+    img {
+        height: 1.8rem;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+
+    .action {
+        margin-left: 8px;
+        font-size: 8px;
+        color: #DDD;
+    }
 }
 
 #useroverview-info {
-  $useroverview-color: #2696F9;
-  $useroverview-hover-color: lighten($useroverview-color, 5%);
-  $arrow-size: 12px;
-  $useroverview-fg-color: white;
+    $useroverview-color: #2696F9;
+    $useroverview-hover-color: lighten($useroverview-color, 5%);
+    $arrow-size: 12px;
+    $useroverview-fg-color: white;
 
-  color: $useroverview-fg-color;
-  outline: none;
-  position: absolute;
-  z-index: 1;
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 0 4px #AAA;
-  padding: 0.5em 0;
-  right: 2em;
-  background: $useroverview-color;
-  margin-top: $arrow-size;
-
-  &::before {
-    content: "";
+    color: $useroverview-fg-color;
+    outline: none;
     position: absolute;
-    top: -$arrow-size;
-    right: 12px;
-    border-style: solid;
-    border-width: 0 $arrow-size $arrow-size $arrow-size;
-    border-color: $useroverview-color transparent;
-  }
+    z-index: 1;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 4px $header-shadow-color;
+    padding: 0.5em 0;
+    right: 2em;
+    background: $useroverview-color;
+    margin-top: $arrow-size;
 
-  ul {
-    @include fit;
-    list-style: none;
+    top: 100%;
 
-    li {
-      @include icon-link;
-      fill: $useroverview-fg-color;
-
-      $useroverview-padding: 0.5em 3em;
-      padding: $useroverview-padding;
-      transition: 0.1s ease-out background;
-
-      svg, span {
-        vertical-align: middle;
-      }
-
-      &.action {
-        padding: 0;
-
-        button {
-          background: none;
-          border: none;
-          margin: 0;
-          font-size: 13px;
-          cursor: pointer;
-        }
-
-        a, button {
-          padding: $useroverview-padding;
-          display: block;
-          color: white;
-        }
-
-        &:hover {
-          background: $useroverview-hover-color;
-        }
-      }
+    &::before {
+        content: "";
+        position: absolute;
+        top: -$arrow-size;
+        right: 12px;
+        border-style: solid;
+        border-width: 0 $arrow-size $arrow-size $arrow-size;
+        border-color: $useroverview-color transparent;
     }
-  }
+
+    ul {
+        @include fit;
+        list-style: none;
+
+        li {
+            @include icon-link;
+            fill: $useroverview-fg-color;
+
+            $useroverview-padding: 0.5em 3em;
+            padding: $useroverview-padding;
+            transition: 0.1s ease-out background;
+
+            svg, span {
+                vertical-align: middle;
+            }
+
+            &.action {
+                padding: 0;
+
+                button {
+                    outline: none;
+                    background: none;
+                    border: none;
+                    margin: 0;
+                    font-size: 13px;
+                    white-space: nowrap;
+                    cursor: pointer;
+                }
+
+                a, button {
+                    padding: $useroverview-padding;
+                    display: block;
+                    color: white;
+                }
+
+                &:hover { background: $useroverview-hover-color; }
+            }
+        }
+    }
 }

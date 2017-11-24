@@ -1,23 +1,23 @@
 #error-page {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 
-  height: 100%;
-  box-sizing: border-box;
-  padding: 2em;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 2em;
 
-  text-align: center;
+    text-align: center;
 
-  h1 {
-    font-size: 4.5em;
-    padding-bottom: 0.24em;
-  }
+    h1 {
+        font-size: 4.5em;
+        padding-bottom: 0.24em;
+    }
 
-  p {
-    margin: .2em;
-    color: #444;
-    font-size: 1rem;
-  }
+    p {
+        margin: .2em;
+        color: #444;
+        font-size: 1rem;
+    }
 }
