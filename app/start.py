@@ -7,8 +7,9 @@ import app.server
 from app.routes import *
 
 # Sets up authorization middleware.
-
+import app.instances.auth
 # Sets up Celery connection
+import app.instances.celery
 
 # Exports server to please Flask CLI
 server = app.server.server

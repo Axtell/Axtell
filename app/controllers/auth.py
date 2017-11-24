@@ -40,12 +40,12 @@ def get_or_set_user(jwt_token, profile):
     return render_json({'user_id': user.id})
 
 
-def set_user_jwt(authKey, profile):
+def set_user_jwt(auth_key, profile):
     """
     Logs in (or signs up) a new user given its JWT and a default profile
     """
     try:
-        jwt = JWT(jwt=authKey, key=jwkeys)
+        jwt = JWT(jwt=auth_key, key=jwkeys)
         claims = json_loads(jwt.claims)
     except:
         # This is called if the authorization failed (auth key has been forged)

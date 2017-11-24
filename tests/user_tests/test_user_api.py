@@ -3,6 +3,10 @@ import json
 from app.models import User
 from tests.test_base import TestBase
 
+# this is necessary, but PyCharm disagrees
+# noinspection PyUnresolvedReferences
+import app.instances.auth
+
 
 class TestUserAPI(TestBase.TestFlask, TestBase.TestDB):
     def setUp(self):
