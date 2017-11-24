@@ -7,7 +7,7 @@ form {
     padding: 1em;
     box-sizing: border-box;
     width: 100%;
-    
+
     input { box-sizing: border-box; }
     .button { font-size: 1rem; }
 }
@@ -16,7 +16,7 @@ form {
     flex: 1 0 16em;
     display: flex;
     flex-direction: column;
-    
+
     .stretch-item { flex: 1; }
 }
 
@@ -25,7 +25,7 @@ form {
         display: block;
         color: $label-text;
         font-size: 1rem;
-        
+
         margin-bottom: 4px;
     }
 }
@@ -44,7 +44,7 @@ form {
     outline: none;
     -webkit-appearance: none;
     resize: none;
-    
+
     &:focus {
         box-shadow: 0 0 3px $header-shadow-color inset;
     }

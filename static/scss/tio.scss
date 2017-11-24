@@ -1,6 +1,6 @@
 .tio-exec {
     position: relative;
-    
+
     .exec-float {
         position: absolute;
         top: 4px;
@@ -9,28 +9,28 @@
         font-family: Lato;
         cursor: pointer;
     }
-    
+
     .result {
         position: relative;
         box-sizing: border-box;
         overflow-x: auto;
-        
+
         min-height: 24px;
         border-top: 1px solid rgba(127, 127, 127, 0.1);
-        
+
         font-size: 0.8rem;
         color: rgba(0, 0, 0, 0.8);
-        
+
         display: none;
-        
+
         div {
             padding: 0.5rem 1rem;
             overflow-x: auto;
         }
-        
+
         &.out {
             display: block;
-            
+
             &::before {
                 position: absolute;
                 color: rgba(0, 0, 0, 0.7);
@@ -39,12 +39,12 @@
                 right: 4px;
             }
         }
-        
+
         &.state-stdout {
             &::before { content: "STDOUT"; }
             @extend .result.out;
         }
-        
+
         &.state-stderr {
             &::before { content: "STDERR"; }
             background: rgba(159, 56, 133, 0.1);

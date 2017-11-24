@@ -14,7 +14,7 @@ export default class TIO {
     constructor() {
         this.langData = null;
     }
-    
+
     /**
      * Loads TIO data from TIO. This will store them in the singleton which you
      * can access. Most other things are unchecked however so verify with the
@@ -26,7 +26,7 @@ export default class TIO {
         // Nothing here for now but just for future-proofing
         return this;
     }
-    
+
     /**
      * Returns global instance of `Auth`
      * @type {Promise<Auth>}

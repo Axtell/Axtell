@@ -12,7 +12,7 @@ export default class TIOSerializer {
         /** @private */
         this.data = [];
     }
-    
+
     /**
      * Writes a variable to the data.
      *
@@ -22,14 +22,14 @@ export default class TIOSerializer {
     addVariable(name, data) {
         if (!(data instanceof Array)) data = [ data ];
         let buffer = 'V' + name + '\0' + (data.length >>> 0) + '\0';
-        
+
         for (let i = 0; i < data.length; i++) {
             buffer += data[i] + '\0';
         }
-        
+
         this.data.push(Buffer.from(buffer, 'utf8'));
     }
-    
+
     /**
      * Writes a file to the data.
      *
@@ -40,14 +40,14 @@ export default class TIOSerializer {
         let buffer = 'F' + filename + '\0' + (Buffer.byteLength(data, 'utf8') >>> 0) + '\0' + data;
         this.data.push(Buffer.from(buffer, 'utf8'));
     }
-    
+
     /**
      * Should be placed last. Adds a run command.
      */
     addRun() {
         this.data.push(Buffer.from('R'))
     }
-    
+
     /**
      * Serializes to a TIO-string the given instructions.
      * @return {Uint8Array} Returns a `Uint8Array` compatible object

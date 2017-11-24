@@ -13,7 +13,7 @@ export const NoElementWithId = Symbol('Form.FormConstraint.NoElementWithId');
  * @property {HTMLElement} node - Node with error.
  * @property {string} error - String describing error
  */
- 
+
 /**
  * Specifies what constraints a given form field must satisfy
  */
@@ -34,10 +34,10 @@ export default class FormConstraint {
         } else {
             this._elem = elem;
         }
-        
+
         this._validators = [];
     }
-    
+
     /**
      * Adds a validator to execute
      * @param {Function} validator Validator to call. Passed element for first
@@ -48,7 +48,7 @@ export default class FormConstraint {
         this._validators.push({ callback, error });
         return this;
     }
-    
+
     /**
      * Specifies the length must be between (inclusive) bounds between a min
      * and a max. For input elements.
@@ -62,7 +62,7 @@ export default class FormConstraint {
             `Must be at least ${min} and at most ${max} characters long.`
         );
     }
-    
+
     /**
      * Requires a field to match a certain regex.
      * @param {RegExp} regex - Regex to match `elem.value` to.
@@ -73,7 +73,7 @@ export default class FormConstraint {
             `Must match pattern ${regex.source}`
         )
     }
-    
+
     /**
      * Runs validation on the element.
      * @return {FormError[]} list of form errors. Empty array if none.

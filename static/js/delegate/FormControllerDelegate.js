@@ -9,7 +9,7 @@ export default class FormControllerDelegate {
      * @param {FormError[]} errors
      */
     formDidError(controller, errors) { void 0; }
-    
+
     /**
      * Called when the form will submit (succesful validation)
      * @param {FormController} controller

@@ -13,14 +13,14 @@ trigger.getUnderlyingNode.classList.add('exec-float');
 
 // Load TIO
 TIO.shared.then(tio => {
-    
+
     document.getElementsByClassName(TIO_EXEC_CLASS)
         ::filter(elem => elem.dataset.lang)
         ::forEach(elem => {
             try {
                 // Create a controller for it
                 const controller = new TIOExec(tio, elem, trigger);
-                
+
                 // Attach controller to elem
                 elem.tioExecController = controller;
             } catch(e) {
@@ -28,7 +28,7 @@ TIO.shared.then(tio => {
                 throw e;
             }
         });
-    
+
 }).catch(error => {
     ErrorManager.silent(error, 'Failed to initalize TIO execution.');
 });

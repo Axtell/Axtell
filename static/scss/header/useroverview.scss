@@ -5,19 +5,19 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    
+
     padding: 0 1em;
-    
+
     position: relative;
-    
+
     color: $em-text;
-    
+
     img {
         height: 1.8rem;
         border-radius: 50%;
         margin-right: 8px;
     }
-    
+
     .action {
         margin-left: 8px;
         font-size: 8px;
@@ -30,7 +30,7 @@
     $useroverview-hover-color: lighten($useroverview-color, 5%);
     $arrow-size: 12px;
     $useroverview-fg-color: white;
-    
+
     color: $useroverview-fg-color;
     outline: none;
     position: absolute;
@@ -42,9 +42,9 @@
     right: 2em;
     background: $useroverview-color;
     margin-top: $arrow-size;
-    
+
     top: 100%;
-    
+
     &::before {
         content: "";
         position: absolute;
@@ -54,26 +54,26 @@
         border-width: 0 $arrow-size $arrow-size $arrow-size;
         border-color: $useroverview-color transparent;
     }
-    
+
     ul {
         @include fit;
         list-style: none;
-        
+
         li {
             @include icon-link;
             fill: $useroverview-fg-color;
-            
+
             $useroverview-padding: 0.5em 3em;
             padding: $useroverview-padding;
             transition: 0.1s ease-out background;
-            
+
             svg, span {
                 vertical-align: middle;
             }
-            
+
             &.action {
                 padding: 0;
-                
+
                 button {
                     outline: none;
                     background: none;
@@ -83,13 +83,13 @@
                     white-space: nowrap;
                     cursor: pointer;
                 }
-                
+
                 a, button {
                     padding: $useroverview-padding;
                     display: block;
                     color: white;
                 }
-                
+
                 &:hover { background: $useroverview-hover-color; }
             }
         }

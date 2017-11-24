@@ -7,11 +7,11 @@ export class AnyError {
         this.message = message;
         this.id = id;
     }
-    
+
     get idString() {
         return this.id.toString().slice(7, -1);
     }
-    
+
     toString() {
         return this.idString + ": " + this.message;
     }
@@ -36,7 +36,7 @@ export default {
         } else {
             args = [ error ];
         }
-        
+
         console.error(`%c${title}:%c ${message}`, 'font-weight: 700', '', ...args);
     }
 };

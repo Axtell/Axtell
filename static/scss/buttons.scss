@@ -3,11 +3,11 @@
     background: $bg;
     color: $fg;
     path { fill: $fg; }
-    
+
     border-bottom: 1px solid darken($bg, 10%);
-    
+
     &, path { transition: 0.25s all ease-out; }
-    
+
     &:hover {
         background: $fg;
         color: $bg;
@@ -20,9 +20,9 @@
     border-radius: 8px;
     box-sizing: border-box;
     white-space: nowrap;
-    
+
     cursor: pointer;
-    
+
     svg { height: 1em; }
     span, svg { vertical-align: middle; }
 }

@@ -18,10 +18,10 @@ export default class Template {
             this._root = root;
             this._type = type;
         }
-        
+
         this._parent = this._root.parentNode;
     }
-    
+
     /**
      * Returns the underlying element
      * @type {HTMLElement}
@@ -29,7 +29,7 @@ export default class Template {
     get getUnderlyingNode() {
         return this._root;
     }
-    
+
     /**
      * Returns a unique instance of the template as an HTMLElement.
      * @return {HTMLElement} unique instance of the DOM element.
@@ -47,7 +47,7 @@ export default class Template {
                 return this._root;
         }
     }
-    
+
     /**
      * Gets the original parent or else a default
      * @param {?HTMLElement} defaultElement
@@ -56,17 +56,17 @@ export default class Template {
     getParent(defaultElement) {
         return this._parent || defaultElement;
     }
-    
+
     /**
      * Called when the view has loaded
      */
     didLoad() { void 0; }
-    
+
     /**
      * Called right before the view will appear on screen
      */
     willLoad() { void 0; }
-    
+
     /**
      * Loads the template in a context
      * @param {HTMLElement} parent - Will be appended to this node.
@@ -79,7 +79,7 @@ export default class Template {
         this.didLoad();
         return elem;
     }
-    
+
     /**
      * Performs a `move` {@link TemplateType} for a given HTML id to return a
      * template based on the id's root.
@@ -93,7 +93,7 @@ export default class Template {
             type
         );
     }
-    
+
     /**
      * Creates template `<div>` with text.
      * @param {string} text - text of new elem

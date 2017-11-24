@@ -15,16 +15,16 @@ export default class Language {
         // Check if alias
         let alias = languages.alias[id]
         if (alias) return new Language(alias);
-        
+
         this.info = languages.languages[id];
-        
+
         if (!this.info) {
             ErrorManager.raise(`no such language with id \`${id}\``, InvalidLanguage);
         }
-        
+
         this.id = id;
     }
-    
+
     /**
      * @type {?string} TIO language id. `null` if langauge does not support TIO.
      */

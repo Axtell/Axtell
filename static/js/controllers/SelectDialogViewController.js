@@ -18,27 +18,27 @@ export default class SelectDialogViewController extends PopoverViewController {
         let view = new Template(
             node.getElementsByClassName("drop")[0]
         );
-        
+
         super(trigger, view);
-        
+
         this._activeValue = node.getElementsByTagName("a")[0];
         this._opts = node.getElementsByClassName("opt");
-        
+
         this._opts::forEach(opt => {
             opt.addEventListener("click", (event) => {
                 this._setState(opt);
             }, false);
         });
-        
+
         /**
          * An action delegate.
          * @type {ActionControllerDelegate}
          */
         this.didSetStateTo = () => void 0;
-        
+
         this._setState(this._opts[0]);
     }
-    
+
     _setName(name) {
         let child;
         while (child = this._activeValue.firstChild) {
@@ -46,7 +46,7 @@ export default class SelectDialogViewController extends PopoverViewController {
         }
         this._activeValue.appendChild(document.createTextNode(name));
     }
-    
+
     _setState(option) {
         this._opts::forEach(opt => {
             if (opt === option) {
@@ -60,7 +60,7 @@ export default class SelectDialogViewController extends PopoverViewController {
         this._setName(option.textContent.trim());
         this.untrigger();
     }
-    
+
     setState(option) {
         this._setState(
             this._opts::find(opt => opt.textContent.trim() === option)

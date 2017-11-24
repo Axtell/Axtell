@@ -19,12 +19,12 @@ export default class AuthModalTemplate extends ModalTemplate {
             Template.fromId("ammd-auth", TemplateType.move)
         );
     }
-    
+
     /** @override */
     async didLoad() {
         // Setup Google Auth2 using Google API
         await gapi.loadAsync('auth2');
-        
+
         gapi.auth2.init({
             client_id: process.env.GAPI_KEY,
             cookiepolicy: 'single_host_origin',
@@ -35,7 +35,7 @@ export default class AuthModalTemplate extends ModalTemplate {
             // This is the authorization token we pass to server
             let { id_token } = googleUser.getAuthResponse();
             let profile = googleUser.getBasicProfile()
-            
+
             this._login(id_token, {
                 name: profile.getName(),
                 email: profile.getEmail(),
@@ -43,7 +43,7 @@ export default class AuthModalTemplate extends ModalTemplate {
             });
         });
     }
-    
+
     /**
      * Logs in using a provider.
      * @param {string} authToken OpenID auth token.

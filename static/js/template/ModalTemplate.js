@@ -17,18 +17,18 @@ export default class ModalTemplate extends Template {
      */
     constructor(title, root, type) {
         super(root, type);
-        
+
         this._title = title;
     }
-    
+
     /**
      * Returns the modal title
      * @return {string} the modal title.
      */
     getTitle() { return this._title; }
-    
+
     _instance = null;
-    
+
     /**
      * Returns shared instance, only applicable for subclasses
      * @type {Modal}

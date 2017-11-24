@@ -14,19 +14,19 @@ export default class FormController extends ViewController {
      */
     constructor(form) {
         super();
-        
+
         this._form = form;
         this._registerForm(form);
-        
+
         /**
          * @type {FormControllerDelegate}
          */
         this.delegate = new FormControllerDelegate();
-        
+
         this._constraints = [];
         this._displays = [];
     }
-    
+
     _registerForm(form) {
         form.addEventListener("submit", (event) => {
             if (this.submit() === false) {
@@ -34,7 +34,7 @@ export default class FormController extends ViewController {
             }
         }, false);
     }
-    
+
     /**
      * Adds a form constraint
      * @param {FormConstraint} constraint A constraint to add to the current
@@ -43,7 +43,7 @@ export default class FormController extends ViewController {
     addConstraint(constraint) {
         this._constraints.push(constraint);
     }
-    
+
     /**
      * Adds a list of constraints.
      * @param {FormConstraint[]} constraints A list of form constraints to add
@@ -53,7 +53,7 @@ export default class FormController extends ViewController {
             this.addConstraint(constraints[i]);
         }
     }
-    
+
     /**
      * Validates the form.
      * @return {ValidationError[]} List of errors
@@ -69,7 +69,7 @@ export default class FormController extends ViewController {
         }
         return formErrors;
     }
-    
+
     /**
      * Hides error displays
      */
@@ -77,37 +77,37 @@ export default class FormController extends ViewController {
         this._displays.forEach(el => el.parentNode.removeChild(el));
         this._displays = [];
     }
-    
+
     /**
      * Displays the errors.
      * @param {ValidationError[]} errors List of validation errors.
      */
     display(errors) {
         let sortedErrors = new Map();
-        
+
         this.clearDisplays();
         for (let i = 0; i < errors.length; i++) {
             let { error, node } = errors[i];
-            
+
             if (sortedErrors.has(node)) {
                 sortedErrors.get(node).push(error);
             } else {
                 sortedErrors.set(node, [error]);
             }
         }
-        
+
         let displays = [];
         for (let [node, errors] of sortedErrors) {
             let target = node;
             let parent = node.parentNode;
-            
+
             // Check if there is a label for the elem
             let labels = node.labels;
             if (labels && labels.length >= 1) {
                 target = labels[0].nextElementSibling;
                 parent = labels[0].parentNode;
             }
-            
+
             let errorList = document.createElement('ul');
             for (let i = 0; i < errors.length; i++) {
                 let errorEl = document.createElement('li');
@@ -115,13 +115,13 @@ export default class FormController extends ViewController {
                 errorList.appendChild(errorEl);
             }
             displays.push(errorList);
-            
+
             parent.insertBefore(errorList, target);
         }
-        
+
         this._displays = displays;
     }
-    
+
     /**
      * Submits a form.
      * @return {boolean} `true` if succesful, false otherwise.

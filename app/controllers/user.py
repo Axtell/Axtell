@@ -17,7 +17,7 @@ def get_profile(user_id):
     Returns a user's user_id
     """
     user = User.query.filter_by(id=user_id).first()
-    
+
     if user is None:
         return render_error('user not found'), 400
     else:

@@ -2,20 +2,20 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    
+
     width: 100%;
-    
+
     > li {
         display: flex;
         flex-direction: column;
         align-items: stretch;
-        
+
         &:not(:last-child) {
             padding-bottom: 1em;
             margin-bottom: 1em;
             border-bottom: 1px solid $subcontent-border-color;
         }
-        
+
         .summary {
             p { margin: 0.5rem 0; }
             color: $label-text;

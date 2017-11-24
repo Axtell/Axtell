@@ -10,15 +10,15 @@ export default class TIOOutputTemplate extends Template {
     constructor() {
         let elem = document.createElement("div");
         elem.classList.add('result');
-        
+
         let textHolder = document.createElement("div");
         elem.appendChild(textHolder);
-        
+
         super(elem, TemplateType.none);
-        
+
         this._textbox = textHolder;
     }
-    
+
     /**
      * Sets the text
      * @type {string} text - String to set to
@@ -29,18 +29,18 @@ export default class TIOOutputTemplate extends Template {
         }
         this._textbox.appendChild(document.createTextNode(text));
     }
-    
+
     /**
      * Sets the TIO state.
      * @param {TIOOutputState} state - output state
      */
     setState(state) {
         let node = this.getUnderlyingNode;
-        
+
         node.classList
             ::filter(className => className.indexOf('state-') === 0)
             ::forEach(::node.classList.remove);
-            
+
         switch(state) {
             case TIOOutputState.Default:
                 break;
