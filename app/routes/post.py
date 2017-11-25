@@ -22,10 +22,7 @@ def get_post(post_id):
     if matched_post is None:
         return abort(404)
 
-    print("Rendering markdown...")
-    print(markdown.render_markdown.name)
     body = markdown.render_markdown.delay(matched_post.body).wait()
-    print("Markdown rendered")
 
     if body is None:
         return abort(500)
