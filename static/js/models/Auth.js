@@ -93,7 +93,7 @@ class Auth {
 Auth._shared = null;
 
 /**
- * @typedef {AuthProfile}
+ * @typedef {Object} AuthProfile
  * @property {string} email
  * @property {string} name
  * @property {?string} avatar

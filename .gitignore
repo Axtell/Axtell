@@ -119,5 +119,6 @@ package-lock.json
 node_modules
 
 # Generated files
+/docs*
 static/css
 nohup.out
