@@ -3,6 +3,9 @@
     "type": "git",
     "url": "git+https://github.com/Mego/PPCG-v2.git"
   },
+  "scripts": {
+    "docs": "esdoc"
+  },
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.26.0",
@@ -16,6 +19,11 @@
     "axios": "^0.17.0",
     "babel-polyfill": "^6.26.0",
     "babel-runtime": "^6.26.0",
+    "esdoc": "^1.0.4",
+    "esdoc-babel-plugin": "^0.1.0",
+    "esdoc-importpath-plugin": "^1.0.1",
+    "esdoc-inject-style-plugin": "^1.0.0",
+    "esdoc-standard-plugin": "^1.0.0",
     "pako": "^1.0.6"
   }
 }
