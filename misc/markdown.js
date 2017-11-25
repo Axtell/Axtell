@@ -5,6 +5,7 @@
 var MarkdownIt = require('markdown-it'),
     KaTeX = require('markdown-it-katex'),
     hljs = require('highlight.js'),
+    footnote = require('markdown-it-footnote'),
     os = require('os');
 
 let md = new MarkdownIt({
@@ -29,7 +30,7 @@ let md = new MarkdownIt({
 }).use(KaTeX, {
     'throwOnError': false,
     'errorColor': '#cc0000'
-});
+}).use(footnote);
 
 process.stdin.resume();
 process.stdin.setEncoding('utf-8');
