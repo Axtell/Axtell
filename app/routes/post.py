@@ -1,6 +1,6 @@
 from flask import request, redirect, url_for, g, abort
 
-import app.tasks as tasks
+import app.tasks.markdown as markdown
 from app.controllers import post
 from app.helpers.render import render_template
 from app.server import server
@@ -22,7 +22,10 @@ def get_post(post_id):
     if matched_post is None:
         return abort(404)
 
-    body = tasks.markdown.render_markdown.delay(matched_post.body).wait()
+    print("Rendering markdown...")
+    print(markdown.render_markdown.name)
+    body = markdown.render_markdown.delay(matched_post.body).wait()
+    print("Markdown rendered")
 
     if body is None:
         return abort(500)
