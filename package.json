@@ -15,6 +15,7 @@
     "markdown-it": "^8.4.0",
     "markdown-it-footnote": "^3.0.1",
     "markdown-it-katex": "^2.0.3",
+    "n": "^2.1.8",
     "uglifyify": "^4.0.4"
   }
 }
