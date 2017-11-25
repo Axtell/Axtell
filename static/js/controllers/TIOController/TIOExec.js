@@ -27,6 +27,8 @@ export default class TIOExec extends ViewController {
     constructor(tio, target, trigger, context = target) {
         super();
 
+        target.controller = this;
+
         this._tio = tio; // TIO object
         this._target = target; // the exec-target element
         this._trigger = trigger;

@@ -4,6 +4,30 @@ import Template from '~/template/Template';
 import {find, forEach} from '~/modern/array';
 
 /**
+ * State of selection
+ * @implements {State}
+ */
+export class SelectState {
+    /**
+     * Selection state for id
+     * @param {string} id trimmed id
+     */
+    constructor(id) {
+        /**
+         * Identifier for state
+         * @type {string}
+         */
+        this.id = id;
+    }
+
+    /**
+     * @override
+     * @return {string}
+     */
+    toString() { return this.id; }
+}
+
+/**
  * Manages a select dialog drop-down
  * @implements {ActionControllerDelegate}
  */
@@ -20,6 +44,8 @@ export default class SelectDialogViewController extends PopoverViewController {
         );
 
         super(trigger, view);
+
+        node.controller = this;
 
         this._activeValue = node.getElementsByTagName("a")[0];
         this._opts = node.getElementsByClassName("opt");
@@ -56,7 +82,7 @@ export default class SelectDialogViewController extends PopoverViewController {
             }
         });
         let state = option.textContent.trim();
-        this.didSetStateTo({id: state}, this);
+        this.didSetStateTo(this, new SelectState(state));
         this._setName(option.textContent.trim());
         this.untrigger();
     }
