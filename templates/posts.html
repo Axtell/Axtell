@@ -24,5 +24,26 @@
                 </li>
             {%- endfor %}
         </ul>
+        <div class="pagination">
+            <a href="?p={{ posts.page - 1 }}" class="page-ctrl -before{{ ' active' if posts.has_prev else '' }}">
+                {% include "svg/left-caret.html" %} Prev
+            </a>
+            <div class="page-list -before">
+                {% for num in macros.pages_below(posts) %}
+                <a href="?p={{ num }}">{{ num }}</a>
+                {% endfor %}
+            </div>
+            <form method="GET" action="{{ request.path|e }}">
+                <input class="current-page input-type -num" value="{{ posts.page|e }}" name="p" type='text'>
+            </form>
+            <div class="page-list -after">
+                {% for num in macros.pages_above(posts) %}
+                <a href="?p={{ num }}">{{ num }}</a>
+                {% endfor %}
+            </div>
+            <a href="?p={{ posts.page + 1 }}" class="page-ctrl -after{{ ' active' if posts.has_next else '' }}">
+                Next {% include "svg/right-caret.html" %}
+            </a>
+        </div>
     </div>
 {%- endblock %}

@@ -13,6 +13,11 @@ def get_posts():
     except ValueError:
         return abort(400)
 
+    posts = post.get_posts(page=page)
+
+    if len(posts.items) == 0:
+        return abort(404)
+
     return render_template('posts.html', posts=post.get_posts(page=page))
 
 
