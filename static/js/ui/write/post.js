@@ -1,25 +1,31 @@
+import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 import FormControllerDelegate from '~/delegate/FormControllerDelegate';
+import ViewController from '~/controllers/ViewController';
 import FormConstraint from '~/controllers/Form/FormConstraint';
 import * as Post from '~/models/Post';
 
-let postForm = document.getElementById("post-form");
-let postPublishType = document.getElementById("post-publish");
-let publishTarget = document.getElementById("publish-target");
+export const PUBLISH_FORM = "post-form";
+export const PUBLISH_TYPE_CONTROLLER = "post-publish";
+export const PUBLISH_TYPE_FORM_ITEM = "publish-target";
 
-if (postForm) {
+let formController, publishTypeController;
 
-    postPublishType.controller.didSetStateTo =
-        (state, controller) => publishTarget.value = state.id;
-    postPublishType.controller.setState('post');
+if (formController = ViewController.of(PUBLISH_FORM)) {
 
-    postForm.formController.addConstraints([
+    publishTypeController = ViewController.of(PUBLISH_TYPE_CONTROLLER);
+
+    publishTypeController.didSetStateTo =
+        ActionControllerDelegate.bindValue(PUBLISH_TYPE_FORM_ITEM);
+    publishTypeController.setState('code-golf');
+
+    formController.addConstraints([
         new FormConstraint('post-body')
             .length(Post.MIN_BODY_LENGTH, Post.MAX_BODY_LENGTH),
         new FormConstraint('post-title')
             .length(Post.MIN_TITLE_LENGTH, Post.MAX_TITLE_LENGTH)
     ]);
 
-    postForm.formController.delegate = new class extends FormControllerDelegate {
+    formController.delegate = new class extends FormControllerDelegate {
         formDidError(controller, errors) {
             controller.display(errors);
         }

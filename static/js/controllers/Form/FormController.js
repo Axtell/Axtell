@@ -15,6 +15,8 @@ export default class FormController extends ViewController {
     constructor(form) {
         super();
 
+        form.controller = this;
+
         this._form = form;
         this._registerForm(form);
 
