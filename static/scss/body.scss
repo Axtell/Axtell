@@ -15,12 +15,15 @@ hr {
   border-top: 1px solid $subcontent-border-color;
 }
 
-p {
+code {
+  font-family: $monospace;
+}
+
+li, p {
   color: $main-text;
   font-weight: 300;
   font-size: 16px;
   line-height: 1.5;
-  margin-top: 8px;
   hyphens: auto;
 }
 

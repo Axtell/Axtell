@@ -10,8 +10,11 @@ class Answer(db.Model):
 
     id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
     post_id = db.Column(db.INTEGER, db.ForeignKey(app.models.Post.Post.id), nullable=False)
-    code = db.Column(db.TEXT, default=db.null)
-    commentary = db.Column(db.TEXT, default=db.null)
+
+    code = db.Column(db.TEXT, nullable=False)
+    language_id = db.Column(db.String, nullable=True)
+    commentary = db.Column(db.TEXT, nullable=False)
+
     user_id = db.Column(db.INTEGER, db.ForeignKey(app.models.User.User.id), nullable=False)
     date_created = db.Column(db.DATETIME, default=datetime.datetime.utcnow)
 
@@ -19,10 +22,16 @@ class Answer(db.Model):
 
     def to_json(self):
         data = {}
+
         data['code'] = self.code
+        data['lang'] = self.get_language().to_json()
+        data['commentary'] = self.commentary
         data['owner'] = self.user.to_json()
 
         return data
+
+    def get_language(self):
+        return app.models.Language.Language(self.language_id)
 
     def __repr__(self):
         return '<Answer(%r) by %r>' % (self.id, self.user.name)

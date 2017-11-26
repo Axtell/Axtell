@@ -37,13 +37,19 @@ body {
         $content-width: 100% - $content-space;
         width: $content-width;
         margin-left: $content-space;
+        $sidebar-width: ($content-space / $content-width) * 100% + $sidebar-bonus;
 
         #cs-aside {
           @media screen and (max-width: 650px) {
             display: none;
           }
 
-          width: ($content-space / $content-width) * 100% + $sidebar-bonus;
+          width: $sidebar-width;
+        }
+
+        .fixed-aside {
+          position: fixed;
+          width: ($sidebar-width / 100%) * $content-width;
         }
       }
 
@@ -57,6 +63,7 @@ body {
   @import "page/page.scss";
   @import "content.scss";
   @import "buttons.scss";
+  @import "leaderboard.scss";
 }
 
 #ns-main {
