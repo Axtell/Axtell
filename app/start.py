@@ -4,15 +4,12 @@ import app.server
 # This statement needs to be here in order to link the routes.
 # Since all the work is being done by the code in the routes modules being run,
 # Nothing from the modules actually gets called from something external.
-import app.routes
+from app.routes import *
 
 # Sets up authorization middleware.
 import app.instances.auth
-
 # Sets up Celery connection
-import app.tasks
-
-import app.models
+import app.instances.celery
 
 # Exports server to please Flask CLI
 server = app.server.server

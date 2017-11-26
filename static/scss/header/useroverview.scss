@@ -1,89 +1,102 @@
-.useroverview-root { position: relative; margin-right: 0; }
+.useroverview-root {
+  position: relative;
+  margin-right: 0;
+}
 
 .useroverview {
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    
-    padding: 0 1em;
-    
-    position: relative;
-    
-    img {
-        height: 1.8rem;
-        border-radius: 50%;
-        margin-right: 8px;
-    }
-    
-    .action {
-        margin-left: 8px;
-        font-size: 8px;
-        color: #DDD;
-    }
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  padding: 0 1em;
+
+  position: relative;
+
+  color: $em-text;
+
+  img {
+    height: 1.8rem;
+    border-radius: 50%;
+    margin-right: 8px;
+  }
+
+  .action {
+    margin-left: 8px;
+    font-size: 8px;
+    color: #DDD;
+  }
 }
 
 #useroverview-info {
-    $useroverview-color: #2696F9;
-    $useroverview-hover-color: lighten($useroverview-color, 5%);
-    $arrow-size: 12px;
-    $useroverview-fg-color: white;
-    
-    color: $useroverview-fg-color;
-    outline: none;
+  $useroverview-color: #2696F9;
+  $useroverview-hover-color: lighten($useroverview-color, 5%);
+  $arrow-size: 12px;
+  $useroverview-fg-color: white;
+
+  color: $useroverview-fg-color;
+  outline: none;
+  position: absolute;
+  z-index: 1;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 0 4px $header-shadow-color;
+  padding: 0.5em 0;
+  right: 2em;
+  background: $useroverview-color;
+  margin-top: $arrow-size;
+
+  top: 100%;
+
+  &::before {
+    content: "";
     position: absolute;
-    z-index: 1;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 0 4px #AAA;
-    padding: 0.5em 0;
-    right: 2em;
-    background: $useroverview-color;
-    margin-top: $arrow-size;
-    
-    &::before {
-        content: "";
-        position: absolute;
-        top: -$arrow-size;
-        right: 12px;
-        border-style: solid;
-        border-width: 0 $arrow-size $arrow-size $arrow-size;
-        border-color: $useroverview-color transparent;
-    }
-    
-    ul {
-        @include fit;
-        list-style: none;
-        
-        li {
-            @include icon-link;
-            fill: $useroverview-fg-color;
-            
-            $useroverview-padding: 0.5em 3em;
-            padding: $useroverview-padding;
-            transition: 0.1s ease-out background;
-            
-            svg, span { vertical-align: middle; }
-            
-            &.action {
-                padding: 0;
-                
-                button {
-                    background: none;
-                    border: none;
-                    margin: 0;
-                    font-size: 13px;
-                    cursor: pointer;
-                }
-                
-                a, button {
-                    padding: $useroverview-padding;
-                    display: block;
-                    color: white;
-                }
-                
-                &:hover { background: $useroverview-hover-color; }
-            }
+    top: -$arrow-size;
+    right: 12px;
+    border-style: solid;
+    border-width: 0 $arrow-size $arrow-size $arrow-size;
+    border-color: $useroverview-color transparent;
+  }
+
+  ul {
+    @include fit;
+    list-style: none;
+
+    li {
+      @include icon-link;
+      fill: $useroverview-fg-color;
+
+      $useroverview-padding: 0.5em 3em;
+      padding: $useroverview-padding;
+      transition: 0.1s ease-out background;
+
+      svg, span {
+        vertical-align: middle;
+      }
+
+      &.action {
+        padding: 0;
+
+        button {
+          outline: none;
+          background: none;
+          border: none;
+          margin: 0;
+          font-size: 13px;
+          white-space: nowrap;
+          cursor: pointer;
         }
+
+        a, button {
+          padding: $useroverview-padding;
+          display: block;
+          color: white;
+        }
+
+        &:hover {
+          background: $useroverview-hover-color;
+        }
+      }
     }
+  }
 }

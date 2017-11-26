@@ -1,7 +1,31 @@
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 import PopoverViewController from '~/controllers/PopoverViewController'
 import Template from '~/template/Template';
-import { forEach, find } from '~/modern/array';
+import {find, forEach} from '~/modern/array';
+
+/**
+ * State of selection
+ * @implements {State}
+ */
+export class SelectState {
+    /**
+     * Selection state for id
+     * @param {string} id trimmed id
+     */
+    constructor(id) {
+        /**
+         * Identifier for state
+         * @type {string}
+         */
+        this.id = id;
+    }
+
+    /**
+     * @override
+     * @return {string}
+     */
+    toString() { return this.id; }
+}
 
 /**
  * Manages a select dialog drop-down
@@ -18,27 +42,29 @@ export default class SelectDialogViewController extends PopoverViewController {
         let view = new Template(
             node.getElementsByClassName("drop")[0]
         );
-        
+
         super(trigger, view);
-        
+
+        node.controller = this;
+
         this._activeValue = node.getElementsByTagName("a")[0];
         this._opts = node.getElementsByClassName("opt");
-        
+
         this._opts::forEach(opt => {
             opt.addEventListener("click", (event) => {
                 this._setState(opt);
             }, false);
         });
-        
+
         /**
          * An action delegate.
          * @type {ActionControllerDelegate}
          */
         this.didSetStateTo = () => void 0;
-        
+
         this._setState(this._opts[0]);
     }
-    
+
     _setName(name) {
         let child;
         while (child = this._activeValue.firstChild) {
@@ -46,7 +72,7 @@ export default class SelectDialogViewController extends PopoverViewController {
         }
         this._activeValue.appendChild(document.createTextNode(name));
     }
-    
+
     _setState(option) {
         this._opts::forEach(opt => {
             if (opt === option) {
@@ -56,11 +82,11 @@ export default class SelectDialogViewController extends PopoverViewController {
             }
         });
         let state = option.textContent.trim();
-        this.didSetStateTo({ id: state }, this);
+        this.didSetStateTo(this, new SelectState(state));
         this._setName(option.textContent.trim());
         this.untrigger();
     }
-    
+
     setState(option) {
         this._setState(
             this._opts::find(opt => opt.textContent.trim() === option)

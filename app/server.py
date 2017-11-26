@@ -1,8 +1,10 @@
+from os import path, getcwd
+
 from flask import Flask
 from flask_assets import Environment, Bundle
-from os import path, getcwd
-from webassets_browserify import Browserify
 from webassets.filter import register_filter
+from webassets_browserify import Browserify
+
 import config
 
 
@@ -20,11 +22,17 @@ assets = Environment(server)
 nodebin = path.join(getcwd(), 'node_modules', '.bin')
 
 # CSS
-css = Bundle('scss/main.scss', filters=('scss','autoprefixer','cleancss'), output='css/all.css')
-css.config['CLEANCSS_BIN'] = path.join(nodebin, 'cleancss')
-css.config['AUTOPREFIXER_BIN'] = path.join(nodebin, 'autoprefixer-cli')
-css.config['AUTOPREFIXER_BROWSERS'] = ['> 1%']
-assets.register('css_all', css)
+css_light = Bundle('scss/entry-light.scss', filters=('scss', 'autoprefixer', 'cleancss'), output='css/all.css')
+css_light.config['CLEANCSS_BIN'] = path.join(nodebin, 'cleancss')
+css_light.config['AUTOPREFIXER_BIN'] = path.join(nodebin, 'autoprefixer-cli')
+css_light.config['AUTOPREFIXER_BROWSERS'] = ['> 1%']
+assets.register('css_light_all', css_light)
+
+css_dark = Bundle('scss/entry-dark.scss', filters=('scss', 'autoprefixer', 'cleancss'), output='css/all-dark.css')
+css_dark.config['CLEANCSS_BIN'] = path.join(nodebin, 'cleancss')
+css_dark.config['AUTOPREFIXER_BIN'] = path.join(nodebin, 'autoprefixer-cli')
+css_dark.config['AUTOPREFIXER_BROWSERS'] = ['> 1%']
+assets.register('css_dark_all', css_dark)
 
 # JS
 js = Bundle('js/main.js', filters=('browserify',), output='lib/main.js')
@@ -33,7 +41,11 @@ if server.debug:
     js.config['BROWSERIFY_EXTRA_ARGS'] = ['--debug']
 
 js_envs = {
-    'GAPI_KEY': config.auth['google']['client-id']
+    'GAPI_KEY': config.auth['google']['client-id'],
+    'POST_TITLE_MIN': str(config.posts['min_title']),
+    'POST_TITLE_MAX': str(config.posts['max_title']),
+    'POST_BODY_MIN': str(config.posts['min_len']),
+    'POST_BODY_MAX': str(config.posts['max_len'])
 }
 
 js.config['BROWSERIFY_BIN'] = 'node_modules/.bin/browserify'

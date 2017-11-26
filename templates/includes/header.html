@@ -8,19 +8,21 @@
         </div>
         <div class="section expand"></div>
         {% if g.user is not none -%}
-        {% if not request.path.startswith(url_for('write_post')) %}
-        <div class="section r-collapse button-section">
-            <a class="button accent" href="{{ url_for('write_post') }}">
-                {% include "svg/plus.html" %}
-                <span>Create Post</span>
-            </a>
-        </div>
-        {% endif %}
-        {% include "includes/header/useroverview.html" %}
+            {% if not request.path.startswith(url_for('write_post')) %}
+                <div class="section r-tight">
+                    <div class="button-section">
+                        <a class="button accent" href="{{ url_for('write_post') }}">
+                            {% include "svg/plus.html" %}
+                            <span>Create Post</span>
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+            {% include "includes/header/useroverview.html" %}
         {%- else -%}
-        {% include "includes/header/authmanager.html" %}
+            {% include "includes/header/authmanager.html" %}
         {%- endif %}
-        
+
         <!-- Responsive navigation -->
         <div id="r-pop" class="section r-reveal">
             <div>
@@ -31,5 +33,6 @@
                 </svg>
             </div>
         </div>
+        {% include "includes/header/responsive_nav.html" %}
     </div>
 </div>

@@ -7,4 +7,4 @@ if [ -f w1.pid ]; then
     fi
 fi
 celery multi start w1 -A celery_server
-FLASK_DEBUG=1 FLASK_APP=app/start.py flask run --host=0.0.0.0
+FLASK_DEBUG=1 FLASK_APP=app/start.py flask run

@@ -3,7 +3,7 @@ import TIORun from '~/models/TIO/TIORun';
 import Language from '~/models/Language';
 import ErrorManager from '~/helper/ErrorManager';
 import ViewController from '~/controllers/ViewController';
-import TIOOutputTemplate, { TIOOutputState } from '~/template/TIO/TIOOutputTemplate';
+import TIOOutputTemplate, {TIOOutputState} from '~/template/TIO/TIOOutputTemplate';
 
 export const NoCode = Symbol('TIO.TIOExecControllerError.NoCode');
 
@@ -26,34 +26,36 @@ export default class TIOExec extends ViewController {
      */
     constructor(tio, target, trigger, context = target) {
         super();
-        
+
+        target.controller = this;
+
         this._tio = tio; // TIO object
         this._target = target; // the exec-target element
         this._trigger = trigger;
         this._context = target;
-        
+
         // DOM prereqs
         this._context.classList.add('tio-exec');
-        
+
         let codeElem = target.getElementsByTagName("code");
         if (codeElem.length < 1) {
             ErrorManager.raise(`No <code> element found.`, NoCode);
         }
-        
+
         // Set info
         this._code = codeElem[0].textContent;
-        this._lang = new Language(this._target.dataset.lang);
-        
+        this._lang = new Language(this._target.dataset.lang.toLowerCase());
+
         // Setup DOM
         this._trigger = trigger.loadInContext(this._context);
         this._trigger.addEventListener("click", () => {
             this.run();
         }, false);
-        
+
         this._output = new TIOOutputTemplate();
         this._output.loadInContext(this._context);
     }
-    
+
     /**
      * Runs the code
      */
@@ -67,7 +69,7 @@ export default class TIOExec extends ViewController {
                 ErrorManager.silent(error, `Error performing TIO request.`);
             });
     }
-    
+
     /**
      * Handle completion
      * @param {TIOResult} state - Result of the TIO request.

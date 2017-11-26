@@ -9,11 +9,25 @@ $monospace: Menlo, 'Fira Mono', monospace;
 $body-font: $light-font;
 
 $em-text: #000;
-$main-text: #333;
+$main-text: #4c5566;
 $label-text: #676767;
 $dim-text: #999;
+$title-text: #000;
+
+// Text editing colors
+$editor-bg: #FFF;
+$editor-fg: #333;
+$editor-border: #EEE;
+
+// MARKDOWN COLORS
+$link-color: #7ec5ff;
+
+// Code block colors
+$code-block-bg: #fafafa;
+$code-block-indent: #ededed;
 
 // BGs
+$main-bg: #FFF;
 $dim-bg: #ECECEC;
 
 // Colors
@@ -22,6 +36,7 @@ $accent-color: $theme-color;
 
 // Seperators
 $content-border-color: #EEE;
+$subcontent-border-color: #EEE;
 
 // Header colors
 $header: #FFF;

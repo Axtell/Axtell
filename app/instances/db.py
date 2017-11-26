@@ -1,6 +1,7 @@
-import app.server
-from flask_sqlalchemy import SQLAlchemy
 import redis
+from flask_sqlalchemy import SQLAlchemy
+
+import app.server
 import config
 
 server = app.server.server
@@ -9,7 +10,7 @@ server = app.server.server
 db_config = config.db_config
 server.config['SQLALCHEMY_DATABASE_URI'] = \
     f"mysql+mysqlconnector://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/" \
-    f"{db_config['database']}"
+    f"{db_config['database']}?charset=utf8mb4"
 server.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(server)
 

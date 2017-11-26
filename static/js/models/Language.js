@@ -12,15 +12,19 @@ export default class Language {
      * @param {string} id Language id from languages.json
      */
     constructor(id) {
+        // Check if alias
+        let alias = languages.alias[id];
+        if (alias) return new Language(alias);
+
         this.info = languages.languages[id];
-        
+
         if (!this.info) {
             ErrorManager.raise(`no such language with id \`${id}\``, InvalidLanguage);
         }
-        
+
         this.id = id;
     }
-    
+
     /**
      * @type {?string} TIO language id. `null` if langauge does not support TIO.
      */
@@ -31,4 +35,4 @@ export default class Language {
     }
 }
 
-export { InvalidLanguage };
+export {InvalidLanguage};

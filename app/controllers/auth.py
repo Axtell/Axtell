@@ -1,11 +1,12 @@
-from app.helpers.render import render_json, render_error
-from app.models.User import User, UserJWTToken
-import app.session
-from app.instances.db import db
-
 from json import loads as json_loads
-from app.jwkeys import jwkeys
+
 from jwcrypto.jwt import JWT
+
+from app.helpers.render import render_json, render_error
+from app.instances.db import db
+from app.jwkeys import jwkeys
+from app.models import User, UserJWTToken
+from app.session import user_session
 
 
 def get_or_set_user(jwt_token, profile):
@@ -15,7 +16,7 @@ def get_or_set_user(jwt_token, profile):
     profile details.
     """
     token = UserJWTToken.query.filter_by(identity=jwt_token.identity, issuer=jwt_token.issuer).first()
-    
+
     user = None
     if token is not None:
         # This means the user exists
@@ -24,18 +25,18 @@ def get_or_set_user(jwt_token, profile):
         # This means the user does not exist and we must create it.
         name = profile.get('name')
         email = profile.get('email')
-        
+
         # Make sure we have both fields or return missing error
         if not name or not email:
             return render_error("Profile does not have name and email", type='bad_profile'), 400
-        
+
         user = User(name=name, email=email)
         user.jwt_tokens.append(jwt_token)
-        
+
         db.session.add(user)
         db.session.commit()
 
-    app.session.user_session.set_session_user(user)
+    user_session.set_session_user(user)
     return render_json({'user_id': user.id})
 
 
@@ -58,12 +59,12 @@ def set_user_jwt(auth_key, profile):
     # Together we will use these to store an auth method.
     issuer = claims.get('iss')
     subject = claims.get('sub')
-    
+
     # Error handle against malformed keys. This should never really happen and
     # the error is not shown to the user so doesn't need to be user-friendly
     if not issuer or not subject:
         return render_error('malformed. Missing iss or sub'), 400
-    
+
     # If we are here that means we have validated a valid login attempt. Now we
     # will delegate to another method
     token = UserJWTToken(identity=subject, issuer=issuer)
