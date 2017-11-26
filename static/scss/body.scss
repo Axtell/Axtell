@@ -3,12 +3,16 @@ h1 {
     family: $bold-font;
     weight: bold;
     size: 1.5rem;
-  }
-;
+  };
 }
 
 h2, h3 {
   font-size: 1.4rem;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid $subcontent-border-color;
 }
 
 p {
