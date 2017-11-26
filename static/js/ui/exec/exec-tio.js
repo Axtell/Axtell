@@ -20,9 +20,6 @@ TIO.shared.then(tio => {
         try {
             // Create a controller for it
             const controller = new TIOExec(tio, elem, trigger);
-
-            // Attach controller to elem
-            elem.tioExecController = controller;
         } catch (e) {
             if (e.id === InvalidLanguage) return;
             throw e;
