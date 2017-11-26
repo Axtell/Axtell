@@ -1,6 +1,6 @@
 {% extends "layouts/split.html" %}
 
-{% block title %}Posts{% endblock %}
+{% block title %}{{ post_title|e }}{% endblock %}
 {% block main -%}
     <div id="list-header">
         <h1>{{ post_title|e }}</h1>
