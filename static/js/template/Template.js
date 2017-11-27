@@ -18,10 +18,10 @@ export default class Template {
             this._root = root;
             this._type = type;
         }
-        
+
         this._parent = this._root.parentNode;
     }
-    
+
     /**
      * Returns the underlying element
      * @type {HTMLElement}
@@ -29,57 +29,7 @@ export default class Template {
     get getUnderlyingNode() {
         return this._root;
     }
-    
-    /**
-     * Returns a unique instance of the template as an HTMLElement.
-     * @return {HTMLElement} unique instance of the DOM element.
-     */
-    unique() {
-        switch(this._type) {
-            case TemplateType.move:
-                this._root.parentNode.removeChild(this._root);
-                this._root.classList.remove('template')
-                this._type = TemplateType.none;
-                return this._root;
-            case TemplateType.clone:
-                return this._root.cloneNode(true);
-            default:
-                return this._root;
-        }
-    }
-    
-    /**
-     * Gets the original parent or else a default
-     * @param {?HTMLElement} defaultElement
-     * @return {HTMLElement} parent element or the `defualt` provided.
-     */
-    getParent(defaultElement) {
-        return this._parent || defaultElement;
-    }
-    
-    /**
-     * Called when the view has loaded
-     */
-    didLoad() { void 0; }
-    
-    /**
-     * Called right before the view will appear on screen
-     */
-    willLoad() { void 0; }
-    
-    /**
-     * Loads the template in a context
-     * @param {HTMLElement} parent - Will be appended to this node.
-     * @return {HTMLElement} rendered element
-     */
-    loadInContext(parent) {
-        let elem = this.unique();
-        this.willLoad();
-        parent.appendChild(elem);
-        this.didLoad();
-        return elem;
-    }
-    
+
     /**
      * Performs a `move` {@link TemplateType} for a given HTML id to return a
      * template based on the id's root.
@@ -93,7 +43,7 @@ export default class Template {
             type
         );
     }
-    
+
     /**
      * Creates template `<div>` with text.
      * @param {string} text - text of new elem
@@ -105,6 +55,60 @@ export default class Template {
         elem.appendChild(document.createTextNode(text));
         return new Template(elem, type);
     }
+
+    /**
+     * Returns a unique instance of the template as an HTMLElement.
+     * @return {HTMLElement} unique instance of the DOM element.
+     */
+    unique() {
+        switch (this._type) {
+            case TemplateType.move:
+                this._root.parentNode.removeChild(this._root);
+                this._root.classList.remove('template');
+                this._type = TemplateType.none;
+                return this._root;
+            case TemplateType.clone:
+                return this._root.cloneNode(true);
+            default:
+                return this._root;
+        }
+    }
+
+    /**
+     * Gets the original parent or else a default
+     * @param {?HTMLElement} defaultElement
+     * @return {HTMLElement} parent element or the `defualt` provided.
+     */
+    getParent(defaultElement) {
+        return this._parent || defaultElement;
+    }
+
+    /**
+     * Called when the view has loaded
+     */
+    didLoad() {
+        void 0;
+    }
+
+    /**
+     * Called right before the view will appear on screen
+     */
+    willLoad() {
+        void 0;
+    }
+
+    /**
+     * Loads the template in a context
+     * @param {HTMLElement} parent - Will be appended to this node.
+     * @return {HTMLElement} rendered element
+     */
+    loadInContext(parent) {
+        let elem = this.unique();
+        this.willLoad();
+        parent.appendChild(elem);
+        this.didLoad();
+        return elem;
+    }
 }
 
 /**
@@ -114,4 +118,4 @@ export const TemplateType = {
     move: 0,
     clone: 1,
     none: 2
-}
+};

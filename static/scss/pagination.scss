@@ -1,0 +1,92 @@
+@mixin pagination-bar {
+  content: "";
+  display: block;
+  height: 1px;
+  border-bottom: 1px dotted $pagination-seperator;
+  flex: 1;
+}
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 2em 0;
+
+  $pagination-height: 18px;
+  $pagination-padding: 4px;
+  $pagination-color: $header-border;
+  $pagination-underline: $pagination-seperator;
+
+  $pagination-block-height: $pagination-height + $pagination-padding;
+
+  .page-ctrl {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    color: $dim-text;
+    fill: $dim-text;
+
+    svg {
+      height: $pagination-block-height;
+    }
+
+    &.active {
+      color: $theme-color;
+      fill: $theme-color;
+    }
+
+    &.-before { margin-right: $pagination-padding; }
+    &.-after { margin-left: $pagination-padding; }
+  }
+
+  .bar {
+    flex: 1;
+    height: 1px;
+    background: $header-border;
+    margin-right: $pagination-padding;
+  }
+
+  .current-page {
+    margin: 0 $pagination-padding;
+
+    font: {
+      family: $monospace;
+      size: 18px;
+    }
+
+    height: $pagination-block-height;
+    width: $pagination-block-height;
+    line-height: $pagination-block-height;
+
+    text-align: center;
+
+    background: $theme-color;
+    color: white;
+
+    border: none;
+    border-bottom: 1px solid $pagination-underline;
+    border-radius: 3px;
+    outline: none;
+  }
+
+  .page-list {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+    font-family: $monospace;
+
+    > a {
+      font-size: 18px;
+      height: 22px;
+      width: 22px;
+      line-height: 22px;
+      text-align: center;
+      color: $theme-color;
+    }
+
+    &.-before:before { @include pagination-bar; }
+    &.-after:after { @include pagination-bar; }
+  }
+}

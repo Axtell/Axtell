@@ -1,8 +1,9 @@
 from flask import request, redirect, url_for, g, abort
-from app.helpers.render import render_template, render_json
+
+import app.tasks.markdown as markdown
 from app.controllers import post
+from app.helpers.render import render_template
 from app.server import server
-import app.tasks as tasks
 
 
 @server.route("/posts")
@@ -12,6 +13,11 @@ def get_posts():
     except ValueError:
         return abort(400)
 
+    posts = post.get_posts(page=page)
+
+    if len(posts.items) == 0:
+        return abort(404)
+
     return render_template('posts.html', posts=post.get_posts(page=page))
 
 
@@ -20,9 +26,9 @@ def get_post(post_id):
     matched_post = post.get_post(post_id=post_id)
     if matched_post is None:
         return abort(404)
-    
-    body = tasks.markdown.render_markdown.delay(matched_post.body).wait()
-    
+
+    body = markdown.render_markdown.delay(matched_post.body).wait()
+
     if body is None:
         return abort(500)
 
@@ -41,8 +47,8 @@ def write_post():
 def publish_post():
     if g.user is None: return abort(403)
 
-    title = request.form['post-title']
-    body = request.form['post-body']
+    title = request.form.get('post-title', '').encode('utf-8')
+    body = request.form.get('post-body', '').encode('utf-8')
 
     return post.create_post(
         title=title,

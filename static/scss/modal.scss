@@ -1,47 +1,51 @@
 #md-context {
-    @include fit;
-    @include full;
-    position: absolute;
-    z-index: 100;
-    
-    display: none;
-    
-    align-items: center;
-    
-    &.md-active {
-        background: rgba(0, 0, 0, 0.3);
-        display: flex;
+  @include fit;
+  @include full;
+
+  top: 0;
+  left: 0;
+
+  position: absolute;
+  z-index: 100;
+
+  display: none;
+
+  align-items: center;
+
+  &.md-active {
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+  }
+
+  .md-body {
+    max-width: 80%;
+    max-height: 80%;
+
+    overflow-y: auto;
+
+    box-shadow: 0 0 8px #888;
+
+    background: white;
+    border-radius: 16px;
+    padding: 0em 1em;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+  }
+
+  .md-content {
+    padding: 1em;
+  }
+
+  .md-head {
+    padding-top: 1.2em;
+
+    .md-exit {
+      color: #AAA;
+      font-family: Roboto;
+      font-weight: 300;
     }
-    
-    .md-body {
-        max-width: 80%;
-        max-height: 80%;
-        
-        overflow-y: auto;
-        
-        box-shadow: 0 0 8px #888;
-        
-        background: white;
-        border-radius: 16px;
-        padding: 0em 1em;
-        box-sizing: border-box;
-        
-        display: flex;
-        flex-direction: row;
-        align-items: start;
-    }
-    
-    .md-content {
-        padding: 1em;
-    }
-    
-    .md-head {
-        padding-top: 1.2em;
-        
-        .md-exit {
-            color: #AAA;
-            font-family: Roboto;
-            font-weight: 300;
-        }
-    }
+  }
 }

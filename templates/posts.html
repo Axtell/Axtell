@@ -2,9 +2,9 @@
 
 {% block title %}Posts{% endblock %}
 {% block content -%}
-<div id="list-header">
-    <h1>Posts</h1>
-    <div>
+    <div id="list-header">
+        <h1>Posts</h1>
+        <div>
         <span class="select-dialog">
             <span>sort by: <a>recent</a></span>
             <div class="drop template">
@@ -13,16 +13,45 @@
                 <div class="opt">active</div>
             </div>
         </span>
+        </div>
     </div>
-</div>
-<div class="main">
-    <ul class="posts">
-        {% for post in posts.items -%}
-            <li>
-                <h4><a href="{{ url_for('get_post', post_id=post.id) }}" class="title">{{ post.title }}</a></h4>
-                <div class="summary"><p>{{ post.body }}</p></dov>
-            </li>
-        {%- endfor %}
-    </ul>
-</div>
+    <div class="main">
+        <ul class="posts">
+            {% for post in posts.items -%}
+                <li>
+                    <h4><a href="{{ url_for('get_post', post_id=post.id) }}" class="title">{{ post.title }}</a></h4>
+                    <div class="summary"><p>{{ post.body }}</p></div>
+                </li>
+            {%- endfor %}
+        </ul>
+        <div class="pagination">
+            {% if posts.has_prev -%}
+                <a href="?p={{ posts.page - 1 }}" class="page-ctrl -before{{ ' active' if posts.has_prev else '' }}">
+            {%- else -%}
+                <a class="page-ctrl -before">
+            {%- endif %}
+                {% include "svg/left-caret.html" %} Prev
+            </a>
+            <div class="page-list -before">
+                {% for num in macros.pages_below(posts) %}
+                <a href="?p={{ num }}">{{ num }}</a>
+                {% endfor %}
+            </div>
+            <form method="GET" action="{{ request.path|e }}">
+                <input class="current-page input-type -num" value="{{ posts.page|e }}" name="p" type='text'>
+            </form>
+            <div class="page-list -after">
+                {% for num in macros.pages_above(posts) %}
+                <a href="?p={{ num }}">{{ num }}</a>
+                {% endfor %}
+            </div>
+            {% if posts.has_next -%}
+                <a href="?p={{ posts.page + 1 }}" class="page-ctrl -after active">
+            {%- else -%}
+                <a class="page-ctrl -after">
+            {%- endif %}
+                Next {% include "svg/right-caret.html" %}
+            </a>
+        </div>
+    </div>
 {%- endblock %}

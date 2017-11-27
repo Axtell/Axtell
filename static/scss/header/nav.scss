@@ -1,40 +1,41 @@
 nav {
+  @include fit;
+  @include full;
+  @include expand;
+
+  $nav-border-width: 3px;
+  $nav-padding: 1em;
+
+  ul {
     @include fit;
     @include full;
-    
-    $nav-border-width: 3px;
-    $nav-padding: 1em;
-    
-    ul {
-        @include fit;
-        @include full;
-        
-        list-style: none;
-        display: flex;
-        
-        li {
-            display: flex;
-            
-            &.selected a {
-                fill: $big-select;
-                color: $big-select;
-                padding-bottom: 0;
-                border-bottom: $nav-border-width solid $big-select;
-            }
-            
-            a {
-                @include center-v-block;
-                @include icon-link;
-                
-                flex: 1;
-                
-                padding: $nav-border-width $nav-padding;
-                text-decoration: none;
-                color: $big-fg;
-                fill: $big-fg;
-                
-                font-size: 1rem;
-            }
-        }
+
+    list-style: none;
+    display: flex;
+
+    li {
+      display: flex;
+
+      &.selected a {
+        fill: $big-select;
+        color: $big-select;
+        padding-bottom: 0;
+        border-bottom: $nav-border-width solid $big-select;
+      }
+
+      a {
+        @include center-v-block;
+        @include icon-link;
+
+        flex: 1;
+
+        padding: $nav-border-width $nav-padding;
+        text-decoration: none;
+        color: $big-fg;
+        fill: $big-fg;
+
+        font-size: 1rem;
+      }
     }
+  }
 }

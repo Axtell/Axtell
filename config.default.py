@@ -18,12 +18,27 @@ redis_config = {
     'db': 0
 }
 
+memcached_config = {
+    'host': 'localhost',
+    'port': 11211
+}
+
+pagination = {
+    'links': 2
+}
+
 auth = {
     'google': {
         'client-id': 'GOOGLE_CLIENT_ID'
     }
 }
 
-post_len = 16384
-posts_per_page = 10
+posts = {
+    'max_len': 16384,
+    'min_len': 30,
+    'min_title': 15,
+    'max_title': 60,
+    'per_page': 10
+}
+
 secret_skey = 'SESSION_SECRET_KEY'

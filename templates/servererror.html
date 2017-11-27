@@ -2,9 +2,9 @@
 
 {% block title %}Uh-oh!{% endblock %}
 {% block base_content %}
-<div id="error-page">
-    <h1>500: Server Error</h1>
-    <p>An internal server error occured.</p>
-    <p>You can <a href=".">reload</a> or go to the <a href="/">home page</a>.</p>
-</div>
+    <div id="error-page">
+        <h1>500: Server Error</h1>
+        <p>An internal server error occured.</p>
+        <p>You can <a href="{{ request.path }}">reload</a> or go to the <a href="/">home page</a>.</p>
+    </div>
 {% endblock %}

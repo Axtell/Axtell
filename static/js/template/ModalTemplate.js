@@ -7,6 +7,8 @@ import Template from '~/template/Template';
  * @extends {Template}
  */
 export default class ModalTemplate extends Template {
+    _instance = null;
+
     /**
      * Creates a modal given a reference element. Use `Modal.shared` with a
      * subclass to get a canolical reference
@@ -17,23 +19,23 @@ export default class ModalTemplate extends Template {
      */
     constructor(title, root, type) {
         super(root, type);
-        
+
         this._title = title;
     }
-    
-    /**
-     * Returns the modal title
-     * @return {string} the modal title.
-     */
-    getTitle() { return this._title; }
-    
-    _instance = null;
-    
+
     /**
      * Returns shared instance, only applicable for subclasses
      * @type {Modal}
      */
     static get shared() {
         return this._instance || (this._instance = new this());
+    }
+
+    /**
+     * Returns the modal title
+     * @return {string} the modal title.
+     */
+    getTitle() {
+        return this._title;
     }
 }
