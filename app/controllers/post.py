@@ -23,7 +23,10 @@ def create_post(title, body, tags):
 
 
 def get_posts(page):
-    page = Post.query.order_by(Post.date_created.desc()).paginate(page, per_page=posts['per_page'], error_out=False)
+    page = Post.query. \
+        order_by(Post.date_created.desc()) \
+        .paginate(page, per_page=posts['per_page'], error_out=False)
+
     return page
 
 

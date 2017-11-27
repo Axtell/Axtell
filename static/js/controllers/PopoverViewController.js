@@ -41,11 +41,29 @@ export default class PopoverViewController extends ViewController {
 
     /**
      * Adds a new trigger node.
-     * @param {HTMLElement} trigger - A new trigger to add
+     * @param {string|HTMLElement} trigger - A new trigger to add
      */
     bindTrigger(trigger) {
+        if (typeof trigger === 'string') {
+            trigger = document.getElementById(trigger);
+        }
+
         trigger.addEventListener("click", () => {
             this.trigger();
+        }, false);
+    }
+
+    /**
+     * Binds an untrigger node.
+     * @param {string|HTMLElement} untrigger - A new untrigger to add
+     */
+    bindUntrigger(untrigger) {
+        if (typeof untrigger === 'string') {
+            untrigger = document.getElementById(untrigger);
+        }
+
+        untrigger.addEventListener("click", () => {
+            this.untrigger();
         }, false);
     }
 

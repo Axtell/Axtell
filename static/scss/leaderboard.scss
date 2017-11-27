@@ -38,7 +38,9 @@
   }
 
   .item-id {
-    height: 18px;
+    white-space: nowrap;
+    height: $leaderboard-icon-size;
+
     > span, > svg, > img { vertical-align: middle; }
 
     .item-anchor {

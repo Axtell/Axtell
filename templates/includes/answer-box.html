@@ -1,0 +1,23 @@
+<div id="answer-box" class="template">
+    <div class="list-header">
+        <h2>Create Submission</h2>
+    </div>
+    <div class="answer-form">
+        <form method="POST" action="/answer/public" id="answer-source">
+            <input type="hidden" name="post_id" value="{{ post_id }}"/>
+            <input type="hidden" name="lang_id"/>
+            <input type="hidden" name="lang_name"/>
+
+            <div class="item-wrap label-group">
+                <label for="answer-lang">Language Name</label>
+                <div class="text-input text-base">
+                    <input autocomplete="off" type="text" id="answer-lang" name="answer-lang" class="expand">
+                </div>
+            </div>
+
+            <div class="item-wrap">
+                <button type="submit" class="button accent">Post</button>
+            </div>
+        </form>
+    </div>
+</div>

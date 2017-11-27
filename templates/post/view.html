@@ -2,7 +2,7 @@
 
 {% block title %}{{ post_title|e }}{% endblock %}
 {% block main -%}
-<div id="list-header">
+<div class="list-header">
     <h1>{{ post_title|e }}</h1>
 </div>
 <div class="main body">
@@ -12,10 +12,12 @@
 
 {% block sidebar -%}
 <div class="content-sidebar fixed-aside">
+    {% if g.user is not none -%}
     <a id="write-answer" class="button accent -center">
         {% include "svg/pen.html" %}
         Write answer
     </a>
+    {%- endif %}
     <div class="csb-section">
         <h3>Leaderboard</h3>
         <table class="leaderboard">
@@ -49,3 +51,8 @@
     </div>
 </div>
 {%- endblock %}
+
+{% block body %}
+{{ super() }}
+{% include "includes/answer-box.html" %}
+{% endblock %}

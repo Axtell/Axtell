@@ -1,7 +1,7 @@
 from flask import request, redirect, url_for, g, abort
 
 import app.tasks.markdown as markdown
-from app.controllers import post
+from app.controllers import post, answer
 from app.helpers.render import render_template
 from app.server import server
 
@@ -23,16 +23,26 @@ def get_posts():
 
 @server.route("/post/<int:post_id>")
 def get_post(post_id):
+    # Locate post
     matched_post = post.get_post(post_id=post_id)
     if matched_post is None:
         return abort(404)
 
+    # Render main post's markdown
     body = markdown.render_markdown.delay(matched_post.body).wait()
 
     if body is None:
         return abort(500)
 
-    return render_template('post/view.html', post_title=matched_post.title, post_body=body)
+    # Get answers
+    try:
+        page = int(request.args.get('p', 1))
+    except ValueError:
+        return abort(400)
+
+    answers = answer.get_answers(post_id=post_id, page=page)
+
+    return render_template('post/view.html', post_id=post_id, post_title=matched_post.title, post_body=body, answers=answers)
 
 
 @server.route("/post/write")

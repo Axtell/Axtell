@@ -8,6 +8,9 @@
     "osabie": "05ab1e"
   },
   "languages": {
+    "js": {
+      "display": "JavaScript"
+    },
     "jelly": {},
     "haskell": {},
     "apl-dyalog": {

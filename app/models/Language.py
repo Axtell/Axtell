@@ -4,7 +4,7 @@ from hashlib import md5
 
 # JSON of languages
 with open(lang_path) as lang_data:
-    languages = json_loads(lang_data)
+    languages = json_loads(lang_data.read())
 
 class Language(object):
     """
@@ -12,11 +12,11 @@ class Language(object):
     language id. If a language does not exist then this will *not* error however
     some functions will return `None` appropriately.
     """
-    def __init__(self, id):
-        self._id = languages['alias'].get(id, id)
+    def __init__(self, lang_id):
+        self._id = Language.normalize(lang_id)
 
         # Should not fail otherwise you have malformed source code
-        self._data = languages['languages'].get(id, None)
+        self._data = languages['languages'].get(self._id, None)
 
     def get_color():
         return md5(self._id.encode('ascii')).hexdigest()[:6]
@@ -51,3 +51,18 @@ class Language(object):
             return None
 
         return tio_id
+
+    @staticmethod
+    def normalize(lang_id):
+        """
+        Normalizes a language id (resolves aliases/lowercasing)
+        """
+        normalized_id = lang_id.lower()
+        return languages['alias'].get(lang_id, lang_id)
+
+    @classmethod
+    def exists(cls, lang_id):
+        """
+        Determines if a lang_id exists.
+        """
+        return cls.normalize(normalize) in languages['languages']
