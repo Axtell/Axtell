@@ -46,3 +46,20 @@
 .accent {
   @include button-style($accent-color, white);
 }
+
+
+.label-pair {
+  svg {
+    height: $font-size + 2px;
+    margin-right: 2px;
+  }
+
+  display: flex;
+  align-items: center;
+
+  &.-target {
+    color: $theme-color;
+    fill: $theme-color;
+    cursor: pointer;
+  }
+}
