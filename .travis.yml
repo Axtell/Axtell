@@ -4,11 +4,12 @@ python:
 services:
     - mysql
     - redis-server
-addons:
-  apt:
-    packages:
-      - memcached
-      - libmemcached-dev
+cache:
+  bundler: true
+  pip: true
+  directories:
+    - node_modules
+    - static/node_modules
 install:
     - npm i
     - cd static
@@ -16,6 +17,7 @@ install:
     - cd ..
     - bundle install
     - pip install -r requirements.txt
+    - pip install codecov coverage
     - mysql -u root -e 'CREATE DATABASE ppcg;'
     
     # Setup travis config
@@ -24,8 +26,9 @@ install:
     - sed -i "s/MYSQL_PASSWORD//" config.py
     - sed -i "s/REDIS_PASSWORD//" config.py
 script:
-    - python -m unittest discover tests -v
+    - coverage run -m unittest discover tests -v
 after_success:
+    - codecov
     - bash deploy.sh
 env:
   global:

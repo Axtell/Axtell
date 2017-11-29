@@ -1,6 +1,6 @@
 {% extends "layouts/page.html" %}
 
-{% block title %}Posts{% endblock %}
+{% block title %}{{ post_title|e }}{% endblock %}
 {% block content -%}
     <div id="list-header">
         <h1>{{ post_title|e }}</h1>

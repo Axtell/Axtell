@@ -23,6 +23,10 @@ memcached_config = {
     'port': 11211
 }
 
+pagination = {
+    'links': 2
+}
+
 auth = {
     'google': {
         'client-id': 'GOOGLE_CLIENT_ID'

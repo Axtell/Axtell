@@ -2,10 +2,11 @@ div#content {
   height: 100%;
   flex: 1;
 
+  overflow-y: auto;
+
   .content {
     padding: 2rem 0;
     box-sizing: border-box;
-    padding-bottom: 0;
   }
 
   .main {

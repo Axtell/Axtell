@@ -1,5 +1,5 @@
 # PPCG-v2
-An improved user experience for Programming Puzzles &amp; Code Golf
+An improved user experience for competitive programming.
 
 [![Build Status](https://travis-ci.org/Mego/PPCG-v2.svg?branch=master)](https://travis-ci‌​.org/Mego/PPCG-v2)
 
