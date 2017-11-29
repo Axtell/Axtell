@@ -3,7 +3,7 @@ from flask import g, abort, redirect, url_for
 from app.instances.db import db
 from app.models.Answer import Answer
 from app.models.Post import Post
-from config import posts_per_page
+from config import posts
 
 
 def create_answer(post_id, code, commentary):
@@ -24,7 +24,7 @@ def get_answers(post, page):
     page = Answer.query. \
         filter_by(post_id=post) \
         .order_by(Answer.date_created.desc()) \
-        .paginate(page, per_page=posts_per_page, error_out=False)
+        .paginate(page, per_page=posts['per_page'], error_out=False)
     return page
 
 

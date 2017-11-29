@@ -12,7 +12,6 @@ def get_answers(post_id):
         page = int(request.args.get('p', 1))
     except ValueError:
         return abort(400)
-
     return render_template('answers.html', answers=answer.get_answers(post=post_id, page=page))
 
 

@@ -1,0 +1,10 @@
+{% extends "layouts/page.html" %}
+
+{% block title %}Uh-oh!{% endblock %}
+{% block base_content %}
+    <div id="error-page">
+        <h1>400: Bad Request</h1>
+        <p>Your request could not be understood.</p>
+        <p>You can <a href="{{ request.path|e }}">reload</a> or go to the <a href="/">home page</a>.</p>
+    </div>
+{% endblock %}
