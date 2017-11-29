@@ -5,13 +5,14 @@
     </div>
     <div class="answer-form">
         <form method="POST" action="/answer/public" id="answer-source">
-            <input type="hidden" name="post_id" value="{{ post_id }}"/>
+            <input type="hidden" name="redirect_url" value="{{ request.path|e }}">
+            <input type="hidden" name="post_id" value="{{ post_id|e }}"/>
             <input type="hidden" name="lang_id"/>
             <input type="hidden" name="lang_name"/>
 
             <div class="item-wrap label-group">
                 <label for="answer-lang">Language Name</label>
-                <div class="text-input text-base">
+                <div id="lang-input" class="text-input text-base">
                     <input autocomplete="off" type="text" id="answer-lang" name="answer-lang" class="expand">
                 </div>
             </div>
