@@ -6,9 +6,13 @@ class User(db.Model):
     Self-explanatory, a user.
     """
 
+    __tablename__ = 'users'
+
     id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
     name = db.Column(db.String(45), nullable=False)
     email = db.Column(db.String(320))
+
+    posts = db.relationship('Post', backref='user')
 
     def to_json(self):
         return {'id': self.id, 'name': self.name, 'email': self.email}

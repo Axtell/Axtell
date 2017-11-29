@@ -45,7 +45,8 @@ def write_post():
 
 @server.route("/post/public", methods=['POST'])
 def publish_post():
-    if g.user is None: return abort(403)
+    if g.user is None:
+        return abort(403)
 
     title = request.form.get('post-title', '').encode('utf-8')
     body = request.form.get('post-body', '').encode('utf-8')

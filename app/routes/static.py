@@ -16,6 +16,7 @@ def error_404(e):
 def error_500(e):
     return render_template('servererror.html'), 500
 
+
 @server.errorhandler(400)
 def error_400(e):
     return render_template('badrequest.html'), 400

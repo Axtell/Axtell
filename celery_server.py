@@ -6,4 +6,4 @@ from app.tasks import *
 celery = app.instances.celery.celery_app
 
 if __name__ == '__main__':
-    celery_app.start()
+    celery.start()

@@ -5,7 +5,7 @@ from jwcrypto.jwt import JWT
 from app.helpers.render import render_json, render_error
 from app.instances.db import db
 from app.jwkeys import jwkeys
-from app.models import User, UserJWTToken
+from app.models.User import User, UserJWTToken
 from app.session import user_session
 
 
