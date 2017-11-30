@@ -30,6 +30,8 @@ class UserJWTToken(DBBase):
     here.
     """
 
+    __tablename__ = 'user_jwt_tokens'
+
     identity = Column(String(255), primary_key=True, nullable=False)
     issuer = Column(String(255), nullable=False)
     user_id = Column(Integer, ForeignKey(User.id), nullable=False)
