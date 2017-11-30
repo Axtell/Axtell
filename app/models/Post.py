@@ -4,13 +4,13 @@ from config import posts
 import datetime
 
 # noinspection PyUnresolvedReferences
-import app.models.Category
+from app.models.Category import Category
 
 
 post_categories = db.Table(
     'post_categories',
     db.metadata,
-    db.Column('category_name', db.Integer, db.ForeignKey('categories.name'), primary_key=True),
+    db.Column('category_name', db.Integer, db.ForeignKey(Category.name), primary_key=True),
     db.Column('post_id', db.Integer, db.ForeignKey('posts.id'), primary_key=True)
 )
 
