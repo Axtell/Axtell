@@ -3,17 +3,6 @@ from sqlalchemy.dialects.mysql import LONGTEXT
 from config import posts
 import datetime
 
-# noinspection PyUnresolvedReferences
-from app.models.Category import Category
-
-
-post_categories = db.Table(
-    'post_categories',
-    db.metadata,
-    db.Column('category_name', db.Integer, db.ForeignKey(Category.name), primary_key=True),
-    db.Column('post_id', db.Integer, db.ForeignKey('posts.id'), primary_key=True)
-)
-
 
 class Post(db.Model):
     """
