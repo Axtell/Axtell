@@ -8,3 +8,5 @@ PostCategory = db.Table(
     db.Column('category_name', db.Integer, db.ForeignKey(Category.name), primary_key=True),
     db.Column('post_id', db.Integer, db.ForeignKey(Post.id), primary_key=True)
 )
+
+Post.categories = db.relationship('Category', secondary=PostCategory, backref='posts', lazy='dynamic')

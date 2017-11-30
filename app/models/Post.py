@@ -20,8 +20,6 @@ class Post(db.Model):
     
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    categories = db.relationship('Category', secondary='post_categories', backref='posts', lazy='dynamic')
-
     def to_json(self):
         return {
             'title': self.title,
