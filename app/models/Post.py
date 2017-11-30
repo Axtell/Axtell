@@ -1,7 +1,6 @@
 from app.instances.db import DBBase
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
-from app.models.PostCategories import categories
 from sqlalchemy.dialects.mysql import LONGTEXT
 from config import posts
 import datetime
@@ -15,7 +14,7 @@ class Post(DBBase):
     __tablename__ = 'posts'
     __table_args__ = {'extend_existing': True}
 
-    id = Column(Integer, primary_key=True, unique=True, autoincrement=True)
+    id = Column(Integer, primary_key=True, autoincrement=True)
     title = Column(String(posts['max_title']), nullable=False)
     body = Column(LONGTEXT, nullable=False)
 
@@ -23,7 +22,7 @@ class Post(DBBase):
     
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
-    categories = relationship('Category', secondary=categories)
+    categories = relationship('Category', secondary='post_categories', back_populates='posts')
 
     def to_json(self):
         return {
