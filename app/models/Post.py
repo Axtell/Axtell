@@ -22,7 +22,7 @@ class Post(DBBase):
     
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
 
-    categories = relationship('Category', secondary='post_categories', back_ref='posts', lazy='dynamic')
+    categories = relationship('Category', secondary='post_categories', backref='posts', lazy='dynamic')
 
     def to_json(self):
         return {
