@@ -1,16 +1,18 @@
-from app.instances.db import db
+from app.instances.db import DBBase
+from sqlalchemy import Column, String
+from sqlalchemy.orm import relationship
 from app.models.PostCategories import categories
 
 
-class Category(db.Model):
+class Category(DBBase):
     """
     A category of a post.
     """
 
     __tablename__ = 'categories'
     
-    name = db.Column(db.String(15), primary_key=True, unique=True)
-    posts = db.relationship('Post', secondary=categories)
+    name = Column(String(15), primary_key=True, unique=True)
+    posts = relationship('Post', secondary=categories)
     
     def to_json(self):
         return {'name': self.name}

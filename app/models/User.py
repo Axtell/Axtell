@@ -1,18 +1,20 @@
-from app.instances.db import db
+from app.instances.db import DBBase
+from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy.orm import relationship, backref
 
 
-class User(db.Model):
+class User(DBBase):
     """
     Self-explanatory, a user.
     """
 
     __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
-    name = db.Column(db.String(45), nullable=False)
-    email = db.Column(db.String(320))
+    id = Column(Integer, primary_key=True, unique=True, autoincrement=True)
+    name = Column(String(45), nullable=False)
+    email = Column(String(320))
 
-    posts = db.relationship('Post', backref=db.backref('user'))
+    posts = relationship('Post', backref=backref('user'))
 
     def to_json(self):
         return {'id': self.id, 'name': self.name, 'email': self.email}
@@ -21,17 +23,17 @@ class User(db.Model):
         return '<User({!r}) "{!r}">'.format(self.id, self.name)
 
 
-class UserJWTToken(db.Model):
+class UserJWTToken(DBBase):
     """
     Represents an authentication scheme for a user based on a JWT-key style with
     an issuer and an identity. You **must** validate the key before inserting it
     here.
     """
 
-    identity = db.Column(db.String(255), primary_key=True, nullable=False)
-    issuer = db.Column(db.String(255), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
-    user = db.relationship(User, backref=db.backref('jwt_tokens', lazy=True))
+    identity = Column(String(255), primary_key=True, nullable=False)
+    issuer = Column(String(255), nullable=False)
+    user_id = Column(Integer, ForeignKey(User.id), nullable=False)
+    user = relationship(User, backref=backref('jwt_tokens', lazy=True))
 
     def __repr__(self):
         return '<UserToken for {!r}>'.format(self.user_id)

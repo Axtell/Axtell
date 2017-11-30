@@ -1,23 +1,25 @@
-from app.instances.db import db
+from app.instances.db import DBBase
+from sqlalchemy import Column, Integer, ForeignKey, DateTime, Text, null
+from sqlalchemy.orm import relationship, backref
 import datetime
 
 
-class Answer(db.Model):
+class Answer(DBBase):
     """
     An answer posted to a post by a user.
     """
 
     __tablename__ = 'answers'
 
-    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    post_id = db.Column(db.INTEGER, db.ForeignKey('posts.id'), nullable=False)
-    code = db.Column(db.TEXT, default=db.null)
-    commentary = db.Column(db.TEXT, default=db.null)
-    user_id = db.Column(db.INTEGER, db.ForeignKey('users.id'), nullable=False)
-    date_created = db.Column(db.DATETIME, default=datetime.datetime.utcnow)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    post_id = Column(Integer, ForeignKey('posts.id'), nullable=False)
+    code = Column(Text, default=null)
+    commentary = Column(Text, default=null)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    date_created = Column(DateTime, default=datetime.datetime.utcnow)
 
-    user = db.relationship('User', backref=db.backref('answers'))
-    post = db.relationship('Post', backref=db.backref('answers'))
+    user = relationship('User', backref=backref('answers'))
+    post = relationship('Post', backref=backref('answers'))
 
     def to_json(self):
         data = {}

@@ -1,5 +1,6 @@
 import redis
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.ext.declarative import declarative_base
 
 import app.server
 import config
@@ -13,6 +14,7 @@ server.config['SQLALCHEMY_DATABASE_URI'] = \
     f"{db_config['database']}?charset=utf8mb4"
 server.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(server)
+DBBase = declarative_base()
 
 # Redis
 redis_db = redis.StrictRedis(**config.redis_config)
@@ -20,4 +22,4 @@ redis_db = redis.StrictRedis(**config.redis_config)
 
 @server.before_first_request
 def setup_database():
-    db.create_all()
+    DBBase.metadata.create_all(db.engine)
