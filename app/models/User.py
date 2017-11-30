@@ -14,7 +14,7 @@ class User(DBBase):
     name = Column(String(45), nullable=False)
     email = Column(String(320))
 
-    posts = relationship('Post', backref=backref('user'))
+    posts = relationship('Post', backref='user')
 
     def to_json(self):
         return {'id': self.id, 'name': self.name, 'email': self.email}

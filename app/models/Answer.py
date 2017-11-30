@@ -18,8 +18,8 @@ class Answer(DBBase):
     user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
     date_created = Column(DateTime, default=datetime.datetime.utcnow)
 
-    user = relationship('User', backref=backref('answers'))
-    post = relationship('Post', backref=backref('answers'))
+    user = relationship('User', backref='answers')
+    post = relationship('Post', backref='answers')
 
     def to_json(self):
         data = {}

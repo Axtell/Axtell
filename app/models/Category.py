@@ -1,6 +1,5 @@
 from app.instances.db import DBBase
 from sqlalchemy import Column, String
-from sqlalchemy.orm import relationship
 
 
 class Category(DBBase):
@@ -11,7 +10,6 @@ class Category(DBBase):
     __tablename__ = 'categories'
     
     name = Column(String(15), primary_key=True)
-    posts = relationship('Post', secondary='post_categories', back_populates='categories', lazy='dynamic')
     
     def to_json(self):
         return {'name': self.name}
