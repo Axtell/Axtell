@@ -16,12 +16,15 @@ class Language(object):
         self._id = Language.normalize(lang_id)
 
         # Should not fail otherwise you have malformed source code
-        self._data = languages['languages'].get(self._id, None)
+        self._data = languages['languages'][self._id]
 
-    def get_color():
-        return md5(self._id.encode('ascii')).hexdigest()[:6]
+    def get_color(self):
+        return '#' + "".join(md5(self._id.encode('ascii')).hexdigest()[:6])
 
-    def get_display_name():
+    def get_short_id(self):
+        return self._data.get('sn', self._id[0].upper() + self._id[1])
+
+    def get_display_name(self):
         # Return display name. If that doesn't exist, capitalize each letter
         # following a whitespace char
 
@@ -30,13 +33,19 @@ class Language(object):
 
         return self._data.get('display', this._id.title())
 
-    def to_json():
+    def to_json(self):
         """
         May not return a JSON object
         """
         return self._id
 
-    def get_tio_id():
+    def get_id(self):
+        """
+        Returns common language id.
+        """
+        return self._id
+
+    def get_tio_id(self):
         """
         Returns the id as a string or None if the languages is not supported on
         TIO.
@@ -52,8 +61,8 @@ class Language(object):
 
         return tio_id
 
-    @staticmethod
-    def normalize(lang_id):
+    @classmethod
+    def normalize(cls, lang_id):
         """
         Normalizes a language id (resolves aliases/lowercasing)
         """
@@ -65,4 +74,4 @@ class Language(object):
         """
         Determines if a lang_id exists.
         """
-        return cls.normalize(normalize) in languages['languages']
+        return cls.normalize(lang_id) in languages['languages']

@@ -1,6 +1,62 @@
 .lang-list {
   position: absolute;
   top: 100%;
-  left: 0;
-  right: 0;
+
+  left: -1px;
+  right: -1px;
+  margin: 0;
+  padding: 0;
+
+  background: $main-bg;
+
+  border: 1px solid $editor-border;
+
+  .lang-box {
+    cursor: pointer;
+    &:hover {
+      background: $dim-bg;
+    }
+  }
+}
+
+.lang-box {
+  $lang-height: 1rem;
+  $lang-desc-height: 0.9rem;
+
+  $lang-total-height: $lang-height + $lang-desc-height;
+
+  display: flex;
+  flex-direction: row;
+
+  padding: 1rem;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid $editor-border;
+  }
+
+  img, svg {
+    height: $lang-total-height;
+    margin-right: 1rem;
+  }
+
+  > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .lang-info {
+    height: $lang-total-height;
+
+    .lang-name {
+      font-size: $lang-height;
+      font-weight: bold;
+    }
+
+    .lang-desc {
+      font-size: $lang-desc-height;
+      color: $dim-text;
+    }
+  }
 }

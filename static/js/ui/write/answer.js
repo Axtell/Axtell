@@ -1,4 +1,4 @@
-import LanguageLookupViewController from '~/delegate/LanguageLookupViewController';
+import LanguageLookupViewController from '~/controllers/LanguageLookupViewController';
 import FormControllerDelegate from '~/delegate/FormControllerDelegate';
 import PopoverViewController from '~/controllers/PopoverViewController';
 import FormConstraint from '~/controllers/Form/FormConstraint';

@@ -11,8 +11,9 @@ export default class Query {
      *
      * @param {Map<String, T[]>} map List of a term and subsequent matchings.
      */
-    constructor(map) {
+    constructor(map, comp) {
         this._map = map;
+        this._comp = comp;
     }
 
     /**
@@ -25,21 +26,29 @@ export default class Query {
      *                                  may be exceeed in return.
      * @param {number} [threshold=0.8] number of letters that must exactly match
      *                                 for a term to be matched.
+     * @param {boolean} sort - if to sort results by score.
      * @return {QueryResult[]} the candidate objects.
      */
-    find(term, limit = Infinity, threshold = 0.8) {
+    find(term, limit = Infinity, threshold = 0.8, sort = true) {
         // format { score: number, value: T }
         let candidates = [];
         let termLength = term.length;
 
+        if (term.length === 0) return [];
+
+        querySearch:
         for (let [termName, values] of this._map) {
             let matchedIndices = [];
 
+            let termSearchLength = term.length;
+
             match:
-            for (let letter of term) {
-                let index;
+            while (--termSearchLength) {
+                let index = -1,
+                    letter = term[termSearchLength];
+
                 do {
-                    index = termName.indexOf(letter);
+                    index = termName.indexOf(letter, index + 1);
                     if (index === -1) continue match;
                 } while(matchedIndices.includes(index));
                 matchedIndices.push(index);
@@ -47,57 +56,71 @@ export default class Query {
 
             let score = matchedIndices.length / termLength;
             if (score > threshold) {
+                // Check if already exists
+                let candidateIndex = candidates.length;
+                while (--candidateIndex >= 0) {
+                    if (this._comp(candidates[candidateIndex].value, values)) {
+                        continue querySearch;
+                    }
+                }
+
                 candidates.push({
                     score: score,
                     value: values
-                })
+                });
             }
-
-            if (candidates.length >= limit) break;
         }
 
         // Sort based on score
-        return candidates.sort((a, b) => b.score - a.score);
+        if (sort === true) {
+            return candidates.sort((a, b) => b.score - a.score).splice(0, limit);
+        } else {
+            return candidates.splice(0, limit);
+        }
     }
 
     /**
      * Performs multiple queries of a search string with {@link Query#find}.
      *
      * @param {string} string Term to search for
-     * @param {Function} comp Determines if two values are equal.
      * @param {number} [limit=Infinity] positive number repesenting maximium
      *                                  number of terms to return. This number
      *                                  may be exceeed in return.
      * @param {number} [threshold=0.8] number of letters that must exactly match
      *                                 for a term to be matched.
+     * @param {boolean} sort - if to sort the results
      * @return {QueryResult[]} the candidate objects.
      */
-    normalizedFind(string, comp, limit, threshold) {
+    normalizedFind(string, limit, threshold, sort = true) {
         let terms = new Normalize(string).queryTerms(),
             termIndex = terms.length;
 
         if (terms.length === 0) return [];
 
-        let matches = this.find(terms[--termIndex], limit, threshold);
+        let matches = this.find(terms[--termIndex], Infinity, threshold, false);
 
-        while (--termIndex) {
-            let results = this.find(terms[termIndex], limit, threshold),
+        while (--termIndex >= 0) {
+            let results = this.find(terms[termIndex], Infinity, threshold, false),
                 resultCount = results.length;
 
             addResult:
-            while (--resultCount) {
+            while (--resultCount >= 0) {
                 let result = results[resultCount];
                 let matchLength = matches.length;
 
-                while (--matchLength) {
-                    if (comp(matches[matchLength], result)) continue addResult;
+                while (--matchLength >= 0) {
+                    if (this._comp(matches[matchLength].value, result.value)) continue addResult;
                 }
 
                 matches.push(result);
             }
         }
 
-        return matches.sort((a, b) => b.score - a.score);
+        if (sort === true) {
+            return matches.sort((a, b) => b.score - a.score).splice(0, limit);
+        } else {
+            return matches.splice(0, limit);
+        }
     }
 }
 

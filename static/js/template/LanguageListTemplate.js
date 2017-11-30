@@ -1,4 +1,5 @@
 import Template, { TemplateType } from '~/template/Template';
+import LanguageTemplate from '~/template/LanguageTemplate';
 
 /**
  * A template representing a list of {@link LanguageTemplate} objects.
@@ -8,7 +9,7 @@ export default class LanguageListTemplate extends Template {
      * Creates a LanuageListTemplate stub. Use state transitions to set values.
      */
     constructor() {
-        let root = <ul className="lang-list"></ul>;
+        let root = <ul class="lang-list"></ul>;
         super(root);
 
         this._list = root;
@@ -20,9 +21,20 @@ export default class LanguageListTemplate extends Template {
      * @param {Language} language Lang
      */
     appendLanguage(language) {
-        let lang = language.loadInContext(this._list);
+        let lang = new LanguageTemplate(language).loadInContext(this._list);
         this._langs.push(lang);
+        lang.addEventListener("click", () => {
+            this.setLanguage(language);
+        });
         return lang;
+    }
+
+    setLanguage(language) {
+
+    }
+
+    clearLanguage() {
+
     }
 
     /**

@@ -35,7 +35,7 @@ export default class Language {
      * @type {string}
      */
     get displayName() {
-        return this.info.display || (this.info[0].toUpperCase() + this.info.substr(1));
+        return (this.info && this.info.display) || (this.id[0].toUpperCase() + this.id.substr(1));
     }
 
     /**
@@ -43,7 +43,7 @@ export default class Language {
      * @return {HTMLElement}
      */
     icon() {
-        return <img src={ `/static/lang/${this.id}.svg` }/>;
+        return <img src={ `/lang/logo/${this.id}.svg` }/>;
     }
 
     /**
@@ -76,20 +76,35 @@ export default class Language {
 
         // Get query terms for a given language.
         let langIds = Object.keys(languages.languages);
-        let i = keys.length;
-        while (--i) {
+        let i = langIds.length;
+        while (--i >= 0) {
             let id = langIds[i];
             let obj = new Language(id);
-            list.set(id, obj);
+            queryData.set(id, obj);
 
             let displayTerms = new Normalize(obj.displayName).queryTerms();
             let termCount = displayTerms.length;
             while (--termCount) {
-                list.set(displayTerms[termCount], obj);
+                queryData.set(displayTerms[termCount], obj);
             }
         }
 
-        return this._query = new Query(queryData);
+        // Add aliases too.
+        let aliases = Object.keys(languages.alias);
+        i = aliases.length;
+        while (--i >= 0) {
+            let aliasName = aliases[i];
+            let obj = queryData.get(languages.alias[aliasName]);
+            if (obj) queryData.set(aliasName, obj);
+        }
+
+        let query = new Query(
+            queryData,
+            (a, b) => a.equal(b)
+        );
+        this._query = query;
+        return query;
     }
-    _query = null;
+
+    static _query = null;
 }

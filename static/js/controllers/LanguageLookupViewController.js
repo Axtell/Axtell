@@ -1,5 +1,5 @@
 import ViewController from '~/controllers/ViewController';
-import ErrorManager from '~/helpers/ErrorManager';
+import ErrorManager from '~/helper/ErrorManager';
 
 import Normalize from '~/models/Normalize';
 import Language from '~/models/Language';
@@ -26,6 +26,8 @@ export default class LanguageLookupViewController extends ViewController {
      *                          canonical controller ref here.
      */
     constructor(box) {
+        super();
+
         // VC root
         this._container = box;
 
@@ -39,7 +41,8 @@ export default class LanguageLookupViewController extends ViewController {
         this._input.addEventListener("input", ::this.didInvalidateState);
 
         // Create managing language list.
-        this._list = new LanguageListTemplate().loadInContext(this._container);
+        this._list = new LanguageListTemplate();
+        this._list.loadInContext(this._container);
     }
 
     /**
@@ -48,8 +51,10 @@ export default class LanguageLookupViewController extends ViewController {
      */
     didInvalidateState(event) {
         this._list.clearList();
-        console.log(
-            Language.query.normalizedFind(this._input.value);
-        );
+        let results = Language.query.normalizedFind(this._input.value, 5, 0);
+
+        results.forEach(result => {
+            this._list.appendLanguage(result.value);
+        })
     }
 }
