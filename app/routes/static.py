@@ -1,5 +1,6 @@
 from app.helpers.render import render_template
 from app.server import server
+from flask import send_from_directory
 
 
 @server.route("/")
@@ -20,3 +21,8 @@ def error_500(e):
 @server.errorhandler(400)
 def error_400(e):
     return render_template('badrequest.html'), 400
+
+
+@server.route("/robots.txt")
+def robots():
+    return send_from_directory(server.static_folder, 'robots.txt')
