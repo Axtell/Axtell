@@ -1,9 +1,8 @@
-from app.instances.db import DBBase
-from sqlalchemy import Table, Column, Integer, ForeignKey
+from app.instances.db import db, DBBase
 
-categories = Table(
+categories = db.Table(
     'post_categories',
     DBBase.metadata,
-    Column('category_name', Integer, ForeignKey('categories.name'), primary_key=True),
-    Column('post_id', Integer, ForeignKey('posts.id'), primary_key=True)
+    db.Column('category_name', db.Integer, db.ForeignKey('categories.name'), primary_key=True),
+    db.Column('post_id', db.Integer, db.ForeignKey('posts.id'), primary_key=True)
 )
