@@ -13,7 +13,6 @@ server.config['SQLALCHEMY_DATABASE_URI'] = \
     f"{db_config['database']}?charset=utf8mb4"
 server.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(server)
-DBBase = db.Model
 
 # Redis
 redis_db = redis.StrictRedis(**config.redis_config)

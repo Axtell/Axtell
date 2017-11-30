@@ -1,15 +1,14 @@
-from app.instances.db import DBBase
-from sqlalchemy import Column, String
+from app.instances.db import db
 
 
-class Category(DBBase):
+class Category(db.Model):
     """
     A category of a post.
     """
 
     __tablename__ = 'categories'
     
-    name = Column(String(15), primary_key=True)
+    name = db.Column(db.String(15), primary_key=True)
     
     def to_json(self):
         return {'name': self.name}

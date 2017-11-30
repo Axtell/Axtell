@@ -1,12 +1,10 @@
-from app.instances.db import DBBase
-from sqlalchemy import Column, Integer, String, ForeignKey, DateTime
-from sqlalchemy.orm import relationship
+from app.instances.db import db
 from sqlalchemy.dialects.mysql import LONGTEXT
 from config import posts
 import datetime
 
 
-class Post(DBBase):
+class Post(db.model):
     """
     Represnts a post (e.g. challenge)
     """
@@ -14,15 +12,15 @@ class Post(DBBase):
     __tablename__ = 'posts'
     __table_args__ = {'extend_existing': True}
 
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    title = Column(String(posts['max_title']), nullable=False)
-    body = Column(LONGTEXT, nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    title = db.Column(db.String(posts['max_title']), nullable=False)
+    body = db.Column(LONGTEXT, nullable=False)
 
-    date_created = Column(DateTime, default=datetime.datetime.utcnow)
+    date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    categories = relationship('Category', secondary='post_categories', backref='posts', lazy='dynamic')
+    categories = db.relationship('Category', secondary='post_categories', backref='posts', lazy='dynamic')
 
     def to_json(self):
         return {
