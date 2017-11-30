@@ -4,6 +4,14 @@ from config import posts
 import datetime
 
 
+post_categories = db.Table(
+    'post_categories',
+    db.metadata,
+    db.Column('category_name', db.Integer, db.ForeignKey('categories.name'), primary_key=True),
+    db.Column('post_id', db.Integer, db.ForeignKey('posts.id'), primary_key=True)
+)
+
+
 class Post(db.Model):
     """
     Represnts a post (e.g. challenge)
