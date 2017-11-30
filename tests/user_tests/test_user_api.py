@@ -1,6 +1,6 @@
 import json
 
-from app.models import User
+from app.models.User import User
 from tests.test_base import TestBase
 
 # this is necessary, but PyCharm disagrees

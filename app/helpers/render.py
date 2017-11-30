@@ -17,7 +17,8 @@ def render_json(data):
     return jsonify(data)
 
 
-def render_error(message, type=None):
+def render_error(message, error_type=None):
     error = {'error': True, 'message': message}
-    if type is not None: error['type'] = type
+    if error_type is not None:
+        error['type'] = error_type
     return jsonify(error)

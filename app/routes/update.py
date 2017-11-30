@@ -12,7 +12,12 @@ def update():
     commit = request.form['commit']
     with open(path.join(getcwd(), "deploy.txt")) as f:
         if commit == f.read():
-            tasks.update.update.delay(commit)
-            return 'success', 200
+            print("Trying to update...")
+            if tasks.update.update.delay(commit).wait():
+                print("Successfully updated")
+                return 'success', 200
+            else:
+                print("Failed to update")
+                return 'failure', 500
         else:
             return abort(403)

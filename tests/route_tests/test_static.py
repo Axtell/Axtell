@@ -1,5 +1,8 @@
 from tests.test_base import TestBase
 
+# noinspection PyUnresolvedReferences
+import app.routes.static
+
 
 class TestStatic(TestBase.TestFlask):
     def test_home_loading(self):
