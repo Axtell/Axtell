@@ -1,7 +1,12 @@
 .item-wrap {
   padding: 1em;
   box-sizing: border-box;
-  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  > label, > div, > input, > button, > textarea {
+    flex: 1;
+  }
 
   input {
     box-sizing: border-box;
@@ -34,7 +39,6 @@
 .text-input {
   font-size: 1rem;
   padding: 0.5em 1em;
-  width: 100%;
 }
 
 .text-base {

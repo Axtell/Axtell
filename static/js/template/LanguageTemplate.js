@@ -21,3 +21,28 @@ export default class LanguageTemplate extends Template {
         );
     }
 }
+
+export class LanguageFixedTemplate extends Template {
+    /**
+    * @param {Language} language - Language object
+     */
+    constructor(language) {
+        let close = <div class="close-icon"><img src="/static/img/close.svg"/></div>;
+
+        super(
+            <div class="lang-box lang-fixed">
+                { language.icon() }
+                <div class="lang-info">
+                    <span class="lang-name">{ language.displayName }</span>
+                </div>
+                { close }
+            </div>
+        );
+
+        this._close = close;
+    }
+
+    onDismiss(callback) {
+        this._close.addEventListener("click", callback);
+    }
+}

@@ -1,3 +1,5 @@
+import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
+
 import ViewController from '~/controllers/ViewController';
 import ErrorManager from '~/helper/ErrorManager';
 
@@ -5,7 +7,7 @@ import Normalize from '~/models/Normalize';
 import Language from '~/models/Language';
 
 import LanguageListTemplate from '~/template/LanguageListTemplate';
-import LanguageTemplate from '~/template/LanguageTemplate';
+import { LanguageFixedTemplate } from '~/template/LanguageTemplate';
 
 export const NoInputBox = Symbol('LanguageLookup.NoInput');
 
@@ -43,6 +45,31 @@ export default class LanguageLookupViewController extends ViewController {
         // Create managing language list.
         this._list = new LanguageListTemplate();
         this._list.loadInContext(this._container);
+
+        this._activeLanguage = null;
+
+        /** @type {ActionControllerDelegate} */
+        this.delegate = new ActionControllerDelegate();
+    }
+
+    setLanguage(language) {
+        this._input.value = "";
+        this._list.clearList();
+
+        let template = new LanguageFixedTemplate(language);
+        template.onDismiss(() => {
+            this.removeLanguage();
+        });
+        this._activeLanguage = template.loadInContext(this._container);
+
+        this.delegate.didSetStateTo(this, language);
+    }
+
+    removeLanguage() {
+        if (this._activeLanguage !== null) {
+            this._activeLanguage.parentNode.removeChild(this._activeLanguage);
+            this.delegate.didSetStateTo(this, null);
+        }
     }
 
     /**
@@ -53,8 +80,12 @@ export default class LanguageLookupViewController extends ViewController {
         this._list.clearList();
         let results = Language.query.normalizedFind(this._input.value, 5, 0);
 
-        results.forEach(result => {
-            this._list.appendLanguage(result.value);
+        results.forEach(langObject => {
+            let lang = langObject.value;
+            let langBox = this._list.appendLanguage(lang)
+            langBox.addEventListener("click", () => {
+                this.setLanguage(lang);
+            });
         })
     }
 }

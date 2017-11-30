@@ -23,18 +23,7 @@ export default class LanguageListTemplate extends Template {
     appendLanguage(language) {
         let lang = new LanguageTemplate(language).loadInContext(this._list);
         this._langs.push(lang);
-        lang.addEventListener("click", () => {
-            this.setLanguage(language);
-        });
         return lang;
-    }
-
-    setLanguage(language) {
-
-    }
-
-    clearLanguage() {
-
     }
 
     /**

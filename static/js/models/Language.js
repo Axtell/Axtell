@@ -43,7 +43,7 @@ export default class Language {
      * @return {HTMLElement}
      */
     icon() {
-        return <img src={ `/lang/logo/${this.id}.svg` }/>;
+        return <img class="logo" src={ `/lang/logo/${this.id}.svg` }/>;
     }
 
     /**
