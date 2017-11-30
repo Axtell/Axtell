@@ -1,6 +1,14 @@
 from app.instances.db import db
 
 
+post_categories = db.Table(
+    'post_categories',
+    db.metadata,
+    db.Column('category_name', db.Integer, db.ForeignKey('categories.name'), primary_key=True),
+    db.Column('post_id', db.Integer, db.ForeignKey('posts.id'), primary_key=True)
+)
+
+
 class Category(db.Model):
     """
     A category of a post.
@@ -15,11 +23,3 @@ class Category(db.Model):
     
     def __repr__(self):
         return '<Tag \'{!r}\'>'.format(self.name)
-
-
-post_categories = db.Table(
-    'post_categories',
-    db.metadata,
-    db.Column('category_name', db.Integer, db.ForeignKey('categories.name'), primary_key=True),
-    db.Column('post_id', db.Integer, db.ForeignKey('posts.id'), primary_key=True)
-)
