@@ -21,4 +21,4 @@ redis_db = redis.StrictRedis(**config.redis_config)
 
 @server.before_first_request
 def setup_database():
-    db.create_all(db.engine)
+    db.create_all()
