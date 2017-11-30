@@ -84,7 +84,7 @@ export default class Language {
 
             let displayTerms = new Normalize(obj.displayName).queryTerms();
             let termCount = displayTerms.length;
-            while (--termCount) {
+            while (--termCount >= 0) {
                 queryData.set(displayTerms[termCount], obj);
             }
         }

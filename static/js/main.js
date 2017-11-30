@@ -1,10 +1,12 @@
 import "babel-polyfill";
 import "~/ui";
 
+import Normalize from "~/models/Normalize";
 import Language from "~/models/Language";
 import Auth from "~/models/Auth";
 
 // Make global
+global.Normalize = Normalize;
 global.Language = Language;
 global.Auth = Auth;
 

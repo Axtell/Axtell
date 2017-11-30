@@ -42,7 +42,7 @@ export default class Normalize {
             .standardize()
             .toLowerCase()
             .split(' ')
-            .filter(term => !CommonList.includes(term));
+            .filter(term => !common.includes(term));
 
         return terms;
     }

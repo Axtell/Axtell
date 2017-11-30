@@ -21,11 +21,14 @@ def lang_logo(lang_id):
     # Try to locate file itself
     try:
         with open(path_for_icon(language.get_id())) as img_file:
-            return Response(img_file.read(), mimetype='image/svg+xml')
+            response = Response(img_file.read(), mimetype='image/svg+xml')
     except:
         color = language.get_color()
         lang_id = language.get_short_id()
-        return Response(default_svg(name=lang_id, color=color), mimetype='image/svg+xml')
+        response = Response(default_svg(name=lang_id, color=color), mimetype='image/svg+xml')
+
+    response.cache_control.max_age = 600
+    return response
 
 @server.errorhandler(404)
 def error_404(e):

@@ -32,7 +32,6 @@ export default class Query {
     find(term, limit = Infinity, threshold = 0.8, sort = true) {
         // format { score: number, value: T }
         let candidates = [];
-        let termLength = term.length;
 
         if (term.length === 0) return [];
 
@@ -40,12 +39,10 @@ export default class Query {
         for (let [termName, values] of this._map) {
             let matchedIndices = [];
 
-            let termSearchLength = term.length;
-
             match:
-            while (--termSearchLength) {
+            for (let i = 0; i < term.length; i++) {
                 let index = -1,
-                    letter = term[termSearchLength];
+                    letter = term[i];
 
                 do {
                     index = termName.indexOf(letter, index + 1);
@@ -54,18 +51,21 @@ export default class Query {
                 matchedIndices.push(index);
             }
 
-            let score = matchedIndices.length / termLength;
+            let score = matchedIndices.length / term.length;
             if (score > threshold) {
                 // Check if already exists
-                let candidateIndex = candidates.length;
-                while (--candidateIndex >= 0) {
-                    if (this._comp(candidates[candidateIndex].value, values)) {
+                for (let i = 0; i < candidates.length; i++) {
+                    if (this._comp(candidates[i].value, values)) {
+                        candidates[i].score = Math.max(candidates[i].score, score);
                         continue querySearch;
                     }
                 }
 
                 candidates.push({
                     score: score,
+                    indices: matchedIndices,
+                    termLength: term.length,
+                    term: term,
                     value: values
                 });
             }
@@ -92,24 +92,25 @@ export default class Query {
      * @return {QueryResult[]} the candidate objects.
      */
     normalizedFind(string, limit, threshold, sort = true) {
-        let terms = new Normalize(string).queryTerms(),
-            termIndex = terms.length;
+        let terms = new Normalize(string).queryTerms([]);
 
         if (terms.length === 0) return [];
 
-        let matches = this.find(terms[--termIndex], Infinity, threshold, false);
+        let matches = this.find(terms[0], Infinity, threshold, false);
 
-        while (--termIndex >= 0) {
-            let results = this.find(terms[termIndex], Infinity, threshold, false),
-                resultCount = results.length;
+        for (let i = 1; i < terms.length; i++) {
+            let results = this.find(terms[i], Infinity, threshold, false);
 
             addResult:
-            while (--resultCount >= 0) {
-                let result = results[resultCount];
-                let matchLength = matches.length;
+            for (let j = 0; j < results.length; j++) {
+                let result = results[j];
 
-                while (--matchLength >= 0) {
-                    if (this._comp(matches[matchLength].value, result.value)) continue addResult;
+                for (let k = 0; k < matches.length; k++) {
+                    if (this._comp(matches[k].value, result.value)) {
+                        // Check which has higher score
+                        matches[k].score = Math.max(matches[k].score, result.score);
+                        continue addResult;
+                    }
                 }
 
                 matches.push(result);
