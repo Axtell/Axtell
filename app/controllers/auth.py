@@ -28,7 +28,7 @@ def get_or_set_user(jwt_token, profile):
 
         # Make sure we have both fields or return missing error
         if not name or not email:
-            return render_error("Profile does not have name and email", type='bad_profile'), 400
+            return render_error("Profile does not have name and email", error_type='bad_profile'), 400
 
         user = User(name=name, email=email)
         user.jwt_tokens.append(jwt_token)

@@ -2,7 +2,6 @@ from tests.test_base import TestBase
 import app.routes.static
 
 
-
 class TestStatic(TestBase.TestFlask):
     def test_home_loading(self):
         result = self.app.get('/')
