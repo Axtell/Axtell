@@ -22,7 +22,8 @@ class Language(object):
         return '#' + "".join(md5(self._id.encode('ascii')).hexdigest()[:6])
 
     def get_short_id(self):
-        return self._data.get('sn', self._id[0].upper() + self._id[1])
+        second_char = self._id[1] if len(self._id) > 1 else ""
+        return self._data.get('sn', self._id[0].upper() + second_char)
 
     def get_display_name(self):
         # Return display name. If that doesn't exist, capitalize each letter
