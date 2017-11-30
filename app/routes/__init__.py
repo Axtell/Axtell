@@ -4,5 +4,6 @@ __all__ = [
     'user',
     'post',
     'theme',
-    'update'
+    'update',
+    'answer'
 ]
