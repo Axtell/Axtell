@@ -18,7 +18,7 @@ def get_posts():
     if len(posts.items) == 0:
         return abort(404)
 
-    return render_template('posts.html', posts=post.get_posts(page=page))
+    return render_template('posts.html', posts=posts)
 
 
 @server.route("/post/<int:post_id>")
