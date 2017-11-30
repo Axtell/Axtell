@@ -4,7 +4,7 @@ from config import posts
 import datetime
 
 
-class Post(db.model):
+class Post(db.Model):
     """
     Represnts a post (e.g. challenge)
     """
