@@ -26,3 +26,8 @@ def error_400(e):
 @server.route("/robots.txt")
 def robots():
     return send_from_directory(server.static_folder, 'robots.txt')
+
+
+@server.route("/favicon.ico")
+def favicon():
+    return send_from_directory(server.static_folder, 'favicon.ico')
