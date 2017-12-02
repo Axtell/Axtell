@@ -8,18 +8,20 @@ class Answer(db.Model):
     An answer posted to a post by a user.
     """
 
-    id = db.Column(db.INTEGER, primary_key=True, autoincrement=True)
-    post_id = db.Column(db.INTEGER, db.ForeignKey(app.models.Post.id), nullable=False)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)
 
-    code = db.Column(db.TEXT, nullable=False)
     language_id = db.Column(db.String(answers['lang_len']), nullable=True)
     language_name = db.Column(db.String(answers['lang_len']), nullable=True)
-    commentary = db.Column(db.TEXT, nullable=False)
 
-    user_id = db.Column(db.INTEGER, db.ForeignKey(app.models.User.id), nullable=False)
-    date_created = db.Column(db.DATETIME, default=datetime.datetime.utcnow)
+    code = db.Column(db.Text, default=db.null)
+    commentary = db.Column(db.Text, default=db.null)
 
-    user = db.relationship(app.models.User, backref=db.backref('answers'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+
+    user = db.relationship('User', backref='answers')
+    post = db.relationship('Post', backref='answers')
 
     def to_json(self):
         data = {}

@@ -3,6 +3,7 @@ __all__ = [
     'auth',
     'user',
     'post',
+    'answer',
     'theme',
     'update'
 ]

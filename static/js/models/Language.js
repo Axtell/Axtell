@@ -47,6 +47,13 @@ export default class Language {
     }
 
     /**
+     * @return {string}
+     */
+    toString() {
+        return this.id;
+    }
+
+    /**
      * TIO language id. `null` if langauge does not support TIO.
      * @type {?string}
      */
