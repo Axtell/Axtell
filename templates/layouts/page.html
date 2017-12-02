@@ -14,13 +14,13 @@
 
     {% if session['dark_theme'] == true %}
         <link type="text/css"
-              href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night-eighties.min.css"
+              href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night-eighties.min.css"
               rel="stylesheet">
         {% assets "css_dark_all" -%}
             <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
         {%- endassets %}
     {% else %}
-        <link type="text/css" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow.min.css"
+        <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow.min.css"
               rel="stylesheet">
         {% assets "css_light_all" -%}
             <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">

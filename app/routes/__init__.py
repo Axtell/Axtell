@@ -5,5 +5,6 @@ __all__ = [
     'post',
     'answer',
     'theme',
-    'update'
+    'update',
+    'answer'
 ]

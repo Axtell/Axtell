@@ -2,8 +2,7 @@ from app.helpers.render import render_template
 from app.models.Language import Language
 from app.server import server
 from misc import path_for_icon, default_svg
-from flask import Response, send_file
-from pathlib import Path
+from flask import Response, send_file, send_from_directory
 
 
 @server.route("/")
@@ -39,6 +38,17 @@ def error_404(e):
 def error_500(e):
     return render_template('servererror.html'), 500
 
+
 @server.errorhandler(400)
 def error_400(e):
     return render_template('badrequest.html'), 400
+
+
+@server.route("/robots.txt")
+def robots():
+    return send_from_directory(server.static_folder, 'robots.txt')
+
+
+@server.route("/favicon.ico")
+def favicon():
+    return send_from_directory(server.static_folder, 'favicon.ico')

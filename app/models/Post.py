@@ -1,10 +1,7 @@
-import datetime
-
-from sqlalchemy.dialects.mysql import LONGTEXT
-
 from app.instances.db import db
-from app.models.User import User
+from sqlalchemy.dialects.mysql import LONGTEXT
 from config import posts
+import datetime
 
 
 class Post(db.Model):
@@ -20,15 +17,14 @@ class Post(db.Model):
 
     date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     def to_json(self):
-        data = {}
-        data['title'] = self.title
-        data['body'] = self.body
-        data['owner'] = self.user.to_json()
-
-        return data
+        return {
+            'title': self.title,
+            'body': self.body,
+            'owner': self.user.to_json()
+        }
 
     def __repr__(self):
         return '<Post(%r) by %r>' % (self.id, self.user.name)

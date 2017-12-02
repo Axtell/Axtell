@@ -3,7 +3,7 @@ from uuid import uuid4
 from flask import session
 
 from app.instances.db import redis_db
-from app.models import User
+from app.models.User import User
 
 userid_skey = 'uid'
 skey_prefix = 'sid:'
@@ -65,7 +65,8 @@ def remove_session_user():
     """
     If there is a user for the session. Logs that user out
     """
-    if userid_skey not in session: return
+    if userid_skey not in session:
+        return
     # Get session ID
     session_id = session[userid_skey]
 
