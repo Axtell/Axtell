@@ -6,6 +6,8 @@
   flex-direction: row;
   align-items: flex-end;
 
+  min-height: 2rem;
+
   > h1, > h2 {
     flex: 1;
   }

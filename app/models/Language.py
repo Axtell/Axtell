@@ -19,7 +19,8 @@ class Language(object):
         self._data = languages['languages'][self._id]
 
     def get_color(self):
-        return '#' + "".join(md5(self._id.encode('ascii')).hexdigest()[:6])
+        # TODO: replace with CB-palette
+        return '#666699'
 
     def get_short_id(self):
         second_char = self._id[1] if len(self._id) > 1 else ""
