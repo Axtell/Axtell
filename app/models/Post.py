@@ -9,6 +9,7 @@ class Post(db.Model):
     Represnts a post (e.g. challenge)
     """
 
+    __tablename__ = 'posts'
     __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

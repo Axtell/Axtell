@@ -8,6 +8,7 @@ class Answer(db.Model):
     """
 
     __tablename__ = 'answers'
+    __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
