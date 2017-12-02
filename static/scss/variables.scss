@@ -1,13 +1,6 @@
-$page-width: 70%;
-$font-size: 14px;
+@import "variables-shared.scss";
 
-$bold-font: "Lato";
-$light-font: "Roboto";
-$monospace: Menlo, 'Fira Mono', monospace;
-
-// System fonts
-$body-font: $light-font;
-
+// Font colors
 $em-text: #000;
 $main-text: #4c5566;
 $label-text: #676767;
