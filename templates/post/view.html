@@ -1,11 +1,58 @@
-{% extends "layouts/page.html" %}
+{% extends "layouts/split.html" %}
 
 {% block title %}{{ post_title|e }}{% endblock %}
-{% block content -%}
-    <div id="list-header">
-        <h1>{{ post_title|e }}</h1>
-    </div>
-    <div class="main body">
-        {{ post_body|safe }}
-    </div>
+{% block main -%}
+<div class="list-header">
+    <h1>{{ post_title|e }}</h1>
+</div>
+<div class="main body">
+    {{ post_body|safe }}
+</div>
 {%- endblock %}
+
+{% block sidebar -%}
+<div class="content-sidebar fixed-aside">
+    {% if g.user is not none -%}
+    <a id="write-answer" class="button accent -center">
+        {% include "svg/pen.html" %}
+        Write answer
+    </a>
+    {%- endif %}
+    <div class="csb-section">
+        <h3>Leaderboard</h3>
+        <table class="leaderboard">
+            <tr>
+                <td class="counter">1.</td>
+                <td class="item-id">
+                    <img class="icon" src="/static/lang/js.svg"/>
+                    <span class="item-anchor">
+                        <a>JavaScript</a>
+                        <span class="author">by <span>Downgoat</span></span>
+                    </span>
+                </td>
+                <td>
+                    6<span class="label-type">bytes</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="counter">2.</td>
+                <td class="item-id">
+                    <img class="icon" src="/static/lang/py.svg"/>
+                    <span class="item-anchor">
+                        <a>Python</a>
+                        <span class="author">by <span>Evil Sheep</span></span>
+                    </span>
+                </td>
+                <td>
+                    8<span class="label-type">bytes</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+{%- endblock %}
+
+{% block body %}
+{{ super() }}
+{% include "includes/answer-box.html" %}
+{% endblock %}

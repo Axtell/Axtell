@@ -135,7 +135,13 @@ export default class FormController extends ViewController {
             setTimeout(() => {
                 this.delegate.formDidSubmit(this);
             }, 0);
-            return true
+
+            let override = this.delegate.formWillSubmit(this);
+            if (typeof override === 'undefined') {
+                return true;
+            } else {
+                return override;
+            }
         } else {
             setTimeout(() => {
                 this.delegate.formDidError(this, errors);

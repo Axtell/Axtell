@@ -64,6 +64,17 @@ export default class FormConstraint {
     }
 
     /**
+     * Makes sure a form value is not empty
+     * @param {string} error - error string to show.
+     */
+    notEmpty(error = `Must specify a value`) {
+        return this.addValidator(
+            (elem) => elem.value.length > 0,
+            error
+        );
+    }
+
+    /**
      * Requires a field to match a certain regex.
      * @param {RegExp} regex - Regex to match `elem.value` to.
      */

@@ -22,6 +22,11 @@ $editor-border: #41495a;
 // MARKDOWN COLORS
 $link-color: #7ec5ff;
 
+// Depth colors
+$popover-bg: #fbfbfb;
+$popover-border: #EEE;
+$popover-shadow: #CCC;
+
 // Code block colors
 $code-block-bg: #323741;
 $code-block-indent: #4c4c4c;
@@ -38,6 +43,8 @@ $accent-color: $theme-color;
 $content-border-color: rgba(127, 127, 127, .85);
 $subcontent-border-color: rgba(127, 127, 127, 0.4);
 
+$pagination-seperator: #CCC;
+
 // Header colors
 $header: #2c323e;
 $header-border: rgba(127, 127, 127, 0.3);
@@ -46,3 +53,5 @@ $header-shadow-color: #1f1f1f;
 $big-select: $theme-color;
 $big-fg: #999;
 $big-bg: #383f4e;
+
+$close-button: #AAA;

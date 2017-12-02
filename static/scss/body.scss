@@ -3,20 +3,27 @@ h1 {
     family: $bold-font;
     weight: bold;
     size: 1.5rem;
-  }
-;
+  };
 }
 
 h2, h3 {
   font-size: 1.4rem;
 }
 
-p {
+hr {
+  border: none;
+  border-top: 1px solid $subcontent-border-color;
+}
+
+code {
+  font-family: $monospace;
+}
+
+li, p {
   color: $main-text;
   font-weight: 300;
   font-size: 16px;
   line-height: 1.5;
-  margin-top: 8px;
   hyphens: auto;
 }
 

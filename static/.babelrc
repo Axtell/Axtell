@@ -1,38 +1,29 @@
 {
   "presets": [
-    [
-      "env",
-      {
-        "targets": {
-          "browsers": [
-            "> 1%"
-          ]
-        }
+    ["env", {
+      "targets": {
+        "browsers": ["> 1%"]
       }
-    ]
+    }]
   ],
   "plugins": [
-    [
-      "transform-runtime",
+    ["transform-runtime", {
+      "polyfill": false,
+      "regenerator": true
+    }],
+    ["babel-plugin-root-import", [
       {
-        "polyfill": false,
-        "regenerator": true
+        "rootPathPrefix": "~",
+        "rootPathSuffix": "static/js/"
+      },
+      {
+        "rootPathPrefix": "@",
+        "rootPathSuffix": "misc/"
       }
-    ],
-    [
-      "babel-plugin-root-import",
-      [
-        {
-          "rootPathPrefix": "~",
-          "rootPathSuffix": "static/js/"
-        },
-        {
-          "rootPathPrefix": "@",
-          "rootPathSuffix": "misc/"
-        }
-      ]
-    ],
+    ]],
     "babel-plugin-transform-class-properties",
-    "babel-plugin-transform-function-bind"
+    "babel-plugin-transform-function-bind",
+    "babel-plugin-syntax-jsx",
+    "babel-plugin-jsx-to-dom"
   ]
 }

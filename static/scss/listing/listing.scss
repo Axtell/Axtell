@@ -1,4 +1,4 @@
-#list-header {
+.list-header {
   border-bottom: 1px solid $content-border-color;
   padding: 0 1rem 0.5em;
 
@@ -6,7 +6,9 @@
   flex-direction: row;
   align-items: flex-end;
 
-  > h1 {
+  min-height: 2rem;
+
+  > h1, > h2 {
     flex: 1;
   }
   > * {

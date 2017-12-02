@@ -41,4 +41,8 @@ posts = {
     'per_page': 10
 }
 
+answers = {
+    'lang_len': 40
+}
+
 secret_skey = 'SESSION_SECRET_KEY'

@@ -17,7 +17,7 @@ class Post(db.Model):
     body = db.Column(LONGTEXT, nullable=False)
 
     date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    
+
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     def to_json(self):
@@ -26,6 +26,6 @@ class Post(db.Model):
             'body': self.body,
             'owner': self.user.to_json()
         }
-    
+
     def __repr__(self):
         return '<Post(%r) by %r>' % (self.id, self.user.name)

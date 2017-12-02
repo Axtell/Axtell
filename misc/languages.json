@@ -1,23 +1,63 @@
 {
   "tio": {
-    "js": "javascript-babel-node"
+    "js": "javascript-babel-node",
+    "cs": "cs-csc",
+    "fs": "fs-mono"
   },
   "alias": {
     "javascript": "js",
     "apl": "apl-dyalog",
-    "osabie": "05ab1e"
+    "osabie": "05ab1e",
+    "c++": "cpp",
+    "befunge": "befunge-98",
+    "perl": "Perl 5",
+    "bf": "brainfuck"
+  },
+  "highlight": {
+    "perl5": "perl",
+    "perl6": "perl"
   },
   "languages": {
-    "jelly": {},
-    "haskell": {},
+    "05ab1e": {
+      "display": "05AB1E"
+    },
     "apl-dyalog": {
       "display": "APL (Dyalog)"
     },
     "apl-ngn": {
       "display": "APL (ngn)"
     },
-    "05ab1e": {
-      "display": "05AB1E"
+    "bash": {},
+    "befunge-98": {},
+    "c": {},
+    "cpp": {
+      "display": "C++",
+      "sn": "C+"
+    },
+    "cs": {
+      "display": "C#",
+      "sn": "C#"
+    },
+    "fs": {
+      "display": "F#",
+      "sn": "F#"
+    },
+    "funky": {},
+    "jelly": {},
+    "js": {
+      "display": "JavaScript"
+    },
+    "haskell": {},
+    "perl5": {
+      "display": "Perl 5"
+    },
+    "perl6": {
+      "display": "Perl 6"
+    },
+    "pyth": {},
+    "brainfuck": {
+      "display": "Brainf***",
+      "sn": "BF"
     }
   }
 }

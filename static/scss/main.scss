@@ -1,5 +1,7 @@
 @import "mixins.scss";
 
+$collapse-width: 1100px;
+
 html, body {
   @include full;
   @include fit;
@@ -22,7 +24,7 @@ body {
     justify-content: center;
 
     > .content {
-      @media screen and (max-width: 1000px) {
+      @media screen and (max-width: $collapse-width) {
         width: 100%;
 
         &.content-split.cs-collapse {
@@ -37,13 +39,19 @@ body {
         $content-width: 100% - $content-space;
         width: $content-width;
         margin-left: $content-space;
+        $sidebar-width: ($content-space / $content-width) * 100% + $sidebar-bonus;
 
         #cs-aside {
           @media screen and (max-width: 650px) {
             display: none;
           }
 
-          width: ($content-space / $content-width) * 100% + $sidebar-bonus;
+          width: $sidebar-width;
+        }
+
+        .fixed-aside {
+          position: fixed;
+          width: ($sidebar-width / 100%) * $content-width;
         }
       }
 
@@ -57,6 +65,8 @@ body {
   @import "page/page.scss";
   @import "content.scss";
   @import "buttons.scss";
+  @import "leaderboard.scss";
+  @import "answer/write.scss";
 }
 
 #ns-main {
@@ -79,3 +89,5 @@ body {
 @import "modal.scss";
 @import "auth.scss";
 @import "pagination.scss";
+@import "form.scss";
+@import "lang.scss";

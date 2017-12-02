@@ -1,0 +1,97 @@
+.lang-manager {
+  position: relative;
+  height: 2em;
+}
+
+.lang-list {
+  position: absolute;
+  top: 100%;
+
+  left: -1px;
+  right: -1px;
+  margin: 0;
+  padding: 0;
+
+  z-index: 1;
+
+  background: $main-bg;
+
+  border: 1px solid $editor-border;
+  box-shadow: 0 3px 5px -4px $popover-shadow;
+
+  -webkit-appearance: none;
+  display: flex;
+  flex-wrap: wrap;
+
+  .lang-box {
+    flex: 1;
+    cursor: pointer;
+
+    &:hover {
+      background: $dim-bg;
+    }
+  }
+}
+
+.lang-fixed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  .close-icon {
+    $lang-close-size: 1rem;
+    flex: 0 0 $lang-close-size;
+    height: $lang-close-size;
+    width: $lang-close-size;
+
+    background: $close-button;
+    border-radius: 50%;
+
+    padding: 0 3px;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+}
+
+.lang-box {
+  $lang-height: 1rem;
+  $lang-desc-height: 0.9rem;
+
+  $lang-total-height: $lang-height + $lang-desc-height;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  padding: 1rem;
+
+  // &:not(:last-child) {
+  //   border-bottom: 1px solid $editor-border;
+  // }
+
+  .logo {
+    height: $lang-total-height;
+    margin-right: 1rem;
+  }
+
+  > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .lang-info {
+    .lang-name {
+      font-size: $lang-height;
+      font-weight: bold;
+    }
+
+    .lang-desc {
+      font-size: $lang-desc-height;
+      color: $dim-text;
+    }
+  }
+}
