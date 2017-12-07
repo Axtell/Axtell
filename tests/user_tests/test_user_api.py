@@ -8,7 +8,7 @@ from tests.test_base import TestBase
 import app.instances.auth
 
 
-class TestUserAPI(TestBase.TestFlask, TestBase.TestDB):
+class TestUserAPI(TestBase.TestDB):
     def setUp(self):
         super().setUp()
 
@@ -17,7 +17,7 @@ class TestUserAPI(TestBase.TestFlask, TestBase.TestDB):
         self.session.commit()
 
     def test_user_get(self):
-        result = self.app.get(f'/user/{self.user.id}')
+        result = self.get(f'/user/{self.user.id}')
         self.assertEqual(result.status_code, 200)
 
         user_data = json.loads(result.data)

@@ -12,3 +12,4 @@ markdown>=2.6.9
 bleach>=2.1.1
 pylibmc>=1.5.2
 SQLAlchemy>=1.2.0b3
+Flask-Testing>=0.6.2

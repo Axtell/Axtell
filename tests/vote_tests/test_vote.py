@@ -5,96 +5,88 @@ from app.models.Post import Post
 from app.models.Answer import Answer
 from app.controllers import vote
 from tests.test_base import TestBase
-from flask import g
-import json
+from app.session.user_session import set_session_user
 
 
 # noinspection PyUnresolvedReferences
-import app.routes.post
-# noinspection PyUnresolvedReferences
-import app.routes.answer
-# noinspection PyUnresolvedReferences
-import app.routes.vote
+from app.routes import *
 
 
-class TestVote(TestBase.TestDB, TestBase.TestFlask):
+class TestVote(TestBase.TestDB):
     def setUp(self):
         super().setUp()
 
         self.user = User(name='Test User', email='test@user.com')
         self.session.add(self.user)
         self.session.commit()
+        set_session_user(self.user)
 
-        self.post = Post(title='Testing Votes API', body='Testing Votes API', user_id=self.user.id)
-        self.session.add(self.post)
+        self.test_post = Post(title='Testing Votes API', body='Testing Votes API', user_id=self.user.id)
+        self.session.add(self.test_post)
         self.session.commit()
 
-        self.answer = Answer(post_id=self.post.id, user_id=self.user.id)
-        self.post.answers.append(self.answer)
+        self.answer = Answer(post_id=self.test_post.id, user_id=self.user.id)
+        self.test_post.answers.append(self.answer)
         self.session.add(self.answer)
         self.session.commit()
 
-        vote.do_post_vote(self.post.id, 1)
+        vote.do_post_vote(self.test_post.id, 1)
         vote.do_answer_vote(self.answer.id, -1)
 
         self.session.commit()
 
     def test_post_vote_get(self):
-        result = self.app.get(f"/post/{self.post.id}/vote")
+        result = self.get(f"/post/{self.test_post.id}/vote")
         self.assertEqual(result.status_code, 200)
 
-        data = json.loads(result.data)
+        data = result.json
         self.assertEqual(data['vote'], 1)
         self.assertEqual(data['user'], self.user.id)
-        self.assertEqual(data['post'], self.post.id)
+        self.assertEqual(data['post'], self.test_post.id)
 
     def test_answer_vote_get(self):
-        result = self.app.get(f"/answer/{self.answer.id}/vote")
+        result = self.get(f"/answer/{self.answer.id}/vote")
         self.assertEqual(result.status_code, 200)
 
-        data = json.loads(result.data)
+        data = result.json
         self.assertEqual(data['vote'], -1)
         self.assertEqual(data['user'], self.user.id)
         self.assertEqual(data['answer'], self.answer.id)
 
     def test_post_vote_change(self):
-        with self.app.app_context() as app_ctx:
-            g.user = self.user
-            post_result = self.app.post(f"/post/{self.post.id}/vote", data={'vote': 0})
-            self.assertEqual(post_result.status_code, 200)
+        post_result = self.post(f"/post/{self.test_post.id}/vote", data={'vote': 0})
+        self.assertEqual(post_result.status_code, 200)
 
-            get_result = self.app.get(f"/post/{self.post.id}/vote")
-            self.assertEqual(get_result.status_code, 200)
-            data = json.loads(get_result.data)
-            self.assertEqual(data['vote'], 0)
+        get_result = self.get(f"/post/{self.test_post.id}/vote")
+        self.assertEqual(get_result.status_code, 200)
+        data = get_result.json
+        self.assertEqual(data['vote'], 0)
 
-        post_vote = PostVote.query.filter_by(post_id=self.post.id, user_id=self.user.id).first()
+        post_vote = PostVote.query.filter_by(post_id=self.test_post.id, user_id=self.user.id).first()
         self.session.expire(post_vote)
 
     def test_answer_vote_change(self):
-        with self.app.app_context() as app_ctx:
-            g.user = self.user
-            post_result = self.app.post(f"/answer/{self.answer.id}/vote", data={'vote': 0})
-            self.assertEqual(post_result.status_code, 200)
+        post_result = self.post(f"/answer/{self.answer.id}/vote", data={'vote': 0})
+        self.assertEqual(post_result.status_code, 200)
 
-            get_result = self.app.get(f"/answer/{self.answer.id}/vote")
-            self.assertEqual(get_result.status_code, 200)
-            data = json.loads(get_result.data)
-            self.assertEqual(data['vote'], 0)
+        get_result = self.get(f"/answer/{self.answer.id}/vote")
+        self.assertEqual(get_result.status_code, 200)
+        data = get_result.json
+        self.assertEqual(data['vote'], 0)
 
         answer_vote = AnswerVote.query.filter_by(answer_id=self.answer.id, user_id=self.user.id).first()
         self.session.expire(answer_vote)
 
     def test_post_vote_total(self):
-        result = self.app.get(f"/post/{self.post.id}/votes")
+        result = self.get(f"/post/{self.test_post.id}/votes")
         self.assertEqual(result.status_code, 200)
 
-        data = json.loads(result.data)
+        data = result.json
         self.assertEqual(data['votes'], 1)
 
     def test_answer_vote_total(self):
-        result = self.app.get(f"/answer/{self.answer.id}/votes")
+        result = self.get(f"/answer/{self.answer.id}/votes")
         self.assertEqual(result.status_code, 200)
 
-        data = json.loads(result.data)
+        data = result.json
         self.assertEqual(data['votes'], -1)
