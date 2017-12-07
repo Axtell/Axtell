@@ -28,7 +28,7 @@ class TestVote(TestBase.TestDB, TestBase.TestFlask):
         self.session.add(self.post)
 
         self.answer = Answer(post_id=self.post.id, user_id=self.user.id)
-        self.post.answers.add(self.answer)
+        self.post.answers.append(self.answer)
         self.session.add(self.answer)
 
         vote.do_post_vote(self.post.id, 1)
