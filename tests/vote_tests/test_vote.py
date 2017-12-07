@@ -28,6 +28,7 @@ class TestVote(TestBase.TestDB, TestBase.TestFlask):
         self.session.add(self.post)
 
         self.answer = Answer(post_id=self.post.id, user_id=self.user.id)
+        self.post.answers.add(self.answer)
         self.session.add(self.answer)
 
         vote.do_post_vote(self.post.id, 1)
@@ -36,29 +37,25 @@ class TestVote(TestBase.TestDB, TestBase.TestFlask):
         self.session.commit()
 
     def test_post_vote_get(self):
-        with self.app.test_request_context():
-            self.app.g.user = self.user
-            result = self.app.get(f"/post/{self.post.id}/vote")
-            self.assertEqual(result.status_code, 200)
+        result = self.app.get(f"/post/{self.post.id}/vote")
+        self.assertEqual(result.status_code, 200)
 
-            data = json.loads(result.data)
-            self.assertEqual(data['vote'], 1)
-            self.assertEqual(data['user'], self.user.id)
-            self.assertEqual(data['post'], self.post.id)
+        data = json.loads(result.data)
+        self.assertEqual(data['vote'], 1)
+        self.assertEqual(data['user'], self.user.id)
+        self.assertEqual(data['post'], self.post.id)
 
     def test_answer_vote_get(self):
-        with self.app.test_request_context():
-            g.user = self.user
-            result = self.app.get(f"/answer/{self.answer.id}/vote")
-            self.assertEqual(result.status_code, 200)
+        result = self.app.get(f"/answer/{self.answer.id}/vote")
+        self.assertEqual(result.status_code, 200)
 
-            data = json.loads(result.data)
-            self.assertEqual(data['vote'], -1)
-            self.assertEqual(data['user'], self.user.id)
-            self.assertEqual(data['answer'], self.answer.id)
+        data = json.loads(result.data)
+        self.assertEqual(data['vote'], -1)
+        self.assertEqual(data['user'], self.user.id)
+        self.assertEqual(data['answer'], self.answer.id)
 
     def test_post_vote_change(self):
-        with self.app.test_request_context():
+        with self.app.app_context() as app_ctx:
             g.user = self.user
             post_result = self.app.post(f"/post/{self.post.id}/vote", data={'vote': 0})
             self.assertEqual(post_result.status_code, 200)
@@ -72,7 +69,7 @@ class TestVote(TestBase.TestDB, TestBase.TestFlask):
         self.session.expire(post_vote)
 
     def test_answer_vote_change(self):
-        with self.app.test_request_context():
+        with self.app.app_context() as app_ctx:
             g.user = self.user
             post_result = self.app.post(f"/answer/{self.answer.id}/vote", data={'vote': 0})
             self.assertEqual(post_result.status_code, 200)
@@ -86,19 +83,15 @@ class TestVote(TestBase.TestDB, TestBase.TestFlask):
         self.session.expire(answer_vote)
 
     def test_post_vote_total(self):
-        with self.app.test_request_context():
-            g.user = self.user
-            result = self.app.get(f"/post/{self.post.id}/votes")
-            self.assertEqual(result.status_code, 200)
+        result = self.app.get(f"/post/{self.post.id}/votes")
+        self.assertEqual(result.status_code, 200)
 
-            data = json.loads(result.data)
-            self.assertEqual(data['votes'], 1)
+        data = json.loads(result.data)
+        self.assertEqual(data['votes'], 1)
 
-    def test_post_vote_total(self):
-        with self.app.test_request_context():
-            g.user = self.user
-            result = self.app.get(f"/answer/{self.answer.id}/votes")
-            self.assertEqual(result.status_code, 200)
+    def test_answer_vote_total(self):
+        result = self.app.get(f"/answer/{self.answer.id}/votes")
+        self.assertEqual(result.status_code, 200)
 
-            data = json.loads(result.data)
-            self.assertEqual(data['votes'], -1)
+        data = json.loads(result.data)
+        self.assertEqual(data['votes'], -1)
