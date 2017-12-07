@@ -10,7 +10,7 @@ class PostVote(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), primary_key=True)
     vote = db.Column(TINYINT, default=0)
 
-    user = db.relationship('User', backref='votes')
+    user = db.relationship('User', backref='post_votes')
     post = db.relationship('Post', backref='votes')
 
     def to_json(self):
