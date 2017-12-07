@@ -6,7 +6,8 @@ from hashlib import md5
 with open(lang_path) as lang_data:
     languages = json_loads(lang_data.read())
 
-class Language(object):
+
+class Language:
     """
     Supplies all known information about a language. Make an instance using the
     language id. If a language does not exist then this will *not* error however
@@ -33,7 +34,7 @@ class Language(object):
         if self._data is None:
             return None
 
-        return self._data.get('display', this._id.title())
+        return self._data.get('display', self._id.title())
 
     def to_json(self):
         """

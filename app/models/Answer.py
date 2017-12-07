@@ -1,6 +1,8 @@
 from app.instances.db import db
+import app.models.Language
 import datetime
 from config import answers
+
 
 class Answer(db.Model):
     """
