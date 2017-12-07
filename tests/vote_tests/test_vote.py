@@ -30,7 +30,7 @@ class TestVote(TestBase.TestDB, TestBase.TestFlask):
         self.answer = Answer(post_id=self.post.id, user_id=self.user.id)
         self.session.add(self.answer)
 
-        vote.do_post_vote(self.post_id, 1)
+        vote.do_post_vote(self.post.id, 1)
         vote.do_answer_vote(self.answer.id, -1)
 
         self.session.commit()
