@@ -18,8 +18,8 @@ class Answer(db.Model):
     language_id = db.Column(db.String(answers['lang_len']), nullable=True)
     language_name = db.Column(db.String(answers['lang_len']), nullable=True)
 
-    code = db.Column(db.Text, default=db.null)
-    commentary = db.Column(db.Text, default=db.null)
+    code = db.Column(db.Text, default=db.null, nullable=True)
+    commentary = db.Column(db.Text, default=db.null, nullable=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
