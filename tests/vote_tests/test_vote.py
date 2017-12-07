@@ -23,13 +23,16 @@ class TestVote(TestBase.TestDB, TestBase.TestFlask):
 
         self.user = User(name='Test User', email='test@user.com')
         self.session.add(self.user)
+        self.session.commit()
 
         self.post = Post(title='Testing Votes API', body='Testing Votes API', user_id=self.user.id)
         self.session.add(self.post)
+        self.session.commit()
 
         self.answer = Answer(post_id=self.post.id, user_id=self.user.id)
         self.post.answers.append(self.answer)
         self.session.add(self.answer)
+        self.session.commit()
 
         vote.do_post_vote(self.post.id, 1)
         vote.do_answer_vote(self.answer.id, -1)
