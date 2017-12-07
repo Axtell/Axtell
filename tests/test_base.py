@@ -15,6 +15,7 @@ class TestBase:
             app.config['TESTING'] = True
             app.config['SQLALCHEMY_DATABASE_URI'] = self.SQLALCHEMY_DATABASE_URI
             self.db = SQLAlchemy(server)
+            self.db.init_app(app)
             return app
 
         def setUp(self):
