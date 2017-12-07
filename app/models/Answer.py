@@ -15,8 +15,8 @@ class Answer(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
 
-    language_id = db.Column(db.String(answers['lang_len']), nullable=True)
-    language_name = db.Column(db.String(answers['lang_len']), nullable=True)
+    language_id = db.Column(db.String(answers['lang_len']), nullable=True, default=db.null)
+    language_name = db.Column(db.String(answers['lang_len']), nullable=True, default=db.null)
 
     code = db.Column(db.Text, default=db.null, nullable=True)
     commentary = db.Column(db.Text, default=db.null, nullable=True)
