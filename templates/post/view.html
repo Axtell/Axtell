@@ -1,5 +1,10 @@
 {% extends "layouts/split.html" %}
 
+{% block head -%}
+{{ super() }}
+{% include "includes/editor.html" %}
+{%- endblock %}
+
 {% block title %}{{ post.title|e }}{% endblock %}
 {% block main -%}
 <div id="post">
