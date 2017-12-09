@@ -1,12 +1,21 @@
 {% extends "layouts/split.html" %}
 
-{% block title %}{{ post_title|e }}{% endblock %}
+{% block title %}{{ post.title|e }}{% endblock %}
 {% block main -%}
-<div class="list-header">
-    <h1>{{ post_title|e }}</h1>
+<div id="post">
+    <div class="list-header">
+        <h1>{{ post.title|e }}</h1>
+    </div>
+    <div class="main body">
+        {{ post_body|safe }}
+    </div>
 </div>
-<div class="main body">
-    {{ post_body|safe }}
+<div id="responses">
+    <ul class="response-list">
+        {% for answer in answers.items %}
+
+        {% endfor %}
+    </ul>
 </div>
 {%- endblock %}
 

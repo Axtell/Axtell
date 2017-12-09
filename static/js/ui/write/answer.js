@@ -32,11 +32,16 @@ if (formController = ViewController.of(ANSWER_FORM)) {
     let languageLookup = new LanguageLookupViewController(ANSWER_LANG);
     languageLookup.delegate.didSetStateTo =
         ActionControllerDelegate.bindValue(ANSWER_LANG_ID);
+}
 
-    // Create answer load box
+// Create answer load box
+if (ANSWER_TRIGGER) {
     const answerBox = new PopoverViewController(
         ANSWER_TRIGGER,
         Template.fromId(ANSWER_VIEW),
         ANSWER_CLOSE
     );
+} else {
+    let element = document.getElementById(ANSWER_VIEW);
+    element.parentNode.removeChild(element);
 }

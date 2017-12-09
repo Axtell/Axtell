@@ -50,7 +50,7 @@ body {
         }
 
         .fixed-aside {
-          position: fixed;
+          position: absolute;
           width: ($sidebar-width / 100%) * $content-width;
         }
       }

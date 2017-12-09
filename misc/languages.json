@@ -21,6 +21,7 @@
     "05ab1e": {
       "display": "05AB1E"
     },
+    "actually": {},
     "apl-dyalog": {
       "display": "APL (Dyalog)"
     },
@@ -29,6 +30,10 @@
     },
     "bash": {},
     "befunge-98": {},
+    "brainfuck": {
+      "display": "Brainf***",
+      "sn": "BF"
+    },
     "c": {},
     "cpp": {
       "display": "C++",
@@ -55,9 +60,6 @@
       "display": "Perl 6"
     },
     "pyth": {},
-    "brainfuck": {
-      "display": "Brainf***",
-      "sn": "BF"
-    }
+    "seriously": {}
   }
 }

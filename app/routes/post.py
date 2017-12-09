@@ -42,7 +42,7 @@ def get_post(post_id):
 
     answers = answer.get_answers(post_id=post_id, page=page)
 
-    return render_template('post/view.html', post_id=post_id, post_title=matched_post.title, post_body=body, answers=answers)
+    return render_template('post/view.html', post=matched_post, post_body=body, answers=answers)
 
 
 @server.route("/post/write")
