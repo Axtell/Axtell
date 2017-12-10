@@ -22,6 +22,7 @@ let md = new MarkdownIt({
                     hljs.highlight(language, string, true).value +
                     '</code></pre>';
             } catch (__) {
+                return '<div style="font-size: 3rem; color: red; font-weight: 300">Error Rendering</div>';
             }
         }
 

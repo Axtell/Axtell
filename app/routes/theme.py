@@ -12,7 +12,6 @@ def set_light_theme():
 
 @server.route("/theme/dark", methods=['POST'])
 def set_dark_theme():
-    # disabled until Downgoat fixes the bug
-    # session['dark_theme'] = True
+    session['dark_theme'] = True
     redirect_url = request.args.get('redirect') or '/'
     return redirect(redirect_url, code=303)

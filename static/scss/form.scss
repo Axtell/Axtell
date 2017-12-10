@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
 
-  > label, > div, > input, > button, > textarea {
+  > div, > input, > button, > textarea {
     flex: 1;
   }
 

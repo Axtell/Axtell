@@ -1,12 +1,42 @@
 {% extends "layouts/split.html" %}
 
-{% block title %}{{ post_title|e }}{% endblock %}
+{% block head -%}
+{{ super() }}
+{% include "includes/editor.html" %}
+{%- endblock %}
+
+{% block title %}{{ post.title|e }}{% endblock %}
 {% block main -%}
-<div class="list-header">
-    <h1>{{ post_title|e }}</h1>
+<div id="post">
+    <div class="list-header">
+        <h1>{{ post.title|e }}</h1>
+    </div>
+    <div class="main body">
+        {{ post_body|safe }}
+    </div>
 </div>
-<div class="main body">
-    {{ post_body|safe }}
+<hr class="big">
+<div id="responses">
+    <div class="list-header">
+        <h2>Answers</h2>
+    </div>
+    <ul class="response-list">
+        {% for answer in answers.items %}
+            <div class="answer" data-id="{{ answer.id|e }}">
+                <div class="header">
+                    <img src="{{ answer.get_language().get_logo_url() }}">
+                    <h4>{{ answer.get_language().get_display_name() }}</h4>
+
+                    <div class="answer-metric">
+                        {{ answer.code|length }}<span>bytes</span>
+                    </div>
+                </div>
+                <div class="body">
+                    {{ macros.highlight_answer(answer)|safe }}
+                </div>
+            </div>
+        {% endfor %}
+    </ul>
 </div>
 {%- endblock %}
 

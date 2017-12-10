@@ -1,4 +1,5 @@
 from app.instances.db import db
+from app.helpers.macros.gravatar import gravatar
 
 
 class User(db.Model):
@@ -13,6 +14,9 @@ class User(db.Model):
     email = db.Column(db.String(320))
 
     posts = db.relationship('Post', backref='user')
+
+    def avatar_url(self):
+        return gravatar(self.email)
 
     def to_json(self):
         return {'id': self.id, 'name': self.name, 'email': self.email}
