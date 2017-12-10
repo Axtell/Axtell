@@ -13,20 +13,20 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-function-bind": "^6.22.0",
     "babel-plugin-transform-runtime": "^6.23.0",
-    "babel-preset-env": "^1.6.1"
-  },
-  "dependencies": {
-    "axios": "^0.17.0",
     "babel-plugin-jsx-to-dom": "^0.1.0",
     "babel-plugin-syntax-jsx": "^6.18.0",
-    "babel-polyfill": "^6.26.0",
-    "babel-runtime": "^6.26.0",
-    "element-dataset": "^2.2.6",
+    "babel-preset-env": "^1.6.1",
     "esdoc": "^1.0.4",
     "esdoc-babel-plugin": "^0.1.0",
     "esdoc-importpath-plugin": "^1.0.1",
     "esdoc-inject-style-plugin": "^1.0.0",
-    "esdoc-standard-plugin": "^1.0.0",
+    "esdoc-standard-plugin": "^1.0.0"
+  },
+  "dependencies": {
+    "axios": "^0.17.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-runtime": "^6.26.0",
+    "element-dataset": "^2.2.6",
     "pako": "^1.0.6",
     "url-search-params-polyfill": "^2.0.1"
   }
