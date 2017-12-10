@@ -11,13 +11,20 @@ export class SelectState {
     /**
      * Selection state for id
      * @param {string} id trimmed id
+     * @param {HTMLElement} elem
      */
-    constructor(id) {
+    constructor(id, elem) {
         /**
          * Identifier for state
          * @type {string}
          */
         this.id = id;
+
+        /**
+         * Option element
+         * @type {HTMLElement}
+         */
+        this.elem = elem;
     }
 
     /**
@@ -29,7 +36,6 @@ export class SelectState {
 
 /**
  * Manages a select dialog drop-down
- * @implements {ActionControllerDelegate}
  */
 export default class SelectDialogViewController extends PopoverViewController {
     /**
@@ -60,7 +66,7 @@ export default class SelectDialogViewController extends PopoverViewController {
          * An action delegate.
          * @type {ActionControllerDelegate}
          */
-        this.didSetStateTo = () => void 0;
+        this.delegate = new ActionControllerDelegate();
 
         this._setState(this._opts[0]);
     }
@@ -82,8 +88,8 @@ export default class SelectDialogViewController extends PopoverViewController {
             }
         });
         let state = option.textContent.trim();
-        this.didSetStateTo(this, new SelectState(state));
-        this._setName(option.textContent.trim());
+        this.delegate.didSetStateTo(this, new SelectState(state, option));
+        this._setName(state);
         this.untrigger();
     }
 

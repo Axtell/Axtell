@@ -41,6 +41,10 @@ if (formController = ViewController.of(ANSWER_FORM)) {
     ]);
 
     formController.delegate = new class extends FormControllerDelegate {
+        formDidError(controller, errors) {
+            controller.display(errors);
+        }
+
         formWillSubmit(controller) {
             super.formWillSubmit(controller);
             controller.setFieldWithName(editor.value, ANSWER_CODE_NAME);
