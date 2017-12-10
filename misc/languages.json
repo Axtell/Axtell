@@ -7,6 +7,7 @@
   "ace": {
     "js": "javascript",
     "python2": "python",
+    "python3": "python",
     "bash": "sh",
     "perl5": "perl",
     "perl6": "perl",
@@ -23,8 +24,12 @@
     "bf": "brainfuck"
   },
   "highlight": {
+    "bash": "sh",
+    "c": 1,
+    "cpp": 1,
     "perl5": "perl",
-    "perl6": "perl"
+    "perl6": "perl",
+    "js": 1
   },
   "languages": {
     "05ab1e": {

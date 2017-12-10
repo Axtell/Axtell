@@ -2,6 +2,7 @@ import LanguageLookupViewController from '~/controllers/LanguageLookupViewContro
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 import FormControllerDelegate from '~/delegate/FormControllerDelegate';
 import PopoverViewController from '~/controllers/PopoverViewController';
+import AceViewController from '~/controllers/AceViewController';
 import FormConstraint from '~/controllers/Form/FormConstraint';
 import ViewController from '~/controllers/ViewController';
 import Template from '~/template/Template';
@@ -9,7 +10,6 @@ import Language from '~/models/Language';
 import HexBytes from '~/modern/HexBytes';
 import Chain from '~/modern/Chain';
 import Auth from '~/models/Auth';
-import Ace from '~/modern/Ace';
 
 export const ANSWER_VIEW = "answer-box";
 export const ANSWER_FORM = "answer-source";
@@ -19,15 +19,12 @@ export const ANSWER_CLOSE = document.getElementById("answer-close");
 export const ANSWER_TRIGGER = document.getElementById("write-answer");
 export const ANSWER_EDITOR = "code";
 
+export const ANSWER_CODE_NAME = 'code';
+
 let formController;
 if (formController = ViewController.of(ANSWER_FORM)) {
-    formController.addConstraints([
-        new FormConstraint(ANSWER_LANG_ID)
-            .notEmpty(`You must provide a language`)
-    ]);
-
     // Create code language
-    let editor = new Ace(ANSWER_EDITOR);
+    let editor = new AceViewController(ANSWER_EDITOR);
     editor.shouldValidate = false;
 
     // Create lanuage identification.
@@ -36,6 +33,19 @@ if (formController = ViewController.of(ANSWER_FORM)) {
         ActionControllerDelegate.bindValue(ANSWER_LANG_ID),
         ActionControllerDelegate.pipeValueTo(::editor.setLanguage)
     ]);
+
+    // Setup form validation
+    formController.addConstraints([
+        new FormConstraint(ANSWER_LANG_ID)
+            .notEmpty(`You must provide a language`)
+    ]);
+
+    formController.delegate = new class extends FormControllerDelegate {
+        formWillSubmit(controller) {
+            super.formWillSubmit(controller);
+            controller.setFieldWithName(editor.value, ANSWER_CODE_NAME);
+        }
+    }
 }
 
 let answerView;

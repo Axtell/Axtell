@@ -122,3 +122,6 @@ node_modules
 /docs*
 static/css
 nohup.out
+
+# Mac thing
+.DS_Store

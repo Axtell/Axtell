@@ -1,9 +1,11 @@
+import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
+import ViewController from '~/controllers/ViewController';
 import ErrorManager from '~/helper/ErrorManager';
 
 /**
  * OO-wrapper for Ace code editor.
  */
-export default class Ace {
+export default class AceViewController extends ViewController {
     /**
      * Creates Ace wrapper for element. Reccomended to use a {@link HexBytes}
      * to create a unique name.
@@ -12,12 +14,34 @@ export default class Ace {
      * @param {AceTheme} theme Theme to use for Ace.
      */
     constructor(element, theme = AceTheme.default) {
+        super();
+
         this._editor = ace.edit(element);
+        this._editor.container.controller = this;
 
         /**
          * @type {AceTheme}
          */
         this.theme = theme;
+
+        /** @type {ActionControllerDelegate} */
+        this.delegate = new ActionControllerDelegate();
+    }
+
+    /**
+     * Returns value of editor
+     * @type {string}
+     */
+    get value() {
+        return this._editor.session.getValue();
+    }
+
+    /**
+     * Sets the value of the editor
+     * @type {string}
+     */
+    set value(value) {
+        return this._editor.session.setValue(value);
     }
 
     /**
@@ -33,7 +57,7 @@ export default class Ace {
      * @param {Language} lang - Language object
      */
     setLanguage(lang) {
-        let name = lang.aceName || "text";
+        let name = (lang && lang.aceName) || "text";
         this._editor.session.setMode(`ace/mode/${name}`);
     }
 

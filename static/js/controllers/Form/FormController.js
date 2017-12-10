@@ -149,4 +149,20 @@ export default class FormController extends ViewController {
             return false;
         }
     }
+
+    /**
+     * Creates or sets a form field with a `name` as an identifying key.
+     *
+     * @param {string} value - Value of the new field.
+     * @param {string} name - name identifying field
+     */
+    setFieldWithName(value, name) {
+        let input = this._form.elements[name];
+
+        if (typeof input === 'undefined') {
+            this._form.appendChild(<input type="hidden" name={name} value={value}/>);
+        } else {
+            input.value = value;
+        }
+    }
 }

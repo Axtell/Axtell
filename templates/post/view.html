@@ -15,10 +15,26 @@
         {{ post_body|safe }}
     </div>
 </div>
+<hr class="big">
 <div id="responses">
+    <div class="list-header">
+        <h2>Answers</h2>
+    </div>
     <ul class="response-list">
         {% for answer in answers.items %}
+            <div class="answer" data-id="{{ answer.id|e }}">
+                <div class="header">
+                    <img src="{{ answer.get_language().get_logo_url() }}">
+                    <h4>{{ answer.get_language().get_display_name() }}</h4>
 
+                    <div class="answer-metric">
+                        ??<span>bytes</span>
+                    </div>
+                </div>
+                <div class="body">
+                    {{ macros.highlight_answer(answer)|safe }}
+                </div>
+            </div>
         {% endfor %}
     </ul>
 </div>
