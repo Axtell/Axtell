@@ -28,7 +28,7 @@
     {% endif %}
 
     {% assets "js_all" -%}
-        <script async src="{{ ASSET_URL }}"></script>
+        <script async defer src="{{ ASSET_URL }}"></script>
     {%- endassets %}
 {%- endblock %}
 
