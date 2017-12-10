@@ -1,4 +1,4 @@
-import app.tasks.highlight
+from app.tasks.highlight import syntax_highlight
 
 def highlight_answer(answer):
-    return app.tasks.highlight.syntax_highlight(answer.code, answer.get_language().get_hljs_id())
+    return syntax_highlight.delay(answer.code, answer.get_language().get_hljs_id()).wait()

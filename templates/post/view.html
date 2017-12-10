@@ -28,7 +28,7 @@
                     <h4>{{ answer.get_language().get_display_name() }}</h4>
 
                     <div class="answer-metric">
-                        ??<span>bytes</span>
+                        {{ answer.code|length }}<span>bytes</span>
                     </div>
                 </div>
                 <div class="body">

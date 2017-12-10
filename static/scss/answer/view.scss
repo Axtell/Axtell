@@ -25,5 +25,16 @@
       font-size: $lang-height;
       flex: 1;
     }
+
+    .answer-metric {
+      font-size: $lang-height;
+
+      span {
+        padding-left: 2px;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        color: $label-text;
+      }
+    }
   }
 }
