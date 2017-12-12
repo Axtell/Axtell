@@ -82,7 +82,7 @@ export default class LanguageLookupViewController extends ViewController {
 
         results.forEach(langObject => {
             let lang = langObject.value;
-            let langBox = this._list.appendLanguage(lang);
+            let langBox = this._list.appendLanguage(lang)
             langBox.addEventListener("click", () => {
                 this.setLanguage(lang);
             });

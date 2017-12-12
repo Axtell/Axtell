@@ -57,6 +57,14 @@ pre, pre.hljs, .body pre {
   }
 }
 
+hr {
+  &.big {
+    border: none;
+    border-top: 1px solid $content-border-color;
+    margin: 3em 0;
+  }
+}
+
 .body {
   @import "body.scss";
 }

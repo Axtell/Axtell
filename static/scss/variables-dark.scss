@@ -1,13 +1,6 @@
-$page-width: 70%;
-$font-size: 14px;
+@import "variables-shared.scss";
 
-$bold-font: "Lato";
-$light-font: "Roboto";
-$monospace: Menlo, 'Fira Mono', monospace;
-
-// System fonts
-$body-font: $light-font;
-
+// Font colors
 $em-text: #DDD; // Off-white
 $main-text: #afb7ca; // Off-black dark blue
 $label-text: #9e9e9e; // Gray
@@ -23,8 +16,8 @@ $editor-border: #41495a;
 $link-color: #7ec5ff;
 
 // Depth colors
-$popover-bg: #fbfbfb;
-$popover-border: #EEE;
+$popover-bg: #2c323e;
+$popover-border: rgba(127, 127, 127, 0.3);
 $popover-shadow: #CCC;
 
 // Code block colors
@@ -33,7 +26,7 @@ $code-block-indent: #4c4c4c;
 
 // BGs
 $main-bg: #262b35;
-$dim-bg: #ECECEC;
+$dim-bg: #383f4e;
 
 // Colors
 $theme-color: #09F;

@@ -50,7 +50,7 @@ body {
         }
 
         .fixed-aside {
-          position: fixed;
+          position: absolute;
           width: ($sidebar-width / 100%) * $content-width;
         }
       }
@@ -67,6 +67,7 @@ body {
   @import "buttons.scss";
   @import "leaderboard.scss";
   @import "answer/write.scss";
+  @import "answer/view.scss";
 }
 
 #ns-main {
@@ -91,3 +92,4 @@ body {
 @import "pagination.scss";
 @import "form.scss";
 @import "lang.scss";
+@import "footer.scss";

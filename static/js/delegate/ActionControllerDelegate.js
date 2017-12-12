@@ -24,7 +24,22 @@ export default class ActionControllerDelegate {
         }
 
         return (controller, state) => {
-            elem.value = state.toString();
+            if (state === null) {
+                elem.value = "";
+            } else {
+                elem.value = state.toString();
+            }
+        };
+    }
+
+    /**
+     * Pipes a state to a function.
+     * @param  {Function} func Function to run with state
+     * @return {Function}      Returned function for delegate.
+     */
+    static pipeValueTo(func) {
+        return (controller, state) => {
+            func(state);
         };
     }
 };

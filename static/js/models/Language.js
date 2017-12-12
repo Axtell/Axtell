@@ -64,6 +64,16 @@ export default class Language {
     }
 
     /**
+     * Ace-editor lang def file name.
+     * @type {?string}
+     */
+    get aceName() {
+        let aceName = languages.ace[this.id];
+        if (!aceName) return null;
+        return aceName;
+    }
+
+    /**
      * Checks if two languages are the same
      * @param  {Language} object other language object.
      * @return {boolean} representing if they are the same langauge or not.
@@ -79,7 +89,7 @@ export default class Language {
     static get query() {
         if (this._query !== null) return this._query;
 
-        let queryData = new Map();
+        let queryData = new Map()
 
         // Get query terms for a given language.
         let langIds = Object.keys(languages.languages);

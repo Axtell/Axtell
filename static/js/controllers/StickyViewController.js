@@ -10,7 +10,7 @@ export const SCROLL_ELEMENT = 'content';
 export const ScrollProperty = {
     margin: 'marginTop',
     absolute: 'top'
-};
+}
 
 /**
  * Makes an element sticky relative to a given parent.

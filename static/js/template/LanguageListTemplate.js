@@ -9,7 +9,7 @@ export default class LanguageListTemplate extends Template {
      * Creates a LanuageListTemplate stub. Use state transitions to set values.
      */
     constructor() {
-        let root =; <ul; class="lang-list"></ul>;
+        let root = <ul class="lang-list"></ul>;
         super(root);
 
         this._list = root;
