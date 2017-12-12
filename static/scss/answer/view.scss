@@ -3,6 +3,13 @@
   padding: 1rem;
 }
 
+.response-empty {
+  padding: 1em;
+  font-size: 1.4rem;
+  text-align: center;
+  font-weight: 300;
+}
+
 .answer {
   display: flex;
   flex-direction: column;
