@@ -16,15 +16,15 @@ class TestFlask(TestCase):
         app = server
         app.config['TESTING'] = True
         app.config['SQLALCHEMY_DATABASE_URI'] = self.SQLALCHEMY_DATABASE_URI
-        self.db = SQLAlchemy(app)
-        self.db.init_app(app)
-        self.db.create_all()
         return app
 
     def setUp(self):
         super().setUp()
         self.app_context = self.app.app_context()
         self.app_context.push()
+        self.db = SQLAlchemy(self.app)
+        self.db.init_app(self.app)
+        self.db.create_all()
         self.session = self.db.session()
         self.session.begin_nested()
 
