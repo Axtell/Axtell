@@ -23,6 +23,8 @@ class TestFlask(TestCase):
 
     def setUp(self):
         super().setUp()
+        self.app_context = self.app.app_context()
+        self.app_context.push()
         self.session = self.db.session()
         self.session.begin_nested()
 
@@ -30,3 +32,4 @@ class TestFlask(TestCase):
         super().tearDown()
         self.session.rollback()
         self.db.session.remove()
+        self.app_context.pop()
