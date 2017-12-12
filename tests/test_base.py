@@ -1,10 +1,6 @@
-import unittest
-
 from app.start import server
 from app.instances.db import db
 from flask_testing import TestCase
-from flask_sqlalchemy import SQLAlchemy
-from config import db_config
 
 
 class TestFlask(TestCase):
@@ -18,7 +14,7 @@ class TestFlask(TestCase):
         super().setUp()
         self.db = db
         self.db.create_all()
-        self.session = self.db.session()
+        self.session = self.db.session
         self.session.begin_nested()
 
     def tearDown(self):
