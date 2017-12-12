@@ -11,8 +11,10 @@
     <div class="list-header">
         <h1>{{ post.title|e }}</h1>
     </div>
-    <div class="main body">
-        {{ post_body|safe }}
+    <div class="post-split main">
+        <div class="split-main body">
+            {{ post_body|safe }}
+        </div>
     </div>
 </div>
 <hr class="big">
