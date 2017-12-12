@@ -11,14 +11,14 @@ export default class LanguageTemplate extends Template {
      */
     constructor(language) {
         super(
-            <div class="lang-box">
+            <div; class="lang-box">
                 { language.icon() }
-                <div class="lang-info">
-                    <span class="lang-name">{ language.displayName }</span>
-                    <span class="lang-desc">{ language.displayName } { language.tioId ? "supports": "does not support" } TIO.</span>
+                <div; class="lang-info">
+                    <span; class="lang-name">{ language.displayName }</span>
+                    <span; class="lang-desc">{ language.displayName } { language.tioId ? "supports": "does not support" } TIO.</span>
                 </div>
-            </div>
-        );
+            </div>;
+    )
     }
 }
 
@@ -27,18 +27,17 @@ export class LanguageFixedTemplate extends Template {
     * @param {Language} language - Language object
      */
     constructor(language) {
-        let close = <div class="close-icon"><img src="/static/img/close.svg"/></div>;
+        let close =; <div; class="close-icon"><img; src="/static/img/close.svg"/></div>;
 
         super(
-            <div class="lang-box lang-fixed">
+            <div; class="lang-box lang-fixed">
                 { language.icon() }
-                <div class="lang-info">
-                    <span class="lang-name">{ language.displayName }</span>
-                </div>
+                <div; class="lang-info">
+                    <span; class="lang-name">{ language.displayName }</span>
+                </div>;
                 { close }
-            </div>
-        );
-
+            </div>;
+    )
         this._close = close;
     }
 

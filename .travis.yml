@@ -18,7 +18,7 @@ install:
     - bundle install
     - pip install -r requirements.txt
     - pip install codecov coverage
-    - mysql -u root -e 'CREATE DATABASE ppcg;'
+    - mysql -u root -e 'CREATE DATABASE ppcg_test;'
     
     # Setup travis config
     - cp config.default.py config.py

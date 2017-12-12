@@ -26,7 +26,7 @@ if (formController = ViewController.of(ANSWER_FORM)) {
         formWillSubmit(controller) {
 
         }
-    }
+    };
 
     // Create lanuage identification.
     let languageLookup = new LanguageLookupViewController(ANSWER_LANG);

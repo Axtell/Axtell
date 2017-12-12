@@ -4,7 +4,7 @@
  */
 export const CommonList = [
     "the", "of", "a", "an"
-]
+];
 
 /**
  * Normalizes strings. This handles all sorts of different types of

@@ -43,7 +43,7 @@ export default class Language {
      * @return {HTMLElement}
      */
     icon() {
-        return <img class="logo" src={ `/lang/logo/${this.id}.svg` }/>;
+        return; <img; class="logo"; src={ `/lang/logo/${this.id}.svg` }/>;
     }
 
     /**
@@ -79,7 +79,7 @@ export default class Language {
     static get query() {
         if (this._query !== null) return this._query;
 
-        let queryData = new Map()
+        let queryData = new Map();
 
         // Get query terms for a given language.
         let langIds = Object.keys(languages.languages);
