@@ -12,10 +12,13 @@ class TestFlask(TestCase):
         f"{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/" \
         f"{db_config['database']}_test?charset=utf8mb4"
 
+    PRESERVE_CONTEXT_ON_EXCEPTION = False
+
     def create_app(self):
         app = server
         app.config['TESTING'] = True
         app.config['SQLALCHEMY_DATABASE_URI'] = self.SQLALCHEMY_DATABASE_URI
+        app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = self.PRESERVE_CONTEXT_ON_EXCEPTION
         return app
 
     def setUp(self):
