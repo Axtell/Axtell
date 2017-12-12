@@ -20,6 +20,11 @@
     <div class="list-header">
         <h2>Answers</h2>
     </div>
+    {% if answers.pages == 0 -%}
+    <div class="response-empty">No answers posted</div>
+    {%- elif answers.items|length == 0 -%}
+    <div class="response-empty">No answers on page {{ answers.page }}</div>
+    {%- else -%}
     <ul class="response-list">
         {% for answer in answers.items %}
             <div class="answer" data-id="{{ answer.id|e }}">
@@ -66,6 +71,7 @@
             </a>
         </div>
     </ul>
+    {%- endif %}
 </div>
 {%- endblock %}
 
