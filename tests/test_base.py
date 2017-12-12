@@ -20,4 +20,3 @@ class TestFlask(TestCase):
     def tearDown(self):
         super().tearDown()
         self.session.rollback()
-        self.db.session.remove()
