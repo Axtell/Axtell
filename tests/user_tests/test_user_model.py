@@ -1,8 +1,8 @@
 from app.models.User import User
-from tests.test_base import TestBase
+from tests.test_base import TestFlask
 
 
-class TestUserModel(TestBase.TestDB):
+class TestUserModel(TestFlask):
     def setUp(self):
         super().setUp()
 

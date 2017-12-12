@@ -4,7 +4,7 @@ from app.models.User import User
 from app.models.Post import Post
 from app.models.Answer import Answer
 from app.controllers import vote
-from tests.test_base import TestBase
+from tests.test_base import TestFlask
 from app.session.user_session import set_session_user
 
 
@@ -12,7 +12,7 @@ from app.session.user_session import set_session_user
 from app.routes import *
 
 
-class TestVote(TestBase.TestDB):
+class TestVote(TestFlask):
     def setUp(self):
         super().setUp()
 
@@ -36,7 +36,7 @@ class TestVote(TestBase.TestDB):
         self.session.commit()
 
     def test_post_vote_get(self):
-        result = self.get(f"/post/{self.test_post.id}/vote")
+        result = self.client.get(f"/post/{self.test_post.id}/vote")
         self.assertEqual(result.status_code, 200)
 
         data = result.json
@@ -45,7 +45,7 @@ class TestVote(TestBase.TestDB):
         self.assertEqual(data['post'], self.test_post.id)
 
     def test_answer_vote_get(self):
-        result = self.get(f"/answer/{self.answer.id}/vote")
+        result = self.client.get(f"/answer/{self.answer.id}/vote")
         self.assertEqual(result.status_code, 200)
 
         data = result.json
@@ -54,10 +54,10 @@ class TestVote(TestBase.TestDB):
         self.assertEqual(data['answer'], self.answer.id)
 
     def test_post_vote_change(self):
-        post_result = self.post(f"/post/{self.test_post.id}/vote", data={'vote': 0})
+        post_result = self.client.post(f"/post/{self.test_post.id}/vote", data={'vote': 0})
         self.assertEqual(post_result.status_code, 200)
 
-        get_result = self.get(f"/post/{self.test_post.id}/vote")
+        get_result = self.client.get(f"/post/{self.test_post.id}/vote")
         self.assertEqual(get_result.status_code, 200)
         data = get_result.json
         self.assertEqual(data['vote'], 0)
@@ -66,10 +66,10 @@ class TestVote(TestBase.TestDB):
         self.session.expire(post_vote)
 
     def test_answer_vote_change(self):
-        post_result = self.post(f"/answer/{self.answer.id}/vote", data={'vote': 0})
+        post_result = self.client.post(f"/answer/{self.answer.id}/vote", data={'vote': 0})
         self.assertEqual(post_result.status_code, 200)
 
-        get_result = self.get(f"/answer/{self.answer.id}/vote")
+        get_result = self.client.get(f"/answer/{self.answer.id}/vote")
         self.assertEqual(get_result.status_code, 200)
         data = get_result.json
         self.assertEqual(data['vote'], 0)
@@ -78,14 +78,14 @@ class TestVote(TestBase.TestDB):
         self.session.expire(answer_vote)
 
     def test_post_vote_total(self):
-        result = self.get(f"/post/{self.test_post.id}/votes")
+        result = self.client.get(f"/post/{self.test_post.id}/votes")
         self.assertEqual(result.status_code, 200)
 
         data = result.json
         self.assertEqual(data['votes'], 1)
 
     def test_answer_vote_total(self):
-        result = self.get(f"/answer/{self.answer.id}/votes")
+        result = self.client.get(f"/answer/{self.answer.id}/votes")
         self.assertEqual(result.status_code, 200)
 
         data = result.json

@@ -1,14 +1,14 @@
 import json
 
 from app.models.User import User
-from tests.test_base import TestBase
+from tests.test_base import TestFlask
 
 # this is necessary, but PyCharm disagrees
 # noinspection PyUnresolvedReferences
 import app.instances.auth
 
 
-class TestUserAPI(TestBase.TestDB):
+class TestUserAPI(TestFlask):
     def setUp(self):
         super().setUp()
 
@@ -17,7 +17,7 @@ class TestUserAPI(TestBase.TestDB):
         self.session.commit()
 
     def test_user_get(self):
-        result = self.get(f'/user/{self.user.id}')
+        result = self.client.get(f'/user/{self.user.id}')
         self.assertEqual(result.status_code, 200)
 
         user_data = json.loads(result.data)
