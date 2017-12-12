@@ -24,10 +24,12 @@ class TestVote(TestFlask):
             set_session_user(self.user)
 
         self.test_post = Post(title='Testing Votes API', body='Testing Votes API', user_id=self.user.id)
+        self.user.posts.append(self.test_post)
         self.session.add(self.test_post)
         self.session.commit()
 
         self.answer = Answer(post_id=self.test_post.id, user_id=self.user.id)
+        self.user.answers.append(self.answer)
         self.test_post.answers.append(self.answer)
         self.session.add(self.answer)
         self.session.commit()
