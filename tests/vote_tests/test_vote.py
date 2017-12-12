@@ -19,7 +19,9 @@ class TestVote(TestFlask):
         self.user = User(name='Test User', email='test@user.com')
         self.session.add(self.user)
         self.session.commit()
-        set_session_user(self.user)
+        
+        with self.client.app_context():
+            set_session_user(self.user)
 
         self.test_post = Post(title='Testing Votes API', body='Testing Votes API', user_id=self.user.id)
         self.session.add(self.test_post)
