@@ -1,17 +1,19 @@
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 
+export const SORT_TYPE_KEY = 's';
+
 /**
  * Manages a select dialog for sorting
  */
 export default class SortControllerDelegate extends ActionControllerDelegate {
     didSetStateTo(controller, state) {
         // Sort Type
-        let st = state.elem.dataset.st;
+        let type = state.elem.dataset[SORT_TYPE_KEY];
 
-        if (st) {
+        if (type) {
             let params = new URLSearchParams(location.search);
-            if (params.get('st') !== st) {
-                params.set('st', st)
+            if (params.get(SORT_TYPE_KEY) !== type) {
+                params.set(SORT_TYPE_KEY, type)
                 history.replaceState({}, "", '?' + params.toString());
             }
         }
