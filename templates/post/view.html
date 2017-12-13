@@ -19,20 +19,7 @@
 <div id="responses">
     <div class="list-header">
         <h2>Answers</h2>
-        <span class="select-dialog d-sort">
-            <span>sort by: <a>recent</a></span>
-            <div class="drop template">
-                <div data-st="r" class="opt state-active">relevance</div>
-                <div data-st="s" class="opt">size</div>
-                <div data-st="t" class="opt">newest</div>
-            </div>
-        </span>
     </div>
-    {% if answers.pages == 0 -%}
-    <div class="response-empty">No answers posted</div>
-    {%- elif answers.items|length == 0 -%}
-    <div class="response-empty">No answers on page {{ answers.page }}</div>
-    {%- else -%}
     <ul class="response-list">
         {% for answer in answers.items %}
             <div class="answer" data-id="{{ answer.id|e }}">
@@ -49,37 +36,7 @@
                 </div>
             </div>
         {% endfor %}
-        <div class="pagination">
-            {% if answers.has_prev -%}
-                <a href="?p={{ answers.page - 1 }}" class="page-ctrl -before active">
-            {%- else -%}
-                <a class="page-ctrl -before">
-            {%- endif %}
-                {% include "svg/left-caret.html" %} Prev
-            </a>
-            <div class="page-list -before">
-                {% for num in macros.pages_below(answers) %}
-                <a href="?p={{ num }}">{{ num }}</a>
-                {% endfor %}
-            </div>
-            <form method="GET" action="{{ request.path|e }}">
-                <input class="current-page input-type -num" value="{{ answers.page|e }}" name="p" type='text'>
-            </form>
-            <div class="page-list -after">
-                {% for num in macros.pages_above(answers) %}
-                <a href="?p={{ num }}">{{ num }}</a>
-                {% endfor %}
-            </div>
-            {% if answers.has_next -%}
-                <a href="?p={{ answers.page + 1 }}" class="page-ctrl -after active">
-            {%- else -%}
-                <a class="page-ctrl -after">
-            {%- endif %}
-                Next {% include "svg/right-caret.html" %}
-            </a>
-        </div>
     </ul>
-    {%- endif %}
 </div>
 {%- endblock %}
 
