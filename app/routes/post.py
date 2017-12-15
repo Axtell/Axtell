@@ -3,6 +3,7 @@ from flask import request, redirect, url_for, g, abort
 import app.tasks.markdown as markdown
 from app.controllers import post, answer
 from app.helpers.render import render_template
+from app.models.Leaderboard import Leaderboard
 from app.server import server
 
 
@@ -41,7 +42,7 @@ def get_post(post_id):
         return abort(400)
 
     answers = answer.get_answers(post_id=post_id, page=page)
-    leaderboard = answer.get_leaderboard(post_id=post_id)
+    leaderboard = Leaderboard(post_id=post_id)
 
     return render_template('post/view.html', post=matched_post, post_body=body, answers=answers, leaderboard=leaderboard)
 

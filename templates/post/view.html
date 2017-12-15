@@ -97,7 +97,7 @@
         <h3>Leaderboard</h3>
         <table class="leaderboard">
             <tbody>
-            {% for answer in leaderboard %}
+            {% for answer in leaderboard.get_answers() %}
                 <tr>
                     <td class="counter">{{ loop.index }}.</td>
                     <td class="item-id">
@@ -111,9 +111,12 @@
                         {{ answer.byte_len }}<span class="label-type">bytes</span>
                     </td>
                 </tr>
-                {% endfor %}
+            {% endfor %}
             </tbody>
         </table>
+        {% if leaderboard.get_count() < leaderboard.get_total_count() -%}
+        <div class="icon-pair -active -center"><a href="#lb-m">{% include "svg/down.html" %}<span>See {{ leaderboard.get_total_count() - leaderboard.get_count() }} More</span></a></div>
+        {%- endif %}
     </div>
 </div>
 {%- endblock %}

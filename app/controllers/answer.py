@@ -35,14 +35,6 @@ def create_answer(post_id, code, commentary, lang_id=None, lang_name=None):
     return redirect(url_for('get_post', post_id=post_id, a=new_answer.id))
 
 
-def get_leaderboard(post_id, limit=5):
-    return Answer.query \
-        .filter_by(post_id=post_id) \
-        .order_by(Answer.byte_len.asc()) \
-        .limit(limit) \
-        .all()
-
-
 def get_answers(post_id, page):
     page = Answer.query. \
         filter_by(post_id=post_id) \
