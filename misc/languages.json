@@ -2,7 +2,9 @@
   "tio": {
     "js": "javascript-babel-node",
     "cs": "cs-csc",
-    "fs": "fs-mono"
+    "fs": "fs-mono",
+    "c": "c-gcc",
+    "cpp": "cpp-gcc"
   },
   "ace": {
     "js": "javascript",
