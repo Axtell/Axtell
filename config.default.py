@@ -42,7 +42,8 @@ posts = {
 }
 
 answers = {
-    'lang_len': 40
+    'lang_len': 40,
+    'leaderboard_items': 5
 }
 
 secret_skey = 'SESSION_SECRET_KEY'
