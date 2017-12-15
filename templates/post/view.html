@@ -43,7 +43,7 @@
                     <h4>{{ answer.get_language().get_display_name() }}</h4>
 
                     <div class="answer-metric">
-                        {{ answer.code|length }}<span>bytes</span>
+                        {{ answer.byte_len }}<span>bytes</span>
                     </div>
                 </div>
                 <div class="body">
@@ -96,32 +96,23 @@
     <div class="csb-section">
         <h3>Leaderboard</h3>
         <table class="leaderboard">
-            <tr>
-                <td class="counter">1.</td>
-                <td class="item-id">
-                    <img class="icon" src="/static/lang/js.svg"/>
-                    <span class="item-anchor">
-                        <a>JavaScript</a>
-                        <span class="author">by <span>Downgoat</span></span>
-                    </span>
-                </td>
-                <td>
-                    6<span class="label-type">bytes</span>
-                </td>
-            </tr>
-            <tr>
-                <td class="counter">2.</td>
-                <td class="item-id">
-                    <img class="icon" src="/static/lang/py.svg"/>
-                    <span class="item-anchor">
-                        <a>Python</a>
-                        <span class="author">by <span>Evil Sheep</span></span>
-                    </span>
-                </td>
-                <td>
-                    8<span class="label-type">bytes</span>
-                </td>
-            </tr>
+            <tbody>
+            {% for answer in leaderboard %}
+                <tr>
+                    <td class="counter">{{ loop.index }}.</td>
+                    <td class="item-id">
+                        <img class="icon" src="{{ answer.get_language().get_logo_url() }}"/>
+                        <span class="item-anchor">
+                            <a>{{ answer.get_language().get_display_name() }}</a>
+                            <span class="author">by <span>{{ answer.user.name }}</span></span>
+                        </span>
+                    </td>
+                    <td>
+                        {{ answer.byte_len }}<span class="label-type">bytes</span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
         </table>
     </div>
 </div>
