@@ -4,6 +4,7 @@
 $em-text: #000;
 $main-text: #4c5566;
 $label-text: #676767;
+$label-tag: #BBB;
 $dim-text: #999;
 $title-text: #000;
 
@@ -16,7 +17,7 @@ $editor-border: #EEE;
 $link-color: #7ec5ff;
 
 // Depth colors
-$popover-bg: #fbfbfb;
+$popover-bg: $editor-bg;
 $popover-border: #EEE;
 $popover-shadow: #CCC;
 

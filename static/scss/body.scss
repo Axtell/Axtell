@@ -19,6 +19,15 @@ code {
   font-family: $monospace;
 }
 
+p:first-child {
+  margin-top: 0;
+}
+
+a {
+  color: inherit;
+  border-bottom: 2px solid #DDD;
+}
+
 li, p {
   color: $main-text;
   font-weight: 300;
