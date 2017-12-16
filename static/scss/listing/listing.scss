@@ -1,5 +1,5 @@
 .list-header {
-  border-bottom: 1px solid $content-border-color;
+  // border-bottom: 1px solid $content-border-color;
   padding: 0 1rem 0.5em;
 
   display: flex;
@@ -12,6 +12,8 @@
 
   > h1, > h2 {
     flex: 1;
+    font-family: $bold-font;
+    font-weight: $bold-weight;
   }
   > * {
     display: block;
