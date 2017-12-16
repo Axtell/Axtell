@@ -37,7 +37,7 @@
     {%- else -%}
     <ul class="response-list">
         {% for answer in answers.items %}
-            <div class="answer" data-id="{{ answer.id|e }}">
+            <div id="answer-{{answer.id|e}}" class="answer" data-id="{{ answer.id|e }}">
                 <div class="header">
                     <img src="{{ answer.get_language().get_logo_url() }}">
                     <h4>{{ answer.get_language().get_display_name() }}</h4>
@@ -103,7 +103,7 @@
                     <td class="item-id">
                         <img class="icon" src="{{ answer.get_language().get_logo_url() }}"/>
                         <span class="item-anchor">
-                            <a>{{ answer.get_language().get_display_name() }}</a>
+                            <a href="#answer-{{ answer.id }}">{{ answer.get_language().get_display_name() }}</a>
                             <span class="author">by <span>{{ answer.user.name }}</span></span>
                         </span>
                     </td>

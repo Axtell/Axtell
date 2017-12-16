@@ -30,25 +30,44 @@
   label {
     display: block;
     color: $label-text;
-    font-size: 1rem;
+
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: $label-tag;
 
     margin-bottom: 4px;
   }
 }
 
-.text-input {
+input.text-input {
   font-size: 1rem;
-  padding: 0.5em 1em;
+
+  padding-bottom: 0.5em;
+
+  &.-owned {
+    padding: 0 1em 0.5em;
+    border-bottom: none;
+  }
+
+  &.-title {
+    font-size: 1.3rem;
+    font-family: $bold-font;
+    font-weight: $bold-weight;
+    color: $big-fg;
+  }
+
+  border-bottom: 2px solid $label-tag;
 }
 
 .text-base {
   background: $editor-bg;
   color: $editor-fg;
-  border: 1px solid $editor-border;
   margin: 0;
   outline: none;
   -webkit-appearance: none;
   resize: none;
+  border: none;
 
   position: relative;
 
@@ -65,7 +84,7 @@
     margin: 0;
   }
 
-  &:focus {
-    box-shadow: 0 0 3px $header-shadow-color inset;
+  &.markdown {
+    background: $code-block-bg;
   }
 }
