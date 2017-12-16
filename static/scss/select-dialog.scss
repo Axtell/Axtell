@@ -12,6 +12,7 @@
   position: relative;
 
   .drop {
+    z-index: 1;
     outline: none;
     position: absolute;
     right: 0;

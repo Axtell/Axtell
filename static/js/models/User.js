@@ -13,6 +13,13 @@ export default class User {
     }
 
     /**
+     * @type {string}
+     */
+    get name() {
+        return this._name;
+    }
+
+    /**
      * Unwraps a user from an API JSON object.
      * @param {Object} json User JSON object.
      * @return {?User} User object if succesful, `null` if unauthorized.

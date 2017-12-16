@@ -3,3 +3,18 @@
   display: flex;
   flex-direction: column;
 }
+
+.post-split {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+
+  .split-aside {
+    padding: 1rem;
+    @import "page/voting.scss";
+  }
+
+  .split-main {
+    flex: 1;
+  }
+}

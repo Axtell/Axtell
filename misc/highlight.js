@@ -9,24 +9,19 @@
 var hljs = require('highlight.js'),
     escape = require('escape-html');
 
-function highlight(string, language) {
-    var langExec = "";
-
-    if (language) {
-        langExec = ' exec-target" data-lang="' + language;
-    }
+function highlight(string, language, langId) {
+    var head = '<pre class="hljs exec-target" data-lang="' + langId + '"><code>',
+        tail = '</code></pre>';
 
     if (language && hljs.getLanguage(language)) {
         try {
-            return '<pre class="hljs' + langExec + '"><code>' +
-                hljs.highlight(language, string, true).value +
-                '</code></pre>';
+            return head + hljs.highlight(language, string, true).value + tail;
         } catch (__) {
             return '<div style="font-size: 3rem; color: red; font-weight: 300">Error Rendering</div>';
         }
     }
 
-    return '<pre class="hljs' + langExec + '"><code>' + escape(string) + '</code></pre>';
+    return head + escape(string) + tail;
 }
 
 process.stdin.resume();
@@ -35,16 +30,23 @@ process.stdin.on('data', function (chunk) {
     let offset = 0;
 
     // Determine language length
-    let langLength = chunk.readUInt32LE(0);
+    let langLength = chunk.readUInt32LE(offset);
     offset += 4;
 
     // Read language name
     let lang = chunk.slice(offset, offset += langLength).toString('utf-8');
 
+    // Determine language id length
+    let langIdLength = chunk.readUInt32LE(offset);
+    offset += 4;
+
+    // Read language id name
+    let langId = chunk.slice(offset, offset += langIdLength).toString('utf-8');
+
     // Read Code
     let code = chunk.slice(offset).toString('utf-8');
 
-    let buffer = Buffer.from(highlight(code, lang), 'utf8');
+    let buffer = Buffer.from(highlight(code, lang, langId), 'utf8');
     let length = Buffer.allocUnsafe(4);
     length.writeInt32LE(buffer.length, 0);
     process.stdout.write(length);

@@ -16,11 +16,12 @@ def fork_highlight_helper():
 
 
 @celery_app.task
-def syntax_highlight(string, lang):
+def syntax_highlight(string, lang, lang_id):
     helper = fork_highlight_helper()
 
     lang_name = lang.encode('utf-8')
-    data = pack('<I', len(lang_name)) + lang_name + string.encode('utf8')
+    lang_bid = lang_id.encode('utf-8')
+    data = pack('<I', len(lang_name)) + lang_name + pack('<I', len(lang_bid)) + lang_bid + string.encode('utf8')
 
     helper.stdin.write(data)
     helper.stdin.flush()

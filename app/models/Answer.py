@@ -1,4 +1,6 @@
 from app.instances.db import db
+from sqlalchemy import func
+from sqlalchemy.ext.hybrid import hybrid_property
 from config import answers
 
 import app.models.Language
@@ -19,6 +21,7 @@ class Answer(db.Model):
     language_name = db.Column(db.String(answers['lang_len']), nullable=True)
 
     code = db.Column(db.Text, default=db.null)
+    encoding = db.Column(db.String(10), default='utf8')
     commentary = db.Column(db.Text, default=db.null)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
@@ -26,6 +29,15 @@ class Answer(db.Model):
 
     user = db.relationship('User', backref='answers')
     post = db.relationship('Post', backref='answers')
+
+    @hybrid_property
+    def byte_len(self):
+        # TODO: calculate using encoding
+        return len(self.code)
+
+    @byte_len.expression
+    def byte_len(cls):
+        return func.length(cls.code)
 
     def to_json(self):
         data = {}
