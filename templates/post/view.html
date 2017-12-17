@@ -2,6 +2,12 @@
 
 {% block head -%}
 {{ super() }}
+{% set canonical = opts.canonical_host + url_for('get_post', post_id=post_id) %}
+<link rel="canonical" href="{{ canonical }}">
+<link property="og:url" value="{{ canonical }}">
+<link property="og:type" value="article">
+<link property="og:title" value="{{ post.title|e }}">
+<meta name="description" value="{{ macros.text_preview(post.body)|e }}">
 {% include "includes/editor.html" %}
 {%- endblock %}
 
@@ -107,7 +113,7 @@
                             <span class="author">by <span>{{ answer.user.name }}</span></span>
                         </span>
                     </td>
-                    <td>
+                    <td class="metric">
                         {{ answer.byte_len }}<span class="label-type">bytes</span>
                     </td>
                 </tr>
