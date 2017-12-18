@@ -9,7 +9,7 @@ from app.models.Answer import Answer
 
 
 # noinspection PyUnresolvedReferences
-from app.routes import vote
+from app.routes import vote as _vote
 
 
 class TestVote(TestFlask):
