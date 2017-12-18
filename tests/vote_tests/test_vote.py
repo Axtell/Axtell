@@ -1,5 +1,5 @@
 from tests.test_base import TestFlask
-from app.controllers import vote
+from app.controllers import vote as vote_controller
 from app.session.user_session import set_session_user
 from app.models.PostVote import PostVote
 from app.models.AnswerVote import AnswerVote
@@ -10,7 +10,7 @@ from flask import g
 
 
 # noinspection PyUnresolvedReferences
-from app.routes import vote as _vote
+from app.routes import *
 
 
 class TestVote(TestFlask):
@@ -38,10 +38,10 @@ class TestVote(TestFlask):
                 g.user = self.user
 
         self.session.begin_nested()
-        vote.do_post_vote(self.test_post.id, 1)
+        vote_controller.do_post_vote(self.test_post.id, 1)
 
         self.session.begin_nested()
-        vote.do_answer_vote(self.answer.id, -1)
+        vote_controller.do_answer_vote(self.answer.id, -1)
 
     def test_post_vote_get(self):
         result = self.client.get(f"/post/{self.test_post.id}/vote")
