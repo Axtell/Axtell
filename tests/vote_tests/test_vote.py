@@ -9,7 +9,7 @@ from app.models.Answer import Answer
 
 
 # noinspection PyUnresolvedReferences
-from app.routes import *
+from app.routes import vote
 
 
 class TestVote(TestFlask):
@@ -65,9 +65,6 @@ class TestVote(TestFlask):
         data = get_result.json
         self.assertEqual(data['vote'], 0)
 
-        post_vote = PostVote.query.filter_by(post_id=self.test_post.id, user_id=self.user.id).first()
-        self.session.expire(post_vote)
-
     def test_answer_vote_change(self):
         self.session.begin_nested()
 
@@ -78,9 +75,6 @@ class TestVote(TestFlask):
         self.assertEqual(get_result.status_code, 200)
         data = get_result.json
         self.assertEqual(data['vote'], 0)
-
-        answer_vote = AnswerVote.query.filter_by(answer_id=self.answer.id, user_id=self.user.id).first()
-        self.session.expire(answer_vote)
 
     def test_post_vote_total(self):
         result = self.client.get(f"/post/{self.test_post.id}/votes")
