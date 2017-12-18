@@ -12,6 +12,8 @@ class TestUserAPI(TestFlask):
     def setUp(self):
         super().setUp()
 
+        self.session.begin_nested()
+
         self.user = User(name='Test User', email='test@user.com')
         self.session.add(self.user)
         self.session.commit()
