@@ -6,6 +6,7 @@ from app.models.AnswerVote import AnswerVote
 from app.models.User import User
 from app.models.Post import Post
 from app.models.Answer import Answer
+from flask import g
 
 
 # noinspection PyUnresolvedReferences
@@ -34,6 +35,7 @@ class TestVote(TestFlask):
         with self.client as c:
             with c.session_transaction() as sess:
                 set_session_user(self.user, current_session=sess)
+                g.user = self.user
 
         self.session.begin_nested()
         vote.do_post_vote(self.test_post.id, 1)
