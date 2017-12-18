@@ -1,11 +1,11 @@
+from tests.test_base import TestFlask
+from app.controllers import vote
+from app.session.user_session import set_session_user
 from app.models.PostVote import PostVote
 from app.models.AnswerVote import AnswerVote
 from app.models.User import User
 from app.models.Post import Post
 from app.models.Answer import Answer
-from app.controllers import vote
-from tests.test_base import TestFlask
-from app.session.user_session import set_session_user
 
 
 # noinspection PyUnresolvedReferences
