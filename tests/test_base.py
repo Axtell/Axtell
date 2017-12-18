@@ -8,6 +8,7 @@ class TestFlask(TestCase):
     def create_app(self):
         app = server
         app.config['TESTING'] = True
+        app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = False
         return app
 
     def setUp(self):
