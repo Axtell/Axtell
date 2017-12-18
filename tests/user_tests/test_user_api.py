@@ -6,6 +6,8 @@ from tests.test_base import TestFlask
 # this is necessary, but PyCharm disagrees
 # noinspection PyUnresolvedReferences
 import app.instances.auth
+# noinspection PyUnresolvedReferences
+import app.routes.user
 
 
 class TestUserAPI(TestFlask):
