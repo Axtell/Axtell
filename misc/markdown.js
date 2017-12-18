@@ -6,6 +6,7 @@ var MarkdownIt = require('markdown-it'),
     KaTeX = require('markdown-it-katex'),
     hljs = require('highlight.js'),
     footnote = require('markdown-it-footnote'),
+    mila = require('markdown-it-link-attributes'),
     os = require('os');
 
 let md = new MarkdownIt({
@@ -31,6 +32,11 @@ let md = new MarkdownIt({
 }).use(KaTeX, {
     'throwOnError': false,
     'errorColor': '#cc0000'
+}).use(mila, {
+    attrs: {
+        target: '_blank',
+        rel: 'nofollow'
+    }
 }).use(footnote);
 
 process.stdin.resume();
