@@ -20,8 +20,6 @@ class TestVote(TestFlask):
         self.user = User(name='Test User', email='test@user.com')
         self.session.add(self.user)
 
-        set_session_user(self.user)
-
         self.test_post = Post(title='Testing Votes API', body='Testing Votes API')
         self.user.posts.append(self.test_post)
         self.session.add(self.test_post)
@@ -35,6 +33,10 @@ class TestVote(TestFlask):
         vote.do_answer_vote(self.answer.id, -1)
 
         self.session.commit()
+
+        with self.client as c:
+            with c.session_transaction() as sess:
+                set_session_user(self.user, current_session=sess)
 
     def test_post_vote_get(self):
         result = self.client.get(f"/post/{self.test_post.id}/vote")
