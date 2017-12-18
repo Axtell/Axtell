@@ -29,14 +29,17 @@ class TestVote(TestFlask):
         self.test_post.answers.append(self.answer)
         self.session.add(self.answer)
 
-        vote.do_post_vote(self.test_post.id, 1)
-        vote.do_answer_vote(self.answer.id, -1)
-
         self.session.commit()
 
         with self.client as c:
             with c.session_transaction() as sess:
                 set_session_user(self.user, current_session=sess)
+
+        self.session.begin_nested()
+        vote.do_post_vote(self.test_post.id, 1)
+
+        self.session.begin_nested()
+        vote.do_answer_vote(self.answer.id, -1)
 
     def test_post_vote_get(self):
         result = self.client.get(f"/post/{self.test_post.id}/vote")
