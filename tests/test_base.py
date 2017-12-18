@@ -13,7 +13,6 @@ class TestFlask(TestCase):
     def setUp(self):
         super().setUp()
         self.db = db
-        self.db.create_all()
         self.session = self.db.session
         self.session.begin_nested()
 

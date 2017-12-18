@@ -16,9 +16,9 @@ class TestVote(TestFlask):
     def setUp(self):
         super().setUp()
 
+        self.session.begin_nested()
         self.user = User(name='Test User', email='test@user.com')
         self.session.add(self.user)
-        self.session.commit()
 
         with self.app.app_context():
             set_session_user(self.user)
@@ -26,13 +26,11 @@ class TestVote(TestFlask):
         self.test_post = Post(title='Testing Votes API', body='Testing Votes API')
         self.user.posts.append(self.test_post)
         self.session.add(self.test_post)
-        self.session.commit()
 
         self.answer = Answer(post_id=self.test_post.id)
         self.user.answers.append(self.answer)
         self.test_post.answers.append(self.answer)
         self.session.add(self.answer)
-        self.session.commit()
 
         vote.do_post_vote(self.test_post.id, 1)
         vote.do_answer_vote(self.answer.id, -1)
@@ -58,6 +56,8 @@ class TestVote(TestFlask):
         self.assertEqual(data['answer'], self.answer.id)
 
     def test_post_vote_change(self):
+        self.session.begin_nested()
+
         post_result = self.client.post(f"/post/{self.test_post.id}/vote", data={'vote': 0})
         self.assertEqual(post_result.status_code, 200)
 
@@ -70,6 +70,8 @@ class TestVote(TestFlask):
         self.session.expire(post_vote)
 
     def test_answer_vote_change(self):
+        self.session.begin_nested()
+
         post_result = self.client.post(f"/answer/{self.answer.id}/vote", data={'vote': 0})
         self.assertEqual(post_result.status_code, 200)
 

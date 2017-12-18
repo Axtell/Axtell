@@ -8,6 +8,8 @@ class TestUserModel(TestFlask):
 
     def test_user_add(self):
         new_user = User(name='Test User', email='test@user.com')
+
+        self.session.begin_nested()
         self.session.add(new_user)
         self.session.commit()
 
