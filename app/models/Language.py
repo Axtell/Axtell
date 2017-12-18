@@ -27,6 +27,15 @@ class Language:
         second_char = self._id[1] if len(self._id) > 1 else ""
         return self._data.get('sn', self._id[0].upper() + second_char)
 
+    def get_logo_url(self):
+        return f"/lang/logo/{self._id}.svg"
+
+    def get_hljs_id(self):
+        hljs_id = languages['highlight'].get(self._id, "")
+        if hljs_id == 1:
+            return self._id
+        return hljs_id
+
     def get_display_name(self):
         # Return display name. If that doesn't exist, capitalize each letter
         # following a whitespace char

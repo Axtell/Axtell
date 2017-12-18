@@ -1,4 +1,6 @@
 from app.instances.db import db
+from sqlalchemy import func
+from sqlalchemy.ext.hybrid import hybrid_property
 import app.models.Language
 import datetime
 from config import answers
@@ -20,12 +22,22 @@ class Answer(db.Model):
 
     code = db.Column(db.Text, default=None, nullable=True)
     commentary = db.Column(db.Text, default=None, nullable=True)
+    encoding = db.Column(db.String(10), default='utf8')
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
     user = db.relationship('User', backref='answers')
     post = db.relationship('Post', backref='answers')
+
+    @hybrid_property
+    def byte_len(self):
+        # TODO: calculate using encoding
+        return len(self.code)
+
+    @byte_len.expression
+    def byte_len(cls):
+        return func.length(cls.code)
 
     def to_json(self):
         data = {}

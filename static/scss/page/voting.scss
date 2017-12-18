@@ -1,0 +1,21 @@
+ul.vote-list {
+  margin: 0;
+  padding: 0;
+
+  li {
+    list-style: none;
+
+    > div {
+      border-radius: 4px;
+      border: 1px solid #AAA;
+      background: #999;
+
+      height: 3rem;
+      width: 3rem;
+
+      svg {
+        fill: #666;
+      }
+    }
+  }
+}

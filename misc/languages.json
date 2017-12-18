@@ -2,7 +2,19 @@
   "tio": {
     "js": "javascript-babel-node",
     "cs": "cs-csc",
-    "fs": "fs-mono"
+    "fs": "fs-mono",
+    "c": "c-gcc",
+    "cpp": "cpp-gcc"
+  },
+  "ace": {
+    "js": "javascript",
+    "python2": "python",
+    "python3": "python",
+    "bash": "sh",
+    "perl5": "perl",
+    "perl6": "perl",
+    "c": "c_cpp",
+    "cpp": "c_cpp"
   },
   "alias": {
     "javascript": "js",
@@ -14,13 +26,18 @@
     "bf": "brainfuck"
   },
   "highlight": {
+    "bash": "sh",
+    "c": 1,
+    "cpp": 1,
     "perl5": "perl",
-    "perl6": "perl"
+    "perl6": "perl",
+    "js": 1
   },
   "languages": {
     "05ab1e": {
       "display": "05AB1E"
     },
+    "actually": {},
     "apl-dyalog": {
       "display": "APL (Dyalog)"
     },
@@ -29,7 +46,12 @@
     },
     "bash": {},
     "befunge-98": {},
+    "brainfuck": {
+      "display": "Brainf***",
+      "sn": "BF"
+    },
     "c": {},
+    "cheddar": {},
     "cpp": {
       "display": "C++",
       "sn": "C+"
@@ -54,10 +76,13 @@
     "perl6": {
       "display": "Perl 6"
     },
+    "python2": {
+      "display": "Python 2"
+    },
+    "python3": {
+      "display": "Python 3"
+    },
     "pyth": {},
-    "brainfuck": {
-      "display": "Brainf***",
-      "sn": "BF"
-    }
+    "seriously": {}
   }
 }

@@ -48,12 +48,17 @@ div#header {
     .r-reveal {
       display: none;
     }
+
     @media screen and (max-width: 530px) {
       .r-collapse {
         display: none;
       }
       .r-reveal {
         display: block
+      }
+
+      .section {
+        margin-right: 0;
       }
 
       #r-pop {
@@ -66,6 +71,75 @@ div#header {
         }
         svg {
           stroke: $dim-text;
+        }
+      }
+
+      #r-close {
+        display: none;
+      }
+
+      // For responsive active state (popup opened)
+      &.active {
+        // Modal
+        #r-cover {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.7);
+        }
+
+        #r-close {
+          height: 2rem;
+          width: 2rem;
+          right: 8px;
+          top: 8px;
+
+          display: block;
+          position: fixed;
+          z-index: 2;
+
+          fill: white;
+        }
+
+        // Reorganize nav links to appear on-top
+        #nav-links {
+          display: flex;
+          z-index: 1;
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+
+          ul {
+            flex-direction: column;
+            justify-content: center;
+
+            li {
+              transition: none;
+
+              &:hover {
+                background: transparent;
+              }
+
+              &.selected a {
+                border-bottom: none;
+                background: rgba($theme-color, .3)
+              }
+
+              a {
+                $popover-nav-fg: #FFF;
+
+                padding: 8px 1em;;
+                font-size: 1.5rem;
+
+                fill: $popover-nav-fg;
+                color: $popover-nav-fg;
+              }
+            }
+          }
         }
       }
     }

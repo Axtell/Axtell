@@ -7,7 +7,7 @@ from misc import md_exe
 markdown_local = local()
 
 
-def fork_helper():
+def fork_markdown_helper():
     if not (hasattr(markdown_local, 'render_proc') and markdown_local.render_proc is not None):
         markdown_local.render_proc = Popen(['node', md_exe], stdout=PIPE, stdin=PIPE)
 
@@ -16,7 +16,7 @@ def fork_helper():
 
 @celery_app.task
 def render_markdown(string):
-    helper = fork_helper()
+    helper = fork_markdown_helper()
 
     helper.stdin.write(string.encode('utf-8'))
     helper.stdin.flush()

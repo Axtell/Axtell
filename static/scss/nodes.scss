@@ -65,6 +65,28 @@ hr {
   }
 }
 
+.icon-pair {
+  &.-active {
+    &, a { color: #009DFA; }
+    fill: #009DFA;
+  }
+
+  &.-center {
+    text-align: center;
+  }
+
+  $pair-size: 1rem;
+
+  svg {
+    height: $pair-size;
+    margin-right: 4px;
+  }
+
+  span {
+    font-size: $pair-size;
+  }
+}
+
 .body {
   @import "body.scss";
 }

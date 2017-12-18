@@ -6,6 +6,7 @@ var MarkdownIt = require('markdown-it'),
     KaTeX = require('markdown-it-katex'),
     hljs = require('highlight.js'),
     footnote = require('markdown-it-footnote'),
+    mila = require('markdown-it-link-attributes'),
     os = require('os');
 
 let md = new MarkdownIt({
@@ -22,6 +23,7 @@ let md = new MarkdownIt({
                     hljs.highlight(language, string, true).value +
                     '</code></pre>';
             } catch (__) {
+                return '<div style="font-size: 3rem; color: red; font-weight: 300">Error Rendering</div>';
             }
         }
 
@@ -30,6 +32,11 @@ let md = new MarkdownIt({
 }).use(KaTeX, {
     'throwOnError': false,
     'errorColor': '#cc0000'
+}).use(mila, {
+    attrs: {
+        target: '_blank',
+        rel: 'nofollow'
+    }
 }).use(footnote);
 
 process.stdin.resume();
