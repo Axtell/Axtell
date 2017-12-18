@@ -9,6 +9,7 @@ class TestFlask(TestCase):
         app = server
         app.config['TESTING'] = True
         app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = False
+        app.config['SERVER_NAME'] = 'localhost'
         return app
 
     def setUp(self):
