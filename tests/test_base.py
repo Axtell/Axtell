@@ -12,6 +12,8 @@ class TestFlask(TestCase):
 
     def setUp(self):
         super().setUp()
+        self.ctx = self.app.app_context()
+        self.ctx.push()
         self.db = db
         self.session = self.db.session
         self.session.begin_nested()
@@ -19,3 +21,4 @@ class TestFlask(TestCase):
     def tearDown(self):
         super().tearDown()
         self.session.rollback()
+        self.ctx.pop()
