@@ -10,7 +10,11 @@ from flask import g
 
 
 # noinspection PyUnresolvedReferences
-from app.routes import *
+import app.routes.vote
+# noinspection PyUnresolvedReferences
+import app.routes.answer
+# noinspection PyUnresolvedReferences
+import app.routes.post
 
 
 class TestVote(TestFlask):
