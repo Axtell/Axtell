@@ -36,7 +36,10 @@ def get_post_vote(post_id):
     if current_user is None:
         return abort(403)
 
-    return render_json(PostVote.query.filter_by(post_id=post_id, user_id=current_user.id).first().to_json())
+    post_votes = PostVote.query.filter_by(post_id=post_id, user_id=current_user.id)
+    if post_votes is None:
+        return abort(404)
+    return render_json(post_votes.first().to_json())
 
 
 def get_answer_vote(answer_id):
@@ -44,7 +47,10 @@ def get_answer_vote(answer_id):
     if current_user is None:
         return abort(403)
 
-    return render_json(AnswerVote.query.filter_by(answer_id=answer_id, user_id=current_user.id).first().to_json())
+    answer_votes = AnswerVote.query.filter_by(answer_id=answer_id, user_id=current_user.id)
+    if answer_votes is None:
+        return abort(404)
+    return render_json(answer_votes.first().to_json())
 
 
 def do_post_vote(post_id, vote):
