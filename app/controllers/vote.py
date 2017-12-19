@@ -36,7 +36,7 @@ def get_post_vote(post_id):
     if current_user is None:
         return abort(403)
 
-    post_votes = PostVote.query.filter_by(post_id=post_id, user_id=current_user.id)
+    post_votes = PostVote.query.filter_by(post_id=post_id, user_id=current_user.id).first()
     if post_votes is None:
         return abort(404)
     return render_json(post_votes.first().to_json())
@@ -47,7 +47,7 @@ def get_answer_vote(answer_id):
     if current_user is None:
         return abort(403)
 
-    answer_votes = AnswerVote.query.filter_by(answer_id=answer_id, user_id=current_user.id)
+    answer_votes = AnswerVote.query.filter_by(answer_id=answer_id, user_id=current_user.id).first()
     if answer_votes is None:
         return abort(404)
     return render_json(answer_votes.first().to_json())
@@ -67,7 +67,7 @@ def do_post_vote(post_id, vote):
         return abort(400)
 
     # handle changing existing vote
-    prev_vote = PostVote.query.filter_by(post_id=post_id, user_id=current_user.id)
+    prev_vote = PostVote.query.filter_by(post_id=post_id, user_id=current_user.id).first()
     if prev_vote is not None:
         prev_vote.vote = vote
         db.session.commit()
@@ -97,7 +97,7 @@ def do_answer_vote(answer_id, vote):
         return abort(400)
 
     # handle changing existing vote
-    prev_vote = AnswerVote.query.filter_by(answer_id=answer_id, user_id=current_user.id)
+    prev_vote = AnswerVote.query.filter_by(answer_id=answer_id, user_id=current_user.id).first()
     answer = Answer.query.filter_by(id=answer_id).first()
     if prev_vote is not None:
         prev_vote.vote = vote
