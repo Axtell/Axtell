@@ -19,11 +19,6 @@ install:
     - pip install -r requirements.txt
     - pip install codecov coverage
     - mysql -u root -e 'CREATE DATABASE ppcg;'
-    - git clone https://github.com/jarus/flask-testing.git
-    - cd flask-testing
-    - git reset --hard 624c6473788a02b5ea75944ab49335bf1869f5ea
-    - python3 setup.py install
-    - cd ..
     
     # Setup travis config
     - cp config.default.py config.py
