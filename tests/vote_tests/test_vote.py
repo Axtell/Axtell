@@ -42,10 +42,10 @@ class TestVote(TestFlask):
                 g.user = self.user
 
         self.session.begin_nested()
-        vote_controller.do_post_vote(self.test_post.id, 1)
+        assert vote_controller.do_post_vote(self.test_post.id, 1) == "Voted"
 
         self.session.begin_nested()
-        vote_controller.do_answer_vote(self.answer.id, -1)
+        assert vote_controller.do_answer_vote(self.answer.id, -1) == "Votes"
 
     def test_post_vote_get(self):
         current_user = self.user
