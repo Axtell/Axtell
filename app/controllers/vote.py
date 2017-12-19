@@ -76,13 +76,13 @@ def do_answer_vote(answer_id, vote):
 
     # handle changing existing vote
     prev_vote = AnswerVote.query.filter_by(answer_id=answer_id, user_id=g.user.id)
+    answer = Answer.query.filter_by(id=answer_id).first()
     if prev_vote is not None:
         prev_vote.vote = vote
         db.session.commit()
     else:
         new_vote = AnswerVote(answer_id=answer_id, vote=vote, user_id=g.user.id)
         g.user.votes.append(new_vote)
-        answer = Answer.query.filter_by(id=answer_id).first()
         answer.votes.append(new_vote)
 
         db.session.add(new_vote)
