@@ -65,7 +65,7 @@ class TestVote(TestFlask):
         self.assertEqual(data['user'], self.user.id)
         self.assertEqual(data['answer'], self.answer.id)
 
-    def test_post_vote_change(self):
+    def test_change_post_vote(self):
         self.session.begin_nested()
 
         post_result = self.client.post(f"/vote/post/{self.test_post.id}", data={'vote': 0})
@@ -76,7 +76,7 @@ class TestVote(TestFlask):
         data = get_result.json
         self.assertEqual(data['vote'], 0)
 
-    def test_answer_vote_change(self):
+    def test_change_answer_vote(self):
         self.session.begin_nested()
 
         post_result = self.client.post(f"/vote/answer/{self.answer.id}", data={'vote': 0})
