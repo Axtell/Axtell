@@ -48,6 +48,8 @@ class TestVote(TestFlask):
         vote_controller.do_answer_vote(self.answer.id, -1)
 
     def test_post_vote_get(self):
+        current_user = self.user
+        current_post = self.test_post
         result = self.client.get(f"/vote/post/{self.test_post.id}")
         self.assertEqual(result.status_code, 200)
 
@@ -57,6 +59,8 @@ class TestVote(TestFlask):
         self.assertEqual(data['post'], self.test_post.id)
 
     def test_answer_vote_get(self):
+        current_user = self.user
+        current_answer = self.answer
         result = self.client.get(f"/vote/answer/{self.answer.id}")
         self.assertEqual(result.status_code, 200)
 
