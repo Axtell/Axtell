@@ -7,6 +7,9 @@ from app.models.PostVote import PostVote
 from app.models.AnswerVote import AnswerVote
 from app.helpers.render import render_json
 
+# noinspection PyUnresolvedReferences
+import app.routes.post
+
 
 def get_post_vote_sum(post_id):
     post = Post.query.filter_by(id=post_id).first()
