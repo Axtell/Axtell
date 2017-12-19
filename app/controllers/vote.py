@@ -19,7 +19,7 @@ def get_post_vote_sum(post_id):
     post = Post.query.filter_by(id=post_id).first()
     if post is None:
         return abort(404)
-    votes = PostVote.query(PostVote.vote).filter_by(post_id=post_id).all()
+    votes = map(lambda vote: vote.vote, PostVote.query.filter_by(post_id=post_id).all())
     return render_json({"votes": sum(votes)})
 
 
@@ -27,7 +27,7 @@ def get_answer_vote_sum(answer_id):
     answer = Answer.query.filter_by(id=answer_id).first()
     if answer is None:
         return abort(404)
-    votes = AnswerVote.query(AnswerVote.vote).filter_by(answer_id=answer_id).all()
+    votes = map(lambda vote: vote, AnswerVote.query.filter_by(answer_id=answer_id).all())
     return render_json({"votes": sum(votes)})
 
 
