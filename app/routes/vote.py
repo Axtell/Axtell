@@ -4,17 +4,17 @@ from app.controllers import vote
 from app.server import server
 
 
-@server.route("/post/<int:post_id>/votes")
+@server.route("/votes/post/<int:post_id>")
 def post_votes(post_id):
     return vote.get_post_vote_sum(post_id)
 
 
-@server.route("/answer/<int:answer_id>/votes")
+@server.route("/votes/answer/<int:answer_id>")
 def answer_votes(answer_id):
     return vote.get_answer_vote_sum(answer_id)
 
 
-@server.route("/post/<int:post_id>/vote", methods=['GET', 'POST'])
+@server.route("/vote/post/<int:post_id>", methods=['GET', 'POST'])
 def post_vote(post_id):
     if request.method == 'GET':
         return vote.get_post_vote(post_id)
@@ -22,7 +22,7 @@ def post_vote(post_id):
     return vote.do_post_vote(post_id, vote_data)
 
 
-@server.route("/answer/<int:answer_id>/vote", methods=['GET', 'POST'])
+@server.route("/vote/answer/<int:answer_id>", methods=['GET', 'POST'])
 def answer_vote(answer_id):
     if request.method == 'GET':
         return vote.get_answer_vote(answer_id)

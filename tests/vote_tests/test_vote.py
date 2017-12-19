@@ -44,7 +44,7 @@ class TestVote(TestFlask):
         vote_controller.do_answer_vote(self.answer.id, -1)
 
     def test_post_vote_get(self):
-        result = self.client.get(f"/post/{self.test_post.id}/vote")
+        result = self.client.get(f"/vote/post/{self.test_post.id}")
         self.assertEqual(result.status_code, 200)
 
         data = result.json
@@ -53,7 +53,7 @@ class TestVote(TestFlask):
         self.assertEqual(data['post'], self.test_post.id)
 
     def test_answer_vote_get(self):
-        result = self.client.get(f"/answer/{self.answer.id}/vote")
+        result = self.client.get(f"/vote/answer/{self.answer.id}")
         self.assertEqual(result.status_code, 200)
 
         data = result.json
@@ -64,10 +64,10 @@ class TestVote(TestFlask):
     def test_post_vote_change(self):
         self.session.begin_nested()
 
-        post_result = self.client.post(f"/post/{self.test_post.id}/vote", data={'vote': 0})
+        post_result = self.client.post(f"/vote/post/{self.test_post.id}", data={'vote': 0})
         self.assertEqual(post_result.status_code, 200)
 
-        get_result = self.client.get(f"/post/{self.test_post.id}/vote")
+        get_result = self.client.get(f"/vote/post/{self.test_post.id}")
         self.assertEqual(get_result.status_code, 200)
         data = get_result.json
         self.assertEqual(data['vote'], 0)
@@ -75,23 +75,23 @@ class TestVote(TestFlask):
     def test_answer_vote_change(self):
         self.session.begin_nested()
 
-        post_result = self.client.post(f"/answer/{self.answer.id}/vote", data={'vote': 0})
+        post_result = self.client.post(f"/vote/answer/{self.answer.id}", data={'vote': 0})
         self.assertEqual(post_result.status_code, 200)
 
-        get_result = self.client.get(f"/answer/{self.answer.id}/vote")
+        get_result = self.client.get(f"/vote/answer/{self.answer.id}")
         self.assertEqual(get_result.status_code, 200)
         data = get_result.json
         self.assertEqual(data['vote'], 0)
 
     def test_post_vote_total(self):
-        result = self.client.get(f"/post/{self.test_post.id}/votes")
+        result = self.client.get(f"/votes/post/{self.test_post.id}")
         self.assertEqual(result.status_code, 200)
 
         data = result.json
         self.assertEqual(data['votes'], 1)
 
     def test_answer_vote_total(self):
-        result = self.client.get(f"/answer/{self.answer.id}/votes")
+        result = self.client.get(f"/votes/answer/{self.answer.id}")
         self.assertEqual(result.status_code, 200)
 
         data = result.json
