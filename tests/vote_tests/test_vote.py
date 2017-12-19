@@ -69,7 +69,7 @@ class TestVote(TestFlask):
         self.session.begin_nested()
 
         post_result = self.client.post(f"/vote/post/{self.test_post.id}", data={'vote': 0})
-        self.assertEqual(post_result.status_code, 302)
+        self.assertEqual(post_result.status_code, 200)
 
         get_result = self.client.get(f"/vote/post/{self.test_post.id}")
         self.assertEqual(get_result.status_code, 200)
@@ -80,7 +80,7 @@ class TestVote(TestFlask):
         self.session.begin_nested()
 
         post_result = self.client.post(f"/vote/answer/{self.answer.id}", data={'vote': 0})
-        self.assertEqual(post_result.status_code, 302)
+        self.assertEqual(post_result.status_code, 200)
 
         get_result = self.client.get(f"/vote/answer/{self.answer.id}")
         self.assertEqual(get_result.status_code, 200)

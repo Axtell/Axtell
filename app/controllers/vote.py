@@ -71,7 +71,7 @@ def do_post_vote(post_id, vote):
         db.session.add(new_vote)
         db.session.commit()
 
-    return redirect(url_for('get_post', post_id=post_id))
+    return "Voted"
 
 
 def do_answer_vote(answer_id, vote):
@@ -100,4 +100,4 @@ def do_answer_vote(answer_id, vote):
         db.session.add(new_vote)
         db.session.commit()
 
-    return redirect(url_for('get_post', post_id=answer.post_id, answer_id=answer_id))
+    return "Voted"
