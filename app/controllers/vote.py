@@ -32,21 +32,24 @@ def get_answer_vote_sum(answer_id):
 
 
 def get_post_vote(post_id):
-    if g.user is None:
+    current_user = g.user
+    if current_user is None:
         return abort(403)
 
-    return render_json(PostVote.query.filter_by(post_id=post_id, user_id=g.user.id).first().to_json())
+    return render_json(PostVote.query.filter_by(post_id=post_id, user_id=current_user.id).first().to_json())
 
 
 def get_answer_vote(answer_id):
-    if g.user is None:
+    current_user = g.user
+    if current_user is None:
         return abort(403)
 
-    return render_json(AnswerVote.query.filter_by(answer_id=answer_id, user_id=g.user.id).first().to_json())
+    return render_json(AnswerVote.query.filter_by(answer_id=answer_id, user_id=current_user.id).first().to_json())
 
 
 def do_post_vote(post_id, vote):
-    if g.user is None:
+    current_user = g.user
+    if current_user is None:
         return abort(403)
 
     # ensure that vote is a valid value
@@ -58,13 +61,13 @@ def do_post_vote(post_id, vote):
         return abort(400)
 
     # handle changing existing vote
-    prev_vote = PostVote.query.filter_by(post_id=post_id, user_id=g.user.id)
+    prev_vote = PostVote.query.filter_by(post_id=post_id, user_id=current_user.id)
     if prev_vote is not None:
         prev_vote.vote = vote
         db.session.commit()
     else:
-        new_vote = PostVote(post_id=post_id, vote=vote, user_id=g.user.id)
-        g.user.votes.append(new_vote)
+        new_vote = PostVote(post_id=post_id, vote=vote, user_id=current_user.id)
+        current_user.votes.append(new_vote)
         post = Post.query.filter_by(id=post_id).first()
         post.votes.append(new_vote)
 
@@ -75,7 +78,8 @@ def do_post_vote(post_id, vote):
 
 
 def do_answer_vote(answer_id, vote):
-    if g.user is None:
+    current_user = g.user
+    if current_user is None:
         return abort(403)
 
     # ensure that vote is a valid value
@@ -87,14 +91,14 @@ def do_answer_vote(answer_id, vote):
         return abort(400)
 
     # handle changing existing vote
-    prev_vote = AnswerVote.query.filter_by(answer_id=answer_id, user_id=g.user.id)
+    prev_vote = AnswerVote.query.filter_by(answer_id=answer_id, user_id=current_user.id)
     answer = Answer.query.filter_by(id=answer_id).first()
     if prev_vote is not None:
         prev_vote.vote = vote
         db.session.commit()
     else:
-        new_vote = AnswerVote(answer_id=answer_id, vote=vote, user_id=g.user.id)
-        g.user.votes.append(new_vote)
+        new_vote = AnswerVote(answer_id=answer_id, vote=vote, user_id=current_user.id)
+        current_user.votes.append(new_vote)
         answer.votes.append(new_vote)
 
         db.session.add(new_vote)
