@@ -9,6 +9,10 @@ from app.helpers.render import render_json
 
 # noinspection PyUnresolvedReferences
 import app.routes.post
+# noinspection PyUnresolvedReferences
+import app.routes.theme
+# noinspection PyUnresolvedReferences
+import app.routes.auth
 
 
 def get_post_vote_sum(post_id):
