@@ -3,6 +3,9 @@ from flask import jsonify, render_template as flask_render_template
 import config
 from app.helpers import macros
 
+# noinspection PyUnresolvedReferences
+import app.routes.theme
+
 
 def render_template(path, **kwargs):
     return flask_render_template(path, **{
