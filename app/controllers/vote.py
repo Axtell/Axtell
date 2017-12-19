@@ -73,7 +73,7 @@ def do_post_vote(post_id, vote):
         db.session.commit()
     else:
         new_vote = PostVote(post_id=post_id, vote=vote, user_id=current_user.id)
-        current_user.votes.append(new_vote)
+        current_user.post_votes.append(new_vote)
         post = Post.query.filter_by(id=post_id).first()
         post.votes.append(new_vote)
 
@@ -104,7 +104,7 @@ def do_answer_vote(answer_id, vote):
         db.session.commit()
     else:
         new_vote = AnswerVote(answer_id=answer_id, vote=vote, user_id=current_user.id)
-        current_user.votes.append(new_vote)
+        current_user.answer_votes.append(new_vote)
         answer.votes.append(new_vote)
 
         db.session.add(new_vote)
