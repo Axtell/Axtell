@@ -75,7 +75,7 @@ def do_answer_vote(answer_id, vote):
         return abort(400)
 
     # handle changing existing vote
-    prev_vote = AnswerVote.query.filter_by(post_id=answer_id, user_id=g.user.id)
+    prev_vote = AnswerVote.query.filter_by(answer_id=answer_id, user_id=g.user.id)
     if prev_vote is not None:
         prev_vote.vote = vote
         db.session.commit()
