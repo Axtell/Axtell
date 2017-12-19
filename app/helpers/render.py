@@ -5,6 +5,8 @@ from app.helpers import macros
 
 # noinspection PyUnresolvedReferences
 import app.routes.theme
+# noinspection PyUnresolvedReferences
+import app.routes.auth
 
 
 def render_template(path, **kwargs):
