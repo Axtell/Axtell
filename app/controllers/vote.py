@@ -50,6 +50,10 @@ def do_post_vote(post_id, vote):
         return abort(403)
 
     # ensure that vote is a valid value
+    try:
+        vote = int(vote)
+    except ValueError:
+        return abort(400)
     if vote not in (-1, 0, 1):
         return abort(400)
 
@@ -75,6 +79,10 @@ def do_answer_vote(answer_id, vote):
         return abort(403)
 
     # ensure that vote is a valid value
+    try:
+        vote = int(vote)
+    except ValueError:
+        return abort(400)
     if vote not in (-1, 0, 1):
         return abort(400)
 
