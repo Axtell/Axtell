@@ -15,7 +15,7 @@
 {% block main -%}
 <div id="post">
     <div class="list-header">
-        <h1>{{ post.title|e }}</h1>
+        <h1><a href="#">{{ post.title|e }}</a></h1>
     </div>
     <div class="post-split main">
         <div class="split-main body">
@@ -43,7 +43,7 @@
     {%- else -%}
     <ul class="response-list">
         {% for answer in answers.items %}
-            <div id="answer-{{answer.id|e}}" class="answer" data-id="{{ answer.id|e }}">
+            <li id="answer-{{answer.id|e}}" class="answer" data-id="{{ answer.id|e }}">
                 <div class="header">
                     <img src="{{ answer.get_language().get_logo_url() }}">
                     <h4>{{ answer.get_language().get_display_name() }}</h4>
@@ -55,7 +55,7 @@
                 <div class="body">
                     {{ macros.highlight_answer(answer)|safe }}
                 </div>
-            </div>
+            </li>
         {% endfor %}
         <div class="pagination">
             {% if answers.has_prev -%}

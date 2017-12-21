@@ -44,6 +44,8 @@ $lang-total-height: $lang-height + $lang-desc-height;
   right: 0;
   bottom: 0;
 
+  padding: 0;
+
   .close-icon {
     $lang-close-size: 1rem;
     flex: 0 0 $lang-close-size;

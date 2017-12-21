@@ -16,6 +16,10 @@ h1, h2, h3, h4, h5, h6 {
   font-family: $light-font;
   margin: 0;
   display: inline-block;
+
+  a {
+    color: inherit;
+  }
 }
 
 h1 {
