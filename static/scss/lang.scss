@@ -58,6 +58,8 @@ $lang-total-height: $lang-height + $lang-desc-height;
     padding: 0 3px;
     box-sizing: border-box;
     cursor: pointer;
+
+    display: block;
   }
 
   .logo {
