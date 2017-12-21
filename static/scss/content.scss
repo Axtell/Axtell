@@ -3,6 +3,7 @@ div#content {
   flex: 1;
 
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 
   .content {
     padding: 2rem 0;

@@ -9,12 +9,13 @@ $dim-text: #999;
 $title-text: #000;
 
 // Text editing colors
+// This line is intentionally left blank
 $editor-bg: #FFF;
 $editor-fg: #333;
 $editor-border: #EEE;
 
 // MARKDOWN COLORS
-$link-color: #7ec5ff;
+$link-color: #d6dae1;
 
 // Depth colors
 $popover-bg: $editor-bg;
@@ -23,6 +24,7 @@ $popover-shadow: #CCC;
 
 // Code block colors
 $code-block-bg: #fafafa;
+$code-block-fg: #000;
 $code-block-indent: #ededed;
 
 // BGs
