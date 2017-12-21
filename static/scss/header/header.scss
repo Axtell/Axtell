@@ -49,6 +49,10 @@ div#header {
       display: none;
     }
 
+    #r-close {
+      display: none;
+    }
+
     @media screen and (max-width: 530px) {
       .r-collapse {
         display: none;
@@ -72,10 +76,6 @@ div#header {
         svg {
           stroke: $dim-text;
         }
-      }
-
-      #r-close {
-        display: none;
       }
 
       // For responsive active state (popup opened)
