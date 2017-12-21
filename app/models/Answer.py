@@ -43,6 +43,8 @@ class Answer(db.Model):
         data = {}
 
         data['code'] = self.code
+        data['encoding'] = self.encoding
+        data['byte_len'] = self.byte_len
 
         language = self.get_language()
         if language is not None:
