@@ -9,7 +9,8 @@ $dim-text: #999; // Gray
 $title-text: #74aae7; // Blue
 
 // Text editing colors
-$editor-bg: #373e4d;
+// $editor-bg: #373e4d;
+$editor-bg: transparent;
 $editor-fg: $em-text;
 $editor-border: #41495a;
 
@@ -23,6 +24,7 @@ $popover-shadow: #CCC;
 
 // Code block colors
 $code-block-bg: #323741;
+$code-block-fg: #CCC;
 $code-block-indent: #4c4c4c;
 
 // BGs

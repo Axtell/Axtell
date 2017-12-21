@@ -43,10 +43,7 @@
 input.text-input {
   font-size: 1rem;
 
-  padding-bottom: 0.5em;
-
   &.-owned {
-    padding: 0 1em 0.5em;
     border-bottom: none;
   }
 
@@ -55,6 +52,9 @@ input.text-input {
     font-family: $bold-font;
     font-weight: $bold-weight;
     color: $big-fg;
+
+    padding-bottom: 4px;
+    box-sizing: content-box;
   }
 
   border-bottom: 2px solid $label-tag;
