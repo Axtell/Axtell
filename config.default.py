@@ -3,6 +3,8 @@ app = {
     'port': 5000
 }
 
+canonical_host = 'http://127.0.0.1:5000'
+
 db_config = {
     'user': 'MYSQL_USERNAME',
     'password': 'MYSQL_PASSWORD',

@@ -7,6 +7,8 @@
   border-spacing: $leaderboard-padding * 2;
   font-size: $leaderboard-size;
 
+  color: $em-text;
+
   tr > td {
     padding-bottom: 1em;
   }
@@ -56,21 +58,23 @@
         left: 0;
 
         font-size: 11px;
-        color: #AAA;
+        color: $dim-text;
 
         span {
           padding-left: 1px;
-          color: #555;
+          color: $label-tag;
         }
       }
     }
   }
 
-  .label-type {
-    padding-left: 1px;
-
-    font-size: 9px;
-    text-transform: uppercase;
-    color: $label-text;
+  .metric {
+    color: $em-text;
+    .label-type {
+      padding-left: 1px;
+      font-size: 9px;
+      text-transform: uppercase;
+      color: $label-text;
+    }
   }
 }

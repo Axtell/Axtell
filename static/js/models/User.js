@@ -1,5 +1,11 @@
+import ErrorManager from '~/helper/ErrorManager';
+
+export const INVALID_JSON = Symbol('User.Error.InvalidJSON');
+
 /**
  * Represents a User
+ *
+ * @implements {JSONConvertable}
  */
 export default class User {
     /**
@@ -28,7 +34,7 @@ export default class User {
     static fromJSON(json) {
         if (json.unauthorized === true) return null;
         if (!(json['id'] && json['name']))
-            throw new TypeError('Invalid input to User#fromJSON');
+            ErrorManager.raise('Invalid input to User#fromJSON', INVALID_JSON);
 
         return new User(
             json.id,
