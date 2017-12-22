@@ -78,7 +78,7 @@ hr {
 .icon-pair {
   &.-active {
     &, a { color: #009DFA; }
-    fill: #009DFA;
+    &, svg { fill: #009DFA; }
   }
 
   &.-center {

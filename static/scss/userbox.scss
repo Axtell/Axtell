@@ -1,0 +1,73 @@
+.userbox {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+
+  .verb {
+    font-size: 9px;
+    color: $label-tag;
+    margin-right: 4px;
+  }
+
+  .userbox-info {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+  }
+
+  .avatar {
+    height: 1.4rem;
+    margin-right: 8px;
+    border-radius: 50%;
+    border: 1px solid $avatar-mini-color;
+  }
+
+  .name {
+    font-size: 1rem;
+    color: $label-text;
+    white-space: nowrap;
+  }
+
+  .timestamp {
+    font-family: $monospace;
+    color: $label-tag;
+  }
+
+  .userbox-aside {
+    flex: 1;
+    text-align: right;
+  }
+
+  &.-small {
+    .userbox-info {
+      padding: 0;
+    }
+
+    .avatar {
+      margin-right: 4px;
+      height: 1rem;
+    }
+
+    .name {
+      font-size: .8rem;
+    }
+
+    .timestamp {
+      font-size: .6rem;
+    }
+  }
+
+  &.-vtight {
+    padding: {
+      top: 0;
+      bottom: 0;
+    }
+  }
+
+  &.-htight {
+    padding: {
+      left: 0;
+      right: 0;
+    }
+  }
+}
