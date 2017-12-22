@@ -1,4 +1,5 @@
 {% extends "layouts/page.html" %}
+{% from "includes/userbox.html" import userbox %}
 
 {% block title %}Posts{% endblock %}
 {% block content -%}
@@ -18,9 +19,11 @@
     <div class="main">
         <ul class="posts">
             {% for post in posts.items -%}
-                <li>
+                <li class="post-item">
                     <h4><a href="{{ url_for('get_post', post_id=post.id) }}" class="title">{{ post.title }}</a></h4>
-                    <div class="categories"></div>
+                    <div class="post-data">
+                        {{ userbox(post.user, post.date_created) }}
+                    </div>
                 </li>
             {%- endfor %}
         </ul>

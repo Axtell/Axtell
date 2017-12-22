@@ -1,0 +1,42 @@
+.userbox {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+
+  .verb {
+    font-size: 9px;
+    color: $label-tag;
+    margin-right: 4px;
+  }
+
+  .userbox-info {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+  }
+
+  .avatar {
+    height: 1.4rem;
+    margin-right: 8px;
+  }
+
+  .name {
+    font-size: 1rem;
+    color: $label-text;
+    white-space: nowrap;
+  }
+
+  .timestamp {
+    font-family: $monospace;
+    color: $label-tag;
+  }
+
+  .userbox-aside {
+    flex: 1;
+    text-align: right;
+  }
+
+  &.-tight {
+    padding: 0;
+  }
+}

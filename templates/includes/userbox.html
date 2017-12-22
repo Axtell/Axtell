@@ -1,0 +1,14 @@
+{% macro userbox(user, time=none, verb="by", tight=false) -%}
+<div class="userbox{{ ' -tight' if tight else '' }}">
+    <span class="verb">{{ verb }}</span>
+    <div class="userbox-info">
+        <img class="avatar" src="{{ user.avatar_url() }}">
+        <span class="name">{{ user.name }}</span>
+    </div>
+    {% if time is not none -%}
+    <div class="userbox-aside">
+        <span class="timestamp">{{ time.strftime("%m/%d/%Y %H:%M:%S") }}</span>
+    </div>
+    {%- endif %}
+</div>
+{%- endmacro %}

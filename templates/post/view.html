@@ -1,4 +1,5 @@
 {% extends "layouts/split.html" %}
+{% from "includes/userbox.html" import userbox %}
 
 {% block head -%}
 {{ super() }}
@@ -22,6 +23,7 @@
             {{ post_body|safe }}
         </div>
     </div>
+    {{ userbox(post.user, post.date_created, tight=true) }}
 </div>
 <hr class="big">
 <div id="responses">
