@@ -37,6 +37,24 @@
     <noscript id="ns-main">
         <span>Code Golf works best with JavaScript enabled.</span>
     </noscript>
+    <!--[if lte IE 9]>
+    <div id="upgrade">
+        <div class="upgrade-wrapper">
+            <div><h1>Your browser is not supported</h1></div>
+            <div><h3>The following browsers are officially supported:</h3></div>
+            <div class="browser-list">
+                <div class="col-ff">Firefox<span>&ge; 28</span></div>
+                <div class="col-cr">Chrome<span>&ge; 23</span></div>
+                <div class="col-ie">IE<span>&ge; 10</span></div>
+                <div class="col-sf">Safari<span>&ge; 6</span></div>
+                <div class="col-ed">Edge<span>all</span></div>
+            </div>
+            <div id="upgrade-dismiss">
+                <a onclick="document.body.removeChild(document.getElementById('upgrade'))">Continue Anyway</a>
+            </div>
+        </div>
+    </div>
+    <![endif]-->
     {% include "includes/header.html" %}
     <div id="content">
         {% block base_content -%}
