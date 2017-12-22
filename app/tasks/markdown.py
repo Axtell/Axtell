@@ -4,6 +4,8 @@ from threading import local
 from app.instances.celery import celery_app
 from misc import md_exe
 
+import sys
+
 markdown_local = local()
 
 
@@ -14,12 +16,16 @@ def fork_markdown_helper():
     return markdown_local.render_proc
 
 
-@celery_app.task
 def render_markdown(string):
+
+    if len(string) == 0:
+        return ""
+
     helper = fork_markdown_helper()
 
     helper.stdin.write(string.encode('utf-8'))
     helper.stdin.flush()
+
     read_len = int.from_bytes(helper.stdout.read(4), byteorder='little')
     res = helper.stdout.read(read_len).decode('utf-8')
 

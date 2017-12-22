@@ -29,12 +29,6 @@ def get_post(post_id):
     if matched_post is None:
         return abort(404)
 
-    # Render main post's markdown
-    body = markdown.render_markdown.delay(matched_post.body).wait()
-
-    if body is None:
-        return abort(500)
-
     # Get answers
     try:
         page = int(request.args.get('p', 1))
@@ -44,7 +38,7 @@ def get_post(post_id):
     answers = answer.get_answers(post_id=post_id, page=page)
     leaderboard = Leaderboard(post_id=post_id)
 
-    return render_template('post/view.html', post_id=post_id, post=matched_post, post_body=body, answers=answers, leaderboard=leaderboard)
+    return render_template('post/view.html', post=matched_post, answers=answers, leaderboard=leaderboard)
 
 
 @server.route("/post/write")
