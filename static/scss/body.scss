@@ -25,7 +25,8 @@ p:first-child {
 
 a {
   color: inherit;
-  border-bottom: 2px solid #DDD;
+  border-bottom: 2px solid $link-color;
+  padding: 0 1px;
 }
 
 li, p {

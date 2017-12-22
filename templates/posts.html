@@ -20,7 +20,7 @@
             {% for post in posts.items -%}
                 <li>
                     <h4><a href="{{ url_for('get_post', post_id=post.id) }}" class="title">{{ post.title }}</a></h4>
-                    <div class="summary"><p>{{ post.body }}</p></div>
+                    <div class="categories"></div>
                 </li>
             {%- endfor %}
         </ul>

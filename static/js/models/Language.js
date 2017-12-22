@@ -8,6 +8,7 @@ export const InvalidLanguage = Symbol('LanguageError.InvalidLanguage');
 
 /**
  * Info about a programming language
+ * @implements {JSONConvertable}
  */
 export default class Language {
     /**
@@ -87,6 +88,20 @@ export default class Language {
      */
     equal(object) {
         return this.id === object.id;
+    }
+
+    /**
+     * Unwraps from an API JSON object.
+     * @param {Object} json JSON object.
+     * @return {?Language} object if succesful, `null` if unauthorized.
+     * @throws {TypeError} if invalid JSON object
+     */
+    static fromJSON(json) {
+        try {
+            return new Language(json);
+        } catch(e) {
+            return null;
+        }
     }
 
     /**
