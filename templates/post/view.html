@@ -16,14 +16,14 @@
 {% block main -%}
 <div id="post">
     <div class="list-header">
-        <h1><a href="#">{{ post.title|e }}</a></h1>
+        <h1><a href="{{ canonical }}">{{ post.title|e }}</a></h1>
     </div>
     <div class="post-split main">
         <div class="split-main body">
             {{ post_body|safe }}
         </div>
     </div>
-    {{ userbox(post.user, post.date_created, tight=true) }}
+    {{ userbox(post.user, post.date_created, vtight=true) }}
 </div>
 <hr class="big">
 <div id="responses">
@@ -57,38 +57,39 @@
                 <div class="body">
                     {{ macros.highlight_answer(answer)|safe }}
                 </div>
+                {{ userbox(answer.user, answer.date_created, small=true, htight=true, vtight=true) }}
             </li>
         {% endfor %}
-        <div class="pagination">
-            {% if answers.has_prev -%}
-                <a href="?p={{ answers.page - 1 }}" class="page-ctrl -before active">
-            {%- else -%}
-                <a class="page-ctrl -before">
-            {%- endif %}
-                {% include "svg/left-caret.html" %} Prev
-            </a>
-            <div class="page-list -before">
-                {% for num in macros.pages_below(answers) %}
-                <a href="?p={{ num }}">{{ num }}</a>
-                {% endfor %}
-            </div>
-            <form method="GET" action="{{ request.path|e }}">
-                <input class="current-page input-type -num" value="{{ answers.page|e }}" name="p" type='text'>
-            </form>
-            <div class="page-list -after">
-                {% for num in macros.pages_above(answers) %}
-                <a href="?p={{ num }}">{{ num }}</a>
-                {% endfor %}
-            </div>
-            {% if answers.has_next -%}
-                <a href="?p={{ answers.page + 1 }}" class="page-ctrl -after active">
-            {%- else -%}
-                <a class="page-ctrl -after">
-            {%- endif %}
-                Next {% include "svg/right-caret.html" %}
-            </a>
-        </div>
     </ul>
+    <div class="pagination">
+        {% if answers.has_prev -%}
+            <a href="?p={{ answers.page - 1 }}" class="page-ctrl -before active">
+        {%- else -%}
+            <a class="page-ctrl -before">
+        {%- endif %}
+            {% include "svg/left-caret.html" %} Prev
+        </a>
+        <div class="page-list -before">
+            {% for num in macros.pages_below(answers) %}
+            <a href="?p={{ num }}">{{ num }}</a>
+            {% endfor %}
+        </div>
+        <form method="GET" action="{{ request.path|e }}">
+            <input class="current-page input-type -num" value="{{ answers.page|e }}" name="p" type='text'>
+        </form>
+        <div class="page-list -after">
+            {% for num in macros.pages_above(answers) %}
+            <a href="?p={{ num }}">{{ num }}</a>
+            {% endfor %}
+        </div>
+        {% if answers.has_next -%}
+            <a href="?p={{ answers.page + 1 }}" class="page-ctrl -after active">
+        {%- else -%}
+            <a class="page-ctrl -after">
+        {%- endif %}
+            Next {% include "svg/right-caret.html" %}
+        </a>
+    </div>
     {%- endif %}
 </div>
 {%- endblock %}

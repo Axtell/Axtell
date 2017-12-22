@@ -18,6 +18,8 @@
   .avatar {
     height: 1.4rem;
     margin-right: 8px;
+    border-radius: 50%;
+    border: 1px solid $avatar-mini-color;
   }
 
   .name {
@@ -36,7 +38,36 @@
     text-align: right;
   }
 
-  &.-tight {
-    padding: 0 1rem;
+  &.-small {
+    .userbox-info {
+      padding: 0;
+    }
+
+    .avatar {
+      margin-right: 4px;
+      height: 1rem;
+    }
+
+    .name {
+      font-size: .8rem;
+    }
+
+    .timestamp {
+      font-size: .6rem;
+    }
+  }
+
+  &.-vtight {
+    padding: {
+      top: 0;
+      bottom: 0;
+    }
+  }
+
+  &.-htight {
+    padding: {
+      left: 0;
+      right: 0;
+    }
   }
 }

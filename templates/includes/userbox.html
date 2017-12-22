@@ -1,5 +1,5 @@
-{% macro userbox(user, time=none, verb="by", tight=false) -%}
-<div class="userbox{{ ' -tight' if tight else '' }}">
+{% macro userbox(user, time=none, verb="by", small=false, htight=false, vtight=false) -%}
+<div class="userbox{{ ' -vtight' if vtight else '' }}{{ ' -htight' if htight else '' }}{{ ' -small' if small else '' }}">
     <span class="verb">{{ verb }}</span>
     <div class="userbox-info">
         <img class="avatar" src="{{ user.avatar_url() }}">
