@@ -1,6 +1,6 @@
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 
-export const SORT_TYPE_KEY = 's';
+export const SORT_TYPE_KEY = 'st';
 
 /**
  * Manages a select dialog for sorting
