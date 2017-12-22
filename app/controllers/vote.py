@@ -80,7 +80,7 @@ def do_post_vote(post_id, vote):
         db.session.add(new_vote)
         db.session.commit()
 
-    return render_json({"success": True, "vote": vote, "total": get_post_vote_sum(post_id)})
+    return render_json({"success": True, "vote": vote, "total": get_post_vote_sum(post_id)["votes"]})
 
 
 def do_answer_vote(answer_id, vote):
@@ -110,4 +110,4 @@ def do_answer_vote(answer_id, vote):
         db.session.add(new_vote)
         db.session.commit()
 
-    return render_json({"success": True, "vote": vote, "total": get_answer_vote_sum(answer_id)})
+    return render_json({"success": True, "vote": vote, "total": get_answer_vote_sum(answer_id)["votes"]})
