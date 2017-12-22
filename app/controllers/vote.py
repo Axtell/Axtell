@@ -15,20 +15,26 @@ import app.routes.theme
 import app.routes.auth
 
 
-def get_post_vote_sum(post_id):
+def get_post_vote_sum(post_id, raw=False):
     post = Post.query.filter_by(id=post_id).first()
     if post is None:
         return abort(404)
     votes = map(lambda vote: vote.vote, PostVote.query.filter_by(post_id=post_id).all())
-    return render_json({"votes": sum(votes)})
+    if raw:
+        return sum(votes)
+    else:
+        return render_json({"votes": sum(votes)})
 
 
-def get_answer_vote_sum(answer_id):
+def get_answer_vote_sum(answer_id, raw=False):
     answer = Answer.query.filter_by(id=answer_id).first()
     if answer is None:
         return abort(404)
     votes = map(lambda vote: vote.vote, AnswerVote.query.filter_by(answer_id=answer_id).all())
-    return render_json({"votes": sum(votes)})
+    if raw:
+        return sum(votes)
+    else:
+        return render_json({"votes": sum(votes)})
 
 
 def get_post_vote(post_id):
@@ -80,7 +86,7 @@ def do_post_vote(post_id, vote):
         db.session.add(new_vote)
         db.session.commit()
 
-    return render_json({"success": True, "vote": vote, "total": get_post_vote_sum(post_id)["votes"]})
+    return render_json({"success": True, "vote": vote, "total": get_post_vote_sum(post_id, raw=True)})
 
 
 def do_answer_vote(answer_id, vote):
@@ -110,4 +116,4 @@ def do_answer_vote(answer_id, vote):
         db.session.add(new_vote)
         db.session.commit()
 
-    return render_json({"success": True, "vote": vote, "total": get_answer_vote_sum(answer_id)["votes"]})
+    return render_json({"success": True, "vote": vote, "total": get_answer_vote_sum(answer_id, raw=True)})
