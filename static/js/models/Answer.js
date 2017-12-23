@@ -1,4 +1,5 @@
 import ErrorManager from '~/helper/ErrorManager';
+import Language from '~/models/Language';
 import User from '~/models/User';
 
 export const INVALID_JSON = Symbol('User.Error.InvalidJSON');
@@ -13,14 +14,16 @@ export default class Answer {
      * @param {Object} answer
      * @param {?string} answer.code
      * @param {string} answer.encoding
-     * @param {string} answer.commentary
+     * @param {?string} answer.commentary
+     * @param {?number} answer.length
      * @param {?Language} answer.language
      * @param {User} answer.user
      */
-    constructor({ code, encoding, language, commentary, user }) {
+    constructor({ code, encoding, length, language, commentary, user }) {
         this._code = code;
         this._encoding = encoding;
         this._commentary = commentary;
+        this._length = length;
         this._language = language;
         this._user = user;
     }
@@ -32,19 +35,18 @@ export default class Answer {
     get language() { return this._language; }
 
     /**
+     * Returns length of answer
+     * @type {?number}
+     */
+    get length() {
+        return this._length || (this._code ? this._code.length : null)
+    }
+
+    /**
      * Returns the code
      * @type {string}
      */
     get code() { return this._code; }
-
-    /**
-     * Returns the calculated length of the answer
-     * @type {?number}
-     */
-    get length() {
-        if (this._code === null) return null;
-        return this._code.length;
-    }
 
     /**
      * Returns owner of the answer
@@ -64,7 +66,8 @@ export default class Answer {
             code = null,
             encoding,
             commentary = "",
-            language,
+            lang: language,
+            byte_len: length,
             owner
         } = json;
 
@@ -76,7 +79,8 @@ export default class Answer {
             code,
             encoding,
             commentary,
-            language,
+            language: Language.fromJSON(language),
+            length,
             user: User.fromJSON(owner)
         });
     }

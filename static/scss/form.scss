@@ -26,6 +26,13 @@
   }
 }
 
+.form-errors {
+  margin-top: 0;
+  font-size: 0.8rem;
+  color: $label-text;
+  padding-left: 30px;
+}
+
 .label-group {
   label {
     display: block;

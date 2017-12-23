@@ -1,7 +1,7 @@
 import SelectDialogViewController from '~/controllers/SelectDialogViewController';
 import SortControllerDelegate from '~/delegate/SortControllerDelegate';
 import Template from '~/template/Template';
-import {forEach} from '~/modern/array';
+import { forEach } from '~/modern/array';
 
 document.getElementsByClassName('select-dialog')
     ::forEach(dialog => {

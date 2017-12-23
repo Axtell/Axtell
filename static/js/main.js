@@ -5,12 +5,22 @@ import 'element-dataset';
 
 import Normalize from "~/models/Normalize";
 import Language from "~/models/Language";
+import Post from "~/models/Post";
+import Data from "~/models/Data";
 import Auth from "~/models/Auth";
+
+import Request from "~/models/Request/Request";
+import Leaderboard from "~/models/Request/Leaderboard";
 
 // Make global
 global.Normalize = Normalize;
 global.Language = Language;
+global.Post = Post;
+global.Data = Data;
 global.Auth = Auth;
+
+global.Request = Request;
+global.Leaderboard = Leaderboard;
 
 (function(done) {
     // Only need to be able to access DOM

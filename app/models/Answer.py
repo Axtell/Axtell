@@ -39,10 +39,13 @@ class Answer(db.Model):
     def byte_len(cls):
         return func.length(cls.code)
 
-    def to_json(self):
+    def to_json(self, no_code=False):
         data = {}
 
-        data['code'] = self.code
+        if not no_code:
+            data['code'] = self.code
+            data['commentary'] = self.commentary
+
         data['encoding'] = self.encoding
         data['byte_len'] = self.byte_len
 
@@ -50,7 +53,6 @@ class Answer(db.Model):
         if language is not None:
             data['lang'] = language.to_json()
 
-        data['commentary'] = self.commentary
         data['owner'] = self.user.to_json()
 
         return data
