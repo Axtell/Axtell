@@ -30,3 +30,9 @@ class Leaderboard(object):
 
     def get_total_count(self):
         return Answer.query.filter_by(post_id=self.post_id).count()
+
+
+    def to_json(self, limit=None):
+        return {
+            'answers': [answer.to_json(no_code=True) for answer in self.get_answers(limit=limit)]
+        }

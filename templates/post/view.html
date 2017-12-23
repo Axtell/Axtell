@@ -124,13 +124,14 @@
             </tbody>
         </table>
         {% if leaderboard.get_count() < leaderboard.get_total_count() -%}
-        <div class="icon-pair -active -center"><a href="#lb-m">{% include "svg/down.html" %}<span>See {{ leaderboard.get_total_count() - leaderboard.get_count() }} More</span></a></div>
+        <div class="icon-pair -active -center"><a class="lvc-reveal" href="#lb-m">{% include "svg/down.html" %}<span>See {{ leaderboard.get_total_count() - leaderboard.get_count() }} More</span></a></div>
         {%- endif %}
     </div>
 </div>
 {%- endblock %}
 
 {% block body %}
+<script>var {{ data_id }}id='{{ post.id }}';</script>
 {{ super() }}
 {% include "includes/answer-box.html" %}
 {% endblock %}

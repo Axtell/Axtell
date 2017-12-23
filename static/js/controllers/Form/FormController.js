@@ -111,6 +111,7 @@ export default class FormController extends ViewController {
             }
 
             let errorList = document.createElement('ul');
+            errorList.className = "form-errors";
             for (let i = 0; i < errors.length; i++) {
                 let errorEl = document.createElement('li');
                 errorEl.appendChild(document.createTextNode(errors[i]));
