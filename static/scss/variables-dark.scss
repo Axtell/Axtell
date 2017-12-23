@@ -8,6 +8,10 @@ $label-tag: #CCC; // Light gray
 $dim-text: #999; // Gray
 $title-text: #74aae7; // Blue
 
+// Text pairs
+$small-pair: $dim-text;
+$big-pair: $label-tag;
+
 // Text editing colors
 // $editor-bg: #373e4d;
 $editor-bg: transparent;

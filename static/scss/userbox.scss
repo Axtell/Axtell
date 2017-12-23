@@ -5,7 +5,7 @@
 
   .verb {
     font-size: 9px;
-    color: $label-tag;
+    color: $small-pair;
     margin-right: 4px;
   }
 
@@ -23,8 +23,8 @@
   }
 
   .name {
-    font-size: 1rem;
-    color: $label-text;
+    font-size: 0.9rem;
+    color: $big-pair;
     white-space: nowrap;
   }
 

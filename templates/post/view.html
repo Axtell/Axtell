@@ -3,7 +3,7 @@
 
 {% block head -%}
 {{ super() }}
-{% set canonical = opts.canonical_host + url_for('get_post', post_id=post_id) %}
+{% set canonical = opts.canonical_host + url_for('get_post', post_id=post.id) %}
 <link rel="canonical" href="{{ canonical }}">
 <link property="og:url" value="{{ canonical }}">
 <link property="og:type" value="article">
@@ -20,7 +20,7 @@
     </div>
     <div class="post-split main">
         <div class="split-main body">
-            {{ post_body|safe }}
+            {{ macros.render_markdown(post.body)|safe }}
         </div>
     </div>
     {{ userbox(post.user, post.date_created, vtight=true) }}
@@ -56,6 +56,9 @@
                 </div>
                 <div class="body">
                     {{ macros.highlight_answer(answer)|safe }}
+                </div>
+                <div class="commentary body">
+                    {{ macros.render_markdown(answer.commentary)|safe }}
                 </div>
                 {{ userbox(answer.user, answer.date_created, small=true, htight=true, vtight=true) }}
             </li>
