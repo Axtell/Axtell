@@ -1,3 +1,5 @@
+import { forEach } from '~/modern/array';
+
 /**
  * Manages a View of any type with iOS-esque handlers.
  */
@@ -14,5 +16,17 @@ export default class ViewController {
         } else {
             return null;
         }
+    }
+
+    /**
+     * Creates a view controller directly for all members of a class. You can
+     * specify a custom predicate.
+     * @param {string} className
+     * @param {Function} predicate - Takes elem, return array of params
+     */
+    static forClass(className, predicate = (elem) => [elem]) {
+        document.getElementsByClassName(className)::forEach(elem => {
+            new this(...predicate(elem));
+        })
     }
 }

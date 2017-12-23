@@ -7,6 +7,8 @@
     }]
   ],
   "plugins": [
+    "babel-plugin-syntax-jsx",
+    "babel-plugin-jsx-to-dom",
     ["transform-runtime", {
       "polyfill": false,
       "regenerator": true
@@ -22,8 +24,6 @@
       }
     ]],
     "babel-plugin-transform-class-properties",
-    "babel-plugin-transform-function-bind",
-    "babel-plugin-syntax-jsx",
-    "babel-plugin-jsx-to-dom"
+    "babel-plugin-transform-function-bind"
   ]
 }

@@ -1,5 +1,6 @@
 {% extends "layouts/layout.html" %}
 
+{% set data_id = macros.rand_key() %}
 {% block head -%}
     {{ super() }}
     <link type="text/css" href="https://fonts.googleapis.com/css?family=Lato:900|Roboto:300,400,700" rel="stylesheet">
@@ -23,12 +24,13 @@
         <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow.min.css"
               rel="stylesheet">
         {% assets "css_light_all" -%}
-            <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
+        <link rel=stylesheet type=text/css href="{{ ASSET_URL }}">
         {%- endassets %}
     {% endif %}
 
     {% assets "js_all" -%}
-        <script async defer src="{{ ASSET_URL }}"></script>
+    <meta name="data_id" content="{{ data_id }}">
+    <script async defer src="{{ ASSET_URL }}"></script>
     {%- endassets %}
 {%- endblock %}
 

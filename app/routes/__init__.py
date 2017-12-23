@@ -6,5 +6,6 @@ __all__ = [
     'answer',
     'theme',
     'update',
-    'answer'
+    'answer',
+    'leaderboard'
 ]

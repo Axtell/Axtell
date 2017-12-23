@@ -44,7 +44,7 @@ export default class Language {
      * @return {HTMLElement}
      */
     icon() {
-        return <img class="logo" src={ this.iconURL }/>;
+        return <img class="icon logo" src={ this.iconURL }/>;
     }
 
     /**

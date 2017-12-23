@@ -17,12 +17,12 @@ export default class LeaderboardItemTemplate extends Template {
                 <td class="item-id">
                     { answer.language.icon() }
                     <span class="item-anchor">
-                        <a>{ answer.language.displayName }}</a>
-                        <span class="author">by <span>{{ answer.user.name }}</span></span>
+                        <a>{ answer.language.displayName }</a>
+                        <span class="author">by <span>{ answer.user.name }</span></span>
                     </span>
                 </td>
-                <td>
-                    {{ answer.byteLength }}<span class="label-type">bytes</span>
+                <td class="metric">
+                    { answer.length }<span class="label-type">bytes</span>
                 </td>
             </tr>
         );
