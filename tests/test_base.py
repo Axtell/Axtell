@@ -1,21 +1,26 @@
-import unittest
+import app.start
+import app.instances.db
+from flask_testing import TestCase
 
-from app.instances.db import db
-from app.start import server
 
+class TestFlask(TestCase):
 
-class TestBase:
-    class TestFlask(unittest.TestCase):
-        def setUp(self):
-            super().setUp()
-            self.app = server.test_client()
-            self.app.testing = True
+    def create_app(self):
+        _app = app.start.server
+        _app.config['TESTING'] = True
+        _app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = False
+        _app.config['SERVER_NAME'] = 'localhost'
+        return _app
 
-    class TestDB(unittest.TestCase):
-        def setUp(self):
-            super().setUp()
-            self.session = db.session
-            self.session.begin_nested()
+    def setUp(self):
+        super().setUp()
+        self.ctx = self.app.app_context()
+        self.ctx.push()
+        self.db = app.instances.db.db
+        self.session = self.db.session
+        self.session.begin_nested()
 
-        def tearDown(self):
-            self.session.rollback()
+    def tearDown(self):
+        super().tearDown()
+        self.session.rollback()
+        self.ctx.pop()

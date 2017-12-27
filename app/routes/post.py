@@ -44,7 +44,9 @@ def get_post(post_id):
     answers = answer.get_answers(post_id=post_id, page=page)
     leaderboard = Leaderboard(post_id=post_id)
 
-    return render_template('post/view.html', post_id=post_id, post=matched_post, post_body=body, answers=answers, leaderboard=leaderboard)
+    return \
+        render_template('post/view.html', post_id=post_id, post=matched_post,
+                        post_body=body, answers=answers, leaderboard=leaderboard)
 
 
 @server.route("/post/write")

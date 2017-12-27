@@ -1,13 +1,15 @@
 from app.models.User import User
-from tests.test_base import TestBase
+from tests.test_base import TestFlask
 
 
-class TestUserModel(TestBase.TestDB):
+class TestUserModel(TestFlask):
     def setUp(self):
         super().setUp()
 
     def test_user_add(self):
         new_user = User(name='Test User', email='test@user.com')
+
+        self.session.begin_nested()
         self.session.add(new_user)
         self.session.commit()
 

@@ -12,17 +12,19 @@ skey_prefix = 'sid:'
 session_time = 60 * 60 * 24
 
 
-def get_session_user():
+def get_session_user(current_session=None):
+    if current_session is None:
+        current_session = session
     # If there is a session ID.
-    if userid_skey in session:
+    if userid_skey in current_session:
         # Look it up in redis
-        session_id = session[userid_skey]
+        session_id = current_session[userid_skey]
         redis_key = skey_prefix + session_id
         user_id = redis_db.get(redis_key)
 
         # If the session id is bogus, remove it
         if user_id is None:
-            session.pop(userid_skey, None)
+            current_session.pop(userid_skey, None)
             return
 
         # Otherwise lookup user in DB
@@ -31,7 +33,7 @@ def get_session_user():
         # If no DB entry for the user. Redis & session id are both bogus, delete
         # them
         if matched_user is None:
-            session.pop(userid_skey, None)
+            current_session.pop(userid_skey, None)
             redis_db.delete(redis_key)
             return
 
@@ -39,16 +41,21 @@ def get_session_user():
         return matched_user
 
 
-def reset_session_time():
-    session_id = session[userid_skey]
+def reset_session_time(current_session=None):
+    if current_session is None:
+        current_session = session
+    session_id = current_session[userid_skey]
     redis_key = skey_prefix + session_id
     redis_db.expire(redis_key, session_time)
 
 
-def set_session_user(user):
+def set_session_user(user, current_session=None):
     """
     Takes a User ORM object and sets the session to that user.
     """
+    if current_session is None:
+        current_session = session
+
     user_id = user.id
     session_id = str(uuid4())
     redis_skey = skey_prefix + session_id
@@ -58,20 +65,22 @@ def set_session_user(user):
     redis_db.expire(redis_skey, session_time)
 
     # Set on session
-    session[userid_skey] = session_id
+    current_session[userid_skey] = session_id
 
 
-def remove_session_user():
+def remove_session_user(current_session=None):
     """
     If there is a user for the session. Logs that user out
     """
-    if userid_skey not in session:
+    if current_session is None:
+        current_session = session
+    if userid_skey not in current_session:
         return
     # Get session ID
-    session_id = session[userid_skey]
+    session_id = current_session[userid_skey]
 
     # Remove session ID from redis
     redis_db.delete(skey_prefix + session_id)
 
     # Remove the session key
-    session.pop(userid_skey, None)
+    current_session.pop(userid_skey, None)

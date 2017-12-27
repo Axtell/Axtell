@@ -32,7 +32,7 @@ def create_answer(post_id, code, commentary, lang_id=None, lang_name=None):
     db.session.add(new_answer)
     db.session.commit()
 
-    return redirect(url_for('get_post', post_id=post_id) + '#answer-' + new_answer.id)
+    return redirect(url_for('get_post', post_id=post_id, answer_id=new_answer.id) + f"#answer-{new_answer.id}")
 
 
 def get_answers(post_id, page):

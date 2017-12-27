@@ -3,6 +3,7 @@ from flask import request, g, abort, jsonify
 from app.controllers import answer
 from app.server import server
 
+
 @server.route('/answer/public', methods=['POST'])
 def publish_answer():
     if g.user is None:
