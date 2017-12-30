@@ -117,7 +117,7 @@
                         </span>
                     </td>
                     <td class="metric">
-                        {{ answer.byte_len }}<span class="label-type">bytes</span>
+                        {{ answer.byte_len }}<span class="label-type">{{ "byte" if answer.byte_len == 1 else "bytes" }}</span>
                     </td>
                 </tr>
             {% endfor %}
