@@ -29,6 +29,7 @@
 <div id="responses">
     <div class="list-header">
         <h2>Answers</h2>
+        {% if answers.total > 1 -%}
         <span class="select-dialog d-sort">
             <span>sort by: <a>recent</a></span>
             <div class="drop template">
@@ -37,6 +38,7 @@
                 <div data-st="t" class="opt">newest</div>
             </div>
         </span>
+        {%- endif %}
     </div>
     {% if answers.pages == 0 -%}
     <div class="response-empty">No answers posted</div>
