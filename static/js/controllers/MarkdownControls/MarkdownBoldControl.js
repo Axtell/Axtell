@@ -4,6 +4,7 @@ const BoldMarker = '**';
 
 export default new MarkdownControl(
     'Bold',
+    'b',
     'bold',
     (controller) => {
         if (controller.isLeading(BoldMarker) && controller.isTrailing(BoldMarker)) {

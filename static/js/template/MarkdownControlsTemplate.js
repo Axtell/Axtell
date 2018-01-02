@@ -21,7 +21,19 @@ export default class MarkdownControlsTemplate extends Template {
         this._list = controlList;
         this._source = source;
 
+        this._keyTriggers = new Map();
+
         this.addControls(controls);
+        this._source.addEventListener("keydown", (event) => {
+            if ((event.ctrlKey || event.metaKey) && this._keyTriggers.has(event.key)) {
+                this._keyTriggers.get(event.key).trigger();
+
+                event.preventDefault();
+                return false;
+            } else {
+                return true;
+            }
+        });
     }
 
     /**
@@ -38,6 +50,10 @@ export default class MarkdownControlsTemplate extends Template {
      * Adds a control
      */
     addControl(control) {
+        if (control._keyName !== null) {
+            this._keyTriggers.set(control._keyName, control);
+        }
+
         control.setControllingTemplate(this);
         this._list.appendChild(<li>{control.unique()}</li>);
     }

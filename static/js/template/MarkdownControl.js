@@ -8,10 +8,11 @@ import HexBytes from '~/modern/HexBytes';
 export default class MarkdownControl extends Template {
     /**
      * @param  {string}   name     Name of control
+     * @param  {string}   key      Name of key to trigger keyboard shortcut.
      * @param  {string}   iconName Icon name (/static/img/$.svg)
      * @param  {Function} callback Passed the markdown control instance.
      */
-    constructor(name, iconName, callback) {
+    constructor(name, key, iconName, callback) {
         let root = (
             <a><img src={`/static/img/${iconName}.svg`}/></a>
         );
@@ -19,13 +20,21 @@ export default class MarkdownControl extends Template {
         super(root);
 
         this._name = name;
+        this._keyName = key;
         this._iconName = iconName;
         this._callback = callback;
         this._controller = null;
 
         root.addEventListener('click', () => {
-            this._callback(this._controller);
+            this.trigger();
         });
+    }
+
+    /**
+     * Calls
+     */
+    trigger() {
+        this._callback(this._controller);
     }
 
     /**

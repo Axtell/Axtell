@@ -4,6 +4,7 @@ import ImageUploadModalTemplate from '~/template/ImageUploadModalTemplate';
 
 export default new MarkdownControl(
     'Upload Image',
+    'g',
     'picture',
     (controller) => {
         let modalTemplate = new ImageUploadModalTemplate(controller);

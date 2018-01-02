@@ -4,6 +4,7 @@ const ItalicMarker = '_';
 
 export default new MarkdownControl(
     'Italic',
+    'i',
     'italic',
     (controller) => {
         if (controller.isLeading(ItalicMarker) && controller.isTrailing(ItalicMarker)) {
