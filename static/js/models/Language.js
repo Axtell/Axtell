@@ -78,6 +78,7 @@ export default class Language {
     get aceName() {
         let aceName = languages.ace[this.id];
         if (!aceName) return null;
+        if (aceName === 1) return this.id;
         return aceName;
     }
 

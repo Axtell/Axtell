@@ -9,7 +9,7 @@ def get_my_profile():
     Returns the logged in user's profile or a JSON with `unauthorized: true`
     """
     if isinstance(g.user, User):
-        return render_json(g.user.to_json())
+        return render_json(g.user.to_json(own=True))
     else:
         return render_json({'unauthorized': True})
 

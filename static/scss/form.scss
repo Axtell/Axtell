@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
 
-  > div, > input, > button, > textarea {
+  > input, > button, > textarea {
     flex: 1;
   }
 
@@ -54,6 +54,12 @@ input.text-input {
     border-bottom: none;
   }
 
+  // For URL inputs
+  &.-url {
+    font-size: 13px;
+    font-family: $monospace;
+  }
+
   &.-title {
     font-size: 1.3rem;
     font-family: $bold-font;
@@ -76,6 +82,8 @@ input.text-input {
   resize: none;
   border: none;
 
+  border-radius: 0;
+
   position: relative;
 
   .expand {
@@ -90,8 +98,10 @@ input.text-input {
     padding: 0;
     margin: 0;
   }
-
-  &.markdown {
-    background: $code-block-bg;
-  }
 }
+
+textarea.text-base {
+  background: $code-block-bg;
+}
+
+@import "file.scss";

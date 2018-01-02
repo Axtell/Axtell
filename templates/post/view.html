@@ -104,6 +104,7 @@
         Write answer
     </a>
     {%- endif %}
+    {% if answers.total > 0 -%}
     <div class="csb-section">
         <h3>Leaderboard</h3>
         <table class="leaderboard">
@@ -129,6 +130,7 @@
         <div class="icon-pair -active -center"><a class="lvc-reveal" href="#lb-m">{% include "svg/down.html" %}<span>See {{ leaderboard.get_total_count() - leaderboard.get_count() }} More</span></a></div>
         {%- endif %}
     </div>
+    {%- endif %}
 </div>
 {%- endblock %}
 

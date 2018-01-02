@@ -32,6 +32,9 @@ pagination = {
 auth = {
     'google': {
         'client-id': 'GOOGLE_CLIENT_ID'
+    },
+    'imgur': {
+        'client-id': 'IMGUR_CLIENT_ID'
     }
 }
 

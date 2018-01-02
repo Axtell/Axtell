@@ -31,7 +31,10 @@ export default class Request {
     async get() {
         let response = await axios.request({
             method: this._method,
-            url: this._path
+            url: this._path,
+
+            data: this._data,
+            headers: this._headers
         });
 
         return this.format(response.data);
@@ -41,10 +44,28 @@ export default class Request {
      * Creates request given path. Provide options **as object**
      *
      * @param {string} path - Path of request
+     * @param {string} auth - Authorization header
+     * @param {string} contentType - Content type header
+     * @param {?Object<string, string>} headers - Additional request headers.
      * @param {Request.Method} [method=get] - Method request type
      */
-    constructor({ path, method = Request.Method.get }) {
+    constructor({
+        path,
+        auth,
+        data,
+        contentType,
+        headers = {},
+        method = Request.Method.get
+    }) {
         this._path = path;
         this._method = method;
+
+        this._data = data;
+
+        this._headers = {
+            ...headers,
+            'Content-Type': contentType,
+            'Authorization': auth
+        }
     }
 }

@@ -23,6 +23,8 @@
         "rootPathSuffix": "misc/"
       }
     ]],
+    "babel-plugin-wildcard",
+    "babel-plugin-transform-object-rest-spread",
     "babel-plugin-transform-class-properties",
     "babel-plugin-transform-function-bind"
   ]

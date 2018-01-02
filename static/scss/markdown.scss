@@ -7,3 +7,35 @@
   width: 100%;
   box-sizing: border-box;
 }
+
+.markdown-controller {
+  flex: 0;
+  padding: 0.5rem 1rem;
+  border: 1px solid $code-block-bg;
+  border-bottom: none;
+
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    li {
+      display: inline-block;
+      vertical-align: middle;
+
+      + li {
+        margin-left: .75rem;
+      }
+
+      a, img {
+        font-size: 1rem;
+        height: 1rem;
+        line-height: 1rem;
+
+        outline: none;
+
+        vertical-align: middle;
+      }
+    }
+  }
+}

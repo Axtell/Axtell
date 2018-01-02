@@ -41,3 +41,40 @@ li, p {
   // Default margin results in no extra space.
   margin-bottom: 2em;
 }
+
+table {
+  margin: 1rem 0;
+
+  border-collapse: collapse;
+
+  $table-h-spacing: 0.5rem;
+
+  th, td {
+    padding-left: $table-h-spacing;
+    padding-right: $table-h-spacing;
+  }
+
+  td {
+    font-size: 0.9rem;
+    color: $main-text;
+
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  th {
+    font-weight: bold;
+    font-size: 1.1rem;
+
+    color: $main-text;
+    border-bottom: 1px solid $main-text;
+
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  tr + tr td {
+    border-top: 1px solid $subcontent-border-color;
+  }
+
+}

@@ -1,5 +1,6 @@
 import '~/ui/views/selectDialog';
 import '~/ui/views/leaderboard';
+import '~/ui/views/markdown';
 import '~/ui/views/sticky';
 import '~/ui/views/form';
 import '~/ui/exec/exec-tio';
