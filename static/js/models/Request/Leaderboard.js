@@ -1,4 +1,4 @@
-import Request from '~/models/Request/Request';
+import Request, { HTTPMethod } from '~/models/Request/Request';
 import Answer from '~/models/Answer';
 
 /**
@@ -21,7 +21,7 @@ export default class Leaderboard extends Request {
     constructor({ postId }) {
         super({
             path: `/leaderboard/${postId}`,
-            method: Request.Method.get
+            method: HTTPMethod.GET
         });
     }
 }

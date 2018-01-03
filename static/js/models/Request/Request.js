@@ -1,21 +1,23 @@
 import axios from 'axios';
 
 /**
+ * @typedef {Object} HTTPMethod
+ * @property {string} GET
+ * @property {string} PET
+ * @property {string} POST
+ * @property {string} DELETE
+ */
+export const HTTPMethod = {
+    GET: 'GET',
+    POST: 'POST',
+    DELETE: 'DELETE',
+    PUT: 'PUT'
+}
+
+/**
  * Performs a request for data.
  */
 export default class Request {
-    /**
-     * @typedef {Object} Request.Method
-     * @property {string} get
-     * @property {string} post
-     * @property {string} delete
-     */
-    static Method = {
-        get: 'GET',
-        post: 'POST',
-        delete: 'DELETE'
-    }
-
     /**
      * Formats the request object and returns an object of Request<T>'s T.
      * @param {Object} data - Data (JSON?) from the request.

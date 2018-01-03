@@ -1,4 +1,4 @@
-import Request from '~/models/Request/Request';
+import Request, { HTTPMethod } from '~/models/Request/Request';
 
 export const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID;
 export const IMGUR_UPLOAD_ENDPOINT = 'https://api.imgur.com/3/image';
@@ -33,7 +33,7 @@ export default class ImgurUpload extends Request {
 
         super({
             path: IMGUR_UPLOAD_ENDPOINT,
-            method: Request.Method.post,
+            method: HTTPMethod.POST,
             auth: `Client-ID ${IMGUR_CLIENT_ID}`,
             data: data
         });
