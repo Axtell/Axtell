@@ -51,6 +51,20 @@
   }
 }
 
+.button.-disabled {
+  background: $disabled-btn;
+  border: none;
+  border-bottom: 1px solid $disabled-btn-border;
+  cursor: inherit;
+
+  color: white;
+
+  &:hover {
+    color: white;
+    background: $disabled-btn;
+  }
+}
+
 .blue {
   @include button-style(#09F, white);
 }

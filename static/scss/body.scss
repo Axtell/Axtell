@@ -1,3 +1,7 @@
+h1, h2, h3, h4, h5, h6 {
+  display: block;
+}
+
 h1 {
   font: {
     family: $bold-font;
@@ -23,10 +27,38 @@ p:first-child {
   margin-top: 0;
 }
 
+img {
+  // We don't want a giant picture filling the screen so limits
+  max-width: 80%;
+  max-height: 80%;
+}
+
 a {
   color: inherit;
   border-bottom: 2px solid $link-color;
   padding: 0 1px;
+}
+
+blockquote {
+
+
+  margin: 0;
+  padding: .7rem 2rem;
+  padding-right: 0;
+  background: rgba($blockquote-marker, 0.08);
+
+  border-left: 8px solid $blockquote-marker;
+  border-radius: 3px;
+
+  p {
+    font-size: 1.3rem;
+    font-family: $quote-font;
+    font-style: italic;
+
+    color: rgba($blockquote-fg, 0.7);
+
+    &:last-child { margin-bottom: 0; }
+  }
 }
 
 li, p {

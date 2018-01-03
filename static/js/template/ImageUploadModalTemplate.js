@@ -53,9 +53,11 @@ export default class ImageUploadModalTemplate extends ModalTemplate {
         this._controller = controller;
 
         this._urlInput = urlUpload;
+        this._urlButton = urlUploadButton;
 
         this._fileInput = fileUpload;
         this._filePreview = filePreview;
+        this._fileButton = fileUploadButton;
 
         fileUpload.addEventListener("change", ::this._didSelectFile);
         urlUploadButton.addEventListener("click", ::this._uploadURL);
@@ -67,6 +69,7 @@ export default class ImageUploadModalTemplate extends ModalTemplate {
             url: this._urlInput.value
         });
 
+        this._setLoading();
         this._insertWithURL(await request.get());
     }
 
@@ -75,7 +78,13 @@ export default class ImageUploadModalTemplate extends ModalTemplate {
             file: this._selectedFile
         });
 
+        this._setLoading();
         this._insertWithURL(await request.get());
+    }
+
+    _setLoading() {
+        this._urlButton.classList.add('-disabled');
+        this._fileButton.classList.add('-disabled');
     }
 
     _didSelectFile(event) {
