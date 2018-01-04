@@ -4,6 +4,8 @@ import Template, {TemplateType} from '~/template/Template';
 import ModalTemplate from '~/template/ModalTemplate';
 import '~/modern/gapi';
 
+import ErrorManager from '~/helper/ErrorManager';
+
 const googleTrigger = document.getElementById("am-pgoogle");
 
 /**
@@ -60,7 +62,38 @@ export default class AuthModalTemplate extends ModalTemplate {
                 window.location.reload(true);
             })
             .catch(error => {
-                throw error
+                if (!error.response) {
+                    ErrorManager.silent(
+                        error,
+                        `Failed to connect to local authorization server.`
+                    );
+                    return;
+                }
+
+                switch (error.response.status) {
+                    case 403:
+                        ErrorManager.silent(
+                            error,
+                            `Key authentication failed. Either expired on ` +
+                            `client/server or hijacked token.`
+                        );
+                        break;
+
+                    case 400:
+                        ErrorManager.silent(
+                            error,
+                            `Malformed client login token recieved. Missing ` +
+                            `subject or issuer parameters.`
+                        );
+                        break;
+
+                    default:
+                        ErrorManager.silent(
+                            error,
+                            `Unexpected login error`,
+                            error.response.data
+                    );
+                }
             });
     }
 }

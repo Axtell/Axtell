@@ -13,11 +13,15 @@
   h1 {
     font-size: 4.5em;
     padding-bottom: 0.24em;
+
+    font-family: $bold-font;
+    font-weight: $bold-weight;
   }
 
   p {
     margin: .2em;
     color: #444;
     font-size: 1rem;
+    font-weight: 300;
   }
 }

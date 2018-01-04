@@ -30,6 +30,7 @@
 
     {% assets "js_all" -%}
     <meta name="data_id" content="{{ data_id }}">
+    <script>var {{ data_id }}theme='{{ "dark" if session["dark_theme"] else "light" }}';</script>
     <script async defer src="{{ ASSET_URL }}"></script>
     {%- endassets %}
 {%- endblock %}

@@ -2,18 +2,44 @@
  * Centralizes error handling
  */
 
+import Data from '~/models/Data';
+
+const ErrorList = [];
+
+/**
+ * Generic error type
+ */
 export class AnyError {
+    /**
+     * @param {string} message Error descrpition
+     * @param {Symbol|string} id Id of error
+     */
     constructor(message, id) {
         this.message = message;
-        this.id = id;
+        this.id = typeof id === 'symbol' ? id.toString().slice(7, -1) : id;
     }
 
     get idString() {
-        return this.id.toString().slice(7, -1);
+        return this.id;
     }
 
     toString() {
-        return this.idString + ": " + this.message;
+        return this.id + ": " + this.message;
+    }
+
+    /**
+     * Reports the error with some args.
+     * @param {Array} args anything
+     */
+    report(args) {
+        ErrorList.push(this);
+        console.error(`%c${this.idString}:%c ${this.message}`, 'font-weight: 700', '', ...args);
+        console.log(
+            `You can report this error at %s and get a dump of what happened ` +
+            `by running \`E%crrorManager.dumpText()%c\``,
+            'https://github.com/PPCG-v2/PPCG-v2/issues',
+            'font-family: Menlo, "Fira Mono", monospace;', ''
+        );
     }
 }
 
@@ -33,10 +59,65 @@ export default {
         if (error instanceof AnyError) {
             message = error.message + '; ' + message;
             title = error.idString;
-        } else {
-            args = [error];
+        } else if (error.name) {
+            title = error.name;
         }
 
-        console.error(`%c${title}:%c ${message}`, 'font-weight: 700', '', ...args);
+        new AnyError(message, title).report(args);
+    },
+
+    /**
+     * Pass unhandled errors here
+     */
+    unhandled(error) {
+        new AnyError(error.message, 'Unhandled Error').report(error);
+    },
+
+    /**
+     * Returns errors
+     * @return {string}
+     */
+    dump() {
+        return `Error Dump for instance ${Data.shared.dataId}:\n\n` +
+            ErrorList.map((error, indexNum) => {
+                let index = String(indexNum);
+
+                return ` ${indexNum + 1}. ${error.idString}\n` +
+                    ` ${" ".repeat(index.length)}  ${error.message}`;
+            }).join(`\n\n`);
+    },
+
+    /**
+     * Dumps in new context
+     */
+    dumpText() {
+        window.open(
+            `data:text/plain,${encodeURIComponent(this.dump())}`,
+            '_blank'
+        );
+    },
+
+    /**
+     * Dumps error log to console.
+     */
+    dumpConsole() {
+        console.log(
+            `%cError Dump%c for instance (%c${Data.shared.dataId}%c):%c\n` +
+            ErrorList.map(
+                (error, indexNum) => {
+                    let index = String(indexNum);
+
+                    return `%c${indexNum + 1}. %c${error.idString}%c\n` +
+                        `%c${" ".repeat(index.length)}  ${error.message}%c`;
+                }
+            ).join('\n'),
+            'font-size: 24px; font-weight: bold;', 'font-size: 24px;',
+            'font-size: 24px; font-weight: bold; text-decoration: underline', 'font-size: 24px;', '',
+            ...[].concat(...ErrorList.map(_ => [
+                'font-size: 16px;',
+                'color: red; font-weight: bold; font-size: 16px;', '',
+                'font-size: 14px;', ''
+            ]))
+        );
     }
 };

@@ -1,5 +1,6 @@
 import Template from '~/template/Template';
 import HexBytes from '~/modern/HexBytes';
+import Theme from '~/models/Theme';
 
 /**
  * Represents a control for the markdown controls list. Stores all the
@@ -14,7 +15,7 @@ export default class MarkdownControl extends Template {
      */
     constructor(name, key, iconName, callback) {
         let root = (
-            <a><img src={`/static/img/${iconName}.svg`}/></a>
+            <a><img src={Theme.current.imageForTheme(iconName)}/></a>
         );
 
         super(root);

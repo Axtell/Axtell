@@ -9,7 +9,7 @@
     "babel-core": "^6.26.0",
     "babelify": "^8.0.0",
     "browserify": "^14.5.0",
-    "clean-css": "^3.4.24",
+    "clean-css-cli": "^4.1.10",
     "envify": "^4.1.0",
     "escape-html": "^1.0.3",
     "highlight.js": "^9.12.0",
@@ -18,6 +18,6 @@
     "markdown-it-katex": "^2.0.3",
     "markdown-it-link-attributes": "^2.0.0",
     "n": "^2.1.8",
-    "uglifyify": "^4.0.4"
+    "uglify-js": "^3.3.4"
   }
 }

@@ -9,8 +9,10 @@
     margin-right: 4px;
   }
 
+  // Box containing username (maybe rep etc.)
   .userbox-info {
     display: flex;
+    flex: 1;
     align-items: center;
     padding: 0 8px;
   }
@@ -26,16 +28,27 @@
     font-size: 1rem;
     color: $label-text;
     white-space: nowrap;
+
+    // Ellipsis for overflowing name (prevents scroll)
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .timestamp {
-    font-family: $monospace;
-    color: $label-tag;
+    font-size: 0.6rem;
+    white-space: nowrap;
   }
 
   .userbox-aside {
-    flex: 1;
     text-align: right;
+
+    // Style of content (eg. timestamp). Placed here so ellipsis gets colored.
+    font-family: $monospace;
+    color: $label-tag;
+
+    // Ellipsis of content (probably timestamp).
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &.-small {

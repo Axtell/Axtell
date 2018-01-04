@@ -3,6 +3,8 @@ a {
 
   &.title {
     color: $title-text;
+    font-family: $bold-font;
+    font-weight: $bold-weight;
   }
 }
 
@@ -98,5 +100,6 @@ hr {
 }
 
 .body {
+  overflow: auto;
   @import "body.scss";
 }

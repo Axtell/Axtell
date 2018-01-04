@@ -5,6 +5,7 @@ import 'element-dataset';
 
 import Normalize from "~/models/Normalize";
 import Language from "~/models/Language";
+import Theme from "~/models/Theme";
 import Post from "~/models/Post";
 import Data from "~/models/Data";
 import Auth from "~/models/Auth";
@@ -12,15 +13,20 @@ import Auth from "~/models/Auth";
 import Request from "~/models/Request/Request";
 import Leaderboard from "~/models/Request/Leaderboard";
 
+import ErrorManager from "~/helper/ErrorManager";
+
 // Make global
 global.Normalize = Normalize;
 global.Language = Language;
+global.Theme = Theme;
 global.Post = Post;
 global.Data = Data;
 global.Auth = Auth;
 
 global.Request = Request;
 global.Leaderboard = Leaderboard;
+
+global.ErrorManager = ErrorManager;
 
 (function(done) {
     // Only need to be able to access DOM
@@ -34,7 +40,11 @@ global.Leaderboard = Leaderboard;
     return function() {
         if (state === false) {
             state = true;
-            require("~/ui");
+            try {
+                require("~/ui");
+            } catch(error) {
+                ErrorManager.unhandled(error);
+            }
         }
     };
 }(false)));
