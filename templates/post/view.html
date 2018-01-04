@@ -3,6 +3,7 @@
 
 {% block head -%}
 {{ super() }}
+<link href="https://fonts.googleapis.com/css?family=Playfair+Display:400i" rel="stylesheet">
 {% set canonical = opts.canonical_host + url_for('get_post', post_id=post_id) %}
 <link rel="canonical" href="{{ canonical }}">
 <link property="og:url" value="{{ canonical }}">
@@ -29,6 +30,7 @@
 <div id="responses">
     <div class="list-header">
         <h2>Answers</h2>
+        {% if answers.total > 1 -%}
         <span class="select-dialog d-sort">
             <span>sort by: <a>recent</a></span>
             <div class="drop template">
@@ -37,6 +39,7 @@
                 <div data-st="t" class="opt">newest</div>
             </div>
         </span>
+        {%- endif %}
     </div>
     {% if answers.pages == 0 -%}
     <div class="response-empty">No answers posted</div>
@@ -102,6 +105,7 @@
         Write answer
     </a>
     {%- endif %}
+    {% if answers.total > 0 -%}
     <div class="csb-section">
         <h3>Leaderboard</h3>
         <table class="leaderboard">
@@ -127,6 +131,7 @@
         <div class="icon-pair -active -center"><a class="lvc-reveal" href="#lb-m">{% include "svg/down.html" %}<span>See {{ leaderboard.get_total_count() - leaderboard.get_count() }} More</span></a></div>
         {%- endif %}
     </div>
+    {%- endif %}
 </div>
 {%- endblock %}
 

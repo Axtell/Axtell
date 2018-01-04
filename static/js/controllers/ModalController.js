@@ -32,6 +32,13 @@ export default class ModalController extends ViewController {
         return true;
     }
 
+    /**
+     * Closes the modal if open
+     */
+    dismiss() {
+        this._clearPresentee(null);
+    }
+
     _setPresentee(modal) {
         this._context.classList.add(ACTIVE_KEY);
 

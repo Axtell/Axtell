@@ -18,8 +18,16 @@ class User(db.Model):
     def avatar_url(self):
         return gravatar(self.email)
 
-    def to_json(self):
-        return {'id': self.id, 'name': self.name, 'email': self.email}
+    def to_json(self, own=False):
+        data = {
+            'id': self.id,
+            'name': self.name
+        }
+
+        if own:
+            data['email'] = self.email
+
+        return data
 
     def __repr__(self):
         return '<User({!r}) "{!r}">'.format(self.id, self.name)

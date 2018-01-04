@@ -28,4 +28,3 @@ class TestUserAPI(TestFlask):
 
         self.assertEqual(user_data['id'], self.user.id)
         self.assertEqual(user_data['name'], self.user.name)
-        self.assertEqual(user_data['email'], self.user.email)

@@ -1,0 +1,39 @@
+.file {
+  &.invisible {
+    display: none;
+  }
+
+  &.container {
+
+    display: flex;
+    flex-direction: row;
+    border-radius: 6px;
+    border: 1px solid $theme-color;
+    box-sizing: border-box;
+    padding: 0;
+    overflow: hidden;
+
+    .trigger {
+      margin: 0;
+      color: white;
+      background: $theme-color;
+      padding: 4px 8px;
+      align-self: stretch;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .preview {
+      padding: 4px 8px;
+      align-self: center;
+
+      font-size: .8rem;
+      font-family: $monospace;
+      color: $label-text;
+
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}

@@ -109,6 +109,17 @@ export default class Template {
         this.didLoad();
         return elem;
     }
+
+    /**
+     * Loads before an element
+     * @param {HTMLElement} elem - Element to load before
+     * @return {HTMLElement} rendered element
+     */
+    loadBeforeContext(elem) {
+        let instance = this.unique();
+        elem.parentNode.insertBefore(instance, elem);
+        return instance;
+    }
 }
 
 /**

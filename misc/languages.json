@@ -1,13 +1,18 @@
 {
   "tio": {
     "js": "javascript-babel-node",
+    "java": "java-openjdk",
+    "java9": "java-openjdk9",
     "cs": "cs-csc",
     "fs": "fs-mono",
     "c": "c-gcc",
-    "cpp": "cpp-gcc"
+    "cpp": "cpp-gcc",
+    "sed": "sed-gnu"
   },
   "ace": {
     "js": "javascript",
+    "java": 1,
+    "java9": "java",
     "python2": "python",
     "python3": "python",
     "bash": "sh",
@@ -29,6 +34,8 @@
     "bash": "sh",
     "c": 1,
     "cpp": 1,
+    "java": 1,
+    "java9": "java",
     "perl5": "perl",
     "perl6": "perl",
     "js": 1
@@ -52,6 +59,7 @@
     },
     "c": {},
     "cheddar": {},
+    "clean": {},
     "cpp": {
       "display": "C++",
       "sn": "C+"
@@ -60,11 +68,18 @@
       "display": "C#",
       "sn": "C#"
     },
+    "emojicode": {},
     "fs": {
       "display": "F#",
       "sn": "F#"
     },
     "funky": {},
+    "gaia": {},
+    "husk": {},
+    "java": {},
+    "java9": {
+      "display": "Java 9"
+    },
     "jelly": {},
     "js": {
       "display": "JavaScript"
@@ -82,7 +97,11 @@
     "python3": {
       "display": "Python 3"
     },
+    "pyke": {},
     "pyth": {},
+    "sed": {
+      "display": "GNU Sed"
+    },
     "seriously": {}
   }
 }

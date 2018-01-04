@@ -42,6 +42,7 @@ if server.debug:
 
 js_envs = {
     'GAPI_KEY': config.auth['google']['client-id'],
+    'IMGUR_CLIENT_ID': config.auth['imgur']['client-id'],
     'POST_TITLE_MIN': str(config.posts['min_title']),
     'POST_TITLE_MAX': str(config.posts['max_title']),
     'POST_BODY_MIN': str(config.posts['min_len']),
