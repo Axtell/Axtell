@@ -1,0 +1,11 @@
+{% macro votebutton(name, type_id, vote_count, is_active) -%}
+<div class="voting-wrapper">
+    <div class="vote-button -{{ type_id }}{{ ' selected' if is_active else '' }}" data-type={{ type_id }}>
+        <span class="vote-count">{{ vote_count }}</span>
+        <div class="vote-icon-group">
+            {% include "svg/" + type_id + ".html" %}
+            <span>{{ name }}</span>
+        </div>
+    </div>
+</div>
+{%- endmacro %}

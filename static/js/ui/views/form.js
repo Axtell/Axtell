@@ -1,5 +1,5 @@
 import FormController from '~/controllers/Form/FormController';
-import {forEach} from '~/modern/array';
+import { forEach } from '~/modern/array';
 
-document.getElementsByTagName('Form')
+document.getElementsByTagName('form')
     ::forEach(form => new FormController(form));
