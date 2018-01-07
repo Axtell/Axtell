@@ -19,7 +19,10 @@ def answer_votes(answer_id):
 def post_vote(post_id):
     if request.method == 'GET':
         return render_json(vote.get_post_vote(post_id))
-    vote_data = render_json(request.get_json(silent=True)['vote'])
+    json = request.get_json(silent=True)
+    if json is None:
+        return abort(400)
+    vote_data = json['vote']
     return render_json(vote.do_post_vote(post_id, vote_data))
 
 
@@ -27,5 +30,8 @@ def post_vote(post_id):
 def answer_vote(answer_id):
     if request.method == 'GET':
         return render_json(vote.get_answer_vote(answer_id))
-    vote_data = request.get_json(silent=True)['vote']
+    json = request.get_json(silent=True)
+    if json is None:
+        return abort(400)
+    vote_data = json['vote']
     return render_json(vote.do_answer_vote(answer_id, vote_data))

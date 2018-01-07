@@ -25,17 +25,6 @@ def get_post_vote_sum(post_id, raw=False):
         return {"votes": sum(votes)}
 
 
-def get_answer_vote_sum(answer_id, raw=False):
-    answer = Answer.query.filter_by(id=answer_id).first()
-    if answer is None:
-        return abort(404)
-    votes = map(lambda vote: vote.vote, AnswerVote.query.filter_by(answer_id=answer_id).all())
-    if raw:
-        return sum(votes)
-    else:
-        return {"votes": sum(votes)}
-
-
 def get_answer_vote_breakdown(answer_id):
     answer = Answer.query.filter_by(id=answer_id).first()
     if answer is None:

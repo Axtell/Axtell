@@ -7,6 +7,7 @@ from app.models.User import User
 from app.models.Post import Post
 from app.models.Answer import Answer
 from flask import g
+from json import dumps as json_dump
 
 
 # noinspection PyUnresolvedReferences
@@ -15,7 +16,8 @@ import app.routes.vote
 import app.routes.answer
 # noinspection PyUnresolvedReferences
 import app.routes.post
-
+#
+import logging
 
 class TestVote(TestFlask):
     def setUp(self):
@@ -68,13 +70,14 @@ class TestVote(TestFlask):
 
         data = result.json
         self.assertEqual(data['vote'], -1)
-        self.assertEqual(data['user'], self.user.id)
-        self.assertEqual(data['answer'], self.answer.id)
+        self.assertEqual(data['breakdown']['downvote'], 1)
+        self.assertEqual(data['breakdown']['upvote'], 0)
 
     def test_change_post_vote(self):
         self.session.begin_nested()
 
-        post_result = self.client.post(f"/vote/post/{self.test_post.id}", data={'vote': 0})
+        post_result = self.client.post(f"/vote/post/{self.test_post.id}",
+            data=json_dump({'vote': 0}), content_type='application/json')
         self.assertEqual(post_result.status_code, 200)
 
         get_result = self.client.get(f"/vote/post/{self.test_post.id}")
@@ -85,7 +88,8 @@ class TestVote(TestFlask):
     def test_change_answer_vote(self):
         self.session.begin_nested()
 
-        post_result = self.client.post(f"/vote/answer/{self.answer.id}", data={'vote': 0})
+        post_result = self.client.post(f"/vote/answer/{self.answer.id}",
+            data=json_dump({'vote': 0}), content_type='application/json')
         self.assertEqual(post_result.status_code, 200)
 
         get_result = self.client.get(f"/vote/answer/{self.answer.id}")
@@ -99,10 +103,3 @@ class TestVote(TestFlask):
 
         data = result.json
         self.assertEqual(data['votes'], 1)
-
-    def test_answer_vote_total(self):
-        result = self.client.get(f"/votes/answer/{self.answer.id}")
-        self.assertEqual(result.status_code, 200)
-
-        data = result.json
-        self.assertEqual(data['votes'], -1)
