@@ -22,23 +22,33 @@ assets = Environment(server)
 nodebin = path.join(getcwd(), 'node_modules', '.bin')
 
 # CSS
-css_light = Bundle('scss/entry-light.scss', filters=('scss', 'autoprefixer', 'cleancss'), output='css/all.css')
-css_light.config['CLEANCSS_BIN'] = path.join(nodebin, 'cleancss')
-css_light.config['AUTOPREFIXER_BIN'] = path.join(nodebin, 'autoprefixer-cli')
-css_light.config['AUTOPREFIXER_BROWSERS'] = ['> 1%']
-assets.register('css_light_all', css_light)
+def css_bundle_style(type):
+    bundle = Bundle(
+        f'scss/entry-{type}.scss',
+        filters=('sass', 'autoprefixer', 'cleancss'),
+        output=f'css/all-{type}.css'
+    )
 
-css_dark = Bundle('scss/entry-dark.scss', filters=('scss', 'autoprefixer', 'cleancss'), output='css/all-dark.css')
-css_dark.config['CLEANCSS_BIN'] = path.join(nodebin, 'cleancss')
-css_dark.config['AUTOPREFIXER_BIN'] = path.join(nodebin, 'autoprefixer-cli')
-css_dark.config['AUTOPREFIXER_BROWSERS'] = ['> 1%']
-assets.register('css_dark_all', css_dark)
+    bundle.config['SASS_USE_SCSS'] = True
+    bundle.config['SASS_SOURCE_MAP'] = 'inline'
+    bundle.config['SASS_STYLE'] = 'compressed'
+    bundle.config['CLEANCSS_BIN'] = path.join(nodebin, 'cleancss')
+    bundle.config['AUTOPREFIXER_BIN'] = path.join(nodebin, 'autoprefixer-cli')
+    bundle.config['AUTOPREFIXER_BROWSERS'] = ['IE >= 10', 'Safari >= 7', '> 1%']
+    assets.register(f'css_{type}_all', bundle)
+
+
+css_bundle_style('light')
+css_bundle_style('dark')
 
 # JS
-js = Bundle('js/main.js', filters=('browserify',), output='lib/main.js')
+js = Bundle('js/main.js', filters=('browserify', 'uglifyjs'), output='lib/main.js')
+
+uglify_args = ['-m', '--mange-props', 'regex=/^_.+$/', '-c']
 
 if server.debug:
     js.config['BROWSERIFY_EXTRA_ARGS'] = ['--debug']
+    uglify_args.extend(['--source-map', 'content=inline,includeSources,url=inline'])
 
 js_envs = {
     'GAPI_KEY': config.auth['google']['client-id'],
@@ -49,9 +59,12 @@ js_envs = {
     'POST_BODY_MAX': str(config.posts['max_len'])
 }
 
-js.config['BROWSERIFY_BIN'] = 'node_modules/.bin/browserify'
+js.config['BROWSERIFY_BIN'] = path.join(nodebin, 'browserify')
+js.config['UGLIFYJS_BIN'] = path.join(nodebin, 'uglifyjs')
+js.config['UGLIFYJS_EXTRA_ARGS'] = uglify_args
 js.config['BROWSERIFY_TRANSFORMS'] = [
     'babelify',
     ['envify', *[arg for (key, value) in js_envs.items() for arg in ('--' + key, value)]]
 ]
+
 assets.register('js_all', js)

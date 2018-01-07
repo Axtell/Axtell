@@ -22,6 +22,14 @@ export default class Data {
     }
 
     /**
+     * JS server data exchange identification.
+     * @return {string}
+     */
+    get dataId() {
+        return this._id;
+    }
+
+    /**
      * Get value for key
      * @param {string} key - Key name
      * @return {?string}
