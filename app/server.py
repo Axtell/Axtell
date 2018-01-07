@@ -44,7 +44,7 @@ css_bundle_style('dark')
 # JS
 js = Bundle('js/main.js', filters=('browserify', 'uglifyjs'), output='lib/main.js')
 
-uglify_args = []
+uglify_args = ['-m', '--mange-props', 'regex=/^_.+$/', '-c']
 
 if server.debug:
     js.config['BROWSERIFY_EXTRA_ARGS'] = ['--debug']

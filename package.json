@@ -9,7 +9,7 @@
     "babel-core": "^6.26.0",
     "babelify": "^8.0.0",
     "browserify": "^14.5.0",
-    "clean-css-cli": "^4.1.10",
+    "clean-css": "^3.4.28",
     "envify": "^4.1.0",
     "escape-html": "^1.0.3",
     "highlight.js": "^9.12.0",
