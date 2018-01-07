@@ -1,6 +1,6 @@
 {
   "presets": [
-    ["env", {
+    ["@babel/preset-env", {
       "targets": {
         "browsers": ["> 1%"]
       }
@@ -9,23 +9,27 @@
   "plugins": [
     "babel-plugin-syntax-jsx",
     "babel-plugin-jsx-to-dom",
-    ["transform-runtime", {
+    "@babel/plugin-proposal-optional-chaining",
+    "@babel/plugin-proposal-optional-catch-binding",
+    ["@babel/plugin-transform-runtime", {
       "polyfill": false,
       "regenerator": true
     }],
-    ["babel-plugin-root-import", [
-      {
-        "rootPathPrefix": "~",
-        "rootPathSuffix": "static/js/"
-      },
-      {
-        "rootPathPrefix": "@",
-        "rootPathSuffix": "misc/"
-      }
-    ]],
+    ["module:babel-7-plugin-root-import", {
+      "paths": [
+        {
+          "rootPathPrefix": "~",
+          "rootPathSuffix": "static/js/"
+        },
+        {
+          "rootPathPrefix": "#",
+          "rootPathSuffix": "misc/"
+        }
+      ]
+    }],
     "babel-plugin-wildcard",
-    "babel-plugin-transform-object-rest-spread",
-    "babel-plugin-transform-class-properties",
-    "babel-plugin-transform-function-bind"
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-function-bind"
   ]
 }
