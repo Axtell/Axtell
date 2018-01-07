@@ -1,6 +1,7 @@
 import ViewController from '~/controllers/ViewController';
-import ErrorManager from '~/helper/ErrorManager';
 import AnswerVote from '~/models/Request/AnswerVote';
+import Theme from '~/models/Theme';
+import ErrorManager from '~/helper/ErrorManager';
 
 export const VOTE_ACTIVE_CLASS = 'selected';
 export const VoteFailed = Symbol('AnswerVote.Error.RequestFailed');
@@ -26,7 +27,7 @@ export default class VoteViewController extends ViewController {
         this._voteTotal = voteButton.getElementsByClassName('vote-count')[0];
 
         this._voteIcon = voteButton.getElementsByTagName('svg')[0];
-        this._loadingIcon = <img src="/static/img/loading.svg"/>;
+        this._loadingIcon = <img src={Theme.current.imageForTheme('loading')} />;
         this._iconParent = this._voteIcon.parentNode;
 
         this._isLoading = false;
