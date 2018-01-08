@@ -1,5 +1,5 @@
 // Polyfills
-import 'babel-polyfill';
+import '@babel/polyfill';
 import 'url-search-params-polyfill';
 import 'element-dataset';
 

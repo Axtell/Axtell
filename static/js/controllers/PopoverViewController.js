@@ -27,19 +27,17 @@ export default class PopoverViewController extends ViewController {
         }
 
         // Setup hide trigger
-        if (untrigger !== null) {
-            untrigger.addEventListener("click", (event) => {
-                if (this._isActive) {
-                    let target = event.target;
-                    if (!this._node.contains(untrigger) && (
-                        this._node.contains(target) ||
-                        this._trigger.contains(target)
-                    )) { return }
+        untrigger?.addEventListener("click", (event) => {
+            if (this._isActive) {
+                let target = event.target;
+                if (!this._node.contains(untrigger) && (
+                    this._node.contains(target) ||
+                    this._trigger.contains(target)
+                )) { return }
 
-                    this.untrigger();
-                }
-            });
-        }
+                this.untrigger();
+            }
+        });
 
         this.bindTrigger(trigger);
     }

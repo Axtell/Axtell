@@ -24,11 +24,7 @@ export default class ActionControllerDelegate {
         }
 
         return (controller, state) => {
-            if (state === null) {
-                elem.value = "";
-            } else {
-                elem.value = state.toString();
-            }
+            elem.value = state?.toString() || "";
         };
     }
 
