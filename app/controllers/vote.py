@@ -5,7 +5,6 @@ from app.models.Post import Post
 from app.models.Answer import Answer
 from app.models.PostVote import PostVote
 from app.models.AnswerVote import AnswerVote
-from app.helpers.render import render_json
 
 # noinspection PyUnresolvedReferences
 import app.routes.post
@@ -23,18 +22,17 @@ def get_post_vote_sum(post_id, raw=False):
     if raw:
         return sum(votes)
     else:
-        return render_json({"votes": sum(votes)})
+        return {"votes": sum(votes)}
 
 
-def get_answer_vote_sum(answer_id, raw=False):
+def get_answer_vote_breakdown(answer_id):
     answer = Answer.query.filter_by(id=answer_id).first()
     if answer is None:
         return abort(404)
-    votes = map(lambda vote: vote.vote, AnswerVote.query.filter_by(answer_id=answer_id).all())
-    if raw:
-        return sum(votes)
-    else:
-        return render_json({"votes": sum(votes)})
+    upvotes = AnswerVote.query.filter_by(answer_id=answer_id, vote=1).count()
+    downvotes = AnswerVote.query.filter_by(answer_id=answer_id, vote=-1).count()
+
+    return {"upvote": upvotes, "downvote":downvotes}
 
 
 def get_post_vote(post_id):
@@ -45,7 +43,7 @@ def get_post_vote(post_id):
     post_votes = PostVote.query.filter_by(post_id=post_id, user_id=current_user.id).first()
     if post_votes is None:
         return abort(404)
-    return render_json(post_votes.to_json())
+    return post_votes.to_json()
 
 
 def get_answer_vote(answer_id):
@@ -55,8 +53,11 @@ def get_answer_vote(answer_id):
 
     answer_votes = AnswerVote.query.filter_by(answer_id=answer_id, user_id=current_user.id).first()
     if answer_votes is None:
-        return abort(404)
-    return render_json(answer_votes.to_json())
+        vote = 0
+    else:
+        vote = answer_votes.vote
+
+    return {"vote": vote, "breakdown": get_answer_vote_breakdown(answer_id)}
 
 
 def do_post_vote(post_id, vote):
@@ -86,7 +87,7 @@ def do_post_vote(post_id, vote):
         db.session.add(new_vote)
         db.session.commit()
 
-    return render_json({"vote": vote, "total": get_post_vote_sum(post_id, raw=True)})
+    return {"vote": vote, "total": get_post_vote_sum(post_id, raw=True)}
 
 
 def do_answer_vote(answer_id, vote):
@@ -116,4 +117,4 @@ def do_answer_vote(answer_id, vote):
         db.session.add(new_vote)
         db.session.commit()
 
-    return render_json({"vote": vote, "total": get_answer_vote_sum(answer_id, raw=True)})
+    return {"vote": vote, "breakdown": get_answer_vote_breakdown(answer_id)}

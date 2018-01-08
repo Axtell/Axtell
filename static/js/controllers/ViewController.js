@@ -23,10 +23,11 @@ export default class ViewController {
      * specify a custom predicate.
      * @param {string} className
      * @param {Function} predicate - Takes elem, return array of params
+     * @param {HTMLElement} root - Root element to search from
      */
-    static forClass(className, predicate = (elem) => [elem]) {
-        document.getElementsByClassName(className)::forEach(elem => {
+    static forClass(className, predicate = (elem) => [elem], root = document) {
+        root.getElementsByClassName(className)::forEach(elem => {
             new this(...predicate(elem));
-        })
+        });
     }
 }
