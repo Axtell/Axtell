@@ -1,4 +1,4 @@
-import languages from '@/languages.json';
+import languages from '#/languages.json';
 import ErrorManager from '~/helper/ErrorManager';
 
 import Normalize from '~/models/Normalize';
