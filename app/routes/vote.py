@@ -7,7 +7,7 @@ from app.helpers.render import render_json
 
 @server.route("/votes/post/<int:post_id>")
 def post_votes(post_id):
-    return render_json(vote.get_post_vote_sum(post_id))
+    return render_json(vote.get_post_vote_breakdown(post_id))
 
 
 @server.route("/votes/answer/<int:answer_id>")

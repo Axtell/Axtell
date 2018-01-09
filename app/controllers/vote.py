@@ -14,25 +14,24 @@ import app.routes.theme
 import app.routes.auth
 
 
-def get_post_vote_sum(post_id, raw=False):
+def get_post_vote_breakdown(post_id):
     post = Post.query.filter_by(id=post_id).first()
     if post is None:
         return abort(404)
-    votes = map(lambda vote: vote.vote, PostVote.query.filter_by(post_id=post_id).all())
-    if raw:
-        return sum(votes)
-    else:
-        return {"votes": sum(votes)}
+    votes = list(map(lambda vote: vote.vote, PostVote.query.filter_by(post_id=post_id).all()))
+    upvotes = votes.count(1)
+    downvotes = votes.count(-1)
+    return {"upvote": upvotes, "downvote": downvotes}
 
 
 def get_answer_vote_breakdown(answer_id):
     answer = Answer.query.filter_by(id=answer_id).first()
     if answer is None:
         return abort(404)
-    upvotes = AnswerVote.query.filter_by(answer_id=answer_id, vote=1).count()
-    downvotes = AnswerVote.query.filter_by(answer_id=answer_id, vote=-1).count()
-
-    return {"upvote": upvotes, "downvote":downvotes}
+    votes = list(map(lambda vote: vote.vote, AnswerVote.query.filter_by(answer_id=answer_id).all()))
+    upvotes = votes.count(1)
+    downvotes = votes.count(-1)
+    return {"upvote": upvotes, "downvote": downvotes}
 
 
 def get_post_vote(post_id):
@@ -73,6 +72,11 @@ def do_post_vote(post_id, vote):
     if vote not in (-1, 0, 1):
         return abort(400)
 
+    post = Post.query.filter_by(post_id=post_id).first()
+    # ensure that user is not voting on own content
+    if post.user_id == g.user.id:
+        return abort(403)
+
     # handle changing existing vote
     prev_vote = PostVote.query.filter_by(post_id=post_id, user_id=current_user.id).first()
     if prev_vote is not None:
@@ -87,7 +91,7 @@ def do_post_vote(post_id, vote):
         db.session.add(new_vote)
         db.session.commit()
 
-    return {"vote": vote, "total": get_post_vote_sum(post_id, raw=True)}
+    return {"vote": vote, "breakdown": get_post_vote_breakdown(post_id)}
 
 
 def do_answer_vote(answer_id, vote):
@@ -103,9 +107,14 @@ def do_answer_vote(answer_id, vote):
     if vote not in (-1, 0, 1):
         return abort(400)
 
+    answer = Answer.query.filter_by(id=answer_id).first()
+
+    # ensure that user is not voting on own content
+    if answer.user_id == g.user.id:
+        return abort(403)
+
     # handle changing existing vote
     prev_vote = AnswerVote.query.filter_by(answer_id=answer_id, user_id=current_user.id).first()
-    answer = Answer.query.filter_by(id=answer_id).first()
     if prev_vote is not None:
         prev_vote.vote = vote
         db.session.commit()
