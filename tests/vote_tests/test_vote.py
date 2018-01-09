@@ -26,13 +26,15 @@ class TestVote(TestFlask):
         self.session.begin_nested()
         self.user = User(name='Test User', email='test@user.com')
         self.session.add(self.user)
+        self.user2 = User(name='Test User 2', email='test2@user.com')
+        self.session.add(self.user2)
 
         self.test_post = Post(title='Testing Votes API', body='Testing Votes API')
-        self.user.posts.append(self.test_post)
+        self.user2.posts.append(self.test_post)
         self.session.add(self.test_post)
 
         self.answer = Answer(post_id=self.test_post.id)
-        self.user.answers.append(self.answer)
+        self.user2.answers.append(self.answer)
         self.test_post.answers.append(self.answer)
         self.session.add(self.answer)
 
@@ -59,8 +61,8 @@ class TestVote(TestFlask):
 
         data = result.json
         self.assertEqual(data['vote'], 1)
-        self.assertEqual(data['user'], self.user.id)
-        self.assertEqual(data['post'], self.test_post.id)
+        self.assertEqual(data['breakdown']['downvote'], 0)
+        self.assertEqual(data['breakdown']['upvote'], 1)
 
     def test_answer_vote_get(self):
         current_user = self.user
@@ -84,6 +86,8 @@ class TestVote(TestFlask):
         self.assertEqual(get_result.status_code, 200)
         data = get_result.json
         self.assertEqual(data['vote'], 0)
+        self.assertEqual(data['breakdown']['downvote'], 0)
+        self.assertEqual(data['breakdown']['upvote'], 0)
 
     def test_change_answer_vote(self):
         self.session.begin_nested()
@@ -96,10 +100,5 @@ class TestVote(TestFlask):
         self.assertEqual(get_result.status_code, 200)
         data = get_result.json
         self.assertEqual(data['vote'], 0)
-
-    def test_post_vote_total(self):
-        result = self.client.get(f"/votes/post/{self.test_post.id}")
-        self.assertEqual(result.status_code, 200)
-
-        data = result.json
-        self.assertEqual(data['votes'], 1)
+        self.assertEqual(data['breakdown']['downvote'], 0)
+        self.assertEqual(data['breakdown']['upvote'], 0)
