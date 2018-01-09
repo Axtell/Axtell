@@ -72,7 +72,7 @@ def do_post_vote(post_id, vote):
     if vote not in (-1, 0, 1):
         return abort(400)
 
-    post = Post.query.filter_by(post_id=post_id).first()
+    post = Post.query.filter_by(id=post_id).first()
     # ensure that user is not voting on own content
     if post.user_id == g.user.id:
         return abort(403)
