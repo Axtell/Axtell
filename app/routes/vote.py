@@ -12,7 +12,7 @@ def post_votes(post_id):
 
 @server.route("/votes/answer/<int:answer_id>")
 def answer_votes(answer_id):
-    return render_json(vote.get_answer_vote_sum(answer_id))
+    return render_json(vote.get_answer_vote_breakdown(answer_id))
 
 
 @server.route("/vote/post/<int:post_id>", methods=['GET', 'POST'])

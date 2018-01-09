@@ -41,8 +41,11 @@ def get_post_vote(post_id):
 
     post_votes = PostVote.query.filter_by(post_id=post_id, user_id=current_user.id).first()
     if post_votes is None:
-        return abort(404)
-    return post_votes.to_json()
+        vote = 0
+    else:
+        vote = post_votes.vote
+
+    return {"vote": vote, "breakdown": get_post_vote_breakdown(post_id)}
 
 
 def get_answer_vote(answer_id):
