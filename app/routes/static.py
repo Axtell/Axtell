@@ -29,6 +29,13 @@ def lang_logo(lang_id):
     response.cache_control.max_age = 600
     return response
 
+
+@server.errorhandler(403)
+def error_403(e):
+    print(e)
+    return render_template('servererror.html'), 403
+
+
 @server.errorhandler(404)
 def error_404(e):
     return render_template('notfound.html'), 404
