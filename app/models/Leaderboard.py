@@ -1,7 +1,8 @@
 from app.models.Answer import Answer
 from config import answers
 
-class Leaderboard(object):
+
+class Leaderboard:
     """
     Manages leaderboard for a post
     """
@@ -23,14 +24,11 @@ class Leaderboard(object):
 
         return query.all()
 
-
     def get_count(self):
         return self.default_limit
 
-
     def get_total_count(self):
         return Answer.query.filter_by(post_id=self.post_id).count()
-
 
     def to_json(self, limit=None):
         return {

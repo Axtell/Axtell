@@ -37,7 +37,7 @@ def get_answer_vote_breakdown(answer_id):
 def get_post_vote(post_id):
     current_user = g.user
     if current_user is None:
-        return abort(403)
+        return {"vote": 0, "breakdown": get_post_vote_breakdown(post_id)}
 
     post_votes = PostVote.query.filter_by(post_id=post_id, user_id=current_user.id).first()
     if post_votes is None:
@@ -51,7 +51,7 @@ def get_post_vote(post_id):
 def get_answer_vote(answer_id):
     current_user = g.user
     if current_user is None:
-        return abort(403)
+        return {"vote": 0, "breakdown": get_answer_vote_breakdown(answer_id)}
 
     answer_votes = AnswerVote.query.filter_by(answer_id=answer_id, user_id=current_user.id).first()
     if answer_votes is None:
