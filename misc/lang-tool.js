@@ -14,9 +14,10 @@ Arguments:
               language JSON.
 
 Commands:
-  add: Creates a new language entry.
-  logo: Adds a logo for a language.
-  view: Obtains information about a language.
+  add        Creates a new language entry.
+  logo       Adds a logo for a language.
+  view [id]  Obtains information about a language.
+  list       List of all languages
 
 No arguments needed.`;
 
@@ -52,7 +53,8 @@ for (; i < process.argv.length; i++) {
 let command = ({
     "add": addLanguage,
     "logo": addLogo,
-    "view": viewLanguage
+    "view": viewLanguage,
+    "list": listLanguages
 })[process.argv[i]];
 
 if (!command) {
@@ -67,6 +69,7 @@ async function dispatch() {
     });
 
     let result = await command({
+        args: process.argv.slice(i + 1),
         json: JSON.parse(fs.readFileSync(jsonPath, 'utf-8')),
         prompt: (prompt) => new Promise((resolve) => {
             rl.question(`\u001B[1m${prompt}?\u001B[0m `, (response) => {
@@ -92,7 +95,8 @@ async function dispatch() {
                         }\u001B[0m`);
                         question();
                     } else {
-                        resolve(response);
+                        if (!isNaN(response)) resolve(response|0);
+                        else resolve(response);
                     }
                 });
             }
@@ -101,11 +105,13 @@ async function dispatch() {
         })
     });
 
-    if (result) {
-        fs.writeFileSync(jsonPath, JSON.stringify(result), 'utf-8');
-        console.log('\u001B[1;32mSuccess\u001B[0m. Wrote output JSON.');
-    } else {
-        console.log('No changes to emit.');
+    if (process.stdout.isTTY) {
+        if (result) {
+            fs.writeFileSync(jsonPath, JSON.stringify(result), 'utf-8');
+            console.log('\u001B[1;32mSuccess\u001B[0m. Wrote output JSON.');
+        } else {
+            console.log('No changes to emit.');
+        }
     }
 
     process.exit(1);
@@ -113,16 +119,17 @@ async function dispatch() {
 
 dispatch();
 
-function header(text) {
-    console.log(`\n\u001B[1m--- ${text} ----\u001B[0m`);
+function header(text, noSpacing) {
+    if (!noSpacing) console.log();
+    console.log(`\u001B[1m--- ${text} ----\u001B[0m`);
 }
 
 function em(text) {
     process.stdout.write('\u001B[1m' + text + '\u001B[0m');
 }
 
-function value(text) {
-    if (!text) console.log('\u001B[31m' + text + '\u001B[0m');
+function value(text, forceError) {
+    if (!text || forceError) console.log('\u001B[31m' + text + '\u001B[0m');
     else console.log('\u001B[32m' + text + '\u001B[0m');
 }
 
@@ -137,14 +144,41 @@ async function addLogo(opts) {
     await downloadSVG(url, langId);
 }
 
+function listLanguages(opts) {
+    let showIds = opts.args[0] === 'ids';
+    Object.keys(opts.json.languages).forEach((key) => {
+        let name;
+        if (showIds) {
+            name = key;
+        } else if (opts.json.languages[key].display) {
+            name = opts.json.languages[key].display
+        } else {
+            name = key[0].toUpperCase() + key.slice(1);
+        }
+
+        if (process.stdout.isTTY) {
+            em(name);
+            console.log();
+        } else {
+            console.log(name);
+        }
+    });
+}
+
 async function viewLanguage(opts) {
-    let langId = (await opts.requiredPrompt('Language ID')).toLowerCase();
+    let langId, noSpacing = false;
+    if (opts.args.length > 0) {
+        langId = opts.args[0];
+        noSpacing = true;
+    } else {
+        langId = (await opts.requiredPrompt('Language ID')).toLowerCase();
+    }
     if (!(langId in opts.json.languages)) {
         console.log(`\u001B[31mLanguage ID \`${langId}\` doesn't exist.\u001B[0m`);
         process.exit(1);
     }
 
-    header('Info');
+    header('Info', noSpacing);
     em('Display Name: ');
     console.log(opts.json.languages[langId].display || (langId[0].toUpperCase() + langId.substring(1)));
 
@@ -160,7 +194,8 @@ async function viewLanguage(opts) {
 
     header('IDs');
     em('TIO ID: ');
-    value(idFor('tio'));
+    if (opts.json.tio[langId] == 0) value(`Empty`, true);
+    else value(opts.json.tio[langId] || langId);
 
     em('Ace ID: ');
     value(idFor('ace'));
@@ -223,7 +258,7 @@ async function addLanguage(opts) {
     header('Writing Language...');
 
     opts.json.languages[langId] = {};
-    if (displayName !== 1) {
+    if (displayName != 1) {
         opts.json.languages[langId].display = displayName;
     }
 
@@ -239,7 +274,7 @@ async function addLanguage(opts) {
         opts.json.ace[langId] = aceId;
     }
 
-    if (tioId) {
+    if (tioId != 1) {
         opts.json.tio[langId] = tioId;
     }
 
