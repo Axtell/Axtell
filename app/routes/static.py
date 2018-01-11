@@ -33,6 +33,7 @@ def lang_logo(lang_id):
 @server.errorhandler(403)
 def error_403(e):
     print(e)
+    raise e
     return render_template('servererror.html'), 403
 
 
