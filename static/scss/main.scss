@@ -18,7 +18,7 @@ body {
 
   background: $main-bg;
 
-  > div {
+  > div, > main, > header, > footer {
     width: 100%;
     display: flex;
     justify-content: center;
@@ -41,7 +41,7 @@ body {
         margin-left: $content-space;
         $sidebar-width: ($content-space / $content-width) * 100% + $sidebar-bonus;
 
-        #cs-aside {
+        aside {
           @media screen and (max-width: 650px) {
             display: none;
           }

@@ -2,7 +2,7 @@
 
 {% block base_content -%}
     <div class="content content-split cs-collapse">
-        <div id="cs-main">{% block main %}{% endblock %}</div>
-        <div id="cs-aside">{% block sidebar %}{% endblock %}</div>
+        <main>{% block main %}{% endblock %}</main>
+        <aside>{% block sidebar %}{% endblock %}</aside>
     </div>
 {%- endblock %}

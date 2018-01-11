@@ -44,7 +44,7 @@ export default class SelectDialogViewController extends PopoverViewController {
      */
     constructor(button) {
         let node = button.unique();
-        let trigger = node.getElementsByTagName("span")[0];
+        let trigger = node.getElementsByClassName("select-trigger")[0];
         let view = new Template(
             node.getElementsByClassName("drop")[0]
         );
@@ -57,6 +57,15 @@ export default class SelectDialogViewController extends PopoverViewController {
         this._opts = node.getElementsByClassName("opt");
 
         this._opts::forEach(opt => {
+            opt.tabIndex = 0;
+            opt.setAttribute("role", "option");
+
+            opt.addEventListener("keydown", (event) => {
+                if (document.activeElement === event.target && event.keyCode == 13) {
+                    this._setState(opt);
+                }
+            });
+
             opt.addEventListener("click", (event) => {
                 this._setState(opt);
             }, false);
@@ -77,6 +86,7 @@ export default class SelectDialogViewController extends PopoverViewController {
             this._activeValue.removeChild(child);
         }
         this._activeValue.appendChild(document.createTextNode(name));
+        this._activeValue.setAttribute('aria-disables', 'true');
     }
 
     _setState(option) {

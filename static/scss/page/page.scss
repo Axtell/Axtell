@@ -6,15 +6,16 @@
   flex-direction: row;
   align-items: stretch;
 
-  #cs-main {
-    align-self: flex-start; // Makes this grow with the main content.
+  > main {
+    align-self: start;
+
     width: 0px; // Prevents expansion of parent
     flex: 1;
 
     @import "post/post.scss";
   }
 
-  #cs-aside {
+  > aside {
     @import "page/sidebar.scss";
   }
 }

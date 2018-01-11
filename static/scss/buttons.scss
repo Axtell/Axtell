@@ -51,6 +51,10 @@
   }
 }
 
+button.button {
+  font-size: inherit;
+}
+
 .button.-disabled {
   background: $disabled-btn;
   border: none;
