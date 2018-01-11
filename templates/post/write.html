@@ -5,13 +5,13 @@
     <form id="post-form" method="POST" action="{{ url_for('publish_post') }}">
         <div class="list-header">
             <h1>Create Post</h1>
-            <div><span id="post-publish" class="select-dialog">
-                <span>publish: <a></a></span>
+            <div id="post-publish" class="select-dialog">
+                <label class="select-trigger" for="post-publish-switch">challenge type: <a>code-golf</a></label>
                 <input id="publish-target" type="hidden" name="publish-type" value="">
-                <div class="drop template">
-                    <div class="opt state-active">code-golf</div>
-                </div>
-            </span></div>
+                <ul id="post-publish-switch" class="drop template">
+                    <li class="opt state-active">code-golf</li>
+                </ul>
+            </div>
         </div>
         <div class="item-wrap label-group">
             <label for="post-title">Title</label>

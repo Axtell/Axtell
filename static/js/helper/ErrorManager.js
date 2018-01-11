@@ -31,7 +31,7 @@ export class AnyError {
      * Reports the error with some args.
      * @param {Array} args anything
      */
-    report(args) {
+    report(...args) {
         ErrorList.push(this);
         console.error(`%c${this.idString}:%c ${this.message}`, 'font-weight: 700', '', ...args);
         console.log(
@@ -63,14 +63,14 @@ export default {
             title = error.name;
         }
 
-        new AnyError(message, title).report(args);
+        new AnyError(message, title).report(...args);
     },
 
     /**
      * Pass unhandled errors here
      */
     unhandled(error) {
-        new AnyError(error.message, 'Unhandled Error').report(error);
+        new AnyError(error.message, 'Unhandled Error').report(error, error.stack);
     },
 
     /**

@@ -5,15 +5,13 @@
 {% block content -%}
     <div class="list-header">
         <h1>Posts</h1>
-        <div>
-        <span class="select-dialog d-sort">
-            <span>sort by: <a>recent</a></span>
-            <div class="drop template">
-                <div data-st="n" class="opt state-active">newest</div>
-                <div data-st="s" class="opt">votes</div>
-                <div data-st="t" class="opt">active</div>
-            </div>
-        </span>
+        <div class="select-dialog d-sort">
+            <label class="select-trigger">sort by: <a>recent</a></label>
+            <ul class="drop template">
+                <li data-st="n" class="opt state-active">newest</li>
+                <li data-st="s" class="opt">votes</li>
+                <li data-st="t" class="opt">active</li>
+            </ul>
         </div>
     </div>
     <div class="main">
