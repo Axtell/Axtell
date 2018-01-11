@@ -1,7 +1,8 @@
 from app.models.Answer import Answer
 from config import answers
 
-class Leaderboard(object):
+
+class Leaderboard:
     """
     Manages leaderboard for a post
     """
