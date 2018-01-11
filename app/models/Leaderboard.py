@@ -24,14 +24,11 @@ class Leaderboard:
 
         return query.all()
 
-
     def get_count(self):
         return self.default_limit
 
-
     def get_total_count(self):
         return Answer.query.filter_by(post_id=self.post_id).count()
-
 
     def to_json(self, limit=None):
         return {
