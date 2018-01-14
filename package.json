@@ -19,6 +19,7 @@
     "markdown-it-katex": "^2.0.3",
     "markdown-it-link-attributes": "^2.0.0",
     "n": "^2.1.8",
+    "progress": "^2.0.0",
     "uglify-js": "^3.3.4"
   }
 }

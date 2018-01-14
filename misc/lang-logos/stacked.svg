@@ -1,0 +1,24 @@
+<svg width="180" height="180" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+
+ <g>
+  <title>background</title>
+  <rect x="-1" y="-1" width="182" height="182" id="canvas_background" fill="#ffffff"/>
+  <g id="canvasGrid" display="none">
+   <rect id="svg_1" width="100%" height="100%" x="0" y="0" stroke-width="0" fill="url(#gridpattern)"/>
+  </g>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <rect id="svg_3" height="55" width="160" y="115" x="10.318471" stroke-opacity="null" stroke="#000000" fill="#000000"/>
+  <rect id="svg_2" height="1" width="160" y="10" x="10" stroke-opacity="null" stroke="#000000" fill="#000000"/>
+  <rect id="svg_5" height="2" width="160" y="12.941282" x="10" stroke-opacity="null" stroke="#000000" fill="#000000"/>
+  <rect id="svg_6" height="3" width="160" y="16.815987" x="10" stroke-opacity="null" stroke="#000000" fill="#000000"/>
+  <rect id="svg_7" height="5" width="160" y="21.843946" x="10" stroke-opacity="null" stroke="#000000" fill="#000000"/>
+  <rect id="svg_8" height="8" width="160" y="29.221835" x="10" stroke-opacity="null" stroke="#000000" fill="#000000"/>
+  <rect id="svg_9" height="13" width="160" y="39.750646" x="10" stroke-opacity="null" stroke="#000000" fill="#000000"/>
+  <rect id="svg_11" height="21" width="160" y="55.04926" x="10" stroke-opacity="null" stroke="#000000" fill="#000000"/>
+  <rect id="svg_12" height="34" width="160" y="78.616134" x="10" stroke-opacity="null" stroke="#000000" fill="#000000"/>
+  <text font-style="italic" xml:space="preserve" text-anchor="start" font-family="'Palatino Linotype', 'Book Antiqua', Palatino, serif" font-size="122" id="svg_13" y="135.785686" x="66.263356" stroke-opacity="null" stroke-width="0" stroke="#000000" fill="#ffffff">s</text>
+ </g>
+</svg>
