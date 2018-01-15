@@ -24,8 +24,12 @@ code {
   font-family: $monospace;
 }
 
-p:first-child {
-  margin-top: 0;
+p {
+  margin: 0;
+
+  + p {
+    margin-top: 1rem;
+  }
 }
 
 img {
@@ -70,9 +74,10 @@ li, p {
   hyphens: auto;
 }
 
-.katex-display {
+.katex-display + * {
   // Default margin results in no extra space.
-  margin-bottom: 2em;
+  // This adds a margin-top if there is an element after katex
+  margin-top: 1em;
 }
 
 table {

@@ -1,4 +1,7 @@
+import ErrorManager from '~/helper/ErrorManager';
 import { forEach } from '~/modern/array';
+
+export const RootNonexistent = Symbol('ViewController.Error.RootNonexistent');
 
 /**
  * Manages a View of any type with iOS-esque handlers.
@@ -26,6 +29,17 @@ export default class ViewController {
      * @param {HTMLElement} root - Root element to search from
      */
     static forClass(className, predicate = (elem) => [elem], root = document) {
+        if (typeof root === 'string') {
+            let rootName = root;
+            root = document.getElementById(root);
+            if (root === null) {
+                ErrorManager.raise(
+                    `Initalization root ${rootName} does not exist`,
+                    RootNonexistent
+                );
+            }
+        }
+
         root.getElementsByClassName(className)::forEach(elem => {
             new this(...predicate(elem));
         });

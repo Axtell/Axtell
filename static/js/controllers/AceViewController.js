@@ -79,7 +79,10 @@ export class AceTheme {
      * @param {string} opts.darkTheme  Dark theme
      */
     constructor({ lightTheme, darkTheme } = {}) {
+        /** @type {string} */
         this.lightTheme = lightTheme;
+
+        /** @type {string} */
         this.darkTheme = darkTheme;
     }
 

@@ -22,7 +22,7 @@
     "babel-plugin-wildcard": "^3.0.1",
     "babel-preset-env": "^1.6.1",
     "esdoc": "^1.0.4",
-    "esdoc-babel-plugin": "^0.1.0",
+    "esdoc-babel-7-plugin": "^1.1.0",
     "esdoc-importpath-plugin": "^1.0.1",
     "esdoc-inject-style-plugin": "^1.0.0",
     "esdoc-standard-plugin": "^1.0.0"

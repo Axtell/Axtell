@@ -23,7 +23,7 @@ export default class Data {
 
     /**
      * JS server data exchange identification.
-     * @return {string}
+     * @type {string}
      */
     get dataId() {
         return this._id;

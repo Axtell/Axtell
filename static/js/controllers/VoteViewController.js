@@ -1,10 +1,16 @@
 import ViewController from '~/controllers/ViewController';
-import AnswerVote from '~/models/Request/AnswerVote';
-import Theme from '~/models/Theme';
 import ErrorManager from '~/helper/ErrorManager';
+import Theme from '~/models/Theme';
+import Auth from '~/models/Auth';
+
+import AuthModalTemplate from '~/template/login/AuthModalTemplate';
+import ModalController from '~/controllers/ModalController';
+
 
 export const VOTE_ACTIVE_CLASS = 'selected';
-export const VoteFailed = Symbol('AnswerVote.Error.RequestFailed');
+export const VoteFailed = Symbol('Vote.Error.RequestFailed');
+export const VoteUnauthorized = Symbol('Vote.Error.VoteUnauthorized');
+export const VoteInvalid = Symbol('Vote.Error.VoteInvalid');
 
 const LoadingIcon = (
     <svg namespace="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 42 42">
@@ -17,22 +23,19 @@ const LoadingIcon = (
 
 /**
  * Controls voting
+ * @abstract
  */
 export default class VoteViewController extends ViewController {
     /**
      * @param {HTMLElement} voteButton
-     * @param {Object} opts
-     * @property {string} opts.voteType
-     * @property {number} opts.answerId
+     * @property {string} voteType
      */
-    constructor(voteButton, { voteType, answerId }) {
+    constructor(voteButton, voteType) {
         super();
 
         voteButton.controller = this;
 
-        this._answerId = answerId;
         this._voteType = voteType;
-
         this._voteTotal = voteButton.getElementsByClassName('vote-count')[0];
 
         this._voteIcon = voteButton.getElementsByTagName('svg')[0];
@@ -76,25 +79,50 @@ export default class VoteViewController extends ViewController {
     }
 
     /**
+     * Returns a vote request for the data
+     * @param {string} voteType
+     * @param {boolean} status
+     * @return {Request}
+     * @abstract
+     */
+    getRequest(voteType, status) { return null; }
+
+    /**
      * What to set vote too.
      * @param {boolean} status
      */
     async setVote(status) {
-        let voteRequest = new AnswerVote({
-            answerId: this._answerId,
-            voteType: this._voteType,
-            isAdding: status
-        });
+        let voteRequest = this.getRequest(this._voteType, status);
 
         try {
             this.setLoading(true);
-            let response = await voteRequest.get();
-            this.setLoading(false);
 
-            this.setVoteTotal(response.total);
-            this.setVoteActivity(response.voted);
+            // Check if logged in at all
+            let auth = await Auth.shared;
+
+            if (await auth.isAuthorized) {
+                let response = await voteRequest.get();
+
+                this.setVoteTotal(response.total);
+                this.setVoteActivity(response.voted);
+            } else {
+                ModalController.shared.present(AuthModalTemplate.shared);
+            }
         } catch(error) {
-            ErrorManager.silent(error, `Unexpected error while voting.`);
+            switch (error.response && error.response.status) {
+                case 401:
+                    ErrorManager.raise(`You must be authorized to vote.`, VoteUnauthorized);
+                    break;
+                case 403:
+                    ErrorManager.raise(`You cannot vote on your own post.`, VoteInvalid);
+                case 500:
+                    ErrorManager.raise(`Server error during vote.`, VoteFailed);
+                    break;
+                default:
+                    ErrorManager.silent(error, `Unexpected error while voting.`);
+            }
+        } finally {
+            this.setLoading(false);
         }
     }
 
@@ -118,6 +146,6 @@ export default class VoteViewController extends ViewController {
         // Don't toggle if loading
         if (this._isLoading) return;
 
-        this.setVote(!this._isActive);
+        this.setVote(!this._isActive).catch(::ErrorManager.report);
     }
 }
