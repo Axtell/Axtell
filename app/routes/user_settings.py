@@ -37,7 +37,7 @@ def set_email():
         new_email = request.form['email']
     except KeyError:
         return abort(400)
-    if not validate_email(new_email, verify=True):
+    if not validate_email(email):
         return abort(400)
     g.user.email = new_email
     db.session.commit()
