@@ -3,6 +3,8 @@ from app.models.User import User
 from app.models.Theme import Theme
 from app.session.user_session import set_session_user
 from flask import g
+from config import auth
+from unittest import skipIf
 
 # noinspection PyUnresolvedReferences
 import app.instances.auth
@@ -54,6 +56,7 @@ class TestUserPrefs(TestFlask):
         light_theme = Theme.query.filter_by(id=self.user.theme).first()
         self.assertEqual(light_theme.name, "light")
 
+    @skipIf(auth['imgur']['client-id'] == "IMGUR_CLIENT_ID")
     def test_set_user_avatar(self):
         response = self.client.post("/preferences/avatar",
                                     data={"avatar": "https://i.ytimg.com/vi/mMbvWUxgM8U/maxresdefault.jpg"})
