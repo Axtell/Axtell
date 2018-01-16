@@ -56,7 +56,7 @@ class TestUserPrefs(TestFlask):
         light_theme = Theme.query.filter_by(id=self.user.theme).first()
         self.assertEqual(light_theme.name, "light")
 
-    @skipIf(auth['imgur']['client-id'] == "IMGUR_CLIENT_ID")
+    @skipIf(auth['imgur']['client-id'] == "IMGUR_CLIENT_ID", "need valid imgur client id")
     def test_set_user_avatar(self):
         response = self.client.post("/preferences/avatar",
                                     data={"avatar": "https://i.ytimg.com/vi/mMbvWUxgM8U/maxresdefault.jpg"})
