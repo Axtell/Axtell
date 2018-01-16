@@ -15,7 +15,7 @@ def do_redirect():
 def set_light_theme():
     session['theme'] = 'light'
     if g.user is not None:
-        g.user.theme = Theme.query.filter_by(name='light').first()
+        g.user.theme = Theme.query.filter_by(name='light').first().id
         db.session.commit()
     return do_redirect()
 
@@ -24,7 +24,7 @@ def set_light_theme():
 def set_dark_theme():
     session['theme'] = 'dark'
     if g.user is not None:
-        g.user.theme = Theme.query.filter_by(name='dark').first()
+        g.user.theme = Theme.query.filter_by(name='dark').first().id
         db.session.commit()
     return do_redirect()
 
