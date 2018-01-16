@@ -1,6 +1,7 @@
 from tests.test_base import TestFlask
 from app.models.User import User
 from app.models.Theme import Theme
+from app.session.user_session import set_session_user
 
 # noinspection PyUnresolvedReferences
 import app.instances.auth
@@ -21,6 +22,11 @@ class TestUserPrefs(TestFlask):
         self.session.add(self.user)
 
         self.session.commit()
+
+        with self.client as c:
+            with c.session_transaction() as sess:
+                set_session_user(self.user, current_session=sess)
+                g.user = self.user
 
     def test_set_user_email(self):
         response = self.client.post("/preferences/email", data={"email": "v2.ppcg@gmail.com"})
