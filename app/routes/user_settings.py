@@ -45,7 +45,7 @@ def set_email():
 
 
 @server.route("/preferences/name", methods=['POST'])
-def set_email():
+def set_name():
     if g.user is None:
         return abort(403)
     try:
@@ -58,7 +58,7 @@ def set_email():
 
 
 @server.route("/preferences/avatar", methods=['POST'])
-def set_email():
+def set_avatar():
     if g.user is None:
         return abort(403)
     try:
