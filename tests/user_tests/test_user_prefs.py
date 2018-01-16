@@ -2,6 +2,7 @@ from tests.test_base import TestFlask
 from app.models.User import User
 from app.models.Theme import Theme
 from app.session.user_session import set_session_user
+from flask import g
 
 # noinspection PyUnresolvedReferences
 import app.instances.auth
