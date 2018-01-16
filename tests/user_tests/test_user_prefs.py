@@ -58,6 +58,6 @@ class TestUserPrefs(TestFlask):
         self.assertEqual(response.status_code, 303)
         self.assertTrue(self.user.avatar_url().startswith("https://i.imgur.com/"))
 
-        bad_response = self.client.post("/preferences/avatar", data={"avatar", "not_a_url"})
+        bad_response = self.client.post("/preferences/avatar", data={"avatar": "not_a_url"})
         self.assertEqual(bad_response.status_code, 400)
         self.assertTrue(self.user.avatar != "not_a_url")
