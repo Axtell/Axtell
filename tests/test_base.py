@@ -23,16 +23,13 @@ class TestFlask(TestCase):
         
         self.session.begin_nested()
         light_theme = Theme(name='light')
-        try:
-            self.session.add(light_theme)
-        except:
-            pass
+        self.session.add(light_theme)
         dark_theme = Theme(name='dark')
+        self.session.add(dark_theme)
         try:
-            self.session.add(dark_theme)
+            self.session.commit()
         except:
-            pass
-        self.session.commit()
+            self.session.rollback()
 
     def tearDown(self):
         super().tearDown()
