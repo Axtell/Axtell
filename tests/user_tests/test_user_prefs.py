@@ -34,7 +34,7 @@ class TestUserPrefs(TestFlask):
         self.assertEqual(response.status_code, 303)
         self.assertEqual(self.user.email, "v2.ppcg@gmail.com")
 
-        bad_response = self.client.post("/preferences/email", data={"email": "fake@email.com"})
+        bad_response = self.client.post("/preferences/email", data={"email": "fakeemail"})
         self.assertEqual(bad_response.status_code, 400)
         self.assertEqual(self.user.email, "v2.ppcg@gmail.com")
 
