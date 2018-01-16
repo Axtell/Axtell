@@ -1,6 +1,6 @@
 <ul>
     <li class="action">
-        {% if session['dark_theme'] == true -%}
+        {% if session['theme'] == 'dark' -%}
             <form method="POST" action="{{ url_for('set_light_theme') }}?redirect={{ request.url|e }}">
         {%- else -%}
             <form method="POST" action="{{ url_for('set_dark_theme') }}?redirect={{ request.url|e }}">
