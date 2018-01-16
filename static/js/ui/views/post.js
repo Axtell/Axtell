@@ -8,7 +8,7 @@ if (postId = Post.current?.id) {
     PostVoteViewController.forClass(
         'vote-button',
         (elem) => [elem, {
-            voteButton: elem.dataset.type,
+            voteType: elem.dataset.type,
             postId
         }],
         POST_VOTE_CONTAINER

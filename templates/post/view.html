@@ -25,7 +25,7 @@
             {{ post_body|safe }}
         </div>
     </div>
-    <div id="post-vote-list" class="vote-list">
+    <div id="post-vote-list" class="vote-list -pad">
         {% set vote_status = vote.get_post_vote(post.id) %}
         {{ votebutton("Upvote", is_active=vote_status['vote'] == 1, vote_count=vote_status['breakdown']['upvote'], type_id='upvote') }}
         {{ votebutton("Downvote", is_active=vote_status['vote'] == -1, vote_count=vote_status['breakdown']['downvote'], type_id='downvote') }}
