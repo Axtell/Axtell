@@ -12,3 +12,6 @@ bleach>=2.1.1
 pylibmc>=1.5.2
 SQLAlchemy>=1.2.0b3
 flask-testing>=0.7.0
+requests>=2.18.4
+validate_email>=1.3
+py3dns>=2.3.6
