@@ -46,11 +46,13 @@ class TestUserPrefs(TestFlask):
     def test_set_user_theme(self):
         response = self.client.post("/theme/dark", data={})
         self.assertEqual(response.status_code, 303)
-        self.assertEqual(self.user.theme.name, "dark")
+        dark_theme = Theme.query.filter_by(id=self.user.theme).first()
+        self.assertEqual(dark_theme.name, "dark")
 
         response2 = self.client.post("/theme/light", data={})
         self.assertEqual(response2.status_code, 303)
-        self.assertEqual(self.user.theme.name, "light")
+        light_theme = Theme.query.filter_by(id=self.user.theme).first()
+        self.assertEqual(light_theme.name, "light")
 
     def test_set_user_avatar(self):
         response = self.client.post("/preferences/avatar",
