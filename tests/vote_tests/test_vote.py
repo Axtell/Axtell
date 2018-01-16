@@ -6,6 +6,7 @@ from app.models.AnswerVote import AnswerVote
 from app.models.User import User
 from app.models.Post import Post
 from app.models.Answer import Answer
+from app.models.Theme import Theme
 from flask import g
 from json import dumps as json_dump
 
