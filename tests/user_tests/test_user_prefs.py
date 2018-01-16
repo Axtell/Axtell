@@ -12,6 +12,8 @@ from app.routes import user_settings
 
 class TestUserPrefs(TestFlask):
     def setUp(self):
+        super().setUp()
+
         self.session.begin_nested()
 
         light_theme = Theme.query.filter_by(name='light').first().id
