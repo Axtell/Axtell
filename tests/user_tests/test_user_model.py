@@ -1,4 +1,5 @@
 from app.models.User import User
+from app.models.Theme import Theme
 from tests.test_base import TestFlask
 
 
