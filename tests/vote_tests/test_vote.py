@@ -24,9 +24,11 @@ class TestVote(TestFlask):
         super().setUp()
 
         self.session.begin_nested()
-        self.user = User(name='Test User', email='test@user.com')
+        
+        light_theme = Theme.query.filter_by(name='light').first().id
+        self.user = User(name='Test User', email='test@user.com', theme=light_theme)
         self.session.add(self.user)
-        self.user2 = User(name='Test User 2', email='test2@user.com')
+        self.user2 = User(name='Test User 2', email='test2@user.com', theme=light_theme)
         self.session.add(self.user2)
 
         self.test_post = Post(title='Testing Votes API', body='Testing Votes API')
