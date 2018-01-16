@@ -28,25 +28,42 @@
   }
 }
 
-#useroverview-info {
-  $useroverview-color: #2696F9;
-  $useroverview-hover-color: lighten($useroverview-color, 5%);
-  $arrow-size: 12px;
-  $useroverview-fg-color: white;
+@mixin overview-theme($name, $color) {
+  $vote-style-class: "li.action.-#{$name}";
 
-  color: $useroverview-fg-color;
+  #{$vote-style-class}, #{$vote-style-class} .title {
+    color: $color;
+    fill: $color;
+
+    // Some browsers don't want to apply so just try all states
+    svg, path {
+      &:active, &:visited, &:hover, & {
+        fill: $color;
+      }
+    }
+  }
+}
+
+#useroverview-info {
+  $useroverview-color: $popover-bg;
+  $arrow-size: 12px;
+
   outline: none;
   position: absolute;
   z-index: 1;
   background: white;
   border-radius: 8px;
-  box-shadow: 0 0 4px $header-shadow-color;
+  box-shadow: 0 50px 100px rgba(50, 50, 93, .1), 0 15px 35px rgba(50, 50, 93, .2), 0 5px 15px rgba(0, 0, 0, .1);
   padding: 0.5em 0;
   right: 2em;
   background: $useroverview-color;
   margin-top: $arrow-size;
 
   top: 100%;
+
+  @include overview-theme('blue', #09F);
+  @include overview-theme('green', #49CF92);
+  @include overview-theme('red', #E03830);
 
   &::before {
     content: "";
@@ -61,42 +78,80 @@
   ul {
     @include fit;
     list-style: none;
+  }
 
-    li {
-      @include icon-link;
-      fill: $useroverview-fg-color;
+  li.action {
+    // A little padding so the hover box is not on the edge
+    padding: 4px 8px;
 
-      $useroverview-padding: 0.5em 3em;
-      padding: $useroverview-padding;
-      transition: 0.1s ease-out background;
+    // This is the box that will light up on hover
+    .action-root {
+      cursor: pointer;
 
-      svg, span {
-        vertical-align: middle;
-      }
+      display: block;
+      padding: 0.5em 2em;
+      border-radius: 4px;
 
-      &.action {
-        padding: 0;
-
-        button {
-          outline: none;
-          background: none;
-          border: none;
-          margin: 0;
-          font-size: 13px;
-          white-space: nowrap;
-          cursor: pointer;
-        }
-
-        a, button {
-          padding: $useroverview-padding;
-          display: block;
-          color: white;
-        }
-
-        &:hover {
-          background: $useroverview-hover-color;
-        }
+      &:hover {
+        background: rgba($theme-color, 0.07);
       }
     }
+
+    // Clear button styles
+    button {
+      margin: 0;
+      padding: 0;
+      background: none;
+      border: none;
+      outline: none;
+      width: 100%;
+    }
+
+    // Wraps the svg, etc.
+    .action-rel {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+
+      // Prevents super-small descs
+      white-space: nowrap;
+
+      svg {
+        // Makes the SVG a little bigger
+        height: 1.4rem;
+
+        // Space between icon & text
+        margin-right: 8px;
+      }
+
+      // Allows for title + desc
+      .action-desc {
+        display: flex;
+        flex-direction: column;
+      }
+
+      // The title of the action
+      .title {
+        font-size: 15px;
+      }
+
+      // A 'dim' text. i.e. description
+      .dim {
+        color: $label-tag;
+        font-weight: 300;
+        font-size: 12px;
+
+        margin: 0;
+      }
+
+      text-align: left;
+    }
+  }
+
+  li.seperator {
+    margin: .5em 1em;
+    padding: 0;
+    padding-top: 1px;
+    background:  $popover-border;
   }
 }

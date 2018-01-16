@@ -1,23 +1,19 @@
 <ul>
-    <li class="action">
-        {% if session['theme'] == 'dark' -%}
-            <form method="POST" action="{{ url_for('set_light_theme') }}?redirect={{ request.url|e }}">
-        {%- else -%}
-            <form method="POST" action="{{ url_for('set_dark_theme') }}?redirect={{ request.url|e }}">
-        {%- endif %}
-        <button type="submit">
-            {% include "svg/brush.html" %}<span>{% if session['dark_theme'] == true -%}
-            Light Theme
-        {%- else -%}
-            Dark Theme
-        {%- endif %}</span>
-        </button>
-        </form>
+    <li class="action -blue">
+        <a class="action-root action-rel" href="#TODO">
+            {% include "svg/brush.html" %}
+            <div class="action-desc">
+                <span class="title">User Settings</span>
+                <p class="dim">Change your profile and options</p>
+            </div>
+        </a>
     </li>
-    <li class="action">
-        <form method="POST" action="{{ url_for('auth_logout') }}?redirect={{ request.url|e }}">
-            <button type="submit">
-                {% include "svg/logout.html" %}<span>Logout</span>
+    <li class="seperator"></li>
+    <li class="action -red">
+        <form class="action-root" method="POST" action="{{ url_for('auth_logout') }}?redirect={{ request.url|e }}">
+            <button type="submit" class="action-rel">
+                {% include "svg/logout.html" %}
+                <span class="title">Logout</span>
             </button>
         </form>
     </li>
