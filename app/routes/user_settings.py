@@ -34,7 +34,7 @@ def set_email():
     if g.user is None:
         return abort(403)
     try:
-        new_email = request.args['email']
+        new_email = request.form['email']
     except KeyError:
         return abort(400)
     if not validate_email(new_email, verify=True):
@@ -49,7 +49,7 @@ def set_name():
     if g.user is None:
         return abort(403)
     try:
-        new_name = request.args['name']
+        new_name = request.form['name']
     except KeyError:
         return abort(400)
     g.user.name = new_name
@@ -62,7 +62,7 @@ def set_avatar():
     if g.user is None:
         return abort(403)
     try:
-        new_avatar_source = request.args['avatar']
+        new_avatar_source = request.form['avatar']
     except KeyError:
         return abort(400)
     try:
