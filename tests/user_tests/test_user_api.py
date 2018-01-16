@@ -17,7 +17,7 @@ class TestUserAPI(TestFlask):
 
         self.session.begin_nested()
 
-        light_theme = Theme.query.filter_by(name='light').first()
+        light_theme = Theme.query.filter_by(name='light').first().id
         self.user = User(name='Test User', email='test@user.com', theme=light_theme)
         self.session.add(self.user)
         self.session.commit()
