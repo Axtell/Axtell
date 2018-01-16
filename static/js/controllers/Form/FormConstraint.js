@@ -40,12 +40,12 @@ export default class FormConstraint {
 
     /**
      * Adds a validator to execute
-     * @param {Function} validator Validator to call. Passed element for first
+     * @param {Function} callback Validator to call. Passed element for first
      *                             arg.
      * @param {string} error String to print on error if the validation fails.
      */
     addValidator(callback, error) {
-        this._validators.push({callback, error});
+        this._validators.push({ callback, error });
         return this;
     }
 

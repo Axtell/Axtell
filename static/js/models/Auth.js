@@ -22,8 +22,12 @@ class Auth {
      * @type {Auth}
      */
     static get shared() {
-        if (Auth._shared !== null) return Promise.resolve(Auth._shared);
-        return new Auth().setup();
+        if (Auth._shared !== null)
+            return Promise.resolve(Auth._shared);
+
+        return (async () => (
+            Auth._shared = await new Auth().setup()
+        ))();
     }
 
     /**
@@ -35,27 +39,31 @@ class Auth {
             return Promise.resolve(this._isAuthorized);
 
         return (async () => (
-            this._isAuthorized = await this.getUser() !== Auth.Unauthorized
+            this._isAuthorized = await this.user !== Auth.Unauthorized
         ))();
     }
 
     /**
      * Gets the current user. This does not redo requests and caches the result.
      *
-     * @return {Promise<?User>} resolves to the current logged in user. Resolves
+     * @type {Promise<?User>} resolves to the current logged in user. Resolves
      *                          to `Unauthorized` if not logged in.
      */
-    async getUser() {
+    get user() {
         // Use cached result
-        if (this._user !== null) return this._user;
-        const result = await axios.get('/user/me');
-        const user = User.fromJSON(result.data);
+        if (this._user !== null)
+            return Promise.resolve(this._user);
 
-        // Handle unauthorized user
-        if (user === null) this._user = Auth.Unauthorized;
-        else this._user = user;
+        return (async () => {
+            const result = await axios.get('/user/me');
+            const user = User.fromJSON(result.data);
 
-        return this._user;
+            // Handle unauthorized user
+            if (user === null) this._user = Auth.Unauthorized;
+            else this._user = user;
+
+            return this._user;
+        })();
     }
 
     /**

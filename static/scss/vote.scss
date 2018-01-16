@@ -72,6 +72,13 @@
   }
 }
 
-.answer-vote-list {
+.vote-list {
   padding-bottom: 1rem;
+
+  &.-pad {
+    padding: {
+      left: 1rem;
+      right: 1rem;
+    }
+  }
 }

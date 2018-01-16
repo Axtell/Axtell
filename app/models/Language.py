@@ -17,7 +17,7 @@ class Language:
         self._id = Language.normalize(lang_id)
 
         # Should not fail otherwise you have malformed source code
-        self._data = languages['languages'][self._id]
+        self._data = languages['languages'].get(self._id, {})
 
     def get_color(self):
         # TODO: replace with CB-palette

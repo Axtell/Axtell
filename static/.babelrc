@@ -8,7 +8,9 @@
   ],
   "plugins": [
     "babel-plugin-syntax-jsx",
-    "babel-plugin-jsx-to-dom",
+    ["babel-plugin-jsx-to-dom", {
+      "noWhitespaceOnly": true
+    }],
     "@babel/plugin-proposal-optional-chaining",
     "@babel/plugin-proposal-optional-catch-binding",
     ["@babel/plugin-transform-runtime", {

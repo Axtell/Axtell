@@ -1,5 +1,5 @@
 import ViewController from '~/controllers/ViewController';
-import VoteViewController from '~/controllers/VoteViewController';
+import AnswerVoteViewController from '~/controllers/AnswerVoteViewController';
 
 /**
  * Manages an answer of a given id.
@@ -17,7 +17,7 @@ export default class AnswerViewController extends ViewController {
         this._body = answer;
         this._answerId = answerId;
 
-        VoteViewController.forClass(
+        AnswerVoteViewController.forClass(
             'vote-button',
             (btn) => [btn, {
                 voteType: btn.dataset.type,

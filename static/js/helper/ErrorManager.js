@@ -43,16 +43,22 @@ export class AnyError {
     }
 }
 
-export default {
+export class ErrorManager {
     /**
      * Raises an error with native throw.
+     * @param {string} message
+     * @param {Symbol|string} id - Error id string or symbol.
      */
     raise(message, id) {
         throw new AnyError(message, id);
-    },
+    }
 
     /**
      * A handled or non-critical error. Logs to console.
+     *
+     * @param {Error|AnyError} error - The error object caught.
+     * @param {string} message - Describes the error
+     * @param {Array} args - Any other spread arguments that should be provided.
      */
     silent(error, message, ...args) {
         let title = "Error";
@@ -61,17 +67,31 @@ export default {
             title = error.idString;
         } else if (error.name) {
             title = error.name;
+            args.unshift(error);
         }
 
         new AnyError(message, title).report(...args);
-    },
+    }
+
+    /**
+     * Reports an error
+     * @param {Error|AnyError} error - An error to directly report
+     */
+    report(error) {
+        if (error instanceof AnyError) {
+            error.report();
+        } else {
+            this.unhandled(error);
+        }
+    }
 
     /**
      * Pass unhandled errors here
+     * @param {Error|AnyError} error - An unhandled error to report.
      */
     unhandled(error) {
         new AnyError(error.message, 'Unhandled Error').report(error, error.stack);
-    },
+    }
 
     /**
      * Returns errors
@@ -85,7 +105,7 @@ export default {
                 return ` ${indexNum + 1}. ${error.idString}\n` +
                     ` ${" ".repeat(index.length)}  ${error.message}`;
             }).join(`\n\n`);
-    },
+    }
 
     /**
      * Dumps in new context
@@ -95,7 +115,7 @@ export default {
             `data:text/plain,${encodeURIComponent(this.dump())}`,
             '_blank'
         );
-    },
+    }
 
     /**
      * Dumps error log to console.
@@ -120,4 +140,7 @@ export default {
             ]))
         );
     }
-};
+}
+
+ErrorManager.shared = new ErrorManager();
+export default ErrorManager.shared;

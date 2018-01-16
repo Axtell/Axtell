@@ -65,7 +65,7 @@ def get_answer_vote(answer_id):
 def do_post_vote(post_id, vote):
     current_user = g.user
     if current_user is None:
-        return abort(403)
+        return abort(401)
 
     # ensure that vote is a valid value
     try:
@@ -100,7 +100,7 @@ def do_post_vote(post_id, vote):
 def do_answer_vote(answer_id, vote):
     current_user = g.user
     if current_user is None:
-        return abort(403)
+        return abort(401)
 
     # ensure that vote is a valid value
     try:

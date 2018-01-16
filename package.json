@@ -8,6 +8,7 @@
     "@babel/core": "^7.0.0-beta.36",
     "autoprefixer-cli": "^1.0.0",
     "babel-core": "^7.0.0-bridge.0",
+    "babel-plugin-jsx-to-dom": "^0.4.0",
     "babelify": "git+https://github.com/noygal/babelify.git#feature/babel-7-support",
     "browserify": "^14.5.0",
     "clean-css": "^3.4.28",

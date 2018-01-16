@@ -25,6 +25,11 @@
             {{ post_body|safe }}
         </div>
     </div>
+    <div id="post-vote-list" class="vote-list -pad">
+        {% set vote_status = vote.get_post_vote(post.id) %}
+        {{ votebutton("Upvote", is_active=vote_status['vote'] == 1, vote_count=vote_status['breakdown']['upvote'], type_id='upvote') }}
+        {{ votebutton("Downvote", is_active=vote_status['vote'] == -1, vote_count=vote_status['breakdown']['downvote'], type_id='downvote') }}
+    </div>
     {{ userbox(post.user, post.date_created, vtight=true) }}
 </div>
 <hr class="big">
@@ -61,7 +66,7 @@
                 <div class="body">
                     {{ macros.highlight_answer(answer)|safe }}
                 </div>
-                <div class="answer-vote-list">
+                <div class="vote-list">
                     {% set vote_status = vote.get_answer_vote(answer.id) %}
                     {{ votebutton("Upvote", is_active=vote_status['vote'] == 1, vote_count=vote_status['breakdown']['upvote'], type_id='upvote') }}
                     {{ votebutton("Downvote", is_active=vote_status['vote'] == -1, vote_count=vote_status['breakdown']['downvote'], type_id='downvote') }}

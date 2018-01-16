@@ -5,20 +5,35 @@
 
   "plugins": [
     {
-      "name": "esdoc-babel-plugin",
+      "name": "esdoc-babel-7-plugin",
       "option": {
         "plugins": [
-          ["babel-plugin-root-import", [
-            {
-              "rootPathPrefix": "~",
-              "rootPathSuffix": ".."
-            }
-            ]],
-            ["babel-plugin-transform-class-properties", { "loose": true }],
-            "babel-plugin-transform-function-bind",
-            "babel-plugin-syntax-jsx",
-            "babel-plugin-jsx-to-dom"
-          ]
+          "babel-plugin-syntax-jsx",
+          ["babel-plugin-jsx-to-dom", {
+            "noWhitespaceOnly": true
+          }],
+          "@babel/plugin-proposal-optional-chaining",
+          "@babel/plugin-proposal-optional-catch-binding",
+          ["@babel/plugin-transform-runtime", {
+            "polyfill": false,
+            "regenerator": true
+          }],
+          ["module:babel-7-plugin-root-import", {
+            "paths": [
+              {
+                "rootPathPrefix": "~",
+                "rootPathSuffix": "../"
+              },
+              {
+                "rootPathPrefix": "#",
+                "rootPathSuffix": "misc/"
+              }
+            ]
+          }],
+          "@babel/plugin-proposal-object-rest-spread",
+          "@babel/plugin-proposal-class-properties",
+          "@babel/plugin-proposal-function-bind"
+        ]
       }
     },
     {
