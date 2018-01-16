@@ -16,11 +16,6 @@ class TestUserAPI(TestFlask):
         super().setUp()
 
         self.session.begin_nested()
-        
-        light_theme = Theme(name='light')
-        self.session.add(light_theme)
-        dark_theme = Theme(name='dark')
-        self.session.add(dark_theme)
 
         self.user = User(name='Test User', email='test@user.com')
         self.session.add(self.user)
