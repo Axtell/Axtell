@@ -1,6 +1,7 @@
 import json
 
 from app.models.User import User
+from app.models.Theme import Theme
 from tests.test_base import TestFlask
 
 # this is necessary, but PyCharm disagrees
@@ -16,7 +17,8 @@ class TestUserAPI(TestFlask):
 
         self.session.begin_nested()
 
-        self.user = User(name='Test User', email='test@user.com')
+        light_theme = Theme.query.filter_by(name='light').first().id
+        self.user = User(name='Test User', email='test@user.com', theme=light_theme)
         self.session.add(self.user)
         self.session.commit()
 
