@@ -10,6 +10,7 @@ export default class Query {
      * formatting for simpler (e.g. letter) queries.
      *
      * @param {Map<String, T[]>} map List of a term and subsequent matchings.
+     * @param {Function?} comp Comparator function, checks equality.
      */
     constructor(map, comp) {
         this._map = map;
@@ -19,6 +20,11 @@ export default class Query {
     /**
      * Returns candidate list for a given query term. Uses fuzzy non-repetitive
      * letter matching.
+     *
+     * By the way I have no idea how this works but it kinda sorta takes the
+     * terms and gives it points for having each character. If the characters
+     * are in the right position it'll get a bonus.
+     *
      *
      * @param {string} term Term to search for
      * @param {number} [limit=Infinity] positive number repesenting maximium
@@ -31,7 +37,8 @@ export default class Query {
      */
     find(term, limit = Infinity, threshold = 0.8, sort = true) {
         // format { score: number, value: T }
-        let candidates = [];
+        let candidates = [],
+            bonus = 0;
 
         if (term.length === 0) return [];
 
@@ -47,6 +54,7 @@ export default class Query {
                 do {
                     index = termName.indexOf(letter, index + 1);
                     if (index === -1) continue match;
+                    if (index === i) bonus += 1 / term.length;
                 } while(matchedIndices.includes(index));
                 matchedIndices.push(index);
             }
@@ -62,7 +70,7 @@ export default class Query {
                 }
 
                 candidates.push({
-                    score: score,
+                    score: score + bonus,
                     indices: matchedIndices,
                     termLength: term.length,
                     term: term,
