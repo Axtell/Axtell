@@ -1,4 +1,5 @@
 from app.models.User import User
+from app.models.Theme import Theme
 from tests.test_base import TestFlask
 
 
@@ -7,7 +8,8 @@ class TestUserModel(TestFlask):
         super().setUp()
 
     def test_user_add(self):
-        new_user = User(name='Test User', email='test@user.com')
+        light_theme = Theme.query.filter_by(name='light').first().id
+        new_user = User(name='Test User', email='test@user.com', theme=light_theme)
 
         self.session.begin_nested()
         self.session.add(new_user)
