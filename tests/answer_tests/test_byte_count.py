@@ -9,7 +9,7 @@ class TestByteCount(TestFlask):
     def setUp(self):
         super().setUp()
 
-        self.db.begin_nested()
+        self.session.begin_nested()
 
         self.user = User(name='Test User', email='test@example.com')
         self.session.add(self.user)
