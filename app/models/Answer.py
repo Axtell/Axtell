@@ -32,8 +32,7 @@ class Answer(db.Model):
 
     @hybrid_property
     def byte_len(self):
-        # TODO: calculate using encoding
-        return len(self.code)
+        return len(self.code.encode(self.encoding))
 
     @byte_len.expression
     def byte_len(cls):
