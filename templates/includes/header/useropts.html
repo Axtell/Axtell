@@ -1,6 +1,6 @@
 <ul>
     <li class="action -green">
-        <a class="action-root action-rel" href="#TODO">
+        <a class="action-root action-rel" href="{{ url_for('get_user', user_id=g.user.id, name=g.user.name) }}">
             {% include "svg/user.html" %}
             <div class="action-desc">
                 <span class="title">My Profile</span>
@@ -9,13 +9,29 @@
         </a>
     </li>
     <li class="action -blue">
-        <a class="action-root action-rel" href="#TODO">
-            {% include "svg/brush.html" %}
+        <a class="action-root action-rel" href="{{ url_for('profile_settings') }}">
+            {% include "svg/settings.html" %}
             <div class="action-desc">
                 <span class="title">User Settings</span>
                 <p class="dim">Change your profile and options</p>
             </div>
         </a>
+    </li>
+    <li class="seperator"></li>
+    <li class="action -purple">
+        {% if session['theme'] == 'dark' -%}
+        <form class="action-root" method="POST" action="{{ url_for('set_light_theme') }}?redirect={{ request.url|e }}">
+        {%- else -%}
+        <form class="action-root" method="POST" action="{{ url_for('set_dark_theme') }}?redirect={{ request.url|e }}">
+        {%- endif %}
+            <button type="submit" class="action-rel">
+                {% include "svg/brush.html" %}
+                <div class="action-desc">
+                    <span class="title">Change Theme</span>
+                    <p class="dim">Will enable the {{ 'light' if session['theme']  == 'dark' else 'dark' }} theme.</p>
+                </div>
+            </button>
+        </form>
     </li>
     <li class="seperator"></li>
     <li class="action -red">

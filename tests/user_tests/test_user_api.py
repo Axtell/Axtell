@@ -23,7 +23,7 @@ class TestUserAPI(TestFlask):
         self.session.commit()
 
     def test_user_get(self):
-        result = self.client.get(f'/user/{self.user.id}')
+        result = self.client.get(f'/user/data/{self.user.id}')
         self.assertEqual(result.status_code, 200)
 
         user_data = json.loads(result.data)

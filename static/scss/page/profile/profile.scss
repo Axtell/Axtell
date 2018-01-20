@@ -1,0 +1,16 @@
+.profile-split {
+  display: flex;
+  padding: 1rem;
+
+  > div {
+    box-sizing: border-box;
+  }
+
+  .right { flex: 1; }
+
+  &.-highlight {
+    background: rgba($hover-mix, 0.03);
+  }
+}
+
+@import "page/profile/avatar.scss";

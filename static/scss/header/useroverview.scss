@@ -28,22 +28,6 @@
   }
 }
 
-@mixin overview-theme($name, $color) {
-  $vote-style-class: "li.action.-#{$name}";
-
-  #{$vote-style-class}, #{$vote-style-class} .title {
-    color: $color;
-    fill: $color;
-
-    // Some browsers don't want to apply so just try all states
-    svg, path {
-      &:active, &:visited, &:hover, & {
-        fill: $color;
-      }
-    }
-  }
-}
-
 #useroverview-info {
   $useroverview-color: $popover-bg;
   $arrow-size: 12px;
@@ -61,10 +45,6 @@
 
   top: 100%;
 
-  @include overview-theme('blue', #09F);
-  @include overview-theme('green', #49CF92);
-  @include overview-theme('red', #E03830);
-
   &::before {
     content: "";
     position: absolute;
@@ -73,85 +53,5 @@
     border-style: solid;
     border-width: 0 $arrow-size $arrow-size $arrow-size;
     border-color: $useroverview-color transparent;
-  }
-
-  ul {
-    @include fit;
-    list-style: none;
-  }
-
-  li.action {
-    // A little padding so the hover box is not on the edge
-    padding: 4px 8px;
-
-    // This is the box that will light up on hover
-    .action-root {
-      cursor: pointer;
-
-      display: block;
-      padding: 0.5em 2em;
-      border-radius: 4px;
-
-      &:hover {
-        background: rgba($theme-color, 0.07);
-      }
-    }
-
-    // Clear button styles
-    button {
-      margin: 0;
-      padding: 0;
-      background: none;
-      border: none;
-      outline: none;
-      width: 100%;
-    }
-
-    // Wraps the svg, etc.
-    .action-rel {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-
-      // Prevents super-small descs
-      white-space: nowrap;
-
-      svg {
-        // Makes the SVG a little bigger
-        height: 1.4rem;
-
-        // Space between icon & text
-        margin-right: 8px;
-      }
-
-      // Allows for title + desc
-      .action-desc {
-        display: flex;
-        flex-direction: column;
-      }
-
-      // The title of the action
-      .title {
-        font-size: 15px;
-      }
-
-      // A 'dim' text. i.e. description
-      .dim {
-        color: $label-tag;
-        font-weight: 300;
-        font-size: 12px;
-
-        margin: 0;
-      }
-
-      text-align: left;
-    }
-  }
-
-  li.seperator {
-    margin: .5em 1em;
-    padding: 0;
-    padding-top: 1px;
-    background:  $popover-border;
   }
 }

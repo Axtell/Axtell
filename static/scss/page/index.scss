@@ -1,0 +1,53 @@
+.index-root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 100%;
+  width: 100%;
+}
+
+.index-list {
+  list-style: none;
+  margin: 0;
+
+  max-width: 600px;
+
+  li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    h4 {
+      font-family: $light-font;
+      font-weight: 300;
+    }
+
+    > i {
+      margin-right: 1.5rem;
+
+      > svg {
+        fill: $theme-color;
+        width: 3rem;
+        height: 3rem;
+      }
+    }
+
+    strong {
+      color: $theme-color;
+    }
+
+    p {
+      color: $main-text;
+      font-size: 15px;
+      font-weight: 300;
+      margin: 8px 0;
+    }
+
+    + li {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid $subcontent-border-color;
+    }
+  }
+}

@@ -55,7 +55,7 @@ class Auth {
             return Promise.resolve(this._user);
 
         return (async () => {
-            const result = await axios.get('/user/me');
+            const result = await axios.get('/user/data/me');
             const user = User.fromJSON(result.data);
 
             // Handle unauthorized user

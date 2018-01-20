@@ -1,6 +1,14 @@
 {% extends "layouts/layout.html" %}
 
 {% set data_id = macros.rand_key() %}
+{% macro data(name, value) -%}
+<script>var {{ data_id }}{{name}}='{{ value }}';</script>
+{%- endmacro %}
+
+{% macro data_value(name, value) -%}
+<script>var {{ data_id }}{{name}}={{ value }};</script>
+{%- endmacro %}
+
 {% block head -%}
     {{ super() }}
     <link type="text/css" href="https://fonts.googleapis.com/css?family=Lato:900|Roboto:300,400,700" rel="stylesheet">
@@ -13,7 +21,7 @@
         <script src="https://apis.google.com/js/api:client.js"></script>
     {%- endif %}
 
-    {% if session['dark_theme'] == true %}
+    {% if session['theme'] == 'dark' %}
         <link type="text/css"
               href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night-eighties.min.css"
               rel="stylesheet">
@@ -30,7 +38,7 @@
 
     {% assets "js_all" -%}
     <meta name="data_id" content="{{ data_id }}">
-    <script>var {{ data_id }}theme='{{session.get("theme", "light")}}';</script>
+    {{ data("theme", session.get("theme", "light")) }}
     <script async defer src="{{ ASSET_URL }}"></script>
     {%- endassets %}
 {%- endblock %}

@@ -1,6 +1,7 @@
 from os import path, getcwd
 
-from flask import Flask
+from time import time
+from flask import Flask, g
 from flask_assets import Environment, Bundle
 from webassets.filter import register_filter
 from webassets_browserify import Browserify
@@ -16,6 +17,10 @@ server = PPCGFlask("PPCG v2")
 server.secret_key = config.secret_skey
 
 register_filter(Browserify)
+
+@server.before_request
+def before_request():
+    g.request_start_time = time()
 
 # Flask Assets
 assets = Environment(server)

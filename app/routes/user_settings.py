@@ -4,11 +4,20 @@ from app.server import server
 from app.instances.db import db
 from app.helpers.imgur_upload import imgur_upload
 from validate_email import validate_email
+from app.helpers.render import render_template
 
 
 def do_redirect():
     redirect_url = request.args.get('redirect') or '/'
     return redirect(redirect_url, code=303)
+
+
+@server.route("/settings/profile")
+def profile_settings():
+    if g.user is None:
+        do_redirect()
+
+    return render_template('settings/profile.html')
 
 
 @server.route("/theme/light", methods=['POST'])
