@@ -19,6 +19,7 @@ server.secret_key = config.secret_skey
 
 if server.debug and config.profile:
     server.config['PROFILE'] = True
+    server.config['SQLALCHEMY_ECHO'] = True
     server.wsgi_app = ProfilerMiddleware(server.wsgi_app, restrictions=[30], profile_dir='profiles')
 
 register_filter(Browserify)
