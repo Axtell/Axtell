@@ -5,6 +5,7 @@ from flask import Flask, g
 from flask_assets import Environment, Bundle
 from webassets.filter import register_filter
 from webassets_browserify import Browserify
+from werkzeug.contrib.profiler import ProfilerMiddleware
 
 import config
 
@@ -15,6 +16,10 @@ class PPCGFlask(Flask):
 
 server = PPCGFlask("PPCG v2")
 server.secret_key = config.secret_skey
+
+if server.debug and config.profile:
+    server.config['PROFILE'] = True
+    server.wsgi_app = ProfilerMiddleware(server.wsgi_app, restrictions=[30], profile_dir='profiles')
 
 register_filter(Browserify)
 

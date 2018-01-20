@@ -14,7 +14,12 @@
     flex: 1;
     font-family: $bold-font;
     font-weight: $bold-weight;
+
+    &.tight {
+      flex: 0;
+    }
   }
+
   > * {
     display: block;
   }
