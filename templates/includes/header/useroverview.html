@@ -1,8 +1,8 @@
-<div class="section r-collapse useroverview-root">
+<div class="section useroverview-root">
     <div id="useroverview-target" class="useroverview h-target">
         <img src="{{ g.user.avatar_url() }}" alt=""/>
-        <span class="label">{{ g.user.name }}</span>
-        <span class="action">&#9660;</span>
+        <span class="label r-collapse">{{ g.user.name }}</span>
+        <span class="action r-collapse">&#9660;</span>
     </div>
     <div id="useroverview-info" class="template">
         {% include "includes/header/useropts.html" %}

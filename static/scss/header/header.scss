@@ -57,8 +57,40 @@
       .r-collapse {
         display: none;
       }
+
       .r-reveal {
         display: block
+      }
+
+      // Special behavior for the user dropdown
+      // in this case we'll only show avatar
+      .useroverview-root {
+        // Make smaller horizontally
+        .useroverview {
+          padding: 0 4px;
+        }
+
+        // There was a margin before the img + text we'll remove that.
+        img {
+          margin: 0;
+          height: 1.2rem;
+        }
+
+        // Readjust the box
+        #useroverview-info {
+          position: fixed;
+          left: 8px;
+          right: 8px;
+          top: 3rem;
+
+          // Show the new close button
+          #useropts-close {
+            display: block;
+          }
+
+          // Hide the arrow
+          &:before { content: none; }
+        }
       }
 
       .section {

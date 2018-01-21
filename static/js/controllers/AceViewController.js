@@ -19,6 +19,8 @@ export default class AceViewController extends ViewController {
         this._editor = ace.edit(element);
         this._editor.container.controller = this;
 
+        this._editor.session.setNewLineMode('unix');
+
         /**
          * @type {AceTheme}
          */
