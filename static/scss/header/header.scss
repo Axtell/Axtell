@@ -5,8 +5,8 @@
   box-shadow: 0px 1px 1px $header-shadow-color;
   z-index: 1;
 
-  align-items: stretch;
-  flex-wrap: nowrap;
+  display: flex;
+  justify-content: center;
 
   .content {
     display: flex;

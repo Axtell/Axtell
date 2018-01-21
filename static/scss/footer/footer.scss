@@ -1,0 +1,38 @@
+footer {
+  padding: 3rem;
+  background: #14173E;
+
+  a {
+    color: rgba(#FFF, 0.8);
+    fill: rgba(#FFF, 0.8);
+
+    font-size: 1rem;
+
+    transition: all 0.1s ease-in;
+
+    svg {
+      height: 1.6rem;
+    }
+
+    &:hover {
+      color: #FFF;
+      fill: #FFF;
+    }
+  }
+
+  #footer-primary {
+    // In the cast it is a <ul>
+    list-style: none;
+
+    @include fit;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+
+    .wide {
+      text-align: center;
+      flex: 1;
+    }
+  }
+}
