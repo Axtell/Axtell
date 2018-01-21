@@ -2,7 +2,6 @@ from flask import session, request, redirect, g, abort
 from app.models.Theme import Theme
 from app.server import server
 from app.instances.db import db
-from app.helpers.imgur_upload import imgur_upload
 from app.helpers.render import render_template
 from app.controllers import user_settings
 
@@ -63,19 +62,12 @@ def set_name():
 
 @server.route("/preferences/avatar", methods=['POST'])
 def set_avatar():
-    if g.user is None:
-        return abort(403)
     try:
         new_avatar_source = request.form['avatar']
     except KeyError:
         return abort(400)
-    try:
-        new_avatar = imgur_upload(new_avatar_source)
-    except RuntimeError:
-        return abort(400)
-    g.user.avatar = new_avatar
-    db.session.commit()
-    return do_redirect()
+
+    return user_settings.set_avatar(new_avatar_source) or do_redirect()
 
 
 @server.route("/preferences/profile", methods=['POST'])
@@ -83,10 +75,12 @@ def set_profile_preferences():
     try:
         new_email = request.form['email']
         new_name = request.form['name']
+        avatar_url = request.form['avatar-url']
     except KeyError:
         return abort(400)
 
     return \
         user_settings.set_email(new_email) or \
         user_settings.set_name(new_name) or \
+        user_settings.set_avatar(avatar_url) or \
         do_redirect()
