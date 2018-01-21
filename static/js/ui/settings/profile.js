@@ -31,6 +31,10 @@ if (viewController = ViewController.of(PROFILE_FORM_ID)) {
             controller.display(errors);
         }
 
+        didSubmissionSuccess(controller, data) {
+            window.location.reload();
+        }
+
         didSubmissionError(controller, error) {
             console.log(error);
         }
