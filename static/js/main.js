@@ -13,7 +13,7 @@ import Auth from "~/models/Auth";
 import Request from "~/models/Request/Request";
 import Leaderboard from "~/models/Request/Leaderboard";
 
-import ErrorManager from "~/helper/ErrorManager";
+import ErrorManager from "~/helpers/ErrorManager";
 
 // Make global
 global.Normalize = Normalize;

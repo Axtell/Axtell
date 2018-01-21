@@ -1,6 +1,6 @@
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 import ViewController from '~/controllers/ViewController';
-import ErrorManager from '~/helper/ErrorManager';
+import ErrorManager from '~/helpers/ErrorManager';
 
 /**
  * OO-wrapper for Ace code editor.

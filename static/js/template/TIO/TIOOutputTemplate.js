@@ -1,5 +1,5 @@
 import Template, {TemplateType} from '~/template/Template';
-import ErrorManager from '~/helper/ErrorManager';
+import ErrorManager from '~/helpers/ErrorManager';
 import {filter, forEach} from '~/modern/array';
 
 /**

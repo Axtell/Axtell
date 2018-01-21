@@ -1,4 +1,4 @@
-import ErrorManager from '~/helper/ErrorManager';
+import ErrorManager from '~/helpers/ErrorManager';
 import Language from '~/models/Language';
 import User from '~/models/User';
 

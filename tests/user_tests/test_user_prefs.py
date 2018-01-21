@@ -33,7 +33,7 @@ class TestUserPrefs(TestFlask):
 
     def test_set_user_email(self):
         response = self.client.post("/preferences/email", data={"email": "v2.ppcg@gmail.com"})
-        self.assertEqual(response.status_code, 303)
+        self.assertEqual(response.status_code, 204)
         self.assertEqual(self.user.email, "v2.ppcg@gmail.com")
 
         bad_response = self.client.post("/preferences/email", data={"email": "fakeemail"})
@@ -42,17 +42,17 @@ class TestUserPrefs(TestFlask):
 
     def test_set_user_name(self):
         response = self.client.post("/preferences/name", data={"name": "foobar"})
-        self.assertEqual(response.status_code, 303)
+        self.assertEqual(response.status_code, 204)
         self.assertEqual(self.user.name, "foobar")
 
     def test_set_user_theme(self):
         response = self.client.post("/theme/dark", data={})
-        self.assertEqual(response.status_code, 303)
+        self.assertEqual(response.status_code, 204)
         dark_theme = Theme.query.filter_by(id=self.user.theme).first()
         self.assertEqual(dark_theme.name, "dark")
 
         response2 = self.client.post("/theme/light", data={})
-        self.assertEqual(response2.status_code, 303)
+        self.assertEqual(response2.status_code, 204)
         light_theme = Theme.query.filter_by(id=self.user.theme).first()
         self.assertEqual(light_theme.name, "light")
 
@@ -60,7 +60,7 @@ class TestUserPrefs(TestFlask):
     def test_set_user_avatar(self):
         response = self.client.post("/preferences/avatar",
                                     data={"avatar": "https://i.ytimg.com/vi/mMbvWUxgM8U/maxresdefault.jpg"})
-        self.assertEqual(response.status_code, 303)
+        self.assertEqual(response.status_code, 204)
         self.assertTrue(self.user.avatar_url().startswith("https://i.imgur.com/"))
 
         bad_response = self.client.post("/preferences/avatar", data={"avatar": "not_a_url"})

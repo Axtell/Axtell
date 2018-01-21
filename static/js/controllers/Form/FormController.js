@@ -1,6 +1,8 @@
 import ViewController from '~/controllers/ViewController';
 import FormControllerDelegate from '~/delegate/FormControllerDelegate';
 
+import Request from '~/models/Request/Request';
+
 /**
  * Performs really basic form validation
  */
@@ -24,6 +26,9 @@ export default class FormController extends ViewController {
          * @type {FormControllerDelegate}
          */
         this.delegate = new FormControllerDelegate();
+
+        this._method = this._form.method;
+        this._action = this._form.action;
 
         this._constraints = [];
         this._displays = [];
@@ -166,4 +171,34 @@ export default class FormController extends ViewController {
             input.value = value;
         }
     }
+
+    /**
+     * Returns form data.
+     * @type {FormData}
+     */
+    get formData() { return new FormData(this._form); }
+
+    /**
+     * Returns HTTP method
+     * @type {string}
+     */
+    get method() { return this._method; }
+
+    /**
+     * Returns action target.
+     * @type {string}
+     */
+    get path() { return this._action; }
+
+    /**
+     * Prepares a AJAX request with form endpoints
+     * @type {Request}
+     */
+     get request() {
+        return new Request({
+            path: this.path,
+            method: this.method,
+            data: this.formData
+        });
+     }
 }

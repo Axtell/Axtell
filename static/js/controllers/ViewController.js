@@ -1,4 +1,4 @@
-import ErrorManager from '~/helper/ErrorManager';
+import ErrorManager from '~/helpers/ErrorManager';
 import { forEach } from '~/modern/array';
 
 export const RootNonexistent = Symbol('ViewController.Error.RootNonexistent');
