@@ -1,7 +1,7 @@
 import TIO from '~/models/TIO';
 import Template, {TemplateType} from '~/template/Template';
 import TIOExec from '~/controllers/TIOController/TIOExec';
-import ErrorManager from '~/helper/ErrorManager';
+import ErrorManager from '~/helpers/ErrorManager';
 import {InvalidLanguage} from '~/models/Language';
 import {filter, forEach} from '~/modern/array';
 

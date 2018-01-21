@@ -53,7 +53,7 @@ css_bundle_style('light')
 css_bundle_style('dark')
 
 # JS
-js = Bundle('js/main.js', filters=('browserify', 'uglifyjs'), output='lib/main.js')
+js = Bundle('js/main.js', filters=('browserify'), output='lib/main.js')
 
 uglify_args = ['-m', '--mange-props', 'regex=/^_.+$/', '-c']
 
@@ -67,7 +67,9 @@ js_envs = {
     'POST_TITLE_MIN': str(config.posts['min_title']),
     'POST_TITLE_MAX': str(config.posts['max_title']),
     'POST_BODY_MIN': str(config.posts['min_len']),
-    'POST_BODY_MAX': str(config.posts['max_len'])
+    'POST_BODY_MAX': str(config.posts['max_len']),
+    'MIN_USERNAME_LENGTH': str(config.users['min_name_len']),
+    'MAX_USERNAME_LENGTH': str(config.users['max_name_len']),
 }
 
 js.config['BROWSERIFY_BIN'] = path.join(nodebin, 'browserify')

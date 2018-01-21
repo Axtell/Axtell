@@ -1,4 +1,5 @@
-import ErrorManager from '~/helper/ErrorManager';
+import ErrorManager from '~/helpers/ErrorManager';
+import isEmail from 'validator/lib/isEmail';
 
 export const NoElementWithId = Symbol('Form.FormConstraint.NoElementWithId');
 
@@ -55,6 +56,7 @@ export default class FormConstraint {
      *
      * @param {number} min a positive integer representing the minimum length.
      * @param {number} max a positive integer representing the maximum length.
+     * @return {FormConstraint} chainable object.
      */
     length(min, max) {
         return this.addValidator(
@@ -64,8 +66,20 @@ export default class FormConstraint {
     }
 
     /**
+     * Checks if a field is an email
+     * @return {FormConstraint} chainable object.
+     */
+    isEmail() {
+        return this.addValidator(
+            (elem) => isEmail(elem.value),
+            `Provide a valid email.`
+        )
+    }
+
+    /**
      * Makes sure a form value is not empty
      * @param {string} error - error string to show.
+     * @return {FormConstraint} chainable object.
      */
     notEmpty(error = `Must specify a value`) {
         return this.addValidator(
@@ -77,6 +91,7 @@ export default class FormConstraint {
     /**
      * Requires a field to match a certain regex.
      * @param {RegExp} regex - Regex to match `elem.value` to.
+     * @return {FormConstraint} chainable object.
      */
     regex(regex) {
         return this.addValidator(
