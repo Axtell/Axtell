@@ -12,13 +12,13 @@ def get_my_profile():
     return user.get_my_profile()
 
 
-@server.route("/user/data/<int:user_id>", methods=['GET'])
+@server.route("/users/data/<int:user_id>", methods=['GET'])
 def get_profile(user_id):
     return user.get_profile(user_id)
 
 
-@server.route("/user/<int:user_id>", defaults={"name": None})
-@server.route("/user/<int:user_id>/<name>")
+@server.route("/users/<int:user_id>", defaults={"name": None})
+@server.route("/users/<int:user_id>/<name>")
 def get_user(user_id, name):
     user = User.query.filter_by(id=user_id).first()
 
