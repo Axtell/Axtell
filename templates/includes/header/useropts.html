@@ -1,23 +1,44 @@
 <ul>
-    <li class="action">
+    <li class="action -green">
+        <a class="action-root action-rel" href="{{ url_for('get_user', user_id=g.user.id, name=g.user.name) }}">
+            {% include "svg/user.html" %}
+            <div class="action-desc">
+                <span class="title">My Profile</span>
+                <p class="dim">View your profile</p>
+            </div>
+        </a>
+    </li>
+    <li class="action -blue">
+        <a class="action-root action-rel" href="{{ url_for('profile_settings') }}">
+            {% include "svg/settings.html" %}
+            <div class="action-desc">
+                <span class="title">User Settings</span>
+                <p class="dim">Change your profile and options</p>
+            </div>
+        </a>
+    </li>
+    <li class="seperator"></li>
+    <li class="action -purple">
         {% if session['theme'] == 'dark' -%}
-            <form method="POST" action="{{ url_for('set_light_theme') }}?redirect={{ request.url|e }}">
+        <form class="action-root" method="POST" action="{{ url_for('set_light_theme') }}?redirect={{ request.url|e }}">
         {%- else -%}
-            <form method="POST" action="{{ url_for('set_dark_theme') }}?redirect={{ request.url|e }}">
+        <form class="action-root" method="POST" action="{{ url_for('set_dark_theme') }}?redirect={{ request.url|e }}">
         {%- endif %}
-        <button type="submit">
-            {% include "svg/brush.html" %}<span>{% if session['dark_theme'] == true -%}
-            Light Theme
-        {%- else -%}
-            Dark Theme
-        {%- endif %}</span>
-        </button>
+            <button type="submit" class="action-rel">
+                {% include "svg/brush.html" %}
+                <div class="action-desc">
+                    <span class="title">Change Theme</span>
+                    <p class="dim">Will enable the {{ 'light' if session['theme']  == 'dark' else 'dark' }} theme.</p>
+                </div>
+            </button>
         </form>
     </li>
-    <li class="action">
-        <form method="POST" action="{{ url_for('auth_logout') }}?redirect={{ request.url|e }}">
-            <button type="submit">
-                {% include "svg/logout.html" %}<span>Logout</span>
+    <li class="seperator"></li>
+    <li class="action -red">
+        <form class="action-root" method="POST" action="{{ url_for('auth_logout') }}?redirect={{ request.url|e }}">
+            <button type="submit" class="action-rel">
+                {% include "svg/logout.html" %}
+                <span class="title">Logout</span>
             </button>
         </form>
     </li>

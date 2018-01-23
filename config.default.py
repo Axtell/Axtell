@@ -1,3 +1,5 @@
+profile = False
+
 app = {
     'host': '127.0.0.1',
     'port': 5000
@@ -25,10 +27,6 @@ memcached_config = {
     'port': 11211
 }
 
-pagination = {
-    'links': 2
-}
-
 auth = {
     'google': {
         'client-id': 'GOOGLE_CLIENT_ID'
@@ -36,6 +34,10 @@ auth = {
     'imgur': {
         'client-id': 'IMGUR_CLIENT_ID'
     }
+}
+
+pagination = {
+    'links': 2
 }
 
 posts = {
@@ -49,6 +51,11 @@ posts = {
 answers = {
     'lang_len': 40,
     'leaderboard_items': 5
+}
+
+users = {
+    'min_name_len': 1,
+    'max_name_len': 45
 }
 
 secret_skey = 'SESSION_SECRET_KEY'

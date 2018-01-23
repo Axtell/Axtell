@@ -64,13 +64,26 @@ input.text-input {
     font-size: 1.3rem;
     font-family: $bold-font;
     font-weight: $bold-weight;
-    color: $big-fg;
+    color: $em-text;
+
+    padding-bottom: 4px;
+    box-sizing: content-box;
+  }
+
+  &.-mail {
+    font-size: 1.2rem;
+    font-family: $monospace;
+    letter-spacing: 1px;
 
     padding-bottom: 4px;
     box-sizing: content-box;
   }
 
   border-bottom: 2px solid $label-tag;
+
+  &:focus {
+    border-bottom-color: mix($label-tag, $hover-mix, 90%)
+  }
 }
 
 .text-base {
@@ -105,3 +118,4 @@ textarea.text-base {
 }
 
 @import "file.scss";
+@import "rcgroup.scss";

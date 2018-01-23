@@ -1,5 +1,5 @@
 import languages from '#/languages.json';
-import ErrorManager from '~/helper/ErrorManager';
+import ErrorManager from '~/helpers/ErrorManager';
 
 import Normalize from '~/models/Normalize';
 import Query from '~/models/Query';

@@ -126,3 +126,5 @@ nohup.out
 # Mac thing
 .DS_Store
 *.vsl
+
+*.prof

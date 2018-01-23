@@ -29,18 +29,15 @@
 }
 
 #useroverview-info {
-  $useroverview-color: #2696F9;
-  $useroverview-hover-color: lighten($useroverview-color, 5%);
+  $useroverview-color: $popover-bg;
   $arrow-size: 12px;
-  $useroverview-fg-color: white;
 
-  color: $useroverview-fg-color;
   outline: none;
   position: absolute;
   z-index: 1;
   background: white;
   border-radius: 8px;
-  box-shadow: 0 0 4px $header-shadow-color;
+  box-shadow: 0 50px 100px rgba(50, 50, 93, .1), 0 15px 35px rgba(50, 50, 93, .2), 0 5px 15px rgba(0, 0, 0, .1);
   padding: 0.5em 0;
   right: 2em;
   background: $useroverview-color;
@@ -56,47 +53,5 @@
     border-style: solid;
     border-width: 0 $arrow-size $arrow-size $arrow-size;
     border-color: $useroverview-color transparent;
-  }
-
-  ul {
-    @include fit;
-    list-style: none;
-
-    li {
-      @include icon-link;
-      fill: $useroverview-fg-color;
-
-      $useroverview-padding: 0.5em 3em;
-      padding: $useroverview-padding;
-      transition: 0.1s ease-out background;
-
-      svg, span {
-        vertical-align: middle;
-      }
-
-      &.action {
-        padding: 0;
-
-        button {
-          outline: none;
-          background: none;
-          border: none;
-          margin: 0;
-          font-size: 13px;
-          white-space: nowrap;
-          cursor: pointer;
-        }
-
-        a, button {
-          padding: $useroverview-padding;
-          display: block;
-          color: white;
-        }
-
-        &:hover {
-          background: $useroverview-hover-color;
-        }
-      }
-    }
   }
 }

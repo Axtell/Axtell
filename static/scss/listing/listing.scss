@@ -4,18 +4,28 @@
 
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: end;
 
   min-height: 2.5rem;
 
   flex: 0 0 auto;
 
-  > h1, > h2 {
+  h1, h2 {
     flex: 1;
     font-family: $bold-font;
     font-weight: $bold-weight;
+
+    &.tight {
+      flex: 0;
+    }
   }
+
   > * {
     display: block;
+  }
+
+  // A list (i.e. flex)
+  .sub-lst {
+    display: flex;
   }
 }
