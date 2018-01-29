@@ -12,3 +12,4 @@ bleach>=2.1.1
 pylibmc>=1.5.2
 SQLAlchemy>=1.2.0b3
 flask-testing>=0.7.0
+alembic>=0.9.7
