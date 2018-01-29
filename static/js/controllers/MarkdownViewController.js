@@ -1,7 +1,7 @@
 import ViewController from '~/controllers/ViewController';
 import MarkdownControlsTemplate from '~/template/MarkdownControlsTemplate';
 import * as MarkdownControls from '~/controllers/MarkdownControls';
-import ErrorManager from '~/helper/ErrorManager';
+import ErrorManager from '~/helpers/ErrorManager';
 
 /**
  * Manages markdown editor

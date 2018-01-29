@@ -1,0 +1,13 @@
+{% extends "layouts/page.html" %}
+
+{% block title %}{{ user.name }}'s Profile{% endblock %}
+{% block content -%}
+    <div class="list-header">
+        <div class="sub-lst">
+            <h1>{{ user.name }}</h1>
+            {% if g.user is not none and g.user.id == user.id -%}
+            <span class="self-indicator">you</span>
+            {%- endif %}
+        </div>
+    </div>
+{%- endblock %}

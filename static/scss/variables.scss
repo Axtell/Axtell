@@ -11,8 +11,7 @@ $title-text: #555;
 $hover-mix: #000;
 
 // Text editing colors
-// This line is intentionally left blank
-$editor-bg: #FFF;
+$editor-bg: transparent;
 $editor-fg: #333;
 $editor-border: #EEE;
 
@@ -26,7 +25,7 @@ $disabled-btn: #CCC;
 $disabled-btn-border: #AAA;
 
 // Depth colors
-$popover-bg: $editor-bg;
+$popover-bg: #FFF;
 $popover-border: #EEE;
 $popover-shadow: #CCC;
 

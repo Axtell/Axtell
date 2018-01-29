@@ -1,4 +1,4 @@
-import ErrorManager from '~/helper/ErrorManager';
+import ErrorManager from '~/helpers/ErrorManager';
 
 export const INVALID_JSON = Symbol('User.Error.InvalidJSON');
 
@@ -41,4 +41,11 @@ export default class User {
             json.name
         );
     }
+
+    /** @type {number} */
+    static MIN_USERNAME_LENGTH = process.env.MIN_USERNAME_LENGTH
+
+    /** @type {number} */
+    static MAX_USERNAME_LENGTH = process.env.MAX_USERNAME_LENGTH
+
 }

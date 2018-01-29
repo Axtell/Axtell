@@ -1,9 +1,11 @@
 from os import path, getcwd
 
-from flask import Flask
+from time import time
+from flask import Flask, g
 from flask_assets import Environment, Bundle
 from webassets.filter import register_filter
 from webassets_browserify import Browserify
+from werkzeug.contrib.profiler import ProfilerMiddleware
 
 import config
 
@@ -15,7 +17,16 @@ class PPCGFlask(Flask):
 server = PPCGFlask("PPCG v2")
 server.secret_key = config.secret_skey
 
+if server.debug and config.profile:
+    server.config['PROFILE'] = True
+    server.config['SQLALCHEMY_ECHO'] = True
+    server.wsgi_app = ProfilerMiddleware(server.wsgi_app, restrictions=[30], profile_dir='profiles')
+
 register_filter(Browserify)
+
+@server.before_request
+def before_request():
+    g.request_start_time = time()
 
 # Flask Assets
 assets = Environment(server)
@@ -42,7 +53,7 @@ css_bundle_style('light')
 css_bundle_style('dark')
 
 # JS
-js = Bundle('js/main.js', filters=('browserify', 'uglifyjs'), output='lib/main.js')
+js = Bundle('js/main.js', filters=('browserify'), output='lib/main.js')
 
 uglify_args = ['-m', '--mange-props', 'regex=/^_.+$/', '-c']
 
@@ -56,7 +67,9 @@ js_envs = {
     'POST_TITLE_MIN': str(config.posts['min_title']),
     'POST_TITLE_MAX': str(config.posts['max_title']),
     'POST_BODY_MIN': str(config.posts['min_len']),
-    'POST_BODY_MAX': str(config.posts['max_len'])
+    'POST_BODY_MAX': str(config.posts['max_len']),
+    'MIN_USERNAME_LENGTH': str(config.users['min_name_len']),
+    'MAX_USERNAME_LENGTH': str(config.users['max_name_len']),
 }
 
 js.config['BROWSERIFY_BIN'] = path.join(nodebin, 'browserify')

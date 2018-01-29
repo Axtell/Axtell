@@ -1,4 +1,4 @@
-import ErrorManager from '~/helper/ErrorManager';
+import ErrorManager from '~/helpers/ErrorManager';
 
 export const NO_DATA_TAG = Symbol('Data.Error.NoDataTag');
 

@@ -1,7 +1,7 @@
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 
 import ViewController from '~/controllers/ViewController';
-import ErrorManager from '~/helper/ErrorManager';
+import ErrorManager from '~/helpers/ErrorManager';
 
 import Normalize from '~/models/Normalize';
 import Language from '~/models/Language';
