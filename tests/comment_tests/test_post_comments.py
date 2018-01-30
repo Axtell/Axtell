@@ -36,13 +36,13 @@ class TestPostComments(TestFlask):
         self.assertEqual(len(self.user.post_comments), 1)
 
     def test_make_post_comment(self):
-        short_result = self.client.post(f'/post/{self.post.id}/comment', "foo")
+        short_result = self.client.post(f'/post/{self.post.id}/comment', data={"text": "foo"})
         self.assert400(short_result)
 
-        long_result = self.client.post(f'/post/{self.post.id}/comment', "a"*141)
+        long_result = self.client.post(f'/post/{self.post.id}/comment', data={"text": "a"*141})
         self.assert400(long_result)
 
-        result = self.client.post(f'/post/{self.post.id}/comment', "foobarbazblargh")
+        result = self.client.post(f'/post/{self.post.id}/comment', data={"text": "foobarbazblargh"})
         self.assert200(result)
 
         comment_id = self.post.comments[0].id
