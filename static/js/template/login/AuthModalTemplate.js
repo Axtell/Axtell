@@ -4,7 +4,7 @@ import Template, {TemplateType} from '~/template/Template';
 import ModalTemplate from '~/template/ModalTemplate';
 import '~/modern/gapi';
 
-import ErrorManager from '~/helper/ErrorManager';
+import ErrorManager from '~/helpers/ErrorManager';
 
 const googleTrigger = document.getElementById("am-pgoogle");
 

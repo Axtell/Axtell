@@ -1,5 +1,5 @@
 import ViewController from '~/controllers/ViewController';
-import ErrorManager from '~/helper/ErrorManager';
+import ErrorManager from '~/helpers/ErrorManager';
 import Theme from '~/models/Theme';
 import Auth from '~/models/Auth';
 

@@ -1,0 +1,39 @@
+$avatar-size: 150px;
+
+.avatar-wrap {
+  padding: 1rem;
+}
+
+.avatar-control {
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+
+  width: $avatar-size;
+  height: $avatar-size;
+
+  img {
+    width: $avatar-size;
+    height: $avatar-size;
+  }
+
+  a {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+
+    font-weight: bold;
+    font-size: 12px;
+    font-family: $bold-font;
+    text-transform: uppercase;
+    text-align: center;
+
+    padding: 4px 0;
+    background: rgba(0, 0, 0, 0.6);
+    color: rgba(255, 255, 255, 0.8);
+
+    cursor: pointer;
+  }
+}

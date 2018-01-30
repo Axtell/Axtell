@@ -1,0 +1,11 @@
+.rc-label {
+  text-transform: none;
+  font-weight: 300;
+  font-style: oblique;
+  margin-left: 4px;
+
+  a {
+    cursor: pointer;
+    color: $theme-color;
+  }
+}

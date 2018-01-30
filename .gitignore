@@ -113,6 +113,7 @@ w1*
 config.py
 /key
 deploy.txt
+alembic.ini
 
 # Node.js
 package-lock.json
@@ -126,3 +127,5 @@ nohup.out
 # Mac thing
 .DS_Store
 *.vsl
+
+*.prof

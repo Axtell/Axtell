@@ -14,11 +14,11 @@ function highlight(string, language, langId) {
         tail = '</code></pre>';
 
     if (language && hljs.getLanguage(language)) {
-        try {
+        // try {
             return head + hljs.highlight(language, string, true).value + tail;
-        } catch (__) {
-            return '<div style="font-size: 3rem; color: red; font-weight: 300">Error Rendering</div>';
-        }
+        // } catch (__) {
+        //     return '<div style="font-size: 3rem; color: red; font-weight: 300">Error Rendering</div>';
+        // }
     }
 
     return head + escape(string) + tail;
