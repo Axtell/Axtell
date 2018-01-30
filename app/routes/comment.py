@@ -13,7 +13,7 @@ def write_post_comment(post_id):
 
 
 @server.route("/answer/<int:answer_id>/comment", methods=["POST"])
-def write_post_comment(answer_id):
+def write_answer_comment(answer_id):
     comment_text = request.form["comment_text"]
     parent_comment = request.form.get("parent_comment", None)
     return comment.create_answer_comment(answer_id, parent_comment, comment_text)
