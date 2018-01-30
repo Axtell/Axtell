@@ -50,7 +50,7 @@ class TestPostComments(TestFlask):
         self.assert400(long_result)
 
         result = self.client.post(f'/post/{self.post.id}/comment', data={"comment_text": "foobarbazblargh"})
-        self.assert200(result)
+        self.assertEqual(result.status_code, 302)
 
         comment_id = self.post.comments[0].id
         comment_result = self.client.get(f"/post/{self.post.id}/comments/{comment_id}")
