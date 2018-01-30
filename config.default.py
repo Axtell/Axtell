@@ -58,4 +58,9 @@ users = {
     'max_name_len': 45
 }
 
+comments = {
+    'min_len': 10,
+    'max_len': 140,
+}
+
 secret_skey = 'SESSION_SECRET_KEY'

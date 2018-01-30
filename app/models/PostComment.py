@@ -9,6 +9,7 @@ class PostComment(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
+    parent = db.Column(db.Integer, db.ForeignKey('post_comments.id'), nullable=True)
     text = db.Column(db.String(140), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
@@ -20,7 +21,8 @@ class PostComment(db.Model):
         data = {
             'text': self.text,
             'date': self.date_created,
-            'owner': self.user.to_json()
+            'owner': self.user.to_json(),
+            'parent': self.parent
         }
 
         return data
