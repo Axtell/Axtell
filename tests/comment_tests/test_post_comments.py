@@ -3,6 +3,7 @@ from app.models.Post import Post
 from app.models.PostComment import PostComment
 from app.models.User import User
 from app.session.user_session import set_session_user
+from flask import g
 
 # this is necessary, but PyCharm disagrees
 # noinspection PyUnresolvedReferences
