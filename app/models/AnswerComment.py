@@ -14,7 +14,7 @@ class AnswerComment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
-    user = db.relationship('User', backref='post_comments')
+    user = db.relationship('User', backref='answer_comments')
     answer = db.relationship('Answer', backref='comments')
 
     def to_json(self):
