@@ -2,6 +2,7 @@ from tests.test_base import TestFlask
 from app.models.Post import Post
 from app.models.PostComment import PostComment
 from app.models.User import User
+from app.session.user_session import set_session_user
 
 # this is necessary, but PyCharm disagrees
 # noinspection PyUnresolvedReferences
@@ -23,6 +24,11 @@ class TestPostComments(TestFlask):
         self.session.add(self.post)
 
         self.session.commit()
+
+        with self.client as c:
+            with c.session_transaction() as sess:
+                set_session_user(self.user, current_session=sess)
+                g.user = self.user
 
     def test_post_comment_model(self):
         test_comment = PostComment(post_id=self.post.id, text="foobar", user_id=self.user.id)
