@@ -32,6 +32,9 @@ class TestPostComments(TestFlask):
                 g.user = self.user
 
     def test_post_comment_model(self):
+        current_post_comment_count = len(self.post.comments)
+        current_user_comment_count = len(self.user.post_comments)
+
         test_comment = PostComment(post_id=self.post.id, text="foobar", user_id=self.user.id)
         self.user.post_comments.append(test_comment)
         self.post.comments.append(test_comment)
@@ -39,8 +42,8 @@ class TestPostComments(TestFlask):
         self.assertEqual(test_comment.user.id, self.user.id)
         self.assertEqual(test_comment.text, "foobar")
         self.assertEqual(test_comment.post_id, self.post.id)
-        self.assertEqual(len(self.post.comments), 1)
-        self.assertEqual(len(self.user.post_comments), 1)
+        self.assertEqual(len(self.post.comments)-current_post_comment_count, 1)
+        self.assertEqual(len(self.user.post_comments)-current_user_comment_count, 1)
 
     def test_make_post_comment(self):
         short_result = self.client.post(f'/post/{self.post.id}/comment', data={"comment_text": "foo"})
