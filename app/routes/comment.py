@@ -22,7 +22,7 @@ def write_answer_comment(answer_id):
 @server.route("/post/<int:post_id>/comments/<int:comment_id>")
 def get_post_comment(post_id, comment_id):
     post_comment = comment.get_post_comment(comment_id)
-    rendered_text = markdown.delay(post_comment.text).wait()
+    rendered_text = markdown.render_markdown.delay(post_comment.text).wait()
 
     if rendered_text is None:
         return abort(500)
@@ -35,7 +35,7 @@ def get_post_comment(post_id, comment_id):
 @server.route("/answer/<int:answer_id>/comments/<int:comment_id>")
 def get_answer_comment(answer_id, comment_id):
     answer_comment = comment.get_answer_comment(comment_id)
-    rendered_text = markdown.delay(answer_comment.text).wait()
+    rendered_text = markdown.render_markdown.delay(answer_comment.text).wait()
 
     if rendered_text is None:
         return abort(500)
