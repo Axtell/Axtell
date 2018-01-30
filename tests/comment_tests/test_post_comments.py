@@ -37,7 +37,7 @@ class TestPostComments(TestFlask):
         self.post.comments.append(test_comment)
 
         self.assertEqual(test_comment.user.id, self.user.id)
-        self.assertEqual(test_comment.test, "foobar")
+        self.assertEqual(test_comment.text, "foobar")
         self.assertEqual(test_comment.post_id, self.post.id)
         self.assertEqual(len(self.post.comments), 1)
         self.assertEqual(len(self.user.post_comments), 1)
