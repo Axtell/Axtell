@@ -2,27 +2,30 @@
 {% from "includes/more.html" import more %}
 
 {% block title %}Home{% endblock %}
-{% block content %}
-<div class="index-root">
-    <ul class="index-list">
-        <li>
-            <i>{% include "svg/help.html" %}</i>
-            <div>
-                <h4><strong>What is</strong> code-golf?</h4>
-                <p>Code-golf is doing something with the least amount of code
-                    possible. Try your hand at some challenges now. {{ more('See Challenges', url_for('get_posts')) }}</p>
-            </div>
-        </li>
+{% block base_content %}
+<main class="content override splash">
+    <div class="index-root">
+        <div class="index-aside"><h1>Code<br>Golf</h2></div>
+        <ul class="index-list">
+            <li>
+                <i>{% include "svg/help.html" %}</i>
+                <div>
+                    <h4><strong>What is</strong> code-golf?</h4>
+                    <p>Code-golf is doing something with the least amount of code
+                        possible. Try your hand at some challenges now. {{ more('See Challenges', url_for('get_posts')) }}</p>
+                </div>
+            </li>
 
-        <li>
-            <i>{% include "svg/idea.html" %}</i>
-            <div>
-                <h4><strong>Get tips</strong> on how to up your golf game.</h4>
-                <p>Check out the non-existent tips page with tips on how you can
-                improve your scores in your favorite languages without bribing the
-                sheep or be cheat. {{ more('Learn Tips', '/doesntexistsorrylol') }}</p>
-            </div>
-        </li>
-</ul>
-</div>
+            <li>
+                <i>{% include "svg/idea.html" %}</i>
+                <div>
+                    <h4><strong>Get tips</strong> on how to up your golf game.</h4>
+                    <p>Check out the non-existent tips page with tips on how you can
+                    improve your scores in your favorite languages without bribing the
+                    sheep or be cheat. {{ more('Learn Tips', '/doesntexistsorrylol') }}</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</main>
 {% endblock %}

@@ -1,0 +1,42 @@
+$level-1-margin: 40%;
+$lower-theme-gutter: $level-1-margin;
+
+.splash {
+  // Backgrounds
+  background:
+    $bg-level-1 bottom repeat-x / auto $level-1-margin, // Level 1 background (mountains, ice, etc.)
+    $bg-level-2, // Level 2 background, contrasts. (stars, glare, etc.)
+    $bg-level-3,
+    url(/static/img/stage.svg) center / cover, // The lighting stage
+    $main-background; // Primary color
+
+  background-blend-mode: normal, overlay, normal, soft-light;
+
+  width: 100%;
+  height: 100%; // We need to manually specify this so child height constraints.
+
+  // The title header
+  h1 {
+    font-size: 6rem;
+    font-family: $bold-font;
+    font-weight: 900;
+    color: $splash-name-color;
+  }
+
+  // Due to contrasting colors, this will avoid weirdness of subpixel rendering.
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.index-root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  height: 100% - $lower-theme-gutter;
+  width: 100%;
+}
+
+// This import is the tally list
+@import "theme/index.scss";
