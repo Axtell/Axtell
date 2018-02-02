@@ -3,6 +3,7 @@ import '@babel/polyfill';
 import 'url-search-params-polyfill';
 import 'element-dataset';
 
+import KeyManager from "~/models/KeyManager";
 import Normalize from "~/models/Normalize";
 import Language from "~/models/Language";
 import Theme from "~/models/Theme";
@@ -16,17 +17,22 @@ import Leaderboard from "~/models/Request/Leaderboard";
 import ErrorManager from "~/helpers/ErrorManager";
 
 // Make global
-global.Normalize = Normalize;
-global.Language = Language;
-global.Theme = Theme;
-global.Post = Post;
-global.Data = Data;
-global.Auth = Auth;
+if (process.env.IS_DEBUG) {
+    global.Normalize = Normalize;
+    global.Language = Language;
+    global.Theme = Theme;
+    global.Post = Post;
+    global.Data = Data;
+    global.Auth = Auth;
 
-global.Request = Request;
-global.Leaderboard = Leaderboard;
+    global.Request = Request;
+    global.Leaderboard = Leaderboard;
+
+    global.KeyManager = KeyManager;
+}
 
 global.ErrorManager = ErrorManager;
+
 
 (function(done) {
     // Only need to be able to access DOM

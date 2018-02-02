@@ -70,6 +70,7 @@ js_envs = {
     'POST_BODY_MAX': str(config.posts['max_len']),
     'MIN_USERNAME_LENGTH': str(config.users['min_name_len']),
     'MAX_USERNAME_LENGTH': str(config.users['max_name_len']),
+    'IS_DEBUG': 'true' if server.debug else ''
 }
 
 js.config['BROWSERIFY_BIN'] = path.join(nodebin, 'browserify')
