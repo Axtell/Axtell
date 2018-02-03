@@ -1,6 +1,7 @@
 import app.start
 import app.instances.db
 from app.models.Theme import Theme
+from app.tasks import *
 from flask_testing import TestCase
 
 
