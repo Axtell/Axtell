@@ -4,6 +4,7 @@ python:
 services:
     - mysql
     - redis-server
+    - memcached
 cache:
   bundler: true
   pip: true
@@ -25,6 +26,7 @@ install:
     - sed -i "s/MYSQL_USERNAME/root/" config.py
     - sed -i "s/MYSQL_PASSWORD//" config.py
     - sed -i "s/REDIS_PASSWORD//" config.py
+    - sed -i "s/IMGUR_CLIENT_ID/$IMGUR_CLIENT_ID/" config.py
     
     - celery multi start w1 -A celery_server
 script:
