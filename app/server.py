@@ -6,6 +6,7 @@ from flask_assets import Environment, Bundle
 from webassets.filter import register_filter
 from webassets_browserify import Browserify
 from werkzeug.contrib.profiler import ProfilerMiddleware
+import app.instances.celery
 from app.tasks.update import jwt_update
 
 import config
