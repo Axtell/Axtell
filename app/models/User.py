@@ -1,6 +1,8 @@
 from app.instances.db import db
 from app.helpers.macros.gravatar import gravatar
 
+import config
+
 
 class User(db.Model):
     """
@@ -10,18 +12,24 @@ class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
-    name = db.Column(db.String(45), nullable=False)
+    name = db.Column(db.String(config.users['max_name_len']), nullable=False)
     email = db.Column(db.String(320))
+    avatar = db.Column(db.String(64), nullable=True)
 
     posts = db.relationship('Post', backref='user')
+    theme = db.Column(db.Integer, db.ForeignKey('themes.id'), nullable=False, default=0)
 
     def avatar_url(self):
-        return gravatar(self.email)
+        if self.avatar is not None:
+            return self.avatar
+        else:
+            return gravatar(self.email)
 
     def to_json(self, own=False):
         data = {
             'id': self.id,
-            'name': self.name
+            'name': self.name,
+            'avatar': self.avatar_url()
         }
 
         if own:

@@ -1,7 +1,7 @@
 import TIO from '~/models/TIO';
 import TIORun from '~/models/TIO/TIORun';
 import Language from '~/models/Language';
-import ErrorManager from '~/helper/ErrorManager';
+import ErrorManager from '~/helpers/ErrorManager';
 import ViewController from '~/controllers/ViewController';
 import TIOOutputTemplate, {TIOOutputState} from '~/template/TIO/TIOOutputTemplate';
 

@@ -1,7 +1,7 @@
 import ViewController from '~/controllers/ViewController';
 import LeaderboardItemTemplate from '~/template/LeaderboardItemTemplate';
 import Leaderboard from '~/models/Request/Leaderboard';
-import ErrorManager from '~/helper/ErrorManager';
+import ErrorManager from '~/helpers/ErrorManager';
 
 /**
  * Leaderboard buttons and all.

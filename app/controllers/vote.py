@@ -9,7 +9,7 @@ from app.models.AnswerVote import AnswerVote
 # noinspection PyUnresolvedReferences
 import app.routes.post
 # noinspection PyUnresolvedReferences
-import app.routes.theme
+import app.routes.user_settings
 # noinspection PyUnresolvedReferences
 import app.routes.auth
 

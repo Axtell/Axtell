@@ -14,16 +14,6 @@ export const HTTPMethod = {
     PUT: 'PUT'
 }
 
-
-/**
- * @typedef {Object} RequestData
- * @property {string} path - Path of request
- * @property {string} auth - Authorization header
- * @property {string} contentType - Content type header
- * @property {?Object<string, string>} headers - Additional request headers.
- * @property {Request.Method} [method=get] - Method request type
- */
-
 /**
  * Performs a request for data.
  */
@@ -54,8 +44,13 @@ export default class Request {
 
     /**
      * Creates request given path. Provide options **as object**
-     * @param {RequestData} requestData - Object describing request. Bare
+     * @param {Object} requestData - Object describing request. Bare
      *                                  mininmum info is providing path.
+     * @param {string} requestData.path - Path of request
+     * @param {string} requestData.auth - Authorization header
+     * @param {?string} requestData.contentType - Content type header
+     * @param {?Object} requestData.headers - Additional request headers.
+     * @param {HTTPMethod} [requestData.method=get] - Method request type
      */
     constructor({
         path,

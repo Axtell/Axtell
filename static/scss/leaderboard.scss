@@ -16,6 +16,10 @@
   .counter {
     text-align: right;
     white-space: nowrap;
+
+    // This way when you click "See All"
+    // the `10.` doesn't expand all table cells resulting in a weird shift.
+    min-width: 1.4em;
   }
 
   $leaderboard-icon-size: $leaderboard-size + $leaderboard-padding;

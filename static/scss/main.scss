@@ -63,6 +63,7 @@ body {
   @import "listing/listing.scss";
   @import "select-dialog.scss";
   @import "page/page.scss";
+  @import "page/profile/profile.scss";
   @import "content.scss";
   @import "buttons.scss";
   @import "userbox.scss";
@@ -86,7 +87,10 @@ body {
   display: none !important;
 }
 
+@import "page/index.scss";
+@import "page/user.scss";
 @import "tio.scss";
+@import "action.scss";
 @import "markdown.scss";
 @import "nodes.scss";
 @import "modal.scss";

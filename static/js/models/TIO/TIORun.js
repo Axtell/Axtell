@@ -1,7 +1,7 @@
 import axios from 'axios';
 import crypto from 'crypto';
 import TIOSerializer from '~/models/TIO/TIOSerializer';
-import ErrorManager from '~/helper/ErrorManager';
+import ErrorManager from '~/helpers/ErrorManager';
 
 // Make sure trailing `/` exists
 export const TIO_API_ENDPOINT = "https://tio.run/cgi-bin/run/api/";
