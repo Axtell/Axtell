@@ -9,6 +9,7 @@ class TestFlask(TestCase):
     def create_app(self):
         _app = app.start.server
         _app.config['TESTING'] = True
+        _app.config['DEBUG'] = True
         _app.config['PRESERVE_CONTEXT_ON_EXCEPTION'] = False
         _app.config['SERVER_NAME'] = 'localhost'
         return _app
