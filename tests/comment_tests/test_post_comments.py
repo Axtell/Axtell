@@ -32,6 +32,8 @@ class TestPostComments(TestFlask):
                 g.user = self.user
 
     def test_post_comment_model(self):
+        self.session.begin_nested()
+
         current_post_comment_count = len(self.post.comments)
         current_user_comment_count = len(self.user.post_comments)
 
@@ -46,6 +48,8 @@ class TestPostComments(TestFlask):
         self.assertEqual(len(self.user.post_comments)-current_user_comment_count, 1)
 
     def test_make_post_comment(self):
+        self.session.begin_nested()
+
         short_result = self.client.post(f'/post/{self.post.id}/comment', data={"comment_text": "foo"})
         self.assert400(short_result)
 
