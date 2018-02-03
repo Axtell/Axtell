@@ -4,6 +4,7 @@ python:
 services:
     - mysql
     - redis-server
+    - memcached
 cache:
   bundler: true
   pip: true
