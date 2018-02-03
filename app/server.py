@@ -7,7 +7,7 @@ from webassets.filter import register_filter
 from webassets_browserify import Browserify
 from werkzeug.contrib.profiler import ProfilerMiddleware
 import app.instances.celery
-from app.tasks.update import jwt_update
+import app.tasks.update as update
 
 import config
 
@@ -30,7 +30,7 @@ register_filter(Browserify)
 @server.before_request
 def before_request():
     g.request_start_time = time()
-    jwt_update.delay().wait()
+    update.jwt_update.delay().wait()
 
 
 # Flask Assets
