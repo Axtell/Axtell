@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 import app.instances.celery
-
-# noinspection PyUnresolvedReferences
-from app.tasks import *
+from misc import import_submodules
+import app.tasks
+import_submodules(app.tasks)
 
 celery = app.instances.celery.celery_app
 
