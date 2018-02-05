@@ -6,6 +6,7 @@ from flask_assets import Environment, Bundle
 from webassets.filter import register_filter
 from webassets_browserify import Browserify
 from werkzeug.contrib.profiler import ProfilerMiddleware
+import app.tasks.update as update
 
 import config
 
@@ -24,13 +25,18 @@ if server.debug and config.profile:
 
 register_filter(Browserify)
 
+update.jwt_update.delay().wait()
+
+
 @server.before_request
 def before_request():
     g.request_start_time = time()
 
+
 # Flask Assets
 assets = Environment(server)
 nodebin = path.join(getcwd(), 'node_modules', '.bin')
+
 
 # CSS
 def css_bundle_style(type):

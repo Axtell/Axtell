@@ -3,7 +3,7 @@ from json import loads as json_loads
 from jwcrypto.jwt import JWT
 
 from app.helpers.render import render_json, render_error
-from app.instances.db import db
+from app.instances.db import db, redis_db
 from app.jwkeys import jwkeys
 from app.models.User import User, UserJWTToken
 from app.session import user_session
@@ -44,6 +44,10 @@ def set_user_jwt(auth_key, profile):
     """
     Logs in (or signs up) a new user given its JWT and a default profile
     """
+
+    # Load the most current keys from Redis
+    jwkeys.import_keyset(redis_db.get('jwkeys'))
+
     try:
         jwt = JWT(jwt=auth_key, key=jwkeys)
         claims = json_loads(jwt.claims)

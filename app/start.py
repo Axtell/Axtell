@@ -10,6 +10,7 @@ from app.routes import *
 import app.instances.auth
 # Sets up Celery connection
 import app.instances.celery
+import app.tasks.update
 
 # Exports server to please Flask CLI
 server = app.server.server

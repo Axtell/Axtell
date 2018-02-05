@@ -4,7 +4,7 @@
 {% block title %}Posts{% endblock %}
 {% block content -%}
     <div class="list-header">
-        <h1>Posts</h1>
+        <h1>Challenges</h1>
         <div class="select-dialog d-sort">
             <label class="select-trigger">sort by: <a>recent</a></label>
             <ul class="drop template">
@@ -18,10 +18,12 @@
         <ul class="posts">
             {% for post in posts.items -%}
                 <li class="post-item">
-                    <h4><a href="{{ url_for('get_post', post_id=post.id) }}" class="title">{{ post.title }}</a></h4>
-                    <div class="post-data">
-                        {{ userbox(post.user, post.date_created) }}
-                    </div>
+                    <a href="{{ url_for('get_post', post_id=post.id) }}" class="title">
+                        <h4>{{ post.title }}</h4>
+                        <div class="post-data">
+                            {{ userbox(post.user, post.date_created) }}
+                        </div>
+                    </a>
                 </li>
             {%- endfor %}
         </ul>
