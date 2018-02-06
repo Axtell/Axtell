@@ -16,6 +16,8 @@ import Leaderboard from "~/models/Request/Leaderboard";
 
 import ErrorManager from "~/helpers/ErrorManager";
 
+import markdown from '#/markdown-renderer';
+
 // Make global
 if (process.env.IS_DEBUG) {
     global.Normalize = Normalize;
@@ -29,6 +31,7 @@ if (process.env.IS_DEBUG) {
     global.Leaderboard = Leaderboard;
 
     global.KeyManager = KeyManager;
+    global.markdown = markdown;
 }
 
 global.ErrorManager = ErrorManager;

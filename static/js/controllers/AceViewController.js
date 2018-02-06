@@ -51,7 +51,7 @@ export default class AceViewController extends ViewController {
      * @param {AceThemeType} type Type of theme
      */
     setThemeType(type) {
-        this._editor.setTheme(`ace/mode/${this.theme.nameForType(type)}`);
+        this._editor.setTheme(`ace/theme/${this.theme.nameForType(type)}`);
     }
 
     /**
@@ -72,20 +72,36 @@ export default class AceViewController extends ViewController {
     }
 }
 
+/**
+ * Type of theme
+ * @typedef {Object} AceThemeType
+ */
+export const AceThemeType = {
+    Dark: Symbol('Ace.ThemeType.Dark'),
+    Light: Symbol('Ace.ThemeType.Light'),
+
+    /**
+     * From a {@link Theme}
+     * @param  {Theme} theme Theme file
+     * @return {AceThemeType} respective theme type.
+     */
+    fromTheme(theme) {
+        if (theme.isDark) return this.Dark;
+        else return this.Light;
+    }
+}
+
 export class AceTheme {
     /**
      * Creates a new Ace theme.
      *
      * @param {Object} opts Theme config
-     * @param {string} opts.lightTheme LightTheme
-     * @param {string} opts.darkTheme  Dark theme
+     * @param {string} opts.AceThemeType.Light LightTheme
+     * @param {string} opts.AceThemeType.Light Dark theme
      */
-    constructor({ lightTheme, darkTheme } = {}) {
-        /** @type {string} */
-        this.lightTheme = lightTheme;
-
-        /** @type {string} */
-        this.darkTheme = darkTheme;
+    constructor(themes) {
+        /** @type {Object} */
+        this.themes = themes;
     }
 
     /**
@@ -94,11 +110,9 @@ export class AceTheme {
      * @return {string} theme name
      */
     nameForType(type) {
-        switch (type) {
-            case AceThemeType.Dark: return this.darkTheme;
-            case AceThemeType.Light: return this.lightTheme;
-            default: ErrorManager.raise(`Invalid theme`, BadAceThemeType)
-        }
+        let theme = this.themes[type];
+        if (!theme) ErrorManager.raise(`Invalid theme`, BadAceThemeType);
+        return theme;
     }
 
     /**
@@ -106,18 +120,9 @@ export class AceTheme {
      * @type {AceTheme}
      */
     static default = new AceTheme({
-        lightTheme: "tomorrow",
-        darkTheme: "tomorrow_night_eighties"
+        [AceThemeType.Light]: "tomorrow",
+        [AceThemeType.Dark]: "tomorrow_night_eighties"
     });
-}
-
-/**
- * Type of theme
- * @typedef {Object} AceThemeType
- */
-export const AceThemeType = {
-    Dark: Symbol('Ace.ThemeType.Dark'),
-    Light: Symbol('Ace.ThemeType.Light')
 }
 
 export const BadAceThemeType = Symbol('Ace.ThemeType.Error.BadType');
