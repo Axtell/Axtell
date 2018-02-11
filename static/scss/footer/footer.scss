@@ -2,9 +2,11 @@ footer {
   padding: 3rem;
   background: $footer-background;
 
+  $footer-fg: rgba(#FFF, 0.8);
+
   a {
-    color: rgba(#FFF, 0.8);
-    fill: rgba(#FFF, 0.8);
+    color: $footer-fg;
+    fill: $footer-fg;
 
     font-size: 1rem;
 
@@ -20,19 +22,58 @@ footer {
     }
   }
 
+  li.title {
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding-bottom: 0.7rem;
+
+    color: $footer-fg;
+  }
+
+  li {
+    padding-bottom: 5px;
+  }
+
+  .item {
+    margin: 1rem;
+  }
+
+  .stretch {
+    flex: 1;
+    @media screen and (max-width: $collapse-width) { flex: 0 0 0; }
+  }
+
+  .own {
+    align-self: center;
+    @media screen and (max-width: $collapse-width) {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
   #footer-primary {
     // In the cast it is a <ul>
     list-style: none;
 
-    @include fit;
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: center;
+    justify-content: start;
 
     .wide {
       text-align: center;
       flex: 1;
     }
+
+    li {
+      list-style: none;
+    }
+  }
+
+  #copy {
+    text-align: center;
+    color: rgba(#FFF, 0.7);
+    font-weight: 300;
   }
 }

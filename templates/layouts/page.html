@@ -72,15 +72,25 @@
             <main class="content">{% block content %}{% endblock %}</main>
         {%- endblock %}
         <footer>
-            <ul id="footer-primary">
+            <div class="content" id="footer-primary">
+                <ul class="item">
+                    <li class="title">Resources</li>
+                    <li><a href="https://goo.gl/forms/rr7SuEYwjWSbG4Y63">Propose Language</a></li>
+                    <li><a href="https://github.com/PPCG-v2/PPCG-v2/issues/new?labels=bug">Report Bug</a></li>
+                </ul>
 
-                <li><a href="https://goo.gl/forms/rr7SuEYwjWSbG4Y63">Propose Language</a></li>
+                <ul class="item">
+                    <li class="title">Links</li>
+                    <li><a href="https://chat.stackexchange.com/rooms/68212/ppcg-v2">Chatroom</a></li>
+                </ul>
 
-                <li class="wide"></li>
+                <a class="stretch"></a>
 
-                <li><a href="https://github.com/PPCG-v2/PPCG-v2">{% include "svg/github.html" %}</a></li>
-
-            </ul>
+                <a class="item own" href="https://github.com/PPCG-v2/PPCG-v2">{% include "svg/github.html" %}</a>
+            </div>
+            <div id="copy">
+                <span>Copyright &copy; 2018 PPCG-v2</span>
+            </div>
         </footer>
     </div>
 {% endblock %}

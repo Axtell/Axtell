@@ -19,93 +19,93 @@ body {
   background: $main-bg;
 
   // For just body content (not header etc.)
-  #content .content {
+  #content main {
     // Some basic spacing
     padding: 2rem 0;
 
     // Prevents padding from expanding size
     box-sizing: border-box;
+
+    // First screen (main content) should at _least_ be 100% always
+    min-height: 100%;
   }
 
   #content, > header {
     // The wrappers will be fill width
     width: 100%;
+  }
 
-    // This is where the primary page content will be
-    > .content {
-      // First screen (main content) should at _least_ be 100% always
-      min-height: 100%;
+  // Primary content
+  .content {
+    // Centers content
+    margin: 0 auto;
 
-      // Centers content
-      margin: 0 auto;
-
-      // For any case where 100% manual alignment is chosen
-      &.override {
-        margin: auto;
-        width: auto;
-        padding: auto;
-      }
-
-      // Readjusts for smaller screens (removes margins)
-      @media screen and (max-width: $collapse-width) {
-        width: 100%;
-
-        &.content-split.cs-collapse {
-          width: 100%;
-          margin-left: 0;
-        }
-      }
-
-      // Split for RHS.
-      &.content-split {
-        margin: 0; // No margin as we already calculate that later
-
-        display: flex;
-        flex-direction: row;
-
-        > main {
-          align-self: stretch;
-
-          width: 0px; // Prevents expansion of parent
-          flex: 1;
-
-          > form {
-            // at least full width.
-            min-height: 100%;
-
-            display: flex;
-            flex-direction: column;
-          }
-        }
-
-        > aside {
-          @import "page/sidebar.scss";
-        }
-
-        $sidebar-bonus: 8%;
-        $content-space: (100% - $page-width) / 2;
-        $content-width: 100% - $content-space;
-        width: $content-width;
-        margin-left: $content-space;
-        $sidebar-width: ($content-space / $content-width) * 100% + $sidebar-bonus;
-
-        aside {
-          @media screen and (max-width: 650px) {
-            display: none;
-          }
-
-          width: $sidebar-width;
-        }
-
-        .fixed-aside {
-          position: absolute;
-          width: ($sidebar-width / 100%) * $content-width;
-        }
-      }
-
-      // Width of main content
-      width: $page-width;
+    // For any case where 100% manual alignment is chosen
+    &.override {
+      margin: auto;
+      width: auto;
+      padding: auto;
     }
+
+    // Readjusts for smaller screens (removes margins)
+    @media screen and (max-width: $collapse-width) {
+      width: 100%;
+
+      &.content-split.cs-collapse {
+        width: 100%;
+        margin-left: 0;
+      }
+    }
+
+    // Split for RHS.
+    &.content-split {
+      margin: 0; // No margin as we already calculate that later
+
+      display: flex;
+      flex-direction: row;
+
+      > main {
+        align-self: stretch;
+
+        width: 0px; // Prevents expansion of parent
+        flex: 1;
+
+        > form {
+          // at least full width.
+          min-height: 100%;
+
+          display: flex;
+          flex-direction: column;
+        }
+      }
+
+      > aside {
+        @import "page/sidebar.scss";
+      }
+
+      $sidebar-bonus: 8%;
+      $content-space: (100% - $page-width) / 2;
+      $content-width: 100% - $content-space;
+      width: $content-width;
+      margin-left: $content-space;
+      $sidebar-width: ($content-space / $content-width) * 100% + $sidebar-bonus;
+
+      aside {
+        @media screen and (max-width: 650px) {
+          display: none;
+        }
+
+        width: $sidebar-width;
+      }
+
+      // .fixed-aside {
+      //   position: absolute;
+      //   width: ($sidebar-width / 100%) * $content-width;
+      // }
+    }
+
+    // Width of main content
+    width: $page-width;
   }
 
   @import "header/header.scss";
@@ -149,5 +149,4 @@ body {
 @import "pagination.scss";
 @import "form.scss";
 @import "lang.scss";
-@import "footer.scss";
 @import "upgrade-browser.scss";
