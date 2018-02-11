@@ -2,12 +2,13 @@ import LanguageLookupViewController from '~/controllers/LanguageLookupViewContro
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 import FormControllerDelegate from '~/delegate/FormControllerDelegate';
 import PopoverViewController from '~/controllers/PopoverViewController';
-import AceViewController from '~/controllers/AceViewController';
+import AceViewController, { AceThemeType } from '~/controllers/AceViewController';
 import FormConstraint from '~/controllers/Form/FormConstraint';
 import ViewController from '~/controllers/ViewController';
 import Template from '~/template/Template';
 import Language from '~/models/Language';
 import HexBytes from '~/modern/HexBytes';
+import Theme from '~/models/Theme';
 import Chain from '~/modern/Chain';
 import Auth from '~/models/Auth';
 
@@ -26,6 +27,8 @@ if (formController = ViewController.of(ANSWER_FORM)) {
     // Create code language
     let editor = new AceViewController(ANSWER_EDITOR);
     editor.shouldValidate = false;
+
+    editor.setThemeType(AceThemeType.fromTheme(Theme.current));
 
     // Create lanuage identification.
     let languageLookup = new LanguageLookupViewController(ANSWER_LANG);

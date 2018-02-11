@@ -1,18 +1,20 @@
-.index-root {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  height: 100%;
-  width: 100%;
-}
+$index-background-type: #000;
+$index-fg-type: #FFF;
 
 .index-list {
+  margin: 2rem;
+
+  padding: 1rem 2rem;
+  box-sizing: border-box;
+  background: rgba($index-fg-type, 0.96);
+
+  box-shadow: 0 0 12px rgba($index-background-type, 0.1);
+  border-radius: 8px;
+
   list-style: none;
-  margin: 0;
 
   max-width: 630px;
-  padding: 0 2em;
+  padding: 1rem 2em;
 
   li {
     display: flex;
@@ -22,6 +24,8 @@
     h4 {
       font-family: $light-font;
       font-weight: 300;
+
+      color: rgba($index-background-type, 0.9);
     }
 
     > i {
@@ -39,7 +43,7 @@
     }
 
     p {
-      color: $main-text;
+      color: rgba($index-background-type, 0.6);
       font-size: 15px;
       font-weight: 300;
       margin: 8px 0;

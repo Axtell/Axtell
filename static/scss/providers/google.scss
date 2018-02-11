@@ -9,16 +9,16 @@
   font-size: 1em;
   font-weight: 400;
 
-  color: #757575;
+  color: $label-text;
 
   border-radius: 4px;
-  border: 1px solid #DDD;
+  border: 1px solid rgba(127, 127, 127, 0.2);
 
   cursor: pointer;
 
   transition: 0.1s all ease-out;
   &:hover {
-    background: #EEE;
+    background: rgba(127, 127, 127, 0.2);
   }
 
   svg {

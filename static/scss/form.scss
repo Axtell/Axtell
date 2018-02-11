@@ -17,13 +17,10 @@
 }
 
 .group-stretch {
-  flex: 1 0 16em;
+  min-height: 16em;
+  flex: 1;
   display: flex;
   flex-direction: column;
-
-  .stretch-item {
-    flex: 1;
-  }
 }
 
 .form-errors {
