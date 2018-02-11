@@ -90,6 +90,9 @@ body {
       margin-left: $content-space;
       $sidebar-width: ($content-space / $content-width) * 100% + $sidebar-bonus;
 
+      // We don't want footer floating with background below.
+      min-height: 100%;
+
       aside {
         @media screen and (max-width: 650px) {
           display: none;
