@@ -65,9 +65,10 @@ def publish_post():
 
     title = request.form.get('post-title', '').encode('utf-8')
     body = request.form.get('post-body', '').encode('utf-8')
+    categories = request.form.getlist('post-categories')
 
     return post.create_post(
         title=title,
         body=body,
-        tags=[]
+        categories=categories
     )

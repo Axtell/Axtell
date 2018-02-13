@@ -8,12 +8,13 @@ import KeyManager from '~/models/KeyManager';
 export default class PopoverViewController extends ViewController {
     /**
      * Creates a popover view with a given trigger + target.
+     * @param {?HTMLElement} root The root element to bind to.
      * @param {HTMLElement} trigger binds `onclick` as a trigger to this node.
      * @param {Template} template will display this view on trigger.
      * @param {?HTMLElement} [untrigger=document] element to untrigger.
      */
-    constructor(trigger, template, untrigger = document) {
-        super();
+    constructor(root, trigger, template, untrigger = document) {
+        super(root);
 
         this._trigger = trigger;
         this._node = template.unique();

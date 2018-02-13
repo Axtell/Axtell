@@ -10,9 +10,7 @@ export default class AnswerViewController extends ViewController {
      * @param {number} answerId
      */
     constructor(answer, answerId) {
-        super();
-
-        answer.controller = this;
+        super(answer);
 
         this._body = answer;
         this._answerId = answerId;

@@ -1,5 +1,6 @@
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 import FormControllerDelegate from '~/delegate/FormControllerDelegate';
+import CategoryListViewController from '~/controllers/CategoryListViewController';
 import ViewController from '~/controllers/ViewController';
 import FormConstraint from '~/controllers/Form/FormConstraint';
 import * as Post from '~/models/Post';
@@ -7,8 +8,9 @@ import * as Post from '~/models/Post';
 export const PUBLISH_FORM = "post-form";
 export const PUBLISH_TYPE_CONTROLLER = "post-publish";
 export const PUBLISH_TYPE_FORM_ITEM = "publish-target";
+export const PUBLISH_CATEGORIES_CONTROLLER = document.getElementById("post-categories");
 
-let formController, publishTypeController;
+let formController, publishTypeController, categoryListViewController;
 
 if (formController = ViewController.of(PUBLISH_FORM)) {
 
@@ -17,6 +19,8 @@ if (formController = ViewController.of(PUBLISH_FORM)) {
     publishTypeController.didSetStateTo =
         ActionControllerDelegate.bindValue(PUBLISH_TYPE_FORM_ITEM);
     publishTypeController.setState('code-golf');
+
+    categoryListViewController = new CategoryListViewController(PUBLISH_CATEGORIES_CONTROLLER);
 
     formController.addConstraints([
         new FormConstraint('post-body')

@@ -8,6 +8,13 @@ export const RootNonexistent = Symbol('ViewController.Error.RootNonexistent');
  */
 export default class ViewController {
     /**
+     * @param {HTMLElement} root The element to which the controller is associated
+     */
+    constructor(root) {
+        if (root) root.controller = this;
+    }
+
+    /**
      * Returns a canolical VC of an element if it exists
      * @param  {string} id Element id (no check if the element does not exist).
      * @return {?ViewController}

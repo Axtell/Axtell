@@ -17,7 +17,7 @@
 }
 
 .group-stretch {
-  min-height: 16em;
+  min-height: 24rem;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -44,11 +44,16 @@
   }
 }
 
-input.text-input {
+input.text-input, [contenteditable].text-input, .text-base.text-input, .text-input {
   font-size: 1rem;
 
   &.-owned {
     border-bottom: none;
+  }
+
+  // For spaced item listings
+  &.-list {
+    padding: 4px 0;
   }
 
   // For URL inputs
@@ -74,6 +79,17 @@ input.text-input {
 
     padding-bottom: 4px;
     box-sizing: content-box;
+  }
+
+  &.-list-container {
+    height: 2rem;
+
+    display: flex;
+    align-items: center;
+
+    input {
+      flex: 1;
+    }
   }
 
   border-bottom: 2px solid $label-tag;
@@ -112,6 +128,40 @@ input.text-input {
 
 textarea.text-base {
   background: $code-block-bg;
+}
+
+// Styles all items in a textinput as a single item
+.input-list-item {
+  background: rgba($hover-mix, 0.3);
+  display: inline-block;
+
+  color: white;
+
+  padding: 4px 8px;
+  border-radius: 4px;
+
+  font-size: .8rem;
+  font-weight: 300;
+  vertical-align: middle;
+
+  color: #FFF;
+  fill: #FFF;
+
+  svg, img {
+    cursor: pointer;
+    margin-top: -1px;
+    margin-left: 4px;
+    padding: 2px;
+
+    border-radius: 50%;
+    height: 0.6rem;
+
+    vertical-align: middle;
+
+    background: rgba($hover-mix, 0.1);
+  }
+
+  margin-right: 4px;
 }
 
 @import "file.scss";
