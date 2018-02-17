@@ -24,7 +24,8 @@ def create_post(title, body, categories):
             # Category doesn't exist so error
             return abort(400)
 
-    new_post = Post(title=title, body=body, categories=categories)
+    # TODO: insert categories when models support
+    new_post = Post(title=title, body=body)
     g.user.posts.append(new_post)
 
     db.session.add(new_post)

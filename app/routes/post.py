@@ -2,7 +2,7 @@ from flask import request, redirect, url_for, g, abort
 
 import app.tasks.markdown as markdown
 from app.controllers import post, answer, vote
-from app.helpers.render import render_template
+from app.helpers.render import render_template, render_json
 from app.models.Leaderboard import Leaderboard
 from app.server import server
 
