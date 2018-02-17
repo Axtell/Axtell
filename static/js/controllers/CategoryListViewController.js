@@ -1,4 +1,5 @@
 import ViewController from '~/controllers/ViewController';
+import HexBytes from '~/modern/HexBytes';
 import Theme from '~/models/Theme';
 
 const CLOSE_ICON = () => (
@@ -8,14 +9,17 @@ const CLOSE_ICON = () => (
 );
 
 export default class CategoryListViewController extends ViewController {
-    constructor(element) {
+    constructor(element, label = null) {
         super(element);
 
         this._managedTags = new Map();
         this._managingStack = [];
 
+        this._id = `category-list-${HexBytes.ofDefault()}`;
+        label?.htmlFor = this._id;
+
         this._managingContext = element;
-        this._typingContext = <input class="text-base text-input -owned" autocapitalize="none" />
+        this._typingContext = <input id={this._id} class="text-base text-input -owned" autocapitalize="none" />
         this._inputContext = <div aria-hidden='true'></div>;
 
         this._managingContext.appendChild(this._typingContext);
@@ -39,7 +43,7 @@ export default class CategoryListViewController extends ViewController {
         }
 
         // Test if space or comma
-        if (/^[ ,;]$/.test(event.key)) {
+        if (/^[ ,;]$/.test(event.key) || event.key === "Enter") {
             let content = target.value.substring(0, target.selectionStart);
 
             // Get previous selection and shrink current

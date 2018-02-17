@@ -12,4 +12,5 @@ import '~/ui/user';
 import '~/ui/login';
 import '~/ui/write/post';
 import '~/ui/write/answer';
+import '~/ui/write/postPreview';
 import '~/ui/settings/profile';

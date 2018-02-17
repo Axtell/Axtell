@@ -82,10 +82,9 @@ input.text-input, [contenteditable].text-input, .text-base.text-input, .text-inp
   }
 
   &.-list-container {
-    height: 2rem;
-
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 
     input {
       flex: 1;
@@ -143,6 +142,7 @@ textarea.text-base {
   font-size: .8rem;
   font-weight: 300;
   vertical-align: middle;
+  white-space: nowrap;
 
   color: #FFF;
   fill: #FFF;
@@ -162,6 +162,24 @@ textarea.text-base {
   }
 
   margin-right: 4px;
+  margin-bottom: 4px;
+}
+
+// For live foreign previews
+#preview-wrap {
+  a {
+    text-transform: none;
+    color: $accent-color;
+    font-weight: 400;
+    padding-left: 4px;
+
+    &::before {
+      content: '\002014';
+      color: rgba($hover-mix, 0.2);
+      font-weight: 300;
+      margin-right: 4px;
+    }
+  }
 }
 
 @import "file.scss";

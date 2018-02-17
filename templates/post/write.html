@@ -15,14 +15,14 @@
         </div>
         <div class="item-wrap label-group">
             <label for="post-title">Title</label>
-            <input type="text" id="post-title" name="post-title" class="text-base text-input -title" placeholder="Post Title">
+            <input type="text" id="post-title" name="post-title" class="text-base text-input -title foreign-synchronize" placeholder="Post Title">
         </div>
         <div class="item-wrap label-group group-stretch">
-            <label for="post-body">Post Body</label>
-            <textarea name="post-body" id="post-body" class="markdown text-base stretch-item" placeholder="Write post here..."></textarea>
+            <label for="post-body">Post Body <span id="preview-wrap"></span></label>
+            <textarea name="post-body" id="post-body" class="markdown text-base stretch-item foreign-synchronize" placeholder="Write post here..."></textarea>
         </div>
         <div class="item-wrap label-group">
-            <label for="post-title">Categories</label>
+            <label id="category-label">Categories</label>
             <span id="post-categories" class="text-base text-input -list-container"></span>
         </div>
         <div class="item-wrap">

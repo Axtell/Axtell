@@ -18,6 +18,10 @@
     &.tight {
       flex: 0;
     }
+
+    span.dim {
+      color: rgba($hover-mix, 0.3);
+    }
   }
 
   > * {

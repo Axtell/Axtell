@@ -6,6 +6,8 @@ from app.helpers.render import render_template
 from app.models.Leaderboard import Leaderboard
 from app.server import server
 
+from re import match
+
 
 @server.route("/posts")
 def get_posts():
@@ -20,6 +22,16 @@ def get_posts():
         return abort(404)
 
     return render_template('posts.html', posts=posts)
+
+
+@server.route("/post/preview/<id>")
+def get_post_preview(id):
+    # Make sure valid preview ID.
+    # These numbers should be in-sync with JS
+    if not match('[0-9a-f]{32}:[0-9a-f]{16}', id):
+        return abort(404)
+
+    return render_template('post/preview.html', id=id)
 
 
 @server.route("/post/<int:post_id>")
