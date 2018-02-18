@@ -1,2 +1,14 @@
 @import "variables-dark.scss";
+
+$dark-bg-primary: #61559F;
+
+// Theme content
+$main-background: linear-gradient($dark-bg-primary, #BA9BC9);
+$footer-background: $dark-bg-primary;
+$bg-level-1: url(/static/img/mountains.svg);
+$bg-level-2: url(/static/img/stars.svg);
+$bg-level-3: url(/static/img/moon.svg) 80%/15% no-repeat, url(/static/img/stage.svg) center / cover;
+
+$splash-name-color: white;
+
 @import "main.scss";

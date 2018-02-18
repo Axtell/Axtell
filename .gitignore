@@ -129,3 +129,4 @@ nohup.out
 *.vsl
 
 *.prof
+.idea

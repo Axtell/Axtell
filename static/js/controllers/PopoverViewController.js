@@ -1,4 +1,5 @@
 import ViewController from '~/controllers/ViewController';
+import KeyManager from '~/models/KeyManager';
 
 /**
  * Controls a popover view. This has a trigger and a target. When the trigger is
@@ -25,6 +26,8 @@ export default class PopoverViewController extends ViewController {
         if (this._node.parentNode === null) {
             this._parent.appendChild(this._node);
         }
+
+        this._keyBinding = null;
 
         // Setup hide trigger
         untrigger?.addEventListener("click", (event) => {
@@ -78,6 +81,10 @@ export default class PopoverViewController extends ViewController {
         this._trigger.classList.add("state-active");
         this._node.classList.remove("template");
         this._node.focus();
+
+        this._keyBinding = KeyManager.shared.register('Escape', () => {
+            this.untrigger();
+        });
     }
 
     /**
@@ -87,5 +94,7 @@ export default class PopoverViewController extends ViewController {
         this._isActive = false;
         this._trigger.classList.remove("state-active");
         this._node.classList.add("template");
+        this._keyBinding?.();
+        this._keyBinding = null;
     }
 }

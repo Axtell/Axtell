@@ -1,20 +1,12 @@
 div#content {
-  height: 100%;
   flex: 1;
 
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 
-  .content {
-    padding: 2rem 0;
-    box-sizing: border-box;
-  }
-
   .main {
     box-sizing: border-box;
     padding: 1rem 1rem;
-
-    @import "page/post/posts.scss";
   }
 
   @import "error-page.scss";
