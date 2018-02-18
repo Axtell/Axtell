@@ -13,8 +13,7 @@ export default class MarkdownViewController extends ViewController {
      * @param {HTMLTextArea} element .markdown element which to setup.
      */
     constructor(element) {
-        super();
-        element.controller = this;
+        super(element);
 
         /** @private */
         this.elem = element;

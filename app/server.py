@@ -51,7 +51,7 @@ def css_bundle_style(type):
     bundle.config['SASS_STYLE'] = 'compressed'
     bundle.config['CLEANCSS_BIN'] = path.join(nodebin, 'cleancss')
     bundle.config['AUTOPREFIXER_BIN'] = path.join(nodebin, 'autoprefixer-cli')
-    bundle.config['AUTOPREFIXER_BROWSERS'] = ['IE >= 10', 'Safari >= 7', '> 1%']
+    bundle.config['AUTOPREFIXER_BROWSERS'] = ['Safari >= 8', '> 1%']
     assets.register(f'css_{type}_all', bundle)
 
 

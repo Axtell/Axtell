@@ -1,4 +1,5 @@
 import ViewController from '~/controllers/ViewController';
+import ForeignInteractor from '~/interactors/ForeignInteractor';
 import FormControllerDelegate from '~/delegate/FormControllerDelegate';
 
 import Request from '~/models/Request/Request';
@@ -40,6 +41,28 @@ export default class FormController extends ViewController {
                 event.preventDefault();
             }
         }, false);
+    }
+
+    /**
+     * Returns a foreign synchronization node
+     * @param {string} text Name of the syncronization node
+     * @param {number} [time=50] Minimum time before resyncronization
+     */
+    foreignSynchronize(text, time = 50) {
+        let interactor = new ForeignInteractor(`/post/preview`);
+        let interactionTargets = this._form.getElementsByClassName('foreign-synchronize');
+
+        for (let i = 0; i < interactionTargets.length; i++) {
+            let target = interactionTargets[i];
+            let name = target.name;
+
+            interactor.sendKey(name, "");
+            interactionTargets[i].addEventListener('input', () => {
+                interactor.queueKey(name, time, target.value);
+            });
+        }
+
+        return <a href={interactor.link} target="_blank">{text}</a>;
     }
 
     /**
