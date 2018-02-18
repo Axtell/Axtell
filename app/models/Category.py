@@ -6,7 +6,6 @@ class Category(db.Model):
     A category of a post.
     """
 
-    __searchable__ = ['name']
     __tablename__ = 'categories'
 
     name = db.Column(db.String(15), primary_key=True)

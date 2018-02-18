@@ -20,7 +20,7 @@ def create_post(title, body, categories):
         return abort(400)
 
     for category in categories:
-        if Category.query.filter_by(name=category).scalar() is None:
+        if not Category.query.filter_by(name=category).first():
             # Category doesn't exist so error
             return abort(400)
 
