@@ -1,5 +1,4 @@
 var MarkdownIt = require('markdown-it'),
-    KaTeX = require('katex'),
     mk = require('markdown-it-math-katex'),
     hljs = require('highlight.js'),
     footnote = require('markdown-it-footnote'),
