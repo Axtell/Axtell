@@ -1,6 +1,6 @@
 var MarkdownIt = require('markdown-it'),
     KaTeX = require('katex'),
-    tm = require('markdown-it-texmath').use(KaTeX),
+    mk = require('markdown-it-math-katex'),
     hljs = require('highlight.js'),
     footnote = require('markdown-it-footnote'),
     mila = require('markdown-it-link-attributes');
@@ -25,8 +25,9 @@ var md = new MarkdownIt({
 
         return '<pre class="hljs' + langExec + '"><code>' + md.utils.escapeHtml(string) + '</code></pre>';
     }
-}).use(tm, {
-    delimiters: 'dollars'
+}).use(mk, {
+    throwOnError: false,
+    errorColor: "#F00"
 }).use(mila, {
     attrs: {
         target: '_blank',

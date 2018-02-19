@@ -19,8 +19,7 @@
     "markdown-it": "^8.4.0",
     "markdown-it-footnote": "^3.0.1",
     "markdown-it-link-attributes": "^2.0.0",
-    "markdown-it-texmath": "^0.4.7",
-    "n": "^2.1.8",
+    "markdown-it-math-katex": "^2.0.3",
     "progress": "^2.0.0",
     "uglify-js": "^3.3.4"
   }
