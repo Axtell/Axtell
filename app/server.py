@@ -59,7 +59,7 @@ css_bundle_style('light')
 css_bundle_style('dark')
 
 # JS
-js = Bundle('js/main.js', filters=('browserify'), output='lib/main.js')
+js = Bundle('js/main.js', filters=('browserify', 'uglifyjs'), output='lib/main.js')
 
 uglify_args = ['-m', '--mange-props', 'regex=/^_.+$/', '-c']
 
