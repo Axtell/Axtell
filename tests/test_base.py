@@ -36,3 +36,6 @@ class TestFlask(TestCase):
         super().tearDown()
         self.session.rollback()
         self.ctx.pop()
+
+    def assert302(self, response, message=None):
+        return self.assertStatus(response.status_code, 302, message)
