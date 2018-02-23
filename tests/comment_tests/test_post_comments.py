@@ -53,8 +53,12 @@ class TestPostComments(TestFlask):
         short_result = self.client.post(f'/post/{self.post.id}/comment', data={"comment_text": "foo"})
         self.assert400(short_result)
 
+        self.session.begin_nested()
+
         long_result = self.client.post(f'/post/{self.post.id}/comment', data={"comment_text": "a"*141})
         self.assert400(long_result)
+
+        self.session.begin_nested()
 
         result = self.client.post(f'/post/{self.post.id}/comment', data={"comment_text": "foobarbazblargh"})
         self.assert302(result)
@@ -72,15 +76,21 @@ class TestPostComments(TestFlask):
         self.assert302(result)
         parent_comment = self.post.comments[0]
 
+        self.session.begin_nested()
+
         child_a_result = self.client.post(f'/post/{self.post.id}/comment', data={
             "comment_text": "this is a child comment", "parent_comment": parent_comment.id})
         self.assert302(child_a_result)
         child_comment_a = parent_comment.children[0]
 
+        self.session.begin_nested()
+
         child_b_result = self.client.post(f'/post/{self.post.id}/comment', data={
             "comment_text": "this is b child comment", "parent_comment": parent_comment.id})
         self.assert302(child_b_result)
         child_comment_b = parent_comment.children[1]
+
+        self.session.begin_nested()
 
         child_c_result = self.client.post(f'/post/{self.post.id}/comment', data={
             "comment_text": "this is c child comment", "parent_comment": child_comment_a.id})
