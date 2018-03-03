@@ -59,6 +59,7 @@ let answerView;
 // Create answer load box
 if (ANSWER_TRIGGER) {
     const answerBox = new PopoverViewController(
+        null,
         ANSWER_TRIGGER,
         Template.fromId(ANSWER_VIEW),
         ANSWER_CLOSE

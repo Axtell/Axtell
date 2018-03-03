@@ -16,8 +16,6 @@ import Leaderboard from "~/models/Request/Leaderboard";
 
 import ErrorManager from "~/helpers/ErrorManager";
 
-import markdown from '#/markdown-renderer';
-
 // Make global
 if (process.env.IS_DEBUG) {
     global.Normalize = Normalize;
@@ -31,7 +29,8 @@ if (process.env.IS_DEBUG) {
     global.Leaderboard = Leaderboard;
 
     global.KeyManager = KeyManager;
-    global.markdown = markdown;
+    global.ForeignChildInteractor = require('~/interactors/ForeignChildInteractor').default;
+    global.ForeignInteractor = require('~/interactors/ForeignInteractor').default;
 }
 
 global.ErrorManager = ErrorManager;
@@ -52,7 +51,7 @@ global.ErrorManager = ErrorManager;
             try {
                 require("~/ui");
             } catch(error) {
-                ErrorManager.unhandled(error);
+                ErrorManager.report(error);
             }
         }
     };

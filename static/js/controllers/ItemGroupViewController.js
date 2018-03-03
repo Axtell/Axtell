@@ -11,9 +11,8 @@ export const INVALID_ITEM_GROUP_STRUCTURE = Symbol('ItemGroup.Error.InvalidStruc
  */
 export default class ItemGroupViewController extends ViewController {
     constructor(rcgroup) {
-        super();
+        super(rcgroup);
 
-        rcgroup.controller = this;
         this._root = rcgroup;
 
         this._label = this._root.getElementsByTagName('label')[0];

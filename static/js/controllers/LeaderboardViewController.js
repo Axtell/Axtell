@@ -15,8 +15,7 @@ export default class LeaderboardViewController extends ViewController {
      * @param {Post} post Post which leaderboard represents.
      */
     constructor(element, post) {
-        super();
-        element.controller = this;
+        super(element);
 
         /** @private */
         this.elem = element;
