@@ -41,6 +41,20 @@ class User(db.Model):
         return '<User({!r}) "{!r}">'.format(self.id, self.name)
 
 
+class UserOAuthToken(db.Model):
+    """
+    Represents an OAuth login token based on an ID the OAuth provider can provide
+    which uniquely identifies the user, along with a unique id.
+    """
+
+    __tablename__ = 'user_oauth_token'
+
+    provider_id = db.Column(db.String(15), primary_key=True, nullable=False)
+    identity = db.Column(db.String(255), primary_key=True, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
+    user = db.relationship(User, backref=db.backref('oauth_tokens', lazy=True))
+
+
 class UserJWTToken(db.Model):
     """
     Represents an authentication scheme for a user based on a JWT-key style with
