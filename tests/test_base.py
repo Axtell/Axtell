@@ -24,9 +24,9 @@ class TestFlask(TestCase):
         self.session.begin_nested()
         
         self.session.begin_nested()
-        light_theme = Theme(name='light')
+        light_theme = Theme(id=0, name='light')
         self.session.add(light_theme)
-        dark_theme = Theme(name='dark')
+        dark_theme = Theme(id=1, name='dark')
         self.session.add(dark_theme)
         try:
             self.session.commit()
