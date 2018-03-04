@@ -33,7 +33,7 @@ def create_post_comment(post_id, parent_comment, comment_text):
         return abort(400)
 
     post = Post.query.filter_by(id=post_id).first()
-    new_comment = PostComment(post_id=post_id, parent=parent_comment, text=comment_text, user_id=g.user.id)
+    new_comment = PostComment(post_id=post_id, parent_id=parent_comment, text=comment_text, user_id=g.user.id)
     post.comments.append(new_comment)
     g.user.post_comments.append(new_comment)
 
@@ -52,7 +52,7 @@ def create_answer_comment(answer_id, parent_comment, comment_text):
 
     answer = Answer.query.filter_by(id=answer_id).first()
 
-    new_comment = AnswerComment(answer_id=answer_id, parent=parent_comment, text=comment_text, user_id=g.user.id)
+    new_comment = AnswerComment(answer_id=answer_id, parent_id=parent_comment, text=comment_text, user_id=g.user.id)
     answer.comments.append(new_comment)
     g.user.answer_comments.append(new_comment)
 
