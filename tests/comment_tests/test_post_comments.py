@@ -80,19 +80,12 @@ class TestPostComments(TestFlask):
         child_comment_a = parent_comment.children[0]
 
         self.session.begin_nested()
-        self.session.add(child_comment_a)
-        parent_comment.children.append(child_comment_a)
 
         child_b_result = self.client.post(f'/post/{self.post.id}/comment', data={
             "comment_text": "this is b child comment", "parent_comment": parent_comment.id})
         self.assert302(child_b_result)
-        child_comment_b = parent_comment.children[1]
 
         self.session.begin_nested()
-        self.session.add(child_comment_a)
-        self.session.add(child_comment_b)
-        parent_comment.children.append(child_comment_a)
-        parent_comment.children.append(child_comment_b)
 
         child_c_result = self.client.post(f'/post/{self.post.id}/comment', data={
             "comment_text": "this is c child comment", "parent_comment": child_comment_a.id})
