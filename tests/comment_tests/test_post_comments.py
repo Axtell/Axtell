@@ -112,4 +112,6 @@ class TestPostComments(TestFlask):
 
         self.session.commit()
 
-        self.assertSequenceEqual(parent.comment_tree(), [parent, [child_a, [child_c]], [child_b]])
+        comment_tree = parent.comment_tree()
+
+        self.assertSequenceEqual(comment_tree, [parent, [child_a, [child_c]], [child_b]])
