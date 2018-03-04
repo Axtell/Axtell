@@ -97,7 +97,7 @@ class TestPostComments(TestFlask):
         child_c_result = self.client.post(f'/post/{self.post.id}/comment', data={
             "comment_text": "this is c child comment", "parent_comment": child_comment_a.id})
         self.assert302(child_c_result)
-        child_comment_c = child_comment_a.children()[0]
+        child_comment_c = child_comment_a.children[0]
 
         self.session.add(child_comment_a)
         self.session.add(child_comment_b)
