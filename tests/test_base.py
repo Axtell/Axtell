@@ -6,6 +6,11 @@ from flask_testing import TestCase
 
 class TestFlask(TestCase):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.db = app.instances.db.db
+        self.db.create_all()
+
     def create_app(self):
         _app = app.start.server
         _app.config['TESTING'] = True
@@ -18,15 +23,12 @@ class TestFlask(TestCase):
         super().setUp()
         self.ctx = self.app.app_context()
         self.ctx.push()
-        self.db = app.instances.db.db
-        self.db.create_all()
         self.session = self.db.session
         self.session.begin_nested()
 
     def tearDown(self):
         super().tearDown()
         self.session.rollback()
-        self.db.drop_all()
         self.ctx.pop()
 
     def assert302(self, response, message=None):
