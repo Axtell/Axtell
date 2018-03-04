@@ -53,12 +53,8 @@ class TestPostComments(TestFlask):
         short_result = self.client.post(f'/post/{self.post.id}/comment', data={"comment_text": "foo"})
         self.assert400(short_result)
 
-        self.session.begin_nested()
-
         long_result = self.client.post(f'/post/{self.post.id}/comment', data={"comment_text": "a"*141})
         self.assert400(long_result)
-
-        self.session.begin_nested()
 
         result = self.client.post(f'/post/{self.post.id}/comment', data={"comment_text": "foobarbazblargh"})
         self.assert302(result)
