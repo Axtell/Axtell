@@ -32,4 +32,4 @@ class TestFlask(TestCase):
         self.ctx.pop()
 
     def assert302(self, response, message=None):
-        return self.assertStatus(response.status_code, 302, message)
+        return self.assertStatus(response, 302, message)
