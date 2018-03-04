@@ -20,9 +20,9 @@ def get_profile(user_id):
 @server.route("/users/<int:user_id>", defaults={"name": None})
 @server.route("/users/<int:user_id>/<name>")
 def get_user(user_id, name):
-    user = User.query.filter_by(id=user_id).first()
+    matched_user = User.query.filter_by(id=user_id).first()
 
-    if user is None:
+    if matched_user is None:
         return abort(404)
 
-    return render_template('user.html', user=user)
+    return render_template('user.html', user=matched_user)
