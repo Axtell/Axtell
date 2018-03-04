@@ -19,6 +19,7 @@ class TestFlask(TestCase):
         self.ctx = self.app.app_context()
         self.ctx.push()
         self.db = app.instances.db.db
+        self.db.create_all()
         self.session = self.db.session
         self.session.begin_nested()
         
@@ -35,6 +36,7 @@ class TestFlask(TestCase):
     def tearDown(self):
         super().tearDown()
         self.session.rollback()
+        self.db.drop_all()
         self.ctx.pop()
 
     def assert302(self, response, message=None):
