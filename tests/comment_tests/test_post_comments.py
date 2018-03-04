@@ -107,4 +107,6 @@ class TestPostComments(TestFlask):
         self.session.add(child_b)
         self.session.add(child_c)
 
+        self.session.commit()
+
         self.assertSequenceEqual(parent.comment_tree(), [parent, [child_a, [child_c]], [child_b]])
