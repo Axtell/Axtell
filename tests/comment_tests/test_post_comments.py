@@ -107,4 +107,4 @@ class TestPostComments(TestFlask):
         child_comment_a.children.append(child_comment_c)
 
         self.assertSequenceEqual(parent_comment.comment_tree(),
-                                 [parent_comment, [child_comment_a, [child_comment_c], child_comment_b]])
+                                 [parent_comment, [[child_comment_a, [child_comment_c]], child_comment_b]])
