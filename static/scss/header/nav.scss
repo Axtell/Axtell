@@ -17,10 +17,11 @@ nav {
       display: flex;
 
       &.selected a {
-        fill: $big-select;
-        color: $big-select;
+        fill: $header-selected-text;
+        color: $header-selected-text;
+        background: $header-selected-bg;
         padding-bottom: 0;
-        border-bottom: $nav-border-width solid $big-select;
+        border-bottom: $nav-border-width solid $header-selected-border;
       }
 
       a {
