@@ -1,7 +1,7 @@
-from flask import request, redirect, url_for, abort
+from flask import request, redirect, url_for, abort, g
 
 from app.controllers import auth
-from app.helpers.render import render_error
+from app.helpers.render import render_error, render_json
 from app.server import server
 from app.session.user_session import remove_session_user
 
@@ -22,7 +22,7 @@ def auth_login_jwt():
     if jwt_errors is not None:
         return jwt_errors
     else:
-        return render_json({'user_id': user.id})
+        return render_json({'user_id': g.user.id})
 
 
 @server.route("/auth/login/oauth")
