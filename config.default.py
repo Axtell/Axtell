@@ -53,6 +53,7 @@ posts = {
     'min_len': 30,
     'min_title': 15,
     'max_title': 60,
+    'max_tags': 5,
     'per_page': 10
 }
 
