@@ -16,7 +16,9 @@ export default class CategoryListViewController extends ViewController {
         this._managingStack = [];
 
         this._id = `category-list-${HexBytes.ofDefault()}`;
-        label?.htmlFor = this._id;
+        if (label) {
+            label.htmlFor = this._id;
+        }
 
         this._managingContext = element;
         this._typingContext = <input id={this._id} class="text-base text-input -owned" autocapitalize="none" />
