@@ -91,7 +91,7 @@ class TestPostComments(TestFlask):
             "comment_text": "this is c child comment", "parent_comment": child_comment_a.id})
         self.assert302(child_c_result)
 
-    def test_nested_comments_model(self):
+    def test_nested_post_comments_model(self):
         self.session.begin_nested()
 
         parent = PostComment(post_id=self.post.id, text="this is the parent comment", user_id=self.user.id)
