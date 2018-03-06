@@ -12,7 +12,7 @@ To get started make sure you have the following installed:
  - `bundle`
  - `node`/`npm`
  - Redis
- 
+
 and the plugins (may be missing certain see `requirements.txt` for all):
 
  - Ruby gems (`bundle install`)
@@ -24,15 +24,18 @@ additionally you need to know:
  - MySQL username + password
  - Redis password
 
-You can use `setup.sh` to try to automatically setup most things. You may need `sudo` for installing packages globally.
+You can use `setup.sh` to try to automatically setup most things. Run this with `sudo`.
 
 ### Setup
+The setup script automatically does most of this
 
  1. Copy `config.default.py` to `config.py`
  1. Replace `MYSQL_USERNAME` and `MYSQL_PASSWORD` with appropriate MySQL credentials
  1. Replace `REDIS_PASSWORD` with appropriate Redis credential
  1. Set `secret_skey` to some random string. It doesn't matter what it is as long as it is random.
  1. Run `mysql -u MYSQL_USERNAME -e "CREATE DATABASE ppcg;"`
+
+If you look within `config.py`, you need to fill in various API keys from google, StackExchange, etc.
 
 ### Run
 

@@ -11,6 +11,17 @@
                 {% include "svg/google.html" %}
                 <span>Sign In with Google</span>
             </div>
+
+            <a href="https://stackexchange.com/oauth?client_id={{
+                opts.oauth.get('se').get('client-id')
+            }}&scope=&state={{
+                macros.encode_state('se')
+            }}&redirect_uri={{
+                opts.canonical_host + url_for('auth_login_oauth')
+            }}" class="am-provider">
+                {% include "svg/stackexchange.html" %}
+                <span>Sign In with Stack Exchange</span>
+            </a>
         </div>
     </div>
 </div>
