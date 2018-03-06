@@ -58,7 +58,11 @@ def set_session_user(user, current_session=None):
         current_session = session
 
     user_id = user.id
-    user_theme = Theme.query.filter_by(id=user.theme).first().name
+    user_theme = Theme.query.filter_by(id=user.theme).first()
+    if user_theme is None:
+        user_theme = 'light'
+    else:
+        user_theme = user_theme.name
     session_id = str(uuid4())
     redis_skey = skey_prefix + session_id
 
