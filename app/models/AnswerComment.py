@@ -30,11 +30,13 @@ class AnswerComment(db.Model):
         return data
 
     def comment_tree(self, nest_depth=None):
+        if len(self.children) == 0:
+            return self
         if nest_depth is None:
-            return self, (child.comment_tree() for child in self.children)
+            return [self, [child.comment_tree() for child in self.children]]
         else:
             if nest_depth > 1:
-                return self, (child.comment_tree(nest_depth-1) for child in self.children)
+                return [self, [child.comment_tree(nest_depth-1) for child in self.children]]
 
     def __repr__(self):
         return '<AnswerComment(%r) by %r>' % (self.id, self.user.name)
