@@ -20,8 +20,13 @@ class TestUserPrefs(TestFlask):
 
         self.session.begin_nested()
 
-        light_theme = Theme.query.filter_by(name='light').first().id
-        self.user = User(name="Test User", email="test@example.com", theme=light_theme)
+        light_theme = Theme(name='light')
+        dark_theme = Theme(name='dark')
+
+        self.session.add(light_theme)
+        self.session.add(dark_theme)
+
+        self.user = User(name="Test User", email="test@example.com", theme=light_theme.id)
         self.session.add(self.user)
 
         self.session.commit()

@@ -8,8 +8,7 @@ class TestUserModel(TestFlask):
         super().setUp()
 
     def test_user_add(self):
-        light_theme = Theme.query.filter_by(name='light').first().id
-        new_user = User(name='Test User', email='test@user.com', theme=light_theme)
+        new_user = User(name='Test User', email='test@user.com')
 
         self.session.begin_nested()
         self.session.add(new_user)

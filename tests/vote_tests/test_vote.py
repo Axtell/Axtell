@@ -17,8 +17,7 @@ import app.routes.vote
 import app.routes.answer
 # noinspection PyUnresolvedReferences
 import app.routes.post
-#
-import logging
+
 
 class TestVote(TestFlask):
     def setUp(self):
