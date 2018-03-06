@@ -16,7 +16,7 @@ fi
 
 read -p "Install python packages (yn): " should_pip
 if [[ $should_pip = "y" ]]; then
-    pip install -r requirements.txt
+    pip3 install -r requirements.txt
 fi
 
 read -p "Setup MySQL (yn): " should_mysql
