@@ -1,7 +1,7 @@
 # PPCG-v2
 An improved user experience for competitive programming.
 
-[![Build Status](https://travis-ci.org/PPCG-v2/PPCG-v2.svg?branch=master)](https://travis-ci.org/PPCG-v2/PPCG-v2)
+[![Build Status](https://travis-ci.org/PPCG-v2/PPCG-v2.svg?branch=master)](https://travis-ci.org/PPCG-v2/PPCG-v2) [![codecov](https://codecov.io/gh/PPCG-v2/PPCG-v2/branch/master/graph/badge.svg)](https://codecov.io/gh/PPCG-v2/PPCG-v2)
 
 ## Setup
 ### Prereqs
