@@ -41,11 +41,12 @@ $dim-bg: #ECECEC;
 
 // Colors
 $theme-color: #09F;
+$logo-color: #FFF;
 $accent-color: $theme-color;
 
 // Seperators
 $content-border-color: #EEE;
-$subcontent-border-color: #EEE;
+$subcontent-border-color: rgba(0, 0, 0, 0.1);
 
 $pagination-seperator: #CCC;
 
@@ -53,12 +54,18 @@ $pagination-seperator: #CCC;
 $avatar-mini-color: #EEE;
 
 // Header colors
-$header: #FFF;
-$header-border: #DDD;
+$header: #26BAD5;
+$header-border: null;
 $header-shadow-color: #EEE;
+$header-em-text: rgba(255, 255, 255, 0.8);
 
 $big-select: $theme-color;
-$big-fg: #555;
-$big-bg: #F6F6F6;
+$big-fg: rgba(255, 255, 255, 0.8);
+$big-bg: rgba(0, 0, 0, 0.1);
 
 $close-button: #AAA;
+
+// Header
+$header-selected-bg: rgba(#FFF, 0.1);
+$header-selected-border: rgba(255, 255, 255, 0.3);
+$header-selected-text: #FFF;

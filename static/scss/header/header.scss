@@ -1,6 +1,8 @@
 #header {
   background: $header;
-  border-bottom: 1px solid $header-border;
+  @if($header-border) {
+    border-bottom: 1px solid $header-border;
+  }
 
   z-index: 1;
 
@@ -185,7 +187,7 @@
     }
 
     h1 {
-      color: $theme-color;
+      color: $logo-color;
       font-size: 1.5em;
       padding: 0.6em;
       white-space: nowrap
