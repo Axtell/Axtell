@@ -48,7 +48,7 @@ class TestAnswerComments(TestFlask):
 
         self.assertEqual(test_comment.user.id, self.user.id)
         self.assertEqual(test_comment.text, "foobar")
-        self.assertEqual(test_comment.post_id, self.post.id)
+        self.assertEqual(test_comment.answer_id, self.answer.id)
         self.assertEqual(len(self.answer.comments)-current_answer_comment_count, 1)
         self.assertEqual(len(self.user.answer_comments)-current_user_comment_count, 1)
 
