@@ -1,0 +1,19 @@
+{% extends "layouts/split.html" %}
+{% from "includes/userbox.html" import userbox %}
+
+{% block title %}Loading Preview{% endblock %}
+{% block main -%}
+<div id="post">
+    <div class="list-header">
+        <h1><a id="post-title"></a></h1>
+    </div>
+    <div class="post-split main">
+        <div id="post-body" class="split-main body"></div>
+    </div>
+</div>
+{%- endblock %}
+
+{% block body %}
+<script>var {{ data_id }}previewId='{{ id }}';</script>
+{{ super() }}
+{% endblock %}

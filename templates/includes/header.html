@@ -9,7 +9,7 @@
         <div class="section expand"></div>
         {% if g.user is not none -%}
             {% if not request.path.startswith(url_for('write_post')) %}
-                <div class="section r-tight">
+                <div class="section r-collapse r-tight">
                     <div class="button-section">
                         <a class="button accent" href="{{ url_for('write_post') }}">
                             {% include "svg/plus.html" %}

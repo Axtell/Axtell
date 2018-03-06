@@ -17,13 +17,10 @@
 }
 
 .group-stretch {
-  flex: 1 0 16em;
+  min-height: 24rem;
+  flex: 1;
   display: flex;
   flex-direction: column;
-
-  .stretch-item {
-    flex: 1;
-  }
 }
 
 .form-errors {
@@ -47,11 +44,16 @@
   }
 }
 
-input.text-input {
+input.text-input, [contenteditable].text-input, .text-base.text-input, .text-input {
   font-size: 1rem;
 
   &.-owned {
     border-bottom: none;
+  }
+
+  // For spaced item listings
+  &.-list {
+    padding: 4px 0;
   }
 
   // For URL inputs
@@ -77,6 +79,16 @@ input.text-input {
 
     padding-bottom: 4px;
     box-sizing: content-box;
+  }
+
+  &.-list-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    input {
+      flex: 1;
+    }
   }
 
   border-bottom: 2px solid $label-tag;
@@ -115,6 +127,59 @@ input.text-input {
 
 textarea.text-base {
   background: $code-block-bg;
+}
+
+// Styles all items in a textinput as a single item
+.input-list-item {
+  background: rgba($hover-mix, 0.3);
+  display: inline-block;
+
+  color: white;
+
+  padding: 4px 8px;
+  border-radius: 4px;
+
+  font-size: .8rem;
+  font-weight: 300;
+  vertical-align: middle;
+  white-space: nowrap;
+
+  color: #FFF;
+  fill: #FFF;
+
+  svg, img {
+    cursor: pointer;
+    margin-top: -1px;
+    margin-left: 4px;
+    padding: 2px;
+
+    border-radius: 50%;
+    height: 0.6rem;
+
+    vertical-align: middle;
+
+    background: rgba($hover-mix, 0.1);
+  }
+
+  margin-right: 4px;
+  margin-bottom: 4px;
+}
+
+// For live foreign previews
+#preview-wrap {
+  a {
+    text-transform: none;
+    color: $accent-color;
+    font-weight: 400;
+    padding-left: 4px;
+
+    &::before {
+      content: '\002014';
+      color: rgba($hover-mix, 0.2);
+      font-weight: 300;
+      margin-right: 4px;
+    }
+  }
 }
 
 @import "file.scss";

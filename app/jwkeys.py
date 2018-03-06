@@ -7,6 +7,8 @@ jwk_sets = [
     'https://www.googleapis.com/oauth2/v3/certs'
 ]
 
-for keyurl in jwk_sets:
-    with urlopen(keyurl) as key:
-        jwkeys.import_keyset(key.read().decode())
+
+def load_keys():
+    for keyurl in jwk_sets:
+        with urlopen(keyurl) as key:
+            jwkeys.import_keyset(key.read().decode())

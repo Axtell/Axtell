@@ -49,9 +49,7 @@ export default class SelectDialogViewController extends PopoverViewController {
             node.getElementsByClassName("drop")[0]
         );
 
-        super(trigger, view);
-
-        node.controller = this;
+        super(node, trigger, view);
 
         this._activeValue = node.getElementsByTagName("a")[0];
         this._opts = node.getElementsByClassName("opt");

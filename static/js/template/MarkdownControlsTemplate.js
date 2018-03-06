@@ -1,5 +1,6 @@
 import Template, { TemplateType } from '~/template/Template';
 import LanguageTemplate from '~/template/LanguageTemplate';
+import KeyManager from '~/models/KeyManager';
 
 /**
  * Template for a markdown control list. Default with no actions.
@@ -23,17 +24,10 @@ export default class MarkdownControlsTemplate extends Template {
 
         this._keyTriggers = new Map();
 
-        this.addControls(controls);
-        this._source.addEventListener("keydown", (event) => {
-            if ((event.ctrlKey || event.metaKey) && this._keyTriggers.has(event.key)) {
-                this._keyTriggers.get(event.key).trigger();
+        /** @private */
+        this.keyManager = new KeyManager(this._source);
 
-                event.preventDefault();
-                return false;
-            } else {
-                return true;
-            }
-        });
+        this.addControls(controls);
     }
 
     /**
@@ -51,7 +45,7 @@ export default class MarkdownControlsTemplate extends Template {
      */
     addControl(control) {
         if (control._keyName !== null) {
-            this._keyTriggers.set(control._keyName, control);
+            this.keyManager.registerMeta(control._keyName, () => control.trigger());
         }
 
         control.setControllingTemplate(this);

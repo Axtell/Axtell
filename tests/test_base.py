@@ -1,5 +1,7 @@
 import app.start
 import app.instances.db
+import app.instances.celery
+import app.tasks.update
 from app.models.Theme import Theme
 from flask_testing import TestCase
 

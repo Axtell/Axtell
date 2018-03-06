@@ -4,6 +4,7 @@ from flask import session
 
 from app.instances.db import redis_db
 from app.models.User import User
+from app.models.Theme import Theme
 
 userid_skey = 'uid'
 skey_prefix = 'sid:'
@@ -37,7 +38,7 @@ def get_session_user(current_session=None):
             redis_db.delete(redis_key)
             return
 
-        # Now that we have the user we'll est it
+        # Now that we have the user we'll set it
         return matched_user
 
 
@@ -57,6 +58,7 @@ def set_session_user(user, current_session=None):
         current_session = session
 
     user_id = user.id
+    user_theme = Theme.query.filter_by(id=user.theme).first().name
     session_id = str(uuid4())
     redis_skey = skey_prefix + session_id
 
@@ -66,6 +68,7 @@ def set_session_user(user, current_session=None):
 
     # Set on session
     current_session[userid_skey] = session_id
+    current_session['theme'] = user_theme
 
 
 def remove_session_user(current_session=None):

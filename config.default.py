@@ -36,6 +36,14 @@ auth = {
     }
 }
 
+oauth = {
+    'se': {
+        'client-id': 'SE_CLIENT_ID',
+        'client-secret': 'SE_CLIENT_SECRET',
+        'key': 'SE_KEY'
+    }
+}
+
 pagination = {
     'links': 2
 }

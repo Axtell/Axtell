@@ -129,3 +129,5 @@ nohup.out
 *.vsl
 
 *.prof
+.idea
+ppcg-v2.log.*

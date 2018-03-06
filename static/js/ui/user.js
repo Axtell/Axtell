@@ -8,9 +8,12 @@ import Auth from '~/models/Auth';
 
     if (await auth.isAuthorized) {
         const userInfo = new PopoverViewController(
+        	null,
             document.getElementById("useroverview-target"),
             Template.fromId("useroverview-info")
         );
+
+        userInfo.bindUntrigger('useropts-close');
     }
 
 })();

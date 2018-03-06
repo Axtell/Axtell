@@ -1,4 +1,9 @@
-<ul>
+<a id="useropts-close">
+    {% include "svg/close.html" %}
+    <span>close</span>
+</a>
+
+<ul class="action-list">
     <li class="action -green">
         <a class="action-root action-rel" href="{{ url_for('get_user', user_id=g.user.id, name=g.user.name) }}">
             {% include "svg/user.html" %}

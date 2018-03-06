@@ -32,8 +32,7 @@ export default class StickyViewController extends ViewController {
      * @param {ScrollProperty} [prop=margin] - Property to use to offset scroll.
      */
     constructor(elem, scrollContainer, prop = ScrollProperty.margin) {
-        super();
-        elem.controller = this;
+        super(elem);
 
         this._elem = elem;
 

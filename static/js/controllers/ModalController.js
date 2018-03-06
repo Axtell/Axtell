@@ -1,4 +1,5 @@
 import ViewController from '~/controllers/ViewController';
+import KeyManager from '~/models/KeyManager';
 
 const ACTIVE_KEY = "md-active";
 
@@ -16,6 +17,8 @@ export default class ModalController extends ViewController {
         this._body = null;
         this._title = null;
         this._presenting = null;
+
+        this._removeKeyHandler = null;
     }
 
     /**
@@ -40,6 +43,10 @@ export default class ModalController extends ViewController {
     }
 
     _setPresentee(modal) {
+        this._removeKeyHandler = KeyManager.shared.register('Escape', () => {
+            this._clearPresentee();
+        });
+
         this._context.classList.add(ACTIVE_KEY);
 
         let body = modal.unique();
@@ -55,6 +62,9 @@ export default class ModalController extends ViewController {
     }
 
     _clearPresentee(event) {
+        this._removeKeyHandler?.();
+        this._removeKeyHandler = null;
+
         if (this._presenting === null) return;
         if (event && !event.target.classList.contains('md-dismiss')) return;
 

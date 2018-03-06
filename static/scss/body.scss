@@ -45,8 +45,6 @@ a {
 }
 
 blockquote {
-
-
   margin: 0;
   padding: .7rem 2rem;
   padding-right: 0;
@@ -55,12 +53,14 @@ blockquote {
   border-left: 8px solid $blockquote-marker;
   border-radius: 3px;
 
+  color: rgba($blockquote-fg, 0.7);
+
   p {
     font-size: 1.3rem;
     font-family: $quote-font;
     font-style: italic;
 
-    color: rgba($blockquote-fg, 0.7);
+    color: inherit;
 
     &:last-child { margin-bottom: 0; }
   }
@@ -78,6 +78,12 @@ li, p {
   // Default margin results in no extra space.
   // This adds a margin-top if there is an element after katex
   margin-top: 1em;
+
+  // Slightly bigger (as display)
+  font-size: 17px;
+
+  // Makes KaTeX correct color
+  color: inherit;
 }
 
 table {
@@ -115,4 +121,28 @@ table {
     border-top: 1px solid $subcontent-border-color;
   }
 
+}
+
+#content-dim {
+  text-align: center;
+
+  svg {
+    max-width: 8rem;
+    display: block;
+    margin: 0 auto;
+    fill: rgba($hover-mix, 0.4);
+  }
+
+  h3 {
+    color: rgba($hover-mix, 0.6);
+    font-weight: 900;
+    font-family: $bold-font;
+    font-size: 1.8rem;
+  }
+
+  span {
+    color: rgba($hover-mix, 0.4);
+    font-family: Roboto;
+    font-size: 1rem;
+  }
 }

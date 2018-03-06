@@ -6,6 +6,7 @@ from flask_assets import Environment, Bundle
 from webassets.filter import register_filter
 from webassets_browserify import Browserify
 from werkzeug.contrib.profiler import ProfilerMiddleware
+import app.tasks.update as update
 
 import config
 
@@ -24,13 +25,18 @@ if server.debug and config.profile:
 
 register_filter(Browserify)
 
+update.jwt_update.delay().wait()
+
+
 @server.before_request
 def before_request():
     g.request_start_time = time()
 
+
 # Flask Assets
 assets = Environment(server)
 nodebin = path.join(getcwd(), 'node_modules', '.bin')
+
 
 # CSS
 def css_bundle_style(type):
@@ -45,7 +51,7 @@ def css_bundle_style(type):
     bundle.config['SASS_STYLE'] = 'compressed'
     bundle.config['CLEANCSS_BIN'] = path.join(nodebin, 'cleancss')
     bundle.config['AUTOPREFIXER_BIN'] = path.join(nodebin, 'autoprefixer-cli')
-    bundle.config['AUTOPREFIXER_BROWSERS'] = ['IE >= 10', 'Safari >= 7', '> 1%']
+    bundle.config['AUTOPREFIXER_BROWSERS'] = ['Safari >= 8', '> 1%']
     assets.register(f'css_{type}_all', bundle)
 
 
@@ -53,7 +59,7 @@ css_bundle_style('light')
 css_bundle_style('dark')
 
 # JS
-js = Bundle('js/main.js', filters=('browserify'), output='lib/main.js')
+js = Bundle('js/main.js', filters=('browserify', 'uglifyjs'), output='lib/main.js')
 
 uglify_args = ['-m', '--mange-props', 'regex=/^_.+$/', '-c']
 
@@ -70,6 +76,7 @@ js_envs = {
     'POST_BODY_MAX': str(config.posts['max_len']),
     'MIN_USERNAME_LENGTH': str(config.users['min_name_len']),
     'MAX_USERNAME_LENGTH': str(config.users['max_name_len']),
+    'IS_DEBUG': 'true' if server.debug else ''
 }
 
 js.config['BROWSERIFY_BIN'] = path.join(nodebin, 'browserify')
