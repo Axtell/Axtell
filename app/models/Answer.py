@@ -55,6 +55,8 @@ class Answer(db.Model):
 
         data['owner'] = self.user.to_json()
 
+        data['date_created'] = self.date_created.isoformat()
+
         return data
 
     def get_language(self):
