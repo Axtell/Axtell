@@ -24,7 +24,8 @@ class Post(db.Model):
         return {
             'title': self.title,
             'body': self.body,
-            'owner': self.user.to_json()
+            'owner': self.user.to_json(),
+            'date_created': self.date_created.isoformat()
         }
 
     def __repr__(self):
