@@ -30,6 +30,17 @@ export default class Data {
     }
 
     /**
+     * Gets base64 json for key
+     * @param {string} key - Key name
+     * @return {?Object}
+     */
+    encodedJSONForKey(key) {
+        const value = this.valueForKey(key);
+        if (value === null) return null;
+        else return JSON.parse(atob(value));
+    }
+
+    /**
      * Get value for key
      * @param {string} key - Key name
      * @return {?string}

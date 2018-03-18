@@ -1,8 +1,8 @@
-import MarkdownControl from '~/template/MarkdownControl';
+import { MarkdownControlBuilder } from '~/template/MarkdownControl';
 
 const BoldMarker = '**';
 
-export default new MarkdownControl(
+export default MarkdownControlBuilder(
     'Bold',
     'b',
     'bold',

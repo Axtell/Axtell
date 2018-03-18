@@ -98,6 +98,7 @@ input.text-input, [contenteditable].text-input, .text-base.text-input, .text-inp
   }
 }
 
+// Root styles for all user text inputs
 .text-base {
   background: $editor-bg;
   color: $editor-fg;

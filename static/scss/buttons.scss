@@ -7,7 +7,7 @@
       fill: $fg;
     }
 
-    border-bottom: 1px solid darken($bg, 10%);
+    border-bottom: 1px solid darken($bg, 5%);
 
     &, path {
       transition: 0.25s all ease-out;
@@ -25,9 +25,11 @@
 
 .button {
   padding: 0.5em 1.5em;
-  border-radius: 8px;
+  border-radius: 6px;
   box-sizing: border-box;
   white-space: nowrap;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), 0px -2px 4px rgba(210, 210, 210, 0.2);
 
   margin: 0;
 

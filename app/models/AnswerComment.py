@@ -1,5 +1,6 @@
 from app.instances.db import db
 import datetime
+from time import mktime
 
 
 class AnswerComment(db.Model):
@@ -20,11 +21,12 @@ class AnswerComment(db.Model):
 
     def to_json(self):
         data = {
+            'id': self.id,
             'text': self.text,
             'date': self.date_created.isoformat(),
             'owner': self.user.to_json(),
-            'parent': self.parent,
-            'children': self.children
+            'parent': self.parent and self.parent.to_json(),
+            'children': [child.to_json() for child in self.children]
         }
 
         return data

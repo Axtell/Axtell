@@ -70,7 +70,7 @@ export default class ImageUploadModalTemplate extends ModalTemplate {
         });
 
         this._setLoading();
-        this._insertWithURL(await request.get());
+        this._insertWithURL(await request.send());
     }
 
     async _uploadFile(event) {
@@ -79,7 +79,7 @@ export default class ImageUploadModalTemplate extends ModalTemplate {
         });
 
         this._setLoading();
-        this._insertWithURL(await request.get());
+        this._insertWithURL(await request.send());
     }
 
     _setLoading() {

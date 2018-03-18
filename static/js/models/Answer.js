@@ -12,14 +12,16 @@ export default class Answer {
     /**
      * Creates an answer from an answer config object
      * @param {Object} answer
+     * @param {number} answer.id
      * @param {?string} answer.code
-     * @param {string} answer.encoding
+     * @param {?string} answer.encoding
      * @param {?string} answer.commentary
      * @param {?number} answer.length
      * @param {?Language} answer.language
      * @param {User} answer.user
      */
-    constructor({ code, encoding, length, language, commentary, user }) {
+    constructor({ id, code, encoding, length, language, commentary, user }) {
+        this._id = id;
         this._code = code;
         this._encoding = encoding;
         this._commentary = commentary;
@@ -27,6 +29,11 @@ export default class Answer {
         this._language = language;
         this._user = user;
     }
+
+    /**
+     * @type {number}
+     */
+    get id() { return this._id }
 
     /**
      * Language of ans
@@ -63,19 +70,21 @@ export default class Answer {
     static fromJSON(json) {
         // Unwrap all json parameters
         const {
+            id,
             code = null,
-            encoding,
+            encoding = "utf8",
             commentary = "",
             lang: language,
             byte_len: length,
             owner
         } = json;
 
-        if (!encoding || !owner) {
+        if (!owner) {
             ErrorManager.raise(`Incomplete Answer JSON`, INVALID_JSON);
         }
 
         return new Answer({
+            id,
             code,
             encoding,
             commentary,

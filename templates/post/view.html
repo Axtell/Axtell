@@ -1,6 +1,7 @@
 {% extends "layouts/split.html" %}
 {% from "includes/userbox.html" import userbox %}
 {% from "includes/voting.html" import votebutton %}
+{% from "includes/comment.html" import commentList %}
 
 {% block head -%}
 {{ super() }}
@@ -55,6 +56,7 @@
     <ul class="response-list">
         {% for answer in answers.items %}
             <li id="answer-{{answer.id|e}}" class="answer" data-id="{{ answer.id|e }}">
+                {{ data('a' + answer.id|string, macros.json_to_b64(answer.to_json(no_code=True))) }}
                 <div class="header">
                     <img src="{{ answer.get_language().get_logo_url() }}">
                     <h4>{{ answer.get_language().get_display_name() }}</h4>
@@ -72,6 +74,7 @@
                     {{ votebutton("Downvote", is_active=vote_status['vote'] == -1, vote_count=vote_status['breakdown']['downvote'], type_id='downvote') }}
                 </div>
                 {{ userbox(answer.user, answer.date_created, small=true, htight=true, vtight=true) }}
+                {{ commentList(answer_comments[loop.index - 1]) }}
             </li>
         {% endfor %}
     </ul>

@@ -26,7 +26,8 @@
 
   .name {
     font-size: 1rem;
-    color: $label-text;
+    color: $em-text;
+    font-weight: 600;
     white-space: nowrap;
 
     // Ellipsis for overflowing name (prevents scroll)

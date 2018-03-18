@@ -1,4 +1,4 @@
-import Template from '~/template/Template';
+import Template, { TemplateType } from '~/template/Template';
 import HexBytes from '~/modern/HexBytes';
 import Theme from '~/models/Theme';
 
@@ -45,5 +45,13 @@ export default class MarkdownControl extends Template {
      */
     setControllingTemplate(template) {
         this._controller = template;
+    }
+}
+
+export function MarkdownControlBuilder(name, key, iconName, callback) {
+    return class extends MarkdownControl {
+        constructor() {
+            super(name, key, iconName, callback);
+        }
     }
 }
