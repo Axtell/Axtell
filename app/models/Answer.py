@@ -45,6 +45,7 @@ class Answer(db.Model):
             data['code'] = self.code
             data['commentary'] = self.commentary
 
+        data['id'] = self.id
         data['encoding'] = self.encoding
         data['byte_len'] = self.byte_len
 

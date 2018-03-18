@@ -58,8 +58,13 @@ def css_bundle_style(type):
 css_bundle_style('light')
 css_bundle_style('dark')
 
+if server.debug:
+    js_filters = ('browserify')
+else:
+    js_filters = ('browserify', 'uglifyjs')
+
 # JS
-js = Bundle('js/main.js', filters=('browserify', 'uglifyjs'), output='lib/main.js')
+js = Bundle('js/main.js', filters=js_filters, output='lib/main.js')
 
 uglify_args = ['-m', '--mange-props', 'regex=/^_.+$/', '-c']
 

@@ -1,8 +1,8 @@
-import MarkdownControl from '~/template/MarkdownControl';
+import { MarkdownControlBuilder } from '~/template/MarkdownControl';
 
 const ItalicMarker = '_';
 
-export default new MarkdownControl(
+export default MarkdownControlBuilder(
     'Italic',
     'i',
     'italic',

@@ -1,0 +1,34 @@
+{% macro comment(item) %}
+    <li class="comment-item comment-user-split comment" href="javascript:alert('viewing coment is not yet suport')">
+        <div class="user">
+            <img class="avatar" src="{{ item[2].user.avatar_url() }}"/>
+        </div>
+        <div class="comment-content">
+            <div class="comment-header">
+                <span class="name">{{ item[2].user.name }}</span>
+            </div>
+            <div class="body">
+                {{ item[0]|safe }}
+            </div>
+            <div>
+                {{ commentListBody(item[1]) }}
+            </div>
+        </div>
+    </li>
+{% endmacro %}
+
+{% macro commentListBody(comment_list) %}
+    {% for comment_item in comment_list %}
+        {{ comment(comment_item) }}
+    {% endfor %}
+{% endmacro %}
+
+{% macro commentList(comment_list) -%}
+<ul class="comment-list">
+    {{ commentListBody(comment_list) }}
+    <li class="comment-item comment-write-init">
+        {% include "svg/pen.html" %}
+        Write Comment
+    </li>
+</ul>
+{%- endmacro %}

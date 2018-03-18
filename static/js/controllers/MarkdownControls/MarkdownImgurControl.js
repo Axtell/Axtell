@@ -1,8 +1,8 @@
-import MarkdownControl from '~/template/MarkdownControl';
+import { MarkdownControlBuilder } from '~/template/MarkdownControl';
 import ModalController from '~/controllers/ModalController';
 import ImageUploadModalTemplate from '~/template/ImageUploadModalTemplate';
 
-export default new MarkdownControl(
+export default MarkdownControlBuilder(
     'Upload Image',
     'g',
     'picture',

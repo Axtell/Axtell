@@ -1,8 +1,9 @@
 from flask import request, redirect, url_for, g, abort
 
 import app.tasks.markdown as markdown
-from app.controllers import post, answer, vote
+from app.controllers import post, answer as answer_controller, vote
 from app.helpers.render import render_template, render_json
+from app.helpers.comments import get_rendered_comments
 from app.models.Leaderboard import Leaderboard
 from app.server import server
 
@@ -53,13 +54,18 @@ def get_post(post_id):
     except ValueError:
         return abort(400)
 
-    answers = answer.get_answers(post_id=post_id, page=page)
+    answers = answer_controller.get_answers(post_id=post_id, page=page)
     leaderboard = Leaderboard(post_id=post_id)
+
+    # Get respective comments
+    answer_comments = []
+    for answer in answers.items:
+        answer_comments.append(get_rendered_comments(max_depth=2, answer_id=answer.id))
 
     return \
         render_template('post/view.html', post_id=post_id, post=matched_post,
                         post_body=body, answers=answers, leaderboard=leaderboard,
-                        vote=vote)
+                        vote=vote, answer_comments=answer_comments)
 
 
 @server.route("/post/write")

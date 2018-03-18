@@ -30,7 +30,7 @@ export default class Request {
      * @return {Promise} resolves to format of object. See return type of
      * {@link Request#format}
      */
-    async get() {
+    async send() {
         let response = await axios.request({
             method: this._method,
             url: this._path,
@@ -48,6 +48,8 @@ export default class Request {
      *                                  mininmum info is providing path.
      * @param {string} requestData.path - Path of request
      * @param {string} requestData.auth - Authorization header
+     * @param {any} requestData.data - Any data to send as part of request.
+     * @param {Object} requestData.formData Automatically converted to form data.
      * @param {?string} requestData.contentType - Content type header
      * @param {?Object} requestData.headers - Additional request headers.
      * @param {HTTPMethod} [requestData.method=get] - Method request type
@@ -56,6 +58,7 @@ export default class Request {
         path,
         auth,
         data,
+        formData,
         contentType,
         headers = {},
         method = Request.Method.get
@@ -63,7 +66,17 @@ export default class Request {
         this._path = path;
         this._method = method;
 
-        this._data = data;
+        if (formData) {
+            let formDataInstance = new FormData();
+            for (const [key, value] of Object.entries(formData)) {
+                if (value !== null) {
+                    formDataInstance.append(key, value);
+                }
+            }
+            this._data = formDataInstance;
+        } else {
+            this._data = data;
+        }
 
         this._headers = {
             ...headers,

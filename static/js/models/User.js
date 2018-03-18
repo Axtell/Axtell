@@ -10,13 +10,20 @@ export const INVALID_JSON = Symbol('User.Error.InvalidJSON');
 export default class User {
     /**
      * Creates an instance of a user locally.
-     * @param  {number} id   Integer uniquely id'ing user.
-     * @param  {string} name user display name
+     * @param {number} id   Integer uniquely id'ing user.
+     * @param {string} name user display name
+     * @param {Object} options other options
+     * @param {?string} options.avatar avatar URL
      */
-    constructor(id, name) {
+    constructor(id, name, { avatar = null } = {}) {
         this._id = id;
         this._name = name;
+
+        this._avatar = avatar;
     }
+
+    /** @type {number} */
+    get id() { return this._id; }
 
     /**
      * @type {string}
@@ -24,6 +31,9 @@ export default class User {
     get name() {
         return this._name;
     }
+
+    /** @type {string} */
+    get avatar() { return this._avatar; }
 
     /**
      * Unwraps a user from an API JSON object.
@@ -38,7 +48,10 @@ export default class User {
 
         return new User(
             json.id,
-            json.name
+            json.name,
+            {
+                avatar: json.avatar
+            }
         );
     }
 

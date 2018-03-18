@@ -55,7 +55,7 @@ export default class LeaderboardViewController extends ViewController {
     async showMore() {
         let leaderboard = await new Leaderboard({
             postId: this.post.id
-        }).get();
+        }).send();
 
         // Remove already existing ones
         leaderboard.splice(0, this.atIndex);
