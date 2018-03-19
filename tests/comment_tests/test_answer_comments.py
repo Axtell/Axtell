@@ -62,7 +62,7 @@ class TestAnswerComments(TestFlask):
         self.assert400(long_result)
 
         result = self.client.post(f'/answer/{self.answer.id}/comment', data={"comment_text": "foobarbazblargh"})
-        self.assert302(result)
+        self.assert200(result)
 
         comment_id = self.answer.comments[0].id
         comment_result = self.client.get(f"/answer/{self.answer.id}/comments/{comment_id}")
@@ -75,7 +75,7 @@ class TestAnswerComments(TestFlask):
 
         result = self.client.post(f'/answer/{self.answer.id}/comment',
                                   data={"comment_text": "this is the parent comment"})
-        self.assert302(result)
+        self.assert200(result)
         parent_comment = self.answer.comments[0]
 
         self.session.begin_nested()
@@ -85,7 +85,7 @@ class TestAnswerComments(TestFlask):
                                               "comment_text": "this is a child comment",
                                               "parent_comment": parent_comment.id
                                           })
-        self.assert302(child_a_result)
+        self.assert200(child_a_result)
         child_comment_a = parent_comment.children[0]
 
         self.session.begin_nested()
@@ -95,7 +95,7 @@ class TestAnswerComments(TestFlask):
                                               "comment_text": "this is b child comment",
                                               "parent_comment": parent_comment.id
                                           })
-        self.assert302(child_b_result)
+        self.assert200(child_b_result)
 
         self.session.begin_nested()
 
