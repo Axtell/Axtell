@@ -7,6 +7,7 @@ from webassets.filter import register_filter
 from webassets_browserify import Browserify
 from werkzeug.contrib.profiler import ProfilerMiddleware
 import app.tasks.update as update
+from shutil import which
 
 import config
 
@@ -46,6 +47,7 @@ def css_bundle_style(type):
         output=f'css/all-{type}.css'
     )
 
+    bundle.config['SASS_BIN'] = which('sass')
     bundle.config['SASS_USE_SCSS'] = True
     bundle.config['SASS_SOURCE_MAP'] = 'inline'
     bundle.config['SASS_STYLE'] = 'compressed'
