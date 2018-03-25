@@ -2,7 +2,7 @@
 
 {% block title %}Profile Settings{% endblock %}
 {% block content -%}
-<form method="POST" action="{{ url_for('set_profile_preferences') }}" id="sf-profile">
+<form method="POST" action="{{ url_for('set_profile_preferences') }}" id="sf-profile" enctype="multipart/form-data">
     <div class="list-header">
         <h1>Profile</h1>
         <button type="submit" id="save-profile" class="button green -center">
@@ -14,28 +14,33 @@
         <div class="profile-split -highlight">
             <div class="left avatar-wrap">
                 <div id="profile-avatar" class="avatar-control">
-                    <img aria-label="Your avatar" alt="Your avatar" src="{{ g.user.avatar_url() }}">
-                    <!-- <a>Change Avatar</a> -->
+                    <img aria-label="Your avatar" alt="Your avatar" src="{{ g.user.avatar_url()|e }}">
                 </div>
             </div>
             <div class="right">
                 <div class="item-wrap label-group rc-group">
-                    <label for="display-name">Display Name</label>
-                    <input type="text" id="display-name" name='name' class="text-input text-base -title submit-target" value='{{ g.user.name|e }}'>
+                    {{ form.name.label }}
+                    {{ form.name(size=max_name_len)|e }}
                 </div>
 
                 <div class="item-wrap label-group rc-group">
-                    <label for="user-email">Email</label>
-                    <input type="email" id="user-email" name='email' class="text-input text-base -mail submit-target" value='{{ g.user.email|e }}'>
+                    {{ form.email.label }}
+                    {{ form.email|e or "" }}
                 </div>
 
                 <div class="item-wrap label-group rc-group">
-                    <label for="avatar-url">Avatar URL</label>
-                    <input type="text" id="avatar-url" name='avatar-url' class="text-input text-base -mail submit-target" value='{{ g.user.avatar or "" }}'>
+                    {{ form.avatar_file.label }}
+                    {{ form.avatar_file }}
+                </div>
+
+                <div class="item-wrap label-group rc-group">
+                    {{ form.avatar.label }}
+                    {{ form.avatar|e }}
                 </div>
             </div>
         </div>
     </div>
+    {{ form.hidden_tag() }}
 </form>
 {%- endblock %}
 
