@@ -7,7 +7,6 @@ from webassets.filter import register_filter
 from webassets_browserify import Browserify
 from werkzeug.contrib.profiler import ProfilerMiddleware
 import app.tasks.update as update
-from shutil import which
 
 import config
 
