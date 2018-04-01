@@ -3,7 +3,7 @@
     border-top: 1px $comment-wrapper-top-style;
     margin-top: 1.2rem; // Above border
 
-    padding: 0.8rem 1rem 0;
+    padding: 0.8rem 1.5rem 0;
 
     position: relative;
 
@@ -133,7 +133,7 @@
     // Initialy transparent background so transition works
     background: transparent;
 
-    transition: height 0.05s, width 0.05s, background 0.1s linear;
+    transition: opacity 0.2s ease-out, height 0.05s, width 0.05s, background 0.1s linear;
 
     cursor: pointer;
     display: block;
@@ -148,13 +148,13 @@
 // The comment write box
 .comment-writer {
     margin-top: 0.5rem;
-    padding: 0.5rem 0.5rem 0;
+    padding: 0.5rem 1rem 0;
     border-top: 1px $comment-wrapper-top-style;
 
     h5 {
         font-size: 1rem;
         font-weight: 600;
-        color: $label-tag;
+        color: $label-text;
         margin-bottom: 0.5rem;
     }
 
@@ -169,12 +169,21 @@
 
     // The submit buttons
     .comment-submit {
-        text-align: right;
+        display: flex;
+        align-items: center;
+
         margin-top: 4px;
+
+        .info {
+            flex: 1;
+            font-weight: 300;
+            color: $main-text;
+        }
 
         .cancel {
             color: $dim-text;
             margin-right: 4px;
+            cursor: pointer;
         }
 
         .submit {

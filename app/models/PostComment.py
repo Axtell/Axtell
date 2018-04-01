@@ -18,6 +18,9 @@ class PostComment(db.Model):
     post = db.relationship('Post', backref='comments')
     parent = db.relationship('PostComment', backref='children', remote_side=[id])
 
+    def type(self):
+        return 'post'
+
     def to_json(self):
         data = {
             'text': self.text,

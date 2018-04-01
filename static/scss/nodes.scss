@@ -24,8 +24,8 @@ b, strong {
 
 h1, h2, h3, h4, h5, h6 {
   color: $em-text;
-  font-weight: 300;
-  font-family: $light-font;
+  font-weight: 500;
+  font-family: $bold-font;
   margin: 0;
   display: inline-block;
 
@@ -44,8 +44,8 @@ h2, h3 {
 
 h4 {
   font-size: 1.4em;
-  font-weight: 400;
-  font-family: Lato;
+  font-weight: 500;
+  font-family: $bold-font;
 }
 
 h5 {

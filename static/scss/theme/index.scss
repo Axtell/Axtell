@@ -8,7 +8,7 @@ $index-fg-type: #FFF;
   box-sizing: border-box;
   background: rgba($index-fg-type, 0.96);
 
-  box-shadow: 0 0 12px rgba($index-background-type, 0.1);
+  box-shadow: $wrapper-shadow;
   border-radius: 8px;
 
   list-style: none;

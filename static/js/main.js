@@ -3,6 +3,8 @@ import '@babel/polyfill';
 import 'url-search-params-polyfill';
 import 'element-dataset';
 
+import tippy from 'tippy.js';
+
 import KeyManager from "~/models/KeyManager";
 import Normalize from "~/models/Normalize";
 import Language from "~/models/Language";
@@ -64,3 +66,5 @@ setTimeout(
         'font-size: 1em'
     )
 );
+
+tippy('.tooltip');

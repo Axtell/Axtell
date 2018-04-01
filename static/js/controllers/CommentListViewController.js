@@ -4,6 +4,8 @@ import LoadingIcon from '~/svg/LoadingIcon';
 
 import markdown from '#/markdown-renderer';
 
+export const OPACITY_TRANSITION_DURATION = 200; // in ms
+
 /**
  * Manages a list of comments
  */
@@ -41,6 +43,8 @@ export default class CommentListViewController extends ViewController {
         );
 
         this._node.insertBefore(loadingHTML, this._node.firstChild);
+        loadingHTML.style.opacity = 0;
+        setTimeout(() => { loadingHTML.style.opacity = 1 }, OPACITY_TRANSITION_DURATION);
 
         return {
             destroy: () => {
@@ -75,5 +79,9 @@ export default class CommentListViewController extends ViewController {
         );
 
         this._node.insertBefore(commentHTML, this._node.firstChild);
+        commentHTML.style.opacity = 0;
+
+        // Wait for transition to finish, then change
+        setTimeout(() => { commentHTML.style.opacity = 1 }, OPACITY_TRANSITION_DURATION);
     }
 }
