@@ -31,6 +31,7 @@ script:
 - rm celery.pid
 - rm celery.log
 after_success:
+- celery multi stop w1 -A celery_server --logfile=celery.log --pidfile=celery.pid
 - codecov
 before_deploy:
 - eval "$(ssh-agent -s)"
