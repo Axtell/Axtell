@@ -26,7 +26,7 @@ class AnswerComment(db.Model):
         data = {
             'id': self.id,
             'text': self.text,
-            'date': self.date_created,
+            'date': self.date_created.isoformat(),
             'owner': self.user.to_json(),
             'parent': self.parent and self.parent.to_json(),
             'children': [child.to_json() for child in self.children]
