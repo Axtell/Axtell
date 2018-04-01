@@ -19,6 +19,11 @@ export const CommentLengthBounds = [
     process.env.MAX_COMMENT_LENGTH
 ];
 
+export const CommentLengthBounds = [
+    process.env.MIN_COMMENT_LENGTH,
+    process.env.MAX_COMMENT_LENGTH
+];
+
 /**
  * Manages a "Write Comment" button
  */
