@@ -2,8 +2,8 @@
 REMOTE_HOST='travis-deploy@198.211.104.43'
 
 # Travis should verify we're on the correct branch but just in case
-if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "naster" ]; then
-    echo "Not a deploy enviornment. Exiting..."
+if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "master" ]; then
+    echo "Not a deploy environment. Exiting..."
     exit 0
 fi
 
