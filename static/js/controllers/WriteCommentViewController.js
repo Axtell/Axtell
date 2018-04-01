@@ -7,6 +7,11 @@ import Answer from '~/models/Answer';
 
 export const CommentError = Symbol('WriteComment.Error.submit');
 
+export const CommentLengthBounds = [
+    process.env.MIN_COMMENT_LENGTH,
+    process.env.MAX_COMMENT_LENGTH
+];
+
 /**
  * Manages a "Write Comment" button
  */
@@ -32,6 +37,7 @@ export default class WriteCommentViewController extends ViewController {
                 <h5>Write Comment</h5>
                 { this._commentText }
                 <div class="comment-submit">
+                    <span class="info">Must be between {CommentLengthBounds[0]} and {CommentLengthBounds[1]} characters.</span>
                     { this._cancel }
                     { this._submit }
                 </div>
@@ -65,6 +71,12 @@ export default class WriteCommentViewController extends ViewController {
      * Submits this form
      */
     async submit() {
+        const text = this._commentText.value;
+        if (text < CommentLengthBounds[0] || text > CommentLengthBounds[1]) {
+            // Display error message
+            return;
+        }
+
         this.toggleState();
         if (this.owner instanceof Answer) {
             let instance = this.parentList.createLoadingInstance();
@@ -73,10 +85,13 @@ export default class WriteCommentViewController extends ViewController {
                 let commentPost = new Comment({
                     type: 'answer',
                     id: this.owner.id,
-                    value: this._commentText.value
+                    value: text
                 });
 
                 const comment = await commentPost.send();
+
+                // Reset the box
+                this._commentText.value = "";
 
                 this.parentList.createCommentInstance(comment);
             } catch (error) {

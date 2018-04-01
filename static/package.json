@@ -37,6 +37,7 @@
     "axios": "^0.17.0",
     "element-dataset": "^2.2.6",
     "pako": "^1.0.6",
+    "tippy.js": "^2.4.1",
     "url-search-params-polyfill": "^2.0.1",
     "validator": "^9.2.0"
   }

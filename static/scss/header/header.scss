@@ -1,9 +1,4 @@
 #header {
-  background: $header;
-  @if($header-border) {
-    border-bottom: 1px solid $header-border;
-  }
-
   z-index: 1;
 
   display: flex;

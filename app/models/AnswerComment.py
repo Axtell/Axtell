@@ -19,6 +19,9 @@ class AnswerComment(db.Model):
     answer = db.relationship('Answer', backref='comments')
     parent = db.relationship('AnswerComment', backref='children', remote_side=[id])
 
+    def type(self):
+        return 'answer'
+
     def to_json(self):
         data = {
             'id': self.id,

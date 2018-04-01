@@ -81,6 +81,8 @@ js_envs = {
     'POST_BODY_MAX': str(config.posts['max_len']),
     'MIN_USERNAME_LENGTH': str(config.users['min_name_len']),
     'MAX_USERNAME_LENGTH': str(config.users['max_name_len']),
+    'MIN_COMMENT_LENGTH': str(config.comments['min_len']),
+    'MAX_COMMENT_LENGTH': str(config.comments['max_len']),
     'IS_DEBUG': 'true' if server.debug else ''
 }
 

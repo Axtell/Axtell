@@ -1,5 +1,5 @@
 {% macro comment(item) %}
-    <li class="comment-item comment-user-split comment" href="javascript:alert('viewing coment is not yet suport')">
+    <li class="comment-item comment-user-split comment" href="/comment/{{ item[2].type() }}/{{ item[2].id }}">
         <div class="user">
             <img class="avatar" src="{{ item[2].user.avatar_url() }}"/>
         </div>
