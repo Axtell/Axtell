@@ -10,5 +10,5 @@ fi
 # Run update script
 ssh -o "StrictHostKeyChecking no" "$REMOTE_HOST" 'bash -s' < deploy/update.bash
 
-rsync -vzP static/lib/main.js "$REMOTE_HOST:/var/www/ppcg-v2/static/lib/main.js"
-rsync -avzP static/css/ "$REMOTE_HOST:/var/www/ppcg-v2/static/css"
+rsync -OvzP static/lib/main.js "$REMOTE_HOST:/var/www/ppcg-v2/static/lib/main.js"
+rsync -OavzP static/css/ "$REMOTE_HOST:/var/www/ppcg-v2/static/css"
