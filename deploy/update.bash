@@ -20,3 +20,6 @@ mkdir -p static/lib
 shasum static/lib/main.js
 shasum static/lib/css/all-light.css
 shasum static/lib/css/all-dark.css
+
+# Restart service
+sudo service ppcg-v2 restart
