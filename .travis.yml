@@ -38,6 +38,7 @@ before_deploy:
 - chmod 600 deploy/id_rsa
 - ssh-add deploy/id_rsa
 deploy:
+  skip_cleanup: true
   provider: script
   script: bash deploy/deploy.bash
   on:
