@@ -20,10 +20,10 @@ echo "DEPLOY: UPDATING GIT"
 ssh -o "StrictHostKeyChecking no" "$REMOTE_HOST" 'bash -s' < deploy/update.bash
 
 echo "DEPLOY: UPLOADING JS"
-rsync --super -vzP "$TRAVIS_BUILD_DIR/static/lib/main.js" "$REMOTE_HOST:/var/www/ppcg-v2/static/lib/main.js"
+rsync --super --chmod=g+rw -vzP "$TRAVIS_BUILD_DIR/static/lib/main.js" "$REMOTE_HOST:/var/www/ppcg-v2/static/lib/main.js"
 
 echo "DEPLOY: UPLOADING CSS"
-rsync --super -rvzP "$TRAVIS_BUILD_DIR/static/css/" "$REMOTE_HOST:/var/www/ppcg-v2/static/css"
+rsync --super --chmod=g+rw -rvzP "$TRAVIS_BUILD_DIR/static/css/" "$REMOTE_HOST:/var/www/ppcg-v2/static/css"
 
 echo "DEPLOY: CLEANING UP..."
 rm deploy/id_rsa
