@@ -14,12 +14,9 @@ echo "$(git rev-parse @)"
 
 # Ensure webasset dirs exist
 mkdir -p static/css
+chmod 755 static/css
+
 mkdir -p static/lib
+chmod 755 static/lib
 
-# Echo checksums
-shasum static/lib/main.js
-shasum static/lib/css/all-light.css
-shasum static/lib/css/all-dark.css
-
-# Restart service
 sudo service ppcg-v2 restart
