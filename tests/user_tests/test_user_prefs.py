@@ -56,6 +56,8 @@ class TestUserPrefs(TestFlask):
         dark_theme = Theme.query.filter_by(id=self.user.theme).first()
         self.assertEqual(dark_theme.name, "dark")
 
+        self.client.get("/index.html")  # make sure the dark theme files get generated
+
         response2 = self.client.post("/theme/light", data={})
         self.assertEqual(response2.status_code, 204)
         light_theme = Theme.query.filter_by(id=self.user.theme).first()
