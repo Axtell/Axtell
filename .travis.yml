@@ -25,6 +25,7 @@ install:
 - sed -i "s/MYSQL_PASSWORD//" config.py
 - sed -i "s/REDIS_PASSWORD//" config.py
 - sed -i "s/IMGUR_CLIENT_ID/$IMGUR_CLIENT_ID/" config.py
+- sed -i "s/GOOGLE_CLIENT_ID/$GOOGLE_CLIENT_ID/" config.py
 - celery multi start w1 -A celery_server --logfile=celery.log --pidfile=celery.pid
 script:
 - coverage run -m unittest discover tests -vf --locals
@@ -40,5 +41,4 @@ deploy:
   on:
     branch: master
 before_install:
-- openssl aes-256-cbc -K $encrypted_f68e3fa50bfd_key -iv $encrypted_f68e3fa50bfd_iv
-  -in deploy/id_rsa.enc -out deploy/id_rsa -d
+- openssl aes-256-cbc -K $encrypted_f68e3fa50bfd_key -iv $encrypted_f68e3fa50bfd_iv -in deploy/id_rsa.enc -out deploy/id_rsa -d
