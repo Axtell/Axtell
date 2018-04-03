@@ -23,7 +23,7 @@ echo "DEPLOY: UPLOADING JS"
 rsync --super -vzP "$TRAVIS_BUILD_DIR/static/lib/main.js" "$REMOTE_HOST:/var/www/ppcg-v2/static/lib/main.js"
 
 echo "DEPLOY: UPLOADING CSS"
-rsync --super -avzP "$TRAVIS_BUILD_DIR/static/css/" "$REMOTE_HOST:/var/www/ppcg-v2/static/css"
+rsync --super -rvzP "$TRAVIS_BUILD_DIR/static/css/" "$REMOTE_HOST:/var/www/ppcg-v2/static/css"
 
 echo "DEPLOY: CLEANING UP..."
 rm deploy/id_rsa
