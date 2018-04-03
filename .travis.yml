@@ -33,10 +33,6 @@ script:
 after_success:
 - celery multi stop w1 -A celery_server --logfile=celery.log --pidfile=celery.pid
 - codecov
-before_deploy:
-- eval "$(ssh-agent -s)"
-- chmod 600 deploy/id_rsa
-- ssh-add deploy/id_rsa
 deploy:
   skip_cleanup: true
   provider: script
