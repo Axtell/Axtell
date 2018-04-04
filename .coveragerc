@@ -3,9 +3,8 @@
 branch = True
 # we only care about coverage on the actual app
 source = app
-omit =
 # coverage on routes is inaccurate, because of how Flask-Testing works
-    app/route/*
+omit = app/route/*
 
 [report]
 # Regexes for lines to exclude from consideration
