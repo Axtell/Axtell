@@ -14,7 +14,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
     name = db.Column(db.String(config.users['max_name_len']), nullable=False)
     email = db.Column(db.String(320))
-    avatar = db.Column(db.String(64), nullable=True)
+    avatar = db.Column(db.String(256), nullable=True)
 
     posts = db.relationship('Post', backref='user')
     theme = db.Column(db.Integer, db.ForeignKey('themes.id'), nullable=True)

@@ -12,6 +12,7 @@ To get started make sure you have the following installed:
  - `bundle`
  - `node`/`npm`
  - Redis
+ - memcached
 
 and the plugins (may be missing certain see `requirements.txt` for all):
 
