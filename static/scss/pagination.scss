@@ -14,7 +14,6 @@
 
   $pagination-height: 18px;
   $pagination-padding: 4px;
-  $pagination-color: $header-border;
   $pagination-underline: $pagination-seperator;
 
   $pagination-block-height: $pagination-height + $pagination-padding;
@@ -38,13 +37,6 @@
 
     &.-before { margin-right: $pagination-padding; }
     &.-after { margin-left: $pagination-padding; }
-  }
-
-  .bar {
-    flex: 1;
-    height: 1px;
-    background: $header-border;
-    margin-right: $pagination-padding;
   }
 
   .current-page {

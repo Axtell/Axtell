@@ -47,7 +47,8 @@ export default class WriteCommentViewController extends ViewController {
         // Setup markdown
         new MarkdownViewController(this._commentText, [
             new MarkdownControls.MarkdownBoldControl(),
-            new MarkdownControls.MarkdownItalicControl()
+            new MarkdownControls.MarkdownItalicControl(),
+            new MarkdownControls.MarkdownStrikethroughControl()
         ]);
 
         this._displayingWritingBox = false;
