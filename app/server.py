@@ -12,11 +12,11 @@ from shutil import which
 import config
 
 
-class PPCGFlask(Flask):
+class AxtellFlask(Flask):
     template_folder = "assets/templates"
 
 
-server = PPCGFlask("PPCG v2")
+server = AxtellFlask("Axtell")
 server.secret_key = config.secret_skey
 
 if server.debug and config.profile:

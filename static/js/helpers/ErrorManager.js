@@ -37,7 +37,7 @@ export class AnyError {
         console.log(
             `You can report this error at %s and get a dump of what happened ` +
             `by running \`E%crrorManager.dumpText()%c\``,
-            'https://github.com/PPCG-v2/PPCG-v2/issues',
+            'https://github.com/Axtell/Axtell/issues',
             'font-family: Menlo, "Fira Mono", monospace;', ''
         );
     }
