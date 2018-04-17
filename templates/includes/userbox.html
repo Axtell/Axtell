@@ -7,7 +7,7 @@
     </a>
     {% if time is not none -%}
     <div class="userbox-aside">
-        <span class="timestamp">{{ time.strftime("%m/%d/%Y %H:%M:%S") }}</span>
+        <span class="timestamp"><script>d({{ time.timestamp() * 1000 }})</script></span>
     </div>
     {%- endif %}
 </div>
