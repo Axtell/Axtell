@@ -5,11 +5,12 @@ from app.helpers import macros
 
 
 def render_template(path, **kwargs):
-    return flask_render_template(path, **{
-        'opts': config,
-        'macros': macros,
+    return flask_render_template(
+        path,
+        opts=config,
+        macros=macros,
         **kwargs
-    })
+    )
 
 
 def render_json(data):
