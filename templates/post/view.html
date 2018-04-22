@@ -32,6 +32,7 @@
         {{ votebutton("Downvote", is_active=vote_status['vote'] == -1, vote_count=vote_status['breakdown']['downvote'], type_id='downvote') }}
     </div>
     {{ userbox(post.user, post.date_created, vtight=true) }}
+    {{ commentList(post_comments) }}
 </div>
 <hr class="big">
 <div id="responses">

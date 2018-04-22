@@ -23,6 +23,7 @@ class PostComment(db.Model):
 
     def to_json(self):
         data = {
+            'id': self.id,
             'text': self.text,
             'date': self.date_created.isoformat(),
             'owner': self.user.to_json(),

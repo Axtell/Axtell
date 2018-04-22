@@ -4,6 +4,8 @@ import app.tasks.markdown as markdown
 from app.controllers import post, answer as answer_controller, vote
 from app.helpers.render import render_template, render_json
 from app.helpers.comments import get_rendered_comments
+from app.models.AnswerComment import AnswerComment
+from app.models.PostComment import PostComment
 from app.models.Leaderboard import Leaderboard
 from app.server import server
 
@@ -60,12 +62,14 @@ def get_post(post_id):
     # Get respective comments
     answer_comments = []
     for answer in answers.items:
-        answer_comments.append(get_rendered_comments(max_depth=2, answer_id=answer.id))
+        answer_comments.append(get_rendered_comments(AnswerComment, max_depth=2, answer_id=answer.id))
+
+    post_comments = get_rendered_comments(PostComment, max_depth=2, post_id=post_id)
 
     return \
         render_template('post/view.html', post_id=post_id, post=matched_post,
                         post_body=body, answers=answers, leaderboard=leaderboard,
-                        vote=vote, answer_comments=answer_comments)
+                        vote=vote, answer_comments=answer_comments, post_comments=post_comments)
 
 
 @server.route("/post/write")

@@ -4,8 +4,10 @@ import * as MarkdownControls from '~/controllers/MarkdownControls';
 
 import Comment from '~/models/Request/Comment';
 import Answer from '~/models/Answer';
+import Post from '~/models/Post';
 
 export const CommentError = Symbol('WriteComment.Error.submit');
+export const CommentOwnerTypeError = Symbol('WriteComment.Error.ownerType');
 
 export const CommentLengthBounds = [
     process.env.MIN_COMMENT_LENGTH,
@@ -79,36 +81,39 @@ export default class WriteCommentViewController extends ViewController {
         }
 
         this.toggleState();
-        if (this.owner instanceof Answer) {
-            let instance = this.parentList.createLoadingInstance();
 
-            try {
-                let commentPost = new Comment({
-                    type: 'answer',
-                    id: this.owner.id,
-                    value: text
-                });
+        let type;
+        if (this.owner instanceof Answer) type = 'answer';
+        else if (this.owner instanceof Post) type = 'post';
+        else ErrorManager.shared.raise(`Unexpected comment owner type`, CommentOwnerTypeError);
 
-                const comment = await commentPost.send();
+        let instance = this.parentList.createLoadingInstance();
 
-                // Reset the box
-                this._commentText.value = "";
+        try {
+            let commentPost = new Comment({
+                type: type,
+                id: this.owner.id,
+                value: text
+            });
 
-                this.parentList.createCommentInstance(comment);
-            } catch (error) {
-                // TODO: handle error
-                let errorMessage = {
-                    [400]: `Internal error in comment layout`,
-                    [401]: `You must be authorized to vote`,
-                    [500]: `Internal server error.`,
-                }[error.response?.status] || `Unexpected error posting comment.`;
+            const comment = await commentPost.send();
 
-                this.parentList.createErrorInstance(errorMessage);
-                ErrorManager.raise(errorMessage, CommentError)
-            } finally {
-                instance.destroy();
-            }
+            // Reset the box
+            this._commentText.value = "";
 
+            this.parentList.createCommentInstance(comment);
+        } catch (error) {
+            // TODO: handle error
+            let errorMessage = {
+                [400]: `Internal error in comment layout`,
+                [401]: `You must be authorized to vote`,
+                [500]: `Internal server error.`,
+            }[error.response?.status] || `Unexpected error posting comment.`;
+
+            this.parentList.createErrorInstance(errorMessage);
+            ErrorManager.silent(error, errorMessage);
+        } finally {
+            instance.destroy();
         }
     }
 
