@@ -1,6 +1,6 @@
 from os import path, getcwd
 
-from time import time
+import time
 from flask import Flask, g
 from flask_assets import Environment, Bundle
 from webassets.filter import register_filter
@@ -31,8 +31,11 @@ update.jwt_update.delay().wait()
 
 @server.before_request
 def before_request():
-    g.request_start_time = time()
+    g.request_start_time = time.time()
 
+
+# Setup jinja2 modules
+server.jinja_env.filters['mktime'] = time.mktime
 
 # Flask Assets
 assets = Environment(server)

@@ -1,4 +1,4 @@
-{% macro userbox(user, time=none, verb="by", small=false, htight=false, vtight=false) -%}
+{% macro userbox(user, timestamp=none, verb="by", small=false, htight=false, vtight=false) -%}
 <div class="userbox{{ ' -vtight' if vtight else '' }}{{ ' -htight' if htight else '' }}{{ ' -small' if small else '' }}">
     <span class="verb">{{ verb }}</span>
     <a class="userbox-info">
@@ -7,7 +7,7 @@
     </a>
     {% if time is not none -%}
     <div class="userbox-aside">
-        <span class="timestamp"><script>d({{ time.timestamp() * 1000 }})</script></span>
+        <span class="timestamp"><script>d({{ timestamp.timestamp() }})</script></span>
     </div>
     {%- endif %}
 </div>

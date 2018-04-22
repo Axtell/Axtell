@@ -74,6 +74,10 @@ class Language:
         return tio_id
 
     @classmethod
+    def getAll(cls):
+        return [Language(lang_id) for lang_id in languages['languages']]
+
+    @classmethod
     def normalize(cls, lang_id):
         """
         Normalizes a language id (resolves aliases/lowercasing)

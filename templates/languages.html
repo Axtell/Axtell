@@ -1,0 +1,22 @@
+{% extends "layouts/page.html" %}
+
+{% block title %}Languages{% endblock %}
+{% block content -%}
+    <div class="list-header">
+        <h1>Languages</h1>
+    </div>
+    <div class="main language-grid">
+        {% for lang in languages %}
+            <div class="language_grid__item_wrap">
+                <a href="{{ url_for('language', lang_id=lang.get_id()) }}" class="language-grid__item">
+                    <div class="language-grid__item__left">
+                        <img class="language-grid__item__icon" src="{{ lang.get_logo_url() }}">
+                    </div>
+                    <div class="language-grid__item__right">
+                        <span class="language-grid__item__title">{{ lang.get_display_name() }}</span>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{%- endblock %}
