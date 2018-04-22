@@ -26,9 +26,11 @@
 {% macro commentList(comment_list) -%}
 <ul class="comment-list">
     {{ commentListBody(comment_list) }}
+    {% if g.user is not none -%}
     <li class="comment-item comment-write-init">
         {% include "svg/pen.html" %}
         Write Comment
     </li>
+    {% endif %}
 </ul>
 {%- endmacro %}
