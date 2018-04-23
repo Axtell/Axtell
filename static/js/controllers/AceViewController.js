@@ -20,6 +20,7 @@ export default class AceViewController extends ViewController {
         this._editor.container.controller = this;
 
         this._editor.session.setNewLineMode('unix');
+        this._editor.session.getDocument().setNewLineMode('unix');
 
         /**
          * @type {AceTheme}

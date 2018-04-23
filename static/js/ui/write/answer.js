@@ -50,7 +50,7 @@ if (formController = ViewController.of(ANSWER_FORM)) {
 
         formWillSubmit(controller) {
             super.formWillSubmit(controller);
-            controller.setFieldWithName(editor.value, ANSWER_CODE_NAME);
+            controller.setFieldWithName(btoa(editor.value), ANSWER_CODE_NAME);
         }
     }
 }
