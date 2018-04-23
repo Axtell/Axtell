@@ -1,4 +1,5 @@
 from flask import request, g, abort, jsonify
+from base64 import b64decode
 
 from app.controllers import answer
 from app.server import server
@@ -12,7 +13,7 @@ def publish_answer():
     post_id = request.form['post_id']
 
     # Important parts
-    code = request.form['code']
+    code = b64decode(request.form['code'])
     lang_id = request.form.get('lang_id', None)
     lang_name = request.form.get('lang_name', None)
 
