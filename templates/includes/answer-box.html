@@ -7,18 +7,37 @@
         <form method="POST" action="/answer/public" id="answer-source">
             <input type="hidden" name="post_id" value="{{ post.id|e }}"/>
 
-            <div class="item-wrap label-group">
-                <label for="answer-lang">Language Name</label>
-                <div id="lang-input" class="text-base lang-manager">
-                    <input autocomplete="off" type="text" id="answer-lang" name="answer-lang" class="text-input expand -owned -title">
-                </div>
-                <input type="hidden" id="lang-id" name="lang_id"/>
-                <input type="hidden" id="lang-name" name="lang_name"/>
-            </div>
+            <div class="aligned-group">
+                <div class="aligned-group--child aligned-group--expand">
+                    <div class="item-wrap label-group">
+                        <label for="answer-lang">Language Name</label>
+                        <div id="lang-input" class="text-base lang-manager">
+                            <input autocomplete="off" type="text" id="answer-lang" name="answer-lang" class="text-input expand -owned -title">
+                        </div>
+                        <input type="hidden" id="lang-id" name="lang_id"/>
+                        <input type="hidden" id="lang-name" name="lang_name"/>
+                    </div>
 
-            <div id="code-container" class="item-wrap label-group">
-                <label for="code">Code</label>
-                <textarea name="code" id="code" class="text-base stretch-item"></textarea>
+                    <div id="code-container" class="item-wrap label-group">
+                        <label for="code">Code</label>
+                        <textarea name="code" id="code" class="text-base stretch-item"></textarea>
+                    </div>
+                </div>
+                <div class="aligned-group--child">
+                    <div class="info-wrap">
+                        <h4>Tests</h4>
+                        <div class="info-wrap--desc">
+                            <span id="test-entry--desc">No tests configured.</span>
+                            <a class="more" id="test-entry--trigger">Setup {% include "svg/right-caret.html" %}</a>
+                            <div id="test-entry" class="template">
+                                <div class="item-wrap label-group">
+                                    <label for="test-entry--code">Setup Code</label>
+                                    <div name="test-entry--code" id="test-entry--code" class="text-base stretch-item" contenteditable="true"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="item-wrap">

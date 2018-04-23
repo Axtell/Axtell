@@ -5,7 +5,7 @@ const BoldMarker = '~~';
 export default MarkdownControlBuilder(
     'Strikethrough',
     's',
-    'Strikethrough',
+    'strikethrough',
     (controller) => {
         if (controller.isLeading(BoldMarker) && controller.isTrailing(BoldMarker)) {
             controller.cutStart(BoldMarker.length);

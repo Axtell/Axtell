@@ -41,6 +41,13 @@ export class AnyError {
             'font-family: Menlo, "Fira Mono", monospace;', ''
         );
     }
+
+    /**
+     * Reports as warning
+     */
+    warn() {
+        console.warn(`%c${this.idString}:%c ${this.message}`, 'font-weight: 700', '');
+    }
 }
 
 export class ErrorManager {
@@ -71,6 +78,13 @@ export class ErrorManager {
         }
 
         new AnyError(message, title).report(...args);
+    }
+
+    /**
+     * Emits a warning
+     */
+    warn(message, id) {
+        new AnyError(message, id).warn();
     }
 
     /**

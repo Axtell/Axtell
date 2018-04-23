@@ -49,8 +49,8 @@ export default class KeyManager {
      */
     register(key, callback) {
         if (this._defaultListeners.has(key)) {
-            ErrorManager.raise(`Callback exists for generic handler for ${key}`, KeyAlreadyRegistered).
-            return;
+            ErrorManager.warn(`Callback exists for generic handler for ${key}`, KeyAlreadyRegistered);
+            return () => void 0;
         }
 
         this._defaultListeners.set(key, callback);

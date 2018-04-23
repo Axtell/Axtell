@@ -2,6 +2,8 @@ import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 import ViewController from '~/controllers/ViewController';
 import ErrorManager from '~/helpers/ErrorManager';
 
+const oop = ace.require("ace/lib/oop");
+
 /**
  * OO-wrapper for Ace code editor.
  */
@@ -12,8 +14,9 @@ export default class AceViewController extends ViewController {
      *
      * @param {string} element element id.
      * @param {AceTheme} theme Theme to use for Ace.
+     * @param {Object} customRules Custon rules if any
      */
-    constructor(element, theme = AceTheme.default) {
+    constructor(element, theme = AceTheme.default, customRules = { start: [] }) {
         super();
 
         this._editor = ace.edit(element);
@@ -28,6 +31,11 @@ export default class AceViewController extends ViewController {
 
         /** @type {ActionControllerDelegate} */
         this.delegate = new ActionControllerDelegate();
+
+        /** @type {Object} */
+        this.customRules = customRules;
+
+        this.setLanguage('text');
     }
 
     /**
@@ -59,8 +67,28 @@ export default class AceViewController extends ViewController {
      * @param {Language} lang - Language object
      */
     setLanguage(lang) {
+        // No this is not the same as a ternary
         let name = (lang && lang.aceName) || "text";
-        this._editor.session.setMode(`ace/mode/${name}`);
+
+        const Mode = ace.require(`ace/mode/${name}`).Mode;
+        const mode = new Mode();
+
+        // Fixes race condition
+        let highlightRules = this._highlighter();
+        oop.inherits(highlightRules, mode.HighlightRules);
+        mode.HighlightRules = highlightRules;
+        this._editor.session.setMode(mode);
+    }
+
+    /**
+     * Manages sub ace highlighting
+     */
+    _highlighter() {
+        let self = this;
+        return function() {
+            this.$rules = self.customRules;
+            this.normalizeRules();
+        }
     }
 
     /**

@@ -34,6 +34,7 @@
     "@babel/cli": "^7.0.0-beta.40",
     "@babel/polyfill": "^7.0.0-beta.36",
     "@babel/runtime": "^7.0.0-beta.36",
+    "ace": "^1.3.0",
     "axios": "^0.17.0",
     "element-dataset": "^2.2.6",
     "pako": "^1.0.6",

@@ -183,5 +183,26 @@ textarea.text-base {
   }
 }
 
+// ALIGNED GROUP
+.aligned-group {
+  display: flex;
+  flex-direction: row;
+}
+
+.aligned-group--expand {
+  flex: 1;
+}
+
+// INFO WRAP
+.info-wrap {
+  h4 {
+    font-size: 1rem;
+  }
+
+  .info-wrap--desc {
+    color: $dim-text;
+  }
+}
+
 @import "file.scss";
 @import "rcgroup.scss";

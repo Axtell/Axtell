@@ -2,10 +2,12 @@ import LanguageLookupViewController from '~/controllers/LanguageLookupViewContro
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 import FormControllerDelegate from '~/delegate/FormControllerDelegate';
 import PopoverViewController from '~/controllers/PopoverViewController';
-import AceViewController, { AceThemeType } from '~/controllers/AceViewController';
+import AceViewController, { AceTheme, AceThemeType } from '~/controllers/AceViewController';
+import ModalController from '~/controllers/ModalController';
 import FormConstraint from '~/controllers/Form/FormConstraint';
 import ViewController from '~/controllers/ViewController';
-import Template from '~/template/Template';
+import Template, { TemplateType } from '~/template/Template';
+import ModalTemplate from '~/template/ModalTemplate';
 import Language from '~/models/Language';
 import HexBytes from '~/modern/HexBytes';
 import Theme from '~/models/Theme';
@@ -21,6 +23,11 @@ export const ANSWER_TRIGGER = document.getElementById("write-answer");
 export const ANSWER_EDITOR = "code";
 
 export const ANSWER_CODE_NAME = 'code';
+
+export const TEST_CONFIG = new ModalTemplate(`Setup Tests`, Template.fromId('test-entry', TemplateType.move));
+export const TEST_CONFIG_TRIGGER = 'test-entry--trigger';
+
+export const TEST_CONFIG_CODE = 'test-entry--code';
 
 let formController;
 if (formController = ViewController.of(ANSWER_FORM)) {
@@ -53,6 +60,21 @@ if (formController = ViewController.of(ANSWER_FORM)) {
             controller.setFieldWithName(editor.value, ANSWER_CODE_NAME);
         }
     }
+
+    document.getElementById(TEST_CONFIG_TRIGGER).addEventListener("click", (event) => {
+        ModalController.shared.present(TEST_CONFIG);
+    });
+
+    let testEditor = new AceViewController(TEST_CONFIG_CODE, AceTheme.default, {
+        start: [
+            {
+                token: "axtell-placeholder",
+                match: /\$\$axtell:[a-z]+\$\$/
+            }
+        ]
+    });
+    testEditor.setThemeType(AceThemeType.fromTheme(Theme.current));
+    testEditor.shouldValidate = false;
 }
 
 let answerView;
