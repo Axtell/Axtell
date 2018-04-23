@@ -10,6 +10,9 @@ $bg-level-1: url(/static/img/landscape.svg);
 $bg-level-2: url(/static/img/stars.svg);
 $bg-level-3: $sun 200% 100%/80% no-repeat;
 
+$wrapper-shadow: 0 -4px 24px rgba(136, 146, 148, 0.41), 0 20px 32px rgba(27, 31, 38, 0.3);
+$subtitle-color: rgba(223, 255, 231, 0.8);
+
 $splash-name-color: white;
 
 @import "main.scss";

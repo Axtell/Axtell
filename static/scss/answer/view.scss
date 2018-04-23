@@ -36,10 +36,11 @@
 
     img {
       height: $lang-height;
-      margin-right: 1rem;
+      margin-right: 8px;
     }
 
     h4 {
+      font-weight: 500;
       font-size: $lang-height;
       flex: 1;
     }
@@ -47,12 +48,13 @@
     .answer-metric {
       font-size: $lang-height;
       color: $em-text;
+      font-weight: 500;
 
       span {
         padding-left: 2px;
         font-size: 0.8rem;
         text-transform: uppercase;
-        color: $label-text;
+        font-weight: 400;
       }
     }
   }

@@ -11,11 +11,14 @@
 
 {% block head -%}
     {{ super() }}
-    <link type="text/css" href="https://fonts.googleapis.com/css?family=Lato:900|Roboto:300,400,700" rel="stylesheet">
+    <link type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,500,400,700" rel="stylesheet">
     <link type="text/css" href="https://fonts.googleapis.com/css?family=Fira+Mono&amp;subset=greek,latin-ext"
           rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-beta1/katex.min.css"
           crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+    <script>function d(t){var a=document.currentScript;a.parentNode.replaceChild(document.createTextNode(moment(t).fromNow()),a)}d</script>
 
     {% if g.user is none -%}
         <script src="https://apis.google.com/js/api:client.js"></script>

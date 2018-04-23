@@ -40,7 +40,7 @@ def create_post_comment(post_id, parent_comment, comment_text):
     db.session.add(new_comment)
     db.session.commit()
 
-    return redirect(url_for('get_post', post_id=post_id))
+    return new_comment
 
 
 def create_answer_comment(answer_id, parent_comment, comment_text):
@@ -59,4 +59,4 @@ def create_answer_comment(answer_id, parent_comment, comment_text):
     db.session.add(new_comment)
     db.session.commit()
 
-    return redirect(url_for('get_post', post_id=answer.post_id, answer_id=answer_id) + f"#answer-{answer_id}")
+    return new_comment

@@ -11,23 +11,22 @@ export default class MarkdownViewController extends ViewController {
      * Creates an interactive markdown editor instance.
      *
      * @param {HTMLTextArea} element .markdown element which to setup.
+     * @param {MarkdownControl[]} controls
      */
-    constructor(element) {
+    constructor(element, controls = [
+                new MarkdownControls.MarkdownBoldControl(),
+                new MarkdownControls.MarkdownItalicControl(),
+                new MarkdownControls.MarkdownStrikethroughControl(),
+                new MarkdownControls.MarkdownImgurControl()
+        ]) {
         super(element);
 
         /** @private */
         this.elem = element;
 
-        let controls = new MarkdownControlsTemplate(
-            this.elem,
-            [
-                MarkdownControls.MarkdownBoldControl,
-                MarkdownControls.MarkdownItalicControl,
-                MarkdownControls.MarkdownImgurControl
-            ]
-        );
-        controls.loadBeforeContext(this.elem);
+        let controlTemplate = new MarkdownControlsTemplate(this.elem, controls);
+        controlTemplate.loadBeforeContext(this.elem);
 
-        this._controls = controls;
+        this._controls = controlTemplate;
     }
 }

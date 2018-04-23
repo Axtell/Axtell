@@ -5,14 +5,18 @@
 {% block base_content %}
 <main class="content override splash">
     <div class="index-root">
-        <div class="index-aside"><h1>Code<br>Golf</h2></div>
+        <div class="index-aside">
+            <h1>Axtell</h1>
+            <h3>Birds of a feather golf together.</h3>
+        </div>
         <ul class="index-list">
             <li>
                 <i>{% include "svg/help.html" %}</i>
                 <div>
-                    <h4><strong>What is</strong> code-golf?</h4>
-                    <p>Code-golf is doing something with the least amount of code
-                        possible. Try your hand at some challenges now. {{ more('See Challenges', url_for('get_posts')) }}</p>
+                    <h4><strong>What is</strong> Axtell?</h4>
+                    <p>Axtell is a site for programming challenges. One popular variant, code-golf is doing
+                        something with the least amount of code possible. Try your hand at some challenges
+                        today. {{ more('See Challenges', url_for('get_posts')) }}</p>
                 </div>
             </li>
 

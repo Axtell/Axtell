@@ -53,8 +53,9 @@
     align-items: center;
 
     svg, img {
-      width: 28px;
-      height: 28px;
+      $voting-icon-size: 23px;
+      width: $voting-icon-size;
+      height: $voting-icon-size;
       fill: inherit;
 
       path {

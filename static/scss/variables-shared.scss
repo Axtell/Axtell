@@ -1,11 +1,12 @@
 $page-width: 70%;
-$max-lower-height: 65%;
+$max-lower-height: 65%; // Size of lower pop-ups (e.g. write answer box)
+$sidebar-width: 15%;
 $font-size: 14px;
 
-$bold-font: "Lato", sans-serif;
+$bold-font: "Roboto", sans-serif;
 $bold-weight: 900;
 $light-font: "Roboto", "Helvetica Neue", Myriad, sans-serif;
-$quote-font: "Playfair Display", ;
+$quote-font: "Playfair Display", serif;
 $monospace: Menlo, 'Fira Mono', monospace;
 
 // System fonts

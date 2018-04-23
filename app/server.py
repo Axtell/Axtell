@@ -59,8 +59,13 @@ def css_bundle_style(type):
 css_bundle_style('light')
 css_bundle_style('dark')
 
+if server.debug:
+    js_filters = ('browserify')
+else:
+    js_filters = ('browserify', 'uglifyjs')
+
 # JS
-js = Bundle('js/main.js', filters=('browserify', 'uglifyjs'), output='lib/main.js')
+js = Bundle('js/main.js', filters=js_filters, output='lib/main.js')
 
 uglify_args = ['-m', '--mange-props', 'regex=/^_.+$/', '-c']
 
@@ -77,6 +82,8 @@ js_envs = {
     'POST_BODY_MAX': str(config.posts['max_len']),
     'MIN_USERNAME_LENGTH': str(config.users['min_name_len']),
     'MAX_USERNAME_LENGTH': str(config.users['max_name_len']),
+    'MIN_COMMENT_LENGTH': str(config.comments['min_len']),
+    'MAX_COMMENT_LENGTH': str(config.comments['max_len']),
     'IS_DEBUG': 'true' if server.debug else ''
 }
 

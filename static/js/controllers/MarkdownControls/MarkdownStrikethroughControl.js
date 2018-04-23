@@ -1,11 +1,11 @@
 import { MarkdownControlBuilder } from '~/template/MarkdownControl';
 
-const BoldMarker = '**';
+const BoldMarker = '~~';
 
 export default MarkdownControlBuilder(
-    'Bold',
-    'b',
-    'bold',
+    'Strikethrough',
+    's',
+    'Strikethrough',
     (controller) => {
         if (controller.isLeading(BoldMarker) && controller.isTrailing(BoldMarker)) {
             controller.cutStart(BoldMarker.length);

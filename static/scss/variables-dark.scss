@@ -54,9 +54,8 @@ $pagination-seperator: #CCC;
 $avatar-mini-color: #67748C;
 
 // Header colors
-$header: #261C5F;
-$header-border: null;
 $header-shadow-color: #1f1f1f;
+$header-bg: #261C5E;
 $header-em-text: $em-text;
 
 $big-select: $theme-color;
@@ -64,6 +63,9 @@ $big-fg: rgba(255, 255, 255, 0.7);
 $big-bg: rgba(255, 255, 255, 0.1);
 
 $close-button: #AAA;
+
+// Comments
+$comment-wrapper-top-style: dotted #444;
 
 // Header
 $header-selected-bg: none;

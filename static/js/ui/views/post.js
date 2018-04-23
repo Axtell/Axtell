@@ -1,16 +1,24 @@
 import PostVoteViewController from '~/controllers/PostVoteViewController';
+import CommentListViewController from '~/controllers/CommentListViewController';
 import Post from '~/models/Post';
 
 export const POST_VOTE_CONTAINER = 'post-vote-list';
+export const POST_COMMENT_CONTAINER = 'post-vote-list';
 
-let postId;
-if (postId = Post.current?.id) {
+let post;
+if (post = Post.current) {
     PostVoteViewController.forClass(
         'vote-button',
         (elem) => [elem, {
             voteType: elem.dataset.type,
-            postId
+            postId: post.id
         }],
         POST_VOTE_CONTAINER
     )
+
+    CommentListViewController.forClass(
+        'comment-list',
+        (commentList) => [commentList, post],
+        'post'
+    );
 }

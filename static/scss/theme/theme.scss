@@ -14,12 +14,24 @@ $lower-theme-gutter: $level-1-margin;
   width: 100%;
   min-height: 100%; // We need to manually specify this so child height constraints.
 
+  // Flex centering
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   // The title header
   h1 {
-    font-size: 6rem;
+    font-size: 8rem;
     font-family: $bold-font;
     font-weight: 900;
     color: $splash-name-color;
+    text-align: center;
+  }
+
+  h3 {
+    display: block;
+    color: $subtitle-color;
+    text-align: center;
   }
 
   // Due to contrasting colors, this will avoid weirdness of subpixel rendering.
@@ -29,6 +41,7 @@ $lower-theme-gutter: $level-1-margin;
 
 .index-root {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
