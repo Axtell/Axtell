@@ -3,7 +3,7 @@ import app.tasks.markdown as markdown
 # max_depth = 1 will only load top-level comments
 def get_rendered_comments(cls, parent_id=None, max_depth=1, **kwargs):
     rendered_comments = []
-    comments = cls.query.filter_by(parent_id=parent_id, **kwargs).order_by(cls.date_created.desc()).limit(5)
+    comments = cls.query.filter_by(parent_id=parent_id, **kwargs).order_by(cls.date_created.asc()).limit(5)
 
     for comment in comments:
         # Get child comments

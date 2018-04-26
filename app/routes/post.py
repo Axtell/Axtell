@@ -37,8 +37,9 @@ def get_post_preview(id):
     return render_template('post/preview.html', id=id)
 
 
-@server.route("/post/<int:post_id>")
-def get_post(post_id):
+@server.route("/post/<int:post_id>", defaults={"title": None})
+@server.route("/post/<int:post_id>/<title>")
+def get_post(post_id, title=""):
     # Locate post
     matched_post = post.get_post(post_id=post_id)
     if matched_post is None:

@@ -24,6 +24,9 @@ export default class CommentListViewController extends ViewController {
         /** @type {Post|Answer} */
         this.owner = owner;
 
+        // The location to prepend instances
+        this._prependRef = this._node.getElementsByClassName('comment--prepend-ref')[0];
+
         WriteCommentViewController.forClass(
             'comment-write-init',
             (btn) => [btn, owner, this],
@@ -42,7 +45,7 @@ export default class CommentListViewController extends ViewController {
             </li>
         );
 
-        this._node.insertBefore(loadingHTML, this._node.firstChild);
+        this._node.insertBefore(loadingHTML, this._prependRef);
         loadingHTML.style.opacity = 0;
         setTimeout(() => { loadingHTML.style.opacity = 1 }, OPACITY_TRANSITION_DURATION);
 
@@ -78,7 +81,7 @@ export default class CommentListViewController extends ViewController {
             </li>
         );
 
-        this._node.insertBefore(commentHTML, this._node.firstChild);
+        this._node.insertBefore(commentHTML, this._prependRef);
         commentHTML.style.opacity = 0;
 
         // Wait for transition to finish, then change
