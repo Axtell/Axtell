@@ -50,7 +50,7 @@ if (formController = ViewController.of(ANSWER_FORM)) {
 
         formWillSubmit(controller) {
             super.formWillSubmit(controller);
-            controller.setFieldWithName(btoa(editor.value), ANSWER_CODE_NAME);
+            controller.setFieldWithName(Buffer.from(editor.value).toString('base64'), ANSWER_CODE_NAME);
         }
     }
 }
