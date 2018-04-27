@@ -13,7 +13,7 @@ class AnswerComment(db.Model):
     parent_id = db.Column(db.Integer, db.ForeignKey('answer_comments.id'), nullable=True)
     text = db.Column(db.String(140), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    date_created = db.Column(db.DateTime, default=datetime.datetime.now)
 
     user = db.relationship('User', backref='answer_comments')
     answer = db.relationship('Answer', backref='comments')

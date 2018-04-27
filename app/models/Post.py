@@ -16,7 +16,7 @@ class Post(db.Model):
     title = db.Column(db.String(posts['max_title']), nullable=False)
     body = db.Column(LONGTEXT, nullable=False)
 
-    date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    date_created = db.Column(db.DateTime, default=datetime.datetime.now)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 

@@ -6,6 +6,7 @@
         <div class="comment-content">
             <div class="comment-header">
                 <span class="name">{{ item[2].user.name }}</span>
+                <span class="timestamp"><script>d({{ item[2].date_created.timestamp() * 1000 }})</script></span>
             </div>
             <div class="body">
                 {{ item[0]|safe }}
@@ -26,6 +27,7 @@
 {% macro commentList(comment_list) -%}
 <ul class="comment-list">
     {{ commentListBody(comment_list) }}
+    <li class="comment--prepend-ref"></li>
     {% if g.user is not none -%}
     <li class="comment-item comment-write-init">
         {% include "svg/pen.html" %}
