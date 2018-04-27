@@ -16,7 +16,7 @@ export default class AceViewController extends ViewController {
      * @param {AceTheme} theme Theme to use for Ace.
      * @param {Object} customRules Custon rules if any
      */
-    constructor(element, theme = AceTheme.default, customRules = { start: [] }) {
+    constructor(element, theme = AceTheme.default, customRules) {
         super();
 
         this._editor = ace.edit(element);
@@ -70,23 +70,33 @@ export default class AceViewController extends ViewController {
         // No this is not the same as a ternary
         let name = (lang && lang.aceName) || "text";
 
-        const Mode = ace.require(`ace/mode/${name}`).Mode;
-        const mode = new Mode();
+        const Mode = ace.config.loadModule(["mode", `ace/mode/${name}`], ({ Mode }) => {
+            const mode = new Mode();
 
-        // Fixes race condition
-        let highlightRules = this._highlighter();
-        oop.inherits(highlightRules, mode.HighlightRules);
-        mode.HighlightRules = highlightRules;
-        this._editor.session.setMode(mode);
+            // Fixes race condition
+            let highlightRules = this._highlighter(new (mode.HighlightRules)());
+            oop.inherits(highlightRules, mode.HighlightRules);
+            mode.HighlightRules = highlightRules;
+            this._editor.session.setMode(mode);
+        });
     }
 
     /**
      * Manages sub ace highlighting
      */
-    _highlighter() {
+    _highlighter(base) {
         let self = this;
         return function() {
-            this.$rules = self.customRules;
+            Object.assign(this, base);
+
+            if (self.customRules) {
+                for (const [ruleName, tokens] of Object.entries(self.customRules)) {
+                    for (const token of tokens) {
+                        this.$rules[ruleName].unshift(token);
+                    }
+                }
+            }
+
             this.normalizeRules();
         }
     }

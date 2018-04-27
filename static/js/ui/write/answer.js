@@ -69,7 +69,7 @@ if (formController = ViewController.of(ANSWER_FORM)) {
         start: [
             {
                 token: "axtell-placeholder",
-                match: /\$\$axtell:[a-z]+\$\$/
+                regex: /\$\$axtell:[a-z]+\$\$/
             }
         ]
     });
