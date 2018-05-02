@@ -28,7 +28,7 @@ class Answer(db.Model):
     date_created = db.Column(db.DateTime, default=datetime.datetime.now)
 
     user = db.relationship('User', backref='answers')
-    post = db.relationship('Post', backref='answers')
+    post = db.relationship('Post', backref='answers', lazy=True)
 
     @hybrid_property
     def byte_len(self):

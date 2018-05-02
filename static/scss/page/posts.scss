@@ -15,6 +15,22 @@
       border-bottom: 1px solid $subcontent-border-color;
     }
 
+    .post-info-tag {
+      color: white;
+      font-weight: 400;
+      font-size: 0.8rem;
+
+      vertical-align: 3px;
+      border-radius: 3px;
+
+      padding: 2px 4px;
+      margin: 0 4px;
+
+      &.post-info-tag--purple {
+        background: #a534a5;
+      }
+    }
+
     .summary {
       p {
         word-break: break-word;
