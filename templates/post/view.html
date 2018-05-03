@@ -1,6 +1,6 @@
 {% extends "layouts/split.html" %}
 {% from "includes/userbox.html" import userbox %}
-{% from "includes/voting.html" import votebutton %}
+{% from "includes/voting.html" import votebuttons %}
 {% from "includes/comment.html" import commentList %}
 
 {% block head -%}
@@ -28,8 +28,7 @@
     </div>
     <div id="post-vote-list" class="vote-list -pad">
         {% set vote_status = vote.get_post_vote(post.id) %}
-        {{ votebutton("Upvote", is_active=vote_status['vote'] == 1, vote_count=vote_status['breakdown']['upvote'], type_id='upvote') }}
-        {{ votebutton("Downvote", is_active=vote_status['vote'] == -1, vote_count=vote_status['breakdown']['downvote'], type_id='downvote') }}
+        {{ votebuttons(vote_status, post.user == g.user) }}
     </div>
     {{ userbox(post.user, post.date_created, vtight=true) }}
     {{ commentList(post_comments) }}
@@ -71,8 +70,7 @@
                 </div>
                 <div class="vote-list">
                     {% set vote_status = vote.get_answer_vote(answer.id) %}
-                    {{ votebutton("Upvote", is_active=vote_status['vote'] == 1, vote_count=vote_status['breakdown']['upvote'], type_id='upvote') }}
-                    {{ votebutton("Downvote", is_active=vote_status['vote'] == -1, vote_count=vote_status['breakdown']['downvote'], type_id='downvote') }}
+                    {{ votebuttons(vote_status, answer.user == g.user) }}
                 </div>
                 {{ userbox(answer.user, answer.date_created, small=true, htight=true, vtight=true) }}
                 {{ commentList(answer_comments[loop.index - 1]) }}
