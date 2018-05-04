@@ -39,6 +39,8 @@ export default class VoteViewController extends ViewController {
         this._root = voteButton;
         this._isActive = voteButton.classList.contains(VOTE_ACTIVE_CLASS);
 
+        // Ignore if not a valid vote button
+        if (voteButton.classList.contains('disabled')) return this;
         voteButton.addEventListener("click", ::this.toggleState);
     }
 
