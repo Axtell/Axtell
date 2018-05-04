@@ -67,4 +67,9 @@ setTimeout(
     )
 );
 
-tippy('.tooltip');
+tippy('.tooltip', {
+    arrow: true,
+    animateFill: false,
+    duration: [150, 250],
+    size: 'small'
+});

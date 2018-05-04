@@ -27,7 +27,7 @@
   @include vote-button-style($main-text);
   cursor: pointer;
 
-  &:hover {
+  &:not(.disabled):hover {
     // We are going to mix it with $hover-mix so we can get a more standing-out
     // color to make it clear votes are actionable.
     $vote-hover-col: mix($main-text, $hover-mix, 20%);
@@ -39,6 +39,10 @@
 
   @include vote-button-type("upvote", #2FCF8B);
   @include vote-button-type("downvote", #E03830);
+
+  &.disabled {
+    @include vote-button-style(rgba($main-text, 0.5));
+  }
 
   .vote-count {
     font-size: 16px;
