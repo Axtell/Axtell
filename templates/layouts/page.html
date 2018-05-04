@@ -18,7 +18,7 @@
           crossorigin="anonymous">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
-    <script>function d(t){var a=document.currentScript;a.parentNode.replaceChild(document.createTextNode(moment(t).fromNow()),a)}d</script>
+    <script>function d(t){var a=document.currentScript;a.parentNode.replaceChild(document.createTextNode(moment.unix(t).fromNow()),a)}d</script>
 
     {% if g.user is none -%}
         <script src="https://apis.google.com/js/api:client.js"></script>

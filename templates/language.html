@@ -1,0 +1,11 @@
+{% extends "layouts/page.html" %}
+
+{% block title %}{{ language.get_display_name() }}{% endblock %}
+{% block content -%}
+    <div class="list-header">
+        <h1><img src="{{ language.get_logo_url() }}"> {{ language.get_display_name() }}</h1>
+    </div>
+    <div class="main">
+
+    </div>
+{%- endblock %}

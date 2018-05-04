@@ -1,0 +1,56 @@
+.language-grid, #content .main.language-grid {
+    padding: 0;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+
+    .language_grid__item_wrap {
+        padding: 1rem;
+        flex: 1 1 (100% / 4);
+        box-sizing: border-box;
+    }
+
+    .language-grid__item {
+        border-radius: 8px;
+
+        // Base font-size
+        font-size: 1rem;
+
+        display: flex;
+        align-items: center;
+
+        padding: 1rem 1.5rem;
+
+        text-align: auto;
+
+        box-shadow: 0px 8px 16px 4px rgba($hover-mix, 0.2);
+
+        .language-grid__item__title {
+            font-family: $bold-font;
+            font-weight: $bold-weight;
+            color: $em-text;
+        }
+
+        .language-grid__item__desc {
+            display: block;
+            font-size: 0.8rem;
+            padding: 4px 0;
+            color: $label-tag;
+        }
+
+        .language-grid__item__icon {
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+
+        .language-grid__item__left {
+            box-sizing: border-box;
+            padding-right: 16px;
+        }
+
+        .language-grid__item__right {
+            flex: 1;
+        }
+    }
+}

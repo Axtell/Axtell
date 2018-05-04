@@ -15,6 +15,17 @@
     font-family: $bold-font;
     font-weight: $bold-weight;
 
+    > img {
+      height: 1em;
+      width: 1em;
+
+      margin-right: 8px;
+
+      vertical-align: middle;
+
+      margin: -8px 4px 0 0;
+    }
+
     &.tight {
       flex: 0;
     }
