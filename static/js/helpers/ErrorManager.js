@@ -70,7 +70,13 @@ export class ErrorManager {
             args.unshift(error);
         }
 
-        new AnyError(message, title).report(...args);
+        const err = new AnyError(message, title);
+
+        if (window.Rollbar) {
+            Rollbar.warning(err.toString(), { data: args });
+        }
+
+        err.report(...args);
     }
 
     /**
@@ -90,6 +96,9 @@ export class ErrorManager {
      * @param {Error|AnyError} error - An unhandled error to report.
      */
     unhandled(error) {
+        if (window.rollbar) {
+
+        }
         new AnyError(error.message, 'Unhandled Error').report(error, error.stack);
     }
 

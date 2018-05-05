@@ -26,6 +26,7 @@ install:
 - sed -i "s/REDIS_PASSWORD//" config.py
 - sed -i "s/IMGUR_CLIENT_ID/$IMGUR_CLIENT_ID/" config.py
 - sed -i "s/GOOGLE_CLIENT_ID/$GOOGLE_CLIENT_ID/" config.py
+- sed -i "s/ROLLBAR_ACCESS_TOKEN/$ROLLBAR_ACCESS_TOKEN/" config.py
 - celery multi start w1 -A celery_server --logfile=celery.log --pidfile=celery.pid
 script:
 - coverage run -m unittest discover tests -vf --locals

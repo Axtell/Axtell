@@ -39,6 +39,12 @@
         {%- endassets %}
     {% endif %}
 
+    <script>
+    {% if opts.auth['rollbar'].get('accessToken', '') not in ['ROLLBAR_ACCESS_TOKEN', ''] -%}
+    {% include "includes/rollbar.js" %}
+    {%- endif %}
+    </script>
+
     {% assets "js_all" -%}
     <meta name="data_id" content="{{ data_id }}">
     {{ data("theme", session.get("theme", "light")) }}
