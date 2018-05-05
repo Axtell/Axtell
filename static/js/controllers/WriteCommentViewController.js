@@ -2,7 +2,7 @@ import ViewController from '~/controllers/ViewController';
 import MarkdownViewController from '~/controllers/MarkdownViewController';
 import * as MarkdownControls from '~/controllers/MarkdownControls';
 
-import Comment from '~/models/Request/Comment';
+import WriteComment from '~/models/Request/WriteComment';
 import Answer from '~/models/Answer';
 import Post from '~/models/Post';
 
@@ -82,21 +82,17 @@ export default class WriteCommentViewController extends ViewController {
 
         this.toggleState();
 
-        let type;
-        if (this.owner instanceof Answer) type = 'answer';
-        else if (this.owner instanceof Post) type = 'post';
-        else ErrorManager.shared.raise(`Unexpected comment owner type`, CommentOwnerTypeError);
-
-        let instance = this.parentList.createLoadingInstance();
+        let type = this.owner.endpoint;
+        let instance = this.parentList.createLoadingInstance("Posting comment...");
 
         try {
-            let commentPost = new Comment({
+            let commentPost = new WriteComment({
                 type: type,
                 id: this.owner.id,
                 value: text
             });
 
-            const comment = await commentPost.send();
+            const comment = await commentPost.run();
 
             // Reset the box
             this._commentText.value = "";

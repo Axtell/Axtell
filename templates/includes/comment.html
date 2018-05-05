@@ -18,8 +18,17 @@
     </li>
 {% endmacro %}
 
-{% macro commentListBody(comment_list) %}
-    {% for comment_item in comment_list %}
+{% macro commentListBody(comments) %}
+    {% set show_more, comment_list = comments %}
+    {% if show_more %}
+        <li class="comment-item comment-item--action comment-item--load-more">
+            {% include "svg/down.html" %}
+            See More
+        </li>
+        <li class="comment--append-ref"></li>
+        <li class="comment--append-ref-transparent"></li>
+    {% endif %}
+    {% for comment_item in comment_list|reverse %}
         {{ comment(comment_item) }}
     {% endfor %}
 {% endmacro %}
@@ -29,7 +38,7 @@
     {{ commentListBody(comment_list) }}
     <li class="comment--prepend-ref"></li>
     {% if g.user is not none -%}
-    <li class="comment-item comment-write-init">
+    <li class="comment-item comment-item--action comment-item--write-init">
         {% include "svg/pen.html" %}
         Write Comment
     </li>

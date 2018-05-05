@@ -39,18 +39,18 @@
 .comment-item {
     padding: 0.4rem 1rem;
 
-    // "Write Comment" button
-    &.comment-write-init {
-        $comment-write-init-size: 0.8rem;
-        $comment-write-init-color: $dim-text;
+    // For comment actions such as "Load More" or "Write Comment"
+    &.comment-item--action {
+        $comment-action-size: 0.8rem;
+        $comment-action-color: $dim-text;
 
         svg {
             fill: $dim-text;
-            height: $comment-write-init-size;
+            height: $comment-action-size;
             margin-right: 4px;
         }
 
-        font-size: $comment-write-init-size;
+        font-size: $comment-action-size;
         color: $dim-text;
     }
 

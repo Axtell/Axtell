@@ -36,6 +36,12 @@ export default class Answer {
     get id() { return this._id }
 
     /**
+     * General endpoint for this type of model
+     * @type {string}
+     */
+    get endpoint() { return 'answer' }
+
+    /**
      * Language of ans
      * @type {?Language}
      */

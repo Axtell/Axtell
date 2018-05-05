@@ -4,7 +4,7 @@ import Comment from '~/models/Comment';
 /**
  * Submits a comment
  */
-export default class CommentRequest extends Request {
+export default class WriteCommentRequest extends Request {
     /**
      * Returns the new comment object
      * @param {Object} data

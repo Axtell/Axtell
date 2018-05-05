@@ -21,6 +21,18 @@ def write_answer_comment(answer_id):
     return render_json(new_comment.to_json())
 
 
+@server.route("/answer/<int:answer_id>/comments/page/<int:page_id>")
+def get_answer_comments_page(answer_id, page_id):
+    comments = comment.get_answer_comments_page(answer_id, page_id)
+    return render_json(comments)
+
+
+@server.route("/post/<int:post_id>/comments/page/<int:page_id>")
+def get_post_comments_page(post_id, page_id):
+    comments = comment.get_post_comments_page(post_id, page_id)
+    return render_json(comments)
+
+
 @server.route("/post/<int:post_id>/comments/<int:comment_id>")
 def get_post_comment(post_id, comment_id):
     post_comment = comment.get_post_comment(comment_id)
