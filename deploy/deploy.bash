@@ -28,7 +28,15 @@ rsync --super --chmod=g+rw -rvzP "$TRAVIS_BUILD_DIR/static/css/" "$REMOTE_HOST:/
 echo "DEPLOY: CLEANING UP..."
 rm deploy/id_rsa
 
-echo "SUBMITTING SOURCEMAP..."
+echo "NOTIFIYING ROLLBAR DEPLOY..."
+curl https://api.rollbar.com/api/1/deploy/ \
+  -F access_token=$ROLLBAR_SERVER_ACCESS_TOKEN \
+  -F environment=production \
+  -F revision=$(git rev-parse @) \
+  -F "local_username=$(git show -s --format='%an')" \
+  -F "comment=$(git show -s --format='%s' @)"
+
+echo "SUBMITTING ROLLBAR SOURCEMAP..."
 curl https://api.rollbar.com/api/1/sourcemap \
   -F access_token=$ROLLBAR_SERVER_ACCESS_TOKEN \
   -F version=$(git rev-parse @) \
