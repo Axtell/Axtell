@@ -1,4 +1,5 @@
 import Auth, {AuthJWTToken} from '~/models/Auth';
+import Data from '~/models/Data';
 
 import Template, {TemplateType} from '~/template/Template';
 import ModalTemplate from '~/template/ModalTemplate';
@@ -28,7 +29,7 @@ export default class AuthModalTemplate extends ModalTemplate {
         await gapi.loadAsync('auth2');
 
         gapi.auth2.init({
-            client_id: process.env.GAPI_KEY,
+            client_id: Data.shared.envValueForKey('GAPI_KEY'),
             cookiepolicy: 'single_host_origin',
             fetch_basic_profile: true
         }).attachClickHandler(googleTrigger, {}, (googleUser) => {

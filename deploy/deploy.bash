@@ -27,3 +27,10 @@ rsync --super --chmod=g+rw -rvzP "$TRAVIS_BUILD_DIR/static/css/" "$REMOTE_HOST:/
 
 echo "DEPLOY: CLEANING UP..."
 rm deploy/id_rsa
+
+echo "SUBMITTING SOURCEMAP..."
+curl https://api.rollbar.com/api/1/sourcemap \
+  -F access_token=$ROLLBAR_SERVER_ACCESS_TOKEN \
+  -F version=$(git rev-parse @) \
+  -F minified_url=https://axtell.vihan.org/static/lib/main.js \
+  -F source_map=@static/lib/main.js.map
