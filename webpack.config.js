@@ -6,6 +6,7 @@ module.exports = {
         path: path.resolve(__dirname, 'static/lib'),
         filename: 'main.js'
     },
+    mode: process.env.NODE_ENV === 'debug' ? 'development' : 'production',
     devtool: 'source-map',
     module: {
         rules: [

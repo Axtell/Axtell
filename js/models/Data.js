@@ -52,6 +52,15 @@ export default class Data {
     }
 
     /**
+     * Check if key exists
+     * @param {string} key
+     * @return {boolean} true if exists
+     */
+    hasKey(key) {
+        return !!window[this._id + key];
+    }
+
+    /**
      * Get value for key
      * @param {string} key - Key name
      * @return {?string}

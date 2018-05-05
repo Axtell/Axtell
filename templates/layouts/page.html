@@ -54,6 +54,10 @@
         'MIN_COMMENT_LENGTH': opts.comments['min_len']|string,
         'MAX_COMMENT_LENGTH': opts.comments['max_len']|string
     })) }}
+
+    {% if g.user is not none %}
+    {{ data_value("me",g.user.to_json()|tojson) }}
+    {% endif %}
     <script async defer src="/static/lib/main.js"></script>
 {%- endblock %}
 

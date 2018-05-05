@@ -6,7 +6,7 @@ import Auth from '~/models/Auth';
 
     const auth = await Auth.shared;
 
-    if (await auth.isAuthorized) {
+    if (auth.isAuthorized) {
         const userInfo = new PopoverViewController(
         	null,
             document.getElementById("useroverview-target"),
