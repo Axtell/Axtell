@@ -32,8 +32,9 @@
         <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow.min.css"
               rel="stylesheet">
     {% endif %}
-    <link rel=stylesheet type=text/css href="/static/css/all-{{ session['theme'] }}.css">
-    {{ data("theme", session.get("theme", session['theme'])) }}
+    {% set theme = session.get('theme', 'light') %}
+    <link rel=stylesheet type=text/css href="/static/css/all-{{ theme }}.css">
+    {{ data("theme", theme) }}
 
     <script>
     {% if opts.auth['rollbar'].get('accessToken', '') not in ['ROLLBAR_ACCESS_TOKEN', ''] -%}

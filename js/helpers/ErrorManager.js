@@ -64,6 +64,15 @@ export class ErrorManager {
     }
 
     /**
+     * Warns an AnyError
+     * @param {string} message
+     * @param {Symbol|string} id Describes the type
+     */
+    warn(message, id) {
+        console.warn(new AnyError(message, id).toString());
+    }
+
+    /**
      * A handled or non-critical error. Logs to console.
      *
      * @param {Error|AnyError} error - The error object caught.
