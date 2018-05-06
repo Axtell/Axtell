@@ -19,7 +19,8 @@ import Leaderboard from "~/models/Request/Leaderboard";
 import ErrorManager from "~/helpers/ErrorManager";
 
 // Make global
-if (process.env.IS_DEBUG) {
+const IS_DEBUG = false;
+if (IS_DEBUG) {
     global.Normalize = Normalize;
     global.Language = Language;
     global.Theme = Theme;
@@ -47,11 +48,12 @@ global.ErrorManager = ErrorManager;
         document.addEventListener("load", done);
     }
 }(function(state) {
+    // This ensures that we only load once
     return function() {
         if (state === false) {
             state = true;
             try {
-                require("~/ui");
+                require("./ui");
             } catch(error) {
                 ErrorManager.report(error);
             }

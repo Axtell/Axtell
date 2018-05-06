@@ -33,6 +33,9 @@ auth = {
     },
     'imgur': {
         'client-id': 'IMGUR_CLIENT_ID'
+    },
+    'rollbar': {
+        'accessToken': 'ROLLBAR_ACCESS_TOKEN'
     }
 }
 

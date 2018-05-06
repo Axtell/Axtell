@@ -1,4 +1,5 @@
 import ErrorManager from '~/helpers/ErrorManager';
+import Data from '~/models/Data';
 
 export const INVALID_JSON = Symbol('User.Error.InvalidJSON');
 
@@ -56,9 +57,9 @@ export default class User {
     }
 
     /** @type {number} */
-    static MIN_USERNAME_LENGTH = process.env.MIN_USERNAME_LENGTH
+    static MIN_USERNAME_LENGTH = Data.shared.envValueForKey('MIN_USERNAME_LENGTH');
 
     /** @type {number} */
-    static MAX_USERNAME_LENGTH = process.env.MAX_USERNAME_LENGTH
+    static MAX_USERNAME_LENGTH = Data.shared.envValueForKey('MAX_USERNAME_LENGTH');
 
 }

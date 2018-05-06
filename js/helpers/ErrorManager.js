@@ -35,12 +35,22 @@ export class AnyError {
         ErrorList.push(this);
         console.error(`%c${this.idString}:%c ${this.message}`, 'font-weight: 700', '', ...args);
         console.log(
-            `You can report this error at %s and get a dump of what happened ` +
-            `by running \`E%crrorManager.dumpText()%c\``,
-            'https://github.com/Axtell/Axtell/issues',
+            `This error has been reported, your instance id is %c${Data.shared.dataId}%c.` +
             'font-family: Menlo, "Fira Mono", monospace;', ''
         );
     }
+}
+
+// Helper to report rollbar
+function report_rollbar(level, message, args) {
+    const user = Data.shared.valueForKey('user') || 'unauthorized';
+    const instanceId = Data.shared.dataId;
+
+    Rollbar[level](message, {
+        instance: instanceId,
+        user,
+        ...args
+    });
 }
 
 export class ErrorManager {
@@ -51,6 +61,15 @@ export class ErrorManager {
      */
     raise(message, id) {
         throw new AnyError(message, id);
+    }
+
+    /**
+     * Warns an AnyError
+     * @param {string} message
+     * @param {Symbol|string} id Describes the type
+     */
+    warn(message, id) {
+        console.warn(new AnyError(message, id).toString());
     }
 
     /**
@@ -70,7 +89,13 @@ export class ErrorManager {
             args.unshift(error);
         }
 
-        new AnyError(message, title).report(...args);
+        const err = new AnyError(message, title);
+
+        if (window.Rollbar) {
+            report_rollbar('warning', err.toString(), { data: args });
+        }
+
+        err.report(...args);
     }
 
     /**
@@ -79,6 +104,7 @@ export class ErrorManager {
      */
     report(error) {
         if (error instanceof AnyError) {
+            report_rollbar('error', error.toString());
             error.report();
         } else {
             this.unhandled(error);
@@ -90,6 +116,10 @@ export class ErrorManager {
      * @param {Error|AnyError} error - An unhandled error to report.
      */
     unhandled(error) {
+        if (window.rollbar) {
+            report_rollbar('error', error)
+        }
+
         new AnyError(error.message, 'Unhandled Error').report(error, error.stack);
     }
 

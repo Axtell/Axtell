@@ -1,9 +1,9 @@
 import Data from '~/models/Data';
 
-export const MIN_TITLE_LENGTH = process.env.POST_TITLE_MIN;
-export const MAX_TITLE_LENGTH = process.env.POST_TITLE_MAX;
-export const MIN_BODY_LENGTH = process.env.POST_BODY_MIN;
-export const MAX_BODY_LENGTH = process.env.POST_BODY_MAX;
+export const MIN_TITLE_LENGTH = Data.shared.envValueForKey('POST_TITLE_MIN');
+export const MAX_TITLE_LENGTH = Data.shared.envValueForKey('POST_TITLE_MAX');
+export const MIN_BODY_LENGTH = Data.shared.envValueForKey('POST_BODY_MIN');
+export const MAX_BODY_LENGTH = Data.shared.envValueForKey('POST_BODY_MAX');
 
 export const POST_ID_KEY = 'id';
 

@@ -3,10 +3,12 @@
     ["@babel/preset-env", {
       "targets": {
         "browsers": ["> 1%"]
-      }
+      },
+      "modules": false
     }]
   ],
   "plugins": [
+    "@babel/plugin-syntax-dynamic-import",
     "babel-plugin-syntax-jsx",
     ["babel-plugin-jsx-to-dom", {
       "noWhitespaceOnly": true
@@ -22,7 +24,7 @@
       "paths": [
         {
           "rootPathPrefix": "~",
-          "rootPathSuffix": "static/js/"
+          "rootPathSuffix": "js/"
         },
         {
           "rootPathPrefix": "#",

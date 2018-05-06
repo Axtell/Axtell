@@ -1,6 +1,6 @@
 {
   "source": "./js",
-  "destination": "../docs-js",
+  "destination": "./docs-js",
   "excludes": [ "modern/[^/]+" ],
 
   "plugins": [
