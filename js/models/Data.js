@@ -40,6 +40,26 @@ export default class Data {
         else return JSON.parse(atob(value));
     }
 
+    _envCache = null;
+    /**
+     * Obtains a server-sources env value
+     * @param  {string} key The key
+     * @return {?any} null if not found
+     */
+    envValueForKey(key) {
+        const env = this._envCache || (this._envCache = this.encodedJSONForKey("env"));
+        return env[key];
+    }
+
+    /**
+     * Check if key exists
+     * @param {string} key
+     * @return {boolean} true if exists
+     */
+    hasKey(key) {
+        return !!window[this._id + key];
+    }
+
     /**
      * Get value for key
      * @param {string} key - Key name

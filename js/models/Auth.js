@@ -1,4 +1,5 @@
 import User from '~/models/User';
+import Data from '~/models/Data';
 import axios from 'axios';
 
 /**
@@ -35,12 +36,7 @@ class Auth {
      * @return {Boolean} `Promise` but resolves to boolean.
      */
     get isAuthorized() {
-        if (this._isAuthorized !== null)
-            return Promise.resolve(this._isAuthorized);
-
-        return (async () => (
-            this._isAuthorized = await this.user !== Auth.Unauthorized
-        ))();
+        return Data.shared.hasKey('me');
     }
 
     /**
@@ -50,20 +46,12 @@ class Auth {
      *                          to `Unauthorized` if not logged in.
      */
     get user() {
-        // Use cached result
-        if (this._user !== null)
-            return Promise.resolve(this._user);
-
-        return (async () => {
-            const result = await axios.get('/user/data/me');
-            const user = User.fromJSON(result.data);
-
-            // Handle unauthorized user
-            if (user === null) this._user = Auth.Unauthorized;
-            else this._user = user;
-
-            return this._user;
-        })();
+        if (this.isAuthorized) {
+            const value = Data.shared.valueForKey('me');
+            return User.fromJSON(value);
+        } else {
+            return Auth.Unauthorized;
+        }
     }
 
     /**

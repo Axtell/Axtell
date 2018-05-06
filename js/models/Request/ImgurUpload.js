@@ -1,6 +1,7 @@
 import Request, { HTTPMethod } from '~/models/Request/Request';
+import Data from '~/models/Data';
 
-export const IMGUR_CLIENT_ID = process.env.IMGUR_CLIENT_ID;
+export const IMGUR_CLIENT_ID = Data.shared.envValueForKey('IMGUR_CLIENT_ID');
 export const IMGUR_UPLOAD_ENDPOINT = 'https://api.imgur.com/3/image';
 
 export default class ImgurUpload extends Request {

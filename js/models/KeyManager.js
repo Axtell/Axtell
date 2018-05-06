@@ -40,7 +40,7 @@ export default class KeyManager {
     }
 
     /**
-     * Registers an event for a key
+     * Registers an event for a key.
      *
      * @param {string} key - A key matching `event.key` to be watched for
      * @param {Function} callback - Called when finished
@@ -49,7 +49,7 @@ export default class KeyManager {
      */
     register(key, callback) {
         if (this._defaultListeners.has(key)) {
-            ErrorManager.raise(`Callback exists for generic handler for ${key}`, KeyAlreadyRegistered).
+            ErrorManager.warn(`Callback exists for generic handler for ${key}`, KeyAlreadyRegistered);
             return;
         }
 
@@ -58,7 +58,7 @@ export default class KeyManager {
     }
 
     /**
-     * Registers an event for a key combo w/ meta e.g, ctrl or command
+     * Registers an event for a key combo w/ meta e.g, ctrl or command.
      *
      * @param {string} key - A key matching `event.key` to be watched for
      * @param {Function} callback - Called when finished
@@ -67,7 +67,7 @@ export default class KeyManager {
      */
     registerMeta(key, callback) {
         if (this._metaListeners.has(key)) {
-            ErrorManager.raise(`Callback exists for meta handler for ${key}`, KeyAlreadyRegistered).
+            ErrorManager.warn(`Callback exists for meta handler for ${key}`, KeyAlreadyRegistered);
             return;
         }
 

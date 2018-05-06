@@ -5,13 +5,14 @@ import * as MarkdownControls from '~/controllers/MarkdownControls';
 import Comment from '~/models/Request/Comment';
 import Answer from '~/models/Answer';
 import Post from '~/models/Post';
+import Data from '~/models/Data';
 
 export const CommentError = Symbol('WriteComment.Error.submit');
 export const CommentOwnerTypeError = Symbol('WriteComment.Error.ownerType');
 
 export const CommentLengthBounds = [
-    process.env.MIN_COMMENT_LENGTH,
-    process.env.MAX_COMMENT_LENGTH
+    Data.shared.envValueForKey('MIN_COMMENT_LENGTH'),
+    Data.shared.envValueForKey('MAX_COMMENT_LENGTH')
 ];
 
 /**
