@@ -1,0 +1,149 @@
+h1, h2, h3, h4, h5, h6 {
+  display: block;
+  margin-top: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+h1 {
+  font: {
+    family: $bold-font;
+    weight: bold;
+    size: 1.5rem;
+  };
+}
+
+h2, h3 {
+  font-size: 1.4rem;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid $subcontent-border-color;
+}
+
+code {
+  font-family: $monospace;
+}
+
+p {
+  margin: 0;
+
+  + p {
+    margin-top: 1rem;
+  }
+}
+
+img {
+  // We don't want a giant picture filling the screen so limits
+  max-width: 80%;
+  max-height: 80%;
+}
+
+a {
+  color: inherit;
+  border-bottom: 2px solid $link-color;
+  padding: 0 1px;
+}
+
+blockquote {
+  margin: 0;
+  padding: .7rem 2rem;
+  padding-right: 0;
+  background: rgba($blockquote-marker, 0.08);
+
+  border-left: 8px solid $blockquote-marker;
+  border-radius: 3px;
+
+  color: rgba($blockquote-fg, 0.7);
+
+  p {
+    font-size: 1.3rem;
+    font-family: $quote-font;
+    font-style: italic;
+
+    color: inherit;
+
+    &:last-child { margin-bottom: 0; }
+  }
+}
+
+li, p {
+  color: $main-text;
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 1.5;
+  hyphens: auto;
+}
+
+.katex-display + * {
+  // Default margin results in no extra space.
+  // This adds a margin-top if there is an element after katex
+  margin-top: 1em;
+
+  // Slightly bigger (as display)
+  font-size: 17px;
+
+  // Makes KaTeX correct color
+  color: inherit;
+}
+
+table {
+  margin: 1rem 0;
+
+  border-collapse: collapse;
+
+  $table-h-spacing: 0.5rem;
+
+  th, td {
+    padding-left: $table-h-spacing;
+    padding-right: $table-h-spacing;
+  }
+
+  td {
+    font-size: 0.9rem;
+    color: $main-text;
+
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  th {
+    font-weight: bold;
+    font-size: 1.1rem;
+
+    color: $main-text;
+    border-bottom: 1px solid $main-text;
+
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  tr + tr td {
+    border-top: 1px solid $subcontent-border-color;
+  }
+
+}
+
+#content-dim {
+  text-align: center;
+
+  svg {
+    max-width: 8rem;
+    display: block;
+    margin: 0 auto;
+    fill: rgba($hover-mix, 0.4);
+  }
+
+  h3 {
+    color: rgba($hover-mix, 0.6);
+    font-weight: 900;
+    font-family: $bold-font;
+    font-size: 1.8rem;
+  }
+
+  span {
+    color: rgba($hover-mix, 0.4);
+    font-family: Roboto;
+    font-size: 1rem;
+  }
+}

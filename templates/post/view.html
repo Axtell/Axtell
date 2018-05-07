@@ -1,6 +1,7 @@
 {% extends "layouts/split.html" %}
 {% from "includes/userbox.html" import userbox %}
-{% from "includes/voting.html" import votebutton %}
+{% from "includes/voting.html" import votebuttons %}
+{% from "includes/comment.html" import commentList %}
 
 {% block head -%}
 {{ super() }}
@@ -27,10 +28,10 @@
     </div>
     <div id="post-vote-list" class="vote-list -pad">
         {% set vote_status = vote.get_post_vote(post.id) %}
-        {{ votebutton("Upvote", is_active=vote_status['vote'] == 1, vote_count=vote_status['breakdown']['upvote'], type_id='upvote') }}
-        {{ votebutton("Downvote", is_active=vote_status['vote'] == -1, vote_count=vote_status['breakdown']['downvote'], type_id='downvote') }}
+        {{ votebuttons(vote_status, post.user == g.user) }}
     </div>
     {{ userbox(post.user, post.date_created, vtight=true) }}
+    {{ commentList(post_comments) }}
 </div>
 <hr class="big">
 <div id="responses">
@@ -55,6 +56,7 @@
     <ul class="response-list">
         {% for answer in answers.items %}
             <li id="answer-{{answer.id|e}}" class="answer" data-id="{{ answer.id|e }}">
+                {{ data('a' + answer.id|string, macros.json_to_b64(answer.to_json(no_code=True))) }}
                 <div class="header">
                     <img src="{{ answer.get_language().get_logo_url() }}">
                     <h4>{{ answer.get_language().get_display_name() }}</h4>
@@ -68,10 +70,10 @@
                 </div>
                 <div class="vote-list">
                     {% set vote_status = vote.get_answer_vote(answer.id) %}
-                    {{ votebutton("Upvote", is_active=vote_status['vote'] == 1, vote_count=vote_status['breakdown']['upvote'], type_id='upvote') }}
-                    {{ votebutton("Downvote", is_active=vote_status['vote'] == -1, vote_count=vote_status['breakdown']['downvote'], type_id='downvote') }}
+                    {{ votebuttons(vote_status, answer.user == g.user) }}
                 </div>
                 {{ userbox(answer.user, answer.date_created, small=true, htight=true, vtight=true) }}
+                {{ commentList(answer_comments[loop.index - 1]) }}
             </li>
         {% endfor %}
     </ul>

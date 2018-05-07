@@ -1,0 +1,14 @@
+// The main profile content
+#content main.profile-content {
+    padding: 0;
+}
+
+.self-indicator {
+  align-self: center;
+  padding: 2px 8px;
+  margin: 0 1em;
+  border-radius: 3px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 1);
+  background: #F8B04D;
+}

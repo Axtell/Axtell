@@ -25,10 +25,10 @@ class Answer(db.Model):
     encoding = db.Column(db.String(10), default='utf8')
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    date_created = db.Column(db.DateTime, default=datetime.datetime.now)
 
     user = db.relationship('User', backref='answers')
-    post = db.relationship('Post', backref='answers')
+    post = db.relationship('Post', backref='answers', lazy=True)
 
     @hybrid_property
     def byte_len(self):
@@ -45,6 +45,7 @@ class Answer(db.Model):
             data['code'] = self.code
             data['commentary'] = self.commentary
 
+        data['id'] = self.id
         data['encoding'] = self.encoding
         data['byte_len'] = self.byte_len
 

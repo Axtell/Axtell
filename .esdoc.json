@@ -1,0 +1,73 @@
+{
+  "source": "./js",
+  "destination": "./docs-js",
+  "excludes": [ "modern/[^/]+" ],
+
+  "plugins": [
+    {
+      "name": "esdoc-babel-7-plugin",
+      "option": {
+        "plugins": [
+          "babel-plugin-syntax-jsx",
+          ["babel-plugin-jsx-to-dom", {
+            "noWhitespaceOnly": true
+          }],
+          "@babel/plugin-proposal-optional-chaining",
+          "@babel/plugin-proposal-optional-catch-binding",
+          ["@babel/plugin-transform-runtime", {
+            "polyfill": false,
+            "regenerator": true
+          }],
+          ["module:babel-7-plugin-root-import", {
+            "paths": [
+              {
+                "rootPathPrefix": "~",
+                "rootPathSuffix": "../"
+              },
+              {
+                "rootPathPrefix": "#",
+                "rootPathSuffix": "misc/"
+              }
+            ]
+          }],
+          "@babel/plugin-proposal-object-rest-spread",
+          "@babel/plugin-proposal-class-properties",
+          "@babel/plugin-proposal-function-bind"
+        ]
+      }
+    },
+    {
+      "name": "esdoc-standard-plugin",
+      "option": {
+        "coverage": {
+          "enable": true
+        },
+        "accessor": {
+          "access": ["public", "protected", "readonly"],
+          "autoPrivate": true
+        },
+        "brand": {
+          "title": "PPCG-v2",
+          "description": "",
+          "repository": "https://github.com/Mego/PPCG-v2",
+          "site": "https://codegolf.vihan.org"
+        }
+      }
+    },
+    {
+      "name": "esdoc-inject-style-plugin",
+      "option": {
+        "enable": true,
+        "styles": [ "../misc/esdoc.css" ]
+      }
+    },
+    {
+      "name": "esdoc-importpath-plugin",
+      "option": {
+        "replaces": [
+          { "from": "^(\\./)?js", "to": "~" }
+        ]
+      }
+    }
+  ]
+}

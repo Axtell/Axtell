@@ -1,0 +1,24 @@
+$page-width: 70%;
+$max-lower-height: 65%; // Size of lower pop-ups (e.g. write answer box)
+$sidebar-width: 15%;
+$font-size: 14px;
+
+$bold-font: "Roboto", sans-serif;
+$bold-weight: 900;
+$light-font: "Roboto", "Helvetica Neue", Myriad, sans-serif;
+$quote-font: "Playfair Display", serif;
+$monospace: Menlo, 'Fira Mono', monospace;
+
+// System fonts
+$body-font: $light-font;
+
+// Code editor
+$code-line-size: 1.2rem;
+$code-line-num: 8;
+
+// Profile
+// $profile-banner-bg: linear-gradient(to right, rgb(128, 65, 127), rgb(108, 76, 181)); // Alternative theme
+// $profile-banner-tint: rgb(240, 219, 255);
+$profile-banner-bg: linear-gradient(to right, rgb(137, 207, 255) 0.42%, rgb(109, 89, 255));
+$profile-banner-tint: rgb(231, 255, 250);
+$profile-banner-shadow-bg: rgba(35, 57, 119, 0.26);

@@ -33,6 +33,9 @@ auth = {
     },
     'imgur': {
         'client-id': 'IMGUR_CLIENT_ID'
+    },
+    'rollbar': {
+        'accessToken': 'ROLLBAR_ACCESS_TOKEN'
     }
 }
 
@@ -70,6 +73,8 @@ users = {
 comments = {
     'min_len': 10,
     'max_len': 140,
+    'show_amt': 3,
+    'nest_amt': 1
 }
 
 secret_skey = 'SESSION_SECRET_KEY'

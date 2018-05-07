@@ -62,49 +62,13 @@ class TestAnswerComments(TestFlask):
         self.assert400(long_result)
 
         result = self.client.post(f'/answer/{self.answer.id}/comment', data={"comment_text": "foobarbazblargh"})
-        self.assert302(result)
+        self.assert200(result)
 
         comment_id = self.answer.comments[0].id
         comment_result = self.client.get(f"/answer/{self.answer.id}/comments/{comment_id}")
         self.assert200(comment_result)
         self.assertEqual(comment_result.json['text'], "foobarbazblargh")
         self.assertEqual(comment_result.json['rendered_text'], "<p>foobarbazblargh</p>\n")
-
-    def test_answer_nested_comments(self):
-        self.session.begin_nested()
-
-        result = self.client.post(f'/answer/{self.answer.id}/comment',
-                                  data={"comment_text": "this is the parent comment"})
-        self.assert302(result)
-        parent_comment = self.answer.comments[0]
-
-        self.session.begin_nested()
-
-        child_a_result = self.client.post(f'/answer/{self.answer.id}/comment',
-                                          data={
-                                              "comment_text": "this is a child comment",
-                                              "parent_comment": parent_comment.id
-                                          })
-        self.assert302(child_a_result)
-        child_comment_a = parent_comment.children[0]
-
-        self.session.begin_nested()
-
-        child_b_result = self.client.post(f'/answer/{self.answer.id}/comment',
-                                          data={
-                                              "comment_text": "this is b child comment",
-                                              "parent_comment": parent_comment.id
-                                          })
-        self.assert302(child_b_result)
-
-        self.session.begin_nested()
-
-        child_c_result = self.client.post(f'/answer/{self.answer.id}/comment',
-                                          data={
-                                              "comment_text": "this is c child comment",
-                                              "parent_comment": child_comment_a.id
-                                          })
-        self.assert302(child_c_result)
 
     def test_nested_answer_comments_model(self):
         self.session.begin_nested()

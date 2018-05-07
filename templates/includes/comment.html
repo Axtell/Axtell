@@ -1,0 +1,47 @@
+{% macro comment(item) %}
+    <li class="comment-item comment-user-split comment" href="/comment/{{ item[2].type() }}/{{ item[2].id }}">
+        <div class="user">
+            <img class="avatar" src="{{ item[2].user.avatar_url() }}"/>
+        </div>
+        <div class="comment-content">
+            <div class="comment-header">
+                <span class="name">{{ item[2].user.name }}</span>
+                <span class="timestamp"><script>d({{ item[2].date_created.timestamp() * 1000 }})</script></span>
+            </div>
+            <div class="body">
+                {{ item[0]|safe }}
+            </div>
+            <div>
+                {{ commentListBody(item[1]) }}
+            </div>
+        </div>
+    </li>
+{% endmacro %}
+
+{% macro commentListBody(comments) %}
+    {% set show_more, comment_list = comments %}
+    {% if show_more %}
+        <li class="comment-item comment-item--action comment-item--load-more">
+            {% include "svg/down.html" %}
+            See More
+        </li>
+        <li class="comment--append-ref"></li>
+        <li class="comment--append-ref-transparent"></li>
+    {% endif %}
+    {% for comment_item in comment_list|reverse %}
+        {{ comment(comment_item) }}
+    {% endfor %}
+{% endmacro %}
+
+{% macro commentList(comment_list) -%}
+<ul class="comment-list">
+    {{ commentListBody(comment_list) }}
+    <li class="comment--prepend-ref"></li>
+    {% if g.user is not none -%}
+    <li class="comment-item comment-item--action comment-item--write-init">
+        {% include "svg/pen.html" %}
+        Write Comment
+    </li>
+    {% endif %}
+</ul>
+{%- endmacro %}

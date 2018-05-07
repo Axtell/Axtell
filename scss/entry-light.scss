@@ -1,0 +1,18 @@
+@import "variables.scss";
+
+$light-bg-primary: #00BBD6;
+$sun: radial-gradient(circle closest-side, #F6C785 0%, #F8DB94 22%, rgba(#F8DB94, 0.9) 30%, rgba(#F8DB94, 0) 50%);
+
+// Theme content
+$main-background: linear-gradient($light-bg-primary, #41D294);
+$footer-background: $light-bg-primary;
+$bg-level-1: url(/static/img/landscape.svg);
+$bg-level-2: url(/static/img/stars.svg);
+$bg-level-3: $sun 200% 100%/80% no-repeat;
+
+$wrapper-shadow: 0 -4px 24px rgba(136, 146, 148, 0.41), 0 20px 32px rgba(27, 31, 38, 0.3);
+$subtitle-color: rgba(223, 255, 231, 0.8);
+
+$splash-name-color: white;
+
+@import "main.scss";

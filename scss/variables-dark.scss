@@ -1,0 +1,73 @@
+@import "variables-shared.scss";
+
+// Font colors
+$em-text: #DDD; // Off-white
+$main-text: #afb7ca; // Off-black dark blue
+$label-text: rgba(255, 255, 255, 0.7); // Gray
+$label-tag: #CCC; // Light gray
+$dim-text: #999; // Gray
+$title-text: #74aae7; // Blue
+
+$hover-mix: #FFF;
+$hover-source: #000;
+
+// Text editing colors
+$editor-bg: transparent;
+$editor-fg: $em-text;
+$editor-border: #41495a;
+
+// MARKDOWN COLORS
+$link-color: #7ec5ff;
+$blockquote-marker: #FEEA94;
+$blockquote-fg: #FFF;
+
+// Button colors
+$disabled-btn: #CCC;
+$disabled-btn-border: #AAA;
+
+// Depth colors
+$popover-bg: #2c323e;
+$popover-border: rgba(127, 127, 127, 0.3);
+$popover-shadow: #CCC;
+
+// Code block colors
+$code-block-bg: #323741;
+$code-block-fg: #CCC;
+$code-block-indent: #4c4c4c;
+
+// BGs
+$main-bg: #222;
+$dim-bg: #383f4e;
+
+// Colors
+$theme-color: #09F;
+$logo-color: rgba(255, 255, 255, 0.9);
+$accent-color: $theme-color;
+
+// Seperators
+$content-border-color: rgba(255, 255, 255, .2);
+$subcontent-border-color: rgba(127, 127, 127, 0.4);
+
+$pagination-seperator: #CCC;
+
+// Avatar colors
+$avatar-mini-color: #67748C;
+
+// Header colors
+$header-shadow-color: #1f1f1f;
+$header-bg: #261C5E;
+$header-em-text: $em-text;
+
+$big-select: $theme-color;
+$big-fg: rgba(255, 255, 255, 0.7);
+$big-bg: rgba(255, 255, 255, 0.1);
+
+$close-button: #AAA;
+
+// Comments
+$comment-wrapper-top-style: dotted #444;
+
+// Header
+$header-selected-bg: none;
+$header-selected-border: $theme-color;
+$header-selected-text: $theme-color

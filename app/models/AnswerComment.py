@@ -1,5 +1,6 @@
 from app.instances.db import db
 import datetime
+from time import mktime
 
 
 class AnswerComment(db.Model):
@@ -12,19 +13,23 @@ class AnswerComment(db.Model):
     parent_id = db.Column(db.Integer, db.ForeignKey('answer_comments.id'), nullable=True)
     text = db.Column(db.String(140), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    date_created = db.Column(db.DateTime, default=datetime.datetime.now)
 
     user = db.relationship('User', backref='answer_comments')
     answer = db.relationship('Answer', backref='comments')
     parent = db.relationship('AnswerComment', backref='children', remote_side=[id])
 
+    def type(self):
+        return 'answer'
+
     def to_json(self):
         data = {
+            'id': self.id,
             'text': self.text,
             'date': self.date_created.isoformat(),
             'owner': self.user.to_json(),
-            'parent': self.parent,
-            'children': self.children
+            'parent': self.parent and self.parent.to_json(),
+            'children': [child.to_json() for child in self.children]
         }
 
         return data

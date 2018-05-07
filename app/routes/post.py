@@ -1,8 +1,11 @@
 from flask import request, redirect, url_for, g, abort
 
 import app.tasks.markdown as markdown
-from app.controllers import post, answer, vote
+from app.controllers import post, answer as answer_controller, vote
 from app.helpers.render import render_template, render_json
+from app.helpers.comments import get_rendered_comments
+from app.models.AnswerComment import AnswerComment
+from app.models.PostComment import PostComment
 from app.models.Leaderboard import Leaderboard
 from app.server import server
 
@@ -34,8 +37,9 @@ def get_post_preview(id):
     return render_template('post/preview.html', id=id)
 
 
-@server.route("/post/<int:post_id>")
-def get_post(post_id):
+@server.route("/post/<int:post_id>", defaults={"title": None})
+@server.route("/post/<int:post_id>/<title>")
+def get_post(post_id, title=""):
     # Locate post
     matched_post = post.get_post(post_id=post_id)
     if matched_post is None:
@@ -53,13 +57,20 @@ def get_post(post_id):
     except ValueError:
         return abort(400)
 
-    answers = answer.get_answers(post_id=post_id, page=page)
+    answers = answer_controller.get_answers(post_id=post_id, page=page)
     leaderboard = Leaderboard(post_id=post_id)
+
+    # Get respective comments
+    answer_comments = []
+    for answer in answers.items:
+        answer_comments.append(get_rendered_comments(AnswerComment, max_depth=2, answer_id=answer.id))
+
+    post_comments = get_rendered_comments(PostComment, max_depth=2, post_id=post_id)
 
     return \
         render_template('post/view.html', post_id=post_id, post=matched_post,
                         post_body=body, answers=answers, leaderboard=leaderboard,
-                        vote=vote)
+                        vote=vote, answer_comments=answer_comments, post_comments=post_comments)
 
 
 @server.route("/post/write")
