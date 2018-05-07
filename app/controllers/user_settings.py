@@ -6,21 +6,6 @@ from flask import g, abort
 import config
 
 
-def update_profile(form):
-    if g.user is None:
-        return abort(403)
-
-    if form.validate():
-        if form.avatar_file.data:
-            form.avatar.data = imgur_upload(form.avatar_file.data)
-        else:
-            form.avatar.data = imgur_upload(form.avatar.data)
-        form.populate_obj(g.user)
-        db.session.commit()
-    else:
-        return abort(400)
-
-
 def set_email(new_email):
     if g.user is None:
         return abort(403)

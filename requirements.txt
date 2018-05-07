@@ -14,5 +14,3 @@ mysqlclient>=1.3.12
 requests>=2.18.4
 validate_email>=1.3
 py3dns>=2.3.6
-Flask-WTF>=0.14.2
-Flask-Uploads>=0.2.1

@@ -1,10 +1,6 @@
 # .coveragerc to control coverage.py
 [run]
 branch = True
-# we only care about coverage on the actual app
-source = app
-# coverage on routes is inaccurate, because of how Flask-Testing works
-omit = app/route/*
 
 [report]
 # Regexes for lines to exclude from consideration

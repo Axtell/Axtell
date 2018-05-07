@@ -2,7 +2,7 @@
 
 {% block title %}Profile Settings{% endblock %}
 {% block content -%}
-<form method="POST" action="{{ url_for('set_profile_preferences') }}" id="sf-profile" enctype="multipart/form-data">
+<form method="POST" action="{{ url_for('set_profile_preferences') }}" id="sf-profile">
     <div class="list-header">
         <h1>Profile</h1>
         <button type="submit" id="save-profile" class="button green -center">
@@ -14,33 +14,28 @@
         <div class="profile-split -highlight">
             <div class="left avatar-wrap">
                 <div id="profile-avatar" class="avatar-control">
-                    <img aria-label="Your avatar" alt="Your avatar" src="{{ g.user.avatar_url()|e }}">
+                    <img aria-label="Your avatar" alt="Your avatar" src="{{ g.user.avatar_url() }}">
+                    <!-- <a>Change Avatar</a> -->
                 </div>
             </div>
             <div class="right">
                 <div class="item-wrap label-group rc-group">
-                    {{ form.name.label }}
-                    {{ form.name(size=max_name_len)|e }}
+                    <label for="display-name">Display Name</label>
+                    <input type="text" id="display-name" name='name' class="text-input text-base -title submit-target" value='{{ g.user.name|e }}'>
                 </div>
 
                 <div class="item-wrap label-group rc-group">
-                    {{ form.email.label }}
-                    {{ form.email|e or "" }}
+                    <label for="user-email">Email</label>
+                    <input type="email" id="user-email" name='email' class="text-input text-base -mail submit-target" value='{{ g.user.email|e }}'>
                 </div>
 
                 <div class="item-wrap label-group rc-group">
-                    {{ form.avatar_file.label }}
-                    {{ form.avatar_file }}
-                </div>
-
-                <div class="item-wrap label-group rc-group">
-                    {{ form.avatar.label }}
-                    {{ form.avatar|e }}
+                    <label for="avatar-url">Avatar URL</label>
+                    <input type="text" id="avatar-url" name='avatar-url' class="text-input text-base -mail submit-target" value='{{ g.user.avatar or "" }}'>
                 </div>
             </div>
         </div>
     </div>
-    {{ form.hidden_tag() }}
 </form>
 {%- endblock %}
 
