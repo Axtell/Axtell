@@ -1,5 +1,6 @@
 import ViewController from '~/controllers/ViewController';
 import WriteCommentViewController from '~/controllers/WriteCommentViewController';
+import LoadMoreCommentsViewController from '~/controllers/LoadMoreCommentsViewController';
 import LoadingIcon from '~/svg/LoadingIcon';
 
 import markdown from '#/markdown-renderer';
@@ -26,9 +27,16 @@ export default class CommentListViewController extends ViewController {
 
         // The location to prepend instances
         this._prependRef = this._node.getElementsByClassName('comment--prepend-ref')[0];
+        this._appendRef = this._node.getElementsByClassName('comment--append-ref')[0];
 
         WriteCommentViewController.forClass(
-            'comment-write-init',
+            'comment-item--write-init',
+            (btn) => [btn, owner, this],
+            commentList
+        );
+
+        LoadMoreCommentsViewController.forClass(
+            'comment-item--load-more',
             (btn) => [btn, owner, this],
             commentList
         );
@@ -36,18 +44,18 @@ export default class CommentListViewController extends ViewController {
 
     /**
      * Creates a 'loading' instance in this comment list.
+     * @param {string} message what to display in box
+     * @param {InstanceType} type The type of instance to add
      * @return {Object} has `.destroy()` function to destroy loading instance.
      */
-    createLoadingInstance() {
+    createLoadingInstance(message, type = InstanceType.prepend) {
         const loadingHTML = (
             <li class="comment-item comment-loading">
-                { LoadingIcon.cloneNode(true) } Posting Comment...
+                { LoadingIcon.cloneNode(true) } { message }
             </li>
         );
 
-        this._node.insertBefore(loadingHTML, this._prependRef);
-        loadingHTML.style.opacity = 0;
-        setTimeout(() => { loadingHTML.style.opacity = 1 }, OPACITY_TRANSITION_DURATION);
+        this.addInstance(loadingHTML, type);
 
         return {
             destroy: () => {
@@ -63,7 +71,7 @@ export default class CommentListViewController extends ViewController {
         // TODO:
     }
 
-    createCommentInstance(comment) {
+    createCommentInstance(comment, type = InstanceType.prepend) {
         const body = <div class="body"></div>;
         body.innerHTML = markdown.render(comment.text);
 
@@ -75,16 +83,39 @@ export default class CommentListViewController extends ViewController {
                 <div class="comment-content">
                     <div class="comment-header">
                         <span class="name">{comment.owner.name}</span>
+                        <span class="timestamp">{ moment(comment.date).fromNow() }</span>
                     </div>
                     { body }
                 </div>
             </li>
         );
 
-        this._node.insertBefore(commentHTML, this._prependRef);
-        commentHTML.style.opacity = 0;
+        this.addInstance(commentHTML, type);
+    }
+
+    /**
+     * Adds an instance
+     * @param {HTMLElement} html HTML node
+     * @param {InstanceType} type The instance type
+     */
+    addInstance(html, type) {
+        const ref = InstanceType.getReference(type, this);
+
+        this._node.insertBefore(html, ref);
+        html.style.opacity = 0;
 
         // Wait for transition to finish, then change
-        setTimeout(() => { commentHTML.style.opacity = 1 }, OPACITY_TRANSITION_DURATION);
+        setTimeout(() => { html.style.opacity = 1 }, OPACITY_TRANSITION_DURATION);
     }
 }
+
+export const InstanceType = {
+    append: Symbol('CommentList.InstanceType.append'),
+    prepend: Symbol('CommentList.InstanceType.prepend'),
+
+    getReference(ty, commentList) {
+        if (ty === InstanceType.append) return commentList._appendRef.nextSibling;
+        else if (ty === InstanceType.prepend) return commentList._prependRef;
+        else return null;
+    }
+};

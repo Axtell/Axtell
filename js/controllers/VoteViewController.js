@@ -95,7 +95,7 @@ export default class VoteViewController extends ViewController {
             let auth = await Auth.shared;
 
             if (await auth.isAuthorized) {
-                let response = await voteRequest.send();
+                let response = await voteRequest.run();
 
                 this.setVoteTotal(response.total);
                 this.setVoteActivity(response.voted);

@@ -26,6 +26,12 @@ export default class Post {
      */
     get id() { return this._id; }
 
+    /**
+     * General endpoint for this type of model
+     * @type {string}
+     */
+    get endpoint() { return 'post' }
+
     static _currentPost = null;
     /**
      * The current post
