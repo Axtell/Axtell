@@ -4,7 +4,6 @@ from time import time
 from flask import Flask, g
 from werkzeug.contrib.profiler import ProfilerMiddleware
 import app.tasks.update as update
-from shutil import which
 
 import config
 

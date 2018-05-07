@@ -1,9 +1,10 @@
 from flask import session, request, redirect, g, abort
 from app.models.Theme import Theme
-from app.server import server
+from app.server import server, config
 from app.instances.db import db
 from app.helpers.render import render_template
 from app.controllers import user_settings
+from app.forms.user_settings import UserSettingsForm
 
 
 def do_redirect():
@@ -19,7 +20,8 @@ def profile_settings():
     if g.user is None:
         do_redirect()
 
-    return render_template('settings/profile.html')
+    return render_template('settings/profile.html', form=UserSettingsForm(g.user),
+                           max_name_len=config.users['max_name_len'])
 
 
 @server.route("/theme/light", methods=['POST'])
@@ -73,14 +75,8 @@ def set_avatar():
 @server.route("/preferences/profile", methods=['POST'])
 def set_profile_preferences():
     try:
-        new_email = request.form['email']
-        new_name = request.form['name']
-        avatar_url = request.form['avatar-url']
-    except KeyError:
+        form = UserSettingsForm(request.POST)
+        user_settings.update_profile(form)
+        return do_redirect()
+    except:
         return abort(400)
-
-    return \
-        user_settings.set_email(new_email) or \
-        user_settings.set_name(new_name) or \
-        user_settings.set_avatar(avatar_url) or \
-        do_redirect()
