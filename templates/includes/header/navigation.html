@@ -1,5 +1,5 @@
 {% macro nav_item(url, name, icon=none) -%}
-    <li class="h-target{{ ' selected' if request.path.startswith(url) }}">
+    <li class="section--hover-em section--pair{{ ' selected' if request.path.startswith(url) }}">
         <a href="{{ url }}">
             {% if icon is not none %}
                 {% include icon %}

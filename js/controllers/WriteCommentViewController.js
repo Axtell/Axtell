@@ -11,8 +11,8 @@ export const CommentError = Symbol('WriteComment.Error.submit');
 export const CommentOwnerTypeError = Symbol('WriteComment.Error.ownerType');
 
 export const CommentLengthBounds = [
-    Data.shared.envValueForKey('MIN_COMMENT_LENGTH'),
-    Data.shared.envValueForKey('MAX_COMMENT_LENGTH')
+    +Data.shared.envValueForKey('MIN_COMMENT_LENGTH'),
+    +Data.shared.envValueForKey('MAX_COMMENT_LENGTH')
 ];
 
 /**
@@ -76,7 +76,7 @@ export default class WriteCommentViewController extends ViewController {
      */
     async submit() {
         const text = this._commentText.value;
-        if (text < CommentLengthBounds[0] || text > CommentLengthBounds[1]) {
+        if (text.length < CommentLengthBounds[0] || text.length > CommentLengthBounds[1]) {
             // Display error message
             return;
         }
@@ -98,6 +98,7 @@ export default class WriteCommentViewController extends ViewController {
             // Reset the box
             this._commentText.value = "";
 
+            await instance.destroy();
             this.parentList.createCommentInstance(comment);
         } catch (error) {
             // TODO: handle error
@@ -107,10 +108,10 @@ export default class WriteCommentViewController extends ViewController {
                 [500]: `Internal server error.`,
             }[error.response?.status] || `Unexpected error posting comment.`;
 
+            await instance.destroy();
+
             this.parentList.createErrorInstance(errorMessage);
             ErrorManager.silent(error, errorMessage);
-        } finally {
-            instance.destroy();
         }
     }
 
