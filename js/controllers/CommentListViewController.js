@@ -46,7 +46,7 @@ export default class CommentListViewController extends ViewController {
      * Creates a 'loading' instance in this comment list.
      * @param {string} message what to display in box
      * @param {InstanceType} type The type of instance to add
-     * @return {Object} has `.destroy()` function to destroy loading instance.
+     * @return {Object} has `async .destroy()` function to destroy loading instance.
      */
     createLoadingInstance(message, type = InstanceType.prepend) {
         const loadingHTML = (
@@ -57,9 +57,29 @@ export default class CommentListViewController extends ViewController {
 
         this.addInstance(loadingHTML, type);
 
+        // Make sure the loading instance lasts at least 100ms
+        const creationTime = new Date();
+
+        const destroyNow = () => {
+            this._node.removeChild(loadingHTML);
+        }
+
         return {
+            destroyNow,
             destroy: () => {
-                this._node.removeChild(loadingHTML);
+                // How much time elapsed since we made
+                const timeSinceCreation = new Date() - creationTime;
+                const timeLeft = 600 - timeSinceCreation;
+                if (timeLeft > 0) {
+                    return new Promise((resolve) => {
+                        setTimeout(() => {
+                            destroyNow();
+                            resolve();
+                        }, timeLeft);
+                    });
+                } else {
+                    destroyNow();
+                }
             }
         }
     }

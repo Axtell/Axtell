@@ -21,6 +21,11 @@
   align-items: center;
 }
 
+@mixin center-h-block {
+  display: flex;
+  justify-content: center;
+}
+
 @mixin icon-link {
   svg {
     height: 1.2em;

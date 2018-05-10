@@ -3,40 +3,11 @@ nav {
   @include full;
   @include expand;
 
-  $nav-border-width: 3px;
-  $nav-padding: 1em;
-
   ul {
     @include fit;
     @include full;
 
     list-style: none;
     display: flex;
-
-    li {
-      display: flex;
-
-      &.selected a {
-        fill: $header-selected-text;
-        color: $header-selected-text;
-        background: $header-selected-bg;
-        padding-bottom: 0;
-        border-bottom: $nav-border-width solid $header-selected-border;
-      }
-
-      a {
-        @include center-v-block;
-        @include icon-link;
-
-        flex: 1;
-
-        padding: $nav-border-width $nav-padding;
-        text-decoration: none;
-        color: $big-fg;
-        fill: $big-fg;
-
-        font-size: 1rem;
-      }
-    }
   }
 }

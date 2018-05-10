@@ -1,0 +1,20 @@
+#changelog__trigger, .changelog {
+    // So not too big (avoids wrap on mobile)
+    font-size: 0.85rem;
+}
+
+// Little red indicator
+#changelog__count {
+    $cl-count-size: 13px;
+    color: white;
+    font-size: $cl-count-size - 1px;
+    text-align: center;
+    color: $header-bg;
+
+    border-radius: 50%;
+    width: $cl-count-size;
+    height: $cl-count-size;
+
+    background: rgba(255, 255, 255, 0.8);
+    display: none;
+}

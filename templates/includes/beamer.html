@@ -1,0 +1,13 @@
+<script>
+    var beamer_config = {
+        product_id : "BsRRiGLN2955",
+        selector : "changelog__trigger",
+        callback: function(features) {
+            if (typeof +features == 'number' && +features > 0) {
+                document.getElementById("changelog__count").style.display = "inline-block";
+                document.getElementById("changelog__count").appendChild(document.createTextNode(String(features)));
+            }
+        }
+    };
+</script>
+<script type="text/javascript" src="https://app.getbeamer.com/js/beamer-embed.js" defer="defer"></script>
