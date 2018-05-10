@@ -24,6 +24,19 @@
         <script src="https://apis.google.com/js/api:client.js"></script>
     {%- endif %}
 
+    {% if opts.auth['google'].get('analytics-id', '') not in ['GOOGLE_ANALYTICS_CLIENT_ID', ''] -%}
+    {% set analytics_id = opts.auth['google']['analytics-id'] %}
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ analytics_id }}"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', '{{ analytics_id }}');
+    </script>
+    {%- endif %}
+
+
     {% if session['theme'] == 'dark' %}
         <link type="text/css"
               href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night-eighties.min.css"
@@ -36,11 +49,9 @@
     <link rel=stylesheet type=text/css href="/static/css/all-{{ theme }}.css">
     {{ data("theme", theme) }}
 
-    <script>
     {% if opts.auth['rollbar'].get('accessToken', '') not in ['ROLLBAR_ACCESS_TOKEN', ''] -%}
-    {% include "includes/rollbar.js" %}
+    <script>{% include "includes/rollbar.js" %}</script>
     {%- endif %}
-    </script>
 
     <meta name="data_id" content="{{ data_id }}">
     {{ data("env", macros.json_to_b64({
