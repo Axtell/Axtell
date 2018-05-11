@@ -24,7 +24,7 @@
     </li>
     <li class="seperator"></li>
     <li class="action -purple">
-        {% if current_session and current_session['theme'] == 'dark' -%}
+        {% if theme == 'dark' -%}
         <form class="action-root" method="POST" action="{{ url_for('set_light_theme') }}?redirect={{ request.url|e }}">
         {%- else -%}
         <form class="action-root" method="POST" action="{{ url_for('set_dark_theme') }}?redirect={{ request.url|e }}">
@@ -33,7 +33,7 @@
                 {% include "svg/brush.html" %}
                 <div class="action-desc">
                     <span class="title">Change Theme</span>
-                    <p class="dim">Will enable the {{ 'light' if (current_session and current_session['theme'] == 'dark') else 'dark' }} theme.</p>
+                    <p class="dim">Will enable the {{ 'light' if theme == 'dark' else 'dark' }} theme.</p>
                 </div>
             </button>
         </form>

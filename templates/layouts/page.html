@@ -9,6 +9,8 @@
 <script>var {{ data_id }}{{name}}={{ value }};</script>
 {%- endmacro %}
 
+{% set theme = session.get('theme', 'light') %}
+
 {% block head -%}
     {{ super() }}
     <link type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,500,400,700" rel="stylesheet">
@@ -45,8 +47,8 @@
         <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow.min.css"
               rel="stylesheet">
     {% endif %}
-    {% set theme = session.get('theme', 'light') %}
-    <link rel=stylesheet type=text/css href="/static/css/all-{{ theme }}.css">
+
+    <link rel=stylesheet type=text/css href="/static/css/all-{{ theme }}.css?v={{ macros.get_version_id() }}">
     {{ data("theme", theme) }}
 
     {% if opts.auth['rollbar'].get('accessToken', '') not in ['ROLLBAR_ACCESS_TOKEN', ''] -%}
@@ -55,6 +57,7 @@
 
     <meta name="data_id" content="{{ data_id }}">
     {{ data("env", macros.json_to_b64({
+        'VERSION': '{{ macros.get_version_id() }}',
         'GAPI_KEY': opts.auth['google']['client-id'],
         'IMGUR_CLIENT_ID': opts.auth['imgur']['client-id'],
         'POST_TITLE_MIN': opts.posts['min_title']|string,
@@ -70,7 +73,7 @@
     {% if g.user is not none %}
     {{ data_value("me",g.user.to_json()|tojson) }}
     {% endif %}
-    <script async defer src="/static/lib/main.js"></script>
+    <script async defer src="/static/lib/main.js?v={{ macros.get_version_id() }}"></script>
 {%- endblock %}
 
 {% block body %}
