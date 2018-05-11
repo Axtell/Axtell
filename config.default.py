@@ -29,7 +29,8 @@ memcached_config = {
 
 auth = {
     'google': {
-        'client-id': 'GOOGLE_CLIENT_ID'
+        'client-id': 'GOOGLE_CLIENT_ID',
+        'analytics-id': 'GOOGLE_ANALYTICS_CLIENT_ID'
     },
     'imgur': {
         'client-id': 'IMGUR_CLIENT_ID'

@@ -1,6 +1,10 @@
 #changelog__trigger, .changelog {
     // So not too big (avoids wrap on mobile)
     font-size: 0.85rem;
+
+    #beamerIcon.active, .beamer_icon.active {
+        display: none;
+    }
 }
 
 // Little red indicator

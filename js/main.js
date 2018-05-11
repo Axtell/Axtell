@@ -18,6 +18,8 @@ import Leaderboard from "~/models/Request/Leaderboard";
 
 import ErrorManager from "~/helpers/ErrorManager";
 
+import Analytics, { TimingType } from "~/models/Analytics";
+
 // Make global
 const IS_DEBUG = false;
 if (IS_DEBUG) {
@@ -53,6 +55,12 @@ global.ErrorManager = ErrorManager;
         if (state === false) {
             state = true;
             try {
+
+                Analytics.shared?.reportTime(
+                    TimingType.pageLoad,
+                    Math.round(performance.now())
+                );
+
                 require("./ui");
             } catch(error) {
                 ErrorManager.report(error);

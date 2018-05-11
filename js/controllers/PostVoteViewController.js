@@ -1,5 +1,6 @@
 import VoteViewController from '~/controllers/VoteViewController';
 import PostVote from '~/models/Request/PostVote';
+import Analytics, { EventType } from '~/models/Analytics';
 
 /**
  * Voting on answers
@@ -20,6 +21,7 @@ export default class PostVoteViewController extends VoteViewController {
 
     /** @override */
     getRequest(voteType, isAdding) {
+        Analytics.shared?.report(EventType.postVote, +this._postId);
         return new PostVote({
             postId: this._postId,
             voteType: voteType,
