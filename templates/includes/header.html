@@ -17,7 +17,7 @@
             {% if not request.path.startswith(url_for('write_post')) %}
                 <div class="section r-collapse r-tight">
                     <div class="button-section">
-                        <a class="button accent" href="{{ url_for('write_post') }}">
+                        <a class="button button--color-accent" href="{{ url_for('write_post') }}">
                             {% include "svg/plus.html" %}
                             <span>Create Post</span>
                         </a>

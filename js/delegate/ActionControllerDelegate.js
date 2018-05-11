@@ -4,10 +4,19 @@
  */
 export default class ActionControllerDelegate {
     /**
-     * @param {ViewController} controller Controller emitting state.
+     * @param {ViewController} controller Controller emitting state. Might actually be a template in some cases.
      * @param {Object} state Action-specific state object
      */
     didSetStateTo(controller, state) {
+        void 0;
+    }
+
+    /**
+     * Specifies the action controller entered a processing or loading state.
+     * @param {ViewController} controller
+     * @param {boolean} state If in progress
+     */
+    didChangeProgressState(controller, state) {
         void 0;
     }
 

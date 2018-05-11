@@ -2,22 +2,22 @@ import ModalController from '~/controllers/ModalController';
 import ModalTemplate from '~/template/ModalTemplate';
 import ImgurUpload from '~/models/Request/ImgurUpload';
 import HexBytes from '~/modern/HexBytes';
+import Theme from '~/models/Theme';
 
 const MAX_FILE_SIZE = 10000000; // In bytes
 const NO_FILE_TEXT = 'No Selected';
 
 function uploadButton(text) {
-    return <button class="button accent -small -top-space">{ text }</button>;
+    return <button class="button button--color-accent button--size-small button--padding-top">{ text }</button>;
 }
 
 /**
  * Image upload Modal dialog.
- *
  * @extends {ModalTemplate}
  */
 export default class ImageUploadModalTemplate extends ModalTemplate {
     /** @override */
-    constructor(controller) {
+    constructor(delegate = null) {
         let templateId = HexBytes.ofDefault(),
             urlId = `url-${templateId}`,
             fileId = `file-${templateId}`,
@@ -50,7 +50,10 @@ export default class ImageUploadModalTemplate extends ModalTemplate {
             </div>
         );
 
-        this._controller = controller;
+        window.foo = this;
+
+        /** @type {ActionControllerDelegate} */
+        this.delegate = delegate;
 
         this._urlInput = urlUpload;
         this._urlButton = urlUploadButton;
@@ -70,7 +73,13 @@ export default class ImageUploadModalTemplate extends ModalTemplate {
         });
 
         this._setLoading();
-        this._insertWithURL(await request.run());
+        this.delegate?.didChangeProgressState(this, true);
+
+        try {
+            this._insertWithURL(await request.run());
+        } finally {
+            this.delegate?.didChangeProgressState(this, false);
+        }
     }
 
     async _uploadFile(event) {
@@ -79,12 +88,28 @@ export default class ImageUploadModalTemplate extends ModalTemplate {
         });
 
         this._setLoading();
-        this._insertWithURL(await request.run());
+        this.delegate?.didChangeProgressState(this, true);
+
+        try {
+            this._insertWithURL(await request.run());
+        } finally {
+            this.delegate?.didChangeProgressState(this, false);
+        }
     }
 
     _setLoading() {
-        this._urlButton.classList.add('-disabled');
-        this._fileButton.classList.add('-disabled');
+        const buttons = [this._urlButton, this._fileButton];
+
+        for (const button of buttons) {
+            const loadingSvg = <img src={ Theme.light.imageForTheme('loading') }/>;
+
+            button.classList.add('button--color-disabled');
+            while (button.firstChild) {
+                button.removeChild(button.firstChild);
+            }
+
+            button.appendChild(loadingSvg);
+        }
     }
 
     _didSelectFile(event) {
@@ -110,9 +135,7 @@ export default class ImageUploadModalTemplate extends ModalTemplate {
     }
 
     _insertWithURL(url) {
-        this._controller.insertAtSelectionStart('![')
-        this._controller.insertAtSelectionEnd(`](${url})`)
-
+        this.delegate?.didSetStateTo(this, url);
         ModalController.shared.dismiss();
     }
 

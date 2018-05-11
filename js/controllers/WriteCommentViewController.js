@@ -34,7 +34,7 @@ export default class WriteCommentViewController extends ViewController {
 
 
         this._cancel = <a class="cancel">cancel</a>;
-        this._submit = <a class="submit button accent">submit</a>;
+        this._submit = <a class="submit button button--color-accent">submit</a>;
         this._writingBox = (
             <div class="comment-writer">
                 <h5>Write Comment</h5>
