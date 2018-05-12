@@ -83,21 +83,21 @@ export const EventType = {
     },
 
     // ===== Comment Events =====
-    commentWriteOpen: (ty) => {
+    commentWriteOpen: (ty) => ({
         category: EventCategory.comment,
         name: `write_open_${ty.endpoint}`,
         value: ty.id
-    },
-    commentWriteClose: (ty) => {
+    }),
+    commentWriteClose: (ty) => ({
         category: EventCategory.comment,
         name: `write_close_${ty.endpoint}`,
         value: ty.id
-    },
-    commentWrite: (ty) => {
+    }),
+    commentWrite: (ty) => ({
         category: EventCategory.comment,
         name: `write_${ty.endpoint}`,
         value: ty.id
-    },
+    }),
     commentTooShort: {
         category: EventCategory.comment,
         name: `too_short`
