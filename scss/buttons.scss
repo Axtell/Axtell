@@ -1,5 +1,5 @@
 @mixin button-style($name, $bg, $fg) {
-  .button.#{$name} {
+  .button.button--color-#{$name} {
     border: 1px solid $bg;
     background: $bg;
     color: $fg;
@@ -35,31 +35,37 @@
 
   cursor: pointer;
 
-  svg {
+  // Make the icons the same size
+  svg, img {
     height: 1em;
   }
+
+  // Correctly aligns images & text
   span, svg {
     vertical-align: middle;
   }
 
-  &.-center { text-align: center; }
+  // Center button items, desired if has manual size for example
+  &.button--align-center { text-align: center; }
 
   // Adds a little space to the top
-  &.-top-space { margin-top: 4px; }
+  &.button--padding-top { margin-top: 4px; }
 
   // Shrink everything for smaller places
-  &.-small {
+  &.button--size-small {
     font-size: 0.8rem;
     padding: 0.2rem;
     border-radius: 6px;
   }
 }
 
+// When using `button` root it does its own thing by default
 button.button {
   font-size: inherit;
 }
 
-.button.-disabled {
+// Increases specificity
+button.button.button--color-disabled, .button.button--color-disabled {
   background: $disabled-btn;
   border: none;
   border-bottom: 1px solid $disabled-btn-border;

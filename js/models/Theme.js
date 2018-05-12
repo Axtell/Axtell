@@ -18,6 +18,15 @@ export default class Theme {
         }
     }
 
+    static _light = null;
+    static get light() {
+        if (this._light === null) {
+            return this._light = new Theme('light');
+        } else {
+            return this._light;
+        }
+    }
+
     /**
      * Creates theme with name
      * @param {string} name
