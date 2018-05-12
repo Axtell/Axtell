@@ -27,6 +27,15 @@ export default class Theme {
         }
     }
 
+    static _dark = null;
+    static get dark() {
+        if (this._dark === null) {
+            return this._dark = new Theme('dark');
+        } else {
+            return this._dark;
+        }
+    }
+
     /**
      * Creates theme with name
      * @param {string} name

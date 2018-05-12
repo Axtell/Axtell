@@ -1,6 +1,8 @@
 import ViewController from '~/controllers/ViewController';
+import ProgressButtonController from '~/controllers/ProgressButtonController';
 import { AJAXFormControllerDelegate } from '~/delegate/FormControllerDelegate';
 import FormConstraint from '~/controllers/Form/FormConstraint';
+import ErrorManager from '~/helpers/ErrorManager';
 
 import User from '~/models/User';
 
@@ -12,6 +14,9 @@ export const SAVE_BUTTON_ID = 'save-profile';
 
 let viewController;
 if (viewController = ViewController.of(PROFILE_FORM_ID)) {
+    const saveButton = new ProgressButtonController(
+        document.getElementById(SAVE_BUTTON_ID)
+    );
 
     viewController.addConstraints([
         new FormConstraint(DISPLAY_NAME_ID)
@@ -31,12 +36,16 @@ if (viewController = ViewController.of(PROFILE_FORM_ID)) {
             controller.display(errors);
         }
 
+        setProgressState(controller, state) {
+            saveButton.setLoadingState(state);
+        }
+
         didSubmissionSuccess(controller, data) {
             window.location.reload();
         }
 
         didSubmissionError(controller, error) {
-            console.log(error);
+            ErrorManager.unhandled(error);
         }
     };
 }

@@ -50,14 +50,14 @@ export class AJAXFormControllerDelegate extends FormControllerDelegate {
     }
 
     async _performRequest(controller, request) {
-        this.setProgressState(true);
+        this.setProgressState(controller, true);
         try {
             let response = await request.run();
             this.didSubmissionSuccess(controller, response);
         } catch(error) {
             this.didSubmissionError(controller, error);
         } finally {
-            this.setProgressState(false);
+            this.setProgressState(controller, false);
         }
     }
 
