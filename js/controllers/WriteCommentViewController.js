@@ -3,6 +3,7 @@ import MarkdownViewController from '~/controllers/MarkdownViewController';
 import * as MarkdownControls from '~/controllers/MarkdownControls';
 
 import WriteComment from '~/models/Request/WriteComment';
+import Analytics, { EventType } from '~/models/Analytics';
 import Answer from '~/models/Answer';
 import Post from '~/models/Post';
 import Data from '~/models/Data';
@@ -77,6 +78,8 @@ export default class WriteCommentViewController extends ViewController {
     async submit() {
         const text = this._commentText.value;
         if (text.length < CommentLengthBounds[0] || text.length > CommentLengthBounds[1]) {
+            Analytics.shared.report(EventType.commentTooShort);
+
             // Display error message
             return;
         }
@@ -85,6 +88,8 @@ export default class WriteCommentViewController extends ViewController {
 
         let type = this.owner.endpoint;
         let instance = this.parentList.createLoadingInstance("Posting comment...");
+
+        Analytics.shared.report(EventType.commentWrite(this.owner));
 
         try {
             let commentPost = new WriteComment({
@@ -120,9 +125,11 @@ export default class WriteCommentViewController extends ViewController {
      */
     toggleState() {
         if (this._displayingWritingBox) {
+            Analytics.shared.report(EventType.commentWriteOpen(this.owner));
             this._writingBox.parentNode.replaceChild(this._node, this._writingBox);
             this._displayingWritingBox = false;
         } else {
+            Analytics.shared.report(EventType.commentWriteClose(this.owner));
             this._node.parentNode.replaceChild(this._writingBox, this._node);
             this._displayingWritingBox = true;
         }

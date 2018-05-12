@@ -10,6 +10,7 @@ import '~/ui/exec/exec-tio';
 import '~/ui/nav';
 import '~/ui/user';
 import '~/ui/login';
+import '~/ui/changelog';
 import '~/ui/write/post';
 import '~/ui/write/answer';
 import '~/ui/write/postPreview';

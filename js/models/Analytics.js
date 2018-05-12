@@ -23,6 +23,10 @@ export default class Analytics {
     report(eventType, label = null, id = null) {
         const eventObject = {};
 
+        if (eventType.value) {
+            eventObject.value = eventType.value;
+        }
+
         if (typeof label == 'number' || id) {
             eventObject.value = id || label;
         }
@@ -32,7 +36,7 @@ export default class Analytics {
         }
 
         eventObject.event_category = eventType.category;
-        this.gtag('event', eventType.name, eventObject);
+        this.gtag?.('event', eventType.name, eventObject);
     }
 
     /**
@@ -43,7 +47,7 @@ export default class Analytics {
     reportTime(timingType, id) {
         let timingObject = Object.create(timingType);
         timingObject.value = id;
-        this.gtag('event', 'timing_complete', timingObject);
+        this.gtag?.('event', 'timing_complete', timingObject);
     }
 
     static shared = new Analytics(window.gtag);
@@ -53,24 +57,53 @@ export const EventCategory = {
     engagement: 'engagement',
     userManagement: 'user_management',
     socialEngagement: 'social_engagement',
-    vote: 'vote'
+    vote: 'Vote',
+    comment: 'Comment'
 };
 
 export const EventType = {
+    // ===== Login Events =====
     loginOpen: {
         category: EventCategory.userManagement,
         name: 'login_open'
+    },
+    loginCancel: {
+        category: EventCategory.userManagement,
+        name: 'login_cancel'
     },
     loginMethod: {
         category: EventCategory.userManagement,
         name: 'login_method'
     },
 
-    comment: {
-        category: EventCategory.socialEngagement,
-        name: 'comment'
+    // ===== Changelog =====
+    changelogOpen: {
+        category: EventCategory.engagement,
+        name: 'changelog_open'
     },
 
+    // ===== Comment Events =====
+    commentWriteOpen: (ty) => {
+        category: EventCategory.comment,
+        name: `write_open_${ty.endpoint}`,
+        value: ty.id
+    },
+    commentWriteClose: (ty) => {
+        category: EventCategory.comment,
+        name: `write_close_${ty.endpoint}`,
+        value: ty.id
+    },
+    commentWrite: (ty) => {
+        category: EventCategory.comment,
+        name: `write_${ty.endpoint}`,
+        value: ty.id
+    },
+    commentTooShort: {
+        category: EventCategory.comment,
+        name: `too_short`
+    },
+
+    // ===== Voting Events =====
     postVote: {
         category: EventCategory.vote,
         name: 'post_vote'
