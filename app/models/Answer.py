@@ -2,6 +2,7 @@ from app.instances.db import db
 from sqlalchemy import func
 from sqlalchemy.ext.hybrid import hybrid_property
 import app.models.Language
+from app.models.AnswerRevision import AnswerRevision
 import datetime
 from config import answers
 
@@ -23,6 +24,7 @@ class Answer(db.Model):
     code = db.Column(db.Text, default=None, nullable=True)
     commentary = db.Column(db.Text, default=None, nullable=True)
     encoding = db.Column(db.String(10), default='utf8')
+    deleted = db.Column(db.Boolean, nullable=False, default=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.datetime.now)
@@ -57,6 +59,8 @@ class Answer(db.Model):
 
         data['date_created'] = self.date_created.isoformat()
 
+        data['deleted'] = self.deleted
+
         return data
 
     def get_language(self):
@@ -65,5 +69,18 @@ class Answer(db.Model):
 
         return app.models.Language.Language(self.language_id)
 
+    def revise(self, user, **new_answer_data):
+        revision = AnswerRevision(answer_id=self.id,
+                                  language_id=self.language_id,
+                                  language_name=self.language_name,
+                                  code=self.code,
+                                  commentary=self.commentary,
+                                  encoding=self.encoding,
+                                  deleted=self.deleted,
+                                  user_id=user.id)
+        for key, value in new_answer_data.items():
+            setattr(self, key, value)
+        return self, revision
+
     def __repr__(self):
-        return '<Answer(%r) by %r>' % (self.id, self.user.name)
+        return '<Answer(%r) by %r %s>' % (self.id, self.user.name, "(deleted)" if self.deleted else "")
