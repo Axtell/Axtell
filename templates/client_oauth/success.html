@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head><title>Authorizing...</title></head>
+<body>
+    <h1>Authorizing</h1>
+    <script>
+        if (window.opener) {
+            window.opener.postMessage({
+                success: true,
+                authKey: '{{ auth_key }}'
+            },'*');
+            window.addEventListener("message", (event) => {
+                if(event.source === window.opener) {
+                    if (event.data && event.data.received) {
+                        window.close();
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,6 +1,8 @@
 import ViewController from '~/controllers/ViewController';
 import KeyManager from '~/models/KeyManager';
 
+export const c = 'popvc__untrigger';
+
 /**
  * Controls a popover view. This has a trigger and a target. When the trigger is
  * pressed, this displays the target.
@@ -29,6 +31,11 @@ export default class PopoverViewController extends ViewController {
         }
 
         this._keyBinding = null;
+
+        const untriggers = this._node.getElementsByClassName('popvc__untrigger');
+        for (const localUntrigger of untriggers) {
+            this.bindUntrigger(localUntrigger);
+        }
 
         // Setup hide trigger
         untrigger?.addEventListener("click", (event) => {

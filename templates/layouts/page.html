@@ -59,6 +59,8 @@
     {{ data("env", macros.json_to_b64({
         'VERSION': '{{ macros.get_version_id() }}',
         'GAPI_KEY': opts.auth['google']['client-id'],
+        'SE_CLIENT_ID': opts.oauth['se']['client-id'],
+        'SE_KEY': opts.oauth['se']['key'],
         'IMGUR_CLIENT_ID': opts.auth['imgur']['client-id'],
         'POST_TITLE_MIN': opts.posts['min_title']|string,
         'POST_TITLE_MAX': opts.posts['max_title']|string,
@@ -67,7 +69,8 @@
         'MIN_USERNAME_LENGTH': opts.users['min_name_len']|string,
         'MAX_USERNAME_LENGTH': opts.users['max_name_len']|string,
         'MIN_COMMENT_LENGTH': opts.comments['min_len']|string,
-        'MAX_COMMENT_LENGTH': opts.comments['max_len']|string
+        'MAX_COMMENT_LENGTH': opts.comments['max_len']|string,
+        'OAUTH_CALLBACK': opts.canonical_host + url_for('auth_login_oauth')
     })) }}
 
     {% if g.user is not none %}
