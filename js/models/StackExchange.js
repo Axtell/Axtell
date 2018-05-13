@@ -1,6 +1,6 @@
 import Data from '~/models/Data';
 import Request from '~/models/Request/Request';
-import querystring from 'querystring';
+import entities from 'entities';
 
 /**
  * Talks to SE API
@@ -90,11 +90,18 @@ export default class StackExchangege {
      * Gets the posts
      */
     async getQuestions() {
-        return await this.pagingApiRequest('/2.2/me/questions', {
+        const results = await this.pagingApiRequest('/2.2/me/questions', {
             order: 'desc',
             sort: 'activity',
             site: 'codegolf',
             filter: '!5RCKNP5Mc6Rvk2i(0CxGveeZ-' // This is from the SE api explorer
         });
+
+        results.forEach(obj => {
+            obj.title = entities.decodeHTML(obj.title);
+            obj.body_markdown = entities.decodeHTML(obj.body_markdown);
+        });
+
+        return results;
     }
 }

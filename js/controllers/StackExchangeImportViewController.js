@@ -183,8 +183,8 @@ export default class StackExchangeImporterViewController extends ViewController 
         const itemId = styleName(`question_${question.question_id}`);
         const itemLabel = `${itemId}__label`;
 
-        const title = entities.decodeHTML(question.title);
-        const bodyPreview = removeMarkdown(entities.decodeHTML(question.body_markdown)).substring(0, 80);
+        const title = question.title;
+        const bodyPreview = removeMarkdown(question.body_markdown).substring(0, 80);
 
         const input = (
             <input
