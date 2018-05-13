@@ -19,6 +19,10 @@
     height: 1.8rem;
     border-radius: 50%;
     margin-right: 8px;
+
+    @media screen and (max-width: $collapse-width) {
+      margin-right: 0;
+    }
   }
 
   .action {

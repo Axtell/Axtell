@@ -18,6 +18,8 @@ body {
 
   background: $main-bg;
 
+  overflow: hidden;
+
   // For just body content (not header etc.)
   #content main {
     // Some basic spacing

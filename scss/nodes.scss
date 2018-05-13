@@ -110,8 +110,8 @@ hr {
 }
 
 .body {
-  overflow: auto;
   color: $main-text;
+  word-break: break-word;
 
   @import "body.scss";
 }
