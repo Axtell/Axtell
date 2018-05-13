@@ -1,4 +1,4 @@
-from flask import g, abort, redirect, url_for
+from flask import g, abort, url_for
 
 from app.instances.db import db
 from app.models.Post import Post
@@ -31,7 +31,7 @@ def create_post(title, body, categories):
     db.session.add(new_post)
     db.session.commit()
 
-    return redirect(url_for('get_post', post_id=new_post.id))
+    return url_for('get_post', post_id=new_post.id)
 
 
 def get_posts(page):

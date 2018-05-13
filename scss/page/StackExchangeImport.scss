@@ -1,0 +1,63 @@
+#create-post__StackExchangeImport {
+    padding: 1rem;
+
+    // The text describing what to do (generally .body too)
+    .create-post__StackExchangeImport__instruction {
+        font-size: 1rem;
+    }
+
+    // The loading sign
+    .create-post__StackExchangeImport__loading {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .create-post__StackExchangeImport__scrollBox {
+        padding: 1rem;
+        margin: 1rem 0;
+
+        background: mix($dim-bg, $hover-source, 30%);
+        border: 1px solid rgba(0, 0, 0, 0.2);
+
+        border-radius: 3px;
+        box-sizing: border-box;
+    }
+
+    .create-post__StackExchangeImport__question {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        padding: 0.5rem 0;
+
+        .create-post__StackExchangeImport__question__title {
+            display: block;
+
+            font-weight: $bold-weight;
+            font-family: $bold-font;
+            font-size: 1.1rem;
+
+            color: $em-text;
+        }
+
+        .create-post__StackExchangeImport__question__desc {
+            font-size: 0.9rem;
+            color: $dim-text;
+
+            margin-top: 8px;
+        }
+    }
+
+    .create-post__StackExchangeImport__radio {
+        margin-right: 8px;
+    }
+
+    .create-post__StackExchangeImport__link {
+        flex: 1;
+        text-align: right;
+
+        .create-post__StackExchangeImport__link__icon {
+            width: 1rem;
+        }
+    }
+}

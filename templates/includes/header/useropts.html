@@ -1,49 +1,49 @@
-<a id="useropts-close">
+<a class="popover__close popvc__untrigger">
     {% include "svg/close.html" %}
     <span>close</span>
 </a>
 
 <ul class="action-list">
-    <li class="action -green">
-        <a class="action-root action-rel" href="{{ url_for('get_user', user_id=g.user.id, name=g.user.name) }}">
+    <li class="action action--color-green">
+        <a class="action__root action__rel" href="{{ url_for('get_user', user_id=g.user.id, name=g.user.name) }}">
             {% include "svg/user.html" %}
-            <div class="action-desc">
-                <span class="title">My Profile</span>
-                <p class="dim">View your profile</p>
+            <div class="action__desc">
+                <span class="action__title">My Profile</span>
+                <p class="action__desc--dim">View your profile</p>
             </div>
         </a>
     </li>
-    <li class="action -blue">
-        <a class="action-root action-rel" href="{{ url_for('profile_settings') }}">
+    <li class="action action--color-blue">
+        <a class="action__root action__rel" href="{{ url_for('profile_settings') }}">
             {% include "svg/settings.html" %}
-            <div class="action-desc">
-                <span class="title">User Settings</span>
-                <p class="dim">Change your profile and options</p>
+            <div class="action__desc">
+                <span class="action__title">User Settings</span>
+                <p class="action__desc--dim">Change your profile and options</p>
             </div>
         </a>
     </li>
     <li class="seperator"></li>
-    <li class="action -purple">
+    <li class="action action--color-purple">
         {% if theme == 'dark' -%}
-        <form class="action-root" method="POST" action="{{ url_for('set_light_theme') }}?redirect={{ request.url|e }}">
+        <form class="action__root" method="POST" action="{{ url_for('set_light_theme') }}?redirect={{ request.url|e }}">
         {%- else -%}
-        <form class="action-root" method="POST" action="{{ url_for('set_dark_theme') }}?redirect={{ request.url|e }}">
+        <form class="action__root" method="POST" action="{{ url_for('set_dark_theme') }}?redirect={{ request.url|e }}">
         {%- endif %}
-            <button type="submit" class="action-rel">
+            <button type="submit" class="action__rel">
                 {% include "svg/brush.html" %}
-                <div class="action-desc">
-                    <span class="title">Change Theme</span>
-                    <p class="dim">Will enable the {{ 'light' if theme == 'dark' else 'dark' }} theme.</p>
+                <div class="action__desc">
+                    <span class="action__title">Change Theme</span>
+                    <p class="action__desc--dim">Will enable the {{ 'light' if theme == 'dark' else 'dark' }} theme.</p>
                 </div>
             </button>
         </form>
     </li>
     <li class="seperator"></li>
-    <li class="action -red">
-        <form class="action-root" method="POST" action="{{ url_for('auth_logout') }}?redirect={{ request.url|e }}">
-            <button type="submit" class="action-rel">
+    <li class="action action--color-red">
+        <form class="action__root" method="POST" action="{{ url_for('auth_logout') }}?redirect={{ request.url|e }}">
+            <button type="submit" class="action__rel">
                 {% include "svg/logout.html" %}
-                <span class="title">Logout</span>
+                <span class="action__title">Logout</span>
             </button>
         </form>
     </li>

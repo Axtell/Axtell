@@ -47,48 +47,53 @@
 input.text-input, [contenteditable].text-input, .text-base.text-input, .text-input {
   font-size: 1rem;
 
-  &.-owned {
+  -webkit-appearance: none;
+  border: none;
+  outline: none;
+
+  background: none;
+
+  margin: 0;
+  padding: 0 0 4px 0;
+
+  &.text-input--owned {
     border-bottom: none;
   }
 
-  // For spaced item listings
-  &.-list {
-    padding: 4px 0;
+  // For search dialogs
+  &.text-input--type-search {
+    font-size: 1.1rem;
   }
 
   // For URL inputs
-  &.-url {
+  &.text-input--type-url {
     font-size: 13px;
     font-family: $monospace;
   }
 
-  &.-title {
+  &.text-input--type-title {
     font-size: 1.3rem;
     font-family: $bold-font;
     font-weight: $bold-weight;
     color: $em-text;
 
-    padding-bottom: 4px;
     box-sizing: content-box;
   }
 
-  &.-mail {
+  &.text-input--type-mail {
     font-size: 1.2rem;
     font-family: $monospace;
     letter-spacing: 1px;
 
-    padding-bottom: 4px;
     box-sizing: content-box;
   }
 
-  &.-list-container {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
+  &.text-input--pad-top {
+    margin-top: 1.5rem;
+  }
 
-    input {
-      flex: 1;
-    }
+  &.text-input--size-wide {
+    width: 100%;
   }
 
   border-bottom: 2px solid $label-tag;
@@ -98,7 +103,18 @@ input.text-input, [contenteditable].text-input, .text-base.text-input, .text-inp
   }
 }
 
-// Root styles for all user text inputs
+// For a text input containing annotations
+.text-input__list-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  input {
+    flex: 1;
+  }
+}
+
+// Main style for <textarea>
 .text-base {
   background: $editor-bg;
   color: $editor-fg;
@@ -111,19 +127,6 @@ input.text-input, [contenteditable].text-input, .text-base.text-input, .text-inp
   border-radius: 0;
 
   position: relative;
-
-  .expand {
-    -webkit-appearance: none;
-    background: none;
-    border: none;
-    outline: none;
-    width: 100%;
-    height: 100%;
-    font: inherit;
-    color: inherit;
-    padding: 0;
-    margin: 0;
-  }
 }
 
 textarea.text-base {
@@ -163,7 +166,6 @@ textarea.text-base {
   }
 
   margin-right: 4px;
-  margin-bottom: 4px;
 }
 
 // For live foreign previews

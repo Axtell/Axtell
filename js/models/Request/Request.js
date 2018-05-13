@@ -35,6 +35,7 @@ export default class Request {
             method: this._method,
             url: this._path,
             data: this._data,
+            params: this._params,
             headers: this._headers
         });
 
@@ -57,13 +58,15 @@ export default class Request {
         path,
         auth,
         data,
+        params,
         formData,
         contentType,
         headers = {},
-        method = Request.Method.GET
+        method = HTTPMethod.GET
     }) {
         this._path = path;
         this._method = method;
+        this._params = params;
 
         if (formData) {
             let formDataInstance = new FormData();

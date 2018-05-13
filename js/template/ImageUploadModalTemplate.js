@@ -23,7 +23,7 @@ export default class ImageUploadModalTemplate extends ModalTemplate {
             fileId = `file-${templateId}`,
             fileViewId = `file-view-${templateId}`;
 
-        let urlUpload = <input id={urlId} class="text-input text-base -url" type="text" />,
+        let urlUpload = <input id={urlId} class="text-input text-input--type-url" type="text" />,
             urlUploadButton = uploadButton('Add Image');
 
         let fileUpload = <input class="file invisible" id={fileId} type="file" accept="image/*"/>,

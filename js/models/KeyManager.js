@@ -30,10 +30,10 @@ export default class KeyManager {
         if (event.defaultPrevented) return;
 
         let listener;
-        if ((event.ctrlKey || event.metaKey) && (listener = this._metaListeners.get(event.key))) {
+        if ((event.ctrlKey || event.metaKey) && (listener = this._metaListeners.get(event.key)?.[0])) {
             listener(event);
             event.preventDefault();
-        } else if (listener = this._defaultListeners.get(event.key)) {
+        } else if (listener = this._defaultListeners.get(event.key)?.[0]) {
             listener(event);
             event.preventDefault();
         }
@@ -48,13 +48,15 @@ export default class KeyManager {
      * @throws {Error} Will throw an error if already registered.
      */
     register(key, callback) {
-        if (this._defaultListeners.has(key)) {
-            ErrorManager.warn(`Callback exists for generic handler for ${key}`, KeyAlreadyRegistered);
-            return;
+        if (!this._defaultListeners.has(key)) {
+            this._defaultListeners.set(key, []);
         }
 
-        this._defaultListeners.set(key, callback);
-        return () => this._defaultListeners.delete(key);
+        const listeners = this._defaultListeners.get(key);
+        listeners.unshift(callback);
+        return () => {
+            listeners.splice(listeners.indexOf(callback), 1);
+        }
     }
 
     /**
@@ -66,13 +68,15 @@ export default class KeyManager {
      * @throws {Error} Will throw an error if already registered.
      */
     registerMeta(key, callback) {
-        if (this._metaListeners.has(key)) {
-            ErrorManager.warn(`Callback exists for meta handler for ${key}`, KeyAlreadyRegistered);
-            return;
+        if (!this._metaListeners.has(key)) {
+            this._metaListeners.set(key, []);
         }
 
-        this._metaListeners.set(key, callback);
-        return () => this._metaListeners.delete(key);
+        const listeners = this._metaListeners.get(key);
+        listeners.unshift(callback);
+        return () => {
+            listeners.splice(listeners.indexOf(callback), 1);
+        }
     }
 
     static _shared = null;

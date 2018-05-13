@@ -90,8 +90,13 @@ def publish_post():
     body = request.form.get('post-body', '').encode('utf-8')
     categories = request.form.getlist('post-categories')
 
-    return post.create_post(
+    redirect_url = post.create_post(
         title=title,
         body=body,
         categories=categories
     )
+
+    if request.accept_mimetypes.accept_json:
+        return render_json({ 'redirect': redirect_url })
+    else:
+        return redirect(redirect_url)

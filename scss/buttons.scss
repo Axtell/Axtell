@@ -13,6 +13,20 @@
       transition: 0.25s all ease-out;
     }
 
+    &.button--color-disabled {
+      background: $disabled-btn;
+      border: none;
+      border-bottom: 1px solid $disabled-btn-border;
+      cursor: inherit;
+
+      color: white;
+
+      &:hover {
+        color: white;
+        background: $disabled-btn;
+      }
+    }
+
     &:hover {
       background: $fg;
       color: $bg;
@@ -29,7 +43,8 @@
   box-sizing: border-box;
   white-space: nowrap;
 
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2), 0px -2px 4px rgba(210, 210, 210, 0.2);
+  $button-shadow: 1px 4px rgba(0, 0, 0, 0.2), 0px -2px 4px rgba(210, 210, 210, 0.2);
+  box-shadow: 0 $button-shadow;
 
   margin: 0;
 
@@ -41,8 +56,32 @@
   }
 
   // Correctly aligns images & text
-  span, svg {
+  span, svg, img {
     vertical-align: middle;
+  }
+
+  // The button pairs
+  &.button--pair {
+    height: 2rem;
+  }
+
+  &.button--pair-left {
+    @extend .button--pair;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+
+    box-shadow: -1px $button-shadow;
+  }
+
+  &.button--pair-right {
+    @extend .button--pair;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+
+    padding-left: 8px;
+    padding-right: 8px;
+
+    box-shadow: 1px $button-shadow;
   }
 
   // Center button items, desired if has manual size for example
@@ -57,26 +96,16 @@
     padding: 0.2rem;
     border-radius: 6px;
   }
+
+  // Make it full width
+  &.button--size-wide {
+    width: 100%;
+  }
 }
 
 // When using `button` root it does its own thing by default
 button.button {
   font-size: inherit;
-}
-
-// Increases specificity
-button.button.button--color-disabled, .button.button--color-disabled {
-  background: $disabled-btn;
-  border: none;
-  border-bottom: 1px solid $disabled-btn-border;
-  cursor: inherit;
-
-  color: white;
-
-  &:hover {
-    color: white;
-    background: $disabled-btn;
-  }
 }
 
 @include button-style('blue', #09F, white);
@@ -92,7 +121,7 @@ button.button.button--color-disabled, .button.button--color-disabled {
   display: flex;
   align-items: center;
 
-  &.-target {
+  &.label-pair--target{
     color: $theme-color;
     fill: $theme-color;
     cursor: pointer;
