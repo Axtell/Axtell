@@ -9,6 +9,11 @@
 var hljs = require('highlight.js'),
     escape = require('escape-html');
 
+global.hljs = hljs;
+
+// Custom HLJS langs
+require('./hljs/rodacode');
+
 function highlight(string, language, langId) {
     var head = '<pre class="hljs exec-target" data-lang="' + langId + '"><code>',
         tail = '</code></pre>';
