@@ -192,6 +192,11 @@ export default class StackExchangeImporterViewController extends ViewController 
                 data-qid={question.question_id} aria-describedby={itemLabel} />
         );
 
+        // Handled updates correctly
+        if (question.question_id === this.selectedQuestion?.question_id) {
+            input.checked = true;
+        }
+
         input.addEventListener('change', () => {
             if (input.checked) {
                 this.selectedQuestion = question;
