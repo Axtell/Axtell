@@ -1,6 +1,7 @@
 from app.instances.db import db
 from config import posts
 from sqlalchemy.dialects.mysql import LONGTEXT
+from sqlalchemy.orm import backref
 import datetime
 
 
@@ -28,7 +29,7 @@ class PostRevision(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     user = db.relationship('User', backref='post_revisions', lazy=True)
-    post = db.relationship('Post', backref='post_revisions', lazy=True)
+    post = db.relationship('Post', backref=backref('post_revisions', order_by=revision_id), lazy=True)
 
     def to_json(self):
         return {

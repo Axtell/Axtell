@@ -1,5 +1,6 @@
 from app.instances.db import db
 from config import answers
+from sqlalchemy.orm import backref
 import datetime
 
 
@@ -31,7 +32,7 @@ class AnswerRevision(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     user = db.relationship('User', backref='answer_revisions', lazy=True)
-    answer = db.relationship('Answer', backref='answer_revisions', lazy=True)
+    answer = db.relationship('Answer', backref=backref('answer_revisions', order_by=revision_id), lazy=True)
 
     def to_json(self):
         return {
