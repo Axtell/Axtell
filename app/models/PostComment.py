@@ -13,6 +13,7 @@ class PostComment(db.Model):
     text = db.Column(db.String(140), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    deleted = db.Column(db.Boolean, default=False, nullable=False)
 
     user = db.relationship('User', backref='post_comments')
     post = db.relationship('Post', backref='comments')
@@ -27,8 +28,9 @@ class PostComment(db.Model):
             'text': self.text,
             'date': self.date_created.isoformat(),
             'owner': self.user.to_json(),
-            'parent': self.parent,
-            'children': self.children
+            'parent': self.parent and self.parent.to_json(),
+            'children': [child.to_json() for child in self.children],
+            'deleted': self.deleted
         }
 
         return data
