@@ -46,3 +46,10 @@ def get_answers(post_id, page):
 def get_answer(answer_id):
     answer = Answer.query.filter_by(id=answer_id).first()
     return answer
+
+
+def revise_answer(answer_id, data):
+    answer = get_answer(answer_id)
+    answer, revision = answer.revise(g.user, **data)
+    db.session.add(revision)
+    db.session.commit()

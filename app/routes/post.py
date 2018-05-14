@@ -95,3 +95,9 @@ def publish_post():
         body=body,
         categories=categories
     )
+
+
+@server.route("/post/<int:post_id>/edit", methods=['POST'])
+def edit_post(post_id):
+    post.revise_post(post_id, request.form)
+    return redirect(url_for("get_post", post_id=post_id))

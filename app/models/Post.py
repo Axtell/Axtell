@@ -38,7 +38,8 @@ class Post(db.Model):
                                 deleted=self.deleted,
                                 user_id=user.id)
         for key, value in new_post_data.items():
-            setattr(self, key, value)
+            if hasattr(self, key):
+                setattr(self, key, value)
         return self, revision
 
     def __repr__(self):

@@ -44,7 +44,11 @@ def get_posts(page):
 
 def get_post(post_id):
     post = Post.query.filter_by(id=post_id).first()
-    if post is None:
-        return None
-
     return post
+
+
+def revise_post(post_id, data):
+    post = get_post(post_id)
+    post, revision = post.revise(g.user, **data)
+    db.session.add(revision)
+    db.session.commit()

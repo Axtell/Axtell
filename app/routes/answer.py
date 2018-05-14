@@ -1,4 +1,4 @@
-from flask import request, g, abort, jsonify
+from flask import request, g, abort, jsonify, redirect, url_for
 from base64 import b64decode
 
 from app.controllers import answer
@@ -21,3 +21,11 @@ def publish_answer():
     commentary = request.form.get('commentary', "")
 
     return answer.create_answer(post_id, code, commentary, lang_id=lang_id, lang_name=lang_name)
+
+
+@server.route('/answer/<int:answer_id>/edit', methods=['POST'])
+def edit_answer(answer_id):
+    answer.revise_answer(answer_id, request.form)
+    matched_answer = answer.get_answer(answer_id)
+    return redirect(url_for('get_post', post_id=matched_answer.post_id, answer_id=matched_answer.id)
+                    + f"#answer-{matched_answer.id}")
