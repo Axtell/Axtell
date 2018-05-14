@@ -4,6 +4,7 @@ import * as MarkdownControls from '~/controllers/MarkdownControls';
 
 import WriteComment from '~/models/Request/WriteComment';
 import Analytics, { EventType } from '~/models/Analytics';
+import KeyManager from '~/models/KeyManager';
 import Answer from '~/models/Answer';
 import Post from '~/models/Post';
 import Data from '~/models/Data';
@@ -120,6 +121,7 @@ export default class WriteCommentViewController extends ViewController {
         }
     }
 
+    _submitHandler = null;
     /**
      * Toggles between writing box and "add comment" dialogue.
      */
@@ -128,10 +130,17 @@ export default class WriteCommentViewController extends ViewController {
             Analytics.shared.report(EventType.commentWriteOpen(this.owner));
             this._writingBox.parentNode.replaceChild(this._node, this._writingBox);
             this._displayingWritingBox = false;
+
+            this._submitHandler?.();
         } else {
             Analytics.shared.report(EventType.commentWriteClose(this.owner));
             this._node.parentNode.replaceChild(this._writingBox, this._node);
             this._displayingWritingBox = true;
+
+            this._submitHandler?.();
+            this._submitHandler = KeyManager.shared.registerMeta('Enter', () => {
+                this.submit();
+            });
         }
     }
 }
