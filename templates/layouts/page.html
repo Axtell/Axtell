@@ -51,13 +51,11 @@
     <link rel=stylesheet type=text/css href="/static/css/all-{{ theme }}.css?v={{ macros.get_version_id() }}">
     {{ data("theme", theme) }}
 
-    {% if opts.auth['rollbar'].get('accessToken', '') not in ['ROLLBAR_ACCESS_TOKEN', ''] -%}
-    <script>{% include "includes/rollbar.js" %}</script>
-    {%- endif %}
-
     <meta name="data_id" content="{{ data_id }}">
     {{ data("env", macros.json_to_b64({
+        'IS_DEBUG': is_debug,
         'VERSION': '{{ macros.get_version_id() }}',
+        'BUGSNAG': opts.auth['bugsnag']['api-key'],
         'GAPI_KEY': opts.auth['google']['client-id'],
         'SE_CLIENT_ID': opts.oauth['se']['client-id'],
         'SE_KEY': opts.oauth['se']['key'],

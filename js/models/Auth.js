@@ -1,5 +1,6 @@
 import User from '~/models/User';
 import Data from '~/models/Data';
+import { Bugsnag } from '~/helpers/ErrorManager';
 import axios from 'axios';
 
 /**
@@ -26,9 +27,21 @@ class Auth {
         if (Auth._shared !== null)
             return Promise.resolve(Auth._shared);
 
-        return (async () => (
-            Auth._shared = await new Auth().setup()
-        ))();
+        return (async () => {
+            const auth = await new Auth().setup();
+            const user = auth.user;
+            Auth._shared = auth;
+
+            // Since now that the auth it setup, we'll setup bugsnag user info
+            if (user !== Auth.Unauthorized) {
+                Bugsnag.user = {
+                    id: user.id,
+                    nane: user.name
+                };
+            }
+
+            return user;
+        })();
     }
 
     /**

@@ -56,6 +56,19 @@ export default class User {
         );
     }
 
+    /**
+     * Converts to json
+     * @return {Object} json object
+     */
+    toJSON() {
+        return {
+            type: 'user',
+            id: this.id,
+            name: this.name,
+            avatar: this.avatar
+        };
+    }
+
     /** @type {number} */
     static MIN_USERNAME_LENGTH = Data.shared.envValueForKey('MIN_USERNAME_LENGTH');
 
