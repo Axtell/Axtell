@@ -37,3 +37,6 @@ if [[ $should_redis == "y" ]]; then
 
     sed -i "s/REDIS_PASSWORD/$redis_password/g" config.py
 fi
+
+sed -i "s/BUGSNAG_FRONTEND_API_KEY//g" config.py
+sed -i "s/BUGSNAG_BACKEND_API_KEY//g" config.py
