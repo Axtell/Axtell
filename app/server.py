@@ -5,6 +5,9 @@ from flask import Flask, g
 from werkzeug.contrib.profiler import ProfilerMiddleware
 import app.tasks.update as update
 from shutil import which
+import bugsnag
+from bugsnag.flask import handle_exceptions
+import os
 
 import bugsnag
 from bugsnag.flask import handle_exceptions
