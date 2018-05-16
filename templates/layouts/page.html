@@ -55,7 +55,7 @@
     {{ data("env", macros.json_to_b64({
         'IS_DEBUG': is_debug,
         'VERSION': macros.get_version_id(),
-        'BUGSNAG': opts.auth['bugsnag']['api-key'],
+        'BUGSNAG': opts.auth['bugsnag'].get('frontend', ''),
         'GAPI_KEY': opts.auth['google']['client-id'],
         'SE_CLIENT_ID': opts.oauth['se']['client-id'],
         'SE_KEY': opts.oauth['se']['key'],

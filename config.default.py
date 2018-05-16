@@ -36,7 +36,8 @@ auth = {
         'client-id': 'IMGUR_CLIENT_ID'
     },
     'bugsnag': {
-        'api-key': 'BUGSNAG_API_KEY'
+        'frontend': 'BUGSNAG_FRONTEND_API_KEY',
+        'backend': 'BUGSNAG_BACKEND_API_KEY'
     }
 }
 
