@@ -41,6 +41,7 @@
     "axios": "^0.17.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^8.0.0-beta.2",
+    "bugsnag-js": "^4.6.3",
     "element-dataset": "^2.2.6",
     "entities": "^1.1.1",
     "escape-html": "^1.0.3",

@@ -32,6 +32,17 @@ export default class Post {
      */
     get endpoint() { return 'post' }
 
+    /**
+     * Converts to json
+     * @return {Object} json object
+     */
+    toJSON() {
+        return {
+            type: 'post',
+            id: this.id
+        };
+    }
+
     static _currentPost = null;
     /**
      * The current post

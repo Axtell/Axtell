@@ -1,3 +1,5 @@
+import { Bugsnag } from '~/helpers/ErrorManager';
+
 /**
  * Analytics wrapper
  */
@@ -35,6 +37,8 @@ export default class Analytics {
             eventObject.event_label = label;
         }
 
+        Bugsnag?.leaveBreadcrumb(eventType.description || eventType.name, eventType.info || {});
+
         eventObject.event_category = eventType.category;
         this.gtag?.('event', eventType.name, eventObject);
     }
@@ -65,10 +69,12 @@ export const EventType = {
     // ===== Login Events =====
     loginOpen: {
         category: EventCategory.userManagement,
+        description: 'Open login dialog',
         name: 'login_open'
     },
     loginCancel: {
         category: EventCategory.userManagement,
+        description: 'Close login dialog',
         name: 'login_cancel'
     },
     loginMethod: {
@@ -79,37 +85,47 @@ export const EventType = {
     // ===== Changelog =====
     changelogOpen: {
         category: EventCategory.engagement,
+        description: 'Opened changelog',
         name: 'changelog_open'
     },
 
     // ===== Comment Events =====
     commentWriteOpen: (ty) => ({
         category: EventCategory.comment,
+        info: ty.toJSON(),
+        description: 'Opened comment write box',
         name: `write_open_${ty.endpoint}`,
         value: ty.id
     }),
     commentWriteClose: (ty) => ({
         category: EventCategory.comment,
+        info: ty.toJSON(),
+        description: 'Closed comment write box',
         name: `write_close_${ty.endpoint}`,
         value: ty.id
     }),
     commentWrite: (ty) => ({
         category: EventCategory.comment,
+        description: 'Submitted a comment',
+        info: ty.toJSON(),
         name: `write_${ty.endpoint}`,
         value: ty.id
     }),
     commentTooShort: {
         category: EventCategory.comment,
+        description: 'Failed to submit comment: too short',
         name: `too_short`
     },
 
     // ===== Voting Events =====
     postVote: {
         category: EventCategory.vote,
+        description: 'Voted on a post',
         name: 'post_vote'
     },
     answerVote: {
         category: EventCategory.vote,
+        description: 'Voted on an answer',
         name: 'answer_vote'
     }
 };

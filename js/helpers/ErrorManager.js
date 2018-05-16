@@ -3,8 +3,21 @@
  */
 
 import Data from '~/models/Data';
+import bugsnag from 'bugsnag-js';
 
 const ErrorList = [];
+
+export let Bugsnag = null;
+
+const BugsnagKey = Data.shared.envValueForKey('BUGSNAG');
+if (BugsnagKey) {
+    Bugsnag = bugsnag({
+        apiKey: BugsnagKey,
+        appVersion: Data.shared.envValueForKey('VERSION'),
+        autoCaptureSessions: true
+    });
+    Bugsnag.metaData = {};
+}
 
 /**
  * Generic error type
@@ -17,6 +30,9 @@ export class AnyError {
     constructor(message, id) {
         this.message = message;
         this.id = typeof id === 'symbol' ? id.toString().slice(7, -1) : id;
+
+        // Stores stack trace
+        this.jsError = new Error(message);
     }
 
     get idString() {
@@ -42,15 +58,19 @@ export class AnyError {
 }
 
 // Helper to report rollbar
-function report_rollbar(level, message, args) {
-    const user = Data.shared.valueForKey('user') || 'unauthorized';
-    const instanceId = Data.shared.dataId;
-
-    Rollbar[level](message, {
-        instance: instanceId,
-        user,
-        ...args
-    });
+function report_manager(level, err) {
+    if (err instanceof AnyError) {
+        Bugsnag?.notify(
+            err.jsError,
+            err.toString(),
+            {},
+            level
+        );
+    } else {
+        Bugsnag?.notify(err, {
+            severity: level
+        })
+    }
 }
 
 export class ErrorManager {
@@ -60,7 +80,9 @@ export class ErrorManager {
      * @param {Symbol|string} id - Error id string or symbol.
      */
     raise(message, id) {
-        throw new AnyError(message, id);
+        const error = new AnyError(message, id);
+        report_manager('error', error);
+        throw error;
     }
 
     /**
@@ -69,7 +91,9 @@ export class ErrorManager {
      * @param {Symbol|string} id Describes the type
      */
     warn(message, id) {
-        console.warn(new AnyError(message, id).toString());
+        const error = new AnyError(message, id);
+        report_manager('warning', error);
+        console.warn(error.toString());
     }
 
     /**
@@ -90,10 +114,11 @@ export class ErrorManager {
         }
 
         const err = new AnyError(message, title);
-
-        if (window.Rollbar) {
-            report_rollbar('warning', err.toString(), { data: args });
+        if (error.stack) {
+            err.jsError = error;
         }
+
+        report_manager('warning', err);
 
         err.report(...args);
     }
@@ -104,7 +129,7 @@ export class ErrorManager {
      */
     report(error) {
         if (error instanceof AnyError) {
-            report_rollbar('error', error.toString());
+            report_manager('error', error);
             error.report();
         } else {
             this.unhandled(error);
@@ -116,10 +141,7 @@ export class ErrorManager {
      * @param {Error|AnyError} error - An unhandled error to report.
      */
     unhandled(error) {
-        if (window.rollbar) {
-            report_rollbar('error', error)
-        }
-
+        report_manager('error', error);
         new AnyError(error.message, 'Unhandled Error').report(error, error.stack);
     }
 
