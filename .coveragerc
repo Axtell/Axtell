@@ -1,6 +1,8 @@
 # .coveragerc to control coverage.py
 [run]
 branch = True
+source = app
+omit = app/tasks app/app_alembic app/jw_keys.py app/routes
 
 [report]
 # Regexes for lines to exclude from consideration
