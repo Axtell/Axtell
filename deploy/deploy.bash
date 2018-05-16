@@ -46,4 +46,5 @@ http -f POST https://upload.bugsnag.com/ \
   apiKey=$BUGSNAG_API_KEY \
   appVersion=$(git rev-parse @) \
   minifiedUrl=https://axtell.vihan.org/static/lib/main.js \
+  minifiedFile@static/lib/main.js \
   sourceMap@static/lib/main.js.map

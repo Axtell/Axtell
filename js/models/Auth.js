@@ -33,10 +33,10 @@ class Auth {
             Auth._shared = auth;
 
             // Since now that the auth it setup, we'll setup bugsnag user info
-            if (user !== Auth.Unauthorized) {
+            if (user !== Auth.Unauthorized && Bugsnag) {
                 Bugsnag.user = {
                     id: user.id,
-                    nane: user.name
+                    name: user.name
                 };
             }
 
