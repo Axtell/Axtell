@@ -76,11 +76,6 @@ $nav-padding: 1em;
           right: 8px;
           top: 3rem;
 
-          // Show the new close button
-          #useropts-close {
-            display: block;
-          }
-
           // Hide the arrow
           &:before { content: none; }
         }
@@ -205,6 +200,11 @@ $nav-padding: 1em;
         color: $big-fg;
         fill: $big-fg;
       }
+    }
+
+    // Last section so no margin
+    .section--last {
+      margin-right: 0;
     }
 
     .section--hover-em {

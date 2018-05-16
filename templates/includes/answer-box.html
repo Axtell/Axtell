@@ -1,7 +1,7 @@
 <div id="answer-box" class="template">
     <div class="list-header">
         <h2>Create Submission</h2>
-        <a id="answer-close" class="label-pair -target">{% include "svg/close.html" %} Close</a>
+        <a id="answer-close" class="label-pair label-pair--target">{% include "svg/close.html" %} Close</a>
     </div>
     <div class="answer-form">
         <form method="POST" action="/answer/public" id="answer-source">
@@ -10,7 +10,7 @@
             <div class="item-wrap label-group">
                 <label for="answer-lang">Language Name</label>
                 <div id="lang-input" class="text-base lang-manager">
-                    <input autocomplete="off" type="text" id="answer-lang" name="answer-lang" class="text-input expand -owned -title">
+                    <input autocomplete="off" type="text" id="answer-lang" name="answer-lang" class="text-input text-input--size-wide text-input--owned text-input--type-title">
                 </div>
                 <input type="hidden" id="lang-id" name="lang_id"/>
                 <input type="hidden" id="lang-name" name="lang_name"/>

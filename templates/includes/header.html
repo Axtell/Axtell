@@ -15,12 +15,16 @@
         </div>
         {% if g.get("user") is not none -%}
             {% if not request.path.startswith(url_for('write_post')) %}
-                <div class="section r-collapse r-tight">
+                <div class="section r-collapse r-tight popover__container">
                     <div class="button-section">
-                        <a class="button button--color-accent" href="{{ url_for('write_post') }}">
+                        <a class="button button--pair-left button--color-accent" href="{{ url_for('write_post') }}">
                             {% include "svg/plus.html" %}
                             <span>Create Post</span>
                         </a>
+                        <div id="create-post__trigger" class="button button--pair-right button--color-accent">
+                            {% include "svg/down-triangle.html" %}
+                        </div>
+                        {% include "includes/header/create-post-more.html" %}
                     </div>
                 </div>
             {% endif %}

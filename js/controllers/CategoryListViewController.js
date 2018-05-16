@@ -21,7 +21,7 @@ export default class CategoryListViewController extends ViewController {
         }
 
         this._managingContext = element;
-        this._typingContext = <input id={this._id} class="text-base text-input -owned" autocapitalize="none" />
+        this._typingContext = <input id={this._id} class="text-input text-input--owned" autocapitalize="none" />
         this._inputContext = <div aria-hidden='true'></div>;
 
         this._managingContext.appendChild(this._typingContext);

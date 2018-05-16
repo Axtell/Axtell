@@ -21,17 +21,17 @@
             <div class="right">
                 <div class="item-wrap label-group rc-group">
                     <label for="display-name">Display Name</label>
-                    <input type="text" id="display-name" name='name' class="text-input text-base -title submit-target" value='{{ g.user.name|e }}'>
+                    <input type="text" id="display-name" name='name' class="text-input text-input--type-title submit-target" value='{{ g.user.name|e }}'>
                 </div>
 
                 <div class="item-wrap label-group rc-group">
                     <label for="user-email">Email</label>
-                    <input type="email" id="user-email" name='email' class="text-input text-base -mail submit-target" value='{{ g.user.email|e }}'>
+                    <input type="email" id="user-email" name='email' class="text-input text-input--type-mail submit-target" value='{{ g.user.email|e }}'>
                 </div>
 
                 <div class="item-wrap label-group rc-group">
                     <label for="avatar-url">Avatar URL</label>
-                    <input type="text" id="avatar-url" name='avatar-url' class="text-input text-base -mail submit-target" value='{{ g.user.avatar or "" }}'>
+                    <input type="text" id="avatar-url" name='avatar-url' class="text-input text-input--type-mail submit-target" value='{{ g.user.avatar or "" }}'>
                 </div>
             </div>
         </div>

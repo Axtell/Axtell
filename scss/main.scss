@@ -18,6 +18,8 @@ body {
 
   background: $main-bg;
 
+  overflow: hidden;
+
   // For just body content (not header etc.)
   #content main {
     // Some basic spacing
@@ -110,18 +112,6 @@ body {
     // Width of main content
     width: $page-width;
   }
-
-  @import "header/header.scss";
-  @import "listing/listing.scss";
-  @import "select-dialog.scss";
-  @import "page/profile/profile.scss";
-  @import "content.scss";
-  @import "buttons.scss";
-  @import "comment.scss";
-  @import "userbox.scss";
-  @import "leaderboard.scss";
-  @import "answer/write.scss";
-  @import "answer/view.scss";
 }
 
 #ns-main {
@@ -140,11 +130,23 @@ body {
 
 @import "theme/theme.scss";
 
+@import "header/header.scss";
+@import "listing/listing.scss";
+@import "select-dialog.scss";
+@import "page/profile/profile.scss";
+@import "content.scss";
+@import "buttons.scss";
+@import "comment.scss";
+@import "userbox.scss";
+@import "leaderboard.scss";
+@import "answer/write.scss";
+@import "answer/view.scss";
 @import "footer/footer.scss";
 @import "vote.scss";
 @import "page/posts.scss";
 @import "page/user/user.scss";
 @import "page/user/banner.scss";
+@import "page/StackExchangeImport.scss";
 @import "tio.scss";
 @import "action.scss";
 @import "markdown.scss";
@@ -155,3 +157,4 @@ body {
 @import "form.scss";
 @import "lang.scss";
 @import "upgrade-browser.scss";
+@import "popover.scss";

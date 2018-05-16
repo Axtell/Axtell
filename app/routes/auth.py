@@ -1,7 +1,7 @@
 from flask import request, redirect, url_for, abort, g
 
 from app.controllers import auth
-from app.helpers.render import render_error, render_json
+from app.helpers.render import render_error, render_json, render_template
 from app.server import server
 from app.session.user_session import remove_session_user
 
@@ -36,12 +36,24 @@ def auth_login_oauth():
     except:
         return abort(400)
 
-    oauth_errors = auth.set_user_oauth(code, provider=state.get('provider'))
+    provider = state.get('provider')
 
-    if oauth_errors is not None:
-        return oauth_errors
+    if state.get('target_client', False):
+        auth_key = auth.set_user_oauth(code, provider=provider, client_side=True)
+        if isinstance(auth_key, str):
+            return render_template('client_oauth/success.html', auth_key=auth_key)
+        elif auth_key is None:
+            return render_template('client_oauth/failed.html')
+        else:
+            # In this case auth_key is errors
+            return auth_key
     else:
-        return redirect(state.get('redirect', url_for('home')), 303)
+        oauth_errors = auth.set_user_oauth(code, provider=provider, client_side=False)
+
+        if oauth_errors is not None:
+            return oauth_errors
+        else:
+            return redirect(state.get('redirect', url_for('home')), 303)
 
 
 @server.route("/auth/logout", methods=['POST'])

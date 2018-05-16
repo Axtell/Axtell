@@ -16,31 +16,12 @@ import Auth from "~/models/Auth";
 import Request from "~/models/Request/Request";
 import Leaderboard from "~/models/Request/Leaderboard";
 
-import ErrorManager from "~/helpers/ErrorManager";
+import ErrorManager, * as ErrorData from "~/helpers/ErrorManager";
 
 import Analytics, { TimingType } from "~/models/Analytics";
 
-// Make global
-const IS_DEBUG = false;
-if (IS_DEBUG) {
-    global.Normalize = Normalize;
-    global.Language = Language;
-    global.Theme = Theme;
-    global.Post = Post;
-    global.Data = Data;
-    global.Auth = Auth;
-
-    global.Request = Request;
-    global.Leaderboard = Leaderboard;
-
-    global.KeyManager = KeyManager;
-    global.ForeignChildInteractor = require('~/interactors/ForeignChildInteractor').default;
-    global.ForeignInteractor = require('~/interactors/ForeignInteractor').default;
-}
-
-global.ErrorManager = ErrorManager;
-
-
+// This is a bunch of code which ensures that the UI code is called
+// as early as possible but never before and only once.
 (function(done) {
     // Only need to be able to access DOM
     if (document.readyState !== 'loading') {
@@ -53,6 +34,24 @@ global.ErrorManager = ErrorManager;
     // This ensures that we only load once
     return function() {
         if (state === false) {
+            // Make global
+            const IS_DEBUG = Data.shared.envValueForKey('IS_DEBUG');
+            if (IS_DEBUG) {
+                global.Normalize = Normalize;
+                global.Language = Language;
+                global.Theme = Theme;
+                global.Post = Post;
+                global.Data = Data;
+                global.Auth = Auth;
+
+                global.Request = Request;
+                global.Leaderboard = Leaderboard;
+
+                global.KeyManager = KeyManager;
+                global.ErrorManager = ErrorManager;
+                global.ErrorData = ErrorData;
+            }
+
             state = true;
             try {
 

@@ -12,9 +12,6 @@ export default class ProgressButtonController extends ViewController {
     constructor(saveButton) {
         super(saveButton);
 
-        /** @private */
-        this.inLoadingState = false;
-
         /** @type {HTMLElement} */
         this.button = saveButton;
 

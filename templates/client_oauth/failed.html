@@ -1,0 +1,22 @@
+{% extends "layouts/page.html" %}
+
+{% block title %}Authentication Failed!{% endblock %}
+{% block base_content %}
+    <div id="error-page">
+        <h1>Authentication failed</h1>
+        <p>Unfortunetly an unexpected error occured when attempting to login. Try again in a few moments or report this error.</p>
+        <p>You can return to our <a href="/">home page</a>.</p>
+    </div>
+    <script>
+        if (window.opener) {
+            window.opener.postMessage({ success: false },'*');
+            window.addEventListener("message", (event) => {
+                if(event.source === window.opener) {
+                    if (event.data && event.data.received) {
+                        window.close();
+                    }
+                }
+            });
+        }
+    </script>
+{% endblock %}
