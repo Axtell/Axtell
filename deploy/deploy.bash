@@ -28,22 +28,29 @@ rsync --super --chmod=g+rw -rvzP "$TRAVIS_BUILD_DIR/static/css/" "$REMOTE_HOST:/
 echo "DEPLOY: CLEANING UP..."
 rm deploy/id_rsa
 
-echo "NOTIFIYING BUGSNAG BUILD..."
-http POST https://build.bugsnag.com/ \
-  apiKey=$BUGSNAG_API_KEY \
-  appVersion=$(git rev-parse @) \
-  releaseStage=production \
-  builderName=$(git show -s --format='%an') \
-  sourceControl:="{
-    \"provider\": \"github\",
-    \"repository\": \"https://github.com/$TRAVIS_REPO_SLUG\",
-    \"revision\": \"$(git rev-parse @)\"
-  }" \
-  metadata:="{\"build_server\": \"travis\", \"build_job\": \"$TRAVIS_JOB_NUMBER\"}"
+notify_build () {
+  http POST https://build.bugsnag.com/ \
+    apiKey=$1 \
+    appVersion=$(git rev-parse @) \
+    releaseStage=production \
+    builderName=$(git show -s --format='%an') \
+    sourceControl:="{
+      \"provider\": \"github\",
+      \"repository\": \"https://github.com/$TRAVIS_REPO_SLUG\",
+      \"revision\": \"$(git rev-parse @)\"
+    }" \
+    metadata:="{\"build_server\": \"travis\", \"build_job\": \"$TRAVIS_JOB_NUMBER\"}"
+}
 
-echo "SUBMITTING BUGSNAG SOURCEMAP..."
+echo "NOTIFIYING FRONTEND BUGSNAG BUILD..."
+notify_build $BUGSNAG_FRONTEND_API_KEY
+
+echo "NOTIFIYING BACKEND BUGSNAG BUILD..."
+notify_build $BUGSNAG_BACKEND_API_KEY
+
+echo "SUBMITTING FRONTEND BUGSNAG SOURCEMAP..."
 http -f POST https://upload.bugsnag.com/ \
-  apiKey=$BUGSNAG_API_KEY \
+  apiKey=$BUGSNAG_FRONTEND_API_KEY \
   appVersion=$(git rev-parse @) \
   minifiedUrl=https://axtell.vihan.org/static/lib/main.js \
   minifiedFile@static/lib/main.js \
