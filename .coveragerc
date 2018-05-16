@@ -2,7 +2,7 @@
 [run]
 branch = True
 source = app
-omit = app/tasks app/app_alembic app/jw_keys.py app/routes
+omit = app/tasks/* app/app_alembic/* app/jwkeys.py app/routes/*
 
 [report]
 # Regexes for lines to exclude from consideration
