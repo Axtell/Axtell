@@ -59,12 +59,18 @@ export class AnyError {
 
 // Helper to report rollbar
 function report_manager(level, err) {
-    Bugsnag?.notify(
-        err.jsError || err,
-        {
+    if (err instanceof AnyError) {
+        Bugsnag?.notify(
+            err.jsError,
+            err.toString(),
+            {},
+            level
+        );
+    } else {
+        Bugsnag?.notify(err, {
             severity: level
-        }
-    );
+        })
+    }
 }
 
 export class ErrorManager {
@@ -108,6 +114,10 @@ export class ErrorManager {
         }
 
         const err = new AnyError(message, title);
+        if (error.stack) {
+            err.jsError = error;
+        }
+
         report_manager('warning', err);
 
         err.report(...args);
