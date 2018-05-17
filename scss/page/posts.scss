@@ -10,6 +10,11 @@
     flex-direction: column;
     align-items: stretch;
 
+    h4 {
+      // Matches the color
+      color: $big-link;
+    }
+
     &:not(:last-child) {
       margin-bottom: 1em;
       border-bottom: 1px solid $subcontent-border-color;

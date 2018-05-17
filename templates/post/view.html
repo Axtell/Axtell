@@ -30,7 +30,7 @@
         {% set vote_status = vote.get_post_vote(post.id) %}
         {{ votebuttons(vote_status, post.user == g.user) }}
     </div>
-    {{ userbox(post.user, post.date_created, vtight=true) }}
+    {{ userbox(post.user, post.date_created, tight=true) }}
     {{ commentList(post_comments) }}
 </div>
 <hr class="big">
@@ -72,7 +72,7 @@
                     {% set vote_status = vote.get_answer_vote(answer.id) %}
                     {{ votebuttons(vote_status, answer.user == g.user) }}
                 </div>
-                {{ userbox(answer.user, answer.date_created, small=true, htight=true, vtight=true) }}
+                {{ userbox(answer.user, answer.date_created, small=true, tight=true) }}
                 {{ commentList(answer_comments[loop.index - 1]) }}
             </li>
         {% endfor %}

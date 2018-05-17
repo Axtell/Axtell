@@ -1,13 +1,19 @@
-{% macro userbox(user, time=none, verb="by", small=false, htight=false, vtight=false) -%}
-<div class="userbox{{ ' -vtight' if vtight else '' }}{{ ' -htight' if htight else '' }}{{ ' -small' if small else '' }}">
-    <span class="verb">{{ verb }}</span>
-    <a class="userbox-info">
-        <img class="avatar" src="{{ user.avatar_url() }}">
-        <span class="name">{{ user.name }}</span>
+{% macro userbox(user, time=none, small=false, tight=false) -%}
+<div class="userbox{{ ' userbox--align-tight' if tight else '' }}{{ ' userbox--size-small' if small else '' }}">
+    <a class="userbox__tab userbox__tab--highlighted userbox--trigger-author"
+        href="{{ url_for('get_user', user_id=user.id, name=user.name) }}"
+        data-userid="{{ user.id }}">
+        <span class="userbox__tab__verb">Author</span>
+        <div class="userbox__tab__value">
+            <img class="userbox__tab__value__child--align-textcenter userbox__value--type-avatar" src="{{ user.avatar_url() }}">
+            <span class="userbox__tab__value__child--align-textcenter userbox__value--type-name">{{ user.name }}</span>
+        </div>
     </a>
+    <div class="userbox__spacer"></div>
     {% if time is not none -%}
-    <div class="userbox-aside">
-        <span class="timestamp"><script>d({{ time.timestamp() * 1000 }})</script></span>
+    <div class="userbox__tab">
+        <span class="userbox__tab__verb">Time</span>
+        <span class="userbox__tab__value userbox__value--type-timestamp"><script>d({{ time.timestamp() * 1000 }})</script></span>
     </div>
     {%- endif %}
 </div>

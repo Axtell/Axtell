@@ -20,6 +20,8 @@ export default class Template {
         }
 
         this._parent = this._root.parentNode;
+
+        this._hasLoaded = false;
     }
 
     /**
@@ -94,15 +96,19 @@ export default class Template {
      * Called right before the view will appear on screen
      */
     willLoad() {
+        this._hasLoaded = true;
         void 0;
     }
 
     /**
      * Loads the template in a context
      * @param {HTMLElement} parent - Will be appended to this node.
+     * @param {boolean} allowDupliacte If should allow to be loaded multiple times
      * @return {HTMLElement} rendered element
      */
-    loadInContext(parent) {
+    loadInContext(parent, allowDuplicate = true) {
+        if (!allowDuplicate && this._hasLoaded) return;
+
         let elem = this.unique();
         this.willLoad();
         parent.appendChild(elem);

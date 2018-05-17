@@ -25,7 +25,7 @@ class User(db.Model):
         else:
             return gravatar(self.email)
 
-    def to_json(self, own=False):
+    def to_json(self, own=False, bio=False):
         data = {
             'id': self.id,
             'name': self.name,
@@ -34,6 +34,10 @@ class User(db.Model):
 
         if own:
             data['email'] = self.email
+
+        if bio:
+            data['post_count'] = len(self.posts)
+            data['answer_count'] = len(self.answers)
 
         return data
 

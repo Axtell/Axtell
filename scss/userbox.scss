@@ -1,31 +1,65 @@
 .userbox {
   display: flex;
   align-items: center;
-  padding: 1rem;
+  padding: 0.75rem 0;
 
-  .verb {
-    font-size: 9px;
-    color: $label-tag;
+  // Spaces out items e.g. a |---spacer---| b
+  .userbox__spacer {
+    flex: 1 0 8px; // Minimum 8px seperation
+  }
+
+  // Any desc item in a userbox
+  .userbox__tab {
+    // Highlighted tab
+    &.userbox__tab--highlighted {
+      padding: 4px 8px;
+
+      background: rgba($hover-mix, 0.04);
+      border-radius: 4px;
+
+      transition: 0.24s background ease-out;
+
+      &:hover {
+        background: rgba($hover-mix, 0.07);
+      }
+    }
+
+    // e.g. the header or the value
+    .userbox__tab__child {
+      display: block;
+    }
+
+    .userbox__tab__value {
+      @extend .userbox__tab__child;
+
+      padding: 4px 0;
+
+      .userbox__tab__value__child--align-textcenter {
+        vertical-align: middle;
+      }
+    }
+
+    // What the title is, e.g. "Author" or "Time"
+    // these are not actually verbs but relic from previous format
+    .userbox__tab__verb {
+      @extend .userbox__tab__child;
+
+      font-size: 12px;
+      text-transform: uppercase;
+      font-weight: bold;
+      color: $label-tag;
+    }
+  }
+
+  .userbox__value--type-avatar {
+    height: 1rem;
     margin-right: 4px;
-  }
-
-  // Box containing username (maybe rep etc.)
-  .userbox-info {
-    display: flex;
-    flex: 1;
-    align-items: center;
-    padding: 0 8px;
-  }
-
-  .avatar {
-    height: 1.4rem;
-    margin-right: 8px;
-    border-radius: 50%;
+    border-radius: 3px;
     border: 1px solid $avatar-mini-color;
   }
 
-  .name {
-    font-size: 1rem;
+  .userbox__value--type-name {
+    font-size: 0.93rem;
     color: $em-text;
     white-space: nowrap;
 
@@ -34,52 +68,12 @@
     text-overflow: ellipsis;
   }
 
-  .timestamp {
+  .userbox__value--type-timestamp {
     font-size: 0.6rem;
     white-space: nowrap;
   }
 
-  .userbox-aside {
-    text-align: right;
-
-    // Style of content (eg. timestamp). Placed here so ellipsis gets colored.
-    color: $label-tag;
-
-    // Ellipsis of content (probably timestamp).
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  &.-small {
-    .userbox-info {
-      padding: 0;
-    }
-
-    .avatar {
-      margin-right: 4px;
-      height: 1rem;
-    }
-
-    .name {
-      font-size: .8rem;
-    }
-
-    .timestamp {
-      font-size: .6rem;
-    }
-  }
-
-  &.-vtight {
-    padding: {
-      top: 0;
-      bottom: 0;
-    }
-  }
-
-  &.-htight {
-    padding: {
-      left: 0;
-      right: 0;
-    }
+  &.userbox--align-tight {
+    padding: 0
   }
 }

@@ -1,0 +1,67 @@
+.user-popup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border-radius: 4px;
+    overflow: hidden;
+
+    padding: 2rem 1rem;
+    background: linear-gradient(45deg, #5B7ACF, #632069);
+
+    .user-popup__avatar {
+        border-radius: 50%;
+
+        $user-popup__avatar--size: 4rem;
+        max-width: $user-popup__avatar--size;
+        max-height: $user-popup__avatar--size;
+
+        + .user-popup__username {
+            margin-top: 0.5rem;
+        }
+    }
+
+    .user-popup__username {
+        color: white;
+        font-size: 1.6rem;
+        font-weight: 300;
+    }
+
+    .user-popup__stats {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        justify-content: center;
+
+        list-style: none;
+        @include fit;
+
+        padding: 1rem;
+        margin-bottom: 8px;
+
+        .user-popup__stat {
+            margin: 0 16px;
+
+            .user-popup__stat__child {
+                display: block;
+            }
+
+            .user-popup__stat__value {
+                @extend .user-popup__stat__child;
+                font-size: 1rem;
+                color: white;
+                font-family: $bold-font;
+                font-weight: $bold-weight;
+            }
+
+            .user-popup__stat__name {
+                @extend .user-popup__stat__child;
+                text-transform: uppercase;
+                color: rgba(white, 0.6);
+                letter-spacing: 1px;
+                font-weight: $bold-weight;
+                font-family: $bold-font;
+            }
+        }
+    }
+}
