@@ -40,7 +40,7 @@ class Auth {
                 };
             }
 
-            return user;
+            return auth;
         })();
     }
 
