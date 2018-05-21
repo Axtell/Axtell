@@ -14,7 +14,9 @@ if (BugsnagKey) {
     Bugsnag = bugsnag({
         apiKey: BugsnagKey,
         appVersion: Data.shared.envValueForKey('VERSION'),
-        autoCaptureSessions: true
+        autoCaptureSessions: true,
+        autoBreadcrumbs: true,
+        networkBreadcrumbsEnabled: true
     });
     Bugsnag.metaData = {};
 }

@@ -14,6 +14,9 @@ export default class Template {
         if (root instanceof Template) {
             this._root = root._root;
             this._type = root._type;
+        } else if (typeof root === 'string') {
+            this._root = document.getElementById(root);
+            this._type = type;
         } else {
             this._root = root;
             this._type = type;
@@ -99,6 +102,16 @@ export default class Template {
         this._hasLoaded = true;
         void 0;
     }
+
+    /**
+     * Called before disappearing
+     */
+    willUnload() { void 0; }
+
+    /**
+     * Called when disappeared
+     */
+    didUnload() { void 0; }
 
     /**
      * Loads the template in a context
