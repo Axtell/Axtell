@@ -4,7 +4,7 @@ from config import comments as comment_config
 # max_depth = 1 will only load top-level comments
 def get_rendered_comments(cls, parent_id=None, max_depth=1, count=comment_config['show_amt'], **kwargs):
     rendered_comments = []
-    comments = cls.query.filter_by(parent_id=parent_id, **kwargs).order_by(cls.date_created.desc()).limit(5).all()
+    comments = cls.query.filter_by(parent_id=parent_id, **kwargs).order_by(cls.date_created.desc()).limit(count).all()
     comment_len = cls.query.filter_by(parent_id=parent_id, **kwargs).count()
 
     for comment in comments:
