@@ -19,6 +19,7 @@ export default class PopoverViewController extends ViewController {
         super(root);
 
         this._trigger = trigger;
+        this._template = template;
         this._node = template.unique();
 
         this._isActive = false;
@@ -85,24 +86,33 @@ export default class PopoverViewController extends ViewController {
      * Sets into an active state
      */
     trigger() {
+        this._template.willLoad();
+
         this._isActive = true;
         this._trigger.classList.add("state-active");
         this._node.classList.remove("template");
+
         this._node.focus();
 
         this._keyBinding = KeyManager.shared.register('Escape', () => {
             this.untrigger();
         });
+
+        this._template.didLoad();
     }
 
     /**
      * Sets into inactive state.
      */
     untrigger() {
+        this._template.willUnload();
+
         this._isActive = false;
         this._trigger.classList.remove("state-active");
         this._node.classList.add("template");
         this._keyBinding?.();
         this._keyBinding = null;
+
+        this._template.didUnload();
     }
 }

@@ -62,7 +62,8 @@ export const EventCategory = {
     userManagement: 'user_management',
     socialEngagement: 'social_engagement',
     vote: 'Vote',
-    comment: 'Comment'
+    comment: 'Comment',
+    answer: 'Answer'
 };
 
 export const EventType = {
@@ -88,6 +89,22 @@ export const EventType = {
         description: 'Opened changelog',
         name: 'changelog_open'
     },
+
+    // ===== Answer Events =====
+    answerWriteOpen: (post) => ({
+        category: EventCategory.answer,
+        info: post?.toJSON(),
+        description: 'Opened answer write box',
+        name: 'Begin answer write',
+        value: post?.id
+    }),
+    answerWriteClose: (post) => ({
+        category: EventCategory.answer,
+        info: post?.toJSON(),
+        description: 'Closed answer write box',
+        name: 'Ended answer write',
+        value: post?.id
+    }),
 
     // ===== Comment Events =====
     commentWriteOpen: (ty) => ({

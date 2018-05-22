@@ -5,11 +5,13 @@ import PopoverViewController from '~/controllers/PopoverViewController';
 import AceViewController, { AceThemeType } from '~/controllers/AceViewController';
 import FormConstraint from '~/controllers/Form/FormConstraint';
 import ViewController from '~/controllers/ViewController';
+import Analytics, { EventType } from '~/models/Analytics';
 import Template from '~/template/Template';
 import Language from '~/models/Language';
 import HexBytes from '~/modern/HexBytes';
 import Theme from '~/models/Theme';
 import Chain from '~/modern/Chain';
+import Post from '~/models/Post';
 import Auth from '~/models/Auth';
 
 export const ANSWER_VIEW = "answer-box";
@@ -61,7 +63,21 @@ if (ANSWER_TRIGGER) {
     const answerBox = new PopoverViewController(
         null,
         ANSWER_TRIGGER,
-        Template.fromId(ANSWER_VIEW),
+        new class extends Template {
+            constructor() {
+                super(ANSWER_VIEW);
+            }
+
+            didLoad() {
+                super.didLoad();
+                Analytics.shared.report(EventType.answerWriteOpen(Post.current));
+            }
+
+            didUnload() {
+                super.didUnload();
+                Analytics.shared.report(EventType.answerWriteClose(Post.current));
+            }
+        },
         ANSWER_CLOSE
     );
 } else {

@@ -16,6 +16,7 @@ export default class ModalController extends ViewController {
         this._context = null;
         this._body = null;
         this._title = null;
+        this._presentingTemplate = null;
         this._presenting = null;
 
         this._removeKeyHandler = null;
@@ -58,19 +59,26 @@ export default class ModalController extends ViewController {
         );
 
         modal.didLoad();
+        this._presentingTemplate = modal;
         this._presenting = body;
     }
 
     _clearPresentee(event) {
+        if (this._presenting === null) return;
+        if (event && !event.target.classList.contains('md-dismiss')) return;
+
         this._removeKeyHandler?.();
         this._removeKeyHandler = null;
 
-        if (this._presenting === null) return;
-        if (event && !event.target.classList.contains('md-dismiss')) return;
+        this._presentingTemplate.willUnload();
 
         this._context.classList.remove(ACTIVE_KEY);
         this._body.removeChild(this._presenting);
         this._title.removeChild(this._title.firstChild);
+
+        this._presentingTemplate.didUnload();
+
+        this.__presentingTemplate = null;
         this._presenting = null;
     }
 
