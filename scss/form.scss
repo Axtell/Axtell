@@ -69,6 +69,7 @@ input.text-input, [contenteditable].text-input, .text-base.text-input, .text-inp
   &.text-input--type-url {
     font-size: 13px;
     font-family: $monospace;
+    color: $em-text;
   }
 
   &.text-input--type-title {
@@ -83,6 +84,7 @@ input.text-input, [contenteditable].text-input, .text-base.text-input, .text-inp
   &.text-input--type-mail {
     font-size: 1.2rem;
     font-family: $monospace;
+    color: $em-text;
     letter-spacing: 1px;
 
     box-sizing: content-box;
