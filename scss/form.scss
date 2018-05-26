@@ -1,4 +1,5 @@
-.item-wrap {
+// A given form item, this provides padding etc.
+.form-item {
   padding: 1em;
   box-sizing: border-box;
   display: flex;
@@ -11,26 +12,14 @@
   input {
     box-sizing: border-box;
   }
+
   .button {
     font-size: 1rem;
   }
 }
 
-.group-stretch {
-  min-height: 24rem;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.form-errors {
-  margin-top: 0;
-  font-size: 0.8rem;
-  color: $label-text;
-  padding-left: 30px;
-}
-
-.label-group {
+// Specifies the item has a label + input
+.form-item--label-group {
   label {
     display: block;
     color: $label-text;
@@ -44,6 +33,36 @@
   }
 }
 
+// Form sizes
+.form-item--size-tall {
+  min-height: 24rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-errors {
+  margin-top: 0;
+  font-size: 0.8rem;
+  color: $label-text;
+  padding-left: 30px;
+}
+
+// Sections form into left/right or something
+.form-sectioning {
+  display: flex;
+
+  &.form-sectioning--orientation-horizontal { flex-direction: row; }
+  &.form-sectioning--orientation-vertical { flex-direction: column; }
+
+  .form-sectioning__section {
+    &.form-sectioning__section--size-big { flex: 1; }
+  }
+}
+
+
+
+// ==== Text Input Styles ====
 input.text-input, [contenteditable].text-input, .text-base.text-input, .text-input {
   font-size: 1rem;
 

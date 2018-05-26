@@ -12,8 +12,9 @@ export default class AceViewController extends ViewController {
      *
      * @param {string} element element id.
      * @param {AceTheme} theme Theme to use for Ace.
+     * @param {Object} customRules Custon rules if any
      */
-    constructor(element, theme = AceTheme.default) {
+    constructor(element, theme = AceTheme.default, customRules) {
         super();
 
         this._editor = ace.edit(element);
@@ -29,6 +30,14 @@ export default class AceViewController extends ViewController {
 
         /** @type {ActionControllerDelegate} */
         this.delegate = new ActionControllerDelegate();
+
+        /** @type {Object} */
+        this.customRules = customRules;
+
+        /** @private */
+        this.oop = ace.require("ace/lib/oop");
+
+        this.setLanguage();
     }
 
     /**
@@ -60,8 +69,38 @@ export default class AceViewController extends ViewController {
      * @param {Language} lang - Language object
      */
     setLanguage(lang) {
+        // No this is not the same as a ternary
         let name = (lang && lang.aceName) || "text";
-        this._editor.session.setMode(`ace/mode/${name}`);
+
+        const Mode = ace.config.loadModule(["mode", `ace/mode/${name}`], ({ Mode }) => {
+            const mode = new Mode();
+
+            // Fixes race condition
+            let highlightRules = this._highlighter(new (mode.HighlightRules)());
+            this.oop.inherits(highlightRules, mode.HighlightRules);
+            mode.HighlightRules = highlightRules;
+            this._editor.session.setMode(mode);
+        });
+    }
+
+    /**
+     * Manages sub ace highlighting
+     */
+    _highlighter(base) {
+        let self = this;
+        return function() {
+            Object.assign(this, base);
+
+            if (self.customRules) {
+                for (const [ruleName, tokens] of Object.entries(self.customRules)) {
+                    for (const token of tokens) {
+                        this.$rules[ruleName].unshift(token);
+                    }
+                }
+            }
+
+            this.normalizeRules();
+        }
     }
 
     /**

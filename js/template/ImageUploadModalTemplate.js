@@ -33,12 +33,12 @@ export default class ImageUploadModalTemplate extends ModalTemplate {
         super(
             "Upload an image",
             <div class="md-upload-split">
-                <div class="label-group item-wrap">
+                <div class="form-item--label-group form-item">
                     <label>From URL</label>
                     { urlUpload }
                     { urlUploadButton }
                 </div>
-                <div class="label-group item-wrap">
+                <div class="form-item--label-group form-item">
                     <label>From File</label>
                     <div class="file container">
                         <label class="file trigger" for={fileId}>Choose File</label>

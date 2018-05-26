@@ -28,7 +28,12 @@ export default class Query {
      * @param {string} term Term to search for
      * @return {T[]} the candidate objects.
      */
-    find(term) {
-        return this.searcher.search(term);
+    *find(term, limit) {
+        let i = 0,
+            searchResults = this.searcher.search(term);
+        while (i < limit && i < searchResults.length - 1) {
+            yield searchResults[i];
+            i++;
+        }
     }
 }
