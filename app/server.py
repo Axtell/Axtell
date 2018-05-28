@@ -7,8 +7,11 @@ import app.tasks.update as update
 from shutil import which
 import bugsnag
 from bugsnag.flask import handle_exceptions
-
+import golflang_encodings
 import config
+
+
+golflang_encodings.add_encodings.register_codecs()
 
 
 class AxtellFlask(Flask):
