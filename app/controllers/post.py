@@ -3,6 +3,7 @@ from flask import g, abort, url_for
 from app.instances.db import db
 from app.models.Post import Post
 from app.models.Category import Category
+from app.helpers.macros.encode import slugify
 from config import posts
 
 
@@ -31,7 +32,7 @@ def create_post(title, body, categories):
     db.session.add(new_post)
     db.session.commit()
 
-    return url_for('get_post', post_id=new_post.id)
+    return url_for('get_post', post_id=new_post.id, title=slugify(new_post.title))
 
 
 def get_posts(page):
