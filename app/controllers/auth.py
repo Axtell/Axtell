@@ -7,6 +7,7 @@ from app.helpers.render import render_json, render_error
 from app.instances.db import db, redis_db
 from app.jwkeys import jwkeys
 from app.models.User import User, UserJWTToken, UserOAuthToken
+from app.models.Login import Login
 from app.session import user_session
 from app.helpers import oauth
 
@@ -62,6 +63,11 @@ def get_or_set_user(jwt_token=None, oauth_token=None, profile={}):
 
     user_session.set_session_user(user)
     g.user = user
+
+    ip_address = getattr(request, 'access_route', [request.remote_addr])[0]
+    login = Login(ip_address=ip_address, user_id=g.user.id)
+    db.session.add(login)
+    db.session.commit()
 
 
 def set_user_oauth(code, provider, client_side=False):
