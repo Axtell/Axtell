@@ -35,8 +35,8 @@ def get_answer_comments_page(answer_id, page_id):
 
     # Check the amount of comments, that (would be returned) (this is the comments['show_amt'] * page + 1) is at least
     # as many as they actually are.
-    are_more_comments = AnswerComment.query.filter_by(answer_id=answer_id).count() - comments['show_amt'] * (page_id + 1) <= 0
-    return {'comments': comment_list, 'are_more': are_more_comments}
+    comments_remaining = AnswerComment.query.filter_by(answer_id=answer_id).count() - comments['show_amt'] * (page_id + 1)
+    return {'comments': comment_list, 'are_more': comments_remaining > 0}
 
 
 def get_post_comments_page(post_id, page_id):
@@ -49,8 +49,8 @@ def get_post_comments_page(post_id, page_id):
 
     # Check the amount of comments, that (would be returned) (this is the comments['show_amt'] * page + 1) is at least
     # as many as they actually are.
-    no_more_comments = PostComment.query.filter_by(post_id=post_id).count() - comments['show_amt'] * (page_id + 1) <= 0
-    return {'comments': comment_list, 'are_more': not no_more_comments}
+    comments_remaining = PostComment.query.filter_by(post_id=post_id).count() - comments['show_amt'] * (page_id + 1)
+    return {'comments': comment_list, 'are_more': comments_remaining > 0}
 
 
 def create_post_comment(post_id, parent_comment, comment_text):
