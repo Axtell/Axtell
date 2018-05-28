@@ -6,12 +6,12 @@
 {% block head -%}
 {{ super() }}
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400i" rel="stylesheet">
-{% set canonical = opts.canonical_host + url_for('get_post', post_id=post_id) %}
+{% set canonical = opts.canonical_host + url_for('get_post', post_id=post_id, title=macros.slugify(post.title)) %}
 <link rel="canonical" href="{{ canonical }}">
 <link property="og:url" value="{{ canonical }}">
 <link property="og:type" value="article">
 <link property="og:title" value="{{ post.title|e }}">
-<meta name="description" value="{{ macros.text_preview(post.body)|e }}">
+<meta name="description" value="{{ post_body|striptags|truncate(250)|e }}">
 {% include "includes/editor.html" %}
 {%- endblock %}
 
