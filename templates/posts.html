@@ -18,7 +18,7 @@
         <ul class="posts">
             {% for post in posts.items -%}
                 <li class="post-item">
-                    <a href="{{ url_for('get_post', post_id=post.id) }}" class="title">
+                    <a href="{{ url_for('get_post', post_id=post.id, title=macros.slugify(post.title)) }}" class="title">
                         <h4>{{ post.title }}</h4>
                         {% if post.answers|length == 0 %}
                         <span class="post-info-tag post-info-tag--purple">Unanswered</span>
