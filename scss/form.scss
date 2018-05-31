@@ -56,6 +56,10 @@ input.text-input, [contenteditable].text-input, .text-base.text-input, .text-inp
   margin: 0;
   padding: 0 0 4px 0;
 
+  // Support for mathquill
+  &.mq-focused { box-shadow: none; }
+  .mq-cursor { border-color: $editor-fg; }
+
   &.text-input--owned {
     border-bottom: none;
   }
@@ -88,6 +92,10 @@ input.text-input, [contenteditable].text-input, .text-base.text-input, .text-inp
     letter-spacing: 1px;
 
     box-sizing: content-box;
+  }
+
+  &.text-input--pad-all {
+    padding: 4px;
   }
 
   &.text-input--pad-top {

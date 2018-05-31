@@ -1,78 +1,94 @@
 import Data from '~/models/Data';
 
 const LazyLoad = {
-    script(url) {
+    resource(element, callbackOrName) {
         return () => new Promise((resolve, reject) => {
-            const scriptElement = document.createElement('script');
-            scriptElement.type = 'text/javascript';
-            scriptElement.async = true;
-            scriptElement.src = url;
-
-            scriptElement.addEventListener('load', () => {
-                resolve();
+            element.addEventListener('load', () => {
+                if (typeof callbackOrName === 'string') {
+                    resolve(window[callbackOrName]);
+                } else if (typeof callbackOrName === 'function') {
+                    resolve(callbackOrName());
+                } else {
+                    resolve();
+                }
             });
 
-            scriptElement.addEventListener('error', (errorEvent) => {
+            element.addEventListener('error', (errorEvent) => {
                 reject(errorEvent);
             });
 
-            document.body.appendChild(scriptElement);
+            document.body.appendChild(element);
         });
     },
 
-    once(asyncFn, first = (value) => value) {
-        let _inProgress = null;
-        let _value = null;
+    stylesheet(url, callbackOrName) {
+        return this.resource(
+            <link rel="stylesheet" href={url}/>,
+            callbackOrName
+        );
+    },
 
-        function tap(resolve) {
-            return async (value) => {
-                _value = await first(value);
-                resolve(_value);
-                return _value;
+    script(url, callbackOrName) {
+        return this.resource(
+            <script type="text/javascript" async="true" src={url}></script>,
+            callbackOrName
+        );
+    },
+
+    onceConcurrent(...asyncFns) {
+        let _inProgress = null;
+
+        async function beginLoad() {
+            let promises = [];
+            for (let i = 0; i < asyncFns.length; i++) {
+                promises.push(asyncFns[i]());
             }
+            let values = await Promise.all(promises);
+            return values[values.length - 1];
         }
 
-        return () => new Promise((resolve, reject) => {
-            if (_value) {
-                resolve(_value);
-            } else if (_inProgress) {
-                _inProgress.then(resolve);
-                _inProgress.catch(reject);
+        // Return a function that evaluated to promise
+        return () => {
+            if (_inProgress) {
+                return _inProgress;
             } else {
-                _inProgress = asyncFn()
-                    .catch(reject)
-                    .then(tap(resolve));
+                _inProgress = beginLoad();
+                return _inProgress;
             }
-        });
+        };
+    },
+
+    once(...asyncFns) {
+        let _inProgress = null;
+
+        async function beginLoad() {
+            let result;
+            for (let i = 0; i < asyncFns.length; i++) {
+                result = await asyncFns[i](result);
+            }
+            return result;
+        }
+
+        // Return a function that evaluated to promise
+        return () => {
+            if (_inProgress) {
+                return _inProgress;
+            } else {
+                _inProgress = beginLoad();
+                return _inProgress;
+            }
+        };
     }
 };
 
 export default LazyLoad;
-export const LazySE = LazyLoad.once(
-    LazyLoad.script(`https://api.stackexchange.com/js/2.0/all.js`),
-    () => new Promise((resolve, reject) => {
-        const SE = window.SE
 
-        SE.init({
-            clientId: Data.shared.envValueForKey('SE_CLIENT_ID'),
-            key: Data.shared.envValueForKey('SE_KEY'),
-            channelUrl: `${location.protocol}//${location.host}/static/proxy.html`,
-            complete: ({version}) => {
-                SE.authenticate({
-                    success: (data) => {
-                        window.SEdata = data;
-                        console.log(data);
-                    },
-                    error: (data) => {
-                        window.SEerr = data;
-                        console.log(data);
-                    },
-                    scope: ['read_inbox'],
-                    networkUsers: true
-                })
-            }
-        });
+export const jQuery = LazyLoad.once(
+    LazyLoad.script(`https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js`)
+);
 
-        return SE;
-    })
+export const MathQuill = LazyLoad.once(
+    LazyLoad.stylesheet(`https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.min.css`),
+    jQuery,
+    LazyLoad.script(`https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.min.js`, () => global.MathQuill.getInterface(2))
 );

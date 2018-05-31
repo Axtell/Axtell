@@ -75,6 +75,17 @@ export default class MarkdownControlsTemplate extends Template {
     }
 
     /**
+     * Replaces selection with a string
+     * @param {string} string
+     */
+    insertForSelection(string) {
+        let { selectionStart: start, selectionEnd: end, value } = this._source;
+        let newString = value.substring(0, start) + string + value.substring(end);
+        this._source.value = newString;
+        this._source.setSelectionRange(start + string.length);
+    }
+
+    /**
      * Checks if a string leads the selection
      * @param {string} string
      * @return {boolean}
