@@ -48,10 +48,15 @@ notify_build $BUGSNAG_FRONTEND_API_KEY
 echo "NOTIFIYING BACKEND BUGSNAG BUILD..."
 notify_build $BUGSNAG_BACKEND_API_KEY
 
+for [ js_source in static/lib/axtell~*.js ]; do
+  JS_SOURCES+=(-F https://axtell.vihan.org/$js_source@$js_source)
+done
+
 echo "SUBMITTING FRONTEND BUGSNAG SOURCEMAP..."
 http -f POST https://upload.bugsnag.com/ \
   apiKey=$BUGSNAG_FRONTEND_API_KEY \
   appVersion=$(git rev-parse @) \
-  minifiedUrl=https://axtell.vihan.org/static/lib/main.js \
-  minifiedFile@static/lib/main.js \
-  sourceMap@static/lib/main.js.map
+  minifiedUrl=https://axtell.vihan.org/static/lib/axtell.main.js \
+  minifiedFile@static/lib/axtell.main.js \
+  sourceMap@static/lib/axtell.main.map \
+  "${JS_SOURCES[@]}"

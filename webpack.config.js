@@ -3,11 +3,10 @@ const webpack = require('webpack');
 
 module.exports = {
     entry: './js/main.js',
-    sideEffects: false,
     output: {
         path: path.resolve(__dirname, 'static/lib'),
         filename: 'axtell.[name].js',
-        chunkFilename: 'axtell.[chunkhash].js',
+        chunkFilename: 'axtell~[chunkhash].js',
         publicPath: '/static/lib/'
     },
     mode: process.env.NODE_ENV === 'debug' ? 'development' : 'production',
