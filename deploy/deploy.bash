@@ -58,5 +58,5 @@ http -f POST https://upload.bugsnag.com/ \
   appVersion=$(git rev-parse @) \
   minifiedUrl=https://axtell.vihan.org/static/lib/axtell.main.js \
   minifiedFile@static/lib/axtell.main.js \
-  sourceMap@static/lib/axtell.main.map \
+  sourceMap@static/lib/axtell.main.js.map \
   "${JS_SOURCES[@]}"
