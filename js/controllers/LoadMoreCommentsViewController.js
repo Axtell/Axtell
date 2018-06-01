@@ -50,7 +50,7 @@ export default class LoadMoreCommentsViewController extends ViewController {
         }).run();
 
         for (const comment of comments) {
-            this.parentList.createCommentInstance(comment, InstanceType.append);
+            await this.parentList.createCommentInstance(comment, InstanceType.append);
         }
 
         // If they aren't any more comments we'll remove this

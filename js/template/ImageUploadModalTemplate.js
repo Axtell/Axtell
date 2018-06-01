@@ -50,8 +50,6 @@ export default class ImageUploadModalTemplate extends ModalTemplate {
             </div>
         );
 
-        window.foo = this;
-
         /** @type {ActionControllerDelegate} */
         this.delegate = delegate;
 

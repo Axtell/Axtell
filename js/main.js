@@ -1,5 +1,4 @@
 // Polyfills
-import '@babel/polyfill';
 import 'url-search-params-polyfill';
 import 'element-dataset';
 
@@ -60,7 +59,9 @@ import Analytics, { TimingType } from "~/models/Analytics";
                     Math.round(performance.now())
                 );
 
-                require("./ui");
+                import("./ui")
+                    .then(() => console.log("🏔 Axtell: Loaded"))
+                    .catch(() => console.log("🏔 Axtell: Error"));
             } catch(error) {
                 ErrorManager.report(error);
             }

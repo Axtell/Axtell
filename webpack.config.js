@@ -1,10 +1,13 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
     entry: './js/main.js',
     output: {
         path: path.resolve(__dirname, 'static/lib'),
-        filename: 'main.js'
+        filename: 'axtell.[name].js',
+        chunkFilename: 'axtell~[chunkhash].js',
+        publicPath: '/static/lib/'
     },
     mode: process.env.NODE_ENV === 'debug' ? 'development' : 'production',
     devtool: 'source-map',
@@ -16,5 +19,8 @@ module.exports = {
                 loader: 'babel-loader?cacheDirectory=true'
             }
         ]
-    }
+    },
+    plugins: [
+        new webpack.HashedModuleIdsPlugin()
+    ]
 };
