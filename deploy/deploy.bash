@@ -49,7 +49,7 @@ echo "NOTIFIYING BACKEND BUGSNAG BUILD..."
 notify_build $BUGSNAG_BACKEND_API_KEY
 
 for js_source in static/lib/axtell~*.js; do
-  JS_SOURCES+=(-F https://axtell.vihan.org/$js_source@$js_source)
+  JS_SOURCES+=(https://axtell.vihan.org/$js_source@$js_source)
 done
 
 echo "SUBMITTING FRONTEND BUGSNAG SOURCEMAP..."
