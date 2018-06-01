@@ -1,7 +1,7 @@
 import Data from '~/models/Data';
 import ForeignChildInteractor from '~/interactors/ForeignChildInteractor';
+import ErrorManager from '~/helpers/ErrorManager';
 import * as PreviewKey from '~/helpers/PreviewKey';
-import markdown from '#/markdown-renderer';
 
 const PREVIEW_TITLE = document.getElementById("post-title");
 const PREVIEW_BODY = document.getElementById("post-body");
@@ -39,15 +39,21 @@ if (id = Data.shared.valueForKey('previewId')) {
         }
     );
 
-    interactor.watch(
-        PreviewKey.Body,
-        (value) => {
-            if (value.trim()) {
-                PREVIEW_BODY.innerHTML = markdown.render(value);
-            } else {
-                while (PREVIEW_BODY.firstChild) PREVIEW_BODY.removeChild(PREVIEW_BODY.firstChild);
-                PREVIEW_BODY.appendChild(NO_BODY);
-            }
-        }
-    );
+    import('#/markdown-renderer')
+        .then(markdown => {
+            interactor.watch(
+                PreviewKey.Body,
+                (value) => {
+                    if (value.trim()) {
+                        PREVIEW_BODY.innerHTML = markdown.render(value);
+                    } else {
+                        while (PREVIEW_BODY.firstChild) PREVIEW_BODY.removeChild(PREVIEW_BODY.firstChild);
+                        PREVIEW_BODY.appendChild(NO_BODY);
+                    }
+                }
+            );
+        })
+        .catch(error => {
+            ErrorManager.unhandled(error);
+        });
 }

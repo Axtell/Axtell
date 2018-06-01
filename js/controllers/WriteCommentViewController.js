@@ -105,7 +105,7 @@ export default class WriteCommentViewController extends ViewController {
             this._commentText.value = "";
 
             await instance.destroy();
-            this.parentList.createCommentInstance(comment);
+            await this.parentList.createCommentInstance(comment);
         } catch (error) {
             // TODO: handle error
             let errorMessage = {

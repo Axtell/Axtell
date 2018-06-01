@@ -41,6 +41,10 @@
     <link rel=stylesheet type=text/css href="/static/css/all-{{ theme }}.css?v={{ macros.get_version_id() }}">
     {{ data("theme", theme) }}
 
+    {% if opts.auth['bugsnag'].get('frontend', '') not in ['BUGSNAG_FRONTEND_API_KEY', ''] %}
+    <script src="//d2wy8f7a9ursnm.cloudfront.net/v4/bugsnag.min.js"></script>
+    {% endif %}
+
     <meta name="data_id" content="{{ data_id }}">
     {{ data("env", macros.json_to_b64({
         'IS_DEBUG': is_debug,
@@ -64,7 +68,7 @@
     {% if g.user is not none %}
     {{ data_value("me",g.user.to_json()|tojson) }}
     {% endif %}
-    <script async defer src="/static/lib/main.js?v={{ macros.get_version_id() }}"></script>
+    <script async defer src="/static/lib/axtell.main.js?v={{ macros.get_version_id() }}"></script>
 {%- endblock %}
 
 {% block body %}

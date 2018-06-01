@@ -3,8 +3,6 @@ import WriteCommentViewController from '~/controllers/WriteCommentViewController
 import LoadMoreCommentsViewController from '~/controllers/LoadMoreCommentsViewController';
 import LoadingIcon from '~/svg/LoadingIcon';
 
-import markdown from '#/markdown-renderer';
-
 export const OPACITY_TRANSITION_DURATION = 200; // in ms
 
 /**
@@ -91,8 +89,9 @@ export default class CommentListViewController extends ViewController {
         // TODO:
     }
 
-    createCommentInstance(comment, type = InstanceType.prepend) {
+    async createCommentInstance(comment, type = InstanceType.prepend) {
         const body = <div class="body"></div>;
+        const markdown = await import('#/markdown-renderer');
         body.innerHTML = markdown.render(comment.text);
 
         const commentHTML = (

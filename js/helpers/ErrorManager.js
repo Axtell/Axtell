@@ -3,7 +3,6 @@
  */
 
 import Data from '~/models/Data';
-import bugsnag from 'bugsnag-js';
 
 const ErrorList = [];
 
