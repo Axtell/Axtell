@@ -2,6 +2,8 @@ import Template, { TemplateType } from '~/template/Template';
 import HexBytes from '~/modern/HexBytes';
 import Theme from '~/models/Theme';
 
+import tippy from 'tippy.js';
+
 /**
  * Represents a control for the markdown controls list. Stores all the
  * information and a callback for the action.
@@ -14,9 +16,16 @@ export default class MarkdownControl extends Template {
      * @param  {Function} callback Passed the markdown control instance.
      */
     constructor(name, key, iconName, callback) {
-        let root = (
-            <a><img src={Theme.current.imageForTheme(iconName)}/></a>
+        const id = `markdown__mc--${iconName}-${HexBytes.ofLength(8)}`;
+        const root = (
+            <a title={name} id={ id }><img alt={name} src={Theme.current.imageForTheme(iconName)}/></a>
         );
+
+        tippy(root, {
+            size: 'small',
+            animation: 'scale',
+            duration: [200, 150]
+        });
 
         super(root);
 

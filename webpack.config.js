@@ -1,5 +1,25 @@
 const path = require('path');
 const webpack = require('webpack');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+
+const isDevelopment = process.env.NODE_ENV === 'debug' || process.env.NODE_ENV === 'devleopment';
+let plugins = [
+    new webpack.HashedModuleIdsPlugin()
+];
+
+if (!isDevelopment) {
+    plugins.push(
+        new UglifyJsPlugin({
+            sourceMap: true,
+            uglifyOptions: {
+                compress: {
+                    keep_fargs: false,
+                    unsafe_math: true
+                }
+            }
+        })
+    );
+}
 
 module.exports = {
     entry: './js/main.js',
@@ -20,7 +40,5 @@ module.exports = {
             }
         ]
     },
-    plugins: [
-        new webpack.HashedModuleIdsPlugin()
-    ]
+    plugins: plugins
 };

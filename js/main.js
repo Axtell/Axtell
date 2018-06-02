@@ -61,9 +61,12 @@ import Analytics, { TimingType } from "~/models/Analytics";
 
                 import("./ui")
                     .then(() => console.log("🏔 Axtell: Loaded"))
-                    .catch(() => console.log("🏔 Axtell: Error"));
+                    .catch(error => {
+                        ErrorManager.unhandled(error);
+                        console.log("🏔 Axtell: Error")
+                    });
             } catch(error) {
-                ErrorManager.report(error);
+                ErrorManager.unhandled(error);
             }
         }
     };
