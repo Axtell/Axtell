@@ -1,7 +1,7 @@
-import axios from 'axios';
-import crypto from 'crypto';
+import axios from 'axios/dist/axios.min.js';
 import TIOSerializer from '~/models/TIO/TIOSerializer';
 import ErrorManager from '~/helpers/ErrorManager';
+import Random from '~/modern/Random';
 
 // Make sure trailing `/` exists
 export const TIO_API_ENDPOINT = "https://tio.run/cgi-bin/run/api/";
@@ -25,7 +25,7 @@ export default class TIORun {
         this.code = code;
         this.language = language;
 
-        this.token = crypto.randomBytes(16).toString('hex');
+        this.token = Random.ofLength(16);
     }
 
     /**
@@ -45,7 +45,7 @@ export default class TIORun {
     async run() {
         let res = await axios.post(
             TIO_API_ENDPOINT + this.token,
-            this.serializer().serialize(),
+            await this.serializer().serialize(),
             {
                 responseType: 'arraybuffer'
             }

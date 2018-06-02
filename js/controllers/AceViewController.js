@@ -7,7 +7,7 @@ import ErrorManager from '~/helpers/ErrorManager';
  */
 export default class AceViewController extends ViewController {
     /**
-     * Creates Ace wrapper for element. Reccomended to use a {@link HexBytes}
+     * Creates Ace wrapper for element. Reccomended to use a {@link Random}
      * to create a unique name.
      *
      * @param {string} element element id.

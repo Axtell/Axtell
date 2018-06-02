@@ -3,6 +3,11 @@
     "type": "git",
     "url": "git+https://github.com/Mego/PPCG-v2.git"
   },
+  "sideEffects": [
+    "./js/main.js",
+    "./js/ui/**/*.js",
+    "./js/modern/**/*.js"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.46",
@@ -35,13 +40,13 @@
     "postcss-modules": "^1.1.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "webpack": "^4.10.2",
-    "webpack-cli": "^2.1.2"
-  },
-  "dependencies": {
-    "autoprefixer": "^8.4.1",
-    "axios": "^0.17.0",
+    "webpack-cli": "^2.1.2",
     "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^8.0.0-beta.2",
+    "autoprefixer": "^8.4.1"
+  },
+  "dependencies": {
+    "axios": "^0.17.0",
     "element-dataset": "^2.2.6",
     "entities": "^1.1.1",
     "escape-html": "^1.0.3",
@@ -52,9 +57,10 @@
     "markdown-it-link-attributes": "^2.1.0",
     "markdown-it-math-katex": "^2.0.3",
     "pako": "^1.0.6",
+    "polyfill-crypto.getrandomvalues": "^1.0.0",
     "progress": "^2.0.0",
     "remove-markdown": "^0.2.2",
-    "tippy.js": "^2.4.1",
+    "tippy.js": "^2.5.2",
     "uglify-js": "^3.3.23",
     "url-search-params-polyfill": "^2.0.1",
     "validator": "^9.2.0"

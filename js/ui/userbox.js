@@ -3,7 +3,7 @@ import User from '~/models/Request/User';
 import UserOverviewTemplate from '~/template/UserOverviewTemplate';
 import LoadingIcon from '~/svg/LoadingIcon';
 
-import tippy from 'tippy.js';
+import tippy from 'tippy.js/dist/tippy.all.min.js';
 
 export const USERBOX_AUTHOR_TRIGGERS = document.getElementsByClassName('userbox--trigger-author');
 

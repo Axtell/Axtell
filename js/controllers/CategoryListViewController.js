@@ -1,5 +1,5 @@
 import ViewController from '~/controllers/ViewController';
-import HexBytes from '~/modern/HexBytes';
+import Random from '~/modern/Random';
 import Theme from '~/models/Theme';
 
 const CLOSE_ICON = () => (
@@ -15,7 +15,7 @@ export default class CategoryListViewController extends ViewController {
         this._managedTags = new Map();
         this._managingStack = [];
 
-        this._id = `category-list-${HexBytes.ofDefault()}`;
+        this._id = `category-list-${Random.ofDefault()}`;
         if (label) {
             label.htmlFor = this._id;
         }

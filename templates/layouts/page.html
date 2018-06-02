@@ -28,7 +28,7 @@
 
     {% if opts.auth['google'].get('analytics-id', '') not in ['GOOGLE_ANALYTICS_CLIENT_ID', ''] -%}
     {% set analytics_id = opts.auth['google']['analytics-id'] %}
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{ analytics_id }}"></script>
+    <script src="https://www.googletagmanager.com/gtag/js?id={{ analytics_id }}"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
@@ -68,7 +68,8 @@
     {% if g.user is not none %}
     {{ data_value("me",g.user.to_json()|tojson) }}
     {% endif %}
-    <script async defer src="/static/lib/axtell.main.js?v={{ macros.get_version_id() }}"></script>
+
+    <script async src="/static/lib/axtell.main.js?v={{ macros.get_version_id() }}"></script>
 {%- endblock %}
 
 {% block body %}

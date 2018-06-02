@@ -2,7 +2,8 @@
 import 'url-search-params-polyfill';
 import 'element-dataset';
 
-import tippy from 'tippy.js';
+// /* from CDN */ import bugsnag from 'bugsnag-js';
+import tippy from 'tippy.js/dist/tippy.all.min.js';
 
 import KeyManager from "~/models/KeyManager";
 import Normalize from "~/models/Normalize";

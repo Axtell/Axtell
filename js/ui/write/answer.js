@@ -8,7 +8,7 @@ import ViewController from '~/controllers/ViewController';
 import Analytics, { EventType } from '~/models/Analytics';
 import Template from '~/template/Template';
 import Language from '~/models/Language';
-import HexBytes from '~/modern/HexBytes';
+import Random from '~/modern/Random';
 import Theme from '~/models/Theme';
 import Chain from '~/modern/Chain';
 import Post from '~/models/Post';
