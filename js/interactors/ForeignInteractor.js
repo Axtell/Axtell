@@ -1,4 +1,4 @@
-import HexBytes from '~/modern/HexBytes';
+import Random from '~/modern/Random';
 
 const digestIdentifier = 'foreign-digest';
 const digestDelta = 'foreign-digest-delta';
@@ -9,7 +9,7 @@ export const foreignDigest = do {
 	let digest = localStorage.getItem(digestIdentifier);
 	let delta = localStorage.getItem(digestDelta) || now;
 	if (!digest || now - delta > minDelta) {
-		digest = HexBytes.ofLength(32);
+		digest = Random.ofLength(32);
 		localStorage.setItem(digestIdentifier, digest);
 		localStorage.setItem(digestDelta, now);
 	}
@@ -34,7 +34,7 @@ export default class ForeignInteractor {
 	 * @param {string} target Target WITHOUT trailing `/`
 	 */
 	constructor(target) {
-		this._id = `${foreignDigest}:${HexBytes.ofLength(16)}`;
+		this._id = `${foreignDigest}:${Random.ofLength(16)}`;
 		this._key = writeKey(this._id);
 		this._writeDelta = writeDelta(this._id);
 		this._target = target;

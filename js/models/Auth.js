@@ -1,7 +1,7 @@
 import User from '~/models/User';
 import Data from '~/models/Data';
 import { Bugsnag } from '~/helpers/ErrorManager';
-import axios from 'axios';
+import axios from 'axios/dist/axios.min.js';
 
 /**
  * Manages authorization use `Auth.shared()` to get global instance

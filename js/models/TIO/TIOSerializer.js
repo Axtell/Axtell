@@ -1,5 +1,3 @@
-import pako from 'pako';
-
 /**
  * TIO uses very-specific format so this serializes things to work for it. This
  * is a JS API so this handles all encoding.
@@ -52,7 +50,8 @@ export default class TIOSerializer {
      * Serializes to a TIO-string the given instructions.
      * @return {Uint8Array} Returns a `Uint8Array` compatible object
      */
-    serialize() {
+    async serialize() {
+        const pako = await import('pako');
         return pako.deflateRaw(Buffer.concat(this.data), {"level": 9});
     }
 }
