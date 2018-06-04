@@ -29,6 +29,12 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
   display: inline-block;
 
+  &.header--style-caption {
+    color: $subtitle-text;
+    font-weight: 400;
+    font-size: 1.1rem;
+  }
+
   &.header--accent-line {
     position: relative;
 

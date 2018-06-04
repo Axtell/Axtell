@@ -4,15 +4,18 @@
 {% block title %}Posts{% endblock %}
 {% block content -%}
     <div class="list-header">
-        <h1>{% include "svg/list.html" %} Challenges</h1>
-        <div class="select-dialog d-sort">
+        <h1>Challenges.</h1>
+{#         <div class="select-dialog d-sort">
             <label class="select-trigger">sort by: <a>recent</a></label>
             <ul class="drop template">
                 <li data-st="n" class="opt state-active">newest</li>
                 <li data-st="s" class="opt">votes</li>
                 <li data-st="t" class="opt">active</li>
             </ul>
-        </div>
+        </div>#}
+     </div>
+    <div class="list-header list-header--style-caption">
+        <h2 class="header--style-caption">All the latest code-golf challenges written by users like you.</h2>
     </div>
     <div class="main">
         <ul class="posts">

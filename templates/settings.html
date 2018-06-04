@@ -4,11 +4,14 @@
 {% block content -%}
 <form method="POST" action="{{ url_for('set_profile_preferences') }}" id="sf-profile">
     <div class="list-header">
-        <h1>{% include "svg/settings.html" %} User Settings</h1>
+        <h1>User Settings.</h1>
         <button type="submit" id="save-profile" class="button button--color-green button--align-center">
             {% include "svg/save.html" %}
             Save
         </button>
+    </div>
+    <div class="list-header list-header--style-caption">
+        <h2 class="header--style-caption">Change your profile and other account options.</h2>
     </div>
     <div class="main">
         <div class="profile">
