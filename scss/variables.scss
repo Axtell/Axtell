@@ -1,8 +1,13 @@
 @import "variables-shared.scss";
 
+// Colors
+$theme-color: #09F;
+$logo-color: #FFF;
+$accent-color: $theme-color;
+
 // Font colors
-$em-text: #000;
-$main-text: #4c5566;
+$em-text: mix($theme-color, mix(#FFF, #000, 15%), 13%);
+$main-text: mix($theme-color, mix(#FFF, #000, 20%), 30%);
 $label-text: #676767;
 $label-tag: #BBB;
 $dim-text: #999;
@@ -38,11 +43,6 @@ $code-block-indent: #ededed;
 // BGs
 $main-bg: #FFF;
 $dim-bg: #ECECEC;
-
-// Colors
-$theme-color: #09F;
-$logo-color: #FFF;
-$accent-color: $theme-color;
 
 // Seperators
 $content-border-color: #EEE;

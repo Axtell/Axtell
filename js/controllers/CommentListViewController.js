@@ -95,14 +95,14 @@ export default class CommentListViewController extends ViewController {
         body.innerHTML = markdown.render(comment.text);
 
         const commentHTML = (
-            <li class="comment-item comment-user-split comment">
+            <li class="comment-item comment__user_split comment">
                 <div class="user">
                     <img class="avatar" src={comment.owner.avatar} />
                 </div>
-                <div class="comment-content">
-                    <div class="comment-header">
+                <div class="comment__content">
+                    <div class="comment__header">
                         <span class="name">{comment.owner.name}</span>
-                        <span class="timestamp">{ moment(comment.date).fromNow() }</span>
+                        <span class="timestamp"> &middot; { moment(comment.date).fromNow() }</span>
                     </div>
                     { body }
                 </div>

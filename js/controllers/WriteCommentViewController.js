@@ -136,6 +136,7 @@ export default class WriteCommentViewController extends ViewController {
             Analytics.shared.report(EventType.commentWriteClose(this.owner));
             this._node.parentNode.replaceChild(this._writingBox, this._node);
             this._displayingWritingBox = true;
+            this._commentText.focus();
 
             this._submitHandler?.();
             this._submitHandler = KeyManager.shared.registerMeta('Enter', () => {

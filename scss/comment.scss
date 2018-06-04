@@ -78,38 +78,37 @@
     }
 
     // Where left-side is user avatar and right side has infos
-    &.comment-user-split {
+    &.comment__user_split {
         display: flex;
         flex-direction: row;
 
         // The avatar we'll fix
         .user {
-            margin-right: 8px;
+            margin-right: 12px;
 
             .avatar {
                 border-radius: 50%;
-                width: 1rem;
-                height: 1rem;
+
+                // Using em here because rel to the comment sizes
+                $comment-avatar-shrink: 0.5em;
+
+                @include square(2em - $comment-avatar-shrink); // 2em = 2 lines so both name and desc
+                margin-top: $comment-avatar-shrink; // 1px spacing per line so 2 lines (name and desc) is this
             }
         }
 
         // The right-hand side
-        .comment-content {
+        .comment__content {
             flex: 1;
 
             .name {
-                color: $em-text;
+                color: $theme-color;
             }
         }
 
         // The header
-        .comment-header {
-            display: flex;
-
-            // Make name longer so timestamp is pushed to right
-            .name {
-                flex: 1;
-            }
+        .comment__header {
+            span { vertical-align: middle; }
 
             .timestamp {
                 font-size: 0.7rem;

@@ -1,12 +1,12 @@
 {% macro comment(item) %}
-    <li class="comment-item comment-user-split comment" href="/comment/{{ item[2].type() }}/{{ item[2].id }}">
+    <li class="comment-item comment__user_split comment" href="/comment/{{ item[2].type() }}/{{ item[2].id }}">
         <div class="user">
             <img class="avatar" src="{{ item[2].user.avatar_url() }}"/>
         </div>
-        <div class="comment-content">
-            <div class="comment-header">
+        <div class="comment__content">
+            <div class="comment__header">
                 <span class="name">{{ item[2].user.name }}</span>
-                <span class="timestamp"><script>d({{ item[2].date_created.timestamp() * 1000 }})</script></span>
+                <span class="timestamp"> &middot; <script>d({{ item[2].date_created.timestamp() * 1000 }})</script></span>
             </div>
             <div class="body">
                 {{ item[0]|safe }}

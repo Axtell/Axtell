@@ -1,5 +1,10 @@
 @import "variables-shared.scss";
 
+// Colors
+$theme-color: #09F;
+$logo-color: rgba(255, 255, 255, 0.9);
+$accent-color: $theme-color;
+
 // Font colors
 $em-text: #DDD; // Off-white
 $main-text: #afb7ca; // Off-black dark blue
@@ -38,11 +43,6 @@ $code-block-indent: #4c4c4c;
 // BGs
 $main-bg: #222;
 $dim-bg: #383f4e;
-
-// Colors
-$theme-color: #09F;
-$logo-color: rgba(255, 255, 255, 0.9);
-$accent-color: $theme-color;
 
 // Seperators
 $content-border-color: rgba(255, 255, 255, .2);
