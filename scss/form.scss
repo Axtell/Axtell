@@ -44,11 +44,11 @@
   flex-direction: column;
 }
 
-.form-errors {
-  margin-top: 0;
-  font-size: 0.8rem;
-  color: $label-text;
-  padding-left: 30px;
+.form-validation__error_list {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0;
+  color: red;
 }
 
 .label-group {
