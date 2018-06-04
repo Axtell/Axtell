@@ -9,7 +9,7 @@
     box-sizing: border-box;
 
     &.profile__section--size-wide { flex: 1; }
-    &.profile__section--padding { padding: 0 1rem; }
+    &.profile__section--padding { padding: 0 2rem; }
   }
 
   // LEFT HAND SIDE WITH LIST OF SETTING CATEGORIES
@@ -25,7 +25,7 @@
     .profile__category_list__category {
       cursor: pointer;
       box-sizing: border-box;
-      padding: 2rem 1rem;
+      padding: 1rem 1rem;
       width: 100%;
 
       transition: background 0.25s ease;
@@ -47,7 +47,7 @@
         display: block;
         margin: 0 auto;
         @include square(3rem);
-        fill: $dim-text;
+        fill: rgba($hover-mix, 0.4);
       }
 
       .profile__category_list__category__label {
@@ -55,10 +55,10 @@
         margin: 0 auto;
 
         text-align: center;
-        text-transform: uppercase;
+        // text-transform: uppercase;
+        // font-weight: $bold-weight;
 
-        font-weight: $bold-weight;
-        color: $dim-text;
+        color: rgba($hover-mix, 0.4);
       }
     }
   }

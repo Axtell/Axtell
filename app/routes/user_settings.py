@@ -14,12 +14,12 @@ def do_redirect():
         return "", 204
 
 
-@server.route("/settings/profile")
+@server.route("/settings")
 def profile_settings():
     if g.user is None:
         do_redirect()
 
-    return render_template('settings/profile.html')
+    return render_template('settings.html')
 
 
 @server.route("/theme/light", methods=['POST'])

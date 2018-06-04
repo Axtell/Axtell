@@ -4,7 +4,7 @@
 {% block content -%}
 <form method="POST" action="{{ url_for('set_profile_preferences') }}" id="sf-profile">
     <div class="list-header">
-        <h1>Profile</h1>
+        <h1>{% include "svg/settings.html" %} User Settings</h1>
         <button type="submit" id="save-profile" class="button button--color-green button--align-center">
             {% include "svg/save.html" %}
             Save
@@ -27,7 +27,7 @@
 
             <div class="profile__section profile__section--size-wide profile__section--padding profile__category_container">
                 <div class="profile__category--active">
-                    <h3>Profile</h3>
+                    <h3 class="header--accent-line">Your Profile</h3>
                     <div class="item-wrap label-group label-group--style-clean rc-group item-wrap--glow item-wrap--nopad-horizontal item-wrap--pad-top">
                         <label for="settings-profile-displayname">
                             Display Name

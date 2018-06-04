@@ -155,7 +155,8 @@ input.text-input, [contenteditable].text-input, .text-base.text-input, .text-inp
     width: 100%;
   }
 
-  border-bottom: 1px solid $label-tag;
+  color: $em-text;
+  border-bottom: 1px solid rgba($hover-mix, 0.15);
 
   &:focus {
     border-bottom-color: mix($accent-color, mix($label-tag, $hover-mix, 90%), 15%);

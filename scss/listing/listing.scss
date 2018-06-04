@@ -10,7 +10,15 @@
 
   flex: 0 0 auto;
 
+  svg, img {
+    fill: $em-text;
+    vertical-align: middle;
+    height: 1em;
+  }
+
   h1, h2 {
+    vertical-align: middle;
+
     flex: 1;
     font-family: $bold-font;
     font-weight: $bold-weight;
