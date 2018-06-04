@@ -14,6 +14,27 @@
   .button {
     font-size: 1rem;
   }
+
+  &.item-wrap--nopad-vertical { padding-top: 0; padding-bottom: 0; }
+  &.item-wrap--nopad-horizontal { padding-left: 0; padding-right: 0; }
+
+  &.item-wrap--pad-left { padding-left: 2rem; }
+  &.item-wrap--pad-right { padding-right: 2rem; }
+  &.item-wrap--pad-top { padding-top: 2rem; }
+  &.item-wrap--pad-bottom { padding-bottom: 2rem; }
+
+  postion: relative;
+  &.item-wrap--glow:focus::before {
+    content: "";
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 4px;
+    background: red;
+  }
 }
 
 .group-stretch {
@@ -31,14 +52,36 @@
 }
 
 .label-group {
-  label {
-    display: block;
-    color: $label-text;
+  .label-group__tooltip {
+    vertical-align: middle;
 
+    height: 1.2em;
+    color: inherit;
+    fill: inherit;
+
+    svg { height: inherit; }
+  }
+
+  &.label-group--style-clean {
+    color: $label-text;
+    fill: $label-text;
+    font-weight: 400;
+    text-transform: none;
+  }
+
+  color: $label-tag;
+  fill: $label-tag;
+  font-weight: bold;
+  text-transform: uppercase;
+
+  label {
+    vertical-align: middle;
+    display: block;
+
+    color: inherit;
     font-size: 13px;
-    font-weight: bold;
-    text-transform: uppercase;
-    color: $label-tag;
+    font-weight: inherit;
+    text-transform: inherit;
 
     margin-bottom: 4px;
   }
@@ -76,6 +119,12 @@ input.text-input, [contenteditable].text-input, .text-base.text-input, .text-inp
     color: $em-text;
   }
 
+
+  &.text-input--type-clean {
+    font-size: 1.3rem;
+    box-sizing: context-box;
+  }
+
   &.text-input--type-title {
     font-size: 1.3rem;
     font-family: $bold-font;
@@ -106,10 +155,10 @@ input.text-input, [contenteditable].text-input, .text-base.text-input, .text-inp
     width: 100%;
   }
 
-  border-bottom: 2px solid $label-tag;
+  border-bottom: 1px solid $label-tag;
 
   &:focus {
-    border-bottom-color: mix($label-tag, $hover-mix, 90%)
+    border-bottom-color: mix($accent-color, mix($label-tag, $hover-mix, 90%), 15%);
   }
 }
 

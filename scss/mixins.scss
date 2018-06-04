@@ -33,6 +33,11 @@
   }
 }
 
+@mixin square($size) {
+  width: $size;
+  height: $size;
+}
+
 @mixin expand {
   display: flex;
   flex-direction: column;
