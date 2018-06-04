@@ -10,8 +10,7 @@ export default class Random {
 
     static ofLength(length) {
         // Generate random bytes
-        const getRandomValues =
-            window.crypto || window.msCrypto || getRandomValuesPolyfill;
+        const getRandomValues = (window.crypto || window.msCrypto).?getRandomValues || getRandomValuesPolyfill;
 
         const bytes = new Uint8Array(length);
         getRandomValues(bytes);
