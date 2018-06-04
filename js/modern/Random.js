@@ -2,6 +2,7 @@
 import getRandomValuesPolyfill from 'polyfill-crypto.getrandomvalues';
 
 export const DEFAULT_SIZE = 8;
+export const crypto = window.crypto || window.msCrypto;
 
 export default class Random {
     static ofDefault() {
@@ -10,16 +11,19 @@ export default class Random {
 
     static ofLength(length) {
         // Generate random bytes
-        const getRandomValues = (window.crypto || window.msCrypto).?getRandomValues || getRandomValuesPolyfill;
-
         const bytes = new Uint8Array(length);
-        getRandomValues(bytes);
 
-        const outStr = "";
+        if (crypto) {
+            crypto.getRandomValues(bytes);
+        } else {
+            getRandomValuesPolyfill(bytes);
+        }
+
+        let outStr = "";
 
         for (let i = 0; i < bytes.length; i++) {
-            if (bytes[i] <= 0xFF) outStr += '0';
-            outStr += bytes[i].toString(0x100);
+            if (bytes[i] <= 0xF) outStr += '0';
+            outStr += bytes[i].toString(0x10);
         }
 
         return outStr;
