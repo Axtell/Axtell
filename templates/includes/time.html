@@ -1,0 +1,3 @@
+{% macro time(t) -%}
+<time datetime="{{ t.isoformat() }}Z"><script>d({{ t.timestamp() * 1000 }})</script></time>
+{%- endmacro %}
