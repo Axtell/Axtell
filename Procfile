@@ -1,2 +1,2 @@
-release: ./build_all.sh
+release: ./deploy/env_deploy.sh
 web: ./run.py

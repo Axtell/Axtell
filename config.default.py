@@ -8,6 +8,7 @@ app = {
 canonical_host = 'http://127.0.0.1:5000'
 
 db_config = {
+    'protocol': 'MYSQL_PROTOCOL',
     'user': 'MYSQL_USERNAME',
     'password': 'MYSQL_PASSWORD',
     'host': '127.0.0.1',
