@@ -9,7 +9,8 @@
     "./js/modern/**/*.js"
   ],
   "engines": {
-    "node": "8.9.3"
+    "node": "8.9.3",
+    "npm": "6.1.0"
   },
   "license": "MIT",
   "devDependencies": {
