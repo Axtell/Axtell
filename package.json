@@ -8,6 +8,9 @@
     "./js/ui/**/*.js",
     "./js/modern/**/*.js"
   ],
+  "engines": {
+    "node": "8.9.3"
+  },
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.46",
