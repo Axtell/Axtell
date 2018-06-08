@@ -3,6 +3,15 @@ import ErrorManager from '~/helpers/ErrorManager';
 
 export const INVALID_ITEM_GROUP_STRUCTURE = Symbol('ItemGroup.Error.InvalidStructure');
 
+let modified = 0,
+    modifiedIndex = 0;
+
+window.addEventListener('beforeunload', function() {
+    if (modified != 0) {
+        return "You have unsaved changes. If you leave this page these will be discared.";
+    }
+})
+
 /**
  * Manages an input allowing the user to reset and set other state indicators
  * such as `- Saved`.
@@ -12,6 +21,8 @@ export const INVALID_ITEM_GROUP_STRUCTURE = Symbol('ItemGroup.Error.InvalidStruc
 export default class ItemGroupViewController extends ViewController {
     constructor(rcgroup) {
         super(rcgroup);
+
+        this._modifiedIndex = modifiedIndex++;
 
         this._root = rcgroup;
 
@@ -50,6 +61,13 @@ export default class ItemGroupViewController extends ViewController {
 
     _setModified(state) {
         this._isModified = state;
+
+        if (state) {
+            modified |=  1 << this._modifiedIndex;
+        } else {
+            modified &= ~(1 << this._modifiedIndex);
+        }
+
         // Check if already in dom
         if (this._modifiedLabel.parentNode) {
             if (state === false) {

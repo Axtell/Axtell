@@ -7,8 +7,8 @@ import ErrorManager from '~/helpers/ErrorManager';
 import User from '~/models/User';
 
 export const PROFILE_FORM_ID = 'sf-profile';
-export const DISPLAY_NAME_ID = 'display-name';
-export const EMAIL_ID = 'user-email';
+export const DISPLAY_NAME_ID = 'settings-profile-displayname';
+export const EMAIL_ID = 'settings-profile-email';
 
 export const SAVE_BUTTON_ID = 'save-profile';
 
@@ -28,7 +28,7 @@ if (viewController = ViewController.of(PROFILE_FORM_ID)) {
 
     viewController.delegate = new class extends AJAXFormControllerDelegate {
         formWillSubmit(controller) {
-            controller.display([]);
+            controller.clearDisplays();
             return super.formWillSubmit(controller);
         }
 
@@ -41,7 +41,7 @@ if (viewController = ViewController.of(PROFILE_FORM_ID)) {
         }
 
         didSubmissionSuccess(controller, data) {
-            window.location.reload();
+            // window.location.reload();
         }
 
         didSubmissionError(controller, error) {

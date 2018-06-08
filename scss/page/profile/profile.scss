@@ -1,19 +1,75 @@
-.profile-split {
+.profile {
   display: flex;
-  padding: 1rem;
+  flex-direction: row;
+  align-items: stretch;
 
-  flex-wrap: wrap;
-  justify-content: center;
+  overflow-y: auto;
 
-  > div {
+  .profile__section {
     box-sizing: border-box;
+
+    &.profile__section--size-wide { flex: 1; }
+    &.profile__section--padding { padding: 0 2rem; }
   }
 
-  .right { flex: 1; }
+  // LEFT HAND SIDE WITH LIST OF SETTING CATEGORIES
+  .profile__category_list {
+    border-radius: 12px 0 0 12px;
+    overflow: hidden; // Trims the border
+    background: mix($accent-color, rgba($hover-mix, 0.03), 2%);
 
-  &.-highlight {
-    background: rgba($hover-mix, 0.03);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    .profile__category_list__category {
+      cursor: pointer;
+      box-sizing: border-box;
+      padding: 1rem 1rem;
+      width: 100%;
+
+      transition: background 0.25s ease;
+      &:hover {
+        background: mix($accent-color, rgba($hover-mix, 0.04), 5%);
+      }
+
+      + .profile__category_list__category {
+        border-top: 1px solid rgba($hover-mix, 0.04);
+      }
+
+      &.profile__category_list__category--active {
+        border-left: 8px solid $accent-color;
+        svg, img { fill: $accent-color; }
+        .profile__category_list__category__label { color: $accent-color; }
+      }
+
+      svg, img {
+        display: block;
+        margin: 0 auto;
+        @include square(3rem);
+        fill: rgba($hover-mix, 0.4);
+      }
+
+      .profile__category_list__category__label {
+        display: block;
+        margin: 0 auto;
+
+        text-align: center;
+        // text-transform: uppercase;
+        // font-weight: $bold-weight;
+
+        color: rgba($hover-mix, 0.4);
+      }
+    }
+  }
+
+  .profile__category_container {
+    .profile__category {
+      @include fit;
+      @include full;
+      display: none;
+
+      .profile__category--active { display: block; }
+    }
   }
 }
-
-@import "page/profile/avatar.scss";

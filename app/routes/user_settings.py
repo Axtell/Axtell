@@ -14,12 +14,12 @@ def do_redirect():
         return "", 204
 
 
-@server.route("/settings/profile")
+@server.route("/settings")
 def profile_settings():
     if g.user is None:
         do_redirect()
 
-    return render_template('settings/profile.html')
+    return render_template('settings.html')
 
 
 @server.route("/theme/light", methods=['POST'])
@@ -72,10 +72,13 @@ def set_avatar():
 
 @server.route("/preferences/profile", methods=['POST'])
 def set_profile_preferences():
+    if g.user is None:
+        return abort(401)
+
     try:
-        new_email = request.form['email']
-        new_name = request.form['name']
-        avatar_url = request.form['avatar-url']
+        new_email = request.form.get('settings-profile-email', g.user.email)
+        new_name = request.form.get('settings-profile-displayname', g.user.name)
+        avatar_url = request.form.get('avatar-url', g.user.avatar)
     except KeyError:
         return abort(400)
 

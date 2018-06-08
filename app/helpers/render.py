@@ -6,12 +6,7 @@ from app.helpers import macros
 
 
 def render_template(path, **kwargs):
-    return flask_render_template(path, **{
-        'is_debug': server.debug,
-        'opts': config,
-        'macros': macros,
-        **kwargs
-    })
+    return flask_render_template(path, **kwargs)
 
 
 def render_json(data):

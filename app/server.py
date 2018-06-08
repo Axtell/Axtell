@@ -7,6 +7,7 @@ import app.tasks.update as update
 from shutil import which
 import bugsnag
 from bugsnag.flask import handle_exceptions
+from app.helpers import macros
 import golflang_encodings
 import config
 
@@ -17,6 +18,11 @@ class AxtellFlask(Flask):
 
 server = AxtellFlask("Axtell")
 server.secret_key = config.secret_skey
+
+
+server.jinja_env.globals['opts'] = config
+server.jinja_env.globals['is_debug'] = server.debug
+server.jinja_env.globals['macros'] = macros
 
 
 # Setup Bugsnag if info is provided

@@ -9,6 +9,12 @@ $nav-padding: 1em;
 
   background: $header-bg;
 
+  box-shadow: 0 2px 8px -1px rgba($hover-mix, 0.3);
+
+  &.header--transparent {
+    box-shadow: none;
+  }
+
   .content {
     display: flex;
     justify-content: center;

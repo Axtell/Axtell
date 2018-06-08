@@ -1,7 +1,9 @@
 {% extends "layouts/page.html" %}
 {% from "includes/more.html" import more %}
+{% from "includes/header.html" import header %}
 
 {% block title %}Home{% endblock %}
+{% block header %}{{ header(classes="header--transparent") }}{% endblock %}
 {% block base_content %}
 <main class="content override splash">
     <div class="index-root">
