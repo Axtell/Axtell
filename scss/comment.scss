@@ -1,9 +1,11 @@
+$comment-writer-depth: 8px;
+
 // Root of comments
 .comment-list {
     border-top: 1px $comment-wrapper-top-style;
     margin-top: 1.2rem; // Above border
 
-    padding: 0.8rem 1.5rem 0;
+    padding: 0.8rem 1.5rem $comment-writer-depth;
 
     position: relative;
 
@@ -166,13 +168,18 @@
 // The comment write box
 .comment-writer {
     margin-top: 0.5rem;
-    padding: 0.5rem 1rem 0;
+    padding: 0.5rem 1rem;
     border-top: 1px $comment-wrapper-top-style;
+
+    background: $content-bg;
+    border-radius: $comment-writer-depth;
+    box-shadow: 0 $comment-writer-depth/2 $comment-writer-depth (-$comment-writer-depth/2) rgba($hover-mix, 0.2);
+    overflow: visible;
 
     h5 {
         font-size: 1rem;
         font-weight: 600;
-        color: $label-text;
+        color: $title-text;
         margin-bottom: 0.5rem;
     }
 
@@ -195,7 +202,7 @@
         .info {
             flex: 1;
             font-weight: 300;
-            color: $main-text;
+            color: $dim-text;
         }
 
         .cancel {

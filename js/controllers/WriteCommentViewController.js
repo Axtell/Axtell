@@ -49,6 +49,8 @@ export default class WriteCommentViewController extends ViewController {
             </div>
         );
 
+        this._keyBinding = null;
+
         // Setup markdown
         new MarkdownViewController(this._commentText, [
             new MarkdownControls.MarkdownBoldControl(),
@@ -131,12 +133,19 @@ export default class WriteCommentViewController extends ViewController {
             this._writingBox.parentNode.replaceChild(this._node, this._writingBox);
             this._displayingWritingBox = false;
 
+            this._keyBinding?.();
+            this._keyBinding = null;
+
             this._submitHandler?.();
         } else {
             Analytics.shared.report(EventType.commentWriteClose(this.owner));
             this._node.parentNode.replaceChild(this._writingBox, this._node);
             this._displayingWritingBox = true;
             this._commentText.focus();
+
+            this._keyBinding = KeyManager.shared.register('Escape', () => {
+                this.toggleState();
+            });
 
             this._submitHandler?.();
             this._submitHandler = KeyManager.shared.registerMeta('Enter', () => {
