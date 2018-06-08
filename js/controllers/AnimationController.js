@@ -19,10 +19,10 @@ function anims(anims) {
 
 export const Animation = anims([
     anim('slide', ['left', 'bottom'], {
-        time: 500
+        time: 301
     }),
     anim('expand', ['height', 'width'], {
-        time: 500,
+        time: 201,
         styles: new Map([
             ['height', (e) => `${e.scrollHeight}px`]
         ])
