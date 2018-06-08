@@ -2,12 +2,15 @@
   z-index: 20;
   padding: 1rem;
 
-  position: relative;
+  position: fixed;
 
   max-height: $max-lower-height;
   overflow-y: auto;
 
   background: $popover-bg;
+
+  left: 0;
+  right: 0;
 
   flex-direction: column;
   justify-content: flex-start;

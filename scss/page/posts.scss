@@ -11,7 +11,7 @@
   margin-bottom: 1.5rem;
 
   $post-item-shadow-length: 8px;
-  box-shadow: 0 $post-item-shadow-length/4 $post-item-shadow-length (-$post-item-shadow-length/4) rgba($hover-mix, 0.2);
+  box-shadow: 0 $post-item-shadow-length/2 $post-item-shadow-length (-$post-item-shadow-length/2) rgba($hover-mix, 0.2);
   border-radius: $post-item-shadow-length;
 
   padding: 1rem;

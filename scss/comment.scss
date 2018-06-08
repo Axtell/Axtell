@@ -36,6 +36,7 @@
 // The location from which to prepend new items.
 .comment--prepend-ref { display: none; }
 
+// Any item within a comment list
 .comment-item {
     padding: 0.4rem 1rem;
 
@@ -150,7 +151,7 @@
     // Initialy transparent background so transition works
     background: transparent;
 
-    transition: opacity 0.2s ease-out, height 0.05s, width 0.05s, background 0.1s linear;
+    transition: opacity 0.2s ease-out, background 0.1s linear;
 
     cursor: pointer;
     display: block;
