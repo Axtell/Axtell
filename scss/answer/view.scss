@@ -27,12 +27,13 @@
     margin-bottom: 0;
   }
 
-  font-size: 1.5rem;
 
   .header {
     display: flex;
     flex-direction: row;
     align-items: center;
+
+    font-size: 1.5rem;
 
     img {
       height: 1em;
