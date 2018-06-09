@@ -89,10 +89,12 @@ pre, pre.hljs, .body pre {
 
   color: $code-block-fg;
 
+  box-shadow: 0 4px 16px -8px rgba($hover-mix, 0.5);
+
   background: $code-block-bg;
   padding: 0;
   box-sizing: border-box;
-  border-radius: 3px;
+  border-radius: 8px;
   border-left: 8px solid $code-block-indent;
 
   code {
@@ -135,6 +137,7 @@ hr {
 
 .body {
   color: $main-text;
+  font-size: 16px;
 
   @import "body.scss";
 }

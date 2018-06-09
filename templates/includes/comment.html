@@ -25,8 +25,8 @@
             {% include "svg/down.html" %}
             See More
         </li>
+        <li class="comment--append-first-ref"></li>
         <li class="comment--append-ref"></li>
-        <li class="comment--append-ref-transparent"></li>
     {% endif %}
     {% for comment_item in comment_list|reverse %}
         {{ comment(comment_item) }}

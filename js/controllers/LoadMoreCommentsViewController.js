@@ -49,9 +49,7 @@ export default class LoadMoreCommentsViewController extends ViewController {
             page: this.pageIndex++
         }).run();
 
-        for (const comment of comments) {
-            await this.parentList.createCommentInstance(comment, InstanceType.append);
-        }
+        await this.parentList.createMultipleCommentInstances(comments, InstanceType.append, true);
 
         // If they aren't any more comments we'll remove this
         if (!areMore) {
@@ -78,7 +76,7 @@ export default class LoadMoreCommentsViewController extends ViewController {
         if (isLoading) {
             this._node.classList.add('comment-item--disabled', 'tooltip');
             this._node.title = "Loading...";
-            this._loadingInstance = this.parentList.createLoadingInstance("Loading comments...", InstanceType.append);
+            this._loadingInstance = this.parentList.createLoadingInstance("Loading comments...", InstanceType.appendFirst);
         } else {
             this._node.classList.remove('comment-item--disabled', 'tooltip');
             this._loadingInstance?.destroy();

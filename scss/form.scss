@@ -72,7 +72,6 @@
   color: $label-tag;
   fill: $label-tag;
   font-weight: bold;
-  text-transform: uppercase;
 
   label {
     vertical-align: middle;
@@ -82,6 +81,8 @@
     font-size: 13px;
     font-weight: inherit;
     text-transform: inherit;
+
+    text-transform: uppercase;
 
     margin-bottom: 4px;
   }

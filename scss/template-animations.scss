@@ -1,0 +1,43 @@
+.template--animated {
+
+    // Sliding transition from off-screen
+    // REQUIRES absolute or fixed positioning.
+    &.template--animation-slide {
+        transition-duration: 0.3s;
+        transition-timing-function: ease;
+
+        @mixin slide-animation($side) {
+            &.template--slide-#{$side} {
+                transition-property: $side;
+                #{$side}: -100%;
+
+                &.template--active { #{$side}: 0; }
+            }
+        }
+
+        @include slide-animation(left);
+        @include slide-animation(bottom);
+    }
+
+    // Animated an 'expansion' so goes from small to large
+    &.template--animation-expand {
+        transition-duration: 0.2s;
+        transition-timing-function: ease;
+
+        overflow: hidden;
+
+        @mixin expand-animation($metric) {
+            &.template--expand-#{$metric} {
+                transition-property: #{$metric}, padding;
+                #{$metric}: 0;
+                padding: 0;
+
+                &.template--finished { height: auto; }
+                &.template--active { padding: auto; }
+            }
+        }
+
+        @include expand-animation(height);
+        @include expand-animation(width);
+    }
+}
