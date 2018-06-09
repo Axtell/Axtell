@@ -20,6 +20,8 @@ class Post(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
+    ppcg_id = db.Column(db.Integer, nullable=True)
+
     def to_json(self):
         return {
             'title': self.title,
