@@ -135,7 +135,7 @@ export default class CommentListViewController extends ViewController {
      */
      async createMultipleCommentInstances(comments, type = InstanceType.prepend, animated = false) {
         const bodies = await Promise.all(
-            comments.map(comment => constructComment(comment))
+            comments.reverse().map(comment => constructComment(comment))
         );
 
         const commentHTML = <li>{ bodies }</li>;
