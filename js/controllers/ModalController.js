@@ -16,6 +16,7 @@ export default class ModalController extends ViewController {
         this._context = null;
         this._body = null;
         this._title = null;
+        this._subtitle = null;
         this._presentingTemplate = null;
         this._presenting = null;
 
@@ -55,8 +56,17 @@ export default class ModalController extends ViewController {
         modal.willLoad();
         this._body.appendChild(body);
         this._title.appendChild(
-            document.createTextNode(modal.getTitle())
+            document.createTextNode(modal.title)
         );
+
+        const subtitle = modal.subtitle;
+        if (subtitle) {
+            this._subtitle.appendChild(
+                <h2 class="header--style-caption">
+                    {subtitle}
+                </h2>
+            );
+        }
 
         modal.didLoad();
         this._presentingTemplate = modal;
@@ -75,6 +85,10 @@ export default class ModalController extends ViewController {
         this._context.classList.remove(ACTIVE_KEY);
         this._body.removeChild(this._presenting);
         this._title.removeChild(this._title.firstChild);
+
+        if (this._subtitle.firstChild) {
+            this._subtitle.removeChild(this._subtitle.firstChild);
+        }
 
         this._presentingTemplate.didUnload();
 
@@ -115,7 +129,14 @@ export default class ModalController extends ViewController {
         let title = document.createElement("h3");
         this._title = title;
 
+        // Subtitle if exists
+        const subtitle = (
+            <div class="list-header list-header--style-caption list-header__caption-size--wide list-header--nopad-vertical"></div>
+        );
+        this._subtitle = subtitle;
+
         content.appendChild(title);
+        content.appendChild(subtitle);
         content.appendChild(embed);
 
         // Add all things together

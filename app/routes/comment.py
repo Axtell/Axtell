@@ -21,15 +21,17 @@ def write_answer_comment(answer_id):
     return render_json(new_comment.to_json())
 
 
-@server.route("/answer/<int:answer_id>/comments/page/<int:page_id>")
-def get_answer_comments_page(answer_id, page_id):
-    comments = comment.get_answer_comments_page(answer_id, page_id)
+@server.route("/answer/<int:answer_id>/comments/parent/<sint:parent_id>/page/<int:page_id>", defaults={'initial_offset': 0})
+@server.route("/answer/<int:answer_id>/comments/parent/<sint:parent_id>/page/<int:page_id>/offset/<int:initial_offset>")
+def get_answer_comments_page(answer_id, parent_id, page_id, initial_offset):
+    comments = comment.get_answer_comments_page(answer_id, parent_id, page_id, initial_offset)
     return render_json(comments)
 
 
-@server.route("/post/<int:post_id>/comments/page/<int:page_id>")
-def get_post_comments_page(post_id, page_id):
-    comments = comment.get_post_comments_page(post_id, page_id)
+@server.route("/post/<int:post_id>/comments/parent/<sint:parent_id>/page/<int:page_id>", defaults={'initial_offset': 0})
+@server.route("/post/<int:post_id>/comments/parent/<sint:parent_id>/page/<int:page_id>/offset/<int:initial_offset>")
+def get_post_comments_page(post_id, parent_id, page_id, initial_offset):
+    comments = comment.get_post_comments_page(post_id, parent_id, page_id, initial_offset)
     return render_json(comments)
 
 

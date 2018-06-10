@@ -1,5 +1,6 @@
 import ViewController from '~/controllers/ViewController';
 import { InstanceType } from '~/controllers/CommentListViewController';
+import Comment from '~/models/Comment';
 
 import Comments from '~/models/Request/Comments';
 
@@ -14,8 +15,9 @@ export default class LoadMoreCommentsViewController extends ViewController {
      * @param {HTMLElement} button The loading button
      * @param {Post|Answer} owner The owner post
      * @param {CommentListViewController} parentList The list view which to place comment in.
+     * @param {boolean} [shouldExpand=false] Follows 'expansion' semantics
      */
-    constructor(button, owner, parentList) {
+    constructor(button, owner, parentList, shouldExpand = false) {
         super(button);
 
         this._node = button;
@@ -28,6 +30,9 @@ export default class LoadMoreCommentsViewController extends ViewController {
 
         /** @type {number} */
         this.pageIndex = 1;
+
+        /** @type {boolean} */
+        this.shouldExpand = shouldExpand;
 
         this._node.addEventListener("click", () => {
             this.loadNextPage();
@@ -43,13 +48,11 @@ export default class LoadMoreCommentsViewController extends ViewController {
         this.isLoading = true;
 
         // Get commments
-        const { areMore, comments } = await new Comments({
-            type: this.owner.endpoint,
-            id: this.owner.id,
-            page: this.pageIndex++
-        }).run();
+        const { areMore, comments } = await this.contentsForPage(this.pageIndex++);
 
-        await this.parentList.createMultipleCommentInstances(comments, InstanceType.append, true);
+        await this.parentList.createMultipleCommentInstances(comments, InstanceType.append, true, {
+            recursive: this.shouldExpand
+        });
 
         // If they aren't any more comments we'll remove this
         if (!areMore) {
@@ -57,6 +60,36 @@ export default class LoadMoreCommentsViewController extends ViewController {
         }
 
         this.isLoading = false;
+    }
+
+    /**
+     * Gets the comments for a given page
+     * @return {Object}
+     * @property {boolean} areMore If they are more pages
+     * @property {Comment[]} comments Additional comments
+     */
+    async contentsForPage(pageNumber) {
+        const endpoint = do {
+            if (this.owner instanceof Comment) {
+                new Comments({
+                    type: this.owner.type,
+                    id: this.owner.sourceId,
+                    page: pageNumber,
+                    parentId: this.owner.id,
+                    intialOffset: this.shouldExpand ? 0 : 1
+                })
+            } else {
+                new Comments({
+                    type: this.owner.endpoint,
+                    id: this.owner.id,
+                    page: pageNumber
+                })
+            }
+        };
+
+        const commentData = await endpoint.run();
+        commentData.comments.reverse();
+        return commentData;
     }
 
     _isLoading = false;

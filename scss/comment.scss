@@ -11,9 +11,13 @@ $comment-writer-depth: 8px;
 
     list-style: none;
 
-    .comment-list::before {
+    // Represents those comment lists which hold nested comments
+    &.comment-list--nested {
+        border-top: none;
+        margin: 0;
         padding: 0;
-        content: "";
+
+        &::before { content: ""; }
     }
 
     &::before {
@@ -104,19 +108,31 @@ $comment-writer-depth: 8px;
         .comment__content {
             flex: 1;
 
-            .name {
-                color: $theme-color;
+        }
+
+        .comment__name {
+            color: $theme-color;
+        }
+
+        .comment__footer {
+            font-size: 0.7rem;
+            color: $label-tag;
+
+            > span::before {
+                // This is mdot followed by nbsp
+                content: "\00b7\00a0";
+                padding: 0 2px;
             }
+        }
+
+        // 'reply' button
+        .comment__reply {
+            cursor: pointer;
         }
 
         // The header
         .comment__header {
             span { vertical-align: middle; }
-
-            .timestamp {
-                font-size: 0.7rem;
-                color: $label-tag;
-            }
         }
     }
 
@@ -155,13 +171,15 @@ $comment-writer-depth: 8px;
 
     transition: opacity 0.2s ease-out, background 0.1s linear;
 
-    cursor: pointer;
     display: block;
 
-    border-radius: 4px;
+    &.comment-item--hoverable {
+        cursor: pointer;
+        border-radius: 4px;
 
-    &:hover {
-        background: rgba($hover-mix, 0.03);
+        &:hover {
+            background: rgba($hover-mix, 0.03);
+        }
     }
 }
 

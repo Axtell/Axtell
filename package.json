@@ -29,7 +29,7 @@
     "babel-7-plugin-root-import": "^5.4.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^8.0.0-beta.2",
-    "babel-plugin-jsx-to-dom": "^0.4.2",
+    "babel-plugin-jsx-to-dom": "^0.5.0",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-wildcard": "^3.0.1",
     "babel-preset-env": "^1.6.1",

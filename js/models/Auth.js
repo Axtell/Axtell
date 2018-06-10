@@ -3,6 +3,9 @@ import Data from '~/models/Data';
 import { Bugsnag } from '~/helpers/ErrorManager';
 import axios from 'axios/dist/axios.min.js';
 
+import ModalController from '~/controllers/ModalController';
+import AuthModalTemplate from '~/template/login/AuthModalTemplate';
+
 /**
  * Manages authorization use `Auth.shared()` to get global instance
  */
@@ -87,8 +90,20 @@ class Auth {
     }
 
     /**
+     * Ensures the user is logged in.
+     * @param {?string} reason Why this is being ensured.
+     * @return {boolean} `false` is user refused to login and is not logged in.
+     */
+    async ensureLoggedIn(reason = null) {
+        if (this.isAuthorized) return true;
+
+        alert('You must be logged in to continue using this feature. (note: this is a temporary alert, will be replaced later)');
+        return false;
+    }
+
+    /**
      * Logs into a code-golf user using a JWT authorization key.
-     * @param {AuthData} authData - Authorization data
+     * @param {AuthJWTToken} authData - Authorization data
      * @return {Promise} resolves to a {@link User} of the logged in user.
      */
     async loginJWT(authData) {
