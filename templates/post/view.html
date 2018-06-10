@@ -88,7 +88,9 @@
                     {% set vote_status = vote.get_answer_vote(answer.id) %}
                     {{ votebuttons(vote_status, answer.user == g.user) }}
                 </div>
-                {{ userbox(answer.user, answer.date_created, small=true, tight=true) }}
+                <div class="post-details post-details--nopad-horizontal">
+                    {{ userbox(answer.user, answer.date_created, classes="post-detail-item") }}
+                </div>
                 {{ commentList(answer_comments[loop.index - 1]) }}
             </li>
         {% endfor %}

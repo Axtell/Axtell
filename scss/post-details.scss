@@ -3,6 +3,13 @@
   display: flex;
   flex-wrap: wrap;
 
+  &.post-details--nopad-horizontal {
+    padding: {
+      left: 0;
+      right: 0;
+    }
+  }
+
   .post-detail-item {
     background: $content-bg;
     border-radius: 8px;
