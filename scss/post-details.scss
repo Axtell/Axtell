@@ -1,0 +1,15 @@
+.post-details {
+  padding: 0 1rem;
+  display: flex;
+  flex-wrap: wrap;
+
+  .post-detail-item {
+    background: $content-bg;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.3);
+
+    margin-right: 16px;
+    margin-bottom: 12px;
+  }
+}

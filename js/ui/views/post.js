@@ -16,9 +16,9 @@ if (post = Post.current) {
         POST_VOTE_CONTAINER
     )
 
-    CommentListViewController.forClass(
-        'comment-list',
-        (commentList) => [commentList, post],
-        'post'
+    const postComments = new CommentListViewController(
+        document.querySelector('#post > .comment-list'),
+        post
     );
+    postComments.setupSublists();
 }

@@ -30,11 +30,11 @@ export default class AnswerViewController extends ViewController {
             answer
         );
 
-        CommentListViewController.forClass(
-            'comment-list',
-            (commentList) => [commentList, this.answer],
-            answer
+        const answerComments = new CommentListViewController(
+            answer.querySelector('.comment-list'),
+            this.answer
         );
+        answerComments.setupSublists();
     }
 
     /** @type {Answer} */

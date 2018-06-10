@@ -15,15 +15,18 @@ export default class Post extends Request {
     /**
      * Creates a 'create post' request. Requires authorization
      * @param {string} title
-     * @param {String} body Markdown body
+     * @param {string} body Markdown body
+     * @param {?number} ppcgId - if applicable. The ID of the respective PPCG post
      */
-    constructor({ title, body }) {
+    constructor({ title, body, ppcgId }) {
         super({
             path: '/post/public',
             method: HTTPMethod.POST,
             formData: {
+                'response-type': 'json',
                 'post-title': title,
-                'post-body': body
+                'post-body': body,
+                'post-ppcg-id': ppcgId
             },
             headers: {
                 Accept: 'application/json'

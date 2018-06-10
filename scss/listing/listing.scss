@@ -41,6 +41,16 @@
     width: 35%;
     max-width: 100%;
     min-height: 0;
+
+    &.list-header__caption-size--wide {
+      min-width: 0;
+      width: 100%;
+    }
+  }
+
+  &.list-header--nopad-vertical {
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   // A list (i.e. flex)

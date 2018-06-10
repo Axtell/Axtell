@@ -1,47 +1,57 @@
-{% macro comment(item) %}
-    <li class="comment-item comment__user_split comment" href="/comment/{{ item[2].type() }}/{{ item[2].id }}">
+{% from "includes/time.html" import time %}
+
+{% macro comment(item) -%}
+    <li class="comment-item comment__user_split comment" data-comment="{{ macros.encode.json_to_b64(item[2].to_json(show_children=False)) }}">
         <div class="user">
             <img class="avatar" src="{{ item[2].user.avatar_url() }}"/>
         </div>
         <div class="comment__content">
             <div class="comment__header">
-                <span class="name">{{ item[2].user.name }}</span>
-                <span class="timestamp"> &middot; <script>d({{ item[2].date_created.timestamp() * 1000 }})</script></span>
+                <span class="comment__name">{{ item[2].user.name }}</span>
             </div>
             <div class="body">
                 {{ item[0]|safe }}
             </div>
-            <div>
-                {{ commentListBody(item[1]) }}
+            <div class="comment__footer">
+                <a class="comment-item__write-init">reply</a>
+                <span class="comment__timestamp">{{ time(item[2].date_created) }}</span>
             </div>
+            <ul class="comment-list comment-list--nested">
+                {{ commentListBody(item[1]) }}
+            </ul>
         </div>
     </li>
-{% endmacro %}
+{%- endmacro %}
 
-{% macro commentListBody(comments) %}
+{% macro commentListBody(comments) -%}
     {% set show_more, comment_list = comments %}
-    {% if show_more %}
-        <li class="comment-item comment-item--action comment-item--load-more">
+    {% if show_more -%}
+        {% if comment_list|length == 0 -%}
+        <li class="comment-item comment-item--action comment-item--hoverable comment-item__expand">
+            {% include "svg/expand.html" %}
+            Expand
+        </li>
+        {%- else -%}
+        <li class="comment-item comment-item--action comment-item--hoverable comment-item__load-more">
             {% include "svg/down.html" %}
             See More
         </li>
-        <li class="comment--append-first-ref"></li>
-        <li class="comment--append-ref"></li>
-    {% endif %}
-    {% for comment_item in comment_list|reverse %}
+        {%- endif %}
+    {%- endif %}
+    <li class="comment--append-first-ref"></li>
+    <li class="comment--append-ref"></li>
+    {% for comment_item in comment_list|reverse -%}
         {{ comment(comment_item) }}
-    {% endfor %}
-{% endmacro %}
+    {%- endfor %}
+    <li class="comment--prepend-ref"></li>
+{%- endmacro %}
 
 {% macro commentList(comment_list) -%}
 <ul class="comment-list">
     {{ commentListBody(comment_list) }}
-    <li class="comment--prepend-ref"></li>
-    {% if g.user is not none -%}
-    <li class="comment-item comment-item--action comment-item--write-init">
+    <li class="comment-item comment-item--hoverable comment-item--action comment-item__write-init">
         {% include "svg/pen.html" %}
         Write Comment
     </li>
-    {% endif %}
 </ul>
 {%- endmacro %}

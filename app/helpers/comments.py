@@ -12,7 +12,10 @@ def get_rendered_comments(cls, parent_id=None, max_depth=1, count=comment_config
         if max_depth > 1:
             child_comments = get_rendered_comments(cls, parent_id=comment.id, max_depth=max_depth - 1, count=comment_config['nest_amt'], **kwargs)
         else:
-            child_comments = (False, [])
+            if len(comment.children) > 0:
+                child_comments = (True, [])
+            else:
+                child_comments = (False, [])
 
         rendered_comments.append(
             (

@@ -1,20 +1,16 @@
-{% macro userbox(user, time=none, small=false, tight=false) -%}
-<div class="userbox{{ ' userbox--align-tight' if tight else '' }}{{ ' userbox--size-small' if small else '' }}">
-    <a class="userbox__tab userbox__tab--highlighted userbox--trigger-author"
-        href="{{ url_for('get_user', user_id=user.id, name=user.name) }}"
-        data-userid="{{ user.id }}">
-        <span class="userbox__tab__verb">Author</span>
-        <div class="userbox__tab__value">
-            <img class="userbox__tab__value__child--align-textcenter userbox__value--type-avatar" src="{{ user.avatar_url() }}">
-            <span class="userbox__tab__value__child--align-textcenter userbox__value--type-name">{{ user.name }}</span>
-        </div>
-    </a>
-    <div class="userbox__spacer"></div>
-    {% if time is not none -%}
-    <div class="userbox__tab">
-        <span class="userbox__tab__verb">Time</span>
-        <span class="userbox__tab__value userbox__value--type-timestamp"><script>d({{ time.timestamp() * 1000 }})</script></span>
+{% from "includes/time.html" import time as time_elem %}
+{% macro userbox(user, time, classes="") -%}
+<a class="userbox__container userbox--trigger-author {{ classes }}"
+   href="{{ url_for('get_user', user_id=user.id, name=user.name) }}"
+   data-userid="{{ user.id }}">
+    <span class="userbox__avatar_container">
+        <img src="{{ user.avatar_url() }}"/>
+    </span>
+    <div class="userbox__details_container">
+        <span class="userbox__details_row userbox__author">{{ user.name }}</span>
+        <span class="userbox__dim_row">
+            {{ time_elem(time) }}
+        </span>
     </div>
-    {%- endif %}
-</div>
+</a>
 {%- endmacro %}

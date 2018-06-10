@@ -25,32 +25,48 @@ def get_answer_comment(comment_id):
     return comment
 
 
-def get_answer_comments_page(answer_id, page_id):
-    comment_list = [comment.to_json() for comment in AnswerComment.query \
-        .filter_by(answer_id=answer_id) \
+def get_answer_comments_page(answer_id, parent_id, page_id, initial_offset):
+    if parent_id == -1:
+        offset = comments['show_amt'] * page_id
+        sql_parent = None
+    else:
+        offset = comments['show_amt'] * (page_id - 1) + initial_offset
+        sql_parent = parent_id
+
+    comment_list = [comment.to_json(show_parent=False) for comment in AnswerComment.query \
+        .filter_by(answer_id=answer_id, parent_id=sql_parent) \
         .order_by(AnswerComment.date_created.desc()) \
-        .offset(comments['show_amt'] * page_id) \
+        .offset(offset) \
         .limit(comments['show_amt']) \
         .all()]
 
     # Check the amount of comments, that (would be returned) (this is the comments['show_amt'] * page + 1) is at least
     # as many as they actually are.
-    comments_remaining = AnswerComment.query.filter_by(answer_id=answer_id).count() - comments['show_amt'] * (page_id + 1)
+    comments_remaining = AnswerComment.query.filter_by(answer_id=answer_id, parent_id=sql_parent).count() - ( offset + comments['show_amt'] )
     return {'comments': comment_list, 'are_more': comments_remaining > 0}
 
 
-def get_post_comments_page(post_id, page_id):
-    comment_list = [comment.to_json() for comment in PostComment.query \
-        .filter_by(post_id=post_id) \
+def get_post_comments_page(post_id, parent_id, page_id, initial_offset):
+    if parent_id == -1:
+        offset = comments['show_amt'] * page_id
+        sql_parent = None
+    else:
+        # remember x_n = r(n-1)+d from grade school
+        offset = comments['show_amt'] * (page_id - 1) + initial_offset
+        sql_parent = parent_id
+
+    comment_list = [comment.to_json(show_parent=False) for comment in PostComment.query \
+        .filter_by(post_id=post_id, parent_id=sql_parent) \
         .order_by(PostComment.date_created.desc()) \
-        .offset(comments['show_amt'] * page_id) \
+        .offset(offset) \
         .limit(comments['show_amt']) \
         .all()]
 
     # Check the amount of comments, that (would be returned) (this is the comments['show_amt'] * page + 1) is at least
     # as many as they actually are.
-    comments_remaining = PostComment.query.filter_by(post_id=post_id).count() - comments['show_amt'] * (page_id + 1)
-    return {'comments': comment_list, 'are_more': comments_remaining > 0}
+    total_comments = PostComment.query.filter_by(post_id=post_id, parent_id=sql_parent).count()
+    comments_remaining = total_comments - ( offset + comments['show_amt'] )
+    return {'comments': comment_list, 'are_more': comments_remaining > 0, 'total': total_comments}
 
 
 def create_post_comment(post_id, parent_comment, comment_text):
