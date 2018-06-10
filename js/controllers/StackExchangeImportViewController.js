@@ -113,7 +113,8 @@ export default class StackExchangeImporterViewController extends ViewController 
 
         const post = new Post({
             title: this.selectedQuestion.title,
-            body: this.selectedQuestion.body_markdown
+            body: this.selectedQuestion.body_markdown,
+            ppcgId: this.selectedQuestion.question_id
         });
 
         const redirectUrl = await post.run();

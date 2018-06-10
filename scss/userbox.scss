@@ -1,80 +1,62 @@
-.userbox {
-  display: flex;
+.userbox__container {
+  font-size: 1rem;
+  display: inline-flex;
   align-items: center;
-  padding: 0.75rem 0;
 
-  // Spaces out items e.g. a |---spacer---| b
-  .userbox__spacer {
-    flex: 1 0 8px; // Minimum 8px seperation
-  }
 
-  // Any desc item in a userbox
-  .userbox__tab {
-    // Highlighted tab
-    &.userbox__tab--highlighted {
-      padding: 4px 8px;
+  // The left part where we stuff the avatar
+  .userbox__avatar_container {
+    margin-right: 12px;
+    position: relative;
 
-      background: rgba($hover-mix, 0.04);
-      border-radius: 4px;
+    $userbox-avatar-size: 2em;
+    @include square($userbox-avatar-size);
 
-      transition: 0.24s background ease-out;
-
-      &:hover {
-        background: rgba($hover-mix, 0.07);
-      }
+    img {
+      @include square(inherit);
+      border-radius: 50%;
     }
 
-    // e.g. the header or the value
-    .userbox__tab__child {
+    &::before {
+        content: "";
+        position: absolute;
+        display: block;
+
+        $userbox-avatar-icon-size: 1.2em;
+        @include square($userbox-avatar-icon-size);
+        background: url(/static/img/author-indicator.svg);
+
+        // I don't know why this works but it does so don't touch it
+
+        // sin(pi/4) = cos(pi/4) =
+        $sin45: 0.7071067812;
+        $radius1: $userbox-avatar-size/2;
+        $radius2: $userbox-avatar-icon-size/2;
+        // r(cis(theta))
+        // r = (d/2) - (l/2)
+        $offset: ($radius1 - $radius2) * $sin45;
+        bottom: $offset - $radius2;
+        right: $offset - $radius2;
+    }
+  }
+
+  .userbox__details_container {
+    .userbox__details_row {
+      display: block;
+      font-size: 1em;
+      line-height: 1;
+
       display: block;
     }
 
-    .userbox__tab__value {
-      @extend .userbox__tab__child;
-
-      padding: 4px 0;
-
-      .userbox__tab__value__child--align-textcenter {
-        vertical-align: middle;
-      }
-    }
-
-    // What the title is, e.g. "Author" or "Time"
-    // these are not actually verbs but relic from previous format
-    .userbox__tab__verb {
-      @extend .userbox__tab__child;
-
-      font-size: 12px;
-      text-transform: uppercase;
-      font-weight: bold;
-      color: $label-tag;
+    .userbox__dim_row {
+      color: $dim-text;
+      font-size: 0.8em;
+      line-height: 0.8;
     }
   }
 
-  .userbox__value--type-avatar {
-    height: 1rem;
-    margin-right: 4px;
-    border-radius: 3px;
-    border: 1px solid $avatar-mini-color;
-  }
-
-  .userbox__value--type-name {
-    font-size: 0.93rem;
-    color: $em-text;
-    white-space: nowrap;
-
-    // Ellipsis for overflowing name (prevents scroll)
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  .userbox__value--type-timestamp {
-    font-size: 0.6rem;
-    color: $main-text;
-    white-space: nowrap;
-  }
-
-  &.userbox--align-tight {
-    padding: 0
+  .userbox__author {
+    color: $accent-color;
   }
 }

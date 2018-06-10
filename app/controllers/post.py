@@ -7,7 +7,7 @@ from app.helpers.macros.encode import slugify
 from config import posts
 
 
-def create_post(title, body, categories):
+def create_post(title, body, categories, ppcg_id=None):
     if g.user is None:
         return abort(403)
 
@@ -26,7 +26,7 @@ def create_post(title, body, categories):
             return abort(400)
 
     # TODO: insert categories when models support
-    new_post = Post(title=title, body=body)
+    new_post = Post(title=title, body=body, ppcg_id=ppcg_id)
     g.user.posts.append(new_post)
 
     db.session.add(new_post)

@@ -1,0 +1,38 @@
+.import-indicator {
+    display: inline-flex;
+    flex-direction: row;
+    font-size: 1rem;
+    align-items: center;
+
+    .import-indicator__icon {
+        margin-right: 8px;
+        @include square(1.4em);
+
+        svg, img {
+            @include square(inherit);
+            position: relative;
+        }
+    }
+
+    .import-indicator__chevron {
+        @include square(1rem);
+        svg {
+            @include square(inherit);
+            margin-left: 8px;
+            fill: $label-text;
+        }
+    }
+
+    .import-indicator__desc span {
+        display: block;
+    }
+
+    .import-indicator__verb {
+        color: $label-text;
+        font-size: 0.75em;
+    }
+
+    .import-indicator__source {
+        color: $accent-color;
+    }
+}

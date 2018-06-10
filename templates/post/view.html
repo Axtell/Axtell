@@ -30,7 +30,23 @@
         {% set vote_status = vote.get_post_vote(post.id) %}
         {{ votebuttons(vote_status, post.user == g.user) }}
     </div>
-    {{ userbox(post.user, post.date_created, tight=true) }}
+    <div class="post-details">
+        {{ userbox(post.user, post.date_created, classes="post-detail-item") }}
+        {% if post.ppcg_id is not none -%}
+        <a class="import-indicator post-detail-item" href="https://codegolf.stackexchange.com/questions/{{ post.ppcg_id }}">
+            <span class="import-indicator__icon">
+                <img src="/static/img/ppcg-logo.svg"/>
+            </span>
+            <div class="import-indicator__desc">
+                <span class="import-indicator__verb">Imported From</span>
+                <span class="import-indicator__source">PPCG</span>
+            </div>
+            <span class="import-indicator__chevron">
+                {% include "svg/right-caret.html" %}
+            </span>
+        </a>
+        {%- endif %}
+    </div>
     {{ commentList(post_comments) }}
 </div>
 <hr class="big">
