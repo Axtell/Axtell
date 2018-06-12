@@ -22,7 +22,7 @@ import Analytics, { TimingType } from "~/models/Analytics";
 
 // Manage unhandled errors through manager
 window.addEventListener("unhandledrejection", (error) => {
-    ErrorManager.unhandled(error);
+    ErrorManager.unhandled(error.reason);
 });
 
 // This is a bunch of code which ensures that the UI code is called

@@ -44,6 +44,8 @@ export class AnyError {
         return this.id;
     }
 
+    get name() { return this.id; }
+
     toString() {
         return this.id + ": " + this.message;
     }
@@ -148,7 +150,7 @@ export class ErrorManager {
      */
     unhandled(error) {
         report_manager('error', error);
-        new AnyError(error.message, 'Unhandled Error').report(error, error.stack);
+        new AnyError(error.message, `Unhandled Error (${error.name})`).report(error, error.stack);
     }
 
     /**
@@ -202,3 +204,4 @@ export class ErrorManager {
 
 ErrorManager.shared = new ErrorManager();
 export default ErrorManager.shared;
+export const HandleUnhandledPromise = (reason) => ErrorManager.shared.unhandled(reason);
