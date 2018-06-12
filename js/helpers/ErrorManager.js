@@ -15,7 +15,10 @@ if (BugsnagKey) {
         appVersion: Data.shared.envValueForKey('VERSION'),
         autoCaptureSessions: true,
         autoBreadcrumbs: true,
-        networkBreadcrumbsEnabled: true
+        networkBreadcrumbsEnabled: true,
+        beforeSend: (report) => {
+            report.user.instance_id = Data.shared.dataId;
+        }
     });
     Bugsnag.metaData = {};
 }
@@ -34,6 +37,7 @@ export class AnyError {
 
         // Stores stack trace
         this.jsError = new Error(message);
+        this.jsError.name = this.id;
     }
 
     get idString() {
@@ -52,7 +56,7 @@ export class AnyError {
         ErrorList.push(this);
         console.error(`%c${this.idString}:%c ${this.message}`, 'font-weight: 700', '', ...args);
         console.log(
-            `This error has been reported, your instance id is %c${Data.shared.dataId}%c.` +
+            `This error has been reported, your instance id is %c${Data.shared.dataId}%c.`,
             'font-family: Menlo, "Fira Mono", monospace;', ''
         );
     }
@@ -63,9 +67,10 @@ function report_manager(level, err) {
     if (err instanceof AnyError) {
         Bugsnag?.notify(
             err.jsError,
-            err.toString(),
-            {},
-            level
+            {
+                name: err.toString(),
+                severity: level
+            }
         );
     } else {
         Bugsnag?.notify(err, {
