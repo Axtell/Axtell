@@ -37,6 +37,7 @@ export class AnyError {
 
         // Stores stack trace
         this.jsError = new Error(message);
+        this.jsError.name = this.id;
     }
 
     get idString() {
@@ -64,7 +65,7 @@ export class AnyError {
 // Helper to report rollbar
 function report_manager(level, err) {
     if (err instanceof AnyError) {
-        Bugsnag?.notifyException(
+        Bugsnag?.notify(
             err.jsError,
             {
                 name: err.toString(),
