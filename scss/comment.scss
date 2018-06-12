@@ -107,7 +107,6 @@ $comment-writer-depth: 8px;
         // The right-hand side
         .comment__content {
             flex: 1;
-
         }
 
         .comment__name {
@@ -127,7 +126,9 @@ $comment-writer-depth: 8px;
 
         // 'reply' button
         .comment__reply {
-            cursor: pointer;
+            &::before {
+                background: $label-tag;
+            }
         }
 
         // The header
