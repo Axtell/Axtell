@@ -20,6 +20,11 @@ import ErrorManager, * as ErrorData from "~/helpers/ErrorManager";
 
 import Analytics, { TimingType } from "~/models/Analytics";
 
+// Manage unhandled errors through manager
+window.addEventListener("unhandledrejection", (error) => {
+    ErrorManager.unhandled(error);
+});
+
 // This is a bunch of code which ensures that the UI code is called
 // as early as possible but never before and only once.
 (function(done) {
@@ -60,8 +65,14 @@ import Analytics, { TimingType } from "~/models/Analytics";
                     Math.round(performance.now())
                 );
 
+                console.log(
+                    `🏔 Axtell: Preparing Instance %c${Data.shared.dataId}%c`,
+                    'font-family: Menlo, "Fira Mono", monospace;', ''
+                );
+
                 import("./ui")
                     .then(() => console.log("🏔 Axtell: Loaded"))
+                    .then(() => Auth.shared)
                     .catch(error => {
                         ErrorManager.unhandled(error);
                         console.log("🏔 Axtell: Error")

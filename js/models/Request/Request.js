@@ -1,4 +1,11 @@
 import axios from 'axios/dist/axios.min.js';
+import ErrorManager from '~/helpers/ErrorManager';
+
+// Get axios setup to intercept
+axios.interceptors.response.use((response) => response, (error) => {
+    ErrorManager.unhandled(error);
+    return Promise.reject(error);
+});
 
 /**
  * @typedef {Object} HTTPMethod
