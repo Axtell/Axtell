@@ -171,7 +171,7 @@ export default class CommentListViewController extends ViewController {
                 this
             );
 
-            const loadMoreButton = commentList.querySelector('.comment-item__load-more');
+            const loadMoreButton = immediateChildWithClass(this._node, 'comment-item__load-more');
             if (loadMoreButton) {
                 new LoadMoreCommentsViewController(
                     loadMoreButton,
