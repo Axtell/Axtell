@@ -1,0 +1,74 @@
+{% extends "layouts/page.html" %}
+{% from "includes/more.html" import more %}
+{% from "includes/time.html" import time %}
+
+{% block title %}Privacy{% endblock %}
+{% block content -%}
+    <div class="list-header">
+        <h1>Privacy.</h1>
+    </div>
+    <div class="list-header list-header--style-caption">
+        <h2 class="header--style-caption">Answers to your questions, tips, and other site information.</h2>
+    </div>
+    <div class="main body privacy-body">
+        <h3 class="header--nomargin-top">Overview</h3>
+        <p>
+            Note that this <em>is not</em> a legal document and the details on this page may have been abridged for brevity. This page outlines what data Axtell collects and what happens to it. Data is distinguished by two types, data you explicitly submit such as posts, comments, and answers, and tracking, data that is sent in the background. If you have any questions or feedback regarding data collection, please leave it on <a target="_blank" href="https://axtell.fider.io">axtell.fider.io</a>.
+        </p>
+
+        <h3 id="explicit-collection">Explicit Collection.</h3>
+        <p>This data can always be seen on your profile or in your user settings.</p>
+        <div class="privacy-column__wrapper">
+            <ul class="privacy-column privacy-column--type-positive">
+                <li class="privacy-column__nostyle"><h4>We do collect</h4></li>
+                <li><strong>email address</strong> for authorization.</li>
+                <li><strong>posts</strong> that you submit, i.e. challenges, answers, and comments.</li>
+                <li><strong>votes</strong> you perform are associated with your user.</li>
+            </ul>
+            <ul class="privacy-column privacy-column--type-negative">
+                <li class="privacy-column__nostyle"><h4>We never collect</h4></li>
+                <li><strong>any personally identifying information</strong></li>
+            </ul>
+        </div>
+
+        <h3 id="tracking">Tracking.</h3>
+        <p>Axtell will collect some data in the background. This outlines what data we collect</p>
+        <div class="privacy-column__wrapper">
+            <ul class="privacy-column privacy-column--type-positive">
+                <li class="privacy-column__nostyle"><h4>We do track</h4></li>
+                <li><strong>errors</strong> that occur so we can fix them.</li>
+                <li><strong>IP</strong> is stored for security and identifying sock-puppets.</li>
+                <li><strong>usage data</strong> such as view counts of posts and feature usage.</li>
+                <li><strong>speed data</strong>, specifically how much time pages took to load.</li>
+                <li><strong>device information</strong>, that is device type (mobile, desktop) and browser (Firefox, Safari, etc.)</li>
+            </ul>
+            <ul class="privacy-column privacy-column--type-negative">
+                <li class="privacy-column__nostyle"><h4>We never track</h4></li>
+                <li><strong>your demographics</strong></li>
+                <li><strong>intra-site behavior</strong></li>
+            </ul>
+        </div>
+
+        <h3 id="usage-tracking">Usage Tracking.</h3>
+        <p>Axtell tracks your usage of the website by tracking view counts and events. This data is <strong>never</strong> shared with any third-parties and usage tracking is anonymized. Certain events may also be transmitted with error tracking (e.g. if you were writing a comment while the error occured) to provide context for errors. </p>
+        <div class="privacy-column__wrapper">
+            <ul class="privacy-column privacy-column--type-positive">
+                <li class="privacy-column__nostyle"><h4>View tracking</h4></li>
+                <li><strong>URL</strong> of page visited.</li>
+                <li><strong>IP</strong> addresses of anonymous users are temporarially stored in logs.</li>
+            </ul>
+            <ul class="privacy-column privacy-column--type-positive">
+                <li class="privacy-column__nostyle"><h4>Event tracking</h4></li>
+                <li><strong>changelog</strong> how many people looked at the changelog?</li>
+                <li><strong>comments</strong> how many times did you write a comment?</li>
+                <li><strong>answers</strong> how many times did you open the 'Write Answer' dialog?</li>
+            </ul>
+        </div>
+
+        <h3 id="error-tracking">Error tracking</h3>
+        <p>Axtell performs error tracking which automatically reports any JavaScript errors which occur when you are on the page. With errors, context is also submitted being the events as described in <a href="#usage-tracking">Usage Tracking</a>. A random 'instance id' is also randomly generated and is associated with all errors reported for a given pgae. This 'instance id' is accessible from the console on the Axtell client and can be used in explicit requests to identify a given report report.</p>
+
+        <h3 id="data-sharing">Data Sharing.</h3>
+        <p><strong>None</strong>. Your data is never shared, never used for advertising, and never sold.</p>
+    </div>
+{%- endblock %}
