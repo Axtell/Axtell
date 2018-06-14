@@ -28,6 +28,9 @@ rsync --super --chmod=g+rw -rvzP "$TRAVIS_BUILD_DIR/static/css/" "$REMOTE_HOST:/
 echo "DEPLOY: CLEANING UP..."
 rm deploy/id_rsa
 
+echo "DEPLOY: JS SHASHUMS"
+shasum "$TRAVIS_BUILD_DIR/static/lib/"*.js
+
 notify_build () {
   http POST https://build.bugsnag.com/ \
     apiKey=$1 \
