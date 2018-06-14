@@ -33,7 +33,7 @@
             }
 
             + .help-header__breadcrumb {
-                $breadcrumb-chevron-space: 1.5rem;
+                $breadcrumb-chevron-space: 2rem;
                 margin-left: $breadcrumb-chevron-space;
                 &::before {
                     content: '';
@@ -46,12 +46,12 @@
                     $breadcrumb-chevron-size: 0.3rem;
                     @include square($breadcrumb-chevron-size);
 
-                    $sqrt2over2: 0.707107; // approx i.e. cos(45)
-                    $breadcrumb-actual-dim: $breadcrumb-chevron-size;
+                    $sqrt2over2: 0.707107; // approx of sin(45)
+                    $breadcrumb-actual-dim: $breadcrumb-chevron-size * $sqrt2over2; // The w/h of rotated chevron
 
                     left: -($breadcrumb-chevron-space / 2 + $breadcrumb-actual-dim);
-
                     top: 0.5rem + (1.0rem / 2) + ($breadcrumb-actual-dim / 2); // height (font / 2 + padd) - (h / 2)
+
                     vertical-align: middle;
                     transform: rotate(45deg);
                 }
