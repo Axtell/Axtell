@@ -1,6 +1,12 @@
-{% extends "layouts/page.html" %}
+{% extends "help_page.html" %}
 {% from "includes/more.html" import more %}
 {% from "includes/time.html" import time %}
+{% from "help_page.html" import breadcrumb %}
+
+{% block breadcrumbs %}
+    {{ super() }}
+    {{ breadcrumb('Privacy', url_for('help_page', path='privacy'), 'privacy') }}
+{% endblock %}
 
 {% block title %}Privacy{% endblock %}
 {% block content -%}
@@ -8,7 +14,7 @@
         <h1>Privacy.</h1>
     </div>
     <div class="list-header list-header--style-caption">
-        <h2 class="header--style-caption">Answers to your questions, tips, and other site information.</h2>
+        <h2 class="header--style-caption">What we collect, why we collect, and how long we collect.</h2>
     </div>
     <div class="main body privacy-body">
         <h3 class="header--nomargin-top">Overview</h3>
