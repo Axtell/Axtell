@@ -37,7 +37,7 @@
   }
 
   &.list-header--style-caption {
-    min-width: 300px;
+    min-width: 290px; // < 300px to fit on 320px mobile device
     width: 35%;
     max-width: 100%;
     min-height: 0;

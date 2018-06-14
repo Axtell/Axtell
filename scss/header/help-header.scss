@@ -1,0 +1,86 @@
+.help-header {
+    background: $content-bg;
+
+    box-shadow: 0 4px 8px -4px rgba($hover-mix, 0.3);
+
+    .help-header__breadcrumbs {
+        overflow: hidden;
+        font-size: 0;
+
+        .help-header__breadcrumb {
+            display: inline-block;
+            box-sizing: border-box;
+
+            $breadcrumb-vertical-padding: 0.7rem;
+            padding: $breadcrumb-vertical-padding 0.7rem;
+
+            position: relative;
+
+            $breadcrumb-font: 1.2rem;
+            font-size: $breadcrumb-font;
+            font-weight: 400;
+
+            color: $dim-text;
+
+            svg, img {
+                height: 1em;
+                vertical-align: middle;
+                fill: currentColor;
+            }
+
+            h2 {
+                font-size: 1em;
+                vertical-align: middle;
+                color: inherit;
+                font-weight: inherit;
+            }
+
+            + .help-header__breadcrumb {
+                $breadcrumb-chevron-space: 2rem;
+                margin-left: $breadcrumb-chevron-space;
+                &::before {
+                    content: '';
+                    position: absolute;
+                    border-style: solid;
+                    border-width: 1px 1px 0 0;
+                    border-color: $dim-text;
+                    display: inline-block;
+
+                    $breadcrumb-chevron-size: 0.3rem;
+                    @include square($breadcrumb-chevron-size);
+
+                    $sqrt2over2: 0.707107; // approx of sin(45)
+                    $breadcrumb-actual-dim: $breadcrumb-chevron-size * $sqrt2over2; // The w/h of rotated chevron
+
+                    left: -($breadcrumb-chevron-space / 2 + $breadcrumb-actual-dim);
+                    top: $breadcrumb-vertical-padding + ($breadcrumb-font / 2); // height (font / 2 + padd) - (h / 2)
+
+                    vertical-align: middle;
+                    transform: rotate(45deg);
+                }
+            }
+
+            transition: 0.1s background ease;
+            &:hover {
+                background: rgba($hover-mix, 0.05);
+            }
+
+            &:last-child {
+                color: $em-text;
+                font-weight: $bold-weight;
+                &::after {
+                    content: "";
+                    position: absolute;
+                    display: block;
+
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    height: 2px;
+
+                    background: $accent-color;
+                }
+            }
+        }
+    }
+}

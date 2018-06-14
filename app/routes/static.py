@@ -2,12 +2,26 @@ from app.helpers.render import render_template
 from app.models.Language import Language
 from app.server import server
 from misc import path_for_icon, default_svg
-from flask import Response, send_file, send_from_directory
+from jinja2.exceptions import TemplateNotFound
+from flask import Response, send_file, send_from_directory, abort
 
 
 @server.route("/")
 def home():
     return render_template('index.html')
+
+
+@server.route("/help")
+def help():
+    return render_template('help.html')
+
+
+@server.route("/help/<path:path>")
+def help_page(path):
+    try:
+        return render_template(f'help/{path}.html')
+    except TemplateNotFound:
+        return abort(404)
 
 
 @server.route("/lang/logo/<lang_id>.svg")

@@ -1,0 +1,20 @@
+{% extends "layouts/page.html" %}
+{% from "includes/more.html" import more %}
+{% from "includes/time.html" import time %}
+
+{% macro breadcrumb(name, url, image) -%}
+    <a class="help-header__breadcrumb" href="{{ url }}">
+        {% include 'svg/' + image + '.html' %}
+        <h2>{{ name }}</h2>
+    </a>
+{%- endmacro %}
+
+{% block header -%}
+{{ header(classes="header--transparent") }}
+<nav class="help-header">
+    <div class="content help-header__breadcrumbs">
+        {{ breadcrumb('Help Center', url_for('help'), 'help') }}
+        {% block breadcrumbs %}{% endblock %}
+    </div>
+</nav>
+{%- endblock %}
