@@ -10,11 +10,14 @@
         .help-header__breadcrumb {
             display: inline-block;
             box-sizing: border-box;
-            padding: 0.5rem 0.7rem;
+
+            $breadcrumb-vertical-padding: 0.7rem;
+            padding: $breadcrumb-vertical-padding 0.7rem;
 
             position: relative;
 
-            font-size: 1.2rem;
+            $breadcrumb-font: 1.2rem;
+            font-size: $breadcrumb-font;
             font-weight: 400;
 
             color: $dim-text;
@@ -50,7 +53,7 @@
                     $breadcrumb-actual-dim: $breadcrumb-chevron-size * $sqrt2over2; // The w/h of rotated chevron
 
                     left: -($breadcrumb-chevron-space / 2 + $breadcrumb-actual-dim);
-                    top: 0.5rem + (1.0rem / 2) + ($breadcrumb-actual-dim / 2); // height (font / 2 + padd) - (h / 2)
+                    top: $breadcrumb-vertical-padding + ($breadcrumb-font / 2); // height (font / 2 + padd) - (h / 2)
 
                     vertical-align: middle;
                     transform: rotate(45deg);
