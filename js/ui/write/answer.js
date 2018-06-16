@@ -23,6 +23,8 @@ export const ANSWER_CLOSE = document.getElementById("answer-close");
 export const ANSWER_TRIGGER = document.getElementById("write-answer");
 export const ANSWER_EDITOR = "codeeditor-template";
 
+export const ANSWER_LOADING_INDICATOR = "answer-loading-indicator";
+
 export const ANSWER_CODE_NAME = 'code';
 
 let formController;
