@@ -22,9 +22,9 @@
   .list-header { align-items: center; }
 
   .answer-form {
-    #code-container .ace_editor {
-      line-height: $code-line-size;
-      height: $code-line-size * $code-line-num;
+    #code-container .CodeMirror {
+      font-family: $monospace;
+      font-weight: 400;
     }
   }
 }

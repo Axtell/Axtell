@@ -1,16 +1,18 @@
 import Data from '~/models/Data';
 
+const cache = new Set();
+
 const LazyLoad = {
-    resource(element, callbackOrName) {
+    resource(element, url) {
         return () => new Promise((resolve, reject) => {
+            if (cache.has(url)) {
+                resolve();
+                return;
+            }
+
             element.addEventListener('load', () => {
-                if (typeof callbackOrName === 'string') {
-                    resolve(window[callbackOrName]);
-                } else if (typeof callbackOrName === 'function') {
-                    resolve(callbackOrName());
-                } else {
-                    resolve();
-                }
+                cache.add(url);
+                resolve();
             });
 
             element.addEventListener('error', (errorEvent) => {
@@ -21,18 +23,28 @@ const LazyLoad = {
         });
     },
 
-    stylesheet(url, callbackOrName) {
+    stylesheet(url) {
         return this.resource(
-            <link rel="stylesheet" href={url}/>,
-            callbackOrName
+            <link rel="stylesheet" href={url} media="none" onload="this.media='all'"/>,
+            url
         );
     },
 
-    script(url, callbackOrName) {
+    script(url) {
         return this.resource(
             <script type="text/javascript" async="true" src={url}></script>,
-            callbackOrName
-        );
+            url
+        )
+    },
+
+    resolveValue(callbackOrName) {
+        return async () => {
+            if (typeof callbackOrName === 'string') {
+                return window[callbackOrName];
+            } else if (typeof callbackOrName === 'function') {
+                return callbackOrName();
+            }
+        };
     },
 
     onceConcurrent(...asyncFns) {
@@ -83,12 +95,28 @@ const LazyLoad = {
 
 export default LazyLoad;
 
-export const jQuery = LazyLoad.once(
-    LazyLoad.script(`https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js`)
+export const jQuery =
+    LazyLoad.script(`https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js`);
+
+export const CodeMirrorTheme = (theme) => (
+    theme && theme !== 'default'
+    ? LazyLoad.stylesheet(`https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/theme/${theme}.min.css`)()
+    : LazyLoad.stylesheet(`https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.min.css`)
+);
+
+export const CodeMirrorMode = (name) =>
+    LazyLoad.script(`https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/mode/${name}/${name}.min.js`)();
+
+export const CodeMirror = LazyLoad.once(
+    CodeMirrorTheme(),
+    LazyLoad.script(`https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.min.js`),
+    LazyLoad.script(`https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/addon/display/autorefresh.min.js`),
+    LazyLoad.resolveValue('CodeMirror')
 );
 
 export const MathQuill = LazyLoad.once(
     LazyLoad.stylesheet(`https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.min.css`),
     jQuery,
-    LazyLoad.script(`https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.min.js`, () => global.MathQuill.getInterface(2))
+    LazyLoad.script(`https://cdnjs.cloudflare.com/ajax/libs/mathquill/0.10.1/mathquill.min.js`),
+    LazyLoad.resolveValue(() => global.MathQuill.getInterface(2))
 );

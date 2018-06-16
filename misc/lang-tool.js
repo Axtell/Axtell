@@ -197,8 +197,8 @@ async function viewLanguage(opts) {
     if (opts.json.tio[langId] == 0) value(`Empty`, true);
     else value(opts.json.tio[langId] || langId);
 
-    em('Ace ID: ');
-    value(idFor('ace'));
+    em('CodeMirror ID: ');
+    value(idFor('cm'));
 
     em('Highlight ID: ');
     value(idFor('highlight'));
@@ -226,7 +226,7 @@ async function addLanguage(opts) {
     console.log(`Enter \u001B[1;4m1\u001B[0m if response is same as Language ID.`);
     console.log(`Enter \u001B[1;4m0\u001B[0m if a response does not exist.`);
     let tioId = await opts.assumePrompt('TIO ID');
-    let aceId = await opts.assumePrompt('Ace Editor ID');
+    let cmId = await opts.assumePrompt('CodeMirror Editor ID');
     let hljsId = await opts.assumePrompt('Highlight.js ID');
 
     header('Logo Info');
@@ -270,8 +270,8 @@ async function addLanguage(opts) {
         opts.json.highlight[langId] = hljsId;
     }
 
-    if (aceId) {
-        opts.json.ace[langId] = aceId;
+    if (cmId) {
+        opts.json.cm[langId] = cmId;
     }
 
     if (tioId != 1) {

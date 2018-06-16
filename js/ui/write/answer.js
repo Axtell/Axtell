@@ -2,9 +2,10 @@ import LanguageLookupViewController from '~/controllers/LanguageLookupViewContro
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 import FormControllerDelegate from '~/delegate/FormControllerDelegate';
 import PopoverViewController from '~/controllers/PopoverViewController';
-import AceViewController, { AceThemeType } from '~/controllers/AceViewController';
+import CodeEditorViewController, { CodeEditorThemeType } from '~/controllers/CodeEditorViewController';
 import FormConstraint from '~/controllers/Form/FormConstraint';
 import ViewController from '~/controllers/ViewController';
+import { HandleUnhandledPromise } from '~/helpers/ErrorManager';
 import Analytics, { EventType } from '~/models/Analytics';
 import Template from '~/template/Template';
 import Language from '~/models/Language';
@@ -26,35 +27,36 @@ export const ANSWER_CODE_NAME = 'code';
 
 let formController;
 if (formController = ViewController.of(ANSWER_FORM)) {
-    // Create code language
-    let editor = new AceViewController(ANSWER_EDITOR);
-    editor.shouldValidate = false;
+    new CodeEditorViewController(ANSWER_EDITOR).then(async (editor) => {
 
-    editor.setThemeType(AceThemeType.fromTheme(Theme.current));
+        editor.shouldValidate = false;
+        editor.setThemeType(CodeEditorThemeType.fromTheme(Theme.current));
 
-    // Create lanuage identification.
-    let languageLookup = new LanguageLookupViewController(ANSWER_LANG);
-    languageLookup.delegate.didSetStateTo = Chain([
-        ActionControllerDelegate.bindValue(ANSWER_LANG_ID),
-        ActionControllerDelegate.pipeValueTo(::editor.setLanguage)
-    ]);
+        // Create lanuage identification.
+        let languageLookup = new LanguageLookupViewController(ANSWER_LANG);
+        languageLookup.delegate.didSetStateTo = Chain([
+            ActionControllerDelegate.bindValue(ANSWER_LANG_ID),
+            ActionControllerDelegate.pipeValueTo(::editor.setLanguage)
+        ]);
 
-    // Setup form validation
-    formController.addConstraints([
-        new FormConstraint(ANSWER_LANG_ID)
-            .notEmpty(`You must provide a language`)
-    ]);
+        // Setup form validation
+        formController.addConstraints([
+            new FormConstraint(ANSWER_LANG_ID)
+                .notEmpty(`You must provide a language`)
+        ]);
 
-    formController.delegate = new class extends FormControllerDelegate {
-        formDidError(controller, errors) {
-            controller.display(errors);
+        formController.delegate = new class extends FormControllerDelegate {
+            formDidError(controller, errors) {
+                controller.display(errors);
+            }
+
+            formWillSubmit(controller) {
+                super.formWillSubmit(controller);
+                controller.setFieldWithName(Buffer.from(editor.value).toString('base64'), ANSWER_CODE_NAME);
+            }
         }
 
-        formWillSubmit(controller) {
-            super.formWillSubmit(controller);
-            controller.setFieldWithName(Buffer.from(editor.value).toString('base64'), ANSWER_CODE_NAME);
-        }
-    }
+    }).catch(HandleUnhandledPromise);
 }
 
 let answerView;
