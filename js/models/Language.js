@@ -79,6 +79,7 @@ export default class Language {
         let cmName = languages.cm[this.id];
         if (!cmName) return null;
         if (cmName === 1) return this.id;
+        if (cmName === 2) return `text/x-${this.id}`;
         return cmName;
     }
 

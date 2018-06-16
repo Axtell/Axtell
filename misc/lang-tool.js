@@ -18,6 +18,7 @@ Commands:
   logo       Adds a logo for a language.
   view [id]  Obtains information about a language.
   list       List of all languages
+  edit       Prompts for a key to edit and will modify the value
 
 No arguments needed.`;
 
@@ -54,7 +55,8 @@ let command = ({
     "add": addLanguage,
     "logo": addLogo,
     "view": viewLanguage,
-    "list": listLanguages
+    "list": listLanguages,
+    "edit": editLanguage
 })[process.argv[i]];
 
 if (!command) {
@@ -86,6 +88,9 @@ async function dispatch() {
                 else resolve(response);
             });
         }),
+        listOpt: (n, value) => {
+            console.log(`\u001B[1m${n}.\u001B[0m ${value}`);
+        },
         requiredPrompt: (prompt) => new Promise((resolve) => {
             function question() {
                 rl.question(`\u001B[1m${prompt}?\u001B[0m ` , (response) => {
@@ -188,6 +193,7 @@ async function viewLanguage(opts) {
     function idFor(name) {
         let id = opts.json[name][langId];
         if (id == 1) return langId;
+        else if (id == 2) return `text/x-${langId}`;
         else if (id) return id;
         else return `\u001B[31mEmpty\u001B[0m`;
     }
@@ -210,6 +216,84 @@ async function viewLanguage(opts) {
     console.log();
 }
 
+async function editLanguage(opts) {
+    let langId = (await opts.requiredPrompt('Language ID')).toLowerCase();
+    if (!(langId in opts.json.languages)) {
+        console.log(`\u001B[31mLanguage ID \`${langId}\` doesn't exist.\u001B[0m`);
+        process.exit(1);
+    }
+
+    let lang = opts.json.languages[langId];
+    const changes = {
+        displayName: opts.json.languages[langId].display || 1,
+        cmId: opts.json.cm[langId] || 0
+    };
+
+    main:
+    while (true) {
+        header('Choose option');
+
+        opts.listOpt(0, 'Exit and review changes');
+        opts.listOpt(1, 'View current data');
+        opts.listOpt(2, 'Change display name');
+        opts.listOpt(3, 'Change code editor id');
+
+        switch (await opts.requiredPrompt('Option')) {
+            case 0: break main;
+            case 1:
+                opts.args = [langId];
+                await viewLanguage(opts);
+                break;
+
+            case 2:
+                console.log(`If \u001B[1;4m1\u001B[0m is entered, value will be language ID w/ each word capitalized.`);
+                changes.displayName = await opts.requiredPrompt('New display name');
+                break;
+
+            case 3:
+                console.log(`Enter \u001B[1;4m1\u001B[0m if response is same as Language ID.`);
+                console.log(`Enter \u001B[1;4m0\u001B[0m if a response does not exist.`);
+                console.log(`Enter \u001B[1;4m2\u001B[0m if value is \`text/x-{lang id}\`.`);
+                changes.cmId = await opts.requiredPrompt('CodeMirror Editor ID');
+                break;
+
+            default:
+                console.log(`\u001B[31mInvalid option\u001B[0m`);
+        }
+    }
+
+    if (changes.displayName == 1) {
+        delete opts.json.languages[langId].display;
+    } else {
+        opts.json.languages[langId].display = changes.displayName;
+    }
+
+    if (changes.cmId == 0) {
+        delete opts.json.cm[langId]
+    } else {
+        opts.json.cm[langId] = changes.cmId;
+    }
+
+    header(`Review changes`);
+    opts.args = [langId];
+    await viewLanguage(opts);
+
+    let res;
+    while (true) {
+        res = await opts.requiredPrompt('\u001B[33mConfirm write (yn)\u001B[0m');
+        if (res === 'y') {
+            break;
+        } else if (res === 'n') {
+            console.log(`\u001B[31mAborting and exiting...\u001B[31m`)
+            process.exit(0);
+        } else {
+            console.log(`\u001B[31mProvide either \`y\` or \`n\`\u001B[0m`);
+        }
+    }
+
+    return opts.json;
+}
+
 async function addLanguage(opts) {
     let langId = (await opts.requiredPrompt('Language ID')).toLowerCase();
 
@@ -226,6 +310,7 @@ async function addLanguage(opts) {
     console.log(`Enter \u001B[1;4m1\u001B[0m if response is same as Language ID.`);
     console.log(`Enter \u001B[1;4m0\u001B[0m if a response does not exist.`);
     let tioId = await opts.assumePrompt('TIO ID');
+    console.log(`Enter \u001B[1;4m2\u001B[0m if value is \`text/x-{lang id}\`.`);
     let cmId = await opts.assumePrompt('CodeMirror Editor ID');
     let hljsId = await opts.assumePrompt('Highlight.js ID');
 

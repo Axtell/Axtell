@@ -104,8 +104,15 @@ export const CodeMirrorTheme = (theme) => (
     : LazyLoad.stylesheet(`https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.min.css`)
 );
 
-export const CodeMirrorMode = (name) =>
-    LazyLoad.script(`https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/mode/${name}/${name}.min.js`)();
+export const CodeMirrorCLikeModes = ["text/x-csrc", "text/x-c++src", "text/x-java", "text/x-csharp", "text/x-objectivec", "text/x-scala", "text/x-vertex", "x-shader/x-fragment", "text/x-squirrel", "text/x-ceylon"];
+export const CodeMirrorMode = (name) => {
+    if (CodeMirrorCLikeModes.includes(name)) {
+        return CodeMirrorMode('clike')
+    } else {
+        const urlName = name.match(/[a-z]+$/)[0];
+        return LazyLoad.script(`https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/mode/${urlName}/${urlName}.min.js`)()
+    }
+};
 
 export const CodeMirror = LazyLoad.once(
     CodeMirrorTheme(),

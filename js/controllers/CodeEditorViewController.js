@@ -3,7 +3,7 @@ import ViewController from '~/controllers/ViewController';
 import { CodeMirror as LoadCodeMirror, CodeMirrorMode, CodeMirrorTheme } from '~/helpers/LazyLoad';
 import ErrorManager from '~/helpers/ErrorManager';
 
-export const CodeEditorModeLoadError = Symbol('CodeEditor.Error.ModeLoadF');
+export const CodeEditorModeLoadError = Symbol('CodeEditor.Error.ModeLoad');
 export const CodeEditorThemeLoadError = Symbol('CodeEditor.Error.ThemeLoad');
 export const CodeEditorLoadError = Symbol('CodeEditor.Error.Load');
 
@@ -80,9 +80,10 @@ export default class CodeEditorViewController extends ViewController {
      * @param {?Language} lang - Language object. Null if default
      */
     async setLanguage(lang) {
-        if (lang !== null) {
+        if (lang?.cmName) {
             try {
                 await CodeMirrorMode(lang.cmName); // Loads the mode
+                this._editor.setOption('mode', lang.cmName);
             } catch(error) {
                 ErrorManager.raise(
                     `Failed to load language ${lang.id} of CodeMirror name ${lang.cmName}`,
@@ -90,7 +91,6 @@ export default class CodeEditorViewController extends ViewController {
                 );
             }
 
-            this._editor.setOption('mode', lang.cmName);
         } else {
             this._editor.setOption('mode');
         }
