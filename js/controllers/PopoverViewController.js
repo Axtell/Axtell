@@ -27,7 +27,7 @@ export default class PopoverViewController extends ViewController {
 
         this._untriggerTimeout = null;
 
-        this._animationTime = this._node.dataset.animationTime || 1000; // in ms
+        this._animationTime = this._node.dataset.animationTime || 0; // in ms
 
         this._parent = template.getParent(document.body);
         this._node.classList.add("template");
