@@ -133,5 +133,14 @@
 
     <!-- Render Blocking Resources  -->
     {% include "includes/beamer.html" %}
+    {% if theme == 'dark' %}
+        <link type="text/css"
+              href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night-eighties.min.css"
+              rel="stylesheet">
+    {% else %}
+        <link type="text/css"
+              href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow.min.css"
+              rel="stylesheet">
+    {% endif %}
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@2.5.2/dist/themes/light.css" />
 {% endblock %}

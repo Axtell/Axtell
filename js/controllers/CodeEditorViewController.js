@@ -47,7 +47,7 @@ export default class CodeEditorViewController extends ViewController {
      * @type {string}
      */
     get value() {
-        return this._editor.session.getValue();
+        return this._editor.getValue();
     }
 
     /**
@@ -55,7 +55,7 @@ export default class CodeEditorViewController extends ViewController {
      * @type {string}
      */
     set value(value) {
-        return this._editor.session.setValue(value);
+        return this._editor.setValue(value);
     }
 
     /**
