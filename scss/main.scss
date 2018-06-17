@@ -1,6 +1,7 @@
 @import "mixins.scss";
 
-$collapse-width: 1100px;
+$collapse-width: 1160px;
+$sidebar-collapse: 800px;
 
 html, body {
   @include full;
@@ -96,7 +97,7 @@ body {
       min-height: 100%;
 
       aside {
-        @media screen and (max-width: 650px) {
+        @media screen and (max-width: $sidebar-collapse) {
           display: none;
         }
 

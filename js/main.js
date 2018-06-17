@@ -58,7 +58,7 @@ window.addEventListener("unhandledrejection", (error) => {
                 global.ErrorData = ErrorData;
 
                 global.AnimationController = AnimationController;
-                global.Animations = Animations;
+                global.Animation = Animation;
             }
 
             state = true;
