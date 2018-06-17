@@ -12,6 +12,7 @@ import Theme from "~/models/Theme";
 import Post from "~/models/Post";
 import Data from "~/models/Data";
 import Auth from "~/models/Auth";
+import AnimationController, { Animation } from "~/controllers/AnimationController";
 
 import Request from "~/models/Request/Request";
 import Leaderboard from "~/models/Request/Leaderboard";
@@ -55,6 +56,9 @@ window.addEventListener("unhandledrejection", (error) => {
                 global.KeyManager = KeyManager;
                 global.ErrorManager = ErrorManager;
                 global.ErrorData = ErrorData;
+
+                global.AnimationController = AnimationController;
+                global.Animations = Animations;
             }
 
             state = true;

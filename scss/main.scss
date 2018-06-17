@@ -119,7 +119,7 @@ body {
   color: white;
   text-align: center;
   font-weight: bold;
-  font-family: 'Lato';
+  font-family: $bold-font;
   font-size: 1.2em;
   background: #C22;
 }
@@ -165,3 +165,4 @@ body {
 @import "help-topics.scss";
 @import "privacy.scss";
 @import "header/help-header.scss";
+@import "swipe-menu.scss";
