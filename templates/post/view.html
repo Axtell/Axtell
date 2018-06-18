@@ -11,7 +11,6 @@
 <link property="og:url" value="{{ canonical }}">
 <link property="og:type" value="article">
 <meta name="description" value="{{ post_body|striptags|truncate(250)|e }}">
-{% include "includes/editor.html" %}
 {%- endblock %}
 
 {% block title %}{{ post.title|e }}{% endblock %}
@@ -169,4 +168,5 @@
 <script>var {{ data_id }}id='{{ post.id }}';</script>
 {{ super() }}
 {% include "includes/answer-box.html" %}
+{% include "includes/swipe-menu.html" %}
 {% endblock %}

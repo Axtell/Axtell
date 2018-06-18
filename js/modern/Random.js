@@ -11,7 +11,7 @@ export default class Random {
 
     static ofLength(length) {
         // Generate random bytes
-        const bytes = new Uint8Array(length);
+        const bytes = new Uint8Array(Math.ceil(length / 2));
 
         if (crypto) {
             crypto.getRandomValues(bytes);
@@ -22,7 +22,14 @@ export default class Random {
         let outStr = "";
 
         for (let i = 0; i < bytes.length; i++) {
-            if (bytes[i] <= 0xF) outStr += '0';
+            if (i === bytes.length - 1 && length % 2 === 1) {
+                outStr += bytes[i].toString(0x10)[0];
+                break;
+            }
+
+            if (bytes[i] <= 0xF) {
+                outStr += '0';
+            }
             outStr += bytes[i].toString(0x10);
         }
 

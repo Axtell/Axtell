@@ -26,6 +26,13 @@ export const Animation = anims([
         styles: new Map([
             ['height', (e) => `${e.scrollHeight}px`]
         ])
+    }),
+    anim('swipe-menu', ['activate'], {
+        time: 101,
+        styles: new Map([
+            ['left', (e) => `${e.scrollX}px`],
+            ['top', (e) => `${e.scrollY}px`],
+        ])
     })
 ]);
 

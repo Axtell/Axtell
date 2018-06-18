@@ -1,6 +1,5 @@
 import Data from '~/models/Data';
 import Request from '~/models/Request/Request';
-import entities from 'entities';
 
 /**
  * Talks to SE API
@@ -97,6 +96,7 @@ export default class StackExchangege {
             filter: '!5RCKNP5Mc6Rvk2i(0CxGveeZ-' // This is from the SE api explorer
         });
 
+        const entities = await import('entities');
         results.forEach(obj => {
             obj.title = entities.decodeHTML(obj.title);
             obj.body_markdown = entities.decodeHTML(obj.body_markdown);

@@ -52,7 +52,7 @@ $nav-padding: 1em;
       display: none;
     }
 
-    @media screen and (max-width: 530px) {
+    @media screen and (max-width: $sidebar-collapse) {
       .r-collapse {
         display: none;
       }

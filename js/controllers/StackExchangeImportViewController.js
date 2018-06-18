@@ -7,7 +7,6 @@ import Theme from '~/models/Theme';
 import Post from '~/models/Request/Post';
 
 import removeMarkdown from 'remove-markdown';
-import entities from 'entities';
 
 function styleName(name) {
     return `create-post__StackExchangeImport__${name}`;

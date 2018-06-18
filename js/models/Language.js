@@ -72,14 +72,15 @@ export default class Language {
     }
 
     /**
-     * Ace-editor lang def file name.
+     * CodeMirror-editor lang def file name.
      * @type {?string}
      */
-    get aceName() {
-        let aceName = languages.ace[this.id];
-        if (!aceName) return null;
-        if (aceName === 1) return this.id;
-        return aceName;
+    get cmName() {
+        let cmName = languages.cm[this.id];
+        if (!cmName) return null;
+        if (cmName === 1) return this.id;
+        if (cmName === 2) return `text/x-${this.id}`;
+        return cmName;
     }
 
     /**

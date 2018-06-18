@@ -11,7 +11,9 @@ import Language from "~/models/Language";
 import Theme from "~/models/Theme";
 import Post from "~/models/Post";
 import Data from "~/models/Data";
+import Random from "~/modern/Random";
 import Auth from "~/models/Auth";
+import AnimationController, { Animation } from "~/controllers/AnimationController";
 
 import Request from "~/models/Request/Request";
 import Leaderboard from "~/models/Request/Leaderboard";
@@ -49,12 +51,17 @@ window.addEventListener("unhandledrejection", (error) => {
                 global.Data = Data;
                 global.Auth = Auth;
 
+                global.Random = Random;
+
                 global.Request = Request;
                 global.Leaderboard = Leaderboard;
 
                 global.KeyManager = KeyManager;
                 global.ErrorManager = ErrorManager;
                 global.ErrorData = ErrorData;
+
+                global.AnimationController = AnimationController;
+                global.Animation = Animation;
             }
 
             state = true;
