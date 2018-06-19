@@ -9,7 +9,7 @@ $nav-padding: 1em;
 
   background: $header-bg;
 
-  box-shadow: 0 2px 8px -1px rgba($hover-mix, 0.3);
+  box-shadow: 0 2px 8px -1px rgba($shadow-mix, 0.3);
 
   &.header--transparent {
     box-shadow: none;
