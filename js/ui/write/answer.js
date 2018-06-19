@@ -21,7 +21,7 @@ export const ANSWER_LANG_ID = "lang-id";
 export const ANSWER_LANG = document.getElementById("lang-input");
 export const ANSWER_CLOSE = document.getElementById("answer-close");
 export const ANSWER_TRIGGER = document.getElementById("write-answer");
-export const ANSWER_EDITOR = "codeeditor-template";
+export const ANSWER_EDITOR = document.getElementById("codeeditor-template");
 
 export const ANSWER_LOADING_INDICATOR = "answer-loading-indicator";
 
@@ -84,8 +84,4 @@ if (ANSWER_TRIGGER) {
         },
         ANSWER_CLOSE
     );
-} else {
-    if (answerView = document.getElementById(ANSWER_VIEW)) {
-        answerView.parentNode.removeChild(answerView);
-    }
 }
