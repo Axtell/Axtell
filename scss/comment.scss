@@ -192,7 +192,7 @@ $comment-writer-depth: 8px;
 
     background: $content-bg;
     border-radius: $comment-writer-depth;
-    box-shadow: 0 $comment-writer-depth/2 $comment-writer-depth (-$comment-writer-depth/2) rgba($hover-mix, 0.2);
+    box-shadow: 0 $comment-writer-depth/2 $comment-writer-depth (-$comment-writer-depth/2) rgba($shadow-mix, 0.2);
     overflow: visible;
 
     h5 {

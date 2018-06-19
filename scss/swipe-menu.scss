@@ -5,7 +5,7 @@
 
 $swipe-menu-radius: 16px;
 .swipe-menu {
-    box-shadow: 0 4px 24px rgba($hover-mix, 0.4);
+    box-shadow: 0 4px 24px rgba($shadow-mix, 0.4);
     border-radius: $swipe-menu-radius $swipe-menu-radius 0 0;
     background: $content-bg;
     position: fixed;

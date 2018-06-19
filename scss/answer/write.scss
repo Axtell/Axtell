@@ -16,7 +16,7 @@
   justify-content: flex-start;
   box-sizing: border-box;
 
-  box-shadow: 0 -32px 64px rgba(120, 111, 143, 0.26), 0 -16px 32px rgba(92, 87, 105, 0.16);
+  box-shadow: 0 -32px 64px rgba($shadow-mix, 0.26), 0 -16px 32px rgba($shadow-mix, 0.16);
   border-top: 1px solid $popover-border;
 
   .list-header { align-items: center; }
