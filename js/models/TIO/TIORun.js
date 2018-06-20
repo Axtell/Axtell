@@ -7,7 +7,7 @@ import Random from '~/modern/Random';
 export const TIO_API_ENDPOINT = "https://tio.run/cgi-bin/run/api/";
 
 // Width of IDs
-export const TIO_ID_WIDTH = 16;
+export const TIO_ID_WIDTH = 32;
 
 // No indice in range
 export const NoIndice = Symbol('TIO.TIORunError.NoIndice');
