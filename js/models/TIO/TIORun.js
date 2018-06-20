@@ -25,7 +25,7 @@ export default class TIORun {
         this.code = code;
         this.language = language;
 
-        this.token = Random.ofLength(16);
+        this.token = Random.ofLength(TIO_ID_WIDTH);
     }
 
     /**
