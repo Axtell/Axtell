@@ -23,4 +23,4 @@ def get_profile(user_id):
     if user is None:
         return render_error('user not found'), 400
     else:
-        return render_json(user.to_json())
+        return render_json(user.to_json(bio=True))

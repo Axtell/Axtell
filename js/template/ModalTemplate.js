@@ -21,7 +21,20 @@ export default class ModalTemplate extends Template {
         super(root, type);
 
         this._title = title;
+        this._subtitle = null;
     }
+
+    /**
+     * Obtains subtitle or nil
+     * @type {?string}
+     */
+    get subtitle() { return this._subtitle; }
+
+    /**
+     * Sets the subtitle (note: may not update until re-created)
+     * @type {string}
+     */
+    set subtitle(newSubtitle) { this._subtitle = newSubtitle; }
 
     /**
      * Returns shared instance, only applicable for subclasses
@@ -33,9 +46,7 @@ export default class ModalTemplate extends Template {
 
     /**
      * Returns the modal title
-     * @return {string} the modal title.
+     * @type {string}
      */
-    getTitle() {
-        return this._title;
-    }
+    get title() { return this._title; }
 }

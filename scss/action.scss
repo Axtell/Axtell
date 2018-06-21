@@ -8,7 +8,7 @@ li.action {
   padding: 4px 8px;
 
   // This is the box that will light up on hover
-  .action-root {
+  .action__root {
     cursor: pointer;
 
     display: block;
@@ -31,7 +31,7 @@ li.action {
   }
 
   // Wraps the svg, etc.
-  .action-rel {
+  .action__rel {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -48,18 +48,18 @@ li.action {
     }
 
     // Allows for title + desc
-    .action-desc {
+    .action__desc {
       display: flex;
       flex-direction: column;
     }
 
     // The title of the action
-    .title {
+    .action__title {
       font-size: 15px;
     }
 
     // A 'dim' text. i.e. description
-    .dim {
+    .action__desc--dim {
       color: $label-tag;
       font-weight: 300;
       font-size: 12px;
@@ -79,9 +79,9 @@ li.seperator {
 }
 
 @mixin action-theme($name, $color) {
-  $vote-style-class: ".action.-#{$name}";
+  $vote-style-class: ".action.action--color-#{$name}";
 
-  #{$vote-style-class}, #{$vote-style-class} .title {
+  #{$vote-style-class}, #{$vote-style-class} .action__title {
     color: $color;
     fill: $color;
 

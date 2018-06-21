@@ -4,7 +4,10 @@ import * as MarkdownControls from '~/controllers/MarkdownControls';
 
 import WriteComment from '~/models/Request/WriteComment';
 import Analytics, { EventType } from '~/models/Analytics';
+import KeyManager from '~/models/KeyManager';
+import Comment from '~/models/Comment';
 import Answer from '~/models/Answer';
+import Auth from '~/models/Auth';
 import Post from '~/models/Post';
 import Data from '~/models/Data';
 
@@ -23,7 +26,7 @@ export default class WriteCommentViewController extends ViewController {
     /**
      * Creates the write commemt button
      * @param {HTMLElement} button The <a> init tag.
-     * @param {Post|Answer} owner The owner
+     * @param {Post|Answer|Comment} owner The owner
      * @param {CommentListViewController} parentList The list view which to place comment in.
      */
     constructor(button, owner, parentList) {
@@ -48,6 +51,8 @@ export default class WriteCommentViewController extends ViewController {
             </div>
         );
 
+        this._keyBinding = null;
+
         // Setup markdown
         new MarkdownViewController(this._commentText, [
             new MarkdownControls.MarkdownBoldControl(),
@@ -57,7 +62,7 @@ export default class WriteCommentViewController extends ViewController {
 
         this._displayingWritingBox = false;
 
-        /** @type {Post|Answer} */
+        /** @type {Post|Answer|Comment} */
         this.owner = owner;
 
         /** @type {CommentListViewController} */
@@ -86,16 +91,19 @@ export default class WriteCommentViewController extends ViewController {
 
         this.toggleState();
 
-        let type = this.owner.endpoint;
-        let instance = this.parentList.createLoadingInstance("Posting comment...");
+        const type = this.owner instanceof Comment ? this.owner.type : this.owner.endpoint;
+        const sourceId = this.owner instanceof Comment ? this.owner.sourceId : this.owner.id;
+        const instance = this.parentList.createLoadingInstance("Posting comment...");
+        const parentComment = this.owner instanceof Comment ? this.owner.id : null;
 
         Analytics.shared.report(EventType.commentWrite(this.owner));
 
         try {
             let commentPost = new WriteComment({
                 type: type,
-                id: this.owner.id,
-                value: text
+                id: sourceId,
+                value: text,
+                parentComment: parentComment
             });
 
             const comment = await commentPost.run();
@@ -104,7 +112,7 @@ export default class WriteCommentViewController extends ViewController {
             this._commentText.value = "";
 
             await instance.destroy();
-            this.parentList.createCommentInstance(comment);
+            await this.parentList.createCommentInstance(comment);
         } catch (error) {
             // TODO: handle error
             let errorMessage = {
@@ -120,18 +128,39 @@ export default class WriteCommentViewController extends ViewController {
         }
     }
 
+    _submitHandler = null;
     /**
      * Toggles between writing box and "add comment" dialogue.
      */
-    toggleState() {
+    async toggleState() {
         if (this._displayingWritingBox) {
-            Analytics.shared.report(EventType.commentWriteOpen(this.owner));
+            Analytics.shared.report(EventType.commentWriteClose(this.owner));
             this._writingBox.parentNode.replaceChild(this._node, this._writingBox);
             this._displayingWritingBox = false;
+
+            this._keyBinding?.();
+            this._keyBinding = null;
+
+            this._submitHandler?.();
         } else {
-            Analytics.shared.report(EventType.commentWriteClose(this.owner));
+
+            // When we try to display box
+            const auth = await Auth.shared;
+            if (!await auth.ensureLoggedIn()) return;
+
+            Analytics.shared.report(EventType.commentWriteOpen(this.owner));
             this._node.parentNode.replaceChild(this._writingBox, this._node);
             this._displayingWritingBox = true;
+            this._commentText.focus();
+
+            this._keyBinding = KeyManager.shared.register('Escape', () => {
+                this.toggleState();
+            });
+
+            this._submitHandler?.();
+            this._submitHandler = KeyManager.shared.registerMeta('Enter', () => {
+                this.submit();
+            });
         }
     }
 }

@@ -15,12 +15,16 @@ const googleTrigger = document.getElementById("am-pgoogle");
  * @extends {ModalTemplate}
  */
 export default class AuthModalTemplate extends ModalTemplate {
-    /** @override */
-    constructor() {
+    /**
+     * @param {?string} subtitle - Some description explaining why opened
+     */
+    constructor(subtitle = null) {
         super(
-            "Login or Signup",
+            "Login or Signup.",
             Template.fromId("ammd-auth", TemplateType.move)
         );
+
+        this.subtitle = subtitle;
     }
 
     /** @override */

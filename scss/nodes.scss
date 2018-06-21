@@ -1,4 +1,5 @@
 a {
+  cursor: pointer;
   text-decoration: none;
 
   &.title {
@@ -28,6 +29,30 @@ h1, h2, h3, h4, h5, h6 {
   font-family: $bold-font;
   margin: 0;
   display: inline-block;
+
+  &.header--style-caption {
+    color: $subtitle-text;
+    font-weight: 400;
+    font-size: 1.1rem;
+  }
+
+  &.header--accent-line {
+    position: relative;
+
+    &::before {
+      $accent-line-height: 3px;
+
+      position: absolute;
+      content: "";
+      display: block;
+      left: 0;
+      bottom: -2px - $accent-line-height;
+      height: $accent-line-height;
+      width: $accent-line-height / 1px * 1rem;
+      border-radius: $accent-line-height / 2;
+      background: $accent-color;
+    }
+  }
 
   a {
     color: inherit;
@@ -65,10 +90,12 @@ pre, pre.hljs, .body pre {
 
   color: $code-block-fg;
 
+  box-shadow: 0 4px 16px -8px rgba($shadow-mix, 0.5);
+
   background: $code-block-bg;
   padding: 0;
   box-sizing: border-box;
-  border-radius: 3px;
+  border-radius: 8px;
   border-left: 8px solid $code-block-indent;
 
   code {
@@ -110,8 +137,8 @@ hr {
 }
 
 .body {
-  overflow: auto;
   color: $main-text;
+  font-size: 16px;
 
   @import "body.scss";
 }

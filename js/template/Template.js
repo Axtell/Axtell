@@ -14,12 +14,17 @@ export default class Template {
         if (root instanceof Template) {
             this._root = root._root;
             this._type = root._type;
+        } else if (typeof root === 'string') {
+            this._root = document.getElementById(root);
+            this._type = type;
         } else {
             this._root = root;
             this._type = type;
         }
 
         this._parent = this._root.parentNode;
+
+        this._hasLoaded = false;
     }
 
     /**
@@ -94,15 +99,29 @@ export default class Template {
      * Called right before the view will appear on screen
      */
     willLoad() {
+        this._hasLoaded = true;
         void 0;
     }
 
     /**
+     * Called before disappearing
+     */
+    willUnload() { void 0; }
+
+    /**
+     * Called when disappeared
+     */
+    didUnload() { void 0; }
+
+    /**
      * Loads the template in a context
      * @param {HTMLElement} parent - Will be appended to this node.
+     * @param {boolean} allowDupliacte If should allow to be loaded multiple times
      * @return {HTMLElement} rendered element
      */
-    loadInContext(parent) {
+    loadInContext(parent, allowDuplicate = true) {
+        if (!allowDuplicate && this._hasLoaded) return;
+
         let elem = this.unique();
         this.willLoad();
         parent.appendChild(elem);

@@ -20,7 +20,7 @@ echo "DEPLOY: UPDATING GIT"
 ssh -o "StrictHostKeyChecking no" "$REMOTE_HOST" 'bash -s' < deploy/update.bash
 
 echo "DEPLOY: UPLOADING JS"
-rsync --super --chmod=g+rw -vzP "$TRAVIS_BUILD_DIR/static/lib/main.js" "$REMOTE_HOST:/var/www/ppcg-v2/static/lib/main.js"
+rsync --super --chmod=g+rw -rvzP "$TRAVIS_BUILD_DIR/static/lib/" "$REMOTE_HOST:/var/www/ppcg-v2/static/lib"
 
 echo "DEPLOY: UPLOADING CSS"
 rsync --super --chmod=g+rw -rvzP "$TRAVIS_BUILD_DIR/static/css/" "$REMOTE_HOST:/var/www/ppcg-v2/static/css"
@@ -28,17 +28,38 @@ rsync --super --chmod=g+rw -rvzP "$TRAVIS_BUILD_DIR/static/css/" "$REMOTE_HOST:/
 echo "DEPLOY: CLEANING UP..."
 rm deploy/id_rsa
 
-echo "NOTIFIYING ROLLBAR DEPLOY..."
-curl https://api.rollbar.com/api/1/deploy/ \
-  -F access_token=$ROLLBAR_SERVER_ACCESS_TOKEN \
-  -F environment=production \
-  -F revision=$(git rev-parse @) \
-  -F "local_username=$(git show -s --format='%an')" \
-  -F "comment=$(git show -s --format='%s' @)"
+echo "DEPLOY: JS SHASHUMS"
+shasum "$TRAVIS_BUILD_DIR/static/lib/"*.js
 
-echo "SUBMITTING ROLLBAR SOURCEMAP..."
-curl https://api.rollbar.com/api/1/sourcemap \
-  -F access_token=$ROLLBAR_SERVER_ACCESS_TOKEN \
-  -F version=$(git rev-parse @) \
-  -F minified_url=https://axtell.vihan.org/static/lib/main.js \
-  -F source_map=@static/lib/main.js.map
+notify_build () {
+  http POST https://build.bugsnag.com/ \
+    apiKey=$1 \
+    appVersion=$(git rev-parse @) \
+    releaseStage=production \
+    builderName=$(git show -s --format='%an') \
+    sourceControl:="{
+      \"provider\": \"github\",
+      \"repository\": \"https://github.com/$TRAVIS_REPO_SLUG\",
+      \"revision\": \"$(git rev-parse @)\"
+    }" \
+    metadata:="{\"build_server\": \"travis\", \"build_job\": \"$TRAVIS_JOB_NUMBER\"}"
+}
+
+echo "NOTIFIYING FRONTEND BUGSNAG BUILD..."
+notify_build $BUGSNAG_FRONTEND_API_KEY
+
+echo "NOTIFIYING BACKEND BUGSNAG BUILD..."
+notify_build $BUGSNAG_BACKEND_API_KEY
+
+for js_source in static/lib/axtell~*.js; do
+  JS_SOURCES+=(https://axtell.vihan.org/$js_source@$js_source)
+done
+
+echo "SUBMITTING FRONTEND BUGSNAG SOURCEMAP..."
+http -f POST https://upload.bugsnag.com/ \
+  apiKey=$BUGSNAG_FRONTEND_API_KEY \
+  appVersion=$(git rev-parse @) \
+  minifiedUrl=https://axtell.vihan.org/static/lib/axtell.main.js \
+  minifiedFile@static/lib/axtell.main.js \
+  sourceMap@static/lib/axtell.main.js.map \
+  "${JS_SOURCES[@]}"

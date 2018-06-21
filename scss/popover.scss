@@ -1,0 +1,56 @@
+.popover {
+  $arrow-size: 12px;
+
+  outline: none;
+  position: absolute;
+  z-index: 1;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 50px 100px rgba(50, 50, 93, .1), 0 15px 35px rgba(50, 50, 93, .2), 0 5px 15px rgba(0, 0, 0, .1);
+  padding: 0.25em 0;
+  right: 2em;
+  background: $popover-bg;
+  margin-top: $arrow-size;
+
+  top: 100%;
+
+  .popover__close {
+    display: none;
+
+    width: 100%;
+    text-align: center;
+    color: $theme-color;
+    padding: 4px 0;
+    font-size: 16px;
+
+    svg {
+      height: .9em;
+      fill: $theme-color;
+      margin-right: 4px;
+      vertical-align: middle;
+    }
+
+    span {
+      vertical-align: middle;
+    }
+
+    @media screen and (max-width: 530px) {
+      display: block;
+    }
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: -$arrow-size;
+    right: 12px;
+    border-style: solid;
+    border-width: 0 $arrow-size $arrow-size $arrow-size;
+    border-color: $popover-bg transparent;
+  }
+}
+
+// For elements containing a popover
+.popover__container {
+  position: relative;
+}

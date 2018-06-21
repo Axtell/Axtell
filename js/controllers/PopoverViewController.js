@@ -1,6 +1,8 @@
 import ViewController from '~/controllers/ViewController';
 import KeyManager from '~/models/KeyManager';
 
+export const c = 'popvc__untrigger';
+
 /**
  * Controls a popover view. This has a trigger and a target. When the trigger is
  * pressed, this displays the target.
@@ -14,12 +16,18 @@ export default class PopoverViewController extends ViewController {
      * @param {?HTMLElement} [untrigger=document] element to untrigger.
      */
     constructor(root, trigger, template, untrigger = document) {
-        super(root);
+        const instance = template.unique();
+        super(instance);
 
         this._trigger = trigger;
-        this._node = template.unique();
+        this._template = template;
+        this._node = instance;
 
         this._isActive = false;
+
+        this._untriggerTimeout = null;
+
+        this._animationTime = this._node.dataset.animationTime || 0; // in ms
 
         this._parent = template.getParent(document.body);
         this._node.classList.add("template");
@@ -29,6 +37,11 @@ export default class PopoverViewController extends ViewController {
         }
 
         this._keyBinding = null;
+
+        const untriggers = this._node.getElementsByClassName('popvc__untrigger');
+        for (const localUntrigger of untriggers) {
+            this.bindUntrigger(localUntrigger);
+        }
 
         // Setup hide trigger
         untrigger?.addEventListener("click", (event) => {
@@ -78,24 +91,48 @@ export default class PopoverViewController extends ViewController {
      * Sets into an active state
      */
     trigger() {
+        this._template.willLoad();
+
         this._isActive = true;
-        this._trigger.classList.add("state-active");
+
+        if (this._untriggerTimeout) {
+            clearTimeout(this._untriggerTimeout);
+        }
+
         this._node.classList.remove("template");
+        window.setTimeout(() => {
+            this._node.classList.add("template--active");
+        });
+        this._trigger.classList.add("state-active");
+
         this._node.focus();
 
         this._keyBinding = KeyManager.shared.register('Escape', () => {
             this.untrigger();
         });
+
+        this._template.didLoad();
     }
 
     /**
      * Sets into inactive state.
      */
     untrigger() {
+        this._template.willUnload();
+
         this._isActive = false;
+
         this._trigger.classList.remove("state-active");
-        this._node.classList.add("template");
+        this._node.classList.remove("template--active");
+
+        this._untriggerTimeout = setTimeout(() => {
+            this._untriggerTimeout = null;
+            this._node.classList.add("template");
+        }, this._animationTime);
+
         this._keyBinding?.();
         this._keyBinding = null;
+
+        this._template.didUnload();
     }
 }

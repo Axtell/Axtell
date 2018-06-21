@@ -15,7 +15,7 @@ export default class LanguageTemplate extends Template {
                 { language.icon() }
                 <div class="lang-info">
                     <span class="lang-name">{ language.displayName }</span>
-                    <span class="lang-desc">{ language.displayName } { language.tioId ? "supports": "does not support" } TIO.</span>
+                    <span class="lang-desc">{ language.displayName } { language.tioId ? " supports": " does not support" } TIO.</span>
                 </div>
             </div>
         );

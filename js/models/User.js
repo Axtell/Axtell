@@ -16,11 +16,18 @@ export default class User {
      * @param {Object} options other options
      * @param {?string} options.avatar avatar URL
      */
-    constructor(id, name, { avatar = null } = {}) {
+    constructor(id, name, {
+        avatar = null,
+        postCount = null,
+        answerCount = null
+    } = {}) {
         this._id = id;
         this._name = name;
 
         this._avatar = avatar;
+
+        this._postCount = postCount;
+        this._answerCount = answerCount;
     }
 
     /** @type {number} */
@@ -35,6 +42,15 @@ export default class User {
 
     /** @type {string} */
     get avatar() { return this._avatar; }
+
+    /** @type {?number} */
+    get postCount() { return this._postCount; }
+
+    /** @type {?number} */
+    get answerCount() { return this._answerCount; }
+
+    /** @type {string} */
+    get profilePage() { return `/users/${this.id}/${this.name}`; }
 
     /**
      * Unwraps a user from an API JSON object.
@@ -51,9 +67,24 @@ export default class User {
             json.id,
             json.name,
             {
-                avatar: json.avatar
+                avatar: json.avatar,
+                postCount: json.post_count,
+                answerCount: json.answer_count,
             }
         );
+    }
+
+    /**
+     * Converts to json
+     * @return {Object} json object
+     */
+    toJSON() {
+        return {
+            type: 'user',
+            id: this.id,
+            name: this.name,
+            avatar: this.avatar
+        };
     }
 
     /** @type {number} */

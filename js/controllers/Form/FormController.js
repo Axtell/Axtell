@@ -4,6 +4,8 @@ import FormControllerDelegate from '~/delegate/FormControllerDelegate';
 
 import Request from '~/models/Request/Request';
 
+export const FORM_VALIDATION_FAILED = 'form-validation--state-error';
+
 /**
  * Performs really basic form validation
  */
@@ -104,7 +106,10 @@ export default class FormController extends ViewController {
      * Hides error displays
      */
     clearDisplays() {
-        this._displays.forEach(el => el.parentNode.removeChild(el));
+        this._displays.forEach(el => {
+            el.parentNode.classList.remove(FORM_VALIDATION_FAILED);
+            el.parentNode.removeChild(el)
+        });
         this._displays = [];
     }
 
@@ -131,23 +136,14 @@ export default class FormController extends ViewController {
             let target = node;
             let parent = node.parentNode;
 
-            // Check if there is a label for the elem
-            let labels = node.labels;
-            if (labels && labels.length >= 1) {
-                target = labels[0].nextElementSibling;
-                parent = labels[0].parentNode;
-            }
+            parent.classList.add(FORM_VALIDATION_FAILED);
 
-            let errorList = document.createElement('ul');
-            errorList.className = "form-errors";
-            for (let i = 0; i < errors.length; i++) {
-                let errorEl = document.createElement('li');
-                errorEl.appendChild(document.createTextNode(errors[i]));
-                errorList.appendChild(errorEl);
-            }
-            displays.push(errorList);
-
-            parent.insertBefore(errorList, target);
+            parent.insertBefore(
+                <ul class="form-validation__error_list">
+                    { errors.map(error => <li class="form-validation__error">{ error }</li>) }
+                </ul>,
+                node.nextSibling
+            );
         }
 
         this._displays = displays;

@@ -19,30 +19,29 @@ class PostComment(db.Model):
     post = db.relationship('Post', backref='comments')
     parent = db.relationship('PostComment', backref='children', remote_side=[id])
 
-    def type(self):
-        return 'post'
-
-    def to_json(self):
+    def to_json(self, show_children=True, show_parent=False):
         data = {
             'id': self.id,
+            'ty': 'post',
+            'source_id': self.post_id,
             'text': self.text,
             'date': self.date_created.isoformat(),
             'owner': self.user.to_json(),
             'parent': self.parent and self.parent.to_json(),
-            'children': [child.to_json() for child in self.children],
+            'children': show_children and [child.to_json(show_parent=show_parent) for child in self.children],
             'deleted': self.deleted
         }
 
         return data
 
-    def comment_tree(self, nest_depth=None):
+def comment_tree(self, nest_depth=None):
         if len(self.children) == 0:
             return self
         if nest_depth is None:
-            return [self, [child.comment_tree() for child in self.children]]
+            return [self, [child.comment_tree() for child in self.children if child.deleted == False]]
         else:
             if nest_depth > 1:
-                return [self, [child.comment_tree(nest_depth-1) for child in self.children]]
+                return [self, [child.comment_tree(nest_depth-1) for child in self.children if child.deleted == False]]
 
     def __repr__(self):
         return '<PostComment(%r) by %r>' % (self.id, self.user.name)

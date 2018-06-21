@@ -6,13 +6,11 @@
 {% block head -%}
 {{ super() }}
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400i" rel="stylesheet">
-{% set canonical = opts.canonical_host + url_for('get_post', post_id=post_id) %}
+{% set canonical = opts.canonical_host + url_for('get_post', post_id=post_id, title=macros.slugify(post.title)) %}
 <link rel="canonical" href="{{ canonical }}">
 <link property="og:url" value="{{ canonical }}">
 <link property="og:type" value="article">
-<link property="og:title" value="{{ post.title|e }}">
-<meta name="description" value="{{ macros.text_preview(post.body)|e }}">
-{% include "includes/editor.html" %}
+<meta name="description" value="{{ post_body|striptags|truncate(250)|e }}">
 {%- endblock %}
 
 {% block title %}{{ post.title|e }}{% endblock %}
@@ -30,7 +28,23 @@
         {% set vote_status = vote.get_post_vote(post.id) %}
         {{ votebuttons(vote_status, post.user == g.user) }}
     </div>
-    {{ userbox(post.user, post.date_created, vtight=true) }}
+    <div class="post-details">
+        {{ userbox(post.user, post.date_created, classes="post-detail-item") }}
+        {% if post.ppcg_id is not none -%}
+        <a class="import-indicator post-detail-item" href="https://codegolf.stackexchange.com/questions/{{ post.ppcg_id }}">
+            <span class="import-indicator__icon">
+                <img src="/static/img/ppcg-logo.svg"/>
+            </span>
+            <div class="import-indicator__desc">
+                <span class="import-indicator__verb">Imported From</span>
+                <span class="import-indicator__source">PPCG</span>
+            </div>
+            <span class="import-indicator__chevron">
+                {% include "svg/right-caret.html" %}
+            </span>
+        </a>
+        {%- endif %}
+    </div>
     {{ commentList(post_comments) }}
 </div>
 <hr class="big">
@@ -72,7 +86,9 @@
                     {% set vote_status = vote.get_answer_vote(answer.id) %}
                     {{ votebuttons(vote_status, answer.user == g.user) }}
                 </div>
-                {{ userbox(answer.user, answer.date_created, small=true, htight=true, vtight=true) }}
+                <div class="post-details post-details--nopad-horizontal">
+                    {{ userbox(answer.user, answer.date_created, classes="post-detail-item") }}
+                </div>
                 {{ commentList(answer_comments[loop.index - 1]) }}
             </li>
         {% endfor %}
@@ -152,4 +168,5 @@
 <script>var {{ data_id }}id='{{ post.id }}';</script>
 {{ super() }}
 {% include "includes/answer-box.html" %}
+{% include "includes/swipe-menu.html" %}
 {% endblock %}

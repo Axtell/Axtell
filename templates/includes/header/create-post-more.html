@@ -1,0 +1,23 @@
+<div id="create-post__more" class="popover template">
+    <a class="popover__close popvc__untrigger">
+        {% include "svg/close.html" %}
+        <span>close</span>
+    </a>
+
+    <ul class="action-list">
+        <li class="action action--color-blue">
+            <a id="create-post__StackExchangeImport__trigger" class="action__root action__rel">
+                {% include "svg/stackexchange-bare.html" %}
+                <div class="action__desc">
+                    <span class="action__title">From PPCG</span>
+                    <p class="action__desc--dim">Import a challenge from Programming Puzzles &amp; Code Golf.</p>
+                </div>
+            </a>
+            <div id="create-post__StackExchangeImport" class="template">
+                <span class="body create-post__StackExchangeImport__instruction">
+                    First, <a id="create-post__StackExchangeImport__login">login</a> to Stack Exchange to access the importer.
+                </span>
+            </div>
+        </li>
+    </ul>
+</div>

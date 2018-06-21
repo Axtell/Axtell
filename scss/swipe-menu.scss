@@ -1,0 +1,75 @@
+.swipe-menu { display: none; }
+@media screen and (max-width: $sidebar-collapse) {
+  .swipe-menu { display: block; }
+}
+
+$swipe-menu-radius: 16px;
+.swipe-menu {
+    box-shadow: 0 4px 24px rgba($shadow-mix, 0.4);
+    border-radius: $swipe-menu-radius $swipe-menu-radius 0 0;
+    background: $content-bg;
+    position: fixed;
+    bottom: 0;
+    left: 8px;
+    right: 8px;
+}
+
+$swipe-menu-hidden-height: 3.5rem;
+.swipe-menu__header {
+    position: relative;
+    &::before {
+        $swipe-menu-bar-height: 4px;
+        $swipe-menu-bar-width: 20%;
+        content: "";
+        position: absolute;
+        top: 4px;
+        margin: 0 auto;
+        height: $swipe-menu-bar-height;
+        width: $swipe-menu-bar-width;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba($hover-mix, 0.2);
+        border-radius: $swipe-menu-bar-height / 2;
+    }
+
+    height: $swipe-menu-hidden-height;
+    overflow-y: hidden;
+
+    display: flex;
+    flex-direction: row;
+
+    .swipe-menu__header__choice {
+        flex: 1;
+
+        color: $accent-color;
+        fill: currentColor;
+
+        opacity: 1;
+
+        overflow-y: hidden;
+        height: 100%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        $swipe-menu-header-padding: 40%;
+        $swipe-menu-ratio-n: 3; // 4:2
+        $swipe-menu-ratio-d: 1;
+
+        $swipe-menu-ratio-t: $swipe-menu-ratio-n + $swipe-menu-ratio-d;
+
+        font-size: 0.75rem;
+        svg {
+            transition: 0.1s all ease;
+            fill: currentColor;
+            height: (100% - $swipe-menu-header-padding) * ($swipe-menu-ratio-n/$swipe-menu-ratio-t);
+        }
+
+        span {
+            transition: 0.1s height ease;
+            height: (100% - $swipe-menu-header-padding) * ($swipe-menu-ratio-d/$swipe-menu-ratio-t);
+        }
+    }
+}

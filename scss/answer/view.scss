@@ -27,26 +27,27 @@
     margin-bottom: 0;
   }
 
-  $lang-height: 1.2rem;
 
   .header {
     display: flex;
     flex-direction: row;
     align-items: center;
 
+    font-size: 1.5rem;
+
     img {
-      height: $lang-height;
+      height: 1em;
       margin-right: 8px;
     }
 
     h4 {
       font-weight: 500;
-      font-size: $lang-height;
+      font-size: 1em;
       flex: 1;
     }
 
     .answer-metric {
-      font-size: $lang-height;
+      font-size: 1em;
       color: $em-text;
       font-weight: 500;
 

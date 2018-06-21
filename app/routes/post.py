@@ -90,11 +90,20 @@ def publish_post():
     body = request.form.get('post-body', '').encode('utf-8')
     categories = request.form.getlist('post-categories')
 
-    return post.create_post(
+    ppcg_id = request.form.get('post-ppcg-id', None, type=int)
+
+    redirect_url = post.create_post(
         title=title,
         body=body,
-        categories=categories
+        categories=categories,
+        ppcg_id=ppcg_id
     )
+
+    # only should accept JSON
+    if request.headers.get('Accept', '') == 'application/json':
+        return render_json({ 'redirect': redirect_url })
+    else:
+        return redirect(redirect_url)
 
 
 @server.route("/post/<int:post_id>/edit", methods=['POST'])

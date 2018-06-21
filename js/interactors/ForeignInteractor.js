@@ -1,15 +1,17 @@
-import HexBytes from '~/modern/HexBytes';
+import Random from '~/modern/Random';
 
-const digestIdentifier = 'foreign-digest';
-const digestDelta = 'foreign-digest-delta';
-const writeDeltaName = 'write-delta';
+const foreignPrefix = 'foreign';
+const digestIdentifier = `${foreignPrefix}-digest`;
+const digestDelta = `${foreignPrefix}-digest-delta`;
+const writeDeltaName = `${foreignPrefix}-write-delta`;
+const writeKeyName = `${foreignPrefix}-key`;
 const minDelta = 1000*60*60*24;
 export const foreignDigest = do {
 	let now = Date.now();
 	let digest = localStorage.getItem(digestIdentifier);
 	let delta = localStorage.getItem(digestDelta) || now;
 	if (!digest || now - delta > minDelta) {
-		digest = HexBytes.ofLength(32);
+		digest = Random.ofLength(32);
 		localStorage.setItem(digestIdentifier, digest);
 		localStorage.setItem(digestDelta, now);
 	}
@@ -24,7 +26,7 @@ export function writeDelta(id) {
 
 export function writeKey(id) {
 	return function(key) {
-		return `${id}:${key}`;
+		return `${writeKeyName}:${id}:${key}`;
 	}
 }
 
@@ -34,7 +36,7 @@ export default class ForeignInteractor {
 	 * @param {string} target Target WITHOUT trailing `/`
 	 */
 	constructor(target) {
-		this._id = `${foreignDigest}:${HexBytes.ofLength(16)}`;
+		this._id = `${foreignDigest}:${Random.ofLength(16)}`;
 		this._key = writeKey(this._id);
 		this._writeDelta = writeDelta(this._id);
 		this._target = target;
@@ -44,11 +46,9 @@ export default class ForeignInteractor {
 
 		// Clean up
 		window.addEventListener("beforeunload", (event) => {
-			// TODO:
-			for (let i = 0; i < this._managedKeys.length; i++) {
-				localStorage.removeItem(this._key(this._managedKeys[i]));
-				localStorage.removeItem(this._writeDelta(this._managedKeys[i]));
-			}
+			Object.keys(localStorage)
+				.filter(key => key.indexOf(foreignPrefix) === 0)
+				.forEach(key => { localStorage.removeItem(key); });
 		});
 	}
 

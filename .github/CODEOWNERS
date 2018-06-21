@@ -1,0 +1,4 @@
+app/* @Mego
+*.py @Mego
+*.js @vihanb
+*.scss @vihanb

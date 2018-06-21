@@ -1,5 +1,6 @@
 from app.tasks.highlight import syntax_highlight
 from re import findall
+from app.tasks.markdown import render_markdown
 
 def highlight_answer(answer):
     lang = answer.get_language()

@@ -1,17 +1,23 @@
+$comment-writer-depth: 8px;
+
 // Root of comments
 .comment-list {
     border-top: 1px $comment-wrapper-top-style;
     margin-top: 1.2rem; // Above border
 
-    padding: 0.8rem 1.5rem 0;
+    padding: 0.8rem 1.5rem $comment-writer-depth;
 
     position: relative;
 
     list-style: none;
 
-    .comment-list::before {
+    // Represents those comment lists which hold nested comments
+    &.comment-list--nested {
+        border-top: none;
+        margin: 0;
         padding: 0;
-        content: "";
+
+        &::before { content: ""; }
     }
 
     &::before {
@@ -36,6 +42,7 @@
 // The location from which to prepend new items.
 .comment--prepend-ref { display: none; }
 
+// Any item within a comment list
 .comment-item {
     padding: 0.4rem 1rem;
 
@@ -78,43 +85,55 @@
     }
 
     // Where left-side is user avatar and right side has infos
-    &.comment-user-split {
+    &.comment__user_split {
         display: flex;
         flex-direction: row;
 
         // The avatar we'll fix
         .user {
-            margin-right: 8px;
+            margin-right: 12px;
 
             .avatar {
                 border-radius: 50%;
-                width: 1rem;
-                height: 1rem;
+
+                // Using em here because rel to the comment sizes
+                $comment-avatar-shrink: 0.5em;
+
+                @include square(2em - $comment-avatar-shrink); // 2em = 2 lines so both name and desc
+                margin-top: $comment-avatar-shrink; // 1px spacing per line so 2 lines (name and desc) is this
             }
         }
 
         // The right-hand side
-        .comment-content {
+        .comment__content {
             flex: 1;
+        }
 
-            .name {
-                color: $em-text;
+        .comment__name {
+            color: $theme-color;
+        }
+
+        .comment__footer {
+            font-size: 0.7rem;
+            color: $label-tag;
+
+            > span::before {
+                // This is mdot followed by nbsp
+                content: "\00b7\00a0";
+                padding: 0 2px;
+            }
+        }
+
+        // 'reply' button
+        .comment__reply {
+            &::before {
+                background: $label-tag;
             }
         }
 
         // The header
-        .comment-header {
-            display: flex;
-
-            // Make name longer so timestamp is pushed to right
-            .name {
-                flex: 1;
-            }
-
-            .timestamp {
-                font-size: 0.7rem;
-                color: $label-tag;
-            }
+        .comment__header {
+            span { vertical-align: middle; }
         }
     }
 
@@ -151,28 +170,35 @@
     // Initialy transparent background so transition works
     background: transparent;
 
-    transition: opacity 0.2s ease-out, height 0.05s, width 0.05s, background 0.1s linear;
+    transition: opacity 0.2s ease-out, background 0.1s linear;
 
-    cursor: pointer;
     display: block;
 
-    border-radius: 4px;
+    &.comment-item--hoverable {
+        cursor: pointer;
+        border-radius: 4px;
 
-    &:hover {
-        background: rgba($hover-mix, 0.03);
+        &:hover {
+            background: rgba($hover-mix, 0.03);
+        }
     }
 }
 
 // The comment write box
 .comment-writer {
     margin-top: 0.5rem;
-    padding: 0.5rem 1rem 0;
+    padding: 0.5rem 1rem;
     border-top: 1px $comment-wrapper-top-style;
+
+    background: $content-bg;
+    border-radius: $comment-writer-depth;
+    box-shadow: 0 $comment-writer-depth/2 $comment-writer-depth (-$comment-writer-depth/2) rgba($shadow-mix, 0.2);
+    overflow: visible;
 
     h5 {
         font-size: 1rem;
         font-weight: 600;
-        color: $label-text;
+        color: $title-text;
         margin-bottom: 0.5rem;
     }
 
@@ -195,7 +221,7 @@
         .info {
             flex: 1;
             font-weight: 300;
-            color: $main-text;
+            color: $dim-text;
         }
 
         .cancel {

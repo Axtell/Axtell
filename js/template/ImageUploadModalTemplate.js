@@ -1,7 +1,7 @@
 import ModalController from '~/controllers/ModalController';
 import ModalTemplate from '~/template/ModalTemplate';
 import ImgurUpload from '~/models/Request/ImgurUpload';
-import HexBytes from '~/modern/HexBytes';
+import Random from '~/modern/Random';
 import Theme from '~/models/Theme';
 
 const MAX_FILE_SIZE = 10000000; // In bytes
@@ -18,12 +18,12 @@ function uploadButton(text) {
 export default class ImageUploadModalTemplate extends ModalTemplate {
     /** @override */
     constructor(delegate = null) {
-        let templateId = HexBytes.ofDefault(),
+        let templateId = Random.ofDefault(),
             urlId = `url-${templateId}`,
             fileId = `file-${templateId}`,
             fileViewId = `file-view-${templateId}`;
 
-        let urlUpload = <input id={urlId} class="text-input text-base -url" type="text" />,
+        let urlUpload = <input id={urlId} class="text-input text-input--type-url" type="text" />,
             urlUploadButton = uploadButton('Add Image');
 
         let fileUpload = <input class="file invisible" id={fileId} type="file" accept="image/*"/>,
@@ -49,8 +49,6 @@ export default class ImageUploadModalTemplate extends ModalTemplate {
                 </div>
             </div>
         );
-
-        window.foo = this;
 
         /** @type {ActionControllerDelegate} */
         this.delegate = delegate;

@@ -10,7 +10,15 @@
 
   flex: 0 0 auto;
 
+  svg, img {
+    fill: currentColor;
+    vertical-align: middle;
+    height: 1em;
+  }
+
   h1, h2 {
+    vertical-align: middle;
+
     flex: 1;
     font-family: $bold-font;
     font-weight: $bold-weight;
@@ -26,6 +34,23 @@
 
   > * {
     display: block;
+  }
+
+  &.list-header--style-caption {
+    min-width: 290px; // < 300px to fit on 320px mobile device
+    width: 35%;
+    max-width: 100%;
+    min-height: 0;
+
+    &.list-header__caption-size--wide {
+      min-width: 0;
+      width: 100%;
+    }
+  }
+
+  &.list-header--nopad-vertical {
+    padding-top: 0;
+    padding-bottom: 0;
   }
 
   // A list (i.e. flex)

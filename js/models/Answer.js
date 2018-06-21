@@ -68,6 +68,21 @@ export default class Answer {
     get user() { return this._user; }
 
     /**
+     * Converts to json
+     * @return {Object} json object
+     */
+    toJSON() {
+        return {
+            type: 'answer',
+            id: this.id,
+            owner: this.user.toJSON(),
+            code: this.code,
+            byte_len: this.length,
+            lang: this.language
+        };
+    }
+
+    /**
      * Unwraps from an API JSON object.
      * @param {Object} json User JSON object.
      * @return {?Answer} object if succesful, `null` if unauthorized.

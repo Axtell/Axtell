@@ -23,7 +23,7 @@ class Answer(db.Model):
 
     code = db.Column(db.Text, default=None, nullable=True)
     commentary = db.Column(db.Text, default=None, nullable=True)
-    encoding = db.Column(db.String(10), default='utf8')
+    encoding = db.Column(db.String(30), default='utf8')
     deleted = db.Column(db.Boolean, nullable=False, default=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
