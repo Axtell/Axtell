@@ -34,7 +34,7 @@ class PostComment(db.Model):
 
         return data
 
-def comment_tree(self, nest_depth=None):
+    def comment_tree(self, nest_depth=None):
         if len(self.children) == 0:
             return self
         if nest_depth is None:

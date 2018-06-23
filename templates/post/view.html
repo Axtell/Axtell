@@ -24,9 +24,9 @@
             {{ post_body|safe }}
         </div>
     </div>
-    <div id="post-vote-list" class="vote-list -pad">
+    <div id="post-vote-list" class="action-list action-list--pad-horizontal">
         {% set vote_status = vote.get_post_vote(post.id) %}
-        {{ votebuttons(vote_status, post.user == g.user) }}
+        {{ votebuttons(vote_status, is_own=post.user == g.user) }}
     </div>
     <div class="post-details">
         {{ userbox(post.user, post.date_created, classes="post-detail-item") }}
@@ -82,9 +82,24 @@
                 <div class="body">
                     {{ macros.highlight_answer(answer)|safe }}
                 </div>
-                <div class="vote-list">
+                <div class="action-list">
                     {% set vote_status = vote.get_answer_vote(answer.id) %}
-                    {{ votebuttons(vote_status, answer.user == g.user) }}
+                    {{ votebuttons(vote_status, is_own=answer.user == g.user) }}
+                    {% if answer.user == g.user -%}
+                    <div class="action-list__spacer"></div>
+                    <div class="golf-button action-button">
+                        <div class="action-icon__group">
+                            {% include "svg/golf.html" %}
+                            <span>Golf Answer</span>
+                        </div>
+                    </div>
+                    <div class="golf-button action-button delete-answer">
+                        <div class="action-icon__group">
+                            {% include "svg/trash.html" %}
+                            <span>Delete Answer</span>
+                        </div>
+                    </div>
+                    {%- endif %}
                 </div>
                 <div class="post-details post-details--nopad-horizontal">
                     {{ userbox(answer.user, answer.date_created, classes="post-detail-item") }}

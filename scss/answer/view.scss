@@ -27,6 +27,13 @@
     margin-bottom: 0;
   }
 
+  .delete-answer {
+    // @include action-button-style(#E03830);
+    @include action-button-hover(
+      mix($main-text, #E03830, 20%),
+      rgba(#E03830, 0.02)
+    );
+  }
 
   .header {
     display: flex;
