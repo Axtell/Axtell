@@ -16,6 +16,7 @@
 {% block title %}{{ post.title|e }}{% endblock %}
 {% block main -%}
 <div id="post">
+    {{ data('post', macros.json_to_b64(post.to_json(no_body=True))) }}
     <div class="list-header">
         <h1><a href="{{ canonical }}">{{ post.title|e }}</a></h1>
     </div>
@@ -93,7 +94,7 @@
                             <span>Golf Answer</span>
                         </div>
                     </div>
-                    <div class="golf-button action-button delete-answer">
+                    <div class="action-button delete-button">
                         <div class="action-icon__group">
                             {% include "svg/trash.html" %}
                             <span>Delete Answer</span>
@@ -180,7 +181,6 @@
 {%- endblock %}
 
 {% block body %}
-<script>var {{ data_id }}id='{{ post.id }}';</script>
 {{ super() }}
 {% include "includes/answer-box.html" %}
 {% include "includes/swipe-menu.html" %}

@@ -27,7 +27,7 @@ class PostComment(db.Model):
             'text': self.text,
             'date': self.date_created.isoformat(),
             'owner': self.user.to_json(),
-            'parent': self.parent and self.parent.to_json(),
+            'parent': self.parent and show_parent and self.parent.to_json(show_children=show_children),
             'children': show_children and [child.to_json(show_parent=show_parent) for child in self.children],
             'deleted': self.deleted
         }

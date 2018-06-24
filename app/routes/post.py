@@ -109,4 +109,5 @@ def publish_post():
 @server.route("/post/<int:post_id>/edit", methods=['POST'])
 def edit_post(post_id):
     post.revise_post(post_id, request.form)
-    return redirect(url_for("get_post", post_id=post_id))
+    matched_post = post.get_post(post_id)
+    return matched_post.to_json()

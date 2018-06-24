@@ -62,6 +62,12 @@ export default class Answer {
     get code() { return this._code; }
 
     /**
+     * Sets the code
+     * @type {string}
+     */
+    set code(code) { this._code = code; }
+
+    /**
      * Returns owner of the answer
      * @type {User}
      */

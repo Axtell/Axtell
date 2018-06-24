@@ -24,14 +24,19 @@ class Post(db.Model):
 
     ppcg_id = db.Column(db.Integer, nullable=True)
 
-    def to_json(self):
-        return {
+    def to_json(self, no_body=False):
+        json = {
+            'id': self.id,
             'title': self.title,
-            'body': self.body,
             'owner': self.user.to_json(),
             'date_created': self.date_created.isoformat(),
             'deleted': self.deleted
         }
+
+        if not no_body:
+            json['body'] = self.body
+
+        return json
 
     def revise(self, user, **new_post_data):
         revision = PostRevision(post_id=self.id,

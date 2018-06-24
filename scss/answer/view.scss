@@ -27,7 +27,7 @@
     margin-bottom: 0;
   }
 
-  .delete-answer {
+  .delete-button {
     // @include action-button-style(#E03830);
     @include action-button-hover(
       mix($main-text, #E03830, 20%),

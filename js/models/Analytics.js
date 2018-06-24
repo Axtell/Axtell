@@ -92,18 +92,57 @@ export const EventType = {
 
     // ===== Answer Events =====
     answerWriteOpen: (post) => ({
-        category: EventCategory.answer,
         info: post?.toJSON(),
+        value: post?.id,
+        category: EventCategory.answer,
         description: 'Opened answer write box',
         name: 'Begin answer write',
-        value: post?.id
     }),
     answerWriteClose: (post) => ({
-        category: EventCategory.answer,
         info: post?.toJSON(),
+        value: post?.id,
+        category: EventCategory.answer,
         description: 'Closed answer write box',
         name: 'Ended answer write',
-        value: post?.id
+    }),
+
+    answerEditClick: (post) => ({
+        info: post?.toJSON(),
+        value: post?.id,
+        category: EventCategory.answer,
+        name: 'Clicked edit answer',
+    }),
+    answerEdited: (post) => ({
+        info: post?.toJSON(),
+        value: post?.id,
+        category: EventCategory.answer,
+        name: 'Edited answer',
+    }),
+    answerNotEdited: (post) => ({
+        info: post?.toJSON(),
+        value: post?.id,
+        category: EventCategory.answer,
+        name: 'Canceled edit answer',
+    }),
+
+    // === Delete Events ===
+    deleteClick: (post) => ({
+        info: post?.toJSON(),
+        value: post?.id,
+        category: EventCategory.answer,
+        name: 'Clicked delete answer',
+    }),
+    deleted: (post) => ({
+        info: post?.toJSON(),
+        value: post?.id,
+        category: EventCategory.answer,
+        name: 'Deleted answer',
+    }),
+    notDeleted: (post) => ({
+        info: post?.toJSON(),
+        value: post?.id,
+        category: EventCategory.answer,
+        name: 'Canceled delete answer',
     }),
 
     // ===== Comment Events =====
