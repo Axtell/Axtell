@@ -25,7 +25,7 @@ def publish_answer():
 
 @server.route('/answer/<int:answer_id>/edit', methods=['POST'])
 def edit_answer(answer_id):
-    answer.revise_answer(answer_id, request.form)
+    answer.revise_answer(answer_id, request.get_json())
     matched_answer = answer.get_answer(answer_id)
     return redirect(url_for('get_post', post_id=matched_answer.post_id, answer_id=matched_answer.id)
                     + f"#answer-{matched_answer.id}")
