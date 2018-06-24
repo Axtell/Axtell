@@ -2,88 +2,14 @@
   display: inline-block;
 }
 
-@mixin vote-button-style($color) {
-  color: $color;
-  fill: $color;
-  stroke: $color;
-}
-
-@mixin vote-button-type($name, $color) {
-  $vote-style-class: "&.selected.-#{$name}";
-
-  #{$vote-style-class}, #{$vote-style-class}:hover {
-    @include vote-button-style($color);
-  }
-}
-
 .vote-button {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-
-  transition: all 0.1s ease-in;
-  padding: 4px 1em;
-
-  @include vote-button-style($main-text);
-  cursor: pointer;
-
-  &:not(.disabled):hover {
-    // We are going to mix it with $hover-mix so we can get a more standing-out
-    // color to make it clear votes are actionable.
-    $vote-hover-col: mix($main-text, $hover-mix, 20%);
-    $vote-hover-bg: rgba($hover-mix, 0.02);
-
-    @include vote-button-style($vote-hover-col);
-    background: $vote-hover-bg;
-  }
-
-  @include vote-button-type("upvote", #2FCF8B);
-  @include vote-button-type("downvote", #E03830);
-
-  &.disabled {
-    @include vote-button-style(rgba($main-text, 0.5));
-  }
+  @include action-button-type("upvote", #2FCF8B);
+  @include action-button-type("downvote", #E03830);
 
   .vote-count {
     font-size: 16px;
     margin-right: 6px;
     font-weight: 300;
     color: inherit
-  }
-
-  .vote-icon-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    svg, img {
-      $voting-icon-size: 23px;
-      width: $voting-icon-size;
-      height: $voting-icon-size;
-      fill: inherit;
-
-      path {
-        stroke: inherit;
-      }
-    }
-
-    span {
-      color: inherit;
-
-      // We don't want to go below 9px because of both accessibility and
-      // browsers might stop obeying it
-      font-size: 9px;
-    }
-  }
-}
-
-.vote-list {
-  padding-bottom: 1rem;
-
-  &.-pad {
-    padding: {
-      left: 1rem;
-      right: 1rem;
-    }
   }
 }

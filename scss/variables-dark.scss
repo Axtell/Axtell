@@ -1,13 +1,20 @@
 @import "variables-shared.scss";
 
+// Colors
+$theme-color: #09F;
+$logo-color: rgba(255, 255, 255, 0.9);
+$accent-color: $theme-color;
+
 // Font colors
 $em-text: #DDD; // Off-white
 $main-text: #afb7ca; // Off-black dark blue
 $label-text: rgba(255, 255, 255, 0.7); // Gray
 $label-tag: #CCC; // Light gray
 $dim-text: #999; // Gray
+$subtitle-text: #CCC;
 $title-text: #74aae7; // Blue
 
+$shadow-mix: #000;
 $hover-mix: #FFF;
 $hover-source: #000;
 
@@ -37,12 +44,8 @@ $code-block-indent: #4c4c4c;
 
 // BGs
 $main-bg: #222;
+$content-bg: #333;
 $dim-bg: #383f4e;
-
-// Colors
-$theme-color: #09F;
-$logo-color: rgba(255, 255, 255, 0.9);
-$accent-color: $theme-color;
 
 // Seperators
 $content-border-color: rgba(255, 255, 255, .2);
@@ -61,6 +64,7 @@ $header-em-text: $em-text;
 $big-select: $theme-color;
 $big-fg: rgba(255, 255, 255, 0.7);
 $big-bg: rgba(255, 255, 255, 0.1);
+$big-link: #327ef3;
 
 $close-button: #AAA;
 

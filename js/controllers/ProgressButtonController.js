@@ -1,3 +1,4 @@
+import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 import ViewController from '~/controllers/ViewController';
 import Theme from '~/models/Theme';
 
@@ -12,14 +13,16 @@ export default class ProgressButtonController extends ViewController {
     constructor(saveButton) {
         super(saveButton);
 
-        /** @private */
-        this.inLoadingState = false;
-
         /** @type {HTMLElement} */
         this.button = saveButton;
 
         /** @type {HTMLElement[]} */
         this.buttonChildren = [...this.button.childNodes];
+
+        /** @type {ActionControllerDelegate} */
+        this.delegate = new ActionControllerDelegate();
+
+        this.button.addEventListener('click', () => this.delegate.didSetStateTo(this, true));
     }
 
     /**
@@ -27,6 +30,7 @@ export default class ProgressButtonController extends ViewController {
      * @param {Boolean} isLoading If loading
      */
     setLoadingState(isLoading) {
+        this.delegate.didChangeProgressState(this, isLoading);
         if (isLoading) {
             this.button.classList.add('button--color-disabled');
             this._clearChildren();

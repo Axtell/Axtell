@@ -12,8 +12,6 @@ import Auth from '~/models/Auth';
             document.getElementById("useroverview-target"),
             Template.fromId("useroverview-info")
         );
-
-        userInfo.bindUntrigger('useropts-close');
     }
 
 })();

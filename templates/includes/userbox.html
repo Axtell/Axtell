@@ -1,14 +1,16 @@
-{% macro userbox(user, time=none, verb="by", small=false, htight=false, vtight=false) -%}
-<div class="userbox{{ ' -vtight' if vtight else '' }}{{ ' -htight' if htight else '' }}{{ ' -small' if small else '' }}">
-    <span class="verb">{{ verb }}</span>
-    <a class="userbox-info">
-        <img class="avatar" src="{{ user.avatar_url() }}">
-        <span class="name">{{ user.name }}</span>
-    </a>
-    {% if time is not none -%}
-    <div class="userbox-aside">
-        <span class="timestamp"><script>d({{ time.timestamp() * 1000 }})</script></span>
+{% from "includes/time.html" import time as time_elem %}
+{% macro userbox(user, time, classes="") -%}
+<a class="userbox__container userbox--trigger-author {{ classes }}"
+   href="{{ url_for('get_user', user_id=user.id, name=user.name) }}"
+   data-userid="{{ user.id }}">
+    <span class="userbox__avatar_container">
+        <img src="{{ user.avatar_url() }}"/>
+    </span>
+    <div class="userbox__details_container">
+        <span class="userbox__details_row userbox__author">{{ user.name }}</span>
+        <span class="userbox__dim_row">
+            {{ time_elem(time) }}
+        </span>
     </div>
-    {%- endif %}
-</div>
+</a>
 {%- endmacro %}

@@ -8,7 +8,8 @@ import ModalController from '~/controllers/ModalController';
 
 import LoadingIcon from '~/svg/LoadingIcon';
 
-export const VOTE_ACTIVE_CLASS = 'selected';
+export const VOTE_ACTIVE_CLASS = 'action-button--selected';
+export const VOTE_DISABLED_CLASS = 'action-button--disabled';
 export const VoteFailed = Symbol('Vote.Error.RequestFailed');
 export const VoteUnauthorized = Symbol('Vote.Error.VoteUnauthorized');
 export const VoteInvalid = Symbol('Vote.Error.VoteInvalid');
@@ -40,7 +41,7 @@ export default class VoteViewController extends ViewController {
         this._isActive = voteButton.classList.contains(VOTE_ACTIVE_CLASS);
 
         // Ignore if not a valid vote button
-        if (voteButton.classList.contains('disabled')) return this;
+        if (voteButton.classList.contains(VOTE_DISABLED_CLASS)) return this;
         voteButton.addEventListener("click", ::this.toggleState);
     }
 

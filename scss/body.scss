@@ -2,6 +2,10 @@ h1, h2, h3, h4, h5, h6 {
   display: block;
   margin-top: 1.1rem;
   margin-bottom: 0.5rem;
+
+  &.header--nomargin-top {
+    margin-top: 0;
+  }
 }
 
 h1 {
@@ -13,7 +17,11 @@ h1 {
 }
 
 h2, h3 {
-  font-size: 1.4rem;
+  font-size: 1.6rem;
+}
+
+h4 {
+  font-weight: 400;
 }
 
 hr {
@@ -70,7 +78,6 @@ blockquote {
 li, p {
   color: $main-text;
   font-weight: 300;
-  font-size: 16px;
   line-height: 1.5;
   hyphens: auto;
 }

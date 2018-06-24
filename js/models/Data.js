@@ -37,7 +37,7 @@ export default class Data {
     encodedJSONForKey(key) {
         const value = this.valueForKey(key);
         if (value === null) return null;
-        else return JSON.parse(atob(value));
+        else return JSON.parse(Buffer.from(value, 'base64').toString('utf8'));
     }
 
     _envCache = null;

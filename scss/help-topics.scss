@@ -1,0 +1,50 @@
+.help-topics {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    margin: 0 -1rem;
+
+    .help-topics__topic {
+        width: 50%;
+        box-sizing: border-box;
+
+        @media (max-width: 840px) {
+            width: 100%;
+        }
+
+        padding: 0 1rem;
+        margin: 1rem 0;
+
+        display: flex;
+
+        .help-topics__topic__content {
+            background: $content-bg;
+            box-shadow: 0px 4px 8px -4px rgba($shadow-mix, 0.3);
+            border-radius: 12px;
+
+            flex: 1;
+
+            padding: 2rem;
+
+            display: flex;
+            flex-direction: row;
+
+            font-size: 1rem;
+
+            .help-topics__topic__column {
+                &.help-topics__topic__column--flex { flex: 1; }
+            }
+
+            .help-topics__topic__icon, .help-topics__topic__icon_wrap svg {
+                height: 1.4em + 0.5em + 2em; // title + margin + 2 lines + margin
+                margin-right: 12px;
+            }
+
+            .help-topics__topic__description {
+                color: $dim-text;
+                margin: 0.5rem 0 1rem 0;
+            }
+        }
+    }
+}

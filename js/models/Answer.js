@@ -62,10 +62,31 @@ export default class Answer {
     get code() { return this._code; }
 
     /**
+     * Sets the code
+     * @type {string}
+     */
+    set code(code) { this._code = code; }
+
+    /**
      * Returns owner of the answer
      * @type {User}
      */
     get user() { return this._user; }
+
+    /**
+     * Converts to json
+     * @return {Object} json object
+     */
+    toJSON() {
+        return {
+            type: 'answer',
+            id: this.id,
+            owner: this.user.toJSON(),
+            code: this.code,
+            byte_len: this.length,
+            lang: this.language
+        };
+    }
 
     /**
      * Unwraps from an API JSON object.

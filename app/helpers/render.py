@@ -1,15 +1,12 @@
 from flask import jsonify, render_template as flask_render_template
 
 import config
+from app.server import server
 from app.helpers import macros
 
 
 def render_template(path, **kwargs):
-    return flask_render_template(path, **{
-        'opts': config,
-        'macros': macros,
-        **kwargs
-    })
+    return flask_render_template(path, **kwargs)
 
 
 def render_json(data):

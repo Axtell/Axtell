@@ -1,30 +1,42 @@
 {% extends "layouts/page.html" %}
-{% from "includes/userbox.html" import userbox %}
+{% from "includes/time.html" import time %}
 
 {% block title %}Posts{% endblock %}
 {% block content -%}
     <div class="list-header">
-        <h1>Challenges</h1>
-        <div class="select-dialog d-sort">
+        <h1>Challenges.</h1>
+{#         <div class="select-dialog d-sort">
             <label class="select-trigger">sort by: <a>recent</a></label>
             <ul class="drop template">
                 <li data-st="n" class="opt state-active">newest</li>
                 <li data-st="s" class="opt">votes</li>
                 <li data-st="t" class="opt">active</li>
             </ul>
-        </div>
+        </div>#}
+     </div>
+    <div class="list-header list-header--style-caption">
+        <h2 class="header--style-caption">All the latest code-golf challenges written by users like you.</h2>
     </div>
     <div class="main">
         <ul class="posts">
             {% for post in posts.items -%}
-                <li class="post-item">
-                    <a href="{{ url_for('get_post', post_id=post.id) }}" class="title">
-                        <h4>{{ post.title }}</h4>
-                        {% if post.answers|length == 0 %}
-                        <span class="post-info-tag post-info-tag--purple">Unanswered</span>
-                        {%- endif %}
-                        <div class="post-data">
-                            {{ userbox(post.user, post.date_created) }}
+                <li>
+                    <a href="{{ url_for('get_post', post_id=post.id, title=macros.slugify(post.title)) }}"
+                       class="post-item post-item__split_container">
+                        <div class="post-item__split post-item__split--pad-right">
+                            <img src="{{ post.user.avatar_url() }}"
+                                 class="post-item__avatar userbox--trigger-author" data-userid="{{ post.user.id }}">
+                        </div>
+                        <div class="post-item__split post-item__split--size-wide">
+                            <span class="post-item__caption post-item__section">
+                                <span class="post-item__author">{{ post.user.name }}</span>
+                                &middot;
+                                {{ time(post.date_created) }}
+                            </span>
+                            <h4 class="post-item__title post-item__section">{{ post.title }}</h4>
+
+                            <!-- Add the preview -->
+                            <div class="post-item__description body post-item__section post-item__section--pad-top"><p>{{ macros.render_markdown(post.body[:1000]) | striptags | truncate(250) }}</p></div>
                         </div>
                     </a>
                 </li>

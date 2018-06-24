@@ -1,21 +1,21 @@
 {% macro votebutton(name, type_id, vote_count, is_active, is_own) -%}
 <div class="voting-wrapper">
-    {% if is_own %}
-        {% set vote_cls = ' disabled tooltip' %}
-    {% elif is_active %}
-        {% set vote_cls = ' selected' %}
-    {% else %}
+    {%- if is_own -%}
+        {% set vote_cls = ' action-button--disabled tooltip' %}
+    {%- elif is_active -%}
+        {% set vote_cls = ' action-button--selected' %}
+    {%- else -%}
       {% set vote_cls = '' %}
-    {% endif %}
+    {%- endif -%}
     <div
-        class="vote-button -{{ type_id }}{{ vote_cls }}"
+        class="vote-button action-button--style-{{ type_id }}{{ vote_cls }} action-button"
         data-type={{ type_id }}
-    {% if is_own %}
+    {% if is_own -%}
         title="Cannot {{ type_id }} own post"
-    {% endif %}
+    {%- endif -%}
     >
         <span class="vote-count">{{ vote_count }}</span>
-        <div class="vote-icon-group">
+        <div class="action-icon__group">
             {% include "svg/" + type_id + ".html" %}
             <span>{{ name }}</span>
         </div>

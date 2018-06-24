@@ -4,7 +4,7 @@ $lower-theme-gutter: $level-1-margin;
 .splash {
   // Backgrounds
   background:
-    $bg-level-1 bottom repeat-x / auto $level-1-margin, // Level 1 background (mountains, ice, etc.)
+    $bg-level-1 bottom / auto $level-1-margin repeat-x, // Level 1 background (mountains, ice, etc.)
     $bg-level-2, // Level 2 background, contrasts. (stars, glare, etc.)
     $bg-level-3, // Stage + Moon/sun
     $main-background; // Primary color

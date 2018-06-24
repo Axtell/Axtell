@@ -1,13 +1,20 @@
 @import "variables-shared.scss";
 
+// Colors
+$theme-color: #09F;
+$logo-color: #FFF;
+$accent-color: $theme-color;
+
 // Font colors
-$em-text: #000;
-$main-text: #4c5566;
+$em-text: mix($theme-color, mix(#FFF, #000, 15%), 13%);
+$main-text: mix($theme-color, mix(#FFF, #000, 20%), 30%);
 $label-text: #676767;
 $label-tag: #BBB;
 $dim-text: #999;
+$subtitle-text: #878787;
 $title-text: #555;
 
+$shadow-mix: #000;
 $hover-mix: #000;
 $hover-source: #FFF;
 
@@ -36,13 +43,9 @@ $code-block-fg: #000;
 $code-block-indent: #ededed;
 
 // BGs
-$main-bg: #FFF;
+$main-bg: #F4F8F9;
+$content-bg: #FFF;
 $dim-bg: #ECECEC;
-
-// Colors
-$theme-color: #09F;
-$logo-color: #FFF;
-$accent-color: $theme-color;
 
 // Seperators
 $content-border-color: #EEE;
@@ -61,6 +64,7 @@ $header-em-text: rgba(255, 255, 255, 0.8);
 $big-select: $theme-color;
 $big-fg: rgba(255, 255, 255, 0.8);
 $big-bg: rgba(0, 0, 0, 0.1);
+$big-link: #327ef3;
 
 $close-button: #AAA;
 

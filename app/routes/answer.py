@@ -27,5 +27,4 @@ def publish_answer():
 def edit_answer(answer_id):
     answer.revise_answer(answer_id, request.get_json())
     matched_answer = answer.get_answer(answer_id)
-    return redirect(url_for('get_post', post_id=matched_answer.post_id, answer_id=matched_answer.id)
-                    + f"#answer-{matched_answer.id}")
+    return matched_answer.to_json()

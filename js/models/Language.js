@@ -72,14 +72,15 @@ export default class Language {
     }
 
     /**
-     * Ace-editor lang def file name.
+     * CodeMirror-editor lang def file name.
      * @type {?string}
      */
-    get aceName() {
-        let aceName = languages.ace[this.id];
-        if (!aceName) return null;
-        if (aceName === 1) return this.id;
-        return aceName;
+    get cmName() {
+        let cmName = languages.cm[this.id];
+        if (!cmName) return null;
+        if (cmName === 1) return this.id;
+        if (cmName === 2) return `text/x-${this.id}`;
+        return cmName;
     }
 
     /**
@@ -112,38 +113,29 @@ export default class Language {
     static get query() {
         if (this._query !== null) return this._query;
 
-        let queryData = new Map()
+        let query = new Query(
+            Language.allLanguages,
+            (lang) => lang.displayName
+        );
 
-        // Get query terms for a given language.
+        return query;
+    }
+
+    static _langCache = null;
+    /**
+     * Returns every language.
+     * @return {Language[]}
+     */
+    static get allLanguages() {
+        if (Language._langCache) return Language._langCache;
+
+        let langs = [];
         let langIds = Object.keys(languages.languages);
         let i = langIds.length;
         while (--i >= 0) {
-            let id = langIds[i];
-            let obj = new Language(id);
-            queryData.set(id, obj);
-
-            let displayTerms = new Normalize(obj.displayName).queryTerms();
-            let termCount = displayTerms.length;
-            while (--termCount >= 0) {
-                queryData.set(displayTerms[termCount], obj);
-            }
+            langs.push(new Language(langIds[i]));
         }
-
-        // Add aliases too.
-        let aliases = Object.keys(languages.alias);
-        i = aliases.length;
-        while (--i >= 0) {
-            let aliasName = aliases[i];
-            let obj = queryData.get(languages.alias[aliasName]);
-            if (obj) queryData.set(aliasName, obj);
-        }
-
-        let query = new Query(
-            queryData,
-            (a, b) => a.equal(b)
-        );
-        this._query = query;
-        return query;
+        return langs;
     }
 
     static _query = null;

@@ -20,17 +20,16 @@ class AnswerComment(db.Model):
     answer = db.relationship('Answer', backref='comments')
     parent = db.relationship('AnswerComment', backref='children', remote_side=[id])
 
-    def type(self):
-        return 'answer'
-
-    def to_json(self):
+    def to_json(self, show_children=True, show_parent=False):
         data = {
             'id': self.id,
+            'ty': 'answer',
+            'source_id': self.answer_id,
             'text': self.text,
             'date': self.date_created.isoformat(),
             'owner': self.user.to_json(),
-            'parent': self.parent and self.parent.to_json(),
-            'children': [child.to_json() for child in self.children],
+            'parent': self.parent and show_parent and self.parent.to_json(show_children=show_children),
+            'children': show_children and [child.to_json(show_parent=show_parent) for child in self.children],
             'deleted': self.deleted
         }
 
@@ -40,10 +39,10 @@ class AnswerComment(db.Model):
         if len(self.children) == 0:
             return self
         if nest_depth is None:
-            return [self, [child.comment_tree() for child in self.children]]
+            return [self, [child.comment_tree() for child in self.children if child.deleted == False]]
         else:
             if nest_depth > 1:
-                return [self, [child.comment_tree(nest_depth-1) for child in self.children]]
+                return [self, [child.comment_tree(nest_depth-1) for child in self.children if child.deleted == False]]
 
     def __repr__(self):
         return '<AnswerComment(%r) by %r>' % (self.id, self.user.name)

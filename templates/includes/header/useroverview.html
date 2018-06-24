@@ -1,10 +1,10 @@
-<div class="section section--hover-em useroverview-root">
+<div class="section section--hover-em popover__container section--last">
     <div id="useroverview-target" class="useroverview h-target">
         <img src="{{ g.user.avatar_url() }}" alt=""/>
         <span class="label r-collapse">{{ g.user.name }}</span>
         <span class="action r-collapse">&#9660;</span>
     </div>
-    <div id="useroverview-info" class="template">
+    <div id="useroverview-info" class="popover template">
         {% include "includes/header/useropts.html" %}
     </div>
 </div>

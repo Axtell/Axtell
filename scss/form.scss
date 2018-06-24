@@ -14,6 +14,27 @@
   .button {
     font-size: 1rem;
   }
+
+  &.item-wrap--nopad-vertical { padding-top: 0; padding-bottom: 0; }
+  &.item-wrap--nopad-horizontal { padding-left: 0; padding-right: 0; }
+
+  &.item-wrap--pad-left { padding-left: 2rem; }
+  &.item-wrap--pad-right { padding-right: 2rem; }
+  &.item-wrap--pad-top { padding-top: 2rem; }
+  &.item-wrap--pad-bottom { padding-bottom: 2rem; }
+
+  postion: relative;
+  &.item-wrap--glow:focus::before {
+    content: "";
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 4px;
+    background: red;
+  }
 }
 
 .group-stretch {
@@ -23,22 +44,45 @@
   flex-direction: column;
 }
 
-.form-errors {
-  margin-top: 0;
-  font-size: 0.8rem;
-  color: $label-text;
-  padding-left: 30px;
+.form-validation__error_list {
+  list-style: none;
+  padding: 0;
+  margin: 4px 0;
+  color: red;
 }
 
 .label-group {
-  label {
-    display: block;
-    color: $label-text;
+  .label-group__tooltip {
+    vertical-align: middle;
 
+    height: 1.2em;
+    color: inherit;
+    fill: inherit;
+
+    svg { height: inherit; }
+  }
+
+  &.label-group--style-clean {
+    color: $label-text;
+    fill: $label-text;
+    font-weight: 400;
+    text-transform: none;
+  }
+
+  color: $label-tag;
+  fill: $label-tag;
+  font-weight: bold;
+
+  label {
+    vertical-align: middle;
+    display: block;
+
+    color: inherit;
     font-size: 13px;
-    font-weight: bold;
+    font-weight: inherit;
+    text-transform: inherit;
+
     text-transform: uppercase;
-    color: $label-tag;
 
     margin-bottom: 4px;
   }
@@ -47,58 +91,91 @@
 input.text-input, [contenteditable].text-input, .text-base.text-input, .text-input {
   font-size: 1rem;
 
-  &.-owned {
+  -webkit-appearance: none;
+  border: none;
+  outline: none;
+
+  background: none;
+
+  margin: 0;
+  padding: 0 0 4px 0;
+
+  // Support for mathquill
+  &.mq-focused { box-shadow: none; }
+  .mq-cursor { border-color: $editor-fg; }
+
+  &.text-input--owned {
     border-bottom: none;
   }
 
-  // For spaced item listings
-  &.-list {
-    padding: 4px 0;
+  // For search dialogs
+  &.text-input--type-search {
+    font-size: 1.1rem;
   }
 
   // For URL inputs
-  &.-url {
+  &.text-input--type-url {
     font-size: 13px;
     font-family: $monospace;
+    color: $em-text;
   }
 
-  &.-title {
+
+  &.text-input--type-clean {
+    font-size: 1.3rem;
+    box-sizing: context-box;
+  }
+
+  &.text-input--type-title {
     font-size: 1.3rem;
     font-family: $bold-font;
     font-weight: $bold-weight;
     color: $em-text;
 
-    padding-bottom: 4px;
     box-sizing: content-box;
   }
 
-  &.-mail {
+  &.text-input--type-mail {
     font-size: 1.2rem;
     font-family: $monospace;
+    color: $em-text;
     letter-spacing: 1px;
 
-    padding-bottom: 4px;
     box-sizing: content-box;
   }
 
-  &.-list-container {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-
-    input {
-      flex: 1;
-    }
+  &.text-input--pad-all {
+    padding: 4px;
   }
 
-  border-bottom: 2px solid $label-tag;
+  &.text-input--pad-top {
+    margin-top: 1.5rem;
+  }
+
+  &.text-input--size-wide {
+    width: 100%;
+  }
+
+  color: $em-text;
+  border-bottom: 1px solid rgba($hover-mix, 0.15);
 
   &:focus {
-    border-bottom-color: mix($label-tag, $hover-mix, 90%)
+    border-bottom-color: mix($accent-color, mix($label-tag, $hover-mix, 90%), 15%);
   }
 }
 
-// Root styles for all user text inputs
+// For a text input containing annotations
+.text-input__list-container {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  input {
+    flex: 1;
+  }
+}
+
+// Main style for <textarea>
 .text-base {
   background: $editor-bg;
   color: $editor-fg;
@@ -111,19 +188,6 @@ input.text-input, [contenteditable].text-input, .text-base.text-input, .text-inp
   border-radius: 0;
 
   position: relative;
-
-  .expand {
-    -webkit-appearance: none;
-    background: none;
-    border: none;
-    outline: none;
-    width: 100%;
-    height: 100%;
-    font: inherit;
-    color: inherit;
-    padding: 0;
-    margin: 0;
-  }
 }
 
 textarea.text-base {
@@ -163,7 +227,6 @@ textarea.text-base {
   }
 
   margin-right: 4px;
-  margin-bottom: 4px;
 }
 
 // For live foreign previews

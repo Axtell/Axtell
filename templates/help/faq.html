@@ -1,0 +1,19 @@
+{% extends "help_page.html" %}
+{% from "includes/more.html" import more %}
+{% from "includes/time.html" import time %}
+{% from "help_page.html" import breadcrumb %}
+
+{% block breadcrumbs %}
+    {{ super() }}
+    {{ breadcrumb('FAQs', url_for('help_page', path='faq'), 'faq') }}
+{% endblock %}
+
+{% block title %}FAQs{% endblock %}
+{% block content -%}
+    <div class="list-header">
+        <h1>FAQs.</h1>
+    </div>
+    <div class="list-header list-header--style-caption">
+        <h2 class="header--style-caption">Sorry, no FAQ yet =( feel free to make a PR.</h2>
+    </div>
+{%- endblock %}

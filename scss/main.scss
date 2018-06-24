@@ -1,6 +1,7 @@
 @import "mixins.scss";
 
-$collapse-width: 1100px;
+$collapse-width: 1160px;
+$sidebar-collapse: 800px;
 
 html, body {
   @include full;
@@ -17,6 +18,8 @@ body {
   font-size: $font-size;
 
   background: $main-bg;
+
+  overflow: hidden;
 
   // For just body content (not header etc.)
   #content main {
@@ -94,7 +97,7 @@ body {
       min-height: 100%;
 
       aside {
-        @media screen and (max-width: 650px) {
+        @media screen and (max-width: $sidebar-collapse) {
           display: none;
         }
 
@@ -110,18 +113,6 @@ body {
     // Width of main content
     width: $page-width;
   }
-
-  @import "header/header.scss";
-  @import "listing/listing.scss";
-  @import "select-dialog.scss";
-  @import "page/profile/profile.scss";
-  @import "content.scss";
-  @import "buttons.scss";
-  @import "comment.scss";
-  @import "userbox.scss";
-  @import "leaderboard.scss";
-  @import "answer/write.scss";
-  @import "answer/view.scss";
 }
 
 #ns-main {
@@ -129,7 +120,7 @@ body {
   color: white;
   text-align: center;
   font-weight: bold;
-  font-family: 'Lato';
+  font-family: $bold-font;
   font-size: 1.2em;
   background: #C22;
 }
@@ -140,11 +131,25 @@ body {
 
 @import "theme/theme.scss";
 
+@import "post-list.scss";
+@import "header/header.scss";
+@import "listing/listing.scss";
+@import "select-dialog.scss";
+@import "page/profile/profile.scss";
+@import "content.scss";
+@import "buttons.scss";
+@import "comment.scss";
+@import "userbox.scss";
+@import "leaderboard.scss";
+@import "answer/write.scss";
+@import "answer/view.scss";
 @import "footer/footer.scss";
 @import "vote.scss";
+@import "user-popup.scss";
 @import "page/posts.scss";
 @import "page/user/user.scss";
 @import "page/user/banner.scss";
+@import "page/StackExchangeImport.scss";
 @import "tio.scss";
 @import "action.scss";
 @import "markdown.scss";
@@ -155,3 +160,11 @@ body {
 @import "form.scss";
 @import "lang.scss";
 @import "upgrade-browser.scss";
+@import "popover.scss";
+@import "template-animations.scss";
+@import "post-details.scss";
+@import "import-indicator.scss";
+@import "help-topics.scss";
+@import "privacy.scss";
+@import "header/help-header.scss";
+@import "swipe-menu.scss";

@@ -19,10 +19,6 @@
   padding: 2rem;
   padding-bottom: 0;
 
-  @media screen and (max-width: $collapse-width) {
-    padding: 0;
-  }
-
   display: flex;
   flex-direction: column;
   align-items: stretch;
