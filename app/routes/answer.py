@@ -25,6 +25,4 @@ def publish_answer():
 
 @server.route('/answer/<int:answer_id>/edit', methods=['POST'])
 def edit_answer(answer_id):
-    answer.revise_answer(answer_id, request.get_json())
-    matched_answer = answer.get_answer(answer_id)
-    return matched_answer.to_json()
+    return answer.revise_answer(answer_id, request.get_json()).to_json()

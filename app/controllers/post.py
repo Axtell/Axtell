@@ -53,3 +53,4 @@ def revise_post(post_id, data):
     post, revision = post.revise(g.user, **data)
     db.session.add(revision)
     db.session.commit()
+    return post

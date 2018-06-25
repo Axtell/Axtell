@@ -53,3 +53,4 @@ def revise_answer(answer_id, data):
     answer, revision = answer.revise(g.user, **data)
     db.session.add(revision)
     db.session.commit()
+    return answer
