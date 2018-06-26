@@ -25,7 +25,7 @@
             {{ post_body|safe }}
         </div>
     </div>
-    <div id="post-vote-list" class="action-list action-list--pad-horizontal">
+    <div id="post-vote-list" class="post-action-list post-action-list--pad-horizontal">
         {% set vote_status = vote.get_post_vote(post.id) %}
         {{ votebuttons(vote_status, is_own=post.user == g.user) }}
     </div>
@@ -83,11 +83,11 @@
                 <div class="body">
                     {{ macros.highlight_answer(answer)|safe }}
                 </div>
-                <div class="action-list">
+                <div class="post-action-list">
                     {% set vote_status = vote.get_answer_vote(answer.id) %}
                     {{ votebuttons(vote_status, is_own=answer.user == g.user) }}
                     {% if answer.user == g.user -%}
-                    <div class="action-list__spacer"></div>
+                    <div class="post-action-list__spacer"></div>
                     <div class="golf-button action-button">
                         <div class="action-icon__group">
                             {% include "svg/golf.html" %}

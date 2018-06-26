@@ -19,13 +19,13 @@
   }
 }
 
-.action-list {
+.post-action-list {
   padding-bottom: 1rem;
   display: flex;
 
-  .action-list__spacer { flex: 1; }
+  .post-action-list__spacer { flex: 1; }
 
-  &.action-list--pad-horizontal {
+  &.post-action-list--pad-horizontal {
     padding: {
       left: 1rem;
       right: 1rem;

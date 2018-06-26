@@ -31,7 +31,7 @@ export default class Template {
      * Returns the underlying element
      * @type {HTMLElement}
      */
-    get getUnderlyingNode() {
+    get underlyingNode() {
         return this._root;
     }
 

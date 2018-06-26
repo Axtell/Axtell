@@ -18,6 +18,7 @@ export default class PostButtonViewController extends ViewController {
         this._iconParent = this._voteIcon.parentNode;
 
         this._isLoading = false;
+        this._isDisabled = false;
     }
 
     /**
@@ -29,10 +30,10 @@ export default class PostButtonViewController extends ViewController {
         if (state === this._isLoading) return;
         if (state) {
             // Is loading
-            this._button.classList.add('action-button--disabled');
+            this.isDisabled = true;
             this._iconParent.replaceChild(this._loadingIcon, this._voteIcon);
         } else {
-            this._button.classList.remove('action-button--disabled');
+            this.isDisabled = false;
             this._iconParent.replaceChild(this._voteIcon, this._loadingIcon);
         }
 
@@ -41,4 +42,22 @@ export default class PostButtonViewController extends ViewController {
 
     /** @type {boolean} */
     get isLoading() { return this._isLoading; }
+
+    /**
+     * Sets the loading state
+     * @type {boolean}
+     */
+    set isDisabled(state) {
+        if (state === this._isDisabled) return;
+        if (state) {
+            this._button.classList.add('action-button--disabled');
+        } else {
+            this._button.classList.remove('action-button--disabled');
+        }
+
+        this._isDisabled = state;
+    }
+
+    /** @type {boolean} */
+    get isDisabled() { return this._isDisabled; }
 }

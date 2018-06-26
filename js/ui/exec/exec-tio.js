@@ -9,7 +9,7 @@ const TIO_EXEC_CLASS = 'exec-target';
 
 // Create 'Run' button
 let trigger = Template.fromText('\u25b6 Run', TemplateType.clone);
-trigger.getUnderlyingNode.classList.add('exec-float');
+trigger.underlyingNode.classList.add('exec-float');
 
 // Load TIO
 TIO.shared.then(tio => {

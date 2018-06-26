@@ -15,7 +15,7 @@ export default class CodeEditorViewController extends ViewController {
      * Creates CodeEditor wrapper for element. Reccomended to use a {@link Random}
      * to create a unique name.
      *
-     * @param {HTMLTextArea} element element id.
+     * @param {HTMLTextArea} element element id. If an HTMLElement w/o parent then appending
      * @param {CodeEditorTheme} theme Theme to use for Ace.
      */
     constructor(element, theme = CodeEditorTheme.default) {
@@ -23,12 +23,22 @@ export default class CodeEditorViewController extends ViewController {
 
         return (async () => {
             const CodeMirror = await LoadCodeMirror();
-
-            this._editor = CodeMirror.fromTextArea(element, {
+            const opts = {
                 lineNumbers: true,
                 gutter: true,
                 autoRefresh: true
-            });
+            };
+
+            if (element.parentNode) {
+                this._editor = CodeMirror.fromTextArea(element, opts);
+            } else {
+                await new Promise((resolve, reject) => {
+                    this._editor = CodeMirror((el) => {
+                        element.appendChild(el);
+                        resolve();
+                    }, opts);
+                });
+            }
 
             /**
              * @type {CodeEditorTheme}

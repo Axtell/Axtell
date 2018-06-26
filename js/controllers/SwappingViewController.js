@@ -28,13 +28,15 @@ export default class SwappingViewController extends ViewController {
 
     /**
      * Swaps to an alternate view
+     * @param {Template} alternate - New elem to show
      */
     displayAlternate(alternate) {
+        const node = alternate.unique();
         this._parent.replaceChild(
-            alternate,
+            node,
             this._displayingSource ? this._source : this._replacee
         );
-        this._replacee = alternate;
+        this._replacee = node;
         this._displayingSource = false;
     }
 }

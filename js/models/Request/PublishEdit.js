@@ -21,7 +21,7 @@ export default class PublishEdit extends Request {
         super({
             path: `/${item.endpoint}/${item.id}/edit`,
             method: HTTPMethod.POST,
-            formData: {
+            data: {
                 deleted: deleted
             }
         });

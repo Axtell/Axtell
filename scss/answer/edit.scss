@@ -1,0 +1,13 @@
+.answer-edit {
+    margin: 1rem 0;
+
+    // Code mirror doesn't have to be so huge
+    .CodeMirror {
+        font-size: 1rem;
+        font-family: $monospace;
+
+        height: 3em;
+
+        margin-bottom: 1rem;
+    }
+}

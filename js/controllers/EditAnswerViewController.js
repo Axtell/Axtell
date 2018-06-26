@@ -1,8 +1,8 @@
 import PostButtonViewController from '~/controllers/PostButtonViewController';
 import SwappingViewController from '~/controllers/SwappingViewController';
-import ErrorManager from '~/helpers/ErrorManager';
 import Analytics, { EventType } from '~/models/Analytics';
 import PublishEdit from '~/models/Request/PublishEdit';
+import ErrorManager from '~/helpers/ErrorManager';
 
 export default class EditAnswerViewController extends PostButtonViewController {
     static activeEditInstance = null;
@@ -43,6 +43,18 @@ export default class EditAnswerViewController extends PostButtonViewController {
         Analytics.shared.report(EventType.answerEditClick(this.answer));
 
         this.isLoading = true;
+
+        // Load the template
+        const { default: AnswerEditTemplate } = await import('~/template/AnswerEditTemplate');
+        const answerEditor = await new AnswerEditTemplate(this.answer);
+        this.editor.displayAlternate(answerEditor);
+
+        answerEditor.delegate.shouldClose = (controller, context) => {
+            this.untrigger(context);
+        };
+
+        this.isLoading = false;
+        this.isDisabled = true;
     }
 
     /**
@@ -63,6 +75,9 @@ export default class EditAnswerViewController extends PostButtonViewController {
     untrigger(changesUpdated = false) {
         if (!this.isEditing) return;
         this.isEditing = false;
+
+        this.isDisabled = false;
+        this.editor.restoreOriginal();
 
         if (changesUpdated) {
             Analytics.shared.report(EventType.answerEdited(this.answer));
