@@ -66,6 +66,7 @@ export default class Post {
     toJSON() {
         return {
             type: 'post',
+            body: this.body,
             id: this.id
         };
     }

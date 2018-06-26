@@ -22,7 +22,7 @@ export default class EditAnswerViewController extends PostButtonViewController {
         this.answer = this.answerController.answer;
 
         /** @private */
-        this.editor = new SwappingViewController(this.answerController.getBody());
+        this.editor = new SwappingViewController(this.answerController.body);
 
         trigger.addEventListener("click", ::this.trigger);
 
@@ -49,8 +49,13 @@ export default class EditAnswerViewController extends PostButtonViewController {
         const answerEditor = await new AnswerEditTemplate(this.answer);
         this.editor.displayAlternate(answerEditor);
 
-        answerEditor.delegate.shouldClose = (controller, context) => {
-            this.untrigger(context);
+        answerEditor.delegate.shouldClose = async (controller, context) => {
+            if (context) {
+                await this.edit(context);
+                this.untrigger(true);
+            } else {
+                this.untrigger(false);
+            }
         };
 
         this.isLoading = false;
@@ -59,13 +64,18 @@ export default class EditAnswerViewController extends PostButtonViewController {
 
     /**
      * Submits edits
+     * @param {Answer} newAnswer - The new answer object (should be same ID).
      * @return {Answer} The new answer object
      */
-    async edit() {
+    async edit(newAnswer) {
         const publishEdit = new PublishEdit({
-            item: this.answer
+            item: newAnswer,
+            original: this.answer
         });
-        return await publishEdit.run();
+
+        const finalAnswer = await publishEdit.run();
+        await this.answerController.setAnswer(finalAnswer);
+        return finalAnswer;
     }
 
     /**

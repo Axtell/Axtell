@@ -24,6 +24,9 @@ export default class AnswerViewController extends ViewController {
         this._answer = Answer.fromJSON(Data.shared.encodedJSONForKey(`a${answerId}`));
         this._answer.code = this._body.getElementsByTagName('code')[0].textContent;
 
+        this._bodyEl = this._body.getElementsByClassName('body')[0];
+        this._byteCount = this._body.getElementsByClassName('answer-metric__value')[0];
+
         AnswerVoteViewController.forClass(
             'vote-button',
             (btn) => [btn, {
@@ -60,12 +63,53 @@ export default class AnswerViewController extends ViewController {
 
     /**
      * Gets the node where the body is
-     * @return {HTMLElement}
+     * @type {HTMLElement}
      */
-    getBody() {
-        return this._body.getElementsByClassName('body')[0];
+    get body() {
+        return this._bodyEl;
+    }
+
+    /**
+     * Sets the code
+     * @param {string} code
+     * @param {Language} language
+     */
+    async setBody(code, language) {
+        const { default: highlight } = await import('#/hljs-renderer');
+        this.body.innerHTML = highlight(code, language.hljsId, language.id);
+    }
+
+
+    /**
+     * Returns the byte count element. For the value use .answer.length
+     * @type {HTMLElement}
+     */
+    get byteCount() {
+        return this._byteCount;
+    }
+
+    /**
+     * Sets the byte count.
+     * @type {number}
+     */
+    set byteCount(byteCount) {
+        const byteCountElement = this.byteCount;
+        while (byteCountElement.firstChild) {
+            byteCountElement.removeChild(byteCountElement.firstChild);
+        }
+        byteCountElement.appendChild(document.createTextNode(byteCount+""));
     }
 
     /** @type {Answer} */
     get answer() { return this._answer; }
+
+    /**
+     * Sets the answer
+     * @param {Answer} newAnswer
+     */
+    async setAnswer(newAnswer) {
+        this._answer = newAnswer;
+        await this.setBody(newAnswer.code, newAnswer.language);
+        this.byteCount = newAnswer.length;
+    }
 }

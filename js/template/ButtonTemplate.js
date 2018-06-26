@@ -1,5 +1,8 @@
 import Template from '~/template/Template';
+import { HandleUnhandledPromise } from '~/helpers/ErrorManager';
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
+
+import tippy from 'tippy.js/dist/tippy.all.min.js';
 
 export const ButtonColor = {
     green: 'green',
@@ -42,8 +45,47 @@ export default class ButtonTemplate extends Template {
         /** @type {ActionControllerDelegate} */
         this.delegate = new ActionControllerDelegate();
 
+        this._isDisabled = false;
+
         node.addEventListener("click", () => {
-            this.delegate.didSetStateTo(this, true);
+            if (this._isDisabled) return;
+            this.trigger().catch(HandleUnhandledPromise);
         });
+
+        this._message = null;
+
+    }
+
+    /**
+     * Sets if disabled. Will stop click events from firing
+     * @param {Boolean} isDisabled
+     * @param {?string} message optional message to display
+     */
+    async setIsDisabled(isDisabled, message = null) {
+        this.underlyingNode.title = "";
+        this._message?.destroy(true);
+
+        if (isDisabled) {
+            this._isDisabled = true;
+            this.underlyingNode.classList.add('button--color-disabled');
+
+            if (message) {
+                this.underlyingNode.title = message;
+                this._message = tippy.one(this.underlyingNode, {
+                    duration: [200, 150],
+                    size: 'small'
+                })
+            }
+        } else {
+            this._isDisabled = false;
+            this.underlyingNode.classList.remove('button--color-disabled');
+        }
+    }
+
+    /**
+     * Do not call directly, called when loading
+     */
+    async trigger() {
+        await this.delegate.didSetStateTo(this, true);
     }
 }

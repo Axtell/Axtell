@@ -12,16 +12,39 @@ export default class PublishEdit extends Request {
     /**
      * @param {Object} options
      * @param {Answer|Post} options.item
-     * @param {boolean} [options.deleted=false] If should delete
+     * @param {?(Answer|Post)} options.original An original can be passed to only change the changes
+     * @param {boolean} [options.deleted=undefined] If should delete
      */
     constructor({
         item,
-        deleted = false
+        original,
+        deleted
     }) {
+        let options = {};
+
+        if (original) {
+            const originalJSON = original.toJSON();
+            const newJSON = item.toJSON();
+
+            for (let key in newJSON) {
+                // We'll exclude certain keys
+                if (key === 'owner' ||
+                    key === 'id') continue;
+
+                if (newJSON.hasOwnProperty(key) && originalJSON.hasOwnProperty(key) &&
+                    newJSON[key] !== originalJSON[key]) {
+                    options[key] = newJSON[key];
+                }
+            }
+        } else {
+            options = item.toJSON();
+        }
+
         super({
             path: `/${item.endpoint}/${item.id}/edit`,
             method: HTTPMethod.POST,
             data: {
+                ...options,
                 deleted: deleted
             }
         });

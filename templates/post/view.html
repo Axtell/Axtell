@@ -77,7 +77,8 @@
                     <h4>{{ answer.get_language().get_display_name() }}</h4>
 
                     <div class="answer-metric">
-                        {{ answer.byte_len }}<span>{{ "byte" if answer.byte_len == 1 else "bytes" }}</span>
+                       <span class="answer-metric__value"> {{ answer.byte_len }}</span>
+                       <span class="answer-metric__unit">{{ "byte" if answer.byte_len == 1 else "bytes" }}</span>
                     </div>
                 </div>
                 <div class="body">

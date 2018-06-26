@@ -13,13 +13,13 @@
         background: $fg;
         color: $bg;
         path {
-          fill: $bg;
+          fill: currentColor;
         }
       }
     }
 
     path {
-      fill: $fg;
+      fill: currentColor;
     }
 
     &, path {

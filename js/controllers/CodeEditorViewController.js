@@ -48,8 +48,33 @@ export default class CodeEditorViewController extends ViewController {
             /** @type {ActionControllerDelegate} */
             this.delegate = new ActionControllerDelegate();
 
+            this._editor.on('change', (editor) => {
+                this.delegate.didSetStateTo(this, editor.getValue());
+            });
+
             return this;
         })();
+    }
+
+    /**
+     * If should auto resize (i.e. starts at 1)
+     * @type {boolean}
+     */
+    set autoresize(shouldAutoresize) {
+        if (shouldAutoresize) {
+            this._editor.getWrapperElement().style.height = 'auto';
+            this._editor.setOption('viewportMargin', Infinity);
+        } else {
+            this._editor.setOption('viewportMargin', 10);
+        }
+    }
+
+    /**
+     * Sets the height in the # of lines that should be shown
+     * @type {nuumber}
+     */
+    set lines(lineCount) {
+        this._editor.setOption('viewportMargin', lineCount);
     }
 
     /**

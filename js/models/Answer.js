@@ -31,6 +31,22 @@ export default class Answer {
     }
 
     /**
+     * Clones and returns a new copy of the answer. This is not deep
+     * @return {Answer} a copy
+     */
+    clone() {
+        return new Answer({
+            id: this._id,
+            code: this._code,
+            encoding: this._encoding,
+            commentary: this._commentary,
+            length: this._length,
+            language: this._language,
+            user: this._user
+        });
+    }
+
+    /**
      * @type {number}
      */
     get id() { return this._id }
@@ -65,7 +81,11 @@ export default class Answer {
      * Sets the code
      * @type {string}
      */
-    set code(code) { this._code = code; }
+    set code(code) {
+        // TODO: support encodings
+        this._length = [...code].length;
+        this._code = code;
+    }
 
     /**
      * Returns owner of the answer

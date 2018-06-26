@@ -18,4 +18,13 @@ export default class ProgressButtonTemplate extends ButtonTemplate {
         /** @type {ProgressButtonController} */
         this.controller = new ProgressButtonController(this.underlyingNode);
     }
+
+    /** @override */
+    async trigger() {
+        this.controller.setLoadingState(true);
+
+        await super.trigger();
+
+        this.controller.setLoadingState(false);
+    }
 }
