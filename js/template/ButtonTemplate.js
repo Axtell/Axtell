@@ -61,7 +61,7 @@ export default class ButtonTemplate extends Template {
      * @param {Boolean} isDisabled
      * @param {?string} message optional message to display
      */
-    async setIsDisabled(isDisabled, message = null) {
+    setIsDisabled(isDisabled, message = null) {
         this.underlyingNode.title = "";
         this._message?.destroy(true);
 

@@ -79,7 +79,7 @@ export default class AnswerEditTemplate extends Template {
             this.saveButton = saveButton;
 
             // Queue this next tick
-            setTimeout(::this.checkIsDisabled);
+            this.checkIsDisabled(this.answer.code);
 
             return this;
         })();

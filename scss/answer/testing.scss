@@ -1,0 +1,79 @@
+@function capitalize($string) {
+  @return to-upper-case(str-slice($string, 1, 1)) + str-slice($string, 2);
+}
+
+@mixin test-tag--type($name, $color, $image) {
+    .test-tag--type-#{$name} {
+        background: #{$color};
+        &.test-tag--icon::before, & .test-tag--icon::before {
+            background: url(/static/img/#{$image}-white.svg);
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+    }
+
+
+    .test-tag--type-#{$name} .test-tag__vertical_section.test-tag__type_name::after {
+        content: capitalize($name);
+        @include test-tag--label;
+    }
+}
+
+@mixin test-tag--label {
+    text-align: center;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 0.6em;
+}
+
+@include test-tag--type("string", #7CA58B, 'quote');
+@include test-tag--type("int", #9F8BB7, 'quote');
+@include test-tag--type("float", #9F8BB7, 'quote');
+@include test-tag--type("code", #444FAC, 'code');
+
+.test-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 1px 0.5ch; // 0.5ch so will be aligned
+    border-radius: 4px;
+
+    font-size: 1em;
+    font-family: $monospace;
+
+    box-sizing: border-box;
+
+    position: relative;
+
+    .test-tag__vertical_section {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: stretch;
+
+        &--pad-right { padding-right: 0.5ch; }
+        &--pad-left { padding-left: 0.5ch; }
+    }
+
+    .test-tag__type_desc {
+        font-size: 1em;
+        text-transform: lowercase;
+        color: white;
+    }
+
+    .test-tag__label {
+        @include test-tag--label;
+    }
+}
+
+.test-tag--icon {
+    &::before {
+        content: '';
+        display: inline-block;
+        box-sizing: border-box;
+        @include square(1.5ch);
+        margin: 0 1ch 0 0.5ch;
+        padding: 2px 0;
+        vertical-align: middle;
+    }
+}

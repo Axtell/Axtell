@@ -22,6 +22,8 @@ export default class Template {
             this._type = type;
         }
 
+        this._root.template = this;
+
         this._parent = this._root.parentNode;
 
         this._hasLoaded = false;
