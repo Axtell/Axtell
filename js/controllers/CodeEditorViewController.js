@@ -88,13 +88,14 @@ export default class CodeEditorViewController extends ViewController {
             if (pos) {
                 pos.from.ch += 1;
                 pos.to.ch -= 1;
-                this._editor.replaceRange(this._widgetId(newId, value), pos);
+                this._editor.replaceRange(this._widgetId(newId, value), pos.from, pos.to);
             }
         }
 
         // Support values on ActionControllerDelegate
         if (template.delegate instanceof ActionControllerDelegate) {
             template.delegate.didSetStateTo = (template, state) => {
+                this._editor.refresh();
                 updateId(id, state);
             };
         }

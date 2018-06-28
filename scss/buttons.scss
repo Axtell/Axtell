@@ -111,6 +111,15 @@
   &.button--shadow-none {
     box-shadow: none;
   }
+
+  // Responsive title
+  &.button--responsive-title {
+    @media (max-width: $sidebar-collapse) {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+      span { display: none }
+    }
+  }
 }
 
 // When using `button` root it does its own thing by default
