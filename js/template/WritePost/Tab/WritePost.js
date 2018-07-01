@@ -9,30 +9,31 @@ export default class WritePostTabWritePost extends Template {
         const root = <div/>;
         super(root);
 
+        /** @type {MarkdownTemplate} */
+        this.postBody = new MarkdownTemplate();
+        this.postBody.autoresize = true;
+
+        /** @type {TextInputTemplate} */
+        this.title = new TextInputTemplate(
+            TextInputType.Title,
+            'Post title'
+        );
+
         root.appendChild(
             <DocumentFragment>
                 { new HeaderTemplate('Write Post').unique() }
 
-                {this.defineLinkedTemplate(
-                    'title',
-                    new LabelGroup(
-                        'Title',
-                        new TextInputTemplate(
-                            TextInputType.Title,
-                            'Post title'
-                        ),
-                        'A simple and descriptive title of your challenge.'
-                    )
-                )}
+                { new LabelGroup(
+                    'Title',
+                    this.title,
+                    { tooltip: 'A simple and descriptive title of your challenge.' }
+                ).unique() }
 
-                {this.defineLinkedTemplate(
-                    'postBody',
-                    new LabelGroup(
-                        'Post Body',
-                        new MarkdownTemplate(),
-                        'Describe your challenge and be specific. (markdown supported)'
-                    )
-                )}
+                {new LabelGroup(
+                    'Post Body',
+                    this.postBody,
+                    { tooltip: 'Describe your challenge and be specific. (markdown supported)' }
+                ).unique()}
             </DocumentFragment>
         );
     }

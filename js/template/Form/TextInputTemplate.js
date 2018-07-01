@@ -1,9 +1,11 @@
 import Template from '~/template/Template';
 import Random from '~/modern/Random';
+import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 
 export const TextInputType = {
     Title: 'text-input--type-title',
-    Email: ''
+    Email: '',
+    URL: 'text-input--type-url'
 }
 
 export default class TextInputTemplate extends Template {
@@ -19,6 +21,16 @@ export default class TextInputTemplate extends Template {
                    placeholder={placeholder} />
         );
 
+        this.delegate = new ActionControllerDelegate();
         this.defineLinkedInput('value');
+
+        this.underlyingNode.addEventListener("input", () => {
+            this.delegate.didSetStateTo(this, this.value);
+        });
+    }
+
+    /** @override */
+    didLoad() {
+        this.delegate.didSetStateTo(this, "");
     }
 }

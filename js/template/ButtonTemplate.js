@@ -42,6 +42,10 @@ export default class ButtonTemplate extends Template {
         }
         super(node);
 
+        this.defineLinkedClass('isWide', 'button--size-wide');
+        this.defineLinkedClass('isSmall', 'button--size-small');
+        this.defineLinkedClass('hasPaddedTop', 'button--padding-top');
+
         /** @type {ActionControllerDelegate} */
         this.delegate = new ActionControllerDelegate();
 

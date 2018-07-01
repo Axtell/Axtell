@@ -177,16 +177,6 @@ export default class Template {
     }
 
     /**
-     * Defines a linked template
-     * @param {string} name the name
-     * @param {Template} template
-     */
-    defineLinkedTemplate(name, template) {
-        this[name] = template;
-        return template.unique();
-    }
-
-    /**
      * Defines a linked class
      * @param {string} name - field name
      * @param {string} className

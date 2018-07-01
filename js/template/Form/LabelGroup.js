@@ -11,10 +11,12 @@ export default class LabelGroup extends Template {
      * A group of label and the input
      * @param {string} label
      * @param {TextInputTemplate} input
-     * @param {?string} tooltip Some info describing what
+     * @param {?string} o.tooltip Some info describing what
+     * @param {?ButtonTemplate} o.button
      */
-    constructor(label, input, tooltip = "") {
-        const id = Random.ofLength(16);
+    constructor(label, input, { tooltip = "", button = null } = {}) {
+        const normalizedLabel = label.toLowerCase().replace(/[^a-z]/g, '');
+        const id = `lg-${normalizedLabel}-${Random.ofLength(16)}`;
         const tooltipPlaceholder = <span class="label-group__tooltip" title={tooltip}></span>
 
         const root = (
@@ -27,6 +29,8 @@ export default class LabelGroup extends Template {
 
         const elem = input.loadInContext(root);
         elem.id = id;
+
+        button?.loadInContext(root);
 
         this._tooltipPlaceholder = tooltipPlaceholder;
 

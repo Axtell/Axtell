@@ -63,7 +63,7 @@ export default class WritePostTemplate extends Template {
             new WritePostNavigationItemTemplate(
                 'Examples',
                 'write test cases for solutions',
-                WritePostTab.Submit
+                WritePostTab.Examples
             )
         );
 
