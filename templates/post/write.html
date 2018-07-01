@@ -1,43 +1,9 @@
-{% extends "layouts/split.html" %}
+{% extends "layouts/page.html" %}
 
 {% block title %}Write Post{% endblock %}
-{% block main -%}
-    <form id="post-form" method="POST" action="{{ url_for('publish_post') }}">
-        <div class="list-header">
-            <h1>Create Post</h1>
-            <div id="post-publish" class="select-dialog">
-                <label class="select-trigger" for="post-publish-switch">challenge type: <a>code-golf</a></label>
-                <input id="publish-target" type="hidden" name="publish-type" value="">
-                <ul id="post-publish-switch" class="drop template">
-                    <li class="opt state-active">code-golf</li>
-                </ul>
-            </div>
-        </div>
-        <div class="item-wrap label-group">
-            <label for="post-title">Title</label>
-            <input type="text" id="post-title" name="post-title" class="text-input text-input--type-title foreign-synchronize" placeholder="Post Title">
-        </div>
-        <div class="item-wrap label-group group-stretch">
-            <label for="post-body">Post Body <span id="preview-wrap"></span></label>
-            <textarea name="post-body" id="post-body" class="markdown text-base stretch-item foreign-synchronize" placeholder="Write post here..."></textarea>
-        </div>
-        <div class="item-wrap label-group">
-            <label id="category-label">Categories</label>
-            <span id="post-categories" class="text-input text-input__list-container"></span>
-        </div>
-        <div class="item-wrap">
-            <button type="submit" class="button button--color-accent">Post</button>
-        </div>
-    </form>
-{%- endblock %}
-
-{% block sidebar -%}
-    <div class="sidebar help">
-        <h4>Writing Tips</h4>
-        <ul class="sc">
-            <li>An <strong>objective</strong> way to identify a winner.</li>
-            <li>Provide <strong>examples</strong> for clarity.</li>
-            <li>Describe <strong>corner cases</strong>.</li>
-        </ul>
-    </div>
+{% block content -%}
+<div id="post-write" class="template--root">
+    {% include "svg/loading.html" %}
+    <h2>Loading...</h2>
+</div>
 {%- endblock %}

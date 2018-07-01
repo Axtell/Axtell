@@ -1,0 +1,97 @@
+.write-post__subheader__wrapper {
+    background-color: $content-bg;
+}
+
+.write-post__subheader__list {
+    $write-post-subheader-arrow-size: 24px;
+
+    list-style: none;
+    padding: 0;
+
+    display: flex;
+    flex-direction: row;
+
+    $write-post-subheader-contrast-color: $accent-color;
+
+    &__step {
+        transition: 0.2s all ease;
+
+        padding: 1rem $write-post-subheader-arrow-size * 1.5;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        background: $content-bg;
+        position: relative;
+
+        cursor: pointer;
+
+        &--active#{&} {
+            background: $write-post-subheader-contrast-color;
+
+            .write-post__subheader__list__step__number {
+                background: $content-bg;
+                color: $write-post-subheader-contrast-color;
+            }
+
+            h2 { color: $content-bg; }
+            h3 { color: rgba($content-bg, 0.8); }
+        }
+
+        &:not(&--active):hover {
+            background: rgba($hover-mix, 0.08);
+        }
+
+        &::after {
+            content: "";
+
+            z-index: 1;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 100%;
+
+            width: $write-post-subheader-arrow-size;
+
+            clip-path: polygon(0% 0%, 00% 0%, 100% 50%, 0% 100%, 0% 100%);
+            background: inherit;
+
+        }
+
+        &__number {
+            font-weight: $bold-weight;
+            $subheader_num_size: 16px;
+            font-size: $subheader_num_size - 4px;
+            line-height: $subheader_num_size;
+            text-align: center;
+
+            @include square($subheader_num_size);
+
+            border-radius: $subheader_num_size / 2;
+
+            color: $content-bg;
+            background: $write-post-subheader-contrast-color;
+
+            + div {
+                margin-left: 12px;
+            }
+        }
+
+        &__stack {
+            display: flex;
+            flex-direction: column;
+        }
+
+        h2 {
+            font-size: 1rem;
+            font-weight: $bold-weight;
+            color: $write-post-subheader-contrast-color;
+        }
+
+        h3 {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: rgba($write-post-subheader-contrast-color, 0.8);
+        }
+    }
+}

@@ -1,13 +1,6 @@
 {
   "presets": [
     ["@babel/preset-env", {
-      "targets": {
-        "browsers": [
-          "safari >= 10",
-          "ios_saf >= 10",
-          "last 2 Chrome versions"
-        ]
-      },
       "useBuiltIns": "entry",
       "modules": false
     }]

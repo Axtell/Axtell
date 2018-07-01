@@ -31,11 +31,10 @@ export default class SwappingViewController extends ViewController {
      * @param {Template} alternate - New elem to show
      */
     displayAlternate(alternate) {
-        const node = alternate.unique();
-        this._parent.replaceChild(
-            node,
+        const node = alternate.loadReplacingContext(
             this._displayingSource ? this._source : this._replacee
         );
+
         this._replacee = node;
         this._displayingSource = false;
     }
