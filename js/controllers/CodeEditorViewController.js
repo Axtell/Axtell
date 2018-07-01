@@ -2,7 +2,6 @@ import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 import ViewController from '~/controllers/ViewController';
 import { CodeMirror as LoadCodeMirror, CodeMirrorMode, CodeMirrorTheme } from '~/helpers/LazyLoad';
 import ErrorManager from '~/helpers/ErrorManager';
-import Language from '~/';
 import Random from '~/modern/Random';
 
 export const CodeEditorModeLoadError = Symbol('CodeEditor.Error.ModeLoad');
