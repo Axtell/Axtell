@@ -95,6 +95,14 @@
   // Adds a little space to the top
   &.button--padding-top { margin-top: 4px; }
 
+  // Adds left + right margins
+  &.button--padding-horizontal {
+    margin: 0 1rem;
+    &.button--size-wide {
+      width: calc(100% - 2rem);
+    }
+  }
+
   // Shrink everything for smaller places
   &.button--size-small {
     font-size: 0.8rem;

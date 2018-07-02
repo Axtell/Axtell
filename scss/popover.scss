@@ -14,6 +14,16 @@
 
   top: 100%;
 
+  transition: 0.2s all ease;
+  transform-origin: 50% 0;
+
+  transform: scale(1, 0) rotateX(-90deg);
+  opacity: 0;
+  &.template--active {
+    opacity: 1;
+    transform: scale(1, 1) rotateX(0deg);
+  }
+
   &--responsive-fixed {
     @media (max-width: $sidebar-collapse) {
       position: fixed;
@@ -68,4 +78,5 @@
 // For elements containing a popover
 .popover__container {
   position: relative;
+  perspective: 500px;
 }

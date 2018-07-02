@@ -3,9 +3,14 @@ import LabelGroup from '~/template/Form/LabelGroup';
 import HeaderTemplate from '~/template/HeaderTemplate';
 import MarkdownTemplate from '~/template/MarkdownTemplate';
 import TextInputTemplate, { TextInputType } from '~/template/Form/TextInputTemplate';
+import ButtonTemplate, { ButtonColor } from '~/template/ButtonTemplate';
 
 export default class WritePostTabWritePost extends Template {
-    constructor() {
+    /**
+     * Creates in context
+     * @param {WritePostTemplate} writePostTemplate
+     */
+    constructor(writePostTemplate) {
         const root = <div/>;
         super(root);
 
@@ -18,6 +23,14 @@ export default class WritePostTabWritePost extends Template {
             TextInputType.Title,
             'Post title'
         );
+
+        /** @type {ButtonTemplate} */
+        this.nextTab = new ButtonTemplate({
+            text: 'Next Step',
+            color: ButtonColor.blue
+        });
+        this.nextTab.isWide = true;
+        this.nextTab.hasPaddedHorizontal = true;
 
         root.appendChild(
             <DocumentFragment>
@@ -34,7 +47,17 @@ export default class WritePostTabWritePost extends Template {
                     this.postBody,
                     { tooltip: 'Describe your challenge and be specific. (markdown supported)' }
                 ).unique()}
+
+                { this.nextTab.unique() }
             </DocumentFragment>
         );
+
+        /** @type {WritePostTemplate} */
+        this.writePostTemplate = writePostTemplate;
+
+        this.nextTab.delegate.didSetStateTo = (template, state) => {
+            this.writePostTemplate.subheader.nextTab();
+        };
+
     }
 }

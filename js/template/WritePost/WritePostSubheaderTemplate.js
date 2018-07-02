@@ -1,5 +1,6 @@
 import Template from '~/template/Template';
 import NavigationItemDelegate from '~/delegate/NavigationItemDelegate';
+import anime from 'animejs';
 
 export default class WritePostSubheaderTemplate extends Template {
     /**
@@ -28,14 +29,52 @@ export default class WritePostSubheaderTemplate extends Template {
 
     /** @type {number} */
     set activeTab(index) {
+        if (index === this._activeTab) return;
+
         const oldTab = this._tabs[this._activeTab];
         if (oldTab) {
             oldTab.isActive = false;
         }
 
+        const curTab = this._tabs[index];
+        if (!curTab) return;
         this._activeTab = index;
-        this._tabs[this._activeTab].isActive = true;
+        curTab.isActive = true;
+
+        // Check if we need to scroll to center the tab item
+        //  for mobile because we scroll the step list
+        if (this._list.scrollWidth > this._list.clientWidth) {
+            const tabItem = curTab.underlyingNode;
+            const animationTime = 100;
+
+            // If the tabItem won't fit, then show as much as possible
+            if (tabItem.offsetWidth > this._list.clientWidth) {
+                anime({
+                    targets: this._list,
+                    scrollLeft: tabItem.offsetLeft,
+                    duration: 200,
+                });
+            } else {
+                // If it can fit then center
+                let parentOffset = this._list.clientWidth / 2;
+                let tabItemOffset = tabItem.offsetWidth / 2;
+                anime({
+                    targets: this._list,
+                    scrollLeft: Math.max(tabItem.offsetLeft - parentOffset + tabItemOffset, 0),
+                    duration: 600,
+                    elasticity: 10
+                });
+            }
+        }
     }
+
+    /**
+     * Goes to next tab if possible otherwise does nothing
+     */
+    nextTab() {
+        this.activeTab += 1;
+    }
+
 
     /** @override */
     didLoad() {
@@ -60,7 +99,8 @@ export default class WritePostSubheaderTemplate extends Template {
         item.index = this._tabs.length;
         item.loadInContext(this._list);
 
-        item.delegate.shouldOpen = (template, id) => {
+        item.delegate.shouldOpen = (item, id) => {
+            this.activeTab = item.index - 1;
             this.delegate.shouldOpen(this, id);
         };
     }

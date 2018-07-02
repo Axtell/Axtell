@@ -46,6 +46,7 @@
     "webpack-cli": "^2.1.2"
   },
   "dependencies": {
+    "animejs": "^2.2.0",
     "axios": "^0.17.0",
     "element-dataset": "^2.2.6",
     "entities": "^1.1.1",

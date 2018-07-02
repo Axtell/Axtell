@@ -31,8 +31,11 @@ export default class WritePostTemplate extends Template {
          * @type {Object}
          */
         this.tabs = {
-            [WritePostTab.WritePost]: new WritePostTabWritePost()
+            [WritePostTab.WritePost]: new WritePostTabWritePost(this)
         }
+
+        /** @type {WritePostSubheaderTemplate} */
+        this.subheader = new WritePostSubheaderTemplate();
     }
 
     /** @type {WritePostTab} */
@@ -49,8 +52,7 @@ export default class WritePostTemplate extends Template {
 
     /** @override */
     didLoad() {
-        const subheader = new WritePostSubheaderTemplate();
-        subheader.appendNavigationItem(
+        this.subheader.appendNavigationItem(
             new WritePostNavigationItemTemplate(
                 'Write Post',
                 'write post body',
@@ -59,7 +61,7 @@ export default class WritePostTemplate extends Template {
             true
         );
 
-        subheader.appendNavigationItem(
+        this.subheader.appendNavigationItem(
             new WritePostNavigationItemTemplate(
                 'Examples',
                 'write test cases for solutions',
@@ -67,7 +69,7 @@ export default class WritePostTemplate extends Template {
             )
         );
 
-        subheader.appendNavigationItem(
+        this.subheader.appendNavigationItem(
             new WritePostNavigationItemTemplate(
                 'Submit',
                 'preview before submitting',
@@ -75,10 +77,10 @@ export default class WritePostTemplate extends Template {
             )
         );
 
-        subheader.delegate.shouldOpen = (template, id) => {
+        this.subheader.delegate.shouldOpen = (template, id) => {
             this.tab = id;
         };
 
-        HeaderViewController.shared.addSubheader(subheader);
+        HeaderViewController.shared.addSubheader(this.subheader);
     }
 }
