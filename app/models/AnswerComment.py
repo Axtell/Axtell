@@ -1,6 +1,7 @@
 from app.instances.db import db
 import datetime
 from time import mktime
+from config import comments
 
 
 class AnswerComment(db.Model):
@@ -11,7 +12,7 @@ class AnswerComment(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     answer_id = db.Column(db.Integer, db.ForeignKey('answers.id'), nullable=False)
     parent_id = db.Column(db.Integer, db.ForeignKey('answer_comments.id'), nullable=True)
-    text = db.Column(db.String(140), nullable=False)
+    text = db.Column(db.String(comments['max_len']), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.datetime.now)
 
