@@ -6,6 +6,7 @@ import SwappingTemplate from '~/template/SwappingTemplate';
 import ErrorManager from '~/helpers/ErrorManager';
 
 import WritePostTabWritePost from '~/template/WritePost/Tab/WritePost';
+import WritePostTabExamples from '~/template/WritePost/Tab/Examples';
 
 export const WritePostTab = {
     WritePost: Symbol('WritePost.Tab.WritePost'),
@@ -31,7 +32,8 @@ export default class WritePostTemplate extends Template {
          * @type {Object}
          */
         this.tabs = {
-            [WritePostTab.WritePost]: new WritePostTabWritePost(this)
+            [WritePostTab.WritePost]: new WritePostTabWritePost(this),
+            [WritePostTab.Examples]: new WritePostTabExamples(this)
         }
 
         /** @type {WritePostSubheaderTemplate} */

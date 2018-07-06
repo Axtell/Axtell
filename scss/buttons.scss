@@ -97,7 +97,11 @@
 
   // Adds left + right margins
   &.button--padding-horizontal {
-    margin: 0 1rem;
+    margin: {
+      left: 1rem;
+      right: 1rem;
+    };
+
     &.button--size-wide {
       width: calc(100% - 2rem);
     }

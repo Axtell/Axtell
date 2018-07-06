@@ -58,6 +58,5 @@ export default class WritePostTabWritePost extends Template {
         this.nextTab.delegate.didSetStateTo = (template, state) => {
             this.writePostTemplate.subheader.nextTab();
         };
-
     }
 }

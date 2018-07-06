@@ -30,14 +30,16 @@ export default class WritePostSubheaderTemplate extends Template {
     /** @type {number} */
     set activeTab(index) {
         if (index === this._activeTab) return;
+        const curTab = this._tabs[index];
+        if (!curTab) return;
+
+        this.delegate.shouldOpen(this, curTab.id);
 
         const oldTab = this._tabs[this._activeTab];
         if (oldTab) {
             oldTab.isActive = false;
         }
 
-        const curTab = this._tabs[index];
-        if (!curTab) return;
         this._activeTab = index;
         curTab.isActive = true;
 
@@ -101,7 +103,6 @@ export default class WritePostSubheaderTemplate extends Template {
 
         item.delegate.shouldOpen = (item, id) => {
             this.activeTab = item.index - 1;
-            this.delegate.shouldOpen(this, id);
         };
     }
 }

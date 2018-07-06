@@ -188,7 +188,7 @@ export default class Template {
         Object.defineProperty(this, name, {
             configurable: true,
             enumerable: true,
-            get: () => node.classList.has(realClassName),
+            get: () => node.classList.contains(realClassName),
             set: (newValue) => {
                 if (newValue ^ isInv) node.classList.add(realClassName);
                 else node.classList.remove(realClassName);
