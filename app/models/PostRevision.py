@@ -7,10 +7,13 @@ import datetime
 
 def get_revision_id(context):
     post_id = context.get_current_parameters()['post_id']
-    return (PostRevision.query(PostRevision.revision_id)
-            .filter_by(post_id=post_id)
-            .order_by(PostRevision.revision_id.desc())
-            .first() or 0) + 1
+    try:
+        return (PostRevision.query
+                .filter_by(post_id=post_id)
+                .order_by(PostRevision.revision_id.desc())
+                .first().revision_id) + 1
+    except AttributeError:
+        return 1
 
 
 class PostRevision(db.Model):
