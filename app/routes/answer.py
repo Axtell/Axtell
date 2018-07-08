@@ -26,4 +26,7 @@ def publish_answer():
 
 @server.route('/answer/<int:answer_id>/edit', methods=['POST'])
 def edit_answer(answer_id):
-    return render_json(answer.revise_answer(answer_id, request.get_json()).to_json())
+    try:
+        return render_json(answer.revise_answer(answer_id, request.get_json()).to_json())
+    except PermissionError:
+        return abort(403)

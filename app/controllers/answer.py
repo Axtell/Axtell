@@ -50,6 +50,8 @@ def get_answer(answer_id):
 
 def revise_answer(answer_id, data):
     answer = get_answer(answer_id)
+    if answer.user_id != g.user.id:
+        raise PermissionError
     answer, revision = answer.revise(g.user, **data)
     db.session.add(revision)
     db.session.commit()

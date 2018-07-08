@@ -50,6 +50,8 @@ def get_post(post_id):
 
 def revise_post(post_id, data):
     post = get_post(post_id)
+    if post.user_id != g.user.id:
+        raise PermissionError
     post, revision = post.revise(g.user, **data)
     db.session.add(revision)
     db.session.commit()
