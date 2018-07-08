@@ -79,8 +79,8 @@ class Answer(db.Model):
                                   deleted=self.deleted,
                                   user_id=user.id)
         self.code = new_answer_data.get('code', self.code)
-        self.commentary = new_answer_data.get('code', self.commentary)
-        self.encoding = new_answer_data.get('code', self.encoding)
+        self.commentary = new_answer_data.get('commentary', self.commentary)
+        self.encoding = new_answer_data.get('encoding', self.encoding)
         self.deleted = new_answer_data.get('deleted', self.deleted)
         return self, revision
 
