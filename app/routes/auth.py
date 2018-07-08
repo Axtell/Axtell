@@ -4,6 +4,7 @@ from app.controllers import auth
 from app.helpers.render import render_error, render_json, render_template
 from app.server import server
 from app.session.user_session import remove_session_user
+import config
 
 from app.helpers.macros.encode import b64_to_json
 
@@ -65,6 +66,8 @@ def auth_logout():
 
 @server.route("/auth/loginhack")
 def auth_hack():
+    if not config.app.get('debug', False):
+        return abort(404)
     auth.auth_hack()
     redirect_url = request.args.get('redirect') or '/'
     return redirect(redirect_url, code=303)
