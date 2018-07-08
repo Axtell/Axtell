@@ -80,7 +80,10 @@ class Answer(db.Model):
                                   user_id=user.id)
         for key, value in new_answer_data.items():
             if hasattr(self, key):
-                setattr(self, key, value)
+                try:
+                    setattr(self, key, value)
+                except AttributeError:
+                    continue  # this should only happen if we try to set a hybrid property
         return self, revision
 
     def __repr__(self):
