@@ -3,6 +3,7 @@ from base64 import b64decode
 
 from app.controllers import answer
 from app.server import server
+from app.helpers.render import render_template, render_json
 
 
 @server.route('/answer/public', methods=['POST'])
@@ -25,4 +26,4 @@ def publish_answer():
 
 @server.route('/answer/<int:answer_id>/edit', methods=['POST'])
 def edit_answer(answer_id):
-    return answer.revise_answer(answer_id, request.get_json()).to_json()
+    return render_json(answer.revise_answer(answer_id, request.get_json()).to_json())

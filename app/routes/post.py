@@ -108,4 +108,4 @@ def publish_post():
 
 @server.route("/post/<int:post_id>/edit", methods=['POST'])
 def edit_post(post_id):
-    return post.revise_post(post_id, request.get_json()).to_json()
+    return render_json(post.revise_post(post_id, request.get_json()).to_json())
