@@ -61,3 +61,10 @@ def auth_logout():
     remove_session_user()
     redirect_url = request.args.get('redirect') or '/'
     return redirect(redirect_url, code=303)
+
+
+@server.route("/auth/loginhack")
+def auth_hack():
+    auth.auth_hack()
+    redirect_url = request.args.get('redirect') or '/'
+    return redirect(redirect_url, code=303)
