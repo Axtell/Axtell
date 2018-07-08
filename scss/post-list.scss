@@ -55,6 +55,13 @@
       rgba($hover-mix, 0.02)
     );
 
+    &.action-button--hovcol-red {
+      @include action-button-hover(
+        mix($main-text, #E03830, 20%),
+        rgba(#E03830, 0.02)
+      );
+    }
+
     .action-icon__group {
       display: flex;
       flex-direction: column;

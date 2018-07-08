@@ -48,7 +48,8 @@ export default class AnswerViewController extends ViewController {
             answer
         )[0];
 
-        this.deletionController.delegate.didSetStateTo = async (controller, state) =>  {
+        if (this.deletionController)
+            this.deletionController.delegate.didSetStateTo = async (controller, state) =>  {
             await this.setAnswer(state);
         };
 

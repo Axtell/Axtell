@@ -45,6 +45,9 @@ def get_post(post_id, title=""):
     if matched_post is None:
         return abort(404)
 
+    if matched_post.deleted:
+        return render_template('deleted.html'), 410
+
     # Render main post's markdown
     body = markdown.render_markdown.delay(matched_post.body).wait()
 

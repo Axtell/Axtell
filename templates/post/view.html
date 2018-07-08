@@ -25,9 +25,18 @@
             {{ post_body|safe }}
         </div>
     </div>
-    <div id="post-vote-list" class="post-action-list post-action-list--pad-horizontal">
+    <div id="post-action-list" class="post-action-list post-action-list--pad-horizontal">
         {% set vote_status = vote.get_post_vote(post.id) %}
         {{ votebuttons(vote_status, is_own=post.user == g.user) }}
+        {% if post.user == g.user -%}
+        <div class="post-action-list__spacer"></div>
+        <div class="action-button action-button--hovcol-red delete-button">
+            <div class="action-icon__group">
+                {% include "svg/trash.html" %}
+                <span>Delete Challenge</span>
+            </div>
+        </div>
+        {%- endif %}
     </div>
     <div class="post-details">
         {{ userbox(post.user, post.date_created, classes="post-detail-item") }}
@@ -95,7 +104,7 @@
                             <span>Golf Answer</span>
                         </div>
                     </div>
-                    <div class="action-button delete-button">
+                    <div class="action-button action-button--hovcol-red delete-button">
                         <div class="action-icon__group">
                             {% include "svg/trash.html" %}
                             <span>Delete Answer</span>

@@ -19,14 +19,22 @@ export default class Post {
      * @param {number} postId - Id of post.
      * @param {string} title - Post title
      * @param {?string} body - Post body
+     * @param {boolean} [isDeleted=false] - True if is deleted
      * @param {?User} owner - Owner of post
      */
-    constructor({ postId, title, body = null, owner = null }) {
+    constructor({ postId, title, body = null, isDeleted = false, owner = null }) {
         this._id = postId;
         this._title = title;
         this._body = body;
         this._owner = owner;
+        this._deleted = isDeleted;
     }
+
+    /** @type {boolean} */
+    get isDeleted() { return this._deleted; }
+
+    /** @type {boolean} */
+    set isDeleted(isDeleted) { this._deleted = isDeleted; }
 
     /** @type {number} */
     get id() { return this._id; }
@@ -54,8 +62,9 @@ export default class Post {
         return new Post({
             postId: json.id,
             title: json.title,
-            body: json.body,
-            owner: User.fromJSON(json.owner)
+            body: json.body || null,
+            owner: User.fromJSON(json.owner),
+            isDeleted: json.deleted
         })
     }
 
@@ -66,8 +75,9 @@ export default class Post {
     toJSON() {
         return {
             type: 'post',
-            body: this.body,
-            id: this.id
+            body: this.body || undefined,
+            id: this.id,
+            deleted: this.isDeleted
         };
     }
 

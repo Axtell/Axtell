@@ -36,8 +36,9 @@ def create_post(title, body, categories, ppcg_id=None):
 
 
 def get_posts(page):
-    page = Post.query. \
-        order_by(Post.date_created.desc()) \
+    page = Post.query \
+        .filter_by(deleted=False) \
+        .order_by(Post.date_created.desc()) \
         .paginate(page, per_page=posts['per_page'], error_out=False)
 
     return page
