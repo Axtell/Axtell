@@ -78,12 +78,10 @@ class Answer(db.Model):
                                   encoding=self.encoding,
                                   deleted=self.deleted,
                                   user_id=user.id)
-        for key, value in new_answer_data.items():
-            if hasattr(self, key):
-                try:
-                    setattr(self, key, value)
-                except AttributeError:
-                    continue  # this should only happen if we try to set a hybrid property
+        self.code = new_answer_data.get('code', self.code)
+        self.commentary = new_answer_data.get('code', self.commentary)
+        self.encoding = new_answer_data.get('code', self.encoding)
+        self.deleted = new_answer_data.get('deleted', self.deleted)
         return self, revision
 
     def __repr__(self):

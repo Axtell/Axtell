@@ -101,7 +101,7 @@ def publish_post():
 
     # only should accept JSON
     if request.headers.get('Accept', '') == 'application/json':
-        return render_json({ 'redirect': redirect_url })
+        return render_json({'redirect': redirect_url})
     else:
         return redirect(redirect_url)
 
