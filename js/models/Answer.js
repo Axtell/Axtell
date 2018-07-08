@@ -15,15 +15,17 @@ export default class Answer {
      * @param {number} answer.id
      * @param {?string} answer.code
      * @param {?string} answer.encoding
+     * @param {boolean} [answer.deleted=false]
      * @param {?string} answer.commentary
      * @param {?number} answer.length
      * @param {?Language} answer.language
      * @param {User} answer.user
      */
-    constructor({ id, code, encoding, length, language, commentary, user }) {
+    constructor({ id, code, encoding, deleted = false, length, language, commentary, user }) {
         this._id = id;
         this._code = code;
         this._encoding = encoding;
+        this._deleted = deleted;
         this._commentary = commentary;
         this._length = length;
         this._language = language;
@@ -94,6 +96,16 @@ export default class Answer {
     get user() { return this._user; }
 
     /**
+     * Gets if deleted
+     */
+    get isDeleted() { return this._deleted; }
+
+    /**
+     * Gets if deleted
+     */
+    set isDeleted(isDeleted) { this._deleted = isDeleted; }
+
+    /**
      * Converts to json
      * @return {Object} json object
      */
@@ -103,6 +115,7 @@ export default class Answer {
             id: this.id,
             owner: this.user.toJSON(),
             code: this.code,
+            deleted: this.isDeleted,
             byte_len: this.length,
             lang: this.language
         };
@@ -122,6 +135,7 @@ export default class Answer {
             encoding = "utf8",
             commentary = "",
             lang: language,
+            deleted = false,
             byte_len: length,
             owner
         } = json;
@@ -135,6 +149,7 @@ export default class Answer {
             code,
             encoding,
             commentary,
+            deleted,
             language: Language.fromJSON(language),
             length,
             user: User.fromJSON(owner)

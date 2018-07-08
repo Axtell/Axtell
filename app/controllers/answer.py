@@ -37,7 +37,7 @@ def create_answer(post_id, code, commentary, lang_id=None, lang_name=None):
 
 def get_answers(post_id, page):
     page = Answer.query. \
-        filter_by(post_id=post_id) \
+        filter_by(post_id=post_id, deleted=False) \
         .order_by(Answer.date_created.desc()) \
         .paginate(page, per_page=posts['per_page'], error_out=False)
     return page

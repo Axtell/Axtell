@@ -4,6 +4,8 @@ import CommentListViewController from '~/controllers/CommentListViewController';
 import DeleteItemViewController from '~/controllers/DeleteItemViewController';
 import EditAnswerViewController from '~/controllers/EditAnswerViewController';
 
+import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
+
 import Data from '~/models/Data';
 import Answer from '~/models/Answer';
 
@@ -36,29 +38,41 @@ export default class AnswerViewController extends ViewController {
             answer
         );
 
-        DeleteItemViewController.forClass(
+        /** @type {DeleteItemViewController} */
+        this.deletionController = DeleteItemViewController.forClass(
             'delete-button',
             (btn) => [{
                 trigger: btn,
                 item: this._answer
             }],
             answer
-        );
+        )[0];
 
-        EditAnswerViewController.forClass(
+        this.deletionController.delegate.didSetStateTo = async (controller, state) =>  {
+            await this.setAnswer(state);
+        };
+
+        /** @type {EditAnswerViewController} */
+        this.editAnswerController = EditAnswerViewController.forClass(
             'golf-button',
             (btn) => [{
                 trigger: btn,
                 answerController: this
             }],
             answer
-        );
+        )[0];
+
 
         const answerComments = new CommentListViewController(
             answer.querySelector('.comment-list'),
             this.answer
         );
         answerComments.setupSublists();
+
+        // Deletion Fields
+        this.isDeleted = false;
+        this._deletionOverlay = null;
+
     }
 
     /**
@@ -70,7 +84,7 @@ export default class AnswerViewController extends ViewController {
     }
 
     /**
-     * Sets the code
+     * Sets the code. This does NOT affect the model use a request
      * @param {string} code
      * @param {Language} language
      */
@@ -79,6 +93,27 @@ export default class AnswerViewController extends ViewController {
         this.body.innerHTML = highlight(code, language.hljsId, language.id);
     }
 
+    /**
+     * Gets if deleted or no.
+     * @type {boolean}
+     */
+    get isDeleted() {
+        return this._deleted;
+    }
+
+    /**
+     * Sets if deleted or no. This does NOT affect the model use a Request.
+     * @return {[type]} [description]
+     */
+    set isDeleted(isDeleted) {
+        if (this._deleted === isDeleted) return;
+        this._deleted = isDeleted;
+
+        // TODO: improve + add undo
+        if (isDeleted) {
+            this._body.parentNode.removeChild(this._body);
+        }
+    }
 
     /**
      * Returns the byte count element. For the value use .answer.length
@@ -89,7 +124,7 @@ export default class AnswerViewController extends ViewController {
     }
 
     /**
-     * Sets the byte count.
+     * Sets the byte count. Does NOT update model
      * @type {number}
      */
     set byteCount(byteCount) {
@@ -104,12 +139,13 @@ export default class AnswerViewController extends ViewController {
     get answer() { return this._answer; }
 
     /**
-     * Sets the answer
+     * Sets the answer. Does NOT update model
      * @param {Answer} newAnswer
      */
     async setAnswer(newAnswer) {
         this._answer = newAnswer;
         await this.setBody(newAnswer.code, newAnswer.language);
         this.byteCount = newAnswer.length;
+        this.isDeleted = newAnswer.isDeleted;
     }
 }
