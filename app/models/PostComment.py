@@ -1,5 +1,6 @@
 from app.instances.db import db
 import datetime
+from config import comments
 
 
 class PostComment(db.Model):
@@ -10,7 +11,7 @@ class PostComment(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), nullable=False)
     parent_id = db.Column(db.Integer, db.ForeignKey('post_comments.id'), nullable=True)
-    text = db.Column(db.String(140), nullable=False)
+    text = db.Column(db.String(comments['max_len']), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     deleted = db.Column(db.Boolean, default=False, nullable=False)
