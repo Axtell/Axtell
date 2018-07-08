@@ -11,7 +11,7 @@ from app.models.Login import Login
 from app.session import user_session
 from app.helpers import oauth
 
-from config import canonical_host, oauth as oauth_data
+from config import canonical_host, oauth as oauth_data, app as app_config
 from json import loads as json_parse
 import requests
 
@@ -22,6 +22,19 @@ oauth_config = {
         'auth': oauth.stackexchange
     }
 }
+
+
+def auth_hack():
+    if not app_config.get('debug', False):
+        return abort(404)
+    user = User.query.filter_by(id=2).first()
+    user_session.set_session_user(user)
+    g.user = user
+
+    ip_address = getattr(request, 'access_route', [request.remote_addr])[0]
+    login = Login(ip_address=ip_address, user_id=g.user.id)
+    db.session.add(login)
+    db.session.commit()
 
 
 def get_or_set_user(jwt_token=None, oauth_token=None, profile={}):
