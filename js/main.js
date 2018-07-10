@@ -14,7 +14,9 @@ import Data from "~/models/Data";
 import Random from "~/modern/Random";
 import TestTag from "~/template/TestTag";
 import Auth from "~/models/Auth";
+import Template from "~/template/Template";
 import AnimationController, { Animation } from "~/controllers/AnimationController";
+import ModalViewController from "~/controllers/ModalViewController";
 
 import Request from "~/models/Request/Request";
 import Leaderboard from "~/models/Request/Leaderboard";
@@ -62,7 +64,10 @@ window.addEventListener("unhandledrejection", (error) => {
                 global.ErrorData = ErrorData;
 
                 global.AnimationController = AnimationController;
+                global.ModalViewController = ModalViewController;
                 global.Animation = Animation;
+
+                global.Template = Template;
             }
 
             state = true;
