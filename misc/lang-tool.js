@@ -198,6 +198,10 @@ async function viewLanguage(opts) {
         else return `\u001B[31mEmpty\u001B[0m`;
     }
 
+    header('Encoding');
+    em('Default Encoding: ');
+    value(opts.json.encoding[langId] || 'UTF-8');
+
     header('IDs');
     em('TIO ID: ');
     if (opts.json.tio[langId] == 0) value(`Empty`, true);
@@ -226,7 +230,8 @@ async function editLanguage(opts) {
     let lang = opts.json.languages[langId];
     const changes = {
         displayName: opts.json.languages[langId].display || 1,
-        cmId: opts.json.cm[langId] || 0
+        cmId: opts.json.cm[langId] || 0,
+        encoding: opts.json.encoding[langId] || 1
     };
 
     main:
@@ -237,6 +242,7 @@ async function editLanguage(opts) {
         opts.listOpt(1, 'View current data');
         opts.listOpt(2, 'Change display name');
         opts.listOpt(3, 'Change code editor id');
+        opts.listOpt(4, 'Change default encoding');
 
         switch (await opts.requiredPrompt('Option')) {
             case 0: break main;
@@ -257,6 +263,11 @@ async function editLanguage(opts) {
                 changes.cmId = await opts.requiredPrompt('CodeMirror Editor ID');
                 break;
 
+            case 4:
+                console.log(`Enter \u001B[1;4m1\u001B[0m to use UTF-8.`);
+                changes.encoding = await opts.requiredPrompt('Encoding');
+                break;
+
             default:
                 console.log(`\u001B[31mInvalid option\u001B[0m`);
         }
@@ -266,6 +277,12 @@ async function editLanguage(opts) {
         delete opts.json.languages[langId].display;
     } else {
         opts.json.languages[langId].display = changes.displayName;
+    }
+
+    if (changes.encoding === 1) {
+        delete opts.json.encoding[langId];
+    } else {
+        opts.json.encoding[langId] = changes.encoding;
     }
 
     if (changes.cmId == 0) {
@@ -305,6 +322,10 @@ async function addLanguage(opts) {
     console.log(`If \u001B[1;4m1\u001B[0m is entered, value will be language ID w/ each word capitalized.`);
 
     let displayName = await opts.requiredPrompt('Display Name');
+
+    header('Encoding Info');
+    console.log(`Enter \u001B[1;4m1\u001B[0m for default (UTF-8).`);
+    let encodingName = await opts.requiredPrompt('Encoding');
 
     header('Library IDs');
     console.log(`Enter \u001B[1;4m1\u001B[0m if response is same as Language ID.`);
@@ -357,6 +378,10 @@ async function addLanguage(opts) {
 
     if (cmId) {
         opts.json.cm[langId] = cmId;
+    }
+
+    if (encodingName != 1) {
+        opts.json.encoding[langId] = encodingName;
     }
 
     if (tioId != 1) {
