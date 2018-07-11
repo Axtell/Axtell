@@ -72,4 +72,6 @@ def favicon():
 
 @server.route("/encodings/<encoding>")
 def get_encoding(encoding):
-    return render_json(golflang_encodings.add_encodings.codepages.get(encoding, None))
+    encoding_data = golflang_encodings.add_encodings.codepages.get(encoding, None)
+    print(encoding_data)
+    return render_json(encoding_data)
