@@ -4,6 +4,8 @@ import FormControllerDelegate from '~/delegate/FormControllerDelegate';
 import CategoryListViewController from '~/controllers/CategoryListViewController';
 import PopoverViewController from '~/controllers/PopoverViewController';
 import SwappingViewController from '~/controllers/SwappingViewController';
+import ModalViewController from '~/controllers/ModalViewController';
+import ModalViewTemplate from '~/template/ModalViewTemplate';
 import ForeignInteractor from '~/interactors/ForeignInteractor';
 import ModalController from '~/controllers/ModalController';
 import ViewController from '~/controllers/ViewController';
@@ -44,11 +46,18 @@ if (CREATE_POST_MORE_BUTON) {
     );
 
     // Create Stack Exchange import
-    const StackExchangeImportModal = new ModalTemplate('PPCG Importer', IMPORT_FROM_STACKEXCHANGE, TemplateType.move);
+    const StackExchangeImportModal = new ModalViewTemplate(
+        new Template(IMPORT_FROM_STACKEXCHANGE, TemplateType.move),
+        {
+            title: 'PPCG Importer',
+            subtitle: 'Import your posts from codegolf.stackexchange.com'
+        }
+    );
+
     IMPORT_FROM_STACKEXCHANGE_TRIGGER.addEventListener("click", () => {
-        ModalController.shared.present(
-            StackExchangeImportModal
-        );
+        ModalViewController.shared
+            .present(StackExchangeImportModal)
+            .catch(HandleUnhandledPromise);
     });
 
     async function StackExchangeImportLogin() {

@@ -8,7 +8,7 @@ import { HandleUnhandledPromise } from '~/helpers/ErrorManager';
  */
 export default class ModalViewTemplate extends Template {
     /**
-     * @param {HTMLElement} body
+     * @param {Template} body
      * @param {string} options.title
      * @param {?string} options.subtitle - If null then cannot add later
      */
@@ -27,10 +27,11 @@ export default class ModalViewTemplate extends Template {
                     <div class="list-header list-header--style-caption">
                         <h2 class="header--style-caption">{ this.defineLinkedText('subtitle', subtitle) }</h2>
                     </div>
-                ): <DocumentFragment/> }
-                { body }
+                ) : <DocumentFragment/> }
             </DocumentFragment>
         );
+
+        body.loadInContext(this.underlyingNode);
 
         closeButton.addEventListener('click', () => {
             this.controller.hide()
