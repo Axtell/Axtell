@@ -76,24 +76,6 @@ export default class AnswerViewController extends ViewController {
     }
 
     /**
-     * Gets the node where the body is
-     * @type {HTMLElement}
-     */
-    get body() {
-        return this._bodyEl;
-    }
-
-    /**
-     * Sets the code. This does NOT affect the model use a request
-     * @param {string} code
-     * @param {Language} language
-     */
-    async setBody(code, language) {
-        const { default: highlight } = await import('#/hljs-renderer');
-        this.body.innerHTML = highlight(code, language.hljsId, language.id);
-    }
-
-    /**
      * Gets if deleted or no.
      * @type {boolean}
      */
@@ -113,26 +95,6 @@ export default class AnswerViewController extends ViewController {
         if (isDeleted) {
             this._body.parentNode.removeChild(this._body);
         }
-    }
-
-    /**
-     * Returns the byte count element. For the value use .answer.length
-     * @type {HTMLElement}
-     */
-    get byteCount() {
-        return this._byteCount;
-    }
-
-    /**
-     * Sets the byte count. Does NOT update model
-     * @type {number}
-     */
-    set byteCount(byteCount) {
-        const byteCountElement = this.byteCount;
-        while (byteCountElement.firstChild) {
-            byteCountElement.removeChild(byteCountElement.firstChild);
-        }
-        byteCountElement.appendChild(document.createTextNode(byteCount+""));
     }
 
     /**
@@ -159,7 +121,7 @@ export default class AnswerViewController extends ViewController {
      * @type {HTMLElement}
      */
     get byteCount() {
-        return this._byteCount;
+        return +this._byteCount.textContent;
     }
 
     /**
@@ -167,7 +129,7 @@ export default class AnswerViewController extends ViewController {
      * @type {number}
      */
     set byteCount(byteCount) {
-        const byteCountElement = this.byteCount;
+        const byteCountElement = this._byteCount;
         while (byteCountElement.firstChild) {
             byteCountElement.removeChild(byteCountElement.firstChild);
         }

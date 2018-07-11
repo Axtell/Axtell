@@ -1,4 +1,5 @@
 import PostButtonViewController from '~/controllers/PostButtonViewController';
+import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 import SwappingViewController from '~/controllers/SwappingViewController';
 import Analytics, { EventType } from '~/models/Analytics';
 import PublishEdit from '~/models/Request/PublishEdit';
@@ -17,9 +18,6 @@ export default class EditAnswerViewController extends PostButtonViewController {
 
         /** @type {AnswerViewController} */
         this.answerController = answerController;
-
-        /** @type {Answer} */
-        this.answer = this.answerController.answer;
 
         /** @private */
         this.editor = new SwappingViewController(this.answerController.body);
@@ -40,22 +38,30 @@ export default class EditAnswerViewController extends PostButtonViewController {
         EditAnswerViewController.activeEditInstance?.untrigger(false);
         EditAnswerViewController.activeEditInstance = this;
 
-        Analytics.shared.report(EventType.answerEditClick(this.answer));
+        Analytics.shared.report(EventType.answerEditClick(this.answerController.answer));
 
         this.isLoading = true;
 
         // Load the template
         const { default: AnswerEditTemplate } = await import('~/template/AnswerEditTemplate');
-        const answerEditor = await new AnswerEditTemplate(this.answer);
+        const answerEditor = await new AnswerEditTemplate(this.answerController.answer);
         this.editor.displayAlternate(answerEditor);
 
-        answerEditor.delegate.shouldClose = async (controller, context) => {
+        const originalByteCount = this.answerController.byteCount;
+        const answerEncoding = await this.answerController.answer.language.encoding();
+
+        answerEditor.navigationDelegate.shouldClose = async (controller, context) => {
             if (context) {
                 await this.edit(context);
                 this.untrigger(true);
             } else {
+                this.answerController.byteCount = originalByteCount;
                 this.untrigger(false);
             }
+        };
+
+        answerEditor.actionDelegate.didSetStateTo = (controller, code) => {
+            this.answerController.byteCount = answerEncoding.byteCount(code);
         };
 
         this.isLoading = false;
@@ -70,7 +76,7 @@ export default class EditAnswerViewController extends PostButtonViewController {
     async edit(newAnswer) {
         const publishEdit = new PublishEdit({
             item: newAnswer,
-            original: this.answer
+            original: this.answerController.answer
         });
 
         const finalAnswer = await publishEdit.run();
@@ -90,9 +96,9 @@ export default class EditAnswerViewController extends PostButtonViewController {
         this.editor.restoreOriginal();
 
         if (changesUpdated) {
-            Analytics.shared.report(EventType.answerEdited(this.answer));
+            Analytics.shared.report(EventType.answerEdited(this.answerController.answer));
         } else {
-            Analytics.shared.report(EventType.answerNotEdited(this.answer));
+            Analytics.shared.report(EventType.answerNotEdited(this.answerController.answer));
         }
         EditAnswerViewController.activeEditInstance = null;
     }
