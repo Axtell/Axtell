@@ -8,7 +8,8 @@ class Category(db.Model):
 
     __tablename__ = 'categories'
 
-    name = db.Column(db.String(15), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(15), nullable=False)
 
     def to_json(self):
         return {'name': self.name}
