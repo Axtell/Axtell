@@ -45,6 +45,9 @@ def get_post(post_id, title=""):
     if matched_post is None:
         return abort(404)
 
+    if matched_post.deleted:
+        return render_template('deleted.html'), 410
+
     # Render main post's markdown
     body = markdown.render_markdown.delay(matched_post.body).wait()
 
@@ -101,6 +104,14 @@ def publish_post():
 
     # only should accept JSON
     if request.headers.get('Accept', '') == 'application/json':
-        return render_json({ 'redirect': redirect_url })
+        return render_json({'redirect': redirect_url})
     else:
         return redirect(redirect_url)
+
+
+@server.route("/post/<int:post_id>/edit", methods=['POST'])
+def edit_post(post_id):
+    try:
+        return render_json(post.revise_post(post_id, request.get_json()).to_json())
+    except PermissionError:
+        return abort(403)

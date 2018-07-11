@@ -114,9 +114,13 @@ export const CodeMirrorMode = (name) => {
     }
 };
 
+export const CodeMirrorOverlay = LazyLoad.once(
+    LazyLoad.script(`https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.39.0/addon/mode/overlay.min.js`)
+);
+
 export const CodeMirror = LazyLoad.once(
     CodeMirrorTheme(),
-    LazyLoad.script(`https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.min.js`),
+    LazyLoad.script(`https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/codemirror.js`),
     LazyLoad.script(`https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/addon/display/autorefresh.min.js`),
     LazyLoad.resolveValue('CodeMirror')
 );

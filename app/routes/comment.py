@@ -1,4 +1,4 @@
-from flask import request, abort
+from flask import request, abort, redirect, url_for
 from app.controllers import comment
 from app.server import server
 from app.tasks import markdown
@@ -58,4 +58,24 @@ def get_answer_comment(answer_id, comment_id):
 
     response = answer_comment.to_json()
     response["rendered_text"] = rendered_text
+    return render_json(response)
+
+
+@server.route("/post/<int:post_id>/comments/<int:comment_id>", methods=['POST'])
+def delete_post_comment(post_id, comment_id):
+    comment.delete_post_comment(comment_id)
+    response = {
+        'comment_id': comment_id,
+        'deleted': True
+    }
+    return render_json(response)
+
+
+@server.route("/answer/<int:answer_id>/comments/<int:comment_id>", methods=['POST'])
+def delete_answer_comment(answer_id, comment_id):
+    comment.delete_answer_comment(comment_id)
+    response = {
+        'comment_id': comment_id,
+        'deleted': True
+    }
     return render_json(response)

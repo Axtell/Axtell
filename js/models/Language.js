@@ -72,6 +72,16 @@ export default class Language {
     }
 
     /**
+     * Returns highlight-js id
+     * @type {?string}
+     */
+    get hljsId() {
+        let hljsId = languages.highlight[this.id];
+        if (hljsId === 1) return this.id;
+        return hljsId;
+    }
+
+    /**
      * CodeMirror-editor lang def file name.
      * @type {?string}
      */

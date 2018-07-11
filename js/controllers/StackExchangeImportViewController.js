@@ -112,7 +112,7 @@ export default class StackExchangeImporterViewController extends ViewController 
 
         const post = new Post({
             title: this.selectedQuestion.title,
-            body: this.selectedQuestion.body_markdown,
+            body: this.normalize(this.selectedQuestion.body_markdown),
             ppcgId: this.selectedQuestion.question_id
         });
 
@@ -120,6 +120,19 @@ export default class StackExchangeImporterViewController extends ViewController 
         window.location.href = redirectUrl;
 
         this.importing = false;
+    }
+
+    /**
+     * Normalized the body to support Axtell Markdown
+     * @param {string} sourceMarkdown
+     * @return {string}
+     */
+    normalize(sourceMarkdown) {
+        return sourceMarkdown
+            .replace(/(\s)\\\$|\\\$(\s)/g,'$1$$$2') // Normalize LaTeX delimiters
+            .replace(/(^|\n)(#+)([a-z])/gi, '$1$2 $3') // Normalize headers (space)
+            .replace(/(.)\n(#+)/g, '$1\n\n$2') // Add extra line so headers are on own line
+            .replace(/\[tag:([a-z-]+)\]/gi, '[$1](https://codegolf.stackexchange.com/questions/tagged/$1)') // Convert tags to links
     }
 
     /**

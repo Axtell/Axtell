@@ -43,7 +43,8 @@ export default class Request {
             url: this._path,
             data: this._data,
             params: this._params,
-            headers: this._headers
+            headers: this._headers,
+            responseType: this._responseType
         });
 
         return this.format(response.data);
@@ -68,12 +69,14 @@ export default class Request {
         params,
         formData,
         contentType,
+        responseType,
         headers = {},
         method = HTTPMethod.GET
     }) {
         this._path = path;
         this._method = method;
         this._params = params;
+        this._responseType = responseType;
 
         if (formData) {
             let formDataInstance = new FormData();

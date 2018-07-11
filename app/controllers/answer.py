@@ -37,7 +37,7 @@ def create_answer(post_id, code, commentary, lang_id=None, lang_name=None):
 
 def get_answers(post_id, page):
     page = Answer.query. \
-        filter_by(post_id=post_id) \
+        filter_by(post_id=post_id, deleted=False) \
         .order_by(Answer.date_created.desc()) \
         .paginate(page, per_page=posts['per_page'], error_out=False)
     return page
@@ -45,4 +45,14 @@ def get_answers(post_id, page):
 
 def get_answer(answer_id):
     answer = Answer.query.filter_by(id=answer_id).first()
+    return answer
+
+
+def revise_answer(answer_id, data):
+    answer = get_answer(answer_id)
+    if answer.user_id != g.user.id:
+        raise PermissionError
+    answer, revision = answer.revise(g.user, **data)
+    db.session.add(revision)
+    db.session.commit()
     return answer

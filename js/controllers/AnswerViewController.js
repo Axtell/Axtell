@@ -1,6 +1,10 @@
 import ViewController from '~/controllers/ViewController';
 import AnswerVoteViewController from '~/controllers/AnswerVoteViewController';
 import CommentListViewController from '~/controllers/CommentListViewController';
+import DeleteItemViewController from '~/controllers/DeleteItemViewController';
+import EditAnswerViewController from '~/controllers/EditAnswerViewController';
+
+import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 
 import Data from '~/models/Data';
 import Answer from '~/models/Answer';
@@ -20,6 +24,10 @@ export default class AnswerViewController extends ViewController {
         this._answerId = answerId;
 
         this._answer = Answer.fromJSON(Data.shared.encodedJSONForKey(`a${answerId}`));
+        this._answer.code = this._body.getElementsByTagName('code')[0].textContent;
+
+        this._bodyEl = this._body.getElementsByClassName('body')[0];
+        this._byteCount = this._body.getElementsByClassName('answer-metric__value')[0];
 
         AnswerVoteViewController.forClass(
             'vote-button',
@@ -30,13 +38,115 @@ export default class AnswerViewController extends ViewController {
             answer
         );
 
+        /** @type {DeleteItemViewController} */
+        this.deletionController = DeleteItemViewController.forClass(
+            'delete-button',
+            (btn) => [{
+                trigger: btn,
+                item: this._answer
+            }],
+            answer
+        )[0];
+
+        if (this.deletionController)
+            this.deletionController.delegate.didSetStateTo = async (controller, state) =>  {
+            await this.setAnswer(state);
+        };
+
+        /** @type {EditAnswerViewController} */
+        this.editAnswerController = EditAnswerViewController.forClass(
+            'golf-button',
+            (btn) => [{
+                trigger: btn,
+                answerController: this
+            }],
+            answer
+        )[0];
+
+
         const answerComments = new CommentListViewController(
             answer.querySelector('.comment-list'),
             this.answer
         );
         answerComments.setupSublists();
+
+        // Deletion Fields
+        this.isDeleted = false;
+        this._deletionOverlay = null;
+
+    }
+
+    /**
+     * Gets the node where the body is
+     * @type {HTMLElement}
+     */
+    get body() {
+        return this._bodyEl;
+    }
+
+    /**
+     * Sets the code. This does NOT affect the model use a request
+     * @param {string} code
+     * @param {Language} language
+     */
+    async setBody(code, language) {
+        const { default: highlight } = await import('#/hljs-renderer');
+        this.body.innerHTML = highlight(code, language.hljsId, language.id);
+    }
+
+    /**
+     * Gets if deleted or no.
+     * @type {boolean}
+     */
+    get isDeleted() {
+        return this._deleted;
+    }
+
+    /**
+     * Sets if deleted or no. This does NOT affect the model use a Request.
+     * @return {[type]} [description]
+     */
+    set isDeleted(isDeleted) {
+        if (this._deleted === isDeleted) return;
+        this._deleted = isDeleted;
+
+        // TODO: improve + add undo
+        if (isDeleted) {
+            this._body.parentNode.removeChild(this._body);
+        }
+    }
+
+    /**
+     * Returns the byte count element. For the value use .answer.length
+     * @type {HTMLElement}
+     */
+    get byteCount() {
+        return this._byteCount;
+    }
+
+    /**
+     * Sets the byte count. Does NOT update model
+     * @type {number}
+     */
+    set byteCount(byteCount) {
+        const byteCountElement = this.byteCount;
+        while (byteCountElement.firstChild) {
+            byteCountElement.removeChild(byteCountElement.firstChild);
+        }
+        byteCountElement.appendChild(document.createTextNode(byteCount+""));
     }
 
     /** @type {Answer} */
     get answer() { return this._answer; }
+
+    /**
+     * Sets the answer. Does NOT update model
+     * @param {Answer} newAnswer
+     */
+    async setAnswer(newAnswer) {
+        this._answer = newAnswer;
+        await this.setBody(newAnswer.code, newAnswer.language);
+        this.byteCount = newAnswer.length;
+        this.isDeleted = newAnswer.isDeleted;
+    }
 }

@@ -1,38 +1,38 @@
 {% macro header(classes="") %}
 <header id="header" class="{{ classes }}">
     <div class="content">
-        <div class="section r-tight section--hover-em">
+        <div class="section section--hover-em">
             <a href="/"><h1>Axtell</h1></a>
         </div>
         <div id="nav-links" class="section r-collapse">
             {% include "includes/header/navigation.html" %}
         </div>
         <div class="section expand"></div>
-        <div class="section section--pair section--block-h">
+        <div class="section section--pair section--pair--responsive-title section--block-h">
             <a id="changelog__trigger" class="changelog" href="#">
                 {% include "svg/changelog.html" %}
                 <span>What's new <span id="changelog__count"></span></span>
             </a>
         </div>
-        {% if g.get("user") is not none -%}
-            {% if not request.path.startswith(url_for('write_post')) %}
-                <div class="section r-collapse r-tight popover__container">
+        {%- if g.get("user") is not none -%}
+            {%- if not request.path.startswith(url_for('write_post')) -%}
+                <div class="section popover__container">
                     <div class="button-section">
-                        <a class="button button--pair-left button--color-accent" href="{{ url_for('write_post') }}">
-                            {% include "svg/plus.html" %}
+                        <a class="button button--pair-left button--color-accent button--responsive-title" href="{{ url_for('write_post') }}">
+                            {%- include "svg/plus.html" %}
                             <span>Create Post</span>
                         </a>
                         <div id="create-post__trigger" class="button button--pair-right button--color-accent">
-                            {% include "svg/down-triangle.html" %}
+                            {%- include "svg/down-triangle.html" -%}
                         </div>
-                        {% include "includes/header/create-post-more.html" %}
+                        {% include "includes/header/create-post-more.html" -%}
                     </div>
                 </div>
-            {% endif %}
-            {% include "includes/header/useroverview.html" %}
+            {%- endif %}
+            {%- include "includes/header/useroverview.html" -%}
         {%- else -%}
-            {% include "includes/header/authmanager.html" %}
-        {%- endif %}
+            {%- include "includes/header/authmanager.html" -%}
+        {%- endif -%}
 
         <!-- Responsive navigation -->
         <div id="r-pop" class="section r-reveal">

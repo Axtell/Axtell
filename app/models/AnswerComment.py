@@ -15,6 +15,7 @@ class AnswerComment(db.Model):
     text = db.Column(db.String(comments['max_len']), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.datetime.now)
+    deleted = db.Column(db.Boolean, default=False, nullable=False)
 
     user = db.relationship('User', backref='answer_comments')
     answer = db.relationship('Answer', backref='comments')
@@ -29,7 +30,8 @@ class AnswerComment(db.Model):
             'date': self.date_created.isoformat(),
             'owner': self.user.to_json(),
             'parent': self.parent and show_parent and self.parent.to_json(show_children=show_children),
-            'children': show_children and [child.to_json(show_parent=show_parent) for child in self.children]
+            'children': show_children and [child.to_json(show_parent=show_parent) for child in self.children],
+            'deleted': self.deleted
         }
 
         return data
@@ -38,10 +40,10 @@ class AnswerComment(db.Model):
         if len(self.children) == 0:
             return self
         if nest_depth is None:
-            return [self, [child.comment_tree() for child in self.children]]
+            return [self, [child.comment_tree() for child in self.children if child.deleted == False]]
         else:
             if nest_depth > 1:
-                return [self, [child.comment_tree(nest_depth-1) for child in self.children]]
+                return [self, [child.comment_tree(nest_depth-1) for child in self.children if child.deleted == False]]
 
     def __repr__(self):
         return '<AnswerComment(%r) by %r>' % (self.id, self.user.name)

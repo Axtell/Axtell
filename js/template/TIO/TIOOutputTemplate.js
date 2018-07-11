@@ -35,7 +35,7 @@ export default class TIOOutputTemplate extends Template {
      * @param {TIOOutputState} state - output state
      */
     setState(state) {
-        let node = this.getUnderlyingNode;
+        let node = this.underlyingNode;
 
         node.classList
             ::filter(className => className.indexOf('state-') === 0)

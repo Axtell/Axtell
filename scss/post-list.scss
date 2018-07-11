@@ -1,0 +1,91 @@
+@mixin action-button-style($color) {
+  color: $color;
+  fill: $color;
+  stroke: $color;
+}
+
+@mixin action-button-type($name, $color) {
+  $action-style-class: "&.action-button--selected.action-button--style-#{$name}";
+
+  #{$action-style-class}, #{$action-style-class}:hover {
+    @include action-button-style($color);
+  }
+}
+
+@mixin action-button-hover($fg, $bg) {
+  &:not(.action-button--disabled):hover {
+    @include action-button-style($fg);
+    background: $bg;
+  }
+}
+
+.post-action-list {
+  padding-bottom: 1rem;
+  display: flex;
+
+  .post-action-list__spacer { flex: 1; }
+
+  &.post-action-list--pad-horizontal {
+    padding: {
+      left: 1rem;
+      right: 1rem;
+    }
+  }
+
+  .action-button {
+
+    @include action-button-style($main-text);
+
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    transition: all 0.1s ease-in;
+    padding: 4px 1em;
+
+    &.action-button--disabled {
+      @include action-button-style(rgba($main-text, 0.5));
+    }
+
+    // We are going to mix it with $hover-mix so we can get a more standing-out
+    // color to make it clear votes are actionable.
+    @include action-button-hover(
+      mix($main-text, $hover-mix, 20%),
+      rgba($hover-mix, 0.02)
+    );
+
+    &.action-button--hovcol-red {
+      @include action-button-hover(
+        mix($main-text, #E03830, 20%),
+        rgba(#E03830, 0.02)
+      );
+    }
+
+    .action-icon__group {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      svg, img {
+        $action-icon-size: 23px;
+        width: $action-icon-size;
+        height: $action-icon-size;
+        fill: inherit;
+
+        path {
+          stroke: inherit;
+        }
+      }
+
+      span {
+        color: inherit;
+        text-align: center;
+
+        // We don't want to go below 9px because of both accessibility and
+        // browsers might stop obeying it
+        font-size: 9px;
+      }
+    }
+  }
+}

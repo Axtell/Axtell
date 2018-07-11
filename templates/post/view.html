@@ -16,6 +16,7 @@
 {% block title %}{{ post.title|e }}{% endblock %}
 {% block main -%}
 <div id="post">
+    {{ data('post', macros.json_to_b64(post.to_json(no_body=True))) }}
     <div class="list-header">
         <h1><a href="{{ canonical }}">{{ post.title|e }}</a></h1>
     </div>
@@ -24,9 +25,18 @@
             {{ post_body|safe }}
         </div>
     </div>
-    <div id="post-vote-list" class="vote-list -pad">
+    <div id="post-action-list" class="post-action-list post-action-list--pad-horizontal">
         {% set vote_status = vote.get_post_vote(post.id) %}
-        {{ votebuttons(vote_status, post.user == g.user) }}
+        {{ votebuttons(vote_status, is_own=post.user == g.user) }}
+        {% if post.user == g.user -%}
+        <div class="post-action-list__spacer"></div>
+        <div class="action-button action-button--hovcol-red delete-button">
+            <div class="action-icon__group">
+                {% include "svg/trash.html" %}
+                <span>Delete Challenge</span>
+            </div>
+        </div>
+        {%- endif %}
     </div>
     <div class="post-details">
         {{ userbox(post.user, post.date_created, classes="post-detail-item") }}
@@ -76,15 +86,31 @@
                     <h4>{{ answer.get_language().get_display_name() }}</h4>
 
                     <div class="answer-metric">
-                        {{ answer.byte_len }}<span>{{ "byte" if answer.byte_len == 1 else "bytes" }}</span>
+                       <span class="answer-metric__value"> {{ answer.byte_len }}</span>
+                       <span class="answer-metric__unit">{{ "byte" if answer.byte_len == 1 else "bytes" }}</span>
                     </div>
                 </div>
                 <div class="body">
                     {{ macros.highlight_answer(answer)|safe }}
                 </div>
-                <div class="vote-list">
+                <div class="post-action-list">
                     {% set vote_status = vote.get_answer_vote(answer.id) %}
-                    {{ votebuttons(vote_status, answer.user == g.user) }}
+                    {{ votebuttons(vote_status, is_own=answer.user == g.user) }}
+                    {% if answer.user == g.user -%}
+                    <div class="post-action-list__spacer"></div>
+                    <div class="golf-button action-button">
+                        <div class="action-icon__group">
+                            {% include "svg/edit.html" %}
+                            <span>Edit Answer</span>
+                        </div>
+                    </div>
+                    <div class="action-button action-button--hovcol-red delete-button">
+                        <div class="action-icon__group">
+                            {% include "svg/trash.html" %}
+                            <span>Delete Answer</span>
+                        </div>
+                    </div>
+                    {%- endif %}
                 </div>
                 <div class="post-details post-details--nopad-horizontal">
                     {{ userbox(answer.user, answer.date_created, classes="post-detail-item") }}
@@ -165,7 +191,6 @@
 {%- endblock %}
 
 {% block body %}
-<script>var {{ data_id }}id='{{ post.id }}';</script>
 {{ super() }}
 {% include "includes/answer-box.html" %}
 {% include "includes/swipe-menu.html" %}

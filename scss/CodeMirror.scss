@@ -1,0 +1,8 @@
+.CodeMirror {
+  border-radius: 8px;
+  box-shadow: 0 4px 16px -8px rgba($shadow-mix, 0.5);
+
+  .CodeMirror-gutters {
+    border-right: none;
+  }
+}

@@ -12,7 +12,7 @@
 
 {% set theme = session.get('theme', 'light') %}
 
-{% block head -%}
+{%- block head -%}
     {{ super() }}
     <link type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,500,400,700" rel="stylesheet">
     <link type="text/css" href="https://fonts.googleapis.com/css?family=Fira+Mono&amp;subset=greek,latin-ext"
@@ -42,9 +42,9 @@
     <link rel=stylesheet type=text/css href="/static/css/all-{{ theme }}.css?v={{ macros.get_version_id() }}">
     {{ data("theme", theme) }}
 
-    {% if opts.auth['bugsnag'].get('frontend', '') not in ['BUGSNAG_FRONTEND_API_KEY', ''] %}
+    {%- if opts.auth['bugsnag'].get('frontend', '') not in ['BUGSNAG_FRONTEND_API_KEY', ''] -%}
     <script src="//d2wy8f7a9ursnm.cloudfront.net/v4/bugsnag.min.js"></script>
-    {% endif %}
+    {%- endif -%}
 
     <meta name="data_id" content="{{ data_id }}">
     {{ data("env", macros.json_to_b64({
@@ -67,14 +67,14 @@
         'OAUTH_CALLBACK': opts.canonical_host + url_for('auth_login_oauth')
     })) }}
 
-    {% if g.user is not none %}
+    {%- if g.user is not none -%}
     {{ data_value("me",g.user.to_json()|tojson) }}
-    {% endif %}
+    {%- endif -%}
 
     <script async src="/static/lib/axtell.main.js?v={{ macros.get_version_id() }}"></script>
 {%- endblock %}
 
-{% block body %}
+{% block body -%}
     {{ super() }}
     <noscript id="ns-main">
         <span>Axtell works best with JavaScript enabled.</span>
@@ -132,15 +132,15 @@
     </div>
 
     <!-- Render Blocking Resources  -->
-    {% include "includes/beamer.html" %}
-    {% if theme == 'dark' %}
+    {%- include "includes/beamer.html" -%}
+    {%- if theme == 'dark' -%}
         <link type="text/css"
               href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night-eighties.min.css"
               rel="stylesheet">
-    {% else %}
+    {%- else -%}
         <link type="text/css"
               href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow.min.css"
               rel="stylesheet">
-    {% endif %}
+    {%- endif -%}
     <link rel="stylesheet" href="https://unpkg.com/tippy.js@2.5.2/dist/themes/light.css" />
-{% endblock %}
+{%- endblock -%}

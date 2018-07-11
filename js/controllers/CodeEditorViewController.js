@@ -2,6 +2,7 @@ import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 import ViewController from '~/controllers/ViewController';
 import { CodeMirror as LoadCodeMirror, CodeMirrorMode, CodeMirrorTheme } from '~/helpers/LazyLoad';
 import ErrorManager from '~/helpers/ErrorManager';
+import Random from '~/modern/Random';
 
 export const CodeEditorModeLoadError = Symbol('CodeEditor.Error.ModeLoad');
 export const CodeEditorThemeLoadError = Symbol('CodeEditor.Error.ThemeLoad');
@@ -15,7 +16,7 @@ export default class CodeEditorViewController extends ViewController {
      * Creates CodeEditor wrapper for element. Reccomended to use a {@link Random}
      * to create a unique name.
      *
-     * @param {HTMLTextArea} element element id.
+     * @param {HTMLTextArea} element element id. If an HTMLElement w/o parent then appending
      * @param {CodeEditorTheme} theme Theme to use for Ace.
      */
     constructor(element, theme = CodeEditorTheme.default) {
@@ -23,12 +24,24 @@ export default class CodeEditorViewController extends ViewController {
 
         return (async () => {
             const CodeMirror = await LoadCodeMirror();
-
-            this._editor = CodeMirror.fromTextArea(element, {
+            const opts = {
                 lineNumbers: true,
                 gutter: true,
                 autoRefresh: true
-            });
+            };
+
+            if (element.parentNode) {
+                this._editor = CodeMirror.fromTextArea(element, opts);
+            } else {
+                await new Promise((resolve, reject) => {
+                    this._editor = CodeMirror((el) => {
+                        element.appendChild(el);
+                        resolve();
+                    }, opts);
+                });
+            }
+
+            this._editor.getWrapperElement().controller = this;
 
             /**
              * @type {CodeEditorTheme}
@@ -38,8 +51,81 @@ export default class CodeEditorViewController extends ViewController {
             /** @type {ActionControllerDelegate} */
             this.delegate = new ActionControllerDelegate();
 
+            this._editor.on('change', (editor) => {
+                this.delegate.didSetStateTo(this, editor.getValue());
+            });
+
             return this;
         })();
+    }
+
+    /**
+     * Formats a widget id
+     */
+    _widgetId(id, value = "") {
+        return `@@axtell:${id}:${value}@@`;
+    }
+
+    /**
+     * Adds a DOM element as a widget
+     * @param {Template} template If it implements CodeEditorWidgetTemplate then delegate didSetState to is overriden
+     * @param {string} opts.id an 'id' describes the text value of the node
+     */
+    addWidget(template, { id }) {
+        const generatedId = this._widgetId(id, template.state);
+        this._editor.replaceSelection(generatedId, "around");
+
+        var from = this._editor.getCursor("from");
+        var to = this._editor.getCursor("to");
+        const marker = this._editor.markText(from, to, {
+            replacedWith: template.unique(),
+            clearWhenEmpty: false
+        });
+
+        const updateId = (newId, value) => {
+            const pos = marker.find();
+            if (pos) {
+                pos.from.ch += 1;
+                pos.to.ch -= 1;
+                this._editor.replaceRange(this._widgetId(newId, value), pos.from, pos.to);
+            }
+        }
+
+        // Support values on ActionControllerDelegate
+        if (template.delegate instanceof ActionControllerDelegate) {
+            template.delegate.didSetStateTo = (template, state) => {
+                this._editor.refresh();
+                updateId(id, state);
+            };
+        }
+
+        return {
+            exists: () => {
+                return !!marker.find();
+            },
+            updateId
+        };
+    }
+
+    /**
+     * If should auto resize (i.e. starts at 1)
+     * @type {boolean}
+     */
+    set autoresize(shouldAutoresize) {
+        if (shouldAutoresize) {
+            this._editor.getWrapperElement().style.height = 'auto';
+            this._editor.setOption('viewportMargin', Infinity);
+        } else {
+            this._editor.setOption('viewportMargin', 10);
+        }
+    }
+
+    /**
+     * Sets the height in the # of lines that should be shown
+     * @type {nuumber}
+     */
+    set lines(lineCount) {
+        this._editor.setOption('viewportMargin', lineCount);
     }
 
     /**
@@ -77,7 +163,7 @@ export default class CodeEditorViewController extends ViewController {
 
     /**
      * Sets the language if possible
-     * @param {?Language} lang - Language object. Null if default
+     * @param {?Language|string} lang - Language object. Null if default
      */
     async setLanguage(lang) {
         if (lang?.cmName) {
@@ -90,7 +176,9 @@ export default class CodeEditorViewController extends ViewController {
                     CodeEditorModeLoadError
                 );
             }
-
+        } else if (lang && typeof lang === 'object' ? lang.name : typeof lang === 'string') {
+            // either { name: something } or 'str'
+            this._editor.setOption('mode', lang);
         } else {
             this._editor.setOption('mode');
         }

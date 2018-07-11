@@ -47,8 +47,10 @@ export default class ViewController {
             }
         }
 
+        let vcs = [];
         root.getElementsByClassName(className)::forEach(elem => {
-            new this(...predicate(elem));
+            vcs.push(new this(...predicate(elem)));
         });
+        return vcs;
     }
 }

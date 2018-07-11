@@ -22,15 +22,6 @@ $nav-padding: 1em;
 
     .section {
       @include expand;
-
-      &:last-child {
-        margin-right: 0;
-      }
-      margin-right: 1em;
-
-      &.r-tight {
-        margin-right: 0rem;
-      }
     }
 
     $h-target-time: 0.1s;
@@ -69,9 +60,7 @@ $nav-padding: 1em;
           padding: 0 4px;
         }
 
-        // There was a margin before the img + text we'll remove that.
         img {
-          margin: 0;
           height: 1.2rem;
         }
 
@@ -187,6 +176,13 @@ $nav-padding: 1em;
 
       font-size: 1rem;
 
+      &--responsive-title {
+        @media (max-width: $sidebar-collapse) {
+          svg, img { margin-right: 0 !important; }
+          span { display: none; }
+        }
+      }
+
       &.selected a {
         fill: $header-selected-text;
         color: $header-selected-text;
@@ -206,11 +202,6 @@ $nav-padding: 1em;
         color: $big-fg;
         fill: $big-fg;
       }
-    }
-
-    // Last section so no margin
-    .section--last {
-      margin-right: 0;
     }
 
     .section--hover-em {

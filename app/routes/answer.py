@@ -1,8 +1,9 @@
-from flask import request, g, abort, jsonify
+from flask import request, g, abort, jsonify, redirect, url_for
 from base64 import b64decode
 
 from app.controllers import answer
 from app.server import server
+from app.helpers.render import render_template, render_json
 
 
 @server.route('/answer/public', methods=['POST'])
@@ -21,3 +22,11 @@ def publish_answer():
     commentary = request.form.get('commentary', "")
 
     return answer.create_answer(post_id, code, commentary, lang_id=lang_id, lang_name=lang_name)
+
+
+@server.route('/answer/<int:answer_id>/edit', methods=['POST'])
+def edit_answer(answer_id):
+    try:
+        return render_json(answer.revise_answer(answer_id, request.get_json()).to_json())
+    except PermissionError:
+        return abort(403)

@@ -14,6 +14,21 @@
 
   top: 100%;
 
+  &--responsive-fixed {
+    @media (max-width: $sidebar-collapse) {
+      position: fixed;
+      top: 3rem;
+      left: 8px; // standard padding
+      right: 8px;
+
+      &::before {
+        display: none;
+      }
+
+      .action__desc { white-space: normal; }
+    }
+  }
+
   .popover__close {
     display: none;
 
