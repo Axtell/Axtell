@@ -6,10 +6,13 @@ import datetime
 
 def get_revision_id(context):
     answer_id = context.get_current_parameters()['answer_id']
-    return (AnswerRevision.query(AnswerRevision.revision_id)
-            .filter_by(answer_id=answer_id)
-            .order_by(AnswerRevision.revision_id.desc())
-            .first() or 0) + 1
+    try:
+        return (AnswerRevision.query
+                .filter_by(answer_id=answer_id)
+                .order_by(AnswerRevision.revision_id.desc())
+                .first().revision_id) + 1
+    except AttributeError:
+        return 1
 
 
 class AnswerRevision(db.Model):

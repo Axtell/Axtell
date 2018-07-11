@@ -39,7 +39,7 @@
     "esdoc-inject-style-plugin": "^1.0.0",
     "esdoc-standard-plugin": "^1.0.0",
     "node-sass": "^4.9.0",
-    "parcel": "^1.8.1",
+    "parcel": "~1.8.1",
     "postcss-modules": "^1.1.0",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "webpack": "^4.10.2",

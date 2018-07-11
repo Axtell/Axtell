@@ -36,8 +36,9 @@ def create_post(title, body, categories, ppcg_id=None):
 
 
 def get_posts(page):
-    page = Post.query. \
-        order_by(Post.date_created.desc()) \
+    page = Post.query \
+        .filter_by(deleted=False) \
+        .order_by(Post.date_created.desc()) \
         .paginate(page, per_page=posts['per_page'], error_out=False)
 
     return page
@@ -50,6 +51,8 @@ def get_post(post_id):
 
 def revise_post(post_id, data):
     post = get_post(post_id)
+    if post.user_id != g.user.id:
+        raise PermissionError
     post, revision = post.revise(g.user, **data)
     db.session.add(revision)
     db.session.commit()

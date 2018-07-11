@@ -2,6 +2,7 @@ import PostButtonViewController from '~/controllers/PostButtonViewController';
 import ErrorManager, { HandleUnhandledPromise } from '~/helpers/ErrorManager';
 import PublishDelete from '~/models/Request/PublishDelete';
 import Analytics, { EventType } from '~/models/Analytics';
+import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 
 export default class DeleteItemViewController extends PostButtonViewController {
     /**
@@ -15,6 +16,9 @@ export default class DeleteItemViewController extends PostButtonViewController {
         /** @type {Answer|Post} */
         this.item = item;
         trigger.addEventListener("click", ::this.trigger)
+
+        /** @type {ActionControllerDelegate} */
+        this.delegate = new ActionControllerDelegate();
     }
 
     /**
@@ -39,7 +43,8 @@ export default class DeleteItemViewController extends PostButtonViewController {
         this.isLoading = true;
 
         const request = new PublishDelete(this.item);
-        await request.run();
+        const finalResult = await request.run();
+        await this.delegate.didSetStateTo(this, finalResult);
 
         this.isLoading = false;
     }

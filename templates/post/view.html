@@ -28,6 +28,15 @@
     <div id="post-vote-list" class="post-action-list post-action-list--pad-horizontal">
         {% set vote_status = vote.get_post_vote(post.id) %}
         {{ votebuttons(vote_status, is_own=post.user == g.user) }}
+        {% if post.user == g.user -%}
+        <div class="post-action-list__spacer"></div>
+        <div class="action-button action-button--hovcol-red delete-button">
+            <div class="action-icon__group">
+                {% include "svg/trash.html" %}
+                <span>Delete Challenge</span>
+            </div>
+        </div>
+        {%- endif %}
     </div>
     <div class="post-details">
         {{ userbox(post.user, post.date_created, classes="post-detail-item") }}
@@ -91,11 +100,19 @@
                     <div class="post-action-list__spacer"></div>
                     <div class="golf-button action-button">
                         <div class="action-icon__group">
+<<<<<<< HEAD
                             {% include "svg/golf.html" %}
                             <span>Golf Answer</span>
                         </div>
                     </div>
                     <div class="action-button delete-button">
+=======
+                            {% include "svg/edit.html" %}
+                            <span>Edit Answer</span>
+                        </div>
+                    </div>
+                    <div class="action-button action-button--hovcol-red delete-button">
+>>>>>>> origin/master
                         <div class="action-icon__group">
                             {% include "svg/trash.html" %}
                             <span>Delete Answer</span>

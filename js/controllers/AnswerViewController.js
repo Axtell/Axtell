@@ -3,6 +3,11 @@ import AnswerVoteViewController from '~/controllers/AnswerVoteViewController';
 import CommentListViewController from '~/controllers/CommentListViewController';
 import DeleteItemViewController from '~/controllers/DeleteItemViewController';
 import EditAnswerViewController from '~/controllers/EditAnswerViewController';
+<<<<<<< HEAD
+=======
+
+import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
+>>>>>>> origin/master
 
 import Data from '~/models/Data';
 import Answer from '~/models/Answer';
@@ -36,29 +41,116 @@ export default class AnswerViewController extends ViewController {
             answer
         );
 
+<<<<<<< HEAD
         DeleteItemViewController.forClass(
+=======
+        /** @type {DeleteItemViewController} */
+        this.deletionController = DeleteItemViewController.forClass(
+>>>>>>> origin/master
             'delete-button',
             (btn) => [{
                 trigger: btn,
                 item: this._answer
             }],
             answer
+<<<<<<< HEAD
         );
 
         EditAnswerViewController.forClass(
+=======
+        )[0];
+
+        if (this.deletionController)
+            this.deletionController.delegate.didSetStateTo = async (controller, state) =>  {
+            await this.setAnswer(state);
+        };
+
+        /** @type {EditAnswerViewController} */
+        this.editAnswerController = EditAnswerViewController.forClass(
+>>>>>>> origin/master
             'golf-button',
             (btn) => [{
                 trigger: btn,
                 answerController: this
             }],
             answer
+<<<<<<< HEAD
         );
+=======
+        )[0];
+
+>>>>>>> origin/master
 
         const answerComments = new CommentListViewController(
             answer.querySelector('.comment-list'),
             this.answer
         );
         answerComments.setupSublists();
+
+        // Deletion Fields
+        this.isDeleted = false;
+        this._deletionOverlay = null;
+
+    }
+
+    /**
+     * Gets the node where the body is
+     * @type {HTMLElement}
+     */
+    get body() {
+        return this._bodyEl;
+    }
+
+    /**
+     * Sets the code. This does NOT affect the model use a request
+     * @param {string} code
+     * @param {Language} language
+     */
+    async setBody(code, language) {
+        const { default: highlight } = await import('#/hljs-renderer');
+        this.body.innerHTML = highlight(code, language.hljsId, language.id);
+    }
+
+    /**
+     * Gets if deleted or no.
+     * @type {boolean}
+     */
+    get isDeleted() {
+        return this._deleted;
+    }
+
+    /**
+     * Sets if deleted or no. This does NOT affect the model use a Request.
+     * @return {[type]} [description]
+     */
+    set isDeleted(isDeleted) {
+        if (this._deleted === isDeleted) return;
+        this._deleted = isDeleted;
+
+        // TODO: improve + add undo
+        if (isDeleted) {
+            this._body.parentNode.removeChild(this._body);
+        }
+    }
+
+    /**
+     * Returns the byte count element. For the value use .answer.length
+     * @type {HTMLElement}
+     */
+    get byteCount() {
+        return this._byteCount;
+    }
+
+    /**
+     * Sets the byte count. Does NOT update model
+     * @type {number}
+     */
+    set byteCount(byteCount) {
+        const byteCountElement = this.byteCount;
+        while (byteCountElement.firstChild) {
+            byteCountElement.removeChild(byteCountElement.firstChild);
+        }
+        byteCountElement.appendChild(document.createTextNode(byteCount+""));
     }
 
     /**
@@ -104,12 +196,20 @@ export default class AnswerViewController extends ViewController {
     get answer() { return this._answer; }
 
     /**
+<<<<<<< HEAD
      * Sets the answer
+=======
+     * Sets the answer. Does NOT update model
+>>>>>>> origin/master
      * @param {Answer} newAnswer
      */
     async setAnswer(newAnswer) {
         this._answer = newAnswer;
         await this.setBody(newAnswer.code, newAnswer.language);
         this.byteCount = newAnswer.length;
+<<<<<<< HEAD
+=======
+        this.isDeleted = newAnswer.isDeleted;
+>>>>>>> origin/master
     }
 }

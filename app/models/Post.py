@@ -44,9 +44,12 @@ class Post(db.Model):
                                 body=self.body,
                                 deleted=self.deleted,
                                 user_id=user.id)
-        for key, value in new_post_data.items():
-            if hasattr(self, key):
-                setattr(self, key, value)
+
+        self.title = new_post_data.get('title', self.title)
+        self.body = new_post_data.get('body', self.body)
+        self.deleted = new_post_data.get('deleted', self.deleted)
+        self.ppcg_id = new_post_data.get('ppcg_id', self.ppcg_id)
+
         return self, revision
 
     def __repr__(self):
