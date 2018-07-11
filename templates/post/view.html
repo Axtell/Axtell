@@ -25,7 +25,7 @@
             {{ post_body|safe }}
         </div>
     </div>
-    <div id="post-vote-list" class="post-action-list post-action-list--pad-horizontal">
+    <div id="post-action-list" class="post-action-list post-action-list--pad-horizontal">
         {% set vote_status = vote.get_post_vote(post.id) %}
         {{ votebuttons(vote_status, is_own=post.user == g.user) }}
         {% if post.user == g.user -%}
@@ -100,19 +100,11 @@
                     <div class="post-action-list__spacer"></div>
                     <div class="golf-button action-button">
                         <div class="action-icon__group">
-<<<<<<< HEAD
-                            {% include "svg/golf.html" %}
-                            <span>Golf Answer</span>
-                        </div>
-                    </div>
-                    <div class="action-button delete-button">
-=======
                             {% include "svg/edit.html" %}
                             <span>Edit Answer</span>
                         </div>
                     </div>
                     <div class="action-button action-button--hovcol-red delete-button">
->>>>>>> origin/master
                         <div class="action-icon__group">
                             {% include "svg/trash.html" %}
                             <span>Delete Answer</span>

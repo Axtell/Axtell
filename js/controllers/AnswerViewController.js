@@ -3,11 +3,7 @@ import AnswerVoteViewController from '~/controllers/AnswerVoteViewController';
 import CommentListViewController from '~/controllers/CommentListViewController';
 import DeleteItemViewController from '~/controllers/DeleteItemViewController';
 import EditAnswerViewController from '~/controllers/EditAnswerViewController';
-<<<<<<< HEAD
-=======
-
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
->>>>>>> origin/master
 
 import Data from '~/models/Data';
 import Answer from '~/models/Answer';
@@ -41,23 +37,14 @@ export default class AnswerViewController extends ViewController {
             answer
         );
 
-<<<<<<< HEAD
-        DeleteItemViewController.forClass(
-=======
         /** @type {DeleteItemViewController} */
         this.deletionController = DeleteItemViewController.forClass(
->>>>>>> origin/master
             'delete-button',
             (btn) => [{
                 trigger: btn,
                 item: this._answer
             }],
             answer
-<<<<<<< HEAD
-        );
-
-        EditAnswerViewController.forClass(
-=======
         )[0];
 
         if (this.deletionController)
@@ -67,19 +54,14 @@ export default class AnswerViewController extends ViewController {
 
         /** @type {EditAnswerViewController} */
         this.editAnswerController = EditAnswerViewController.forClass(
->>>>>>> origin/master
             'golf-button',
             (btn) => [{
                 trigger: btn,
                 answerController: this
             }],
             answer
-<<<<<<< HEAD
-        );
-=======
         )[0];
 
->>>>>>> origin/master
 
         const answerComments = new CommentListViewController(
             answer.querySelector('.comment-list'),
@@ -196,20 +178,13 @@ export default class AnswerViewController extends ViewController {
     get answer() { return this._answer; }
 
     /**
-<<<<<<< HEAD
-     * Sets the answer
-=======
      * Sets the answer. Does NOT update model
->>>>>>> origin/master
      * @param {Answer} newAnswer
      */
     async setAnswer(newAnswer) {
         this._answer = newAnswer;
         await this.setBody(newAnswer.code, newAnswer.language);
         this.byteCount = newAnswer.length;
-<<<<<<< HEAD
-=======
         this.isDeleted = newAnswer.isDeleted;
->>>>>>> origin/master
     }
 }
