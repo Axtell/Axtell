@@ -70,7 +70,7 @@ def favicon():
     return send_from_directory(server.static_folder, 'favicon.ico')
 
 
-@server.route("/encodings/<encoding>")
+@server.route("/static/encodings/<encoding>")
 def get_encoding(encoding):
     encoding_data = golflang_encodings.add_encodings.codepages.get(encoding, None)
     print(encoding_data)
