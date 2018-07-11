@@ -88,6 +88,9 @@ window.addEventListener("unhandledrejection", (error) => {
                 import("./ui")
                     .then(() => console.log("🏔 Axtell: Loaded"))
                     .then(() => Auth.shared)
+                    .then(() => {
+                        document.documentElement.classList.add('axtell-ready');
+                    })
                     .catch(error => {
                         ErrorManager.unhandled(error);
                         console.log("🏔 Axtell: Error")
