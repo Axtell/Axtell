@@ -34,6 +34,18 @@
 
   > * {
     display: block;
+
+    &.list-header__item--actionable { cursor: pointer; }
+
+    &.list-header__item--align-top { align-self: flex-start; }
+    &.list-header__item--align-center { align-self: center; }
+
+    &.list-header__item--size-double { @include square(1.3rem); }
+
+    &.list-header__item--pad-left { margin-left: 1rem; }
+    &.list-header__item--pad-right { margin-right: 1rem; }
+    &.list-header__item--pad-top { margin-top: 1rem; }
+    &.list-header__item--pad-bottom { margin-bottom: 1rem; }
   }
 
   &.list-header--style-caption {

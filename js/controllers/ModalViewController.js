@@ -1,4 +1,5 @@
 import ViewController from '~/controllers/ViewController';
+import ModalViewTemplate from '~/template/ModalViewTemplate';
 import { HandleUnhandledPromise } from '~/helpers/ErrorManager';
 
 /**
@@ -22,11 +23,26 @@ export default class ModalViewController extends ViewController {
 
     /**
      * Presents a template.
+     * @param {ModalViewTemplate} template - The modal template
      */
     async present(template) {
         await this.hide();
+
         const anime = await import('animejs');
+
         const dim = <div/>;
+        const instance = template.loadInContext(dim);
+
+        const listener = dim.addEventListener('click', (event) => {
+            if (!instance.contains(event.target)) {
+                this.hide()
+                    .catch(HandleUnhandledPromise);
+            }
+        })
+
+        this._dim = dim;
+        this._eventListener = listener;
+        this._activeTemplate = instance; // Set this last to avoid race condition
 
         dim.style.position = 'fixed';
         dim.style.top = 0;
@@ -34,9 +50,8 @@ export default class ModalViewController extends ViewController {
         dim.style.left = 0;
         dim.style.right = 0;
         dim.style.zIndex = 20;
-        dim.style.background = 'rgba(0, 0, 0, 0.3)';
+        dim.style.background = 'rgba(0, 0, 0, 0.5)';
 
-        const instance = template.loadInContext(dim);
         instance.style.opacity = 0;
         instance.style.position = 'fixed';
         instance.style.left = '50%';
@@ -47,13 +62,6 @@ export default class ModalViewController extends ViewController {
         instance.style.zIndex = +dim.style.zIndex + 1;
 
         this.context.appendChild(dim);
-
-        const listener = dim.addEventListener('click', (event) => {
-            if (!dim.contains(event.target)) {
-                this.hide()
-                    .catch(HandleUnhandledPromise);
-            }
-        })
 
         await anime.timeline()
             .add({
@@ -69,9 +77,7 @@ export default class ModalViewController extends ViewController {
             })
             .finished;
 
-        this._activeTemplate = instance;
-        this._dim = dim;
-        this._eventListener = listener;
+        template.controller = this;
     }
 
     /**
@@ -79,13 +85,18 @@ export default class ModalViewController extends ViewController {
      */
     async hide() {
         if (!this._activeTemplate) return;
+
+        // Avoids race condition
+        const instance = this._activeTemplate;
+        this._activeTemplate = null;
+
         this._dim.removeEventListener('click', this._eventListener);
 
         const anime = await import('animejs');
 
         await anime.timeline()
             .add({
-                targets: this._activeTemplate,
+                targets: instance,
                 opacity: [1, 0],
                 top: ['50%', '60%'],
                 easing: 'easeInBack',
@@ -97,8 +108,9 @@ export default class ModalViewController extends ViewController {
             })
             .finished;
 
+        this.context.removeChild(this._dim);
+
         this._dim = null;
-        this._activeTemplate = null;
     }
 
     static shared = new ModalViewController(document.body);
