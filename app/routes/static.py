@@ -74,4 +74,4 @@ def favicon():
 def get_encoding(encoding):
     encoding_data = golflang_encodings.add_encodings.codepages.get(encoding, None)
     print(encoding_data)
-    return render_json(encoding_data)
+    return render_json({encoding: encoding_data})
