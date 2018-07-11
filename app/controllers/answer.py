@@ -7,7 +7,7 @@ from app.models.Language import Language
 from config import posts
 
 
-def create_answer(post_id, code, commentary, lang_id=None, lang_name=None):
+def create_answer(post_id, code, commentary, lang_id=None, lang_name=None, encoding='utf8'):
     """
     Creates an answer on a given post. You may provide `lang_id` if you have a
     known language, or `lang_name` instead if you have a non-native language.
@@ -24,7 +24,8 @@ def create_answer(post_id, code, commentary, lang_id=None, lang_name=None):
     if lang_id is not None and not Language.exists(lang_id):
         return abort(400)
 
-    new_answer = Answer(post_id=post_id, language_name=lang_name, language_id=lang_id, code=code, commentary=commentary)
+    new_answer = Answer(post_id=post_id, language_name=lang_name, language_id=lang_id, code=code, commentary=commentary,
+                        encoding=encoding)
     g.user.answers.append(new_answer)
     post = Post.query.filter_by(id=post_id).first()
     post.answers.append(new_answer)

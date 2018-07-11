@@ -17,11 +17,12 @@ def publish_answer():
     code = b64decode(request.form['code'])
     lang_id = request.form.get('lang_id', None)
     lang_name = request.form.get('lang_name', None)
+    encoding = request.form.get('encoding', 'utf8')
 
     # TODO: Perhaps validate commentary exists?
     commentary = request.form.get('commentary', "")
 
-    return answer.create_answer(post_id, code, commentary, lang_id=lang_id, lang_name=lang_name)
+    return answer.create_answer(post_id, code, commentary, lang_id=lang_id, lang_name=lang_name, encoding=encoding)
 
 
 @server.route('/answer/<int:answer_id>/edit', methods=['POST'])
