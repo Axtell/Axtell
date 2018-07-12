@@ -1,7 +1,7 @@
 from app.helpers.render import render_template, render_json
 from app.models.Language import Language
 from app.server import server
-from app.controllers import codepage
+from app.controllers import codepage as codepage_controller
 from misc import path_for_icon, default_svg
 from jinja2.exceptions import TemplateNotFound
 from flask import abort, redirect
@@ -12,7 +12,7 @@ def codepage(encoding):
     if encoding in ['UTF-8', 'UTF-16']:
         return redirect(f'https://en.wikipedia.org/wiki/{encoding}', code=303)
 
-    raw_codepage = codepage.get_codepage(encoding)
+    raw_codepage = codepage_controller.get_codepage(encoding)
 
     if not raw_codepage:
         return abort(404)
@@ -28,7 +28,7 @@ def codepage(encoding):
 
 @server.route("/static/encodings/<encoding>")
 def get_encoding(encoding):
-    raw_codepage = codepage.get_codepage(encoding)
+    raw_codepage = codepage_controller.get_codepage(encoding)
     if raw_codepage:
         return render_json({encoding: raw_codepage})
     else:
