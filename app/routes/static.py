@@ -4,7 +4,6 @@ from app.server import server
 from misc import path_for_icon, default_svg
 from jinja2.exceptions import TemplateNotFound
 from flask import Response, send_file, send_from_directory, abort
-import golflang_encodings
 
 
 @server.route("/")

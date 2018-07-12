@@ -3,6 +3,8 @@ from tests.test_base import TestFlask
 # noinspection PyUnresolvedReferences
 import app.routes.static
 
+import golflang_encodings
+
 
 class TestStatic(TestFlask):
     def test_home_loading(self):
@@ -14,3 +16,9 @@ class TestStatic(TestFlask):
         result = self.client.get('/404')
         self.assertEqual(result.status_code, 404)
         self.assertTrue(result.content_type.startswith('text/html'))
+
+    def test_codepage(self):
+        result = self.client.get('/static/encodings/jelly')
+        self.assertEqual(result.status_code, 200)
+        codepage = {int(k):v for k,v in result.json['jelly'].items()}
+        self.assertEqual(codepage, golflang_encodings.add_encodings.codepages.get('Jelly'))
