@@ -23,7 +23,7 @@ class Answer(db.Model):
 
     code = db.Column(db.Text, default=None, nullable=True)
     commentary = db.Column(db.Text, default=None, nullable=True)
-    encoding = db.Column(db.String(30), default='utf8')
+    encoding = db.Column(db.String(30), default='UTF-8')
     deleted = db.Column(db.Boolean, nullable=False, default=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
@@ -78,10 +78,19 @@ class Answer(db.Model):
                                   encoding=self.encoding,
                                   deleted=self.deleted,
                                   user_id=user.id)
-        self.code = new_answer_data.get('code', self.code)
-        self.commentary = new_answer_data.get('commentary', self.commentary)
-        self.encoding = new_answer_data.get('encoding', self.encoding)
-        self.deleted = new_answer_data.get('deleted', self.deleted)
+
+        if 'code' in new_answer_data:
+            self.code = new_answer_data['code']
+
+        if 'commentary' in new_answer_data:
+            self.commentary = new_answer_data['commentary']
+
+        if 'encoding' in new_answer_data:
+            self.encoding = new_answer_data['encoding']
+
+        if 'deleted' in new_answer_data:
+            self.deleted = new_answer_data['deleted']
+
         return self, revision
 
     def __repr__(self):

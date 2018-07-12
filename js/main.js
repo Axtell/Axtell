@@ -14,6 +14,7 @@ import Data from "~/models/Data";
 import Random from "~/modern/Random";
 import TestTag from "~/template/TestTag";
 import Auth from "~/models/Auth";
+import Template from "~/template/Template";
 import AnimationController, { Animation } from "~/controllers/AnimationController";
 
 import Request from "~/models/Request/Request";
@@ -63,6 +64,8 @@ window.addEventListener("unhandledrejection", (error) => {
 
                 global.AnimationController = AnimationController;
                 global.Animation = Animation;
+
+                global.Template = Template;
             }
 
             state = true;
@@ -81,6 +84,9 @@ window.addEventListener("unhandledrejection", (error) => {
                 import("./ui")
                     .then(() => console.log("🏔 Axtell: Loaded"))
                     .then(() => Auth.shared)
+                    .then(() => {
+                        document.documentElement.classList.add('axtell-ready');
+                    })
                     .catch(error => {
                         ErrorManager.unhandled(error);
                         console.log("🏔 Axtell: Error")

@@ -3,6 +3,7 @@
 # Ensure correct directory
 cd /var/www/ppcg-v2
 
+echo "REMOTE DEPLOY: UPDATING GIT"
 echo "HEAD initially at version:"
 echo "$(git rev-parse @)"
 
@@ -21,4 +22,8 @@ mkdir -p static/lib
 chmod 755 static/lib
 chmod g+s static/lib
 
+echo "REMOTE DEPLOY: CLEANING OLD JAVASCRIPT"
+rm -rf static/lib/*
+
 sudo service ppcg-v2 restart
+

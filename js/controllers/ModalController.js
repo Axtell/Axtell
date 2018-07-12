@@ -5,7 +5,8 @@ const ACTIVE_KEY = "md-active";
 
 /**
  * Manages a modal in a webpage. Use `ModalContext.shared` to get the global
- * context.
+ * context. This exists because there is some code dependent on this but
+ * prefer {@link ModalViewController} for new purposes.
  *
  * @extends {ViewController}
  */

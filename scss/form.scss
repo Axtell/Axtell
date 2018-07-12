@@ -51,6 +51,24 @@
   color: red;
 }
 
+// The thing that changes color depending on if a input's
+// constraints are fullfilled
+.constraint-state {
+  margin-top: 2px;
+
+  svg, img {
+    vertical-align: middle;
+    width: 1em;
+
+    margin-right: 4px;
+  }
+
+  span {
+    vertical-align: middle;
+    font-size: 1em;
+  }
+}
+
 .label-group {
   .label-group__tooltip {
     vertical-align: middle;
@@ -82,8 +100,6 @@
     font-weight: inherit;
     text-transform: inherit;
 
-    text-transform: uppercase;
-
     margin-bottom: 4px;
   }
 }
@@ -108,6 +124,11 @@ input.text-input, [contenteditable].text-input, .text-base.text-input, .text-inp
     border-bottom: none;
   }
 
+  &.text-input--type-clean {
+    font-size: 1.3rem;
+    box-sizing: context-box;
+  }
+
   // For search dialogs
   &.text-input--type-search {
     font-size: 1.1rem;
@@ -118,12 +139,6 @@ input.text-input, [contenteditable].text-input, .text-base.text-input, .text-inp
     font-size: 13px;
     font-family: $monospace;
     color: $em-text;
-  }
-
-
-  &.text-input--type-clean {
-    font-size: 1.3rem;
-    box-sizing: context-box;
   }
 
   &.text-input--type-title {
@@ -230,7 +245,7 @@ textarea.text-base {
 }
 
 // For live foreign previews
-#preview-wrap {
+.preview-wrap {
   a {
     text-transform: none;
     color: $accent-color;

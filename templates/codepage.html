@@ -1,0 +1,35 @@
+{% extends "layouts/page.html" %}
+
+{% block title %}{{ encoding }} Codepage{% endblock %}
+{% block content -%}
+    <div class="list-header">
+        <h1>{{ encoding }}</h1>
+    </div>
+    <div class="list-header list-header--style-caption">
+        <h2 class="header--style-caption">Overview of the {{ encoding }} codepage.</h2>
+    </div>
+    <div class="main codepage-table__wrapper__container">
+        <div class="codepage-table__wrapper">
+            <table id="codepage-table" class="codepage-table">
+                {%- for codepage_row in codepage -%}
+                {% set outer_loop = loop %}
+                <tr>
+                    {%- for unicode_char, codepoint in codepage_row  -%}
+                    <td class="codepage-table__char" data-codepoint="{{ codepoint }}">
+                        <span class="codepage-table__char__ord">{{ "0x{0:X}{1:X}".format(outer_loop.index0, loop.index0) }}</span>
+                        {%- if unicode_char is none -%}
+                            <span class="codepage-table__char__chr codepage-table__char__chr--style-unassigned">U/A</span>
+                        {%- elif not unicode_char.isprintable() -%}
+                            <span class="codepage-table__char__chr codepage-table__char__chr--style-unprintable">U/P</span>
+                        {%- else -%}
+                            <span class="codepage-table__char__chr">{{ unicode_char }}</span>
+                        {%- endif -%}
+                        <a class="codepage-table__char__copy">copy</a>
+                    </td>
+                    {%- endfor -%}
+                </tr>
+                {%- endfor -%}
+            </table>
+        </div>
+    </div>
+{%- endblock %}

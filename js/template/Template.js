@@ -38,6 +38,16 @@ export default class Template {
     }
 
     /**
+     * An empty template
+     */
+    static get empty() {
+        return new Template(
+            <div></div>,
+            TemplateType.clone
+        );
+    }
+
+    /**
      * Performs a `move` {@link TemplateType} for a given HTML id to return a
      * template based on the id's root.
      * @param {string} id HTML ID of a {@link HTMLElement}
@@ -61,6 +71,18 @@ export default class Template {
         let elem = document.createElement('div');
         elem.appendChild(document.createTextNode(text));
         return new Template(elem, type);
+    }
+
+    /**
+     * From innerHTML will wrap in div
+     * @param {HTMLElement} wrapper
+     * @param {string} innerHTML the innerHTML
+     * @param {TemplateType} [type=none]
+     * @return {Template}
+     */
+    static fromInnerHTML(wrapper, innerHTML, type) {
+        wrapper.innerHTML = innerHTML;
+        return new Template(wrapper, type);
     }
 
     /**
@@ -132,13 +154,83 @@ export default class Template {
     }
 
     /**
+     * Creates a field w/ updating text
+     * @param {string} name The field name
+     * @param {string} defaultValue The default value
+     * @return {Text}
+     */
+    defineLinkedText(name, defaultValue) {
+        let node = document.createTextNode(defaultValue);
+
+        Object.defineProperty(this, name, {
+            configurable: true,
+            enumerable: true,
+            get: () => node.data,
+            set: (newValue) => { node.data = newValue }
+        });
+
+        return node;
+    }
+
+    /**
+     * Defines a linked input
+     * @param {string} name the name
+     * @param {HTMLElement} [input=underlyingNode]
+     */
+    defineLinkedInput(name, input = this.underlyingNode) {
+        Object.defineProperty(this, name, {
+            configurable: true,
+            enumerable: true,
+            get: () => input.value,
+            set: (newValue) => { input.value = newValue }
+        });
+
+        return input;
+    }
+
+    /**
+     * Defines a linked class
+     * @param {string} name - field name
+     * @param {string} className
+     * @param {HTMLElement} [node=underlyingNode]
+     */
+    defineLinkedClass(name, className, node = this.underlyingNode) {
+        const isInv = className.indexOf('!') === 0;
+        const realClassName = isInv ? className.substring(1) : className;
+        Object.defineProperty(this, name, {
+            configurable: true,
+            enumerable: true,
+            get: () => node.classList.contains(realClassName),
+            set: (newValue) => {
+                if (newValue ^ isInv) node.classList.add(realClassName);
+                else node.classList.remove(realClassName);
+            }
+        });
+    }
+
+    /**
+     * Loads and replaces
+     * @param {HTMLElement} source - what to replace
+     * @return {HTMLElement}
+     */
+    loadReplacingContext(source) {
+        const elem = this.unique();
+        this.willLoad();
+        source.parentNode.replaceChild(elem, source);
+        this.didLoad();
+        return elem;
+    }
+
+    /**
      * Loads before an element
      * @param {HTMLElement} elem - Element to load before
      * @return {HTMLElement} rendered element
      */
     loadBeforeContext(elem) {
         let instance = this.unique();
+        this.willLoad();
         elem.parentNode.insertBefore(instance, elem);
+        this.didLoad();
         return instance;
     }
 }

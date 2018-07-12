@@ -1,4 +1,5 @@
 {% extends "layouts/split.html" %}
+{% from "includes/more.html" import more %}
 {% from "includes/userbox.html" import userbox %}
 {% from "includes/voting.html" import votebuttons %}
 {% from "includes/comment.html" import commentList %}
@@ -86,8 +87,11 @@
                     <h4>{{ answer.get_language().get_display_name() }}</h4>
 
                     <div class="answer-metric">
-                       <span class="answer-metric__value"> {{ answer.byte_len }}</span>
-                       <span class="answer-metric__unit">{{ "byte" if answer.byte_len == 1 else "bytes" }}</span>
+                        <span class="answer-metric__value"> {{ answer.byte_len }}</span>
+                        <span class="answer-metric__unit">
+                            {{ more(answer.encoding, url_for('codepage', encoding=answer.encoding)) }}
+                            {{ "byte" if answer.byte_len == 1 else "bytes" }}
+                        </span>
                     </div>
                 </div>
                 <div class="body">

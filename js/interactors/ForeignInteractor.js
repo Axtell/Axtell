@@ -30,6 +30,15 @@ export function writeKey(id) {
 	}
 }
 
+export const sameTabIds = new Map();
+
+function queueLocalTick(instanceId) {
+	const callbacks = sameTabIds.get(instanceId);
+	for (let i = 0; i < callbacks.length; i++) {
+		callbacks[i]();
+	}
+}
+
 export default class ForeignInteractor {
 	/**
 	 * Creates a foreign interactor with a URL target
@@ -43,6 +52,8 @@ export default class ForeignInteractor {
 		this._managedKeys = [];
 
 		this._lastQueues = new Map();
+
+		sameTabIds.set(this._id, []);
 
 		// Clean up
 		window.addEventListener("beforeunload", (event) => {
@@ -67,6 +78,8 @@ export default class ForeignInteractor {
 		this._managedKeys.push(key);
 		this.updateDelta(key);
 		localStorage.setItem(this._key(key), value);
+
+		queueLocalTick(this._id);
 	}
 
 	/**
@@ -84,7 +97,9 @@ export default class ForeignInteractor {
 	}
 
 	/**
-	 * Launches interactor child. Optimally send keys before launch
+	 * Launches interactor child. Optimally send keys before launch.
+	 * Requires a user 'blessing' (triggering event chain) for this
+	 * to work.
 	 */
 	launch() {
 		window.open(this.link, '_blank');
