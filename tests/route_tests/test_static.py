@@ -20,4 +20,5 @@ class TestStatic(TestFlask):
     def test_codepage(self):
         result = self.client.get('/static/encodings/jelly')
         self.assertEqual(result.status_code, 200)
-        self.assertEqual(result.json['jelly'], golflang_encodings.add_encodings.codepages.get('Jelly'))
+        codepage = {int(k):v for k,v in result.json['jelly'].items()}
+        self.assertEqual(codepage, golflang_encodings.add_encodings.codepages.get('Jelly'))
