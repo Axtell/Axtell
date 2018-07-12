@@ -48,6 +48,7 @@
   "dependencies": {
     "animejs": "^2.2.0",
     "axios": "^0.17.0",
+    "clipboard": "^2.0.1",
     "element-dataset": "^2.2.6",
     "entities": "^1.1.1",
     "escape-html": "^1.0.3",

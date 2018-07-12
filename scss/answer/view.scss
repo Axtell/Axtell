@@ -57,11 +57,21 @@
       color: $em-text;
       font-weight: 500;
 
+      position: relative;
+      white-space: nowrap;
+
+      > span { vertical-align: middle; }
+
       .answer-metric__unit {
-        padding-left: 2px;
         font-size: 0.8rem;
         text-transform: uppercase;
         font-weight: 400;
+
+        display: inline-flex;
+        flex-direction: column;
+
+        // The encoding
+        .more { font-size: 0.8em; }
       }
     }
   }

@@ -1,4 +1,6 @@
 import Template from '~/template/Template';
+import ConstraintStateTemplate, { ConstraintState } from '~/template/Form/ConstraintStateTemplate';
+import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 import { HandleUnhandledPromise } from '~/helpers/ErrorManager';
 import SVG from '~/models/Request/SVG';
 import Theme from '~/models/Theme';
@@ -13,23 +15,69 @@ export default class LabelGroup extends Template {
      * @param {TextInputTemplate} input
      * @param {?string} o.tooltip Some info describing what
      * @param {?ButtonTemplate} o.button
+     * @param {FormConstraint} [o.liveConstraint=null] - Contraints already setup to show
+     * @param {?ForeignInteractor} [o.interactor=null] - Foreign interactor to link `{ foreignInteractor: ForeignInteractor, label: String }`
      */
-    constructor(label, input, { tooltip = "", button = null } = {}) {
+    constructor(label, input, { tooltip = "", button = null, liveConstraint = null, interactor = null } = {}) {
         const normalizedLabel = label.toLowerCase().replace(/[^a-z]/g, '');
         const id = `lg-${normalizedLabel}-${Random.ofLength(16)}`;
         const tooltipPlaceholder = <span class="label-group__tooltip" title={tooltip}></span>
 
+        const interactorNode = interactor ? (
+            <span class="preview-wrap"><a href={ interactor.foreignInteractor.link } target="_blank">{ interactor.label }</a></span>
+        ) : <DocumentFragment/>;
+
         const root = (
             <div class="item-wrap label-group label-group--style-clean">
-                <label for={id}>{ label }{" "}{ tooltipPlaceholder }</label>
+                <label for={id}>{ label }{" "}{ tooltipPlaceholder }{ interactorNode }</label>
             </div>
         );
 
         super(root);
 
+        // Input element
         const elem = input.loadInContext(root);
         elem.id = id;
 
+        /** @type {ActionControllerDelegate} */
+        this.validationDelegate = new ActionControllerDelegate();
+
+        const inputTarget = elem instanceof HTMLInputElement ? elem : input.input;
+
+        // Live constraints
+        this._constraints = [];
+        if (liveConstraint) {
+            liveConstraint._elem = inputTarget;
+
+            for (const sourceValidator of liveConstraint._validators) {
+                const template = new ConstraintStateTemplate(sourceValidator.error);
+                template.loadInContext(root);
+
+                this._constraints.push({
+                    constraintValidator: sourceValidator,
+                    template: template
+                });
+            }
+
+            inputTarget.addEventListener('input', () => {
+                const erroredConstraints = liveConstraint
+                    .validate()
+                    .map(error => error.sourceValidator);
+
+                for (const { template, constraintValidator } of this._constraints) {
+                    if (erroredConstraints.includes(constraintValidator)) {
+                        template.state = ConstraintState.Error;
+                    } else {
+                        template.state = ConstraintState.Done;
+                    }
+                }
+
+                this.validationDelegate.didSetStateTo(this, erroredConstraints.length === 0);
+            });
+
+        }
+
+        // Load button
         button?.loadInContext(root);
 
         this._tooltipPlaceholder = tooltipPlaceholder;
@@ -42,11 +90,22 @@ export default class LabelGroup extends Template {
         /** @type {TextInputTemplate} */
         this.input = input;
 
-
         this.defineLinkedInput('value', elem);
 
         this.defineLinkedClass('padTop', 'item-wrap--pad-top');
         this.defineLinkedClass('!padHorizontal', 'item-wrap--nopad-horizontal');
+    }
+
+    /**
+     * Foreign synchronizes
+     * @param {ForeignInteractor} interactor
+     * @param {string} key
+     * @param {number} time - delay in the queue see repsective interactor fn
+     */
+    foreignSynchronize(interactor, key, time = 70) {
+        this.input.input.addEventListener('input', (event) => {
+            interactor.queueKey(key, time, this.input.value);
+        });
     }
 
     /**

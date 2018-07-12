@@ -14,6 +14,7 @@ export default class SwappingViewController extends ViewController {
         this._source = source;
         this._replacee = null;
         this._displayingSource = true;
+        this._displayAlternateTemplate = null;
     }
 
     /**
@@ -24,18 +25,24 @@ export default class SwappingViewController extends ViewController {
         this._parent.replaceChild(this._source, this._replacee)
         this._displayingSource = true;
         this._replacee = null;
+        this._displayAlternateTemplate = null;
     }
 
     /**
      * Swaps to an alternate view
      * @param {Template} alternate - New elem to show
+     * @return {HTMLElement}
      */
     displayAlternate(alternate) {
+        if (alternate === this._displayAlternateTemplate) return;
+
         const node = alternate.loadReplacingContext(
             this._displayingSource ? this._source : this._replacee
         );
 
         this._replacee = node;
         this._displayingSource = false;
+        this._displayAlternateTemplate = alternate;
+        return node;
     }
 }

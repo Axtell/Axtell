@@ -29,6 +29,8 @@ export default class TextInputTemplate extends Template {
         });
     }
 
+    get input() { return this.underlyingNode; }
+
     /** @override */
     didLoad() {
         this.delegate.didSetStateTo(this, "");

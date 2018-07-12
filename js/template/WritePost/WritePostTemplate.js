@@ -1,12 +1,18 @@
-import Template from '~/template/Template';
 import WritePostNavigationItemTemplate from '~/template/WritePost/WritePostNavigationItemTemplate';
 import WritePostSubheaderTemplate from '~/template/WritePost/WritePostSubheaderTemplate';
+import ForeignChildInteractor from '~/interactors/ForeignChildInteractor';
 import HeaderViewController from '~/controllers/HeaderViewController';
+import ForeignInteractor from '~/interactors/ForeignInteractor';
 import SwappingTemplate from '~/template/SwappingTemplate';
+import PublishPost from '~/models/Request/Post';
 import ErrorManager from '~/helpers/ErrorManager';
+import Template from '~/template/Template';
 
 import WritePostTabWritePost from '~/template/WritePost/Tab/WritePost';
 import WritePostTabExamples from '~/template/WritePost/Tab/Examples';
+import WritePostTabSubmit from '~/template/WritePost/Tab/Submit';
+
+import WritePostTabChecklist, { WritePostTabChecklistItem } from '~/template/WritePost/WritePostTabChecklist';
 
 export const WritePostTab = {
     WritePost: Symbol('WritePost.Tab.WritePost'),
@@ -27,17 +33,44 @@ export default class WritePostTemplate extends Template {
         /** @type {SwappingTemplate} */
         this.swapper = swapper;
 
+        // The check items
+        this.postTitleChecklistItem = new WritePostTabChecklistItem('Post title');
+        this.postBodyChecklistItem = new WritePostTabChecklistItem('Post body');
+
+        /** @type {WritePostSubheaderTemplate} */
+        this.subheader = new WritePostSubheaderTemplate();
+
+        /** @type {ForeignInteractor} */
+        this.foreignInteractor = new ForeignInteractor('/post/preview');
+
+        /** @type {ForeignChildInteractor} */
+        this.foreignChildInteractor = new ForeignChildInteractor(this.foreignInteractor.id);
+
         /**
          * The write post view
          * @type {Object}
          */
         this.tabs = {
             [WritePostTab.WritePost]: new WritePostTabWritePost(this),
-            [WritePostTab.Examples]: new WritePostTabExamples(this)
-        }
+            [WritePostTab.Examples]: new WritePostTabExamples(this),
+            [WritePostTab.Submit]: new WritePostTabSubmit(this)
+        };
+    }
 
-        /** @type {WritePostSubheaderTemplate} */
-        this.subheader = new WritePostSubheaderTemplate();
+    /** @type {Post} */
+    get postRequest() {
+        return new PublishPost({
+            title: this.tabs[WritePostTab.WritePost].title.value,
+            body: this.tabs[WritePostTab.WritePost].postBody.value
+        });
+    }
+
+    /**
+     * If fully complete and valid
+     * @type {boolean}
+     */
+    get isComplete() {
+        return this.subheader.allTabs.every(tab => tab.checklist.isComplete);
     }
 
     /** @type {WritePostTab} */
@@ -49,7 +82,8 @@ export default class WritePostTemplate extends Template {
             return;
         }
 
-        this.swapper.controller.displayAlternate(tabTemplate);
+        const tabNode = this.swapper.controller.displayAlternate(tabTemplate);
+        tabNode.parentTemplate = this;
     }
 
     /** @override */
@@ -57,7 +91,10 @@ export default class WritePostTemplate extends Template {
         this.subheader.appendNavigationItem(
             new WritePostNavigationItemTemplate(
                 'Write Post',
-                'write post body',
+                new WritePostTabChecklist([
+                    this.postTitleChecklistItem,
+                    this.postBodyChecklistItem
+                ]),
                 WritePostTab.WritePost
             ),
             true
@@ -65,16 +102,8 @@ export default class WritePostTemplate extends Template {
 
         this.subheader.appendNavigationItem(
             new WritePostNavigationItemTemplate(
-                'Examples',
-                'write test cases for solutions',
-                WritePostTab.Examples
-            )
-        );
-
-        this.subheader.appendNavigationItem(
-            new WritePostNavigationItemTemplate(
                 'Submit',
-                'preview before submitting',
+                new WritePostTabChecklist([]),
                 WritePostTab.Submit
             )
         );

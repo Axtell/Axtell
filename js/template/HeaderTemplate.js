@@ -6,13 +6,16 @@ export default class HeaderTemplate extends Template {
      * @param {string} title
      * @param {?string} opts.subtitle Optional subtitle. If not provided initially then cannot be set later
      */
-    constructor(title, { subtitle = null } = {}) {
+    constructor(title, { level = 1, subtitle = null } = {}) {
         super(<div/>);
+
+        const header = document.createElement(`h${level}`);
+        header.appendChild(this.defineLinkedText('title', `${title}`))
 
         this.underlyingNode.appendChild(
             <DocumentFragment>
                 <div class="list-header">
-                    <h1>{ title }.</h1>
+                    { header }
                 </div>
                 { subtitle ? (
                     <div class="list-header list-header--style-caption">
@@ -21,5 +24,7 @@ export default class HeaderTemplate extends Template {
                 ) : <DocumentFragment/> }
             </DocumentFragment>
         );
+
+        this.defineLinkedClass('isDimmed', 'header--style-dim', header);
     }
 }

@@ -24,6 +24,9 @@ export default class WritePostSubheaderTemplate extends Template {
         this._activeTab = -1;
     }
 
+    /** @type {WritePostNavigationItemTemplate[]} */
+    get allTabs() { return this._tabs; }
+
     /** @type {number} */
     get activeTab() { return this._activeTab; }
 

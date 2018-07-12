@@ -74,6 +74,18 @@ export default class Template {
     }
 
     /**
+     * From innerHTML will wrap in div
+     * @param {HTMLElement} wrapper
+     * @param {string} innerHTML the innerHTML
+     * @param {TemplateType} [type=none]
+     * @return {Template}
+     */
+    static fromInnerHTML(wrapper, innerHTML, type) {
+        wrapper.innerHTML = innerHTML;
+        return new Template(wrapper, type);
+    }
+
+    /**
      * Returns a unique instance of the template as an HTMLElement.
      * @return {HTMLElement} unique instance of the DOM element.
      */

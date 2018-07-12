@@ -3,7 +3,7 @@ import NavigationItemDelegate from '~/delegate/NavigationItemDelegate';
 
 const ACTIVE_CLASS = 'write-post__subheader__list__step--active';
 export default class WritePostNavigationItemTemplate extends Template {
-    constructor(title, description, id) {
+    constructor(title, checklist, id) {
         const root = (
             <li class="write-post__subheader__list__step"></li>
         );
@@ -15,10 +15,13 @@ export default class WritePostNavigationItemTemplate extends Template {
                 <span class="write-post__subheader__list__step__number">{ this.defineLinkedText('index', '0') }</span>
                 <div class="write-post__subheader__list__step__stack">
                     <h2>{ title }</h2>
-                    <h3>{ description }</h3>
+                    { checklist.unique() }
                 </div>
             </DocumentFragment>
         );
+
+        /** @type {WritePostTabChecklist} */
+        this.checklist = checklist;
 
         /** @type {number} */
         this.index;

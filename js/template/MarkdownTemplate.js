@@ -34,6 +34,8 @@ export default class MarkdownTemplate extends Template {
         this._onInput = null;
     }
 
+    get input() { return this._textarea }
+
     /** @type {boolean} */
     get autoresize() { return this._autoresize }
 

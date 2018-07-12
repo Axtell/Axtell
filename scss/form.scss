@@ -51,6 +51,24 @@
   color: red;
 }
 
+// The thing that changes color depending on if a input's
+// constraints are fullfilled
+.constraint-state {
+  margin-top: 2px;
+
+  svg, img {
+    vertical-align: middle;
+    width: 1em;
+
+    margin-right: 4px;
+  }
+
+  span {
+    vertical-align: middle;
+    font-size: 1em;
+  }
+}
+
 .label-group {
   .label-group__tooltip {
     vertical-align: middle;
@@ -227,7 +245,7 @@ textarea.text-base {
 }
 
 // For live foreign previews
-#preview-wrap {
+.preview-wrap {
   a {
     text-transform: none;
     color: $accent-color;

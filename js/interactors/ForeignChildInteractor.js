@@ -1,14 +1,15 @@
-import { writeDelta, writeKey, foreignDigest } from '~/interactors/ForeignInteractor';
+import { writeDelta, writeKey, foreignDigest, sameTabIds } from '~/interactors/ForeignInteractor';
 import ErrorManager from '~/helpers/ErrorManager';
 
 export const FOREIGN_INVALID_ID = Symbol('ForeignChild.Error.InvalidId');
+
 /**
  * Interacts with a {@link ForeignInteractor} as a parent.
  */
 export default class ForeignChildInteractor {
 	/**
 	 * Creates a ForeignChildInteractor based of a primary interactor.
-	 * @param {string} instanceId Id from a {@link ForeignIntercator}
+	 * @param {string} instanceId Id from a {@link ForeignIntercator}. Undefined behavior if not valid
 	 * @param {number} [tickTimeout=5] A minimum refresh time delta. Will not update
 	 *                                 intermediates until delta has expired.
 	 */
@@ -22,7 +23,13 @@ export default class ForeignChildInteractor {
 		this._writeKey = writeKey(instanceId);
 		this._watchingKeys = new Map();
 
+		this._tickWatchers = [];
+
 		this._tick = null;
+
+		sameTabIds.get(instanceId)?.push(() => {
+			this.queueTick(tickTimeout);
+		});
 
 		// Start listening
 		window.addEventListener('storage', () => {
@@ -54,6 +61,14 @@ export default class ForeignChildInteractor {
 	}
 
 	/**
+	 * Called on a new tick
+	 * @param {Function} callback - The callbackl
+	 */
+	watchTick(callback) {
+		this._tickWatchers.push(callback);
+	}
+
+	/**
 	 * Obtains the last write delta.
 	 * @param {strin} key key to get delta for
 	 */
@@ -74,6 +89,7 @@ export default class ForeignChildInteractor {
 	 * Performs update. Automatically managed.
 	 */
 	tick() {
+		let hasChangedKey = null;
 		for (let [key, keyData] of this._watchingKeys) {
 			let { lastDelta, callbacks } = keyData;
 
@@ -81,10 +97,17 @@ export default class ForeignChildInteractor {
 			// If the write time has elapsed they are relevant changes
 			if (latestDelta - lastDelta > 0) {
 				keyData.lastDelta = latestDelta;
+				hasChangedKey = true;
 				let value = localStorage.getItem(this._writeKey(key));
 				for (let i = 0; i < callbacks.length; i++) {
 					callbacks[i](value);
 				}
+			}
+		}
+
+		if (hasChangedKey) {
+			for (let i = 0; i < this._tickWatchers.length; i++) {
+				this._tickWatchers[i]();
 			}
 		}
 	}

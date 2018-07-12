@@ -40,7 +40,7 @@
             }
 
             h2 { color: $content-bg; }
-            h3 { color: rgba($content-bg, 0.8); }
+            .write-post__subheader__list__step__checklist { color: rgba($content-bg, 0.8); }
         }
 
         &:not(&--active):hover {
@@ -94,10 +94,23 @@
             color: $write-post-subheader-contrast-color;
         }
 
-        h3 {
+        &__checklist {
             font-size: 0.9rem;
             font-weight: 400;
             color: rgba($write-post-subheader-contrast-color, 0.8);
+
+            &__item {
+                svg, img {
+                    vertical-align: middle;
+                    width: 1em;
+                    margin-right: 4px;
+                }
+
+                span {
+                    vertical-align: middle;
+                    font-size: 1em;
+                }
+            }
         }
     }
 }
