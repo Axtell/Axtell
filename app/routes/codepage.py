@@ -9,8 +9,11 @@ from flask import abort, redirect
 
 @server.route("/codepage/<encoding>")
 def codepage(encoding):
-    if encoding in ['UTF-8', 'UTF-16']:
-        return redirect(f'https://en.wikipedia.org/wiki/{encoding}', code=303)
+    if encoding.lower() in ['utf-8', 'u8', 'utf', 'utf8']:
+        return redirect('https://en.wikipedia.org/wiki/UTF-8', code=303)
+    
+    if encoding.lower() in ['utf-16', 'u16', 'utf16']:
+        return redirect('https://en.wikipedia.org/wiki/UTF-16', code=303)
 
     raw_codepage = codepage_controller.get_codepage(encoding)
 
