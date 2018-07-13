@@ -24,6 +24,7 @@ server.secret_key = config.secret_skey
 class SignedIntegerConverter(BaseIntegerConverter):
     regex = r'-?\d+'
 
+
 server.url_map.converters['sint'] = SignedIntegerConverter
 
 

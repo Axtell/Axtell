@@ -18,6 +18,9 @@ class User(db.Model):
 
     posts = db.relationship('Post', backref='user')
     theme = db.Column(db.Integer, db.ForeignKey('themes.id'), nullable=True)
+    access_id = db.Column(db.Integer, db.ForeignKey('user_access.id'), nullable=False)
+
+    access = db.relationship('UserAccess', backref='user')
 
     def avatar_url(self):
         if self.avatar is not None:
