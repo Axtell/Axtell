@@ -68,6 +68,8 @@
   // The button pairs
   &.button--pair {
     height: 2rem;
+    line-height: (2rem / 2);
+    white-space: nowrap;
   }
 
   &.button--pair-left {
