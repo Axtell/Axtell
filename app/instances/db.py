@@ -20,4 +20,6 @@ redis_db = redis.StrictRedis(**config.redis_config)
 
 @server.before_first_request
 def setup_database():
+    # noinspection PyUnresolvedReferences
+    import app.models
     db.create_all()
