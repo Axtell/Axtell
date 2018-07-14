@@ -18,7 +18,7 @@ class User(db.Model):
 
     posts = db.relationship('Post', backref='user')
     theme = db.Column(db.Integer, db.ForeignKey('themes.id'), nullable=True)
-    access_id = db.Column(db.Integer, db.ForeignKey('user_access.id'), nullable=False)
+    access_id = db.Column(db.Integer, db.ForeignKey('user_access.id'), nullable=True)
 
     access = db.relationship('UserAccess', backref='user')
 
