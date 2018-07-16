@@ -1,5 +1,6 @@
 from flask import request, session, abort
 from functools import wraps
+import config
 
 csrf_token_name = 'csrf'
 
@@ -16,7 +17,8 @@ def csrf_protected(f):
         else:
             user_csrf_token = None
 
-        if actual_csrf_token is None or user_csrf_token is None or user_csrf_token != actual_csrf_token:
+        if config.app['host'] != '127.0.0.1' and \
+                (actual_csrf_token is None or user_csrf_token is None or user_csrf_token != actual_csrf_token):
             return abort(403)
 
         return f(*args, **kwargs)
