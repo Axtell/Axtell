@@ -8,6 +8,8 @@ from app.routes import *
 
 # Sets up authorization middleware.
 import app.instances.auth
+# Sets up CSRF middleware.
+import app.instances.csrf
 # Sets up Celery connection
 import app.instances.celery
 import app.tasks.update

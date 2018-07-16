@@ -1,5 +1,6 @@
 import axios from 'axios/dist/axios.min.js';
 import ErrorManager from '~/helpers/ErrorManager';
+import Data from '~/models/Data';
 
 // Get axios setup to intercept
 axios.interceptors.response.use((response) => response, (error) => {
@@ -54,6 +55,7 @@ export default class Request {
      * Creates request given path. Provide options **as object**
      * @param {Object} requestData - Object describing request. Bare
      *                                  mininmum info is providing path.
+     * @param {?string} requestData.host - If cross origin, provide. Specifying will mean NO CSRF token passed
      * @param {string} requestData.path - Path of request
      * @param {string} requestData.auth - Authorization header
      * @param {any} requestData.data - Any data to send as part of request.
@@ -63,6 +65,7 @@ export default class Request {
      * @param {HTTPMethod} [requestData.method=get] - Method request type
      */
     constructor({
+        host = null,
         path,
         auth,
         data,
@@ -73,7 +76,7 @@ export default class Request {
         headers = {},
         method = HTTPMethod.GET
     }) {
-        this._path = path;
+        this._path = `${host || ""}${path}`;
         this._method = method;
         this._params = params;
         this._responseType = responseType;
@@ -94,5 +97,6 @@ export default class Request {
 
         if (contentType) this._headers['Content-Type'] = contentType;
         if (auth) this._headers['Authorization'] = auth;
+        if (host === null) this._headers['X-CSRF-Token'] = Data.shared.envValueForKey('CSRF');
     }
 }

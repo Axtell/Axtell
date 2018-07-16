@@ -4,6 +4,7 @@ from app.server import server
 from app.instances.db import db
 from app.helpers.render import render_template
 from app.controllers import user_settings
+from app.session.csrf import csrf_protected
 
 
 def do_redirect():
@@ -23,6 +24,7 @@ def profile_settings():
 
 
 @server.route("/theme/light", methods=['POST'])
+@csrf_protected
 def set_light_theme():
     session['theme'] = 'light'
     if g.user is not None:
@@ -32,6 +34,7 @@ def set_light_theme():
 
 
 @server.route("/theme/dark", methods=['POST'])
+@csrf_protected
 def set_dark_theme():
     session['theme'] = 'dark'
     if g.user is not None:
@@ -41,6 +44,7 @@ def set_dark_theme():
 
 
 @server.route("/preferences/email", methods=['POST'])
+@csrf_protected
 def set_email():
     try:
         new_email = request.form['email']
@@ -51,6 +55,7 @@ def set_email():
 
 
 @server.route("/preferences/name", methods=['POST'])
+@csrf_protected
 def set_name():
     try:
         new_name = request.form['name']
@@ -61,6 +66,7 @@ def set_name():
 
 
 @server.route("/preferences/avatar", methods=['POST'])
+@csrf_protected
 def set_avatar():
     try:
         new_avatar_source = request.form['avatar']
@@ -71,6 +77,7 @@ def set_avatar():
 
 
 @server.route("/preferences/profile", methods=['POST'])
+@csrf_protected
 def set_profile_preferences():
     if g.user is None:
         return abort(401)
