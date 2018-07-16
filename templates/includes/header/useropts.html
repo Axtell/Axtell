@@ -30,6 +30,7 @@
         {%- else -%}
         <form class="action__root" method="POST" action="{{ url_for('set_dark_theme') }}?redirect={{ request.url|e }}">
         {%- endif %}
+            <input type="hidden" name="csrf_token" value="{{ macros.get_csrf() }}"/>
             <button type="submit" class="action__rel">
                 {% include "svg/brush.html" %}
                 <div class="action__desc">

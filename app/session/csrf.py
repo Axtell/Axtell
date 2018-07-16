@@ -1,0 +1,26 @@
+from flask import request, session, abort
+from functools import wraps
+import config
+
+csrf_token_name = 'csrf'
+
+
+def csrf_protected(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        actual_csrf_token = session.get(csrf_token_name, None)
+
+        if 'csrf_token' in request.form:
+            user_csrf_token = request.form['csrf_token']
+        elif 'X-CSRF-Token' in request.headers:
+            user_csrf_token = request.headers['X-CSRF-Token']
+        else:
+            user_csrf_token = None
+
+        if config.app['host'] != '127.0.0.1' and \
+                (actual_csrf_token is None or user_csrf_token is None or user_csrf_token != actual_csrf_token):
+            return abort(403)
+
+        return f(*args, **kwargs)
+
+    return wrap

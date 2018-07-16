@@ -1,4 +1,6 @@
-from uuid import uuid4
+from uuid import UUID
+from M2Crypto.m2 import rand_bytes
+from datetime import timedelta
 
 from flask import session
 
@@ -9,8 +11,8 @@ from app.models.Theme import Theme
 userid_skey = 'uid'
 skey_prefix = 'sid:'
 
-# In seconds
-session_time = 60 * 60 * 24
+# In seconds.
+session_time = int(timedelta(days=1).total_seconds())
 
 
 def get_session_user(current_session=None):
@@ -63,7 +65,7 @@ def set_session_user(user, current_session=None):
         user_theme = 'light'
     else:
         user_theme = user_theme.name
-    session_id = str(uuid4())
+    session_id = str(UUID(bytes=rand_bytes(16)))
     redis_skey = skey_prefix + session_id
 
     # Add this to redis

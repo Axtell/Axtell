@@ -3,9 +3,11 @@ from app.controllers import comment
 from app.server import server
 from app.tasks import markdown
 from app.helpers.render import render_json
+from app.session.csrf import csrf_protected
 
 
 @server.route("/post/<int:post_id>/comment", methods=["POST"])
+@csrf_protected
 def write_post_comment(post_id):
     comment_text = request.form["comment_text"]
     parent_comment = request.form.get("parent_comment", None)
@@ -14,6 +16,7 @@ def write_post_comment(post_id):
 
 
 @server.route("/answer/<int:answer_id>/comment", methods=["POST"])
+@csrf_protected
 def write_answer_comment(answer_id):
     comment_text = request.form["comment_text"]
     parent_comment = request.form.get("parent_comment", None)

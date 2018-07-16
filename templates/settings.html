@@ -3,6 +3,7 @@
 {% block title %}Profile Settings{% endblock %}
 {% block content -%}
 <form method="POST" action="{{ url_for('set_profile_preferences') }}" id="sf-profile">
+    <input type="hidden" name="csrf_token" value="{{ macros.get_csrf() }}" />
     <div class="list-header">
         <h1>User Settings.</h1>
         <button type="submit" id="save-profile" class="button button--color-green button--align-center">
