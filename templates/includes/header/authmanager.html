@@ -7,7 +7,7 @@
     </div>
     <div id="ammd-auth" class="template">
         <div id="providers">
-            <div id="am-pgoogle" class="am-provider google">
+            <div id="am-pgoogle" class="am-provider am-provider--site-google">
                 {% include "svg/google.html" %}
                 <span>Sign In with Google</span>
             </div>
@@ -18,8 +18,8 @@
                 macros.encode_state('se')
             }}&redirect_uri={{
                 opts.canonical_host + url_for('auth_login_oauth')
-            }}" class="am-provider">
-                {% include "svg/stackexchange.html" %}
+            }}" class="am-provider am-provider--site-stackexchange">
+                {% include "svg/stackexchange-bare.html" %}
                 <span>Sign In with Stack Exchange</span>
             </a>
         </div>
