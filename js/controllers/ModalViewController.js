@@ -86,6 +86,7 @@ export default class ModalViewController extends ViewController {
 
         const anime = await import('animejs');
 
+        this._dim.style.pointerEvents = 'none';
         await anime.timeline()
             .add({
                 targets: instance,
