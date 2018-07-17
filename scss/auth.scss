@@ -1,7 +1,11 @@
 @mixin am-provider($name, $background) {
   &.am-provider--site-#{$name} {
-    background: $background;
+    background: desaturate($background, 5%);
     box-shadow: 0 2px 8px -2px $background;
+
+    &:hover {
+      background: saturate($background, 20%);
+    }
   }
 }
 
@@ -17,11 +21,11 @@
     .am-provider {
 
       + .am-provider {
-        margin-top: 0.5rem;
+        margin-top: 0.8rem;
       }
 
       height: 2em;
-      padding: 0.25rem 1.5rem;
+      padding: 0.5rem 1.5rem;
 
       display: flex;
       flex-direction: row;
@@ -29,7 +33,7 @@
       justify-content: start;
 
       font-family: Roboto;
-      font-size: 1em;
+      font-size: 1.2em;
       font-weight: 400;
 
       color: #FFFFFF;
@@ -38,7 +42,7 @@
 
       cursor: pointer;
 
-      transition: 0.1s all ease-out;
+      transition: 0.1s all linear;
 
       svg {
         @include square(1.5rem);
@@ -46,7 +50,7 @@
         fill: #FFFFFF;
       }
 
-      @include am-provider("google", #EE2E29);
+      @include am-provider("google", #F94A4E);
       @include am-provider("stackexchange", #255192);
     }
   }
