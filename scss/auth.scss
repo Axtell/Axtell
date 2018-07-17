@@ -1,7 +1,7 @@
 @mixin am-provider($name, $background) {
   &.am-provider--site-#{$name} {
     background: desaturate($background, 5%);
-    box-shadow: 0 2px 8px -2px $background;
+    box-shadow: 0 2px 8px -4px $background;
 
     &:hover {
       background: saturate($background, 20%);
