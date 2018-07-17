@@ -57,6 +57,8 @@ a {
   text-decoration: none;
   padding: 0 1px;
 
+  hyphens: none;
+
   &:hover { text-decoration: underline; }
 }
 
