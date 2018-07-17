@@ -44,6 +44,8 @@
 
       transition: 0.1s all linear;
 
+      white-space: nowrap;
+
       svg {
         @include square(1.5rem);
         margin-right: 12px;
