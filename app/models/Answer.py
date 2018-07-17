@@ -43,8 +43,8 @@ class Answer(db.Model):
 
     @hybrid_property
     def score(self):
-        ups = self.votes.query.filter_by(vote=1).all()
-        downs = self.votes.query.filter_by(vote=-1).all()
+        ups = sum(vote for vote in self.votes if vote.vote == 1)
+        downs = sum(vote for vote in self.votes if vote.vote == -1)
         return confidence(ups, downs)
 
     def to_json(self, no_code=False):
