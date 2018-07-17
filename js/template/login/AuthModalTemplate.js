@@ -2,7 +2,7 @@ import Auth, {AuthJWTToken} from '~/models/Auth';
 import Data from '~/models/Data';
 
 import Template, {TemplateType} from '~/template/Template';
-import ModalTemplate from '~/template/ModalTemplate';
+import ModalViewTemplate from '~/template/ModalViewTemplate';
 import '~/modern/gapi';
 
 import ErrorManager from '~/helpers/ErrorManager';
@@ -14,14 +14,17 @@ const googleTrigger = document.getElementById("am-pgoogle");
  *
  * @extends {ModalTemplate}
  */
-export default class AuthModalTemplate extends ModalTemplate {
+export default class AuthModalTemplate extends ModalViewTemplate {
     /**
      * @param {?string} subtitle - Some description explaining why opened
      */
     constructor(subtitle = null) {
         super(
-            "Login or Signup.",
-            Template.fromId("ammd-auth", TemplateType.move)
+            Template.fromId("ammd-auth", TemplateType.move),
+            {
+                title: 'Login or Signup.',
+                subtite: 'Access Axtell using any of the following providers.'
+            }
         );
 
         this.subtitle = subtitle;

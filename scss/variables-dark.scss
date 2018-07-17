@@ -11,8 +11,11 @@ $main-text: #afb7ca; // Off-black dark blue
 $label-text: rgba(255, 255, 255, 0.7); // Gray
 $label-tag: #CCC; // Light gray
 $dim-text: #999; // Gray
-$subtitle-text: #CCC;
-$title-text: #74aae7; // Blue
+
+$detail-text: mix(#777, $theme-color, 90%); // For short non-primary detail blurbs
+$description-text: mix(#AAA, $theme-color, 90%); // Descriptions (longer bodies of subtext)
+$title-text: mix(#FFF, desaturate($theme-color, 40%), 80%); // Top-level titles
+$subtitle-text: mix(#AAA, desaturate($theme-color, 50%), 85%); // Top-level associated Subtitles
 
 $shadow-mix: #000;
 $hover-mix: #FFF;
@@ -24,7 +27,7 @@ $editor-fg: $em-text;
 $editor-border: #41495a;
 
 // MARKDOWN COLORS
-$link-color: #7ec5ff;
+$link-color: $accent-color;
 $blockquote-marker: #FEEA94;
 $blockquote-fg: #FFF;
 
@@ -58,7 +61,7 @@ $avatar-mini-color: #67748C;
 
 // Header colors
 $header-shadow-color: #1f1f1f;
-$header-bg: #261C5E;
+$header-bg: #261C5E; // #253043
 $header-em-text: $em-text;
 
 $big-select: $theme-color;

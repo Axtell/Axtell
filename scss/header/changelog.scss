@@ -15,9 +15,14 @@
     text-align: center;
     color: $header-bg;
 
-    border-radius: 50%;
-    width: $cl-count-size;
+    $cl-count-padding: 4px;
+
+    border-radius: $cl-count-size / 2;
     height: $cl-count-size;
+    min-width: $cl-count-size - $cl-count-padding * 2;
+    padding: 0 $cl-count-padding;
+
+    line-height: 1;
 
     background: rgba(255, 255, 255, 0.8);
     display: none;
