@@ -58,14 +58,14 @@ export default class ModalViewController extends ViewController {
         await anime.timeline()
             .add({
                 targets: dim,
-                opacity: [0, 1]
+                opacity: [0, 1],
+                duration: 300
             })
             .add({
                 offset: 100,
                 targets: instance,
                 opacity: [0, 1],
-                top: ['60%', '50%'],
-                elasticity: 150
+                top: ['60%', '50%']
             })
             .finished;
 
@@ -96,7 +96,8 @@ export default class ModalViewController extends ViewController {
             })
             .add({
                 targets: this._dim,
-                opacity: [1, 0]
+                opacity: [1, 0],
+                duration: 300
             })
             .finished;
 
