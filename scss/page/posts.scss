@@ -26,16 +26,24 @@
   }
 
   .post-item__section {
-    &.post-item__section--pad-top { padding-top: 0.5rem; }
-    &.post-item__section--pad-bottom { padding-bottom: 0.5rem; }
+    &.post-item__section--pad-top { margin-top: 0.14em; }
+    &.post-item__section--pad-bottom { margin-bottom: 0.14rem; }
   }
 
   // The preview text
-  .post-item__description { /* nothing for now */ }
+  .post-item__description {
+    padding: 0.25em 0;
+    margin: 0;
+
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.25;
+    color: $description-text;
+  }
 
   .post-item__caption {
     font-size: 0.9rem;
-    color: $dim-text;
+    color: $detail-text;
   }
 
   .post-item__title {

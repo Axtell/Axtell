@@ -36,7 +36,7 @@
                             <h4 class="post-item__title post-item__section">{{ post.title }}</h4>
 
                             <!-- Add the preview -->
-                            <div class="post-item__description body post-item__section post-item__section--pad-top"><p>{{ macros.render_markdown(post.body[:1000]) | striptags | truncate(250) }}</p></div>
+                            <p class="post-item__description post-item__section post-item__section--pad-top">{{ macros.render_markdown(post.body[:1000]) | striptags | truncate(250) }}</p>
                         </div>
                     </a>
                 </li>
