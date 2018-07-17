@@ -6,6 +6,7 @@
 
 {% block head -%}
 {{ super() }}
+<link type="text/css" href="https://fonts.googleapis.com/css?family=Fira+Mono&amp;subset=greek,latin-ext" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400i" rel="stylesheet">
 {% set canonical = opts.canonical_host + url_for('get_post', post_id=post_id, title=macros.slugify(post.title)) %}
 <link rel="canonical" href="{{ canonical }}">
@@ -19,7 +20,7 @@
 <div id="post">
     {{ data('post', macros.json_to_b64(post.to_json(no_body=True))) }}
     <div class="list-header">
-        <h1><a href="{{ canonical }}">{{ post.title|e }}</a></h1>
+        <h1 class="list-header__item--pad-top"><a href="{{ canonical }}">{{ post.title|e }}</a></h1>
     </div>
     <div class="post-split main">
         <div class="split-main body">

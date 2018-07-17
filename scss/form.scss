@@ -55,6 +55,7 @@
 // constraints are fullfilled
 .constraint-state {
   margin-top: 2px;
+  font-size: 0.8rem;
 
   svg, img {
     vertical-align: middle;
@@ -65,7 +66,9 @@
 
   span {
     vertical-align: middle;
+    display: inline-block;
     font-size: 1em;
+    color: $description-text;
   }
 }
 
