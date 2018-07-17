@@ -1,3 +1,14 @@
+@mixin am-provider($name, $background) {
+  &.am-provider--site-#{$name} {
+    background: desaturate($background, 5%);
+    box-shadow: 0 2px 8px -4px $background;
+
+    &:hover {
+      background: saturate($background, 20%);
+    }
+  }
+}
+
 #ammd-auth {
   margin: 1em;
 
@@ -10,11 +21,11 @@
     .am-provider {
 
       + .am-provider {
-        margin-top: 8px;
+        margin-top: 0.8rem;
       }
 
       height: 2em;
-      padding: 2px 12px;
+      padding: 0.5rem 1.5rem;
 
       display: flex;
       flex-direction: row;
@@ -22,24 +33,27 @@
       justify-content: start;
 
       font-family: Roboto;
-      font-size: 1em;
+      font-size: 1.2em;
       font-weight: 400;
 
-      color: #757575;
+      color: #FFFFFF;
 
       border-radius: 4px;
 
       cursor: pointer;
 
-      transition: 0.1s all ease-out;
-      background: $content-bg;
-      box-shadow: 0 2px 4px -2px rgba($shadow-mix, 0.34);
+      transition: 0.1s all linear;
+
+      white-space: nowrap;
 
       svg {
-        width: 18px;
-        height: 18px;
-        margin-right: 1em;
+        @include square(1.5rem);
+        margin-right: 12px;
+        fill: #FFFFFF;
       }
+
+      @include am-provider("google", #F94A4E);
+      @include am-provider("stackexchange", #255192);
     }
   }
 }
