@@ -1,15 +1,17 @@
 @keyframes popover-animation {
   0% {
-    transform: scale(1, 0) rotateX(-90deg);
+    opacity: 0;
+    transform: rotateX(-90deg);
   }
 
+  // // Uncomment for bounce
   50% {
-    transform: scale(1, 1) rotateX(10deg);
+    transform: rotateX(0deg);
   }
 
   100% {
     opacity: 1;
-    transform: scale(1, 1) rotateX(0deg);
+    transform: rotateX(0deg);
   }
 }
 
@@ -39,7 +41,7 @@
     animation-name: popover-animation;
     animation-fill-mode: forwards;
     animation-duration: 0.3s;
-    animation-timing-function: ease;
+    animation-timing-function: ease-out;
   }
 
   &--responsive-fixed {

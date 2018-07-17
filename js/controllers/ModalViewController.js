@@ -30,7 +30,7 @@ export default class ModalViewController extends ViewController {
 
         const anime = await import('animejs');
 
-        const dim = <div/>;
+        const dim = <div class="modal-view__dim"/>;
         const instance = template.loadInContext(dim);
 
         const listener = dim.addEventListener('click', (event) => {
@@ -43,14 +43,6 @@ export default class ModalViewController extends ViewController {
         this._dim = dim;
         this._eventListener = listener;
         this._activeTemplate = instance; // Set this last to avoid race condition
-
-        dim.style.position = 'fixed';
-        dim.style.top = 0;
-        dim.style.bottom = 0;
-        dim.style.left = 0;
-        dim.style.right = 0;
-        dim.style.zIndex = 20;
-        dim.style.background = 'rgba(0, 0, 0, 0.5)';
 
         instance.style.opacity = 0;
         instance.style.position = 'fixed';
