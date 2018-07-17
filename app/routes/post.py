@@ -8,6 +8,7 @@ from app.models.AnswerComment import AnswerComment
 from app.models.PostComment import PostComment
 from app.models.Leaderboard import Leaderboard
 from app.server import server
+from app.session.csrf import csrf_protected
 
 from re import match
 
@@ -85,6 +86,7 @@ def write_post():
 
 
 @server.route("/post/public", methods=['POST'])
+@csrf_protected
 def publish_post():
     if g.user is None:
         return abort(403)
@@ -110,6 +112,7 @@ def publish_post():
 
 
 @server.route("/post/<int:post_id>/edit", methods=['POST'])
+@csrf_protected
 def edit_post(post_id):
     try:
         return render_json(post.revise_post(post_id, request.get_json()).to_json())

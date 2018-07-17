@@ -17,6 +17,7 @@ export default class MarkdownViewController extends ViewController {
                 new MarkdownControls.MarkdownBoldControl(),
                 new MarkdownControls.MarkdownItalicControl(),
                 new MarkdownControls.MarkdownStrikethroughControl(),
+                new MarkdownControls.MarkdownLinkControl(),
                 new MarkdownControls.MarkdownImgurControl(),
                 new MarkdownControls.MarkdownMathControl()
         ]) {

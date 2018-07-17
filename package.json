@@ -25,7 +25,7 @@
     "@babel/preset-env": "^7.0.0-beta.46",
     "@babel/runtime": "^7.0.0-beta.46",
     "@csstools/postcss-sass": "^2.0.0",
-    "autoprefixer": "^8.4.1",
+    "autoprefixer": "^8.6.5",
     "babel-7-plugin-root-import": "^5.4.0",
     "babel-core": "^7.0.0-bridge.0",
     "babel-loader": "^8.0.0-beta.2",
@@ -33,6 +33,7 @@
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-wildcard": "^3.0.1",
     "babel-preset-env": "^1.6.1",
+    "cssnano": "^4.0.1",
     "esdoc": "^1.0.4",
     "esdoc-babel-7-plugin": "^1.1.0",
     "esdoc-importpath-plugin": "^1.0.1",
@@ -46,7 +47,9 @@
     "webpack-cli": "^2.1.2"
   },
   "dependencies": {
+    "animejs": "^2.2.0",
     "axios": "^0.17.0",
+    "clipboard": "^2.0.1",
     "element-dataset": "^2.2.6",
     "entities": "^1.1.1",
     "escape-html": "^1.0.3",

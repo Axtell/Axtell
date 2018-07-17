@@ -112,7 +112,8 @@ export default class FormConstraint {
             if (res === false) {
                 errors.push({
                     node: this._elem,
-                    error: validator.error
+                    error: validator.error,
+                    sourceValidator: validator
                 })
             }
         }

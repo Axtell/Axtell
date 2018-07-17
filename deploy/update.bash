@@ -3,6 +3,7 @@
 # Ensure correct directory
 cd /var/www/ppcg-v2
 
+echo "REMOTE DEPLOY: UPDATING GIT"
 echo "HEAD initially at version:"
 echo "$(git rev-parse @)"
 
@@ -21,7 +22,12 @@ mkdir -p static/lib
 chmod 755 static/lib
 chmod g+s static/lib
 
+
 PYTHONPATH=$PYTHONPATH:/var/www/ppcg-v2 alembic revision --autogenerate -m "$(git log --format=%B -n 1)"
 PYTHONPATH=$PYTHONPATH:/var/www/ppcg-v2 alembic upgrade head
 
+echo "REMOTE DEPLOY: CLEANING OLD JAVASCRIPT"
+rm -rf static/lib/*
+
 sudo service ppcg-v2 restart
+

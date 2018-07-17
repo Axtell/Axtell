@@ -131,26 +131,3 @@ table {
 
 }
 
-#content-dim {
-  text-align: center;
-
-  svg {
-    max-width: 8rem;
-    display: block;
-    margin: 0 auto;
-    fill: rgba($hover-mix, 0.4);
-  }
-
-  h3 {
-    color: rgba($hover-mix, 0.6);
-    font-weight: 900;
-    font-family: $bold-font;
-    font-size: 1.8rem;
-  }
-
-  span {
-    color: rgba($hover-mix, 0.4);
-    font-family: Roboto;
-    font-size: 1rem;
-  }
-}

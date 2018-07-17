@@ -2,7 +2,8 @@ import Request, { HTTPMethod } from '~/models/Request/Request';
 import Data from '~/models/Data';
 
 export const IMGUR_CLIENT_ID = Data.shared.envValueForKey('IMGUR_CLIENT_ID');
-export const IMGUR_UPLOAD_ENDPOINT = 'https://api.imgur.com/3/image';
+export const IMGUR_UPLOAD_HOST = 'https://api.imgur.com';
+export const IMGUR_UPLOAD_ENDPOINT = '/3/image';
 
 export default class ImgurUpload extends Request {
     /**
@@ -33,6 +34,7 @@ export default class ImgurUpload extends Request {
         }
 
         super({
+            host: IMGUR_UPLOAD_HOST,
             path: IMGUR_UPLOAD_ENDPOINT,
             method: HTTPMethod.POST,
             auth: `Client-ID ${IMGUR_CLIENT_ID}`,

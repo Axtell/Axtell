@@ -73,4 +73,13 @@ export default class Theme {
             return `${THEME_IMG_ROOT}/${name}.${type}`;
         }
     }
+
+    /**
+     * Gets path of picture that doesn't depend on theme
+     * @param {string} name
+     * @param {string} type extension of picture
+     */
+    staticImageForTheme(name, type = 'svg') {
+        return `${THEME_IMG_ROOT}/${name}.${type}`;
+    }
 }

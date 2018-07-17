@@ -1,19 +1,22 @@
 $nav-border-width: 3px;
 $nav-padding: 1em;
 
-#header {
+.header--shadow {
+  box-shadow: 0 2px 8px -1px rgba($shadow-mix, 0.3);
   z-index: 1;
+}
+
+.header--transparent, .header--shadow.header--transparent {
+  box-shadow: none;
+}
+
+#header {
+  z-index: 10;
 
   display: flex;
   justify-content: center;
 
   background: $header-bg;
-
-  box-shadow: 0 2px 8px -1px rgba($shadow-mix, 0.3);
-
-  &.header--transparent {
-    box-shadow: none;
-  }
 
   .content {
     display: flex;

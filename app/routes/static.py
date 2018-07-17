@@ -1,4 +1,4 @@
-from app.helpers.render import render_template
+from app.helpers.render import render_template, render_json
 from app.models.Language import Language
 from app.server import server
 from misc import path_for_icon, default_svg

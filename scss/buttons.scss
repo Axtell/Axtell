@@ -68,6 +68,8 @@
   // The button pairs
   &.button--pair {
     height: 2rem;
+    line-height: (2rem / 2);
+    white-space: nowrap;
   }
 
   &.button--pair-left {
@@ -94,6 +96,18 @@
 
   // Adds a little space to the top
   &.button--padding-top { margin-top: 4px; }
+
+  // Adds left + right margins
+  &.button--padding-horizontal {
+    margin: {
+      left: 1rem;
+      right: 1rem;
+    };
+
+    &.button--size-wide {
+      width: calc(100% - 2rem);
+    }
+  }
 
   // Shrink everything for smaller places
   &.button--size-small {

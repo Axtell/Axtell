@@ -3,6 +3,9 @@ import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 import FormControllerDelegate from '~/delegate/FormControllerDelegate';
 import CategoryListViewController from '~/controllers/CategoryListViewController';
 import PopoverViewController from '~/controllers/PopoverViewController';
+import SwappingViewController from '~/controllers/SwappingViewController';
+import ModalViewController from '~/controllers/ModalViewController';
+import ModalViewTemplate from '~/template/ModalViewTemplate';
 import ForeignInteractor from '~/interactors/ForeignInteractor';
 import ModalController from '~/controllers/ModalController';
 import ViewController from '~/controllers/ViewController';
@@ -10,42 +13,20 @@ import FormConstraint from '~/controllers/Form/FormConstraint';
 import ModalTemplate from '~/template/ModalTemplate';
 import Template, { TemplateType } from '~/template/Template';
 import StackExchange from '~/models/StackExchange';
+import ErrorManager, { HandleUnhandledPromise } from '~/helpers/ErrorManager';
 import * as Post from '~/models/Post';
 
-export const PUBLISH_FORM = "post-form";
-export const PUBLISH_TYPE_CONTROLLER = "post-publish";
-export const PUBLISH_TYPE_FORM_ITEM = "publish-target";
-export const PUBLISH_CATEGORIES_CONTROLLER = document.getElementById("post-categories");
-export const PUBLISH_CATEGORIES_LABEL = document.getElementById("category-label");
-export const PREVIEW_WRAPPER = document.getElementById("preview-wrap");
+const root = document.getElementById("post-write");
+if (root) {
+    const rootView = new SwappingViewController(root);
 
-let formController, publishTypeController, categoryListViewController;
+    // Load the view
+    import('~/template/WritePost/WritePostTemplate').then(async ({ default: WritePostTemplate }) => {
 
-if (formController = ViewController.of(PUBLISH_FORM)) {
+        const writePostTemplate = new WritePostTemplate();
+        rootView.displayAlternate(writePostTemplate);
 
-    let preview = formController.foreignSynchronize("Preview");
-    PREVIEW_WRAPPER.appendChild(preview);
-
-    publishTypeController = ViewController.of(PUBLISH_TYPE_CONTROLLER);
-
-    publishTypeController.didSetStateTo =
-        ActionControllerDelegate.bindValue(PUBLISH_TYPE_FORM_ITEM);
-    publishTypeController.setState('code-golf');
-
-    categoryListViewController = new CategoryListViewController(PUBLISH_CATEGORIES_CONTROLLER, PUBLISH_CATEGORIES_LABEL);
-
-    formController.addConstraints([
-        new FormConstraint('post-body')
-            .length(Post.MIN_BODY_LENGTH, Post.MAX_BODY_LENGTH),
-        new FormConstraint('post-title')
-            .length(Post.MIN_TITLE_LENGTH, Post.MAX_TITLE_LENGTH)
-    ]);
-
-    formController.delegate = new class extends FormControllerDelegate {
-        formDidError(controller, errors) {
-            controller.display(errors);
-        }
-    }
+    }).catch(HandleUnhandledPromise);
 }
 
 // Create the popover button
@@ -65,11 +46,18 @@ if (CREATE_POST_MORE_BUTON) {
     );
 
     // Create Stack Exchange import
-    const StackExchangeImportModal = new ModalTemplate('PPCG Importer', IMPORT_FROM_STACKEXCHANGE, TemplateType.move);
+    const StackExchangeImportModal = new ModalViewTemplate(
+        new Template(IMPORT_FROM_STACKEXCHANGE, TemplateType.move),
+        {
+            title: 'PPCG Importer',
+            subtitle: 'Import your posts from codegolf.stackexchange.com'
+        }
+    );
+
     IMPORT_FROM_STACKEXCHANGE_TRIGGER.addEventListener("click", () => {
-        ModalController.shared.present(
-            StackExchangeImportModal
-        );
+        ModalViewController.shared
+            .present(StackExchangeImportModal)
+            .catch(HandleUnhandledPromise);
     });
 
     async function StackExchangeImportLogin() {

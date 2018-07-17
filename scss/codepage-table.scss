@@ -1,0 +1,85 @@
+.codepage-table__wrapper__container { text-align: center; }
+.codepage-table__wrapper {
+    background: $content-bg;
+    box-shadow: 0px 24px 32px 0px rgba($shadow-mix, 0.1);
+
+    display: inline-block;
+    box-sizing: border-box;
+    overflow: auto;
+
+    border-radius: 16px;
+    padding: 1rem;
+
+    max-width: 100%;
+}
+
+.codepage-table {
+    font-family: $monospace;
+    font-size: 1.2rem;
+
+    table-layout: fixed;
+
+    border-collapse: collapse;
+    border-style: hidden;
+
+    .codepage-table__char {
+        border: 1px solid rgba($hover-mix, 0.1);
+
+        @include square(3rem);
+        text-align: center;
+
+        position: relative;
+        cursor: pointer;
+
+        .codepage-table__char__ord {
+            position: absolute;
+
+            top: 2px;
+            left: 0;
+            right: 0;
+
+            text-align: center;
+
+            color: $label-tag;
+            font-size: 0.7rem;
+        }
+
+        .codepage-table__char__copy {
+            font-size: 0.7rem;
+            color: $accent-color;
+            text-align: center;
+        }
+
+        .codepage-table__char__chr {
+            display: block;
+            position: relative;
+
+            margin-top: 1rem;
+            height: 1rem;
+
+            &--style-unassigned {
+                &::after {
+                    content: "1";
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    font-size: 0.4rem;
+                }
+
+                color: $label-tag;
+            }
+
+            &--style-unprintable {
+                &::after {
+                    content: "2";
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    font-size: 0.6rem;
+                }
+
+                color: $label-tag;
+            }
+        }
+    }
+}

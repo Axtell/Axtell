@@ -2,6 +2,7 @@ import languages from '#/languages.json';
 import ErrorManager from '~/helpers/ErrorManager';
 
 import Normalize from '~/models/Normalize';
+import Encoding from '~/models/Encoding';
 import Query from '~/models/Query';
 
 export const InvalidLanguage = Symbol('LanguageError.InvalidLanguage');
@@ -37,6 +38,14 @@ export default class Language {
      */
     get displayName() {
         return (this.info && this.info.display) || (this.id[0].toUpperCase() + this.id.substr(1));
+    }
+
+    /**
+     * User-friendly and machine encoding
+     * @return {Encoding}
+     */
+    async encoding() {
+        return await Encoding.fromName(languages.encoding[this.id] || 'UTF-8');
     }
 
     /**
@@ -91,6 +100,18 @@ export default class Language {
         if (cmName === 1) return this.id;
         if (cmName === 2) return `text/x-${this.id}`;
         return cmName;
+    }
+
+    /**
+     * Byte-counts a JavaScript string (properly encoded)
+     * @param {string} string
+     */
+    byteCount(string) {
+        // let byteCount = 0;
+        // for (const char of string) {
+        //     const codePoint = char.codePointAt(0);
+
+        // }
     }
 
     /**

@@ -1,3 +1,18 @@
+@keyframes popover-animation {
+  0% {
+    transform: scale(1, 0) rotateX(-90deg);
+  }
+
+  50% {
+    transform: scale(1, 1) rotateX(10deg);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1, 1) rotateX(0deg);
+  }
+}
+
 .popover {
   $arrow-size: 12px;
 
@@ -13,6 +28,19 @@
   margin-top: $arrow-size;
 
   top: 100%;
+
+  will-change: transform;
+
+  transform-origin: 50% 0;
+  transform: scale(1, 0) rotateX(-90deg);
+  opacity: 0;
+
+  &.template--active {
+    animation-name: popover-animation;
+    animation-fill-mode: forwards;
+    animation-duration: 0.3s;
+    animation-timing-function: ease;
+  }
 
   &--responsive-fixed {
     @media (max-width: $sidebar-collapse) {
@@ -68,4 +96,5 @@
 // For elements containing a popover
 .popover__container {
   position: relative;
+  perspective: 500px;
 }

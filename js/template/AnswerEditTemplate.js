@@ -20,7 +20,10 @@ export default class AnswerEditTemplate extends Template {
         super(<div class="answer-edit"/>);
 
         /** @type {NavigationItemDelegate} */
-        this.delegate = new NavigationItemDelegate();
+        this.navigationDelegate = new NavigationItemDelegate();
+
+        /** @type {ActionControllerDelegate} */
+        this.actionDelegate = new ActionControllerDelegate();
 
         return (async () => {
             const CM = await CodeMirror();
@@ -32,6 +35,7 @@ export default class AnswerEditTemplate extends Template {
             editor.controller.value = answer.code;
 
             editor.controller.delegate.didSetStateTo = (controller, value) => {
+                this.actionDelegate.didSetStateTo(this, value);
                 this.checkIsDisabled(value);
             };
 
@@ -48,14 +52,14 @@ export default class AnswerEditTemplate extends Template {
             });
 
             cancelButton.delegate.didSetStateTo = async (controller, state)  => {
-                this.delegate.shouldClose(this, null);
+                this.navigationDelegate.shouldClose(this, null);
             }
 
             saveButton.delegate.didSetStateTo = async (controller, state) => {
                 const newAnswer = answer.clone();
                 newAnswer.code = editor.controller.value;
 
-                await this.delegate.shouldClose(this, newAnswer);
+                await this.navigationDelegate.shouldClose(this, newAnswer);
             }
 
             /** @type {Answer} */
