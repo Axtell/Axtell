@@ -1,7 +1,9 @@
 from app.instances.db import db
 from sqlalchemy.dialects.mysql import LONGTEXT
+from sqlalchemy.ext.hybrid import hybrid_property
 from config import posts
 from app.models.PostRevision import PostRevision
+from app.helpers.macros.score import confidence
 import datetime
 
 
@@ -23,6 +25,12 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     ppcg_id = db.Column(db.Integer, nullable=True)
+
+    @hybrid_property
+    def score(self):
+        ups = self.votes.query.filter_by(vote=1).all()
+        downs = self.votes.query.filter_by(vote=-1).all()
+        return confidence(ups, downs)
 
     def to_json(self, no_body=False):
         json = {

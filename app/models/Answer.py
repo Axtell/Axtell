@@ -3,6 +3,7 @@ from sqlalchemy import func
 from sqlalchemy.ext.hybrid import hybrid_property
 import app.models.Language
 from app.models.AnswerRevision import AnswerRevision
+from app.helpers.macros.score import confidence
 import datetime
 from config import answers
 
@@ -39,6 +40,12 @@ class Answer(db.Model):
     @byte_len.expression
     def byte_len(cls):
         return func.length(cls.code)
+
+    @hybrid_property
+    def score(self):
+        ups = self.votes.query.filter_by(vote=1).all()
+        downs = self.votes.query.filter_by(vote=-1).all()
+        return confidence(ups, downs)
 
     def to_json(self, no_code=False):
         data = {}
