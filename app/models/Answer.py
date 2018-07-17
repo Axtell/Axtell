@@ -1,10 +1,11 @@
 from app.instances.db import db
-from sqlalchemy import func
+from sqlalchemy import select, func
 from sqlalchemy.ext.hybrid import hybrid_property
 import app.models.Language
 from app.models.AnswerRevision import AnswerRevision
-from app.helpers.macros.score import confidence
+from app.models.AnswerVote import AnswerVote
 import datetime
+from math import sqrt
 from config import answers
 
 
@@ -45,7 +46,31 @@ class Answer(db.Model):
     def score(self):
         ups = sum(vote for vote in self.votes if vote.vote == 1)
         downs = sum(vote for vote in self.votes if vote.vote == -1)
-        return confidence(ups, downs)
+
+        n = ups + downs
+
+        if n == 0:
+            return 0
+
+        z = 1.0
+        phat = ups / n
+        return (phat + z * z / (2 * n) - z * sqrt((phat * (1 - phat) + z * z / (4 * n)) / n)) / (1 + z * z / n)
+
+    @score.expression
+    def score(cls):
+        ups = select([func.sum(AnswerVote.vote)]).where(AnswerVote.answer_id == cls.id
+                                                        and AnswerVote.vote == 1).label('ups')
+        downs = select([func.sum(AnswerVote.vote)]).where(AnswerVote.answer_id == cls.id
+                                                          and AnswerVote.vote == -1).label('downs')
+
+        n = ups + downs
+
+        if n == 0:
+            return 0
+
+        z = 1.0
+        phat = ups / n
+        return (phat + z * z / (2 * n) - z * func.sqrt((phat * (1 - phat) + z * z / (4 * n)) / n)) / (1 + z * z / n)
 
     def to_json(self, no_code=False):
         data = {}
