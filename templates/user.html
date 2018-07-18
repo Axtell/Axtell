@@ -19,7 +19,28 @@
                 {% include "svg/calendar.html" %}
                 <div class="profile__data__item__stack">
                     <span class="profile__data__item__key">Joined</span>
-                    <span class="profile__data__item__value">{{ time(user.logins[0].time) }}</span>
+                    <span class="profile__data__item__value">
+                        {% set logins = user.logins %}
+                        {%- if logins|length == 0 -%}
+                        never
+                        {%- else -%}
+                        {{ time(user.logins[0].time) }}
+                        {%- endif -%}
+                    </span>
+                </div>
+            </li>
+            <li class="profile__data__item">
+                {% include "svg/answer.html" %}
+                <div class="profile__data__item__stack">
+                    <span class="profile__data__item__key">Answers</span>
+                    <span class="profile__data__item__value">{{ user.answers|length }}</span>
+                </div>
+            </li>
+            <li class="profile__data__item">
+                {% include "svg/question.html" %}
+                <div class="profile__data__item__stack">
+                    <span class="profile__data__item__key">Challenges</span>
+                    <span class="profile__data__item__value">{{ user.posts|length }}</span>
                 </div>
             </li>
         </ul>

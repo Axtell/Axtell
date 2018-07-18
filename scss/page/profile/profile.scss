@@ -122,6 +122,10 @@ body #content main.profile {
     .profile__data__item {
       font-size: 1rem;
 
+      + .profile__data__item {
+        margin-top: 1rem;
+      }
+
       > * {
         display: inline-block;
         vertical-align: middle;

@@ -2,6 +2,8 @@ import ViewController from '~/controllers/ViewController';
 import ModalViewTemplate from '~/template/ModalViewTemplate';
 import { HandleUnhandledPromise } from '~/helpers/ErrorManager';
 
+export const MODAL_BLUR_RADIUS = '16px';
+
 /**
  * This is like {@link ModalController} but better. This uses ModalTemplate
  */
@@ -59,8 +61,8 @@ export default class ModalViewController extends ViewController {
             .add({
                 targets: dim,
                 opacity: [0, 1],
-                backdropFilter: ['blur(0px)', 'blur(4px)'],
-                webkitBackdropFilter: ['blur(0px)', 'blur(4px)'],
+                backdropFilter: ['blur(0px)', `blur(${MODAL_BLUR_RADIUS})`],
+                webkitBackdropFilter: ['blur(0px)', `blur(${MODAL_BLUR_RADIUS})`],
                 duration: 300
             })
             .add({
@@ -102,8 +104,8 @@ export default class ModalViewController extends ViewController {
             .add({
                 targets: this._dim,
                 opacity: [1, 0],
-                backdropFilter: ['blur(4px)', 'blur(0px)'],
-                webkitBackdropFilter: ['blur(4px)', 'blur(0px)'],
+                backdropFilter: [`blur(${MODAL_BLUR_RADIUS})`, 'blur(0px)'],
+                webkitBackdropFilter: [`blur(${MODAL_BLUR_RADIUS})`, 'blur(0px)'],
                 duration: 300
             })
             .finished;
