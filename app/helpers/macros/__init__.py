@@ -10,6 +10,8 @@ from app.helpers.macros.csrf import *
 
 
 version_id = None
+
+
 def get_version_id():
     global version_id
 

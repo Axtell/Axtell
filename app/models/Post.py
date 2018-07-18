@@ -1,8 +1,12 @@
 from app.instances.db import db
 from sqlalchemy.dialects.mysql import LONGTEXT
+from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy import select, func
 from config import posts
 from app.models.PostRevision import PostRevision
+from app.models.PostVote import PostVote
 import datetime
+from math import sqrt
 
 
 class Post(db.Model):
@@ -23,6 +27,36 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
     ppcg_id = db.Column(db.Integer, nullable=True)
+
+    @hybrid_property
+    def score(self):
+        ups = sum(vote for vote in self.votes if vote.vote == 1)
+        downs = sum(vote for vote in self.votes if vote.vote == -1)
+
+        n = ups + downs
+
+        if n == 0:
+            return 0
+
+        z = 1.0
+        phat = ups / n
+        return (phat + z * z / (2 * n) - z * sqrt((phat * (1 - phat) + z * z / (4 * n)) / n)) / (1 + z * z / n)
+
+    @score.expression
+    def score(cls):
+        ups = select([func.sum(PostVote.vote)]).where(PostVote.answer_id == cls.id
+                                                      and PostVote.vote == 1).label('ups')
+        downs = select([func.sum(PostVote.vote)]).where(PostVote.answer_id == cls.id
+                                                        and PostVote.vote == -1).label('downs')
+
+        n = ups + downs
+
+        if n == 0:
+            return 0
+
+        z = 1.0
+        phat = ups / n
+        return (phat + z * z / (2 * n) - z * func.sqrt((phat * (1 - phat) + z * z / (4 * n)) / n)) / (1 + z * z / n)
 
     def to_json(self, no_body=False):
         json = {
