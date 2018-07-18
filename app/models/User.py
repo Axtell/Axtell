@@ -1,5 +1,4 @@
 from app.instances.db import db
-from app.models.Login import Login
 from app.helpers.macros.gravatar import gravatar
 
 import config
