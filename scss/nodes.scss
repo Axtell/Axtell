@@ -30,6 +30,15 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
   display: inline-block;
 
+  &.header--style-icon {
+    svg, img {
+      vertical-align: middle;
+      height: 1.5em;
+      margin-top: -4px;
+      margin-right: 8px;
+    }
+  }
+
   &.header--style-caption {
     color: $subtitle-text;
     font-weight: 400;

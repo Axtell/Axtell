@@ -1,16 +1,63 @@
 {% extends "layouts/page.html" %}
+{% from "includes/time.html" import time %}
 
 {% block title %}{{ user.name }}'s Profile{% endblock %}
 {% block base_content -%}
-<main class="profile-content">
-    <div class="profile-banner">
-        <img class="profile-banner--avatar" src="{{ user.avatar_url() }}"/>
-        <div class="profile-banner--info-box">
-            <h1 class="profile-banner--display-name">{{ user.name }}</h1>
-            <h4 class="profile-banner--description">Hi, I am an Axtell member!<h4/>
+<main class="profile">
+    <section class="profile__column profile__column--sizing-noshrink">
+        <div>
+            <div class="profile__avatar">
+                <img src="{{ user.avatar_url() }}" />
+                <a class="profile__avatar__edit" aria-label="Change Avatar">
+                    {% include "svg/edit.html" %}
+                </a>
+            </div>
         </div>
-    </div>
-    <div class="content">
-    </div>
+        <h2 class="profile__name">{{ user.name }}</h2>
+        <ul class="profile__data">
+            <li class="profile__data__item">
+                {% include "svg/calendar.html" %}
+                <div class="profile__data__item__stack">
+                    <span class="profile__data__item__key">Joined</span>
+                    <span class="profile__data__item__value">{{ time(user.logins[0].time) }}</span>
+                </div>
+            </li>
+        </ul>
+    </section>
+    <section class="profile__column profile__column--responsive-width-2">
+        <!-- Feed -->
+        <section class="profile__section">
+            <h3 class="profile__section__header header--style-icon">
+                {% include "svg/activity.html" %}
+                Recent Activity
+            </h3>
+
+            <div class="profile__section__body">
+                {%- if true -%}
+                <div class="profile__section__item profile__section__body__empty">
+                    {% include "svg/mascot/goat-grazing.html" %}
+                    <hgroup>
+                        <h4 class="profile__section__body__empty__title">No Activity.</h4>
+                        <h5 class="profile__section__body__empty__desc">{{ user.name }} hasn't done anything&mdash; yet...</h5>
+                    </hgroup>
+                </div>
+                {%- endif -%}
+            </div>
+        </section>
+    </section>
+    <section class="profile__column profile__column--responsive-width-1">
+        <section class="profile__section">
+            <h3 class="profile__section__header header--style-icon">
+                {% include "svg/upward-graph.html" %}
+                Points
+            </h3>
+
+            <div class="profile__section__body">
+                <div class="profile__section__item">
+                    <div><canvas id="reputation-chart"></canvas></div>
+                </div>
+            </div>
+        </section>
+    </section>
 </main>
 {%- endblock %}

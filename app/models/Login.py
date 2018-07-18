@@ -15,7 +15,7 @@ class Login(db.Model):
     ip_address = db.Column(db.String(40), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
 
-    user = db.relationship('User', backref='logins', lazy=True)
+    user = db.relationship('User', backref='logins', order_by='desc(Login.time)', lazy=True)
 
     def to_json(self):
         return {

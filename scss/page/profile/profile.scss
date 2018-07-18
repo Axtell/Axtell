@@ -1,75 +1,196 @@
+// Override main padding
+body #content main.profile {
+  padding: 5rem 0;
+}
+
 .profile {
   display: flex;
   flex-direction: row;
   align-items: stretch;
 
-  overflow-y: auto;
+  $user-overview-collapse-width: 1023px;
 
-  .profile__section {
-    box-sizing: border-box;
+  // 1024 prevents from activating on iPad & smaller tablets
+  @media (max-width: $user-overview-collapse-width) {
+    display: block;
 
-    &.profile__section--size-wide { flex: 1; }
-    &.profile__section--padding { padding: 0 2rem; }
+    .profile__column + .profile__column {
+      margin-top: 4rem;
+    }
   }
 
-  // LEFT HAND SIDE WITH LIST OF SETTING CATEGORIES
-  .profile__category_list {
-    border-radius: 12px 0 0 12px;
-    overflow: hidden; // Trims the border
-    background: mix($accent-color, rgba($hover-mix, 0.03), 2%);
+  // One of the columns on profile
+  .profile__column {
+    // Padding so it's all even
+    $profile-intercolumn-padding: 3rem;
+    $profile-edge-padding: 3rem;
 
+    &:first-child {
+      padding-left: $profile-edge-padding;
+      @media (max-width: $user-overview-collapse-width) { padding-left: $profile-intercolumn-padding / 2; }
+    }
+
+    &:last-child {
+      padding-right: $profile-edge-padding;
+      @media (max-width: $user-overview-collapse-width) { padding-right: $profile-intercolumn-padding / 2; }
+    }
+
+    padding: 0 $profile-intercolumn-padding / 2;
+
+    // Relative widths. e.g. 1 means 1/n width units
+    &.profile__column--responsive-width-1 { flex: 1; }
+    &.profile__column--responsive-width-2 { flex: 2; }
+    &.profile__column--responsive-width-3 { flex: 3; }
+    &.profile__column--responsive-width-4 { flex: 4; }
+
+    &.profile__column--base-width-1 { flex-basis: (100% / 1); }
+    &.profile__column--base-width-2 { flex-basis: (100% / 2); }
+    &.profile__column--base-width-3 { flex-basis: (100% / 3); }
+    &.profile__column--base-width-4 { flex-basis: (100% / 4); }
+    &.profile__column--base-width-5 { flex-basis: (100% / 5); }
+
+    // self-explantory
+    &.profile__column--sizing-noshrink { flex-shrink: 0; }
+    &.profile__column--sizing-nogrow { flex-grow: 0; }
+  }
+
+  // User's avatar blurb thing
+  .profile__avatar {
+    display: inline-block;
+    position: relative;
+
+    // Add some spacing too
+    margin-right: 2rem;
+
+    // The edit button
+    .profile__avatar__edit {
+      position: absolute;
+
+      display: block;
+
+      $profile__avatar__edit__width: 3rem;
+      $cis45: 100% * 0.7071067812;
+      // We need to align at 100 * cis(-45deg) or cos(45deg) -sin(45deg)
+      top: $cis45;
+      left: $cis45; // Don't know why this works but it does
+
+      width: 3rem;
+      height: 3rem;
+
+      border-radius: 50%;
+
+      background: linear-gradient(135deg, #FCCF31 10%, #F55555 100%);
+      transition: background 1s ease;
+
+      box-shadow: 0px 4px 8px -2px rgba(#F28A5B, 0.8);
+
+      svg {
+        position: absolute;
+        fill: white;
+
+        $profile__avatar__edit__icon__size: 60%;
+
+        top: (100% - $profile__avatar__edit__icon__size) / 2;
+        left: (100% - $profile__avatar__edit__icon__size) / 2;
+        width: $profile__avatar__edit__icon__size;
+        height: $profile__avatar__edit__icon__size;
+      }
+    }
+
+    img {
+      // We're going to want to be around 6 lines in height
+      @include square(10em);
+
+      border-radius: 50%;
+
+      box-shadow: 0px 8px 16px -4px rgba($shadow-mix, 0.5);
+    }
+  }
+
+  // The username
+  .profile__name {
+    color: $title-text;
+    font-size: 3rem;
+  }
+
+  // List of user attributes on left
+  .profile__data {
     list-style: none;
-    margin: 0;
+    margin: 1.5rem 0;
     padding: 0;
 
-    .profile__category_list__category {
-      cursor: pointer;
-      box-sizing: border-box;
-      padding: 1rem 1rem;
-      width: 100%;
+    .profile__data__item {
+      font-size: 1rem;
 
-      transition: background 0.25s ease;
-      &:hover {
-        background: mix($accent-color, rgba($hover-mix, 0.04), 5%);
+      > * {
+        display: inline-block;
+        vertical-align: middle;
       }
 
-      + .profile__category_list__category {
-        border-top: 1px solid rgba($hover-mix, 0.04);
+      svg { height: 2em; }
+
+      // Vertical stack
+      .profile__data__item__stack > span { display: block; }
+
+      .profile__data__item__key {
+        color: $detail-text;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 0.75em;
+        line-height: 1em;
       }
 
-      &.profile__category_list__category--active {
-        border-left: 8px solid $accent-color;
-        svg, img { fill: $accent-color; }
-        .profile__category_list__category__label { color: $accent-color; }
-      }
-
-      svg, img {
-        display: block;
-        margin: 0 auto;
-        @include square(3rem);
-        fill: rgba($hover-mix, 0.4);
-      }
-
-      .profile__category_list__category__label {
-        display: block;
-        margin: 0 auto;
-
-        text-align: center;
-        // text-transform: uppercase;
-        // font-weight: $bold-weight;
-
-        color: rgba($hover-mix, 0.4);
+      .profile__data__item__value {
+        color: $key-text;
       }
     }
   }
 
-  .profile__category_container {
-    .profile__category {
-      @include fit;
-      @include full;
-      display: none;
 
-      .profile__category--active { display: block; }
+  // A section of the profile feed area
+    .profile__section {
+      .profile__section__header {
+        color: $key-text;
+        margin-bottom: 2rem;
+      }
+
+      .profile__section__body {
+      }
+
+      .profile__section__item {
+        margin-bottom: 1rem;
+        padding: 2rem;
+
+        box-shadow: 0 16px 32px -16px rgba(0, 0, 0, 0.1);
+        background: $content-bg;
+        border-radius: 16px;
+
+        // Body type when there is no body
+        &.profile__section__body__empty {
+          text-align: center;
+          margin-left: auto;
+          margin-right: auto;
+
+          // If there is an associated image
+          svg {
+            height: 12rem;
+            max-width: 100%;
+            display: block;
+            margin: 1rem auto;
+          }
+
+          .profile__section__body__empty__title {
+            display: block;
+            font-size: 3rem;
+            color: $key-text;
+          }
+
+          .profile__section__body__empty__desc {
+            font-size: 1.5rem;
+            display: block;
+            color: $description-text;
+          }
+        }
+      }
     }
-  }
 }
