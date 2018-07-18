@@ -1,3 +1,16 @@
+.modal-view__dim {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 20;
+
+    backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.5);
+}
+
+
 .modal-view {
     border-radius: 16px;
     background: $content-bg;

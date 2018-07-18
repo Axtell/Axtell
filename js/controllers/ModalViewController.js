@@ -30,7 +30,7 @@ export default class ModalViewController extends ViewController {
 
         const anime = await import('animejs');
 
-        const dim = <div/>;
+        const dim = <div class="modal-view__dim"/>;
         const instance = template.loadInContext(dim);
 
         const listener = dim.addEventListener('click', (event) => {
@@ -43,14 +43,6 @@ export default class ModalViewController extends ViewController {
         this._dim = dim;
         this._eventListener = listener;
         this._activeTemplate = instance; // Set this last to avoid race condition
-
-        dim.style.position = 'fixed';
-        dim.style.top = 0;
-        dim.style.bottom = 0;
-        dim.style.left = 0;
-        dim.style.right = 0;
-        dim.style.zIndex = 20;
-        dim.style.background = 'rgba(0, 0, 0, 0.5)';
 
         instance.style.opacity = 0;
         instance.style.position = 'fixed';
@@ -66,14 +58,14 @@ export default class ModalViewController extends ViewController {
         await anime.timeline()
             .add({
                 targets: dim,
-                opacity: [0, 1]
+                opacity: [0, 1],
+                duration: 300
             })
             .add({
                 offset: 100,
                 targets: instance,
                 opacity: [0, 1],
-                top: ['60%', '50%'],
-                elasticity: 150
+                top: ['60%', '50%']
             })
             .finished;
 
@@ -94,6 +86,7 @@ export default class ModalViewController extends ViewController {
 
         const anime = await import('animejs');
 
+        this._dim.style.pointerEvents = 'none';
         await anime.timeline()
             .add({
                 targets: instance,
@@ -104,7 +97,8 @@ export default class ModalViewController extends ViewController {
             })
             .add({
                 targets: this._dim,
-                opacity: [1, 0]
+                opacity: [1, 0],
+                duration: 300
             })
             .finished;
 
