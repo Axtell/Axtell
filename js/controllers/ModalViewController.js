@@ -59,13 +59,17 @@ export default class ModalViewController extends ViewController {
             .add({
                 targets: dim,
                 opacity: [0, 1],
+                backdropFilter: ['blur(0px)', 'blur(4px)'],
+                webkitBackdropFilter: ['blur(0px)', 'blur(4px)'],
                 duration: 300
             })
             .add({
-                offset: 100,
+                offset: '-=50',
                 targets: instance,
                 opacity: [0, 1],
-                top: ['60%', '50%']
+                top: ['60%', '50%'],
+                easing: 'easeOutBack',
+                duration: 500
             })
             .finished;
 
@@ -86,7 +90,7 @@ export default class ModalViewController extends ViewController {
 
         const anime = await import('animejs');
 
-        this._dim.style.pointerEvents = 'none';
+        this._dim.style.pointerEvents = 'none'
         await anime.timeline()
             .add({
                 targets: instance,
@@ -98,6 +102,8 @@ export default class ModalViewController extends ViewController {
             .add({
                 targets: this._dim,
                 opacity: [1, 0],
+                backdropFilter: ['blur(4px)', 'blur(0px)'],
+                webkitBackdropFilter: ['blur(4px)', 'blur(0px)'],
                 duration: 300
             })
             .finished;
