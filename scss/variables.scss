@@ -12,6 +12,7 @@ $label-text: #676767;
 $label-tag: #BBB;
 $dim-text: mix(#999, $theme-color, 90%);
 
+$key-text: mix(#666, $theme-color, 90%); // A small header perhaps
 $detail-text: mix(#AAA, $theme-color, 90%); // For short non-primary detail blurbs
 $description-text: mix(#777, $theme-color, 90%); // Descriptions (longer bodies of subtext)
 $title-text: mix(#111, $theme-color, 80%); // Top-level titles

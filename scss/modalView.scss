@@ -7,8 +7,11 @@
     z-index: 20;
 
     // Animated using JS
-    // backdrop-filter: blur(4px);
-    background: rgba(0, 0, 0, 0.5);
+    @supports (-webkit-backdrop-filter: blur(16px)) or (backdrop-filter: blur(16px)) {
+        background: rgba($shadow-mix, 0.1);
+    }
+
+    background: rgba($shadow-mix, 0.5);
 }
 
 

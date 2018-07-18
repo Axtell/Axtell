@@ -98,6 +98,11 @@ export default LazyLoad;
 export const jQuery =
     LazyLoad.script(`https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js`);
 
+export const Chartist = LazyLoad.once(
+    LazyLoad.stylesheet(`https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.css`),
+    LazyLoad.script(`https://cdnjs.cloudflare.com/ajax/libs/chartist/0.11.0/chartist.min.js`)
+);
+
 export const CodeMirrorTheme = (theme) => (
     theme && theme !== 'default'
     ? LazyLoad.stylesheet(`https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.38.0/theme/${theme}.min.css`)()
