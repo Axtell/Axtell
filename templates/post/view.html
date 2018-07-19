@@ -10,9 +10,24 @@
 <link href="https://fonts.googleapis.com/css?family=Playfair+Display:400i" rel="stylesheet">
 {% set canonical = opts.canonical_host + url_for('get_post', post_id=post_id, title=macros.slugify(post.title)) %}
 <link rel="canonical" href="{{ canonical }}">
-<link property="og:url" value="{{ canonical }}">
-<link property="og:type" value="article">
-<meta name="description" value="{{ post_body|striptags|truncate(250)|e }}">
+
+{% set description = post_body|striptags|truncate(250) %}
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="{{ canonical }}">
+<meta property="og:description" content="{{ description|e }}">
+
+{%- set revisions = post.post_revisions -%}
+{%- if revisions|length > 0 -%}
+    {%- set last_modified = post.post_revisions[0].revision_time -%}
+{%- else -%}
+    {%- set last_modified = post.date_created -%}
+{%- endif -%}
+
+<meta property="article:published_time" content="{{ post.date_created.isoformat() }}">
+<meta property="article:modified_time" content="{{ last_modified.isoformat() }}">
+
+<meta name="description" content="{{ description|e }}">
 {%- endblock %}
 
 {% block title %}{{ post.title|e }}{% endblock %}

@@ -63,6 +63,7 @@
     "polyfill-crypto.getrandomvalues": "^1.0.0",
     "progress": "^2.0.0",
     "remove-markdown": "^0.2.2",
+    "slug": "^0.9.1",
     "tippy.js": "^2.5.2",
     "uglify-js": "^3.3.23",
     "url-search-params-polyfill": "^2.0.1",

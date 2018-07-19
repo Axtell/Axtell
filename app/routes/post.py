@@ -4,11 +4,13 @@ import app.tasks.markdown as markdown
 from app.controllers import post, answer as answer_controller, vote
 from app.helpers.render import render_template, render_json
 from app.helpers.comments import get_rendered_comments
+from app.helpers.macros.encode import slugify
 from app.models.AnswerComment import AnswerComment
 from app.models.PostComment import PostComment
 from app.models.Leaderboard import Leaderboard
 from app.server import server
 from app.session.csrf import csrf_protected
+from config import canonical_host
 
 from re import match
 
@@ -26,6 +28,15 @@ def get_posts():
         return abort(404)
 
     return render_template('posts.html', posts=posts)
+
+
+@server.route("/post/canonical_url/<int:post_id>")
+def get_canonical_post_url(post_id):
+    matched_post = post.get_post(post_id=post_id)
+    if matched_post is None:
+        return abort(404)
+    url = canonical_host + url_for('get_post', post_id=post_id, title=slugify(matched_post.title))
+    return render_json({"url": url})
 
 
 @server.route("/post/preview/<id>")

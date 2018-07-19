@@ -70,7 +70,7 @@ class Auth {
      */
     get user() {
         if (this.isAuthorized) {
-            const value = Data.shared.valueForKey('me');
+            const value = Data.shared.encodedJSONForKey('me');
             return User.fromJSON(value);
         } else {
             return Auth.Unauthorized;
