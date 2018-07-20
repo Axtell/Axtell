@@ -218,21 +218,19 @@ $comment-writer-depth: 8px;
 
         margin-top: 4px;
 
-        .info {
-            flex: 1;
-            font-weight: 300;
-            color: $dim-text;
-        }
+        // .cancel {
+        //     color: $dim-text;
+        //     margin-right: 4px;
+        //     cursor: pointer;
+        // }
 
-        .cancel {
-            color: $dim-text;
-            margin-right: 4px;
-            cursor: pointer;
-        }
-
-        .submit {
+        .button {
             // Since this also has .button class and that needs this
             display: inline-block;
+
+            + .button {
+                margin-left: 4px;
+            }
         }
     }
 }

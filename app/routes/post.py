@@ -51,7 +51,7 @@ def get_post_preview(id):
 
 @server.route("/post/<int:post_id>", defaults={"title": None})
 @server.route("/post/<int:post_id>/<title>")
-def get_post(post_id, title=""):
+def get_post(post_id, title=None):
     # Locate post
     matched_post = post.get_post(post_id=post_id)
     if matched_post is None:
@@ -59,6 +59,14 @@ def get_post(post_id, title=""):
 
     if matched_post.deleted:
         return render_template('deleted.html'), 410
+
+    # Always redirect to canonical url
+    slug = slugify(matched_post.title)
+
+    # Redirect if slug is incorrect. add 'r=y' flag to avoid infinite redirection in
+    # exceptional circumstances
+    if title != slug and request.args.get('r', 'n') != 'y':
+        return redirect(url_for('get_post', post_id=post_id, title=slug, **request.args, r='y'), code=301)
 
     # Render main post's markdown
     body = markdown.render_markdown.delay(matched_post.body).wait()

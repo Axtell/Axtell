@@ -189,6 +189,22 @@ export default class Template {
     }
 
     /**
+     * Defines a linked attribute
+     * @param {string} name the name
+     * @param {HTMLElement} [input=underlyingNode]
+     */
+    defineLinkedAttribute(name, node = this.underlyingNode) {
+        Object.defineProperty(this, name, {
+            configurable: true,
+            enumerable: true,
+            get: () => input.getAttribute(name),
+            set: (newValue) => { input.setAttribute(name, newValue) }
+        });
+
+        return input;
+    }
+
+    /**
      * Defines a linked class
      * @param {string} name - field name
      * @param {string} className

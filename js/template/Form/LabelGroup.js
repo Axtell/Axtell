@@ -59,20 +59,10 @@ export default class LabelGroup extends Template {
                 });
             }
 
+            this._liveConstraint = liveConstraint;
+
             inputTarget.addEventListener('input', () => {
-                const erroredConstraints = liveConstraint
-                    .validate()
-                    .map(error => error.sourceValidator);
-
-                for (const { template, constraintValidator } of this._constraints) {
-                    if (erroredConstraints.includes(constraintValidator)) {
-                        template.state = ConstraintState.Error;
-                    } else {
-                        template.state = ConstraintState.Done;
-                    }
-                }
-
-                this.validationDelegate.didSetStateTo(this, erroredConstraints.length === 0);
+                this.validate();
             });
 
         }
@@ -90,10 +80,33 @@ export default class LabelGroup extends Template {
         /** @type {TextInputTemplate} */
         this.input = input;
 
-        this.defineLinkedInput('value', elem);
-
         this.defineLinkedClass('padTop', 'item-wrap--pad-top');
-        this.defineLinkedClass('!padHorizontal', 'item-wrap--nopad-horizontal');
+        this.defineLinkedClass('padHorizontal', '!item-wrap--nopad-horizontal');
+    }
+
+    get value() { return this.input.input.value; }
+    set value(newValue) {
+        this.input.input.value = newValue;
+        this.validate();
+    }
+
+    /**
+     * Validates the LabelGroup for live labels
+     */
+    validate() {
+        const erroredConstraints = this._liveConstraint
+            .validate()
+            .map(error => error.sourceValidator);
+
+        for (const { template, constraintValidator } of this._constraints) {
+            if (erroredConstraints.includes(constraintValidator)) {
+                template.state = ConstraintState.Error;
+            } else {
+                template.state = ConstraintState.Done;
+            }
+        }
+
+        this.validationDelegate.didSetStateTo(this, erroredConstraints.length === 0);
     }
 
     /**

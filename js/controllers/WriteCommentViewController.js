@@ -1,5 +1,8 @@
 import ViewController from '~/controllers/ViewController';
-import MarkdownViewController from '~/controllers/MarkdownViewController';
+import MarkdownTemplate from '~/template/MarkdownTemplate';
+import FormConstraint from '~/controllers/Form/FormConstraint';
+import LabelGroup from '~/template/Form/LabelGroup';
+import ButtonTemplate, { ButtonColor } from '~/template/ButtonTemplate';
 import * as MarkdownControls from '~/controllers/MarkdownControls';
 
 import WriteComment from '~/models/Request/WriteComment';
@@ -35,31 +38,48 @@ export default class WriteCommentViewController extends ViewController {
 
         this._node = button;
 
-        this._commentText = <textarea placeholder="Your comment..." class="markdown shrink text-base comment-body" name="comment-body" type="text"></textarea>;
+        /** @private */
+        this.commentText = new LabelGroup(
+            'Comment Text',
+            new MarkdownTemplate({
+                tooltip: 'Markdown supported.',
+                placeholder: 'Write comment...',
+                controls: [
+                    new MarkdownControls.MarkdownBoldControl(),
+                    new MarkdownControls.MarkdownItalicControl(),
+                    new MarkdownControls.MarkdownStrikethroughControl()
+                ]
+            }),
+            {
+                liveConstraint: new FormConstraint()
+                    .length(CommentLengthBounds[0], CommentLengthBounds[1])
+            }
+        );
 
+        this.commentText.padHorizontal = false;
 
-        this._cancel = <a class="cancel">cancel</a>;
-        this._submit = <a class="submit button button--color-accent">submit</a>;
+        this.cancel = new ButtonTemplate({
+            text: 'cancel',
+            color: ButtonColor.plain
+        });
+
+        this.submitButton = new ButtonTemplate({
+            text: 'Submit',
+            color: ButtonColor.blue
+        });
+
         this._writingBox = (
             <div class="comment-writer">
                 <h5>Write Comment</h5>
-                { this._commentText }
+                { this.commentText.unique() }
                 <div class="comment-submit">
-                    <span class="info">Must be between {CommentLengthBounds[0]} and {CommentLengthBounds[1]} characters.</span>
-                    { this._cancel }
-                    { this._submit }
+                    { this.submitButton.unique() }
+                    { this.cancel.unique() }
                 </div>
             </div>
         );
 
         this._keyBinding = null;
-
-        // Setup markdown
-        new MarkdownViewController(this._commentText, [
-            new MarkdownControls.MarkdownBoldControl(),
-            new MarkdownControls.MarkdownItalicControl(),
-            new MarkdownControls.MarkdownStrikethroughControl()
-        ]);
 
         this._displayingWritingBox = false;
 
@@ -70,27 +90,29 @@ export default class WriteCommentViewController extends ViewController {
         this.parentList = parentList;
 
         this._node.addEventListener("click", ::this.toggleState);
-        this._cancel.addEventListener("click", ::this.toggleState);
 
-        this._submit.addEventListener("click", () => {
-            this.submit()
-                .catch((error) => ErrorManager.report(error));
-        });
+        this.submitButton.setIsDisabled(true, `No comment text entered`);
+        this.commentText.validationDelegate.didSetStateTo = (_, state) => {
+            this.submitButton.setIsDisabled(!state, `Comment is either too long or too short`);
+        };
+
+        this.cancel.delegate.didSetStateTo = (_, state) => { this.toggleState() };
+        this.submitButton.delegate.didSetStateTo = async (_, state) => {
+            await this.submit();
+        };
     }
 
     /**
      * Submits this form
      */
     async submit() {
-        const text = this._commentText.value;
+        const text = this.commentText.value;
         if (text.length < CommentLengthBounds[0] || text.length > CommentLengthBounds[1]) {
             Analytics.shared.report(EventType.commentTooShort);
 
             // Display error message
             return;
         }
-
-        this.toggleState();
 
         const type = this.owner instanceof Comment ? this.owner.type : this.owner.endpoint;
         const sourceId = this.owner instanceof Comment ? this.owner.sourceId : this.owner.id;
@@ -110,7 +132,9 @@ export default class WriteCommentViewController extends ViewController {
             const comment = await commentPost.run();
 
             // Reset the box
-            this._commentText.value = "";
+            this.commentText.value = "";
+
+            this.toggleState();
 
             await instance.destroy();
             await this.parentList.createCommentInstance(comment);
@@ -135,16 +159,19 @@ export default class WriteCommentViewController extends ViewController {
      */
     async toggleState() {
         if (this._displayingWritingBox) {
+            // Hide writing box
+
             Analytics.shared.report(EventType.commentWriteClose(this.owner));
             this._writingBox.parentNode.replaceChild(this._node, this._writingBox);
             this._displayingWritingBox = false;
 
+            // Remove Escape handler
             this._keyBinding?.();
             this._keyBinding = null;
 
+            // Removes the Ctrl+Enter handler
             this._submitHandler?.();
         } else {
-
             // When we try to display box
             const auth = await Auth.shared;
             if (!await auth.ensureLoggedIn()) return;
@@ -152,15 +179,16 @@ export default class WriteCommentViewController extends ViewController {
             Analytics.shared.report(EventType.commentWriteOpen(this.owner));
             this._node.parentNode.replaceChild(this._writingBox, this._node);
             this._displayingWritingBox = true;
-            this._commentText.focus();
+            this.commentText.input.input.focus();
 
             this._keyBinding = KeyManager.shared.register('Escape', () => {
                 this.toggleState();
             });
 
+            // Remove previous Ctrl+Enter handler.f
             this._submitHandler?.();
             this._submitHandler = KeyManager.shared.registerMeta('Enter', () => {
-                this.submit();
+                this.submitButton.trigger();
             });
         }
     }
