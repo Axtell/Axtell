@@ -40,7 +40,7 @@ export default class WriteCommentViewController extends ViewController {
 
         /** @private */
         this.commentText = new LabelGroup(
-            'Comment Text',
+            'Comment Body',
             new MarkdownTemplate({
                 tooltip: 'Markdown supported.',
                 placeholder: 'Write comment...',
@@ -48,9 +48,11 @@ export default class WriteCommentViewController extends ViewController {
                     new MarkdownControls.MarkdownBoldControl(),
                     new MarkdownControls.MarkdownItalicControl(),
                     new MarkdownControls.MarkdownStrikethroughControl()
-                ]
+                ],
+                hasShadow: false
             }),
             {
+                hideLabel: true,
                 liveConstraint: new FormConstraint()
                     .length(CommentLengthBounds[0], CommentLengthBounds[1])
             }
