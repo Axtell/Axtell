@@ -56,6 +56,7 @@
 .constraint-state {
   margin-top: 2px;
   font-size: 0.8rem;
+  white-space: nowrap;
 
   svg, img {
     vertical-align: middle;
@@ -66,6 +67,7 @@
 
   span {
     vertical-align: middle;
+    white-space: normal;
     display: inline-block;
     font-size: 1em;
     color: $description-text;

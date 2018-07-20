@@ -1,9 +1,6 @@
 import ProgressButtonController from '~/controllers/ProgressButtonController';
 import ButtonTemplate from '~/template/ButtonTemplate';
-
-export const ProgressButtonColor = {
-
-};
+import ErrorManager from '~/helpers/ErrorManager';
 
 /**
  * A loading button thing
@@ -23,7 +20,11 @@ export default class ProgressButtonTemplate extends ButtonTemplate {
     async trigger() {
         this.controller.setLoadingState(true);
 
-        await super.trigger();
+        try {
+            await super.trigger();
+        } catch(error) {
+            ErrorManager.report(error)
+        }
 
         this.controller.setLoadingState(false);
     }

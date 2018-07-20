@@ -4,11 +4,13 @@ import app.tasks.markdown as markdown
 from app.controllers import post, answer as answer_controller, vote
 from app.helpers.render import render_template, render_json
 from app.helpers.comments import get_rendered_comments
+from app.helpers.macros.encode import slugify
 from app.models.AnswerComment import AnswerComment
 from app.models.PostComment import PostComment
 from app.models.Leaderboard import Leaderboard
 from app.server import server
 from app.session.csrf import csrf_protected
+from config import canonical_host
 
 from re import match
 
@@ -28,6 +30,15 @@ def get_posts():
     return render_template('posts.html', posts=posts)
 
 
+@server.route("/post/canonical_url/<int:post_id>")
+def get_canonical_post_url(post_id):
+    matched_post = post.get_post(post_id=post_id)
+    if matched_post is None:
+        return abort(404)
+    url = canonical_host + url_for('get_post', post_id=post_id, title=slugify(matched_post.title))
+    return render_json({"url": url})
+
+
 @server.route("/post/preview/<id>")
 def get_post_preview(id):
     # Make sure valid preview ID.
@@ -40,7 +51,7 @@ def get_post_preview(id):
 
 @server.route("/post/<int:post_id>", defaults={"title": None})
 @server.route("/post/<int:post_id>/<title>")
-def get_post(post_id, title=""):
+def get_post(post_id, title=None):
     # Locate post
     matched_post = post.get_post(post_id=post_id)
     if matched_post is None:
@@ -48,6 +59,14 @@ def get_post(post_id, title=""):
 
     if matched_post.deleted:
         return render_template('deleted.html'), 410
+
+    # Always redirect to canonical url
+    slug = slugify(matched_post.title)
+
+    # Redirect if slug is incorrect. add 'r=y' flag to avoid infinite redirection in
+    # exceptional circumstances
+    if title != slug and request.args.get('r', 'n') != 'y':
+        return redirect(url_for('get_post', post_id=post_id, title=slug, **request.args, r='y'), code=301)
 
     # Render main post's markdown
     body = markdown.render_markdown.delay(matched_post.body).wait()

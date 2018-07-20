@@ -22,7 +22,8 @@
             {% for post in posts.items -%}
                 <li>
                     <a href="{{ url_for('get_post', post_id=post.id, title=macros.slugify(post.title)) }}"
-                       class="post-item post-item__split_container">
+                       class="post-item post-item__split_container"
+                       title="{{ post.title }}">
                         <div class="post-item__split post-item__split--pad-right">
                             <img src="{{ post.user.avatar_url() }}"
                                  class="post-item__avatar userbox--trigger-author" data-userid="{{ post.user.id }}">

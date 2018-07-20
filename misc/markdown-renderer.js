@@ -15,7 +15,7 @@ var md = new MarkdownIt({
 }).use(mila, {
     attrs: {
         target: '_blank',
-        rel: 'nofollow'
+        rel: 'nofollow noopener'
     }
 }).use(footnote);
 

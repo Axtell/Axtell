@@ -8,9 +8,11 @@
         <div>
             <div class="profile__avatar">
                 <img src="{{ user.avatar_url() }}" />
+                {%- if g.user == user -%}
                 <a class="profile__avatar__edit" aria-label="Change Avatar">
                     {% include "svg/edit.html" %}
                 </a>
+                {%- endif -%}
             </div>
         </div>
         <h2 class="profile__name">{{ user.name }}</h2>

@@ -3,7 +3,7 @@
 
 {% set data_id = macros.rand_key() %}
 {% macro data(name, value) -%}
-<script>var {{ data_id }}{{name}}='{{ value }}';</script>
+<script>var {{ data_id }}{{name}}={{ macros.json_to_str(value) | safe }};</script>
 {%- endmacro %}
 
 {% macro data_value(name, value) -%}
@@ -46,6 +46,7 @@
     <meta name="data_id" content="{{ data_id }}">
     {{ data("env", macros.json_to_b64({
         'BUGSNAG': opts.auth['bugsnag'].get('frontend', ''),
+        'HOST': opts.canonical_host,
         'CSRF': macros.get_csrf(),
         'COMMENT_COUNT': opts.comments['show_amt'],
         'GAPI_KEY': opts.auth['google']['client-id'],
@@ -66,7 +67,7 @@
     })) }}
 
     {%- if g.user is not none -%}
-    {{ data_value("me",g.user.to_json()|tojson) }}
+    {{ data("me", macros.json_to_b64(g.user.to_json())) }}
     {%- endif -%}
 
     <script async src="/static/lib/axtell.main.js?v={{ macros.get_version_id() }}"></script>

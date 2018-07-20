@@ -3,6 +3,7 @@ from sqlalchemy.dialects.mysql import LONGTEXT
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy import select, func
 from config import posts
+from app.helpers.macros.encode import slugify
 from app.models.PostRevision import PostRevision
 from app.models.PostVote import PostVote
 import datetime
@@ -63,6 +64,7 @@ class Post(db.Model):
             'id': self.id,
             'title': self.title,
             'owner': self.user.to_json(),
+            'slug': slugify(self.title),
             'date_created': self.date_created.isoformat(),
             'deleted': self.deleted
         }
