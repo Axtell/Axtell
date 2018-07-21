@@ -49,6 +49,7 @@
         'HOST': opts.canonical_host,
         'CSRF': macros.get_csrf(),
         'COMMENT_COUNT': opts.comments['show_amt'],
+        'COMMENT_NEST_COUNT': opts.comments['nest_amt'],
         'GAPI_KEY': opts.auth['google']['client-id'],
         'IMGUR_CLIENT_ID': opts.auth['imgur']['client-id'],
         'IS_DEBUG': is_debug,
