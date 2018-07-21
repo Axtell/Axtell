@@ -42,14 +42,14 @@ def edit_answer_comment(answer_id, comment_id):
 
 @server.route("/post/<int:post_id>/comment/<int:comment_id>/delete", methods=["POST"])
 @csrf_protected
-def edit_post_comment(post_id, comment_id):
+def delete_post_comment(post_id, comment_id):
     comment.delete_post_comment(comment_id)
     return render_json({'deleted': True})
 
 
 @server.route("/answer/<int:answer_id>/comment/<int:comment_id>/edit", methods=["POST"])
 @csrf_protected
-def edit_answer_comment(answer_id, comment_id):
+def delete_answer_comment(answer_id, comment_id):
     comment.delete_answer_comment(comment_id)
     return render_json({'deleted': True})
 
