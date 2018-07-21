@@ -116,3 +116,15 @@ def delete_answer_comment(comment_id):
     comment = get_answer_comment(comment_id)
     comment.deleted = True
     db.session.commit()
+
+
+def edit_post_comment(comment_id, comment_text):
+    comment = get_post_comment(comment_id)
+    comment.text = comment_text
+    db.session.commit()
+
+
+def edit_answer_comment(comment_id, comment_text):
+    comment = get_answer_comment(comment_id)
+    comment.text = comment_text
+    db.session.commit()

@@ -24,6 +24,36 @@ def write_answer_comment(answer_id):
     return render_json(new_comment.to_json())
 
 
+@server.route("/post/<int:post_id>/comment/<int:comment_id>/edit", methods=["POST"])
+@csrf_protected
+def edit_post_comment(post_id, comment_id):
+    comment_text = request.form["comment_text"]
+    edited_comment = comment.edit_post_comment(comment_id, comment_text)
+    return render_json(edited_comment.to_json())
+
+
+@server.route("/answer/<int:answer_id>/comment/<int:comment_id>/edit", methods=["POST"])
+@csrf_protected
+def edit_answer_comment(answer_id, comment_id):
+    comment_text = request.form["comment_text"]
+    edited_comment = comment.edit_answer_comment(comment_id, comment_text)
+    return render_json(edited_comment.to_json())
+
+
+@server.route("/post/<int:post_id>/comment/<int:comment_id>/delete", methods=["POST"])
+@csrf_protected
+def edit_post_comment(post_id, comment_id):
+    comment.delete_post_comment(comment_id)
+    return render_json({'deleted': True})
+
+
+@server.route("/answer/<int:answer_id>/comment/<int:comment_id>/edit", methods=["POST"])
+@csrf_protected
+def edit_answer_comment(answer_id, comment_id):
+    comment.delete_answer_comment(comment_id)
+    return render_json({'deleted': True})
+
+
 @server.route("/answer/<int:answer_id>/comments/parent/<sint:parent_id>/page/<int:page_id>", defaults={'initial_offset': 0})
 @server.route("/answer/<int:answer_id>/comments/parent/<sint:parent_id>/page/<int:page_id>/offset/<int:initial_offset>")
 def get_answer_comments_page(answer_id, parent_id, page_id, initial_offset):
