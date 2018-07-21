@@ -51,7 +51,7 @@ export default class LoadMoreCommentsViewController extends ViewController {
         const { areMore, comments } = await this.contentsForPage(this.pageIndex++);
 
         await this.parentList.createMultipleCommentInstances(comments, InstanceType.append, true, {
-            recursive: this.shouldExpand
+            expandRecursively: this.shouldExpand
         });
 
         // If they aren't any more comments we'll remove this

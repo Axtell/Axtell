@@ -1,5 +1,6 @@
-import LoadMoreLocalCommentsViewController from '~/controllers/LoadMoreLocalCommentsViewController';
 import LoadMoreCommentsViewController from '~/controllers/LoadMoreCommentsViewController';
+import CommentViewController from '~/controllers/CommentViewController';
+import CommentTemplate from '~/template/CommentTemplate';
 import AnimationController, { Animation } from '~/controllers/AnimationController';
 import WriteCommentViewController from '~/controllers/WriteCommentViewController';
 import AnimationControllerDelegate from '~/delegate/AnimationControllerDelegate';
@@ -8,98 +9,8 @@ import LoadingIcon from '~/svg/LoadingIcon';
 import * as Decode from '~/helpers/Decode';
 import Comment from '~/models/Comment';
 import Theme from '~/models/Theme';
-import Expand from '~/svg/Expand';
-import Down from '~/svg/Down';
 
 export const OPACITY_TRANSITION_DURATION = 200; // in ms
-
-/**
- * Will construct a comment with everything setup.
- *
- * We have three types of thread expansion:
- *
- *  - See more static (i.e. local JSON) - =2 w 1=dynamic, >=3
- *  - See more dynamic (AJAX) - =1, =2 w 1=static,
- *  - Expand static (from local JSON) - Everything else
- *  - Expand dynamic (AJAX) - for depth=3 where depths 1&2 are static
- *
- * @param {Comment} comment - comment object itself.
- * @param {Object} opts - named options
- * @param {boolean} opts.recursive - if we should also init instead of adding <Expand> elemes
- * @return {HTMLElement} all setup etc.
- */
-export async function constructComment(comment, opts = {}) {
-    const { recursive = false } = opts;
-
-    const body = <div class="body"></div>;
-    const markdown = await import('#/markdown-renderer');
-    body.innerHTML = markdown.render(comment.text);
-
-    let seeMoreButton = <DocumentFragment/>,
-        subComments = <DocumentFragment/>;
-
-    const commentChildren = comment.children || [];
-    if (recursive) {
-        const recursiveDefaultShowAmt = 1;
-
-        if (commentChildren.length > recursiveDefaultShowAmt) {
-            seeMoreButton = (
-                <li class="comment-item comment-item--action comment-item--hoverable comment-item__load-more">
-                    { Down.cloneNode(true) }
-                    See More
-                </li>
-            );
-        }
-
-        for (let i = 0; i < Math.min(recursiveDefaultShowAmt, commentChildren.length); i++) {
-            let subComment = commentChildren[i];
-            let elem = await constructComment(subComment, opts);
-            subComments.appendChild(elem);
-        }
-    } else if (commentChildren.length > 0) {
-        seeMoreButton = (
-            <li class="comment-item comment-item--action comment-item--hoverable comment-item__expand">
-                { Expand.cloneNode(true) }
-                Expand
-            </li>
-        );
-    }
-
-    const childList = (
-        <ul class="comment-list comment-list--nested">
-            { seeMoreButton }
-            <li class="comment--append-first-ref"></li>
-            <li class="comment--append-ref"></li>
-            { subComments }
-            <li class="comment--prepend-ref"></li>
-        </ul>
-    );
-
-    const commentNode = (
-        <div class="comment-item comment__user_split comment">
-            <div class="user">
-                <img class="avatar" src={comment.owner.avatar} />
-            </div>
-            <div class="comment__content">
-                <div class="comment__header">
-                    <span class="comment__name">{comment.owner.name}</span>
-                </div>
-                { body }
-                <div class="comment__footer">
-                    <a class="comment__reply comment-item__write-init">reply</a>
-                    <span class="comment__timestamp">{ moment(comment.date).fromNow() }</span>
-                </div>
-                { childList }
-            </div>
-        </div>
-    );
-
-    new CommentListViewController(childList, comment, {
-        parentNode: commentNode
-    });
-
-    return commentNode;
-}
 
 function immediateChildWithClass(el, className) {
     const children = el.children;
@@ -117,12 +28,11 @@ function immediateChildWithClass(el, className) {
 export default class CommentListViewController extends ViewController {
     /**
      * Creates the comment list controller from HTML element.
-     * @param {HTMLElement} commentList physical element
-     * @param {Post|Answer} owner The owner
-     * @param {Object} [opts={}]] additional options
-     * @param {HTMLElement} [parentNode=commentList.parentNode] The parent node of this list
+     * @param {HTMLElement} comment - List physical element
+     * @param {Post|Answer} owner - The owner
+     * @param {Object} [opts={}]] - additional options
      */
-    constructor(commentList, owner, { parentNode = commentList.parentNode } = {}) {
+    constructor(commentList, owner) {
         super(commentList);
 
         // The original node for comment list.
@@ -136,68 +46,46 @@ export default class CommentListViewController extends ViewController {
         this._appendRef = immediateChildWithClass(this._node, 'comment--append-ref');
         this._appendRefFirst = immediateChildWithClass(this._node, 'comment--append-first-ref');
 
-        if (this.owner instanceof Comment) {
-            // Is a nested comment
+        // if there is a 'Write Comment' big button
+        const writeCommentButton = immediateChildWithClass(this._node, 'comment-item__write-init');
+        if (writeCommentButton) {
             new WriteCommentViewController(
-                parentNode.querySelector('.comment-item__write-init'),
+                writeCommentButton,
                 owner,
                 this
             );
+        }
 
-            // This will fallback to AJAX if children = false
-            const loadMoreButton = immediateChildWithClass(this._node, 'comment-item__load-more');
-            const expandButton = immediateChildWithClass(this._node, 'comment-item__expand');
+        // Both of these probably don't exist
+        const loadMoreButton = immediateChildWithClass(this._node, 'comment-item__load-more');
 
-            if (loadMoreButton) {
-                new LoadMoreCommentsViewController(
-                    loadMoreButton,
-                    owner,
-                    this
-                );
-            }
+        if (loadMoreButton) {
+            // If we should use Expand Button versus Load More button
+            const preferExpand = loadMoreButton.classList.contains('comment-item__load-more--expand');
 
-            if (expandButton) {
-                new LoadMoreCommentsViewController(
-                    expandButton,
-                    owner,
-                    this,
-                    true
-                );
-            }
-        } else {
-            new WriteCommentViewController(
-                immediateChildWithClass(this._node, 'comment-item__write-init'),
+            new LoadMoreCommentsViewController(
+                loadMoreButton,
                 owner,
-                this
+                this,
+                preferExpand
             );
-
-            const loadMoreButton = immediateChildWithClass(this._node, 'comment-item__load-more');
-            if (loadMoreButton) {
-                new LoadMoreCommentsViewController(
-                    loadMoreButton,
-                    owner,
-                    this
-                );
-            }
         }
     }
 
     /**
      * For static construction this will setup the sublists
-     * @param {boolean} [preferSeeMore=true] If we should prefer 'see more' button
      */
-    setupSublists(preferSeeMore = true) {
+    setupSublists() {
         const children = this._node.children;
         for (let i = 0; i < children.length; i++) {
             if (children[i].classList.contains('comment')) {
-                const sublist = new CommentListViewController(
-                    children[i].querySelector('.comment-list'),
+                const sublist = new CommentViewController(
+                    children[i],
                     Comment.fromJSON(
                         Decode.b64toJSON(children[i].dataset.comment)
-                    ),
-                    { preferSeeMore: true }
+                    )
                 );
-                sublist.setupSublists();
+                sublist.subCommentList.setupSublists();
             }
         }
     }
@@ -257,15 +145,18 @@ export default class CommentListViewController extends ViewController {
      * @return {HTMLElement} created element
      */
     async createCommentInstance(comment, type = InstanceType.prepend) {
-        const commentContent = await constructComment(comment);
-        const commentHTML = <li>{ commentContent }</li>;
+        const commentContent = await new CommentTemplate(comment);
+        const commentHTML = <li/>;
+        commentContent.loadInContext(commentHTML);
 
         this.addInstance(commentHTML, type);
         return commentHTML;
     }
 
     /**
-     * Creates a 'grouped comment' instance. i.e. group of comments
+     * Creates a 'grouped comment' instance. i.e. group of comments. The difference between this and calling
+     * `createCommentInstance` multiple times is this will perform a proper animation of the nodes.
+     *
      * @param {Comment[]} comments List of all comments
      * @param {InstanceType} type Where it should be added
      * @param {boolean} [animated=false] If should be animated
@@ -274,10 +165,14 @@ export default class CommentListViewController extends ViewController {
      */
      async createMultipleCommentInstances(comments, type = InstanceType.prepend, animated = false, constructionOptions = {}) {
         const bodies = await Promise.all(
-            comments.map(comment => constructComment(comment, constructionOptions))
+            comments.map(comment => new CommentTemplate(comment, constructionOptions))
         );
 
-        const commentHTML = <li>{ bodies }</li>;
+        const commentHTML = <li/>;
+        for (let i = 0; i < bodies.length; i++) {
+            bodies[i].loadInContext(commentHTML);
+        }
+
         this.addInstance(commentHTML, type);
 
         if (animated) {
