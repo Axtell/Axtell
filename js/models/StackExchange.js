@@ -55,7 +55,8 @@ export default class StackExchangege {
 
     apiRequest(path, params) {
         return new Request({
-            path: `https://api.stackexchange.com${path}`,
+            host: 'https://api.stackexchange.com',
+            path: path,
             params: {
                 ...params,
                 key: Data.shared.envValueForKey('SE_KEY'),

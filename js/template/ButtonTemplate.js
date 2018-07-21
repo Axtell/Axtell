@@ -88,7 +88,7 @@ export default class ButtonTemplate extends Template {
     }
 
     /**
-     * Do not call directly, called when loading
+     * Called when loading
      */
     async trigger() {
         await this.delegate.didSetStateTo(this, true);

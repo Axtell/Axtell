@@ -11,14 +11,21 @@ import tippy from 'tippy.js/dist/tippy.all.min.js';
 export default class LabelGroup extends Template {
     /**
      * A group of label and the input
-     * @param {string} label
+     * @param {string} label -
      * @param {TextInputTemplate} input
      * @param {?string} o.tooltip Some info describing what
-     * @param {?ButtonTemplate} o.button
+     * @param {?ButtonTemplate} o.button - Pass if you want to keep a button within label group for alignment purposes
      * @param {FormConstraint} [o.liveConstraint=null] - Contraints already setup to show
      * @param {?ForeignInteractor} [o.interactor=null] - Foreign interactor to link `{ foreignInteractor: ForeignInteractor, label: String }`
+     * @param {boolean} [o.hideLabel=false] - If label should be hidden
      */
-    constructor(label, input, { tooltip = "", button = null, liveConstraint = null, interactor = null } = {}) {
+    constructor(label, input, {
+        tooltip = "",
+        button = null,
+        liveConstraint = null,
+        interactor = null,
+        hideLabel = false
+    } = {}) {
         const normalizedLabel = label.toLowerCase().replace(/[^a-z]/g, '');
         const id = `lg-${normalizedLabel}-${Random.ofLength(16)}`;
         const tooltipPlaceholder = <span class="label-group__tooltip" title={tooltip}></span>
@@ -29,7 +36,7 @@ export default class LabelGroup extends Template {
 
         const root = (
             <div class="item-wrap label-group label-group--style-clean">
-                <label for={id}>{ label }{" "}{ tooltipPlaceholder }{ interactorNode }</label>
+                { !hideLabel ? <label for={id}>{ label }{" "}{ tooltipPlaceholder }{ interactorNode }</label> : <DocumentFragment/>  }
             </div>
         );
 
@@ -59,20 +66,10 @@ export default class LabelGroup extends Template {
                 });
             }
 
+            this._liveConstraint = liveConstraint;
+
             inputTarget.addEventListener('input', () => {
-                const erroredConstraints = liveConstraint
-                    .validate()
-                    .map(error => error.sourceValidator);
-
-                for (const { template, constraintValidator } of this._constraints) {
-                    if (erroredConstraints.includes(constraintValidator)) {
-                        template.state = ConstraintState.Error;
-                    } else {
-                        template.state = ConstraintState.Done;
-                    }
-                }
-
-                this.validationDelegate.didSetStateTo(this, erroredConstraints.length === 0);
+                this.validate();
             });
 
         }
@@ -90,10 +87,33 @@ export default class LabelGroup extends Template {
         /** @type {TextInputTemplate} */
         this.input = input;
 
-        this.defineLinkedInput('value', elem);
-
         this.defineLinkedClass('padTop', 'item-wrap--pad-top');
-        this.defineLinkedClass('!padHorizontal', 'item-wrap--nopad-horizontal');
+        this.defineLinkedClass('padHorizontal', '!item-wrap--nopad-horizontal');
+    }
+
+    get value() { return this.input.input.value; }
+    set value(newValue) {
+        this.input.input.value = newValue;
+        this.validate();
+    }
+
+    /**
+     * Validates the LabelGroup for live labels
+     */
+    validate() {
+        const erroredConstraints = this._liveConstraint
+            .validate()
+            .map(error => error.sourceValidator);
+
+        for (const { template, constraintValidator } of this._constraints) {
+            if (erroredConstraints.includes(constraintValidator)) {
+                template.state = ConstraintState.Error;
+            } else {
+                template.state = ConstraintState.Done;
+            }
+        }
+
+        this.validationDelegate.didSetStateTo(this, erroredConstraints.length === 0);
     }
 
     /**

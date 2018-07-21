@@ -1,7 +1,7 @@
 h1, h2, h3, h4, h5, h6 {
   display: block;
-  margin-top: 1.1rem;
-  margin-bottom: 0.5rem;
+  margin-top: 0.8em;
+  margin-bottom: 0.2em;
 
   &.header--nomargin-top {
     margin-top: 0;
@@ -12,12 +12,12 @@ h1 {
   font: {
     family: $bold-font;
     weight: bold;
-    size: 1.5rem;
+    size: 1.5em;
   };
 }
 
 h2, h3 {
-  font-size: 1.6rem;
+  font-size: 1.6em;
 }
 
 h4 {
@@ -29,6 +29,11 @@ hr {
   border-top: 1px solid $subcontent-border-color;
 }
 
+pre {
+  margin: 0.5em 0;
+  font-size: inherit;
+}
+
 code {
   font-family: $monospace;
 }
@@ -37,7 +42,7 @@ p {
   margin: 0;
 
   + p {
-    margin-top: 1rem;
+    margin-top: 1em;
   }
 }
 
@@ -48,14 +53,18 @@ img {
 }
 
 a {
-  color: inherit;
-  border-bottom: 2px solid $link-color;
+  color: $link-color;
+  text-decoration: none;
   padding: 0 1px;
+
+  hyphens: none;
+
+  &:hover { text-decoration: underline; }
 }
 
 blockquote {
   margin: 0;
-  padding: .7rem 2rem;
+  padding: .7em 2em;
   padding-right: 0;
   background: rgba($blockquote-marker, 0.08);
 
@@ -65,7 +74,7 @@ blockquote {
   color: rgba($blockquote-fg, 0.7);
 
   p {
-    font-size: 1.3rem;
+    font-size: 1.3em;
     font-family: $quote-font;
     font-style: italic;
 
@@ -95,11 +104,11 @@ li, p {
 }
 
 table {
-  margin: 1rem 0;
+  margin: 1em 0;
 
   border-collapse: collapse;
 
-  $table-h-spacing: 0.5rem;
+  $table-h-spacing: 0.5em;
 
   th, td {
     padding-left: $table-h-spacing;
@@ -107,22 +116,22 @@ table {
   }
 
   td {
-    font-size: 0.9rem;
+    font-size: 0.9em;
     color: $main-text;
 
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
   }
 
   th {
     font-weight: bold;
-    font-size: 1.1rem;
+    font-size: 1.1em;
 
     color: $main-text;
     border-bottom: 1px solid $main-text;
 
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
   }
 
   tr + tr td {

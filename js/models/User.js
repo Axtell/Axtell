@@ -50,7 +50,7 @@ export default class User {
     get answerCount() { return this._answerCount; }
 
     /** @type {string} */
-    get profilePage() { return `/users/${this.id}/${this.name}`; }
+    get profilePage() { return `${Data.shared.envValueForKey('HOST')}/users/${this.id}/${this.name}`; }
 
     /**
      * Unwraps a user from an API JSON object.
@@ -72,6 +72,20 @@ export default class User {
                 answerCount: json.answer_count,
             }
         );
+    }
+
+    /**
+     * Gets the schema
+     * @return {Object}
+     */
+    async getSchema() {
+        return {
+            '@type': 'Person',
+            name: this.name,
+            identifier: this.profilePage,
+            image: this.avatar,
+            url: this.profilePage
+        }
     }
 
     /**

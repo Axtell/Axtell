@@ -27,7 +27,7 @@
     {% set show_more, comment_list = comments %}
     {% if show_more -%}
         {% if comment_list|length == 0 -%}
-        <li class="comment-item comment-item--action comment-item--hoverable comment-item__expand">
+        <li class="comment-item comment-item--action comment-item--hoverable comment-item__load-more comment-item__load-more--expand">
             {% include "svg/expand.html" %}
             Expand
         </li>

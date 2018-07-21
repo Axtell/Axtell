@@ -24,16 +24,26 @@ b, strong {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: $em-text;
+  color: $title-text;
   font-weight: 500;
   font-family: $bold-font;
   margin: 0;
   display: inline-block;
 
+  &.header--style-icon {
+    svg, img {
+      vertical-align: middle;
+      height: 1.5em;
+      margin-top: -4px;
+      margin-right: 8px;
+    }
+  }
+
   &.header--style-caption {
     color: $subtitle-text;
     font-weight: 400;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
+    line-height: 1.4;
   }
 
   &.header--style-dim {
@@ -142,7 +152,7 @@ hr {
 
 .body {
   color: $main-text;
-  font-size: 16px;
+  font-size: 1.2rem;
 
   @import "body.scss";
 }

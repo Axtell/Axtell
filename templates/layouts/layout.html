@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" class="axtell">
+<html lang="en" class="axtell" {{ html_attributes | default('') | safe }}>
 <head>
     {% block head -%}
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <link property="og:site_name" value="Axtell">
+
+        <meta property="og:site_name" content="Axtell">
+        <meta name="twitter:title" property="og:title" content="{{ self.title() }}">
+
+        <meta property="twitter:domain" content="{{ opts.canonical_host }}">
 
         <title>{% block title %}{% endblock %} - Axtell</title>
-        <link property="og:title" value="{{ self.title() }}: Axtell">
     {%- endblock %}
 </head>
 <body>

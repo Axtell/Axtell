@@ -15,19 +15,24 @@ window.addEventListener("resize", () => {
  */
 export default class MarkdownTemplate extends Template {
     /**
-     * Markdown editor
+     * Markdown editor. Pass opts as an object
+     * @param {?string} placeholder The placeholder
+     * @param {?(MarkdownControl[])} controls - If provided use these controls
+     * @param {boolean} [shadow=true] - If to show shadow
      */
-    constructor(title) {
-        const textarea = <textarea class="markdown text-base"></textarea>;
+    constructor({ placeholder = "", controls, hasShadow = true } = {}) {
+        const textarea = <textarea placeholder={placeholder} class="markdown text-base"></textarea>;
 
         super(
             <div class="markdown-wrapper">{textarea}</div>
         );
 
         this.defineLinkedInput('value', textarea);
+        this.defineLinkedClass('hasShadow', '!markdown-wrapper--shadow-none')
+        this.hasShadow = hasShadow;
 
         /** @type {MarkdownViewController} */
-        this.controller = new MarkdownViewController(textarea);
+        this.controller = new MarkdownViewController(textarea, controls);
 
         this._textarea = textarea;
         this._autoresize = false;

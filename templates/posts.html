@@ -22,7 +22,8 @@
             {% for post in posts.items -%}
                 <li>
                     <a href="{{ url_for('get_post', post_id=post.id, title=macros.slugify(post.title)) }}"
-                       class="post-item post-item__split_container">
+                       class="post-item post-item__split_container"
+                       title="{{ post.title }}">
                         <div class="post-item__split post-item__split--pad-right">
                             <img src="{{ post.user.avatar_url() }}"
                                  class="post-item__avatar userbox--trigger-author" data-userid="{{ post.user.id }}">
@@ -36,7 +37,7 @@
                             <h4 class="post-item__title post-item__section">{{ post.title }}</h4>
 
                             <!-- Add the preview -->
-                            <div class="post-item__description body post-item__section post-item__section--pad-top"><p>{{ macros.render_markdown(post.body[:1000]) | striptags | truncate(250) }}</p></div>
+                            <p class="post-item__description post-item__section post-item__section--pad-top">{{ macros.render_markdown(post.body[:1000]) | striptags | truncate(250) }}</p>
                         </div>
                     </a>
                 </li>

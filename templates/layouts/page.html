@@ -3,7 +3,7 @@
 
 {% set data_id = macros.rand_key() %}
 {% macro data(name, value) -%}
-<script>var {{ data_id }}{{name}}='{{ value }}';</script>
+<script>var {{ data_id }}{{name}}={{ macros.json_to_str(value) | safe }};</script>
 {%- endmacro %}
 
 {% macro data_value(name, value) -%}
@@ -14,9 +14,6 @@
 
 {%- block head -%}
     {{ super() }}
-    <link type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,500,400,700" rel="stylesheet">
-    <link type="text/css" href="https://fonts.googleapis.com/css?family=Fira+Mono&amp;subset=greek,latin-ext"
-          rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-beta1/katex.min.css"
           crossorigin="anonymous">
 
@@ -49,8 +46,10 @@
     <meta name="data_id" content="{{ data_id }}">
     {{ data("env", macros.json_to_b64({
         'BUGSNAG': opts.auth['bugsnag'].get('frontend', ''),
+        'HOST': opts.canonical_host,
         'CSRF': macros.get_csrf(),
         'COMMENT_COUNT': opts.comments['show_amt'],
+        'COMMENT_NEST_COUNT': opts.comments['nest_amt'],
         'GAPI_KEY': opts.auth['google']['client-id'],
         'IMGUR_CLIENT_ID': opts.auth['imgur']['client-id'],
         'IS_DEBUG': is_debug,
@@ -69,7 +68,7 @@
     })) }}
 
     {%- if g.user is not none -%}
-    {{ data_value("me",g.user.to_json()|tojson) }}
+    {{ data("me", macros.json_to_b64(g.user.to_json())) }}
     {%- endif -%}
 
     <script async src="/static/lib/axtell.main.js?v={{ macros.get_version_id() }}"></script>
