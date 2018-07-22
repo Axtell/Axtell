@@ -68,7 +68,6 @@ class TestAnswerComments(TestFlask):
         comment_result = self.client.get(f"/answer/{self.answer.id}/comment/{comment_id}")
         self.assert200(comment_result)
         self.assertEqual(comment_result.json['text'], "foobarbazblargh")
-        self.assertEqual(comment_result.json['rendered_text'], "<p>foobarbazblargh</p>\n")
 
     def test_nested_answer_comments_model(self):
         self.session.begin_nested()
