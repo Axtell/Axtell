@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 echo "BEGINNING JS DOCUMENTATION DEPLOYMENT"
-cd "$(TRAVIS_BUILD_DIR)"
+cd "$TRAVIS_BUILD_DIR"
 
 echo "JS DOCUMENTATION DELPOY: CWD $(pwd)"
 
