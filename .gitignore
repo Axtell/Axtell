@@ -120,7 +120,8 @@ package-lock.json
 node_modules
 
 # Generated files
-/docs*
+/docs-js
+
 static/css
 nohup.out
 

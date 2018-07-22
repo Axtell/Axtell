@@ -13,8 +13,11 @@
                 {{ item[0]|safe }}
             </div>
             <div class="comment__footer">
-                <a class="comment-item__write-init comment__reply">reply</a>
-                <span class="comment__timestamp">{{ time(item[2].date_created) }}</span>
+                <a class="comment__footer__item comment__reply">reply</a>
+                {% if item[2].user == g.user %}
+                <a class="comment__footer__item comment__delete">delete</a>
+                {% endif %}
+                <span class="comment__footer__item comment__timestamp">{{ time(item[2].date_created) }}</span>
             </div>
             <ul class="comment-list comment-list--nested">
                 {{ commentListBody(item[1]) }}
