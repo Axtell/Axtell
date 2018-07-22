@@ -43,6 +43,6 @@ deploy:
   on:
     branch: master
 after_deploy:
-  - bash deplay/docs.bash
+  - bash deploy/docs.bash
 before_deploy:
   - openssl aes-256-cbc -K $encrypted_f68e3fa50bfd_key -iv $encrypted_f68e3fa50bfd_iv -in deploy/id_rsa.enc -out deploy/id_rsa -d
