@@ -117,7 +117,7 @@ $comment-writer-depth: 8px;
             font-size: 0.7rem;
             color: $label-tag;
 
-            > span::before {
+            > .comment__footer__item + .comment__footer__item::before {
                 // This is mdot followed by nbsp
                 content: "\00b7\00a0";
                 padding: 0 2px;

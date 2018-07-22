@@ -8,7 +8,7 @@ from config import comments
 
 
 def get_post_comment(comment_id):
-    comment = PostComment.query.filter_by(id=comment_id).first()
+    comment = PostComment.query.filter_by(id=comment_id, deleted=False).first()
 
     if comment is None:
         return abort(404)
@@ -17,7 +17,7 @@ def get_post_comment(comment_id):
 
 
 def get_answer_comment(comment_id):
-    comment = AnswerComment.query.filter_by(id=comment_id).first()
+    comment = AnswerComment.query.filter_by(id=comment_id, deleted=False).first()
 
     if comment is None:
         return abort(404)
@@ -34,7 +34,7 @@ def get_answer_comments_page(answer_id, parent_id, page_id, initial_offset):
         sql_parent = parent_id
 
     comment_list = [comment.to_json(show_parent=False) for comment in AnswerComment.query \
-        .filter_by(answer_id=answer_id, parent_id=sql_parent) \
+        .filter_by(answer_id=answer_id, parent_id=sql_parent, deleted=False) \
         .order_by(AnswerComment.date_created.desc()) \
         .offset(offset) \
         .limit(comments['show_amt']) \
@@ -56,7 +56,7 @@ def get_post_comments_page(post_id, parent_id, page_id, initial_offset):
         sql_parent = parent_id
 
     comment_list = [comment.to_json(show_parent=False) for comment in PostComment.query \
-        .filter_by(post_id=post_id, parent_id=sql_parent) \
+        .filter_by(post_id=post_id, parent_id=sql_parent, deleted=False) \
         .order_by(PostComment.date_created.desc()) \
         .offset(offset) \
         .limit(comments['show_amt']) \

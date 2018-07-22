@@ -1,3 +1,4 @@
+import Auth from '~/models/Auth';
 import ErrorManager from '~/helpers/ErrorManager';
 import Data from '~/models/Data';
 
@@ -51,6 +52,16 @@ export default class User {
 
     /** @type {string} */
     get profilePage() { return `${Data.shared.envValueForKey('HOST')}/users/${this.id}/${this.name}`; }
+
+    /**
+     * Check if is current user
+     * @return {boolean}
+     */
+    async isMe() {
+        const auth = await Auth.shared;
+        if (auth.isAuthorized === false) return false;
+        return auth.user.id === this.id;
+    }
 
     /**
      * Unwraps a user from an API JSON object.

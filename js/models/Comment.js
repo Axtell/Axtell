@@ -14,7 +14,7 @@ export default class Comment {
      * @param  {number} options.id       the comment id
      * @param  {string} options.text     comment body
      * @param  {string} options.type     answer or post
-     * @param  {number} options.sourceId ID of the type
+     * @param  {number} options.sourceId ID of the type (e.g. the answer id or post id)
      * @param  {Comment} options.parent  parent comment object
      * @param  {Date} options.date       JavaScript date object representing creation time
      * @param  {User} options.owner      The owner of the comment
