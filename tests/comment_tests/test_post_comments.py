@@ -60,7 +60,7 @@ class TestPostComments(TestFlask):
         self.assert200(result)
 
         comment_id = self.post.comments[0].id
-        comment_result = self.client.get(f"/post/{self.post.id}/comments/{comment_id}")
+        comment_result = self.client.get(f"/post/{self.post.id}/comment/{comment_id}")
         self.assert200(comment_result)
         self.assertEqual(comment_result.json['text'], "foobarbazblargh")
         self.assertEqual(comment_result.json['rendered_text'], "<p>foobarbazblargh</p>\n")
