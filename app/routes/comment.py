@@ -24,6 +24,22 @@ def write_answer_comment(answer_id):
     return render_json(new_comment.to_json())
 
 
+@server.route("/post/<int:post_id>/comment/<int:comment_id>/edit", methods=["POST"])
+@csrf_protected
+def edit_post_comment(post_id, comment_id):
+    comment_text = request.form["comment_text"]
+    edited_comment = comment.edit_post_comment(comment_id, comment_text)
+    return render_json(edited_comment.to_json())
+
+
+@server.route("/answer/<int:answer_id>/comment/<int:comment_id>/edit", methods=["POST"])
+@csrf_protected
+def edit_answer_comment(answer_id, comment_id):
+    comment_text = request.form["comment_text"]
+    edited_comment = comment.edit_answer_comment(comment_id, comment_text)
+    return render_json(edited_comment.to_json())
+
+
 @server.route("/answer/<int:answer_id>/comments/parent/<sint:parent_id>/page/<int:page_id>", defaults={'initial_offset': 0})
 @server.route("/answer/<int:answer_id>/comments/parent/<sint:parent_id>/page/<int:page_id>/offset/<int:initial_offset>")
 def get_answer_comments_page(answer_id, parent_id, page_id, initial_offset):
@@ -38,33 +54,21 @@ def get_post_comments_page(post_id, parent_id, page_id, initial_offset):
     return render_json(comments)
 
 
-@server.route("/post/<int:post_id>/comments/<int:comment_id>")
+@server.route("/post/<int:post_id>/comment/<int:comment_id>")
 def get_post_comment(post_id, comment_id):
     post_comment = comment.get_post_comment(comment_id)
-    rendered_text = markdown.render_markdown.delay(post_comment.text).wait()
-
-    if rendered_text is None:
-        return abort(500)
-
     response = post_comment.to_json()
-    response["rendered_text"] = rendered_text
     return render_json(response)
 
 
-@server.route("/answer/<int:answer_id>/comments/<int:comment_id>")
+@server.route("/answer/<int:answer_id>/comment/<int:comment_id>")
 def get_answer_comment(answer_id, comment_id):
     answer_comment = comment.get_answer_comment(comment_id)
-    rendered_text = markdown.render_markdown.delay(answer_comment.text).wait()
-
-    if rendered_text is None:
-        return abort(500)
-
     response = answer_comment.to_json()
-    response["rendered_text"] = rendered_text
     return render_json(response)
 
 
-@server.route("/post/<int:post_id>/comments/<int:comment_id>", methods=['POST'])
+@server.route("/post/<int:post_id>/comment/<int:comment_id>", methods=['DELETE'])
 def delete_post_comment(post_id, comment_id):
     comment.delete_post_comment(comment_id)
     response = {
@@ -74,7 +78,7 @@ def delete_post_comment(post_id, comment_id):
     return render_json(response)
 
 
-@server.route("/answer/<int:answer_id>/comments/<int:comment_id>", methods=['POST'])
+@server.route("/answer/<int:answer_id>/comment/<int:comment_id>", methods=['DELETE'])
 def delete_answer_comment(answer_id, comment_id):
     comment.delete_answer_comment(comment_id)
     response = {

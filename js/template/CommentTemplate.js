@@ -32,6 +32,8 @@ export default class CommentTemplate extends Template {
             let subComments = <DocumentFragment/>;
             let seeMoreButton = <DocumentFragment/>;
 
+            const isOwnComment = await comment.owner.isMe();
+
             /** @type {Comment} */
             this.comment = comment;
 
@@ -65,6 +67,11 @@ export default class CommentTemplate extends Template {
                 }
             }
 
+            let deleteButton = <DocumentFragment/>;
+            if (isOwnComment) {
+                deleteButton = <a class="comment__footer__item comment__delete">delete</a>;
+            }
+
             this.underlyingNode.appendChild(
                 <DocumentFragment>
                     <div class="user">
@@ -76,8 +83,9 @@ export default class CommentTemplate extends Template {
                         </div>
                         { body }
                         <div class="comment__footer">
-                            <a class="comment__reply comment-item__write-init">reply</a>
-                            <span class="comment__timestamp">{ moment(comment.date).fromNow() }</span>
+                            <a class="comment__footer__item comment__reply">reply</a>
+                            { deleteButton }
+                            <span class="comment__footer__item comment__timestamp">{ moment(comment.date).fromNow() }</span>
                         </div>
                         <ul class="comment-list comment-list--nested">
                             { seeMoreButton }

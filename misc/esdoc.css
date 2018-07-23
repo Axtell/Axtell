@@ -175,10 +175,6 @@ table.params td[data-ice=type], table.params td[data-ice=name] {
     font-size: 0.9em;
 }
 
-.header-notice span {
-    display: none;
-}
-
 .navigation li span[data-ice=name] {
     padding-left: 4px;
     font-size: 1em;
