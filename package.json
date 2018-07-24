@@ -10,6 +10,7 @@
   ],
   "license": "MIT",
   "devDependencies": {
+    "@axtell/esdoc-standard-plugin": "^1.0.0",
     "@babel/cli": "^7.0.0-beta.46",
     "@babel/core": "^7.0.0-beta.46",
     "@babel/plugin-proposal-class-properties": "^7.0.0-beta.46",
@@ -39,7 +40,6 @@
     "esdoc-ecmascript-proposal-plugin": "^1.0.0",
     "esdoc-importpath-plugin": "^1.0.1",
     "esdoc-inject-style-plugin": "^1.0.0",
-    "esdoc-standard-plugin": "^1.0.0",
     "node-sass": "^4.9.0",
     "parcel": "~1.8.1",
     "postcss-modules": "^1.1.0",
