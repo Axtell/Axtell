@@ -70,7 +70,10 @@ def get_answer_comment(answer_id, comment_id):
 
 @server.route("/post/<int:post_id>/comment/<int:comment_id>", methods=['DELETE'])
 def delete_post_comment(post_id, comment_id):
-    comment.delete_post_comment(comment_id)
+    try:
+        comment.delete_post_comment(comment_id)
+    except PermissionError:
+        return abort(403)
     response = {
         'comment_id': comment_id,
         'deleted': True
@@ -80,7 +83,10 @@ def delete_post_comment(post_id, comment_id):
 
 @server.route("/answer/<int:answer_id>/comment/<int:comment_id>", methods=['DELETE'])
 def delete_answer_comment(answer_id, comment_id):
-    comment.delete_answer_comment(comment_id)
+    try:
+        comment.delete_answer_comment(comment_id)
+    except PermissionError:
+        return abort(403)
     response = {
         'comment_id': comment_id,
         'deleted': True
