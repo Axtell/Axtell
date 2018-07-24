@@ -108,12 +108,16 @@ def create_answer_comment(answer_id, parent_comment, comment_text):
 
 def delete_post_comment(comment_id):
     comment = get_post_comment(comment_id)
+    if g.user.id != comment.user_id:
+        raise PermissionError
     comment.deleted = True
     db.session.commit()
 
 
 def delete_answer_comment(comment_id):
     comment = get_answer_comment(comment_id)
+    if g.user.id != comment.user_id:
+        raise PermissionError
     comment.deleted = True
     db.session.commit()
 
