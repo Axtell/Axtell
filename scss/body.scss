@@ -1,28 +1,5 @@
-h1, h2, h3, h4, h5, h6 {
-  display: block;
-  margin-top: 0.8em;
-  margin-bottom: 0.2em;
-
-  &.header--nomargin-top {
-    margin-top: 0;
-  }
-}
-
-h1 {
-  font: {
-    family: $bold-font;
-    weight: bold;
-    size: 1.5em;
-  };
-}
-
-h2, h3 {
-  font-size: 1.6em;
-}
-
-h4 {
-  font-weight: 400;
-}
+@import "body/headers.scss";
+@import "body/figures.scss";
 
 hr {
   border: none;

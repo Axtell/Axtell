@@ -1,0 +1,23 @@
+// Any figure
+figure {
+  margin: 1em 0;
+}
+
+// Block image
+figure[data-type=image] {
+  text-align: center;
+
+  // Wraps the image
+  a {
+    line-height: 0;
+  }
+
+  figcaption {
+    margin: (3/8) * 1rem 0;
+
+    font-size: 0.9em;
+    font-weight: 300;
+
+    color: $detail-text;
+  }
+}

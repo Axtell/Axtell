@@ -46,7 +46,7 @@
       }
     },
     {
-      "name": "esdoc-standard-plugin",
+      "name": "@axtell/esdoc-standard-plugin",
       "option": {
         "coverage": {
           "enable": true
