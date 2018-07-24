@@ -13,6 +13,7 @@ echo "JS DOCUMENTATION DEPLOY: BUILDING"
 esdoc
 
 echo "JS DOCUMENTATION DEPLOY: DEPLOY"
-# surge --project ./docs-js --domain api.axtell.vihan.org
+echo "$SURGE_EMAIL"
+surge --project ./docs-js --domain api.axtell.vihan.org
 
 true
