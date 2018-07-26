@@ -3,6 +3,22 @@ import ErrorManager from '~/helpers/ErrorManager';
 export const NO_DATA_TAG = Symbol('Data.Error.NoDataTag');
 
 /**
+ * A global key (not env related).
+ * @typedef {Object} Key
+ */
+export const Key = {
+};
+
+/**
+ * An env key. These are constant over a server's instance
+ * @typedef {Object} EnvKey
+ * @property {string} isDebug - If is debugging instance
+ */
+export const EnvKey = {
+    isDebug: 'IS_DEBUG'
+};
+
+/**
  * Manages data passed from server-side
  */
 export default class Data {

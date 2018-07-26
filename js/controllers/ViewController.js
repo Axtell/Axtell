@@ -1,7 +1,24 @@
 import ErrorManager from '~/helpers/ErrorManager';
+import Data, { EnvKey } from '~/models/Data';
 import { forEach } from '~/modern/array';
 
 export const RootNonexistent = Symbol('ViewController.Error.RootNonexistent');
+export const Reference = Symbol(
+    Data.shared.envValueForKey(EnvKey.isDebug) ?
+    'ViewController.Reference' :
+    ''
+);
+
+export const ReferenceType = {
+    dynamic: Symbol('ViewController.Reference.dynamic'),
+    static: Symbol('ViewController.Reference.static')
+};
+
+export const AssociatedController = Symbol(
+    Data.shared.envValueForKey(EnvKey.isDebug) ?
+    'ViewController.AssociatedController' :
+    ''
+);
 
 /**
  * Manages a View of any type with iOS-esque handlers.
@@ -11,7 +28,20 @@ export default class ViewController {
      * @param {HTMLElement} root The element to which the controller is associated
      */
     constructor(root) {
-        if (root) root.controller = this;
+        if (root) {
+            if (Data.shared.envValueForKey(EnvKey.isDebug)) {
+                root[AssociatedController] = this;
+            } else {
+                // Assignment order IS significant.
+                if (root.parentNode) {
+                    root[AssociatedController] = this;
+                    root[Reference] = ReferenceType.static;
+                } else {
+                    root[Reference] = ReferenceType.dynamic;
+                    root[AssociatedController] = this;
+                }
+            }
+        }
     }
 
     /**
@@ -22,7 +52,7 @@ export default class ViewController {
     static of(id) {
         let elem;
         if (elem = document.getElementById(id)) {
-            return elem.controller || null;
+            return elem[AssociatedController] || null;
         } else {
             return null;
         }

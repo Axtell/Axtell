@@ -6,6 +6,8 @@ $sidebar-collapse: 800px;
 html, body {
   @include full;
   @include fit;
+
+  height: 100vh; // Needed in some cases (eg iOS w/ resizing header)
 }
 
 body {
