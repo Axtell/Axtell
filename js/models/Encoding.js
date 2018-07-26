@@ -36,7 +36,7 @@ export default class Encoding {
 
     /**
      * Byte-length of a JS string in this encoding
-     * @param {string}
+     * @param {string} string
      * @return {number} postive integer
      */
     byteCount(string) {
