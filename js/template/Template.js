@@ -68,7 +68,7 @@ export default class Template {
      * @return {Template} new template.
      */
     static fromText(text, type) {
-        let elem = document.createElement('div');
+        let elem = document.createElement('span');
         elem.appendChild(document.createTextNode(text));
         return new Template(elem, type);
     }

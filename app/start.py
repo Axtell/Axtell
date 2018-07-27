@@ -5,6 +5,7 @@ import app.server
 # Since all the work is being done by the code in the routes modules being run,
 # Nothing from the modules actually gets called from something external.
 from app.routes import *
+from app.models import *
 
 # Sets up authorization middleware.
 import app.instances.auth

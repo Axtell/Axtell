@@ -17,3 +17,4 @@ import '~/ui/write/answer';
 import '~/ui/write/postPreview';
 import '~/ui/settings/profile';
 import '~/ui/codepage';
+import '~/ui/profile';
