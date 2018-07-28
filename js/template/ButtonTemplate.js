@@ -4,11 +4,20 @@ import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 
 import tippy from 'tippy.js/dist/tippy.all.min.js';
 
+/**
+ * @typedef {Object} ButtonColor
+ * @property {Object} green - Green background
+ * @property {Object} accent - Accent colored background
+ * @property {Object} blue - Blue background
+ * @property {Object} plain - No special coloring just blue text
+ * @property {Object} accentBorder - Accent border and foreground
+ */
 export const ButtonColor = {
     green: 'green',
     accent: 'accent',
     blue: 'blue',
-    plain: null
+    plain: null,
+    accentBorder: 'accent-border'
 };
 
 /**
@@ -16,8 +25,8 @@ export const ButtonColor = {
  */
 export default class ButtonTemplate extends Template {
     /**
-     * @param {string} options.text
-     * @param {string} options.icon
+     * @param {string} options.text - The text of the button
+     * @param {Element} options.icon - The icon node
      * @param {ButtonColor} options.color
      */
     constructor({ text, icon, color }) {
@@ -29,23 +38,68 @@ export default class ButtonTemplate extends Template {
             node = (
                 <button class="button button--shadow-none button--color-plain button--align-center">
                     { icon || <DocumentFragment/> }
-                    { text }
+                    { " " }
                 </button>
             );
         } else {
             node = (
                 <button class={`button button--color-${color} button--align-center`}>
                     { icon || <DocumentFragment/> }
-                    { text }
+                    { " " }
                 </button>
             );
         }
+
         super(node);
 
+        /**
+         * The label of the button. Reactive
+         * @type {string}
+         */
+        this.text = null;
+        node.appendChild(<span>{ this.defineLinkedText('text', text) }</span>);
+
+        /**
+         * If should be full width
+         * @type {Boolean}
+         */
+        this.isWide = null;
         this.defineLinkedClass('isWide', 'button--size-wide');
+
+        /**
+         * If should be 'small'
+         * @type {Boolean}
+         */
+        this.isSmall = null;
         this.defineLinkedClass('isSmall', 'button--size-small');
+
+        /**
+         * If should have little bit of padding on top
+         * @type {Boolean}
+         */
+        this.hasPaddedTop = null;
         this.defineLinkedClass('hasPaddedTop', 'button--padding-top');
+
+        /**
+         * If the button is active. Only applies to those colors which have this preference set.
+         * @type {Boolean}
+         */
+        this.isActive = null;
+        this.defineLinkedClass('isActive', 'button--active');
+
+        /**
+         * If should have little padding on sides
+         * @type {Boolean}
+         */
+        this.hasPaddedHorizontal = null;
         this.defineLinkedClass('hasPaddedHorizontal', 'button--padding-horizontal');
+
+        /**
+         * If has shadow
+         * @type {Boolean}
+         */
+        this.hasShadow = null;
+        this.defineLinkedClass('hasShadow', '!button--shadow-none');
 
         /** @type {ActionControllerDelegate} */
         this.delegate = new ActionControllerDelegate();

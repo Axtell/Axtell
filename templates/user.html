@@ -55,7 +55,7 @@
                     </span>
                 </div>
             </li>
-            {%- if user.following_public -%}
+            {%- if user.following_public or g.user == user -%}
             <li id="user__metric__following" class="profile__data__item profile__data__item--target">
                 {% include "svg/following.html" %}
                 <div class="profile__data__item__stack">

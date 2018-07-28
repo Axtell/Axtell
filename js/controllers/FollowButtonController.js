@@ -6,6 +6,11 @@ import SVG from '~/models/Request/SVG';
 
 import { HandleUnhandledPromise } from '~/helpers/ErrorManager';
 
+/**
+ * Creates a follow button. Expects an 'SVG' subelement for icon and a
+ * 'span' element child to contain follow/unfollow text. This uses the
+ * button classes (.button-active) in the active state.
+ */
 export default class FollowButtonController extends ViewController {
 
     /**

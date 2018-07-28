@@ -7,15 +7,15 @@ a {
     font-family: $bold-font;
     font-weight: $bold-weight;
   }
+}
 
-  &.more {
-    color: $theme-color;
+.more {
+  color: $theme-color;
 
-    svg {
-      height: 1em;
-      margin: 0 0 -2px -4px;
-      fill: $theme-color;
-    }
+  svg {
+    height: 1em;
+    margin: 0 0 -2px -4px;
+    fill: $theme-color;
   }
 }
 
