@@ -31,7 +31,7 @@ export default class UserTemplate extends Template {
             if (isAuthorized && !await user.isMe()) {
                 const followButton = new ButtonTemplate({
                     icon: await SVG.load(user.isFollowing ? 'unfollow' : 'follow'),
-                    text: user.isFollowing ? 'Unfollow' : 'follow',
+                    text: user.isFollowing ? 'Unfollow' : 'Follow',
                     color: ButtonColor.accentBorder
                 });
 
