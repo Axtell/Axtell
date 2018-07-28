@@ -3,6 +3,7 @@ from flask import g
 
 from app.helpers.render import render_json, render_error
 from app.models.User import User
+from app.instances.db import db
 
 
 def get_my_profile():
@@ -78,6 +79,7 @@ def follow(source_user_id, target_user_id):
         return render_error('Forbidden'), 403
 
     source_user.follow(target_user)
+    db.session.commit()
 
     return render_json({ 'following': True })
 
@@ -102,5 +104,6 @@ def unfollow(source_user_id, target_user_id):
         return render_error('Forbidden'), 403
 
     source_user.unfollow(target_user)
+    db.session.commit()
 
     return render_json({ 'following': False })

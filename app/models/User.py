@@ -29,7 +29,6 @@ class User(db.Model):
         """
         if not user.followed_by(self) and user.id != self.id:
             self.following.append(user)
-            db.session.commit()
 
     def unfollow(self, user):
         """
@@ -40,7 +39,6 @@ class User(db.Model):
 
         if user.followed_by(self):
             self.following.remove(user)
-            db.session.commit()
 
     def followed_by(self, user):
         """
