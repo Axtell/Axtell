@@ -22,7 +22,13 @@ mkdir -p static/lib
 chmod 755 static/lib
 chmod g+s static/lib
 
+# Update python packages
 
+echo "REMOTE DEPLOY: UPDATING PYTHON PACKAGES"
+source venv/bin/activate
+pip3 install -r requirements.txt
+
+echo "REMOTE DEPLOY: ALEMBIC UPGRADES"
 PYTHONPATH=$PYTHONPATH:/var/www/ppcg-v2 alembic revision --autogenerate -m "$(git log --format=%B -n 1)"
 PYTHONPATH=$PYTHONPATH:/var/www/ppcg-v2 alembic upgrade head
 
