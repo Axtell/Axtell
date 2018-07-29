@@ -2,6 +2,8 @@ from flask import g, abort, redirect, url_for
 
 from app.instances.db import db
 from app.models.Answer import Answer
+from app.models.Notification import Notification, NotificationType
+from app.notifications import send_notification
 from app.models.Post import Post
 from app.models.Language import Language
 from config import posts
@@ -11,14 +13,14 @@ def create_answer(post_id, code, commentary, lang_id=None, lang_name=None, encod
     """
     Creates an answer on a given post. You may provide `lang_id` if you have a
     known language, or `lang_name` instead if you have a non-native language.
-    Do NOT provide both.
+    Do NOT provide both. This will emit a notification too
 
-     - `403` when not logged in
+     - `401` when not logged in
      - `400` when a bad `lang_id` is provided.
     """
 
     if g.user is None:
-        return abort(403)
+        return abort(401)
 
     # Ensure language exists
     if lang_id is not None and not Language.exists(lang_id):
@@ -32,6 +34,13 @@ def create_answer(post_id, code, commentary, lang_id=None, lang_name=None, encod
 
     db.session.add(new_answer)
     db.session.commit()
+
+    # Dispatch notification to post owner
+    send_notification(Notification(
+        recipient=post.user,
+        notification_type=NotificationType.NEW_ANSWER,
+        target_id=new_answer.id
+    ))
 
     return redirect(url_for('get_post', post_id=post_id, answer_id=new_answer.id) + f"#answer-{new_answer.id}")
 

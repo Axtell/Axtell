@@ -37,14 +37,14 @@ class Notification(db.Model):
 
     date_created = db.Column(db.DateTime, default=datetime.datetime.now)
 
-    read = db.Column(db.Enum(NotificationStatus), default=False)
+    read = db.Column(db.Enum(NotificationStatus), default=NotificationStatus.UNSEEN)
 
 
     def to_json(self):
         return {
             'id': self.id,
             'recipient': self.user.to_json(),
-            'type': self.notification_type,
+            'type': self.notification_type.value,
             'user_id': self.user_id
         }
 

@@ -45,6 +45,7 @@
 
     <meta name="data_id" content="{{ data_id }}">
     {{ data("env", macros.json_to_b64({
+        'APN_ID': opts.notifications['apn_id'],
         'BUGSNAG': opts.auth['bugsnag'].get('frontend', ''),
         'HOST': opts.canonical_host,
         'CSRF': macros.get_csrf(),
@@ -64,6 +65,7 @@
         'POST_TITLE_MIN': opts.posts['min_title'],
         'SE_CLIENT_ID': opts.oauth['se']['client-id'],
         'SE_KEY': opts.oauth['se']['key'],
+        'SOCKET_PORT': opts.app.port,
         'VERSION': macros.get_version_id(),
     })) }}
 

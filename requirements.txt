@@ -18,3 +18,4 @@ bugsnag[flask]>=3.4.2
 python-slugify>=1.2.5
 golflang_encodings>=1.0.3
 M2Crypto>=0.30.1
+flask-socketio>=3.0.1
