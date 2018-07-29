@@ -45,7 +45,6 @@
 
     <meta name="data_id" content="{{ data_id }}">
     {{ data("env", macros.json_to_b64({
-        'APN_ID': opts.notifications['apn_id'],
         'BUGSNAG': opts.auth['bugsnag'].get('frontend', ''),
         'HOST': opts.canonical_host,
         'CSRF': macros.get_csrf(),
@@ -67,6 +66,7 @@
         'SE_KEY': opts.oauth['se']['key'],
         'SOCKET_PORT': opts.app.port,
         'VERSION': macros.get_version_id(),
+        'WEB_APN_ID': opts.notifications['web_apn_id']
     })) }}
 
     {%- if g.user is not none -%}

@@ -12,21 +12,21 @@ export default class PushNotification {
      * @type {PushNotification}
      */
     static shared = new PushNotification({
-        apnId: Data.shared.envValueForKey(EnvKey.apnId) || null
+        webAPNId: Data.shared.envValueForKey(EnvKey.webAPNId) || null
     });
 
     /**
      * Creates PN but you probably want to use {@link PushNotification.shared}
      * @param {Object} [options={}]
-     * @param {?string} options.apnId - The web APN ID or null if not supported.
+     * @param {?string} options.webAPNId - The web APN ID or null if not supported.
      */
-    constructor({ apnId = null } = {}) {
+    constructor({ webAPNId = null } = {}) {
         /**
          * Apple Web Push Notification ID
          * @readonly
          * @type {?string}
          */
-        this.apnId = apnId;
+        this.webAPNId = webAPNId;
     }
 
     /**
@@ -39,7 +39,7 @@ export default class PushNotification {
      * If APN is setup
      * @type {boolean}
      */
-    get backendSupportsAPN() { return this.apnId !== null; }
+    get backendSupportsAPN() { return this.webAPNId !== null; }
 
     /**
      * The APN URL. `null` if we don't support
@@ -56,7 +56,7 @@ export default class PushNotification {
      */
     get hasPermissions() {
         if (this.useAPN) {
-            return global.safari.pushNotification.permission(this.apnId).permission === "granted";
+            return global.safari.pushNotification.permission(this.webAPNId).permission === "granted";
         } else {
             return false;
         }
@@ -68,7 +68,7 @@ export default class PushNotification {
      */
     get needsRequest() {
         if (this.useAPN) {
-            return global.safari.pushNotification.permission(this.apnId).permission === "default";
+            return global.safari.pushNotification.permission(this.webAPNId).permission === "default";
         } else {
             return false;
         }
@@ -81,7 +81,7 @@ export default class PushNotification {
     get denied() {
         // If we don't have perms and can't ask then yeah...
         if (this.useAPN) {
-            return global.safari.pushNotification.permission(this.apnId).permission === "denied";
+            return global.safari.pushNotification.permission(this.webAPNId).permission === "denied";
         } else {
             return false;
         }
@@ -115,7 +115,7 @@ export default class PushNotification {
 
                 safari.pushNotification.requestPermission(
                     this.apnURL,
-                    this.apnId,
+                    this.webAPNId,
                     {},
                     ({ deviceToken, permission }) => {
                         if (this.denied) { resolve(false); }
