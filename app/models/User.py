@@ -19,18 +19,51 @@ class User(db.Model):
     posts = db.relationship('Post', backref='user')
     theme = db.Column(db.Integer, db.ForeignKey('themes.id'), nullable=True)
 
+    following_public = db.Column(db.Boolean, nullable=False, default=False)
+
+    def follow(self, user):
+        """
+        Makes (self) User follow the given user. You can't follow yourself
+
+        :param User user: The user which this instance _will_ follow
+        """
+        if not user.followed_by(self) and user.id != self.id:
+            self.following.append(user)
+
+    def unfollow(self, user):
+        """
+        Makes (self) User not follow the given user.
+
+        :param User user: The user which this instance _will not_ follow
+        """
+
+        if user.followed_by(self):
+            self.following.remove(user)
+
+    def followed_by(self, user):
+        """
+        Checks if a provided user follows the user referenced by `self`
+
+        :param User user: The user which will be checked if following
+        :return: boolean indicating
+        """
+        return self.followers.filter_by(id=user.id).scalar() is not None
+
     def avatar_url(self):
         if self.avatar is not None:
             return self.avatar
         else:
             return gravatar(self.email)
 
-    def to_json(self, own=False, bio=False):
+    def to_json(self, current_user=None, own=False, bio=False):
         data = {
             'id': self.id,
             'name': self.name,
             'avatar': self.avatar_url()
         }
+
+        if current_user is not None:
+            data['is_following'] = self.followed_by(current_user)
 
         if own:
             data['email'] = self.email

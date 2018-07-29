@@ -132,3 +132,8 @@ nohup.out
 *.prof
 .idea
 ppcg-v2.log.*
+
+# Alembic
+/alembic
+/app/app_alembic/versions
+/generic

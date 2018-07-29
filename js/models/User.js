@@ -16,11 +16,13 @@ export default class User {
      * @param {string} name user display name
      * @param {Object} options other options
      * @param {?string} options.avatar avatar URL
+     * @param {boolean} options.isFollowing - If current user is following
      */
     constructor(id, name, {
         avatar = null,
         postCount = null,
-        answerCount = null
+        answerCount = null,
+        isFollowing = null,
     } = {}) {
         this._id = id;
         this._name = name;
@@ -29,6 +31,8 @@ export default class User {
 
         this._postCount = postCount;
         this._answerCount = answerCount;
+
+        this._isFollowing = isFollowing;
     }
 
     /** @type {number} */
@@ -51,7 +55,19 @@ export default class User {
     get answerCount() { return this._answerCount; }
 
     /** @type {string} */
-    get profilePage() { return `${Data.shared.envValueForKey('HOST')}/users/${this.id}/${this.name}`; }
+    get profilePage() { return `${Data.shared.envValueForKey('HOST')}/user/${this.id}/${this.name}`; }
+
+    /**
+     * If current user is following this one
+     * @type {boolean}
+     */
+    get isFollowing() { return this._isFollowing; }
+
+    /**
+     * If current user is following this one
+     * @type {boolean}
+     */
+    set isFollowing(newIsFollowing) { this._isFollowing = newIsFollowing; }
 
     /**
      * Check if is current user
@@ -81,6 +97,7 @@ export default class User {
                 avatar: json.avatar,
                 postCount: json.post_count,
                 answerCount: json.answer_count,
+                isFollowing: json.is_following
             }
         );
     }

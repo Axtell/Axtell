@@ -72,6 +72,10 @@ users = {
     'max_name_len': 45
 }
 
+user_list = {
+    'page_len': 5
+}
+
 comments = {
     'min_len': 10,
     'max_len': 140,

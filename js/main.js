@@ -6,13 +6,13 @@ import 'element-dataset';
 import tippy from 'tippy.js/dist/tippy.all.min.js';
 
 import KeyManager from "~/models/KeyManager";
+import ViewController, { AssociatedController } from "~/controllers/ViewController";
 import Normalize from "~/models/Normalize";
 import Language from "~/models/Language";
 import Theme from "~/models/Theme";
 import Post from "~/models/Post";
 import Data from "~/models/Data";
 import Random from "~/modern/Random";
-import TestTag from "~/template/TestTag";
 import Auth from "~/models/Auth";
 import Template from "~/template/Template";
 import AnimationController, { Animation } from "~/controllers/AnimationController";
@@ -45,28 +45,44 @@ window.addEventListener("unhandledrejection", (error) => {
         if (state === false) {
             // Make global
             const IS_DEBUG = Data.shared.envValueForKey('IS_DEBUG');
+            const Classes = {
+                Normalize,
+                Language,
+                Theme,
+                Post,
+                Data,
+                Auth,
+
+                Random,
+
+                Request,
+                Leaderboard,
+
+                KeyManager,
+                ErrorManager,
+                ErrorData,
+
+                AssociatedController,
+                AnimationController,
+                Animation,
+
+                Template
+            };
+
             if (IS_DEBUG) {
-                global.Normalize = Normalize;
-                global.Language = Language;
-                global.Theme = Theme;
-                global.Post = Post;
-                global.Data = Data;
-                global.Auth = Auth;
-
-                global.Random = Random;
-
-                global.Request = Request;
-                global.Leaderboard = Leaderboard;
-
-                global.KeyManager = KeyManager;
-                global.ErrorManager = ErrorManager;
-                global.ErrorData = ErrorData;
-
-                global.AnimationController = AnimationController;
-                global.Animation = Animation;
-
-                global.Template = Template;
+                Object.assign(global, Classes);
             }
+
+            global.Axtell = {
+                requestAccess: async ({ name = 'A program' } = {}) => {
+                    const didAllow = confirm(`${name} would like access to your Axtell frontend. Do you wish to provide access?`)
+                    if (didAllow) {
+                        return Classes;
+                    } else {
+                        return null;
+                    }
+                }
+            };
 
             state = true;
             try {

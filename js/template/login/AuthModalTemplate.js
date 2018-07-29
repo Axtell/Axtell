@@ -11,8 +11,6 @@ const googleTrigger = document.getElementById("am-pgoogle");
 
 /**
  * Authorization Modal dialog. This uses `#ammd-auth` as the modal template.
- *
- * @extends {ModalTemplate}
  */
 export default class AuthModalTemplate extends ModalViewTemplate {
     /**

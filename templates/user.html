@@ -1,8 +1,15 @@
 {% extends "layouts/page.html" %}
 {% from "includes/time.html" import time %}
 
+{# Custom more macro #}
+{% macro more(text) %}
+<span>{{ text }}</span>
+{% include "svg/right-caret.html" %}
+{% endmacro %}
+
 {% block title %}{{ user.name }}'s Profile{% endblock %}
 {% block base_content -%}
+{{ data("profile_user", macros.json_to_b64(user.to_json(current_user=g.user))) }}
 <main class="profile">
     <section class="profile__column profile__column--sizing-noshrink">
         <div>
@@ -16,6 +23,22 @@
             </div>
         </div>
         <h2 class="profile__name">{{ user.name }}</h2>
+
+        <div class="profile__inforow">
+            {%- if g.user is not none and g.user != user -%}
+            {%- set is_following = user.followed_by(g.user) -%}
+            <button id="user__follow" class="button button--color-accent-border button--size-wide button--padding-top button--shadow-none {{ 'button--active' if is_following else '' }}">
+                {%- if is_following -%}
+                    {%- include "svg/unfollow.html" %}
+                    <span>Unfollow</span>
+                {%- else -%}
+                    {%- include "svg/follow.html" %}
+                    <span>Follow</span>
+                {%- endif -%}
+            </button>
+            {%- endif -%}
+        </div>
+
         <ul class="profile__data">
             <li class="profile__data__item">
                 {% include "svg/calendar.html" %}
@@ -24,11 +47,28 @@
                     <span class="profile__data__item__value">
                         {% set logins = user.logins %}
                         {%- if logins|length == 0 -%}
+                        {# This case should never happen but just in case #}
                         never
                         {%- else -%}
                         {{ time(user.logins[0].time) }}
                         {%- endif -%}
                     </span>
+                </div>
+            </li>
+            {%- if user.following_public or g.user == user -%}
+            <li id="user__metric__following" class="profile__data__item profile__data__item--target">
+                {% include "svg/following.html" %}
+                <div class="profile__data__item__stack">
+                    <span class="profile__data__item__key">{{ more('Following') }}</span>
+                    <span class="profile__data__item__value">{{ user.following.count()|pluralize("user") }}</span>
+                </div>
+            </li>
+            {%- endif -%}
+            <li id="user__metric__followers" class="profile__data__item profile__data__item--target">
+                {% include "svg/followers.html" %}
+                <div class="profile__data__item__stack">
+                    <span class="profile__data__item__key">{{ more('Followers') }}</span>
+                    <span class="profile__data__item__value">{{ user.followers.count()|pluralize("user") }}</span>
                 </div>
             </li>
             <li class="profile__data__item">

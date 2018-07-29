@@ -35,10 +35,11 @@ export default class Request {
 
     /**
      * Performs the request
+     * @param {boolean} [format=true] - Set to false to not format
      * @return {Promise} resolves to format of object. See return type of
      * {@link Request#format}
      */
-    async run() {
+    async run(format = true) {
         let response = await axios.request({
             method: this._method,
             url: this._path,
@@ -48,7 +49,11 @@ export default class Request {
             responseType: this._responseType
         });
 
-        return this.format(response.data);
+        if (format) {
+            return this.format(response.data);
+        } else {
+            return response.data;
+        }
     }
 
     /**

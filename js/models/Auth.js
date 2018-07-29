@@ -24,7 +24,8 @@ class Auth {
 
     /**
      * Returns global instance of `Auth`
-     * @type {Auth}
+     * @type {Promise<Auth>}
+     * @async
      */
     static get shared() {
         if (Auth._shared !== null)
@@ -56,10 +57,11 @@ class Auth {
 
     /**
      * Determines if user is authorized at the moment of call.
-     * @return {Boolean} `Promise` but resolves to boolean.
+     * @return {Promise<Boolean>} `Promise` but resolves to boolean.
+     * @async
      */
     get isAuthorized() {
-        return Data.shared.hasKey('me');
+        return Promise.resolve(Data.shared.hasKey('me'));
     }
 
     /**

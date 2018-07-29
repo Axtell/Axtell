@@ -17,6 +17,15 @@ function anims(anims) {
     return o;
 }
 
+/**
+ * @typdef {Object} Animation
+ * @property {Object} slide - Slides from a given direction
+ * @property {Object} slide.left
+ * @property {Object} slide.bottom
+ * @property {Object} expand - Expands progressively
+ * @property {Object} expand.width
+ * @property {Object} expand.height
+ */
 export const Animation = anims([
     anim('slide', ['left', 'bottom'], {
         time: 301

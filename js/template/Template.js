@@ -68,7 +68,7 @@ export default class Template {
      * @return {Template} new template.
      */
     static fromText(text, type) {
-        let elem = document.createElement('div');
+        let elem = document.createElement('span');
         elem.appendChild(document.createTextNode(text));
         return new Template(elem, type);
     }
@@ -104,6 +104,15 @@ export default class Template {
     }
 
     /**
+     * Removes from the context. Errors if not loaded
+     */
+    removeFromContext() {
+        this.willUnload();
+        this.underlyingNode.parentNode.removeChild(this.underlyingNode);
+        this.didUnload();
+    }
+
+    /**
      * Gets the original parent or else a default
      * @param {?HTMLElement} defaultElement
      * @return {HTMLElement} parent element or the `defualt` provided.
@@ -113,19 +122,27 @@ export default class Template {
     }
 
     /**
+     * Called when loaded the first time
+     * @abstract
+     */
+    didInitialLoad() { void 0; }
+
+    /**
      * Called when the view has loaded
+     * @abstract
      */
     didLoad() {
-        void 0;
+        if (this._hasLoaded === false) {
+            this.didInitialLoad();
+        }
+
+        this._hasLoaded = true;
     }
 
     /**
      * Called right before the view will appear on screen
      */
-    willLoad() {
-        this._hasLoaded = true;
-        void 0;
-    }
+    willLoad() { void 0; }
 
     /**
      * Called before disappearing
@@ -183,22 +200,6 @@ export default class Template {
             enumerable: true,
             get: () => input.value,
             set: (newValue) => { input.value = newValue }
-        });
-
-        return input;
-    }
-
-    /**
-     * Defines a linked attribute
-     * @param {string} name the name
-     * @param {HTMLElement} [input=underlyingNode]
-     */
-    defineLinkedAttribute(name, node = this.underlyingNode) {
-        Object.defineProperty(this, name, {
-            configurable: true,
-            enumerable: true,
-            get: () => input.getAttribute(name),
-            set: (newValue) => { input.setAttribute(name, newValue) }
         });
 
         return input;

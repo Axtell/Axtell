@@ -1,17 +1,34 @@
-@mixin button-style($name, $bg, $fg) {
+@mixin button-style($name, $bg, $fg, $use-border: false, $prefer-active-state: false) {
   .button.button--color-#{$name} {
-    border: 1px solid $bg;
+    @if $use-border {
+     border: 1px solid $fg;
+    } @else {
+      border: 1px solid $bg;
+    }
     background: $bg;
     color: $fg;
 
     @if $bg == none {
       border: none;
     } @else {
-      border-bottom: 1px solid darken($bg, 5%);
+      @if not($use-border) {
+        border-bottom: 1px solid darken($bg, 5%);
+      }
 
-      &:hover {
+      $button-active-selector: "";
+      @if $prefer-active-state {
+        $button-active-selector: ".button--active";
+      } @else {
+        $button-active-selector: ":hover";
+      }
+
+      &#{$button-active-selector} {
         background: $fg;
-        color: $bg;
+        @if $bg == transparent {
+          color: white;
+        } @else {
+          color: $bg;
+        }
         path {
           fill: currentColor;
         }
@@ -115,6 +132,11 @@
     font-size: 0.8rem;
     padding: 0.2rem;
     border-radius: 6px;
+
+    &:not(.button-size--wide) {
+      padding-right: 8px;
+      padding-left: 8px;
+    }
   }
 
   // Make it full width
@@ -146,6 +168,7 @@ button.button {
 @include button-style('accent', $accent-color, white);
 @include button-style('green', #2FCF8B, white);
 @include button-style('plain', none, $accent-color);
+@include button-style('accent-border', transparent, $accent-color, $use-border: true, $prefer-active-state: true);
 
 .label-pair {
   svg {

@@ -107,6 +107,11 @@ body #content main.profile {
     }
   }
 
+  // Any single row of information (e.g. a button, a list of tags etc.)
+  .profile__inforow {
+    margin-top: 1rem;
+  }
+
   // The username
   .profile__name {
     color: $title-text;
@@ -131,7 +136,10 @@ body #content main.profile {
         vertical-align: middle;
       }
 
-      svg { height: 2em; }
+      // The icon on the left
+      svg { @include square(2em); }
+
+      &.profile__data__item--target { cursor: pointer; }
 
       // Vertical stack
       .profile__data__item__stack > span { display: block; }
@@ -142,6 +150,18 @@ body #content main.profile {
         text-transform: uppercase;
         font-size: 0.75em;
         line-height: 1em;
+
+        span {
+          vertical-align: middle;
+        }
+
+        img, svg {
+          vertical-align: middle;
+          fill: currentColor;
+          margin-top: -2px;
+          max-height: 1.2em;
+          max-width: 1.2em;
+        }
       }
 
       .profile__data__item__value {

@@ -24,6 +24,26 @@ export default class ModalViewController extends ViewController {
     }
 
     /**
+     * Binds an element to trigger to show a modal. If the ID does NOT
+     * exist this will not do any binding.
+     *
+     * @param {string|HTMLElement} node - ID of node or the node itself
+     * @param {ModalViewTemplate} template - The modal template to show
+     */
+    bind(node, template) {
+        if (typeof node === 'string') {
+            node = document.getElementById(node);
+        }
+
+        if (node) {
+            node.addEventListener('click', () => {
+                this.present(template)
+                    .catch(HandleUnhandledPromise);
+            });
+        }
+    }
+
+    /**
      * Presents a template.
      * @param {ModalViewTemplate} template - The modal template
      */
@@ -36,7 +56,7 @@ export default class ModalViewController extends ViewController {
         const instance = template.loadInContext(dim);
 
         const listener = dim.addEventListener('click', (event) => {
-            if (!instance.contains(event.target)) {
+            if (event.target.parentNode && !instance.contains(event.target)) {
                 this.hide()
                     .catch(HandleUnhandledPromise);
             }
