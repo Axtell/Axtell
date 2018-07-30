@@ -1,8 +1,9 @@
 from app.models.Notification import Notification, NotificationType, NotificationStatus
 from app.models.User import User
+from app.helpers.render import render_json
 from app.instances.db import db
 
-from flask import abort, render_json
+from flask import abort, g
 from config import notifications
 
 
@@ -27,7 +28,7 @@ def mark_notification_read(notification_id):
         return render_error('Unauthorized'), 401
 
     Notification.query.\
-        filter(recipient=g.user, id=notification_id).\
+        filter_by(recipient=g.user, id=notification_id).\
         update({'read': NotificationStatus.READ})
 
 def mark_all_notifications_seen():
