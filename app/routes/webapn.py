@@ -1,10 +1,13 @@
 from app.server import server
-from app.notifications.webapn import create_website_json, create_signature, create_manifest, create_pushpackage_zip, pushpackage_zip_name, supports_web_apn
+from app.notifications.webapn import supports_web_apn, create_pushpackage_zip
 from app.controllers import push_notifications
+from app.helpers.render import render_json
+from app.models.PushNotificationDevice import PushNotificationDevice, PNProvider
 from app.session.csrf import csrf_protected
+from app.models.User import User
 from config import notifications
 
-from flask import abort, request, session
+from flask import abort, request, session, g, send_file
 from json import dumps as json_dumps
 
 import bugsnag
@@ -28,9 +31,10 @@ def webapn_responder(name, id):
 @server.route("/webapn/get_identification", methods=['POST'])
 @csrf_protected
 def webapn_get_identification():
-    if not instanceof(g.user, User):
+    if not isinstance(g.user, User):
         return abort(401)
 
+    # Generate a short-term expiring token
     authorization_token = push_notifications.generate_temporary_id()
 
     return render_json({'token': authorization_token})
@@ -40,20 +44,89 @@ def webapn_get_push_package(version, web_apn_id):
     if not supports_web_apn(web_apn_id) or not push_notifications.is_valid_webapn_version(version):
         return abort(404)
 
-    # Validate CSRF
+    # Validate authorization token (associated with user)
     json = request.get_json(silent=True)
-    authorization_token = json['token']
-    user = get_temporary_id_user(authorization_token)
+    authorization_token = json.get('token', None)
 
-    return send_from_directory(server.static_folder, pushpackage_zip_name)
+    if authorization_token is None:
+        return abort(401)
+
+    # Get the user behind the temporary token
+    user = push_notifications.get_temporary_id_user(authorization_token)
+
+    if not isinstance(user, User):
+        return abort(403)
+
+    # Now we create a 'device' this represents PNs for one device
+    # this includes an 'auth token' which is a secure association
+    # between the device and the authorized user
+    device = push_notifications.add_push_notification_device(user=user, provider=PNProvider.WEB_APN)
+
+    # Create the pushpackage with all this data
+    pushpackage = create_pushpackage_zip(device=device)
+
+    return send_file(pushpackage, attachment_filename='Axtell.pushpackage', as_attachment=True)
 
 @server.route("/static/webapn/v<int:version>/devices/<device_token>/registrations/<web_apn_id>", methods=['POST'])
 def webapn_add_registration(version, device_token, web_apn_id):
     if not supports_web_apn(web_apn_id) or not push_notifications.is_valid_webapn_version(version):
         return abort(404)
 
-    print(g.user)
-    return abort(200)
+    authorization_header = request.headers.get('Authorization', None)
+    if authorization_header is None:
+        return abort(401)
+
+    authorization_header = authorization_header.strip()
+
+    if not authorization_header.startswith('ApplePushNotifications'):
+        return abort(400)
+
+    authorization_token = authorization_header[len('ApplePushNotifications '):]
+    # 36 is the length of the UUID
+    if len(authorization_token) != 36:
+        return abort(400)
+
+    device = push_notifications.\
+        set_push_notification_device(
+            authorization_token=authorization_token,
+            provider=PNProvider.WEB_APN,
+            device_token=device_token
+        )
+
+    if not isinstance(device, PushNotificationDevice):
+        return abort(403)
+
+    return ('', 204)
+
+@server.route("/static/webapn/v<int:version>/devices/<device_token>/registrations/<web_apn_id>", methods=['DELETE'])
+def webapn_add_registration(version, device_token, web_apn_id):
+    if not supports_web_apn(web_apn_id) or not push_notifications.is_valid_webapn_version(version):
+        return abort(404)
+
+    authorization_header = request.headers.get('Authorization', None)
+    if authorization_header is None:
+        return abort(401)
+
+    authorization_header = authorization_header.strip()
+
+    if not authorization_header.startswith('ApplePushNotifications'):
+        return abort(400)
+
+    authorization_token = authorization_header[len('ApplePushNotifications '):]
+    # 36 is the length of the UUID
+    if len(authorization_token) != 36:
+        return abort(400)
+
+    did_delete = push_notifications.\
+        delete_push_notification_device(
+            authorization_token=authorization_token,
+            provider=PNProvider.WEB_APN
+        )
+
+    if not did_delete:
+        return abort(400)
+
+    return ('', 204)
 
 @server.route("/static/webapn/v<int:version>/log", methods=['POST'])
 def webapn_log(version):

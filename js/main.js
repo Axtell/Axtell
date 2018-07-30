@@ -19,6 +19,7 @@ import Template from "~/template/Template";
 import AnimationController, { Animation } from "~/controllers/AnimationController";
 
 import Request from "~/models/Request/Request";
+import WebAPNToken from "~/models/Request/WebAPNToken";
 import Leaderboard from "~/models/Request/Leaderboard";
 
 import ErrorManager, * as ErrorData from "~/helpers/ErrorManager";
@@ -60,6 +61,8 @@ window.addEventListener("unhandledrejection", (error) => {
                 Leaderboard,
 
                 PushNotifications,
+                WebAPNToken,
+
                 KeyManager,
                 ErrorManager,
                 ErrorData,

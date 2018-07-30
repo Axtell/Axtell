@@ -13,7 +13,7 @@ def get_notification_statuses():
     return NotificationStatus.to_json()
 
 def get_unread_notification_count():
-    if not instanceof(g.user, User):
+    if not isinstance(g.user, User):
         return render_error('Unauthorized'), 401
 
     Notification.query.filter_by(recipient_id=user_id)
@@ -23,7 +23,7 @@ def mark_notification_read(notification_id):
     Marks a give notification as read.
     """
 
-    if not instanceof(g.user, User):
+    if not isinstance(g.user, User):
         return render_error('Unauthorized'), 401
 
     Notification.query.\
@@ -36,7 +36,7 @@ def mark_all_notifications_seen():
     authorized user
     """
 
-    if not instanceof(g.user, User):
+    if not isinstance(g.user, User):
         return render_error('Unauthorized'), 401
 
     Notification.query.\
@@ -49,7 +49,7 @@ def mark_notifications_seen(notifications):
     authorized user in session
     """
 
-    if not instanceof(g.user, User):
+    if not isinstance(g.user, User):
         return render_error('Unauthorized'), 401
 
     Notification.query.filter(

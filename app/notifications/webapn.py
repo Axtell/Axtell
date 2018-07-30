@@ -1,45 +1,31 @@
 from flask import url_for
 from os import path, getcwd
+from io import BytesIO
 from zipfile import ZipFile, ZIP_DEFLATED
 from hashlib import sha512
 from json import dumps as json_dumps
 from config import notifications, canonical_host
 from urllib.parse import unquote
 from uuid import UUID
-from OpenSSL.crypto import load_pkcs12, _bio_to_string
-from OpenSSL._util import path_string, ffi, lib
+from OpenSSL.crypto import load_pkcs12, _bio_to_string, _new_mem_buf
+from OpenSSL._util import ffi, lib
 from M2Crypto.m2 import rand_bytes
 from M2Crypto.SMIME import PKCS7_BINARY, PKCS7_DETACHED
 
+from app.models.PushNotificationDevice import PushNotificationDevice, PNProvider
 from app.server import server
-
-pushpackage_name = "Axtell.pushpackage"
-pushpackage_zip_name = "Axtell.pushpackage.zip"
 
 webapn_cert_name = "webapn.p12"
 webapn_cert_password_name = "webapn.password"
-webapn_authentication_token = str(UUID(bytes=rand_bytes(16)))
 
-def get_pushpackage_path():
-    return path.join(server.static_folder, pushpackage_name)
-
-def get_pushpackage_zip_path():
-    return path.join(server.static_folder, f"{pushpackage_name}.zip")
-
-pushpackage_manifest = "manifest.json"
-pushpackage_signature = "signature"
-pushpackage_website_json = "website.json"
-
+webapn_pushpackage_template = 'Axtell.pushpackage';
 webapn_payloads = [
     "icon.iconset/icon_16x16.png",
-    "icon.iconset/icon_16x16@2.png",
+    "icon.iconset/icon_16x16@2x.png",
     "icon.iconset/icon_32x32.png",
-    "icon.iconset/icon_32x32@2.png",
+    "icon.iconset/icon_32x32@2x.png",
     "icon.iconset/icon_128x128.png",
-    "icon.iconset/icon_128x128@2.png",
-    pushpackage_manifest,
-    pushpackage_signature,
-    pushpackage_website_json
+    "icon.iconset/icon_128x128@2x.png"
 ]
 
 def supports_web_apn(web_apn_id):
@@ -50,13 +36,15 @@ def supports_web_apn(web_apn_id):
     else:
         return True
 
-def create_signature():
+
+def create_signature(manifest):
     """
-    Creates a signature of the manifest signed with the PKCS#12
+    Creates a signature of the manifest signed with the PKCS#12.
+    Warning to future contributors: this uses internal bindings
+    of pyOpenSSL so I know this function isn't pretty but it's
+    as good as it'll get.
     """
-    pushpackage_path = get_pushpackage_path()
-    manifest_path = path.join(pushpackage_path, pushpackage_manifest)
-    signature_path = path.join(pushpackage_path, pushpackage_signature)
+
     certificate_path = path.join(getcwd(), webapn_cert_name)
     certificate_password_path = path.join(getcwd(), webapn_cert_password_name)
 
@@ -72,8 +60,8 @@ def create_signature():
 
     # TODO: when pyOpenSSL responds to my issue and we get a BIO_flush method then
     # we'll use that to directly to BIO instead of copying here and there
-    input_bio = lib.BIO_new_file(path_string(manifest_path), b'r')
-    output_bio = lib.BIO_new_file(path_string(signature_path), b'w')
+    input_bio = _new_mem_buf(manifest.encode('utf-8'))
+    output_bio = _new_mem_buf()
 
     # This is now our signature
     pkcs7 = lib.PKCS7_sign(cert._x509, pkey._pkey, ffi.NULL, input_bio, PKCS7_BINARY | PKCS7_DETACHED)
@@ -81,50 +69,60 @@ def create_signature():
     # i2d converts the internal OpenSSL type (AIS.1/i) to DER/d
     lib.i2d_PKCS7_bio(output_bio, pkcs7)
 
-    lib.BIO_free(input_bio)
-    lib.BIO_free(output_bio)
+    return _bio_to_string(output_bio)
 
 
-def create_website_json():
-    pushpackage_path = get_pushpackage_path()
-    with open(path.join(pushpackage_path, pushpackage_website_json), 'w+') as file:
-        file.write(json_dumps({
-            "websiteName": "Axtell",
-            "websitePushID": notifications['web_apn_id'],
-            "allowedDomains": [canonical_host],
-            "urlFormatString": canonical_host + unquote(url_for('webapn_responder', name='%@', id='%@')),
-            "authenticationToken": webapn_authentication_token,
-            # We can't use url_for beacuse the base URL shouldn't be a route
-            "webServiceURL": canonical_host + "/static/webapn"
-        }))
+def create_website_json(device):
+    return json_dumps({
+        "websiteName": "Axtell",
+        "websitePushID": notifications['web_apn_id'],
+        "allowedDomains": [canonical_host],
+        "urlFormatString": canonical_host + unquote(url_for('webapn_responder', name='%@', id='%@')),
+        "authenticationToken": device.id,
+        # We can't use url_for beacuse the base URL shouldn't be a route
+        "webServiceURL": canonical_host + "/static/webapn"
+    })
 
-def create_manifest():
-    pushpackage_path = get_pushpackage_path()
 
-    with open(path.join(pushpackage_path, pushpackage_manifest), 'w+') as file:
-        hashes = {}
+def create_manifest(zf):
+    hashes = {}
 
-        for payload_name in webapn_payloads:
-            # exclude manifest and signature
-            if payload_name in {pushpackage_manifest, pushpackage_signature}:
-                continue
+    for payload_name in zf.namelist():
+        payload_item_hash = sha512()
 
-            payload_item_hash = sha512()
+        # from https://stackoverflow.com/a/44873382/1620622
+        with zf.open(payload_name, mode='r') as payload_file:
+            while True:
+                # iterate in 4kb chunks
+                block = payload_file.read(1024*4)
+                if not block:
+                    break
 
-            # from https://stackoverflow.com/a/44873382/1620622
-            with open(path.join(pushpackage_path, payload_name), 'rb', buffering=0) as payload_file:
-                for block in iter(lambda: payload_file.read(128*1024), b''):
-                    payload_item_hash.update(block)
+                payload_item_hash.update(block)
 
-            hashes[payload_name] = {"hashType": "sha512", "hashValue": payload_item_hash.hexdigest()}
+        hashes[payload_name] = {"hashType": "sha512", "hashValue": payload_item_hash.hexdigest()}
 
-        file.write(json_dumps(hashes))
+    return json_dumps(hashes)
 
-def create_pushpackage_zip():
-    pushpackage_path = get_pushpackage_path()
-    pushpackage_zip = ZipFile(get_pushpackage_zip_path(), 'w', ZIP_DEFLATED)
 
-    for payload_item in webapn_payloads:
-        pushpackage_zip.write(path.join(pushpackage_path, payload_item))
+def create_pushpackage_zip(device):
+    """
+    Creates a pushpackage zip for a user.
+    """
+    zip_file = BytesIO()
 
-    pushpackage_zip.close()
+    with ZipFile(zip_file, 'w', ZIP_DEFLATED) as zf:
+        for file in webapn_payloads:
+            zf.write(path.join(server.static_folder, webapn_pushpackage_template, file), arcname=file)
+
+        website_json = create_website_json(device=device)
+        zf.writestr("website.json", website_json)
+
+        manifest = create_manifest(zf)
+        zf.writestr("manifest.json", manifest)
+
+        signature = create_signature(manifest)
+        zf.writestr("signature", signature)
+
+    zip_file.seek(0)
+    return zip_file

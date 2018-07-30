@@ -1,5 +1,6 @@
 import Data, { EnvKey } from '~/models/Data';
 import ErrorManager from '~/helpers/ErrorManager';
+import WebAPNToken from '~/models/Request/WebAPNToken';
 
 export const PNAPNUnknownResponseState = Symbol('PN.APN.Error.UnknownResponseState');
 
@@ -113,11 +114,13 @@ export default class PushNotification {
                     return ErrorManager.raise('Not denied or accepted but request not needed', PNAPNUnknownResponseState);
                 }
 
+                const authorizationToken = await new WebAPNToken().run();
+
                 safari.pushNotification.requestPermission(
                     this.apnURL,
                     this.webAPNId,
                     {
-                        csrf: Data.shared.envValueForKey(EnvKey.csrf)
+                        token: authorizationToken
                     },
                     ({ deviceToken, permission }) => {
                         if (this.denied) { resolve(false); }
