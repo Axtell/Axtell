@@ -41,8 +41,10 @@ def create_apns_jwt():
     return jwt.serialize()
 
 def send_notification(device, notification):
+    if not notifications['apns_key_id']:
+        return ""
+
     authorization_jwt = create_apns_jwt()
-    print(authorization_jwt)
     notification_json = json_dumps(notification.to_apns_json())
 
     headers = {
@@ -51,10 +53,9 @@ def send_notification(device, notification):
         'apns-priority': '5',
         'apns-topic': notifications['web_apn_id']
     }
+
     url = f'/3/device/{device.device_id}'
-    print(url)
+
     conn = HTTPConnection(apns_server)
     conn.request('POST', url, body=notification_json, headers=headers)
-    response = conn.get_response().read()
-    print(response)
 

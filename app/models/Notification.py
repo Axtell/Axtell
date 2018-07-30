@@ -107,4 +107,4 @@ class Notification(db.Model):
         }
 
     def __repr__(self):
-        return "<Login by {} ({}) at {}>".format(self.user_id or 'anonymous user', self.ip_address, self.time)
+        return "<Notification about {} for {}>".format(self.notification_type.name, self.recipient.name)

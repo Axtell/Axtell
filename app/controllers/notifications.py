@@ -27,9 +27,11 @@ def mark_notification_read(notification_id):
     if not isinstance(g.user, User):
         return render_error('Unauthorized'), 401
 
-    Notification.query.\
-        filter_by(recipient=g.user, id=notification_id).\
-        update({'read': NotificationStatus.READ})
+    notifications = Notification.query.\
+        filter_by(recipient_id=g.user.id, id=notification_id)
+
+    notifications.update({'read': NotificationStatus.READ})
+    db.session.commit()
 
 def mark_all_notifications_seen():
     """
@@ -43,6 +45,7 @@ def mark_all_notifications_seen():
     Notification.query.\
         filter_by(recipient=g.user, read=NotificationStatus.UNSEEN).\
         update({'read': NotificationStatus.SEEN})
+    db.session.commit()
 
 def mark_notifications_seen(notifications):
     """
@@ -58,3 +61,4 @@ def mark_notifications_seen(notifications):
         Notification.id.in_(notifications),
         Notification.read == NotificationStatus.UNSEEN
     ).update({'read': NotificationStatus.SEEN})
+    db.session.commit()
