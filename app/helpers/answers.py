@@ -6,5 +6,6 @@ def get_outgolfed_users(new_answer):
             Answer.post_id == new_answer.post_id,
             Answer.user_id != new_answer.user_id,
             Answer.language_name == new_answer.language_name,
-            Answer.byte_len > new_answer.byte_len)
+            Answer.byte_len > new_answer.byte_len,
+            Answer.deleted == False)
     }

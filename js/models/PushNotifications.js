@@ -89,7 +89,12 @@ export default class PushNotification {
     }
 
     /**
-     * Requests
+     * Subscribes a listener to a notification WebSocket. This has
+     * undefined behavior if the user is not authorized.
+     */
+
+    /**
+     * Requests permission for *desktop* push notifications
      * @async
      * @return {boolean} If priviledge was obtained or not
      */

@@ -1,1 +1,1 @@
-from .send_notification import send_notification
+from app.notifications.send_notification import send_notification
