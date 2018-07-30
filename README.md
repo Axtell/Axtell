@@ -41,6 +41,8 @@ To get started make sure you have the following installed:
  - `node`/`npm`
  - Redis
  - memcached
+ - OpenSSL
+    - macOS users should run `brew install openssl && brew link openssl --force`
 
 and the plugins (may be missing certain see `requirements.txt` for all):
 
