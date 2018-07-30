@@ -137,3 +137,17 @@ ppcg-v2.log.*
 /alembic
 /app/app_alembic/versions
 /generic
+
+# All certificates
+*.cer
+*.p12
+*.password
+*.crt
+*.key
+
+# Web APN push package
+static/Axtell.pushpackage/manifest.json
+static/Axtell.pushpackage/signature
+static/Axtell.pushpackage/website.json
+static/Axtell.pushpackage/website.json
+static/Axtell.pushpackage.zip

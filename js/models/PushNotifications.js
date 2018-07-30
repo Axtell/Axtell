@@ -1,5 +1,5 @@
 import Data, { EnvKey } from '~/models/Data';
-import ErrorManager from '~/models/ErrorManager';
+import ErrorManager from '~/helpers/ErrorManager';
 
 export const PNAPNUnknownResponseState = Symbol('PN.APN.Error.UnknownResponseState');
 
@@ -47,7 +47,7 @@ export default class PushNotification {
      */
     get apnURL() {
         if (!this.backendSupportsAPN) return null;
-        return `${Data.shared.envValueForKey(Data.host)}/static/apn`
+        return `${Data.shared.envValueForKey(EnvKey.host)}/static/webapn`
     }
 
     /**
@@ -102,7 +102,7 @@ export default class PushNotification {
                 }
 
                 // If we don't have permission then ¯\_(ツ)_/¯
-                if (this.denied) { return  resolve(false) }
+                if (this.denied) { return resolve(false) }
 
                 if (!this.backendSupportsAPN) {
                     alert("Axtell instance is not configured for APN");
@@ -116,7 +116,9 @@ export default class PushNotification {
                 safari.pushNotification.requestPermission(
                     this.apnURL,
                     this.webAPNId,
-                    {},
+                    {
+                        csrf: Data.shared.envValueForKey(EnvKey.csrf)
+                    },
                     ({ deviceToken, permission }) => {
                         if (this.denied) { resolve(false); }
                         if (this.hasPermissions) {

@@ -2,7 +2,6 @@ from os import path, getcwd
 from time import time
 
 from flask import Flask, g
-from flask_socketio import SocketIO
 from werkzeug.contrib.profiler import ProfilerMiddleware
 from werkzeug.routing import IntegerConverter as BaseIntegerConverter
 
@@ -23,9 +22,6 @@ class AxtellFlask(Flask):
 server = AxtellFlask("Axtell")
 server.secret_key = config.secret_skey
 
-
-# Websockets
-socketio = SocketIO(server, message_queue=redis_url)
 
 # Converters
 class SignedIntegerConverter(BaseIntegerConverter):

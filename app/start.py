@@ -18,8 +18,7 @@ import app.tasks.update
 
 # Exports server to please Flask CLI
 server = app.server.server
-socketio = app.server.socketio
 
 
 def run(host, port):
-    socketio.run(host=host, port=port)
+    server.run(host=host, port=port, ssl_context=('server.crt', 'server.key'))

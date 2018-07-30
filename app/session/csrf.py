@@ -4,6 +4,13 @@ import config
 
 csrf_token_name = 'csrf'
 
+def validate_csrf(csrf_token):
+    """
+    Determines if a CSRF token as provided is valid
+    """
+
+    actual_csrf_token = session.get(csrf_token_name, None)
+    return csrf_token == actual_csrf_token
 
 def csrf_protected(f):
     @wraps(f)

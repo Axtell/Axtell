@@ -68,6 +68,8 @@ If you look within `config.py`, you need to fill in various API keys from google
 #### Setting up Safari Push Notifications
 To integrate with iOS and macOS's Push Notification service you'll first need an Apple Developer Account. In the portal you'll need to create a Web Push Notification ID. Place this token in the `notifications.web_apn_id` field in the configuration file.
 
+Additionally the certificate (.p12) should be placed in the cwd of the server (i.e. the root) named 'webapn.p12' the password can be placed in a text file 'webapn.passsord' (will be trimmed).
+
 You may need to clear your web-servers/reverse-proxy's cache since the `/static/webapn` routes qualify for caching (and they should). The app will automatically generate the bundles etc. as applicable
 
 ### 3. Build

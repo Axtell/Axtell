@@ -6,7 +6,7 @@ import 'element-dataset';
 import tippy from 'tippy.js/dist/tippy.all.min.js';
 
 import KeyManager from "~/models/KeyManager";
-import ViewController, { AssociatedController } from "~/controllers/ViewController";
+import ViewController from "~/controllers/ViewController";
 import Normalize from "~/models/Normalize";
 import Language from "~/models/Language";
 import Theme from "~/models/Theme";
@@ -14,6 +14,7 @@ import Post from "~/models/Post";
 import Data from "~/models/Data";
 import Random from "~/modern/Random";
 import Auth from "~/models/Auth";
+import PushNotifications from "~/models/PushNotifications";
 import Template from "~/template/Template";
 import AnimationController, { Animation } from "~/controllers/AnimationController";
 
@@ -58,11 +59,11 @@ window.addEventListener("unhandledrejection", (error) => {
                 Request,
                 Leaderboard,
 
+                PushNotifications,
                 KeyManager,
                 ErrorManager,
                 ErrorData,
 
-                AssociatedController,
                 AnimationController,
                 Animation,
 
