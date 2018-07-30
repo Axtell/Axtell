@@ -141,6 +141,7 @@ ppcg-v2.log.*
 # All certificates
 *.cer
 *.p12
+*.p8
 *.password
 *.crt
 *.key

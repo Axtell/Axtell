@@ -20,7 +20,7 @@ class PushNotificationDevice(db.Model):
 
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(UUID(bytes=rand_bytes(16))))
 
-    device_id = db.Column(db.String(36), nullable=True)
+    device_id = db.Column(db.String(64), nullable=True)
     provider = db.Column(db.Enum(PNProvider), nullable=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)

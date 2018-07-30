@@ -72,6 +72,9 @@ Additionally the certificate (.p12) should be placed in the cwd of the server (i
 
 You may need to clear your web-servers/reverse-proxy's cache since the `/static/webapn` routes qualify for caching (and they should). The app will automatically generate the bundles etc. as applicable
 
+#### Setting up APNS
+To integrate with APNS you'll need to enter your Apple Developer Team ID in the `config.py` under notifications. Additionally you need to place your APN key in the root directory of Axtell (i.e. execution CWD) as `apns.p8`
+
 ### 3. Build
 You will need to build the assets (CSS and JS) before running Axtell. You can do this using:
 

@@ -30,18 +30,18 @@ def delete_push_notification_device(authorization_token, provider):
     """
 
     device = PushNotificationDevice.query.filter_by(id=authorization_token, provider=provider).first()
-    if not instanceof(device_token, PushNotificationDevice):
+    if not isinstance(device, PushNotificationDevice):
         return False
 
     db.session.delete(device)
-    db.commit()
+    db.session.commit()
     return True
 
 
 def set_push_notification_device(authorization_token, provider, device_token):
     device = PushNotificationDevice.query.filter_by(id=authorization_token, provider=provider).first()
 
-    if not instanceof(device_token, PushNotificationDevice):
+    if not isinstance(device, PushNotificationDevice):
         return None
 
     device.device_id = device_token
@@ -55,6 +55,7 @@ def get_temporary_id_user(authorization_token):
     """
     redis_key = pn_redis_id_prefix + authorization_token
     user_id = redis_db.get(redis_key)
+    print(user_id)
 
     if user_id is None:
         return None
@@ -73,6 +74,7 @@ def generate_temporary_id():
 
     webapn_id = str(UUID(bytes=rand_bytes(16)))
     redis_key = pn_redis_id_prefix + webapn_id
+
     redis_db.set(redis_key, g.user.id)
     redis_db.expire(redis_key, pn_redis_id_time)
 

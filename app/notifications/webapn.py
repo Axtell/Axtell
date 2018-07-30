@@ -73,11 +73,13 @@ def create_signature(manifest):
 
 
 def create_website_json(device):
+    responder_url = url_for('notification_responder', notification_id='%@', name='%@', target_id='%@')
+
     return json_dumps({
         "websiteName": "Axtell",
         "websitePushID": notifications['web_apn_id'],
         "allowedDomains": [canonical_host],
-        "urlFormatString": canonical_host + unquote(url_for('webapn_responder', name='%@', id='%@')),
+        "urlFormatString": canonical_host + unquote(responder_url),
         "authenticationToken": device.id,
         # We can't use url_for beacuse the base URL shouldn't be a route
         "webServiceURL": canonical_host + "/static/webapn"

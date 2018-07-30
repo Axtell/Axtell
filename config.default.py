@@ -92,7 +92,11 @@ notifications = {
     # Show 5 notifications by default (same page size)
     'page_size': 5,
     # Apple Push Notifications ID
-    'web_apn_id': ''
+    'web_apn_id': '',
+    # Apple APN Private Key ID
+    'apns_key_id': '',
+    # Apple Developer Team ID
+    'apple_team_id': ''
 }
 
 secret_skey = 'SESSION_SECRET_KEY'

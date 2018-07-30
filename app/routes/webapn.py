@@ -24,10 +24,6 @@ to have caching enabled if doing APN because otherwise
 this will be re-preparing the APN every time.
 """
 
-@server.route("/webapn/responder/<name>/<id>")
-def webapn_responder(name, id):
-    return abort(404)
-
 @server.route("/webapn/get_identification", methods=['POST'])
 @csrf_protected
 def webapn_get_identification():
@@ -82,6 +78,7 @@ def webapn_add_registration(version, device_token, web_apn_id):
         return abort(400)
 
     authorization_token = authorization_header[len('ApplePushNotifications '):]
+
     # 36 is the length of the UUID
     if len(authorization_token) != 36:
         return abort(400)
@@ -96,10 +93,10 @@ def webapn_add_registration(version, device_token, web_apn_id):
     if not isinstance(device, PushNotificationDevice):
         return abort(403)
 
-    return ('', 204)
+    return ('OK', 200)
 
 @server.route("/static/webapn/v<int:version>/devices/<device_token>/registrations/<web_apn_id>", methods=['DELETE'])
-def webapn_add_registration(version, device_token, web_apn_id):
+def webapn_delete_registration(version, device_token, web_apn_id):
     if not supports_web_apn(web_apn_id) or not push_notifications.is_valid_webapn_version(version):
         return abort(404)
 
@@ -126,7 +123,7 @@ def webapn_add_registration(version, device_token, web_apn_id):
     if not did_delete:
         return abort(400)
 
-    return ('', 204)
+    return ('OK', 200)
 
 @server.route("/static/webapn/v<int:version>/log", methods=['POST'])
 def webapn_log(version):

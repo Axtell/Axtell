@@ -20,3 +20,4 @@ golflang_encodings>=1.0.3
 M2Crypto>=0.30.1
 flask-socketio>=3.0.1
 pyOpenSSL>=18.0.0
+hyper>=0.7.0

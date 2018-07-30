@@ -115,7 +115,7 @@ export default class PushNotification {
                 }
 
                 const authorizationToken = await new WebAPNToken().run();
-
+                console.log(authorizationToken);
                 safari.pushNotification.requestPermission(
                     this.apnURL,
                     this.webAPNId,
