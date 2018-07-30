@@ -42,6 +42,23 @@ def create_answer(post_id, code, commentary, lang_id=None, lang_name=None, encod
         target_id=new_answer.id
     ))
 
+    # Dispatch notifications to outgolfed users
+    # TODO: perhaps make this into one query somehow rather than two
+    outgolfed_users = {answer.user for answer in Answer.query.\
+        filter(
+            Answer.post_id == new_answer.post_id,
+            Answer.user_id != new_answer.user_id,
+            Answer.language_name == new_answer.language_name,
+            Answer.byte_len > new_answer.byte_len)
+    }
+
+    for outgolfed_user in outgolfed_users:
+        send_notification(Notification(
+            recipient=outgolfed_user,
+            notification_type=NotificationType.OUTGOLFED,
+            target_id=new_answer.id
+        ))
+
     return redirect(url_for('get_post', post_id=post_id, answer_id=new_answer.id) + f"#answer-{new_answer.id}")
 
 
