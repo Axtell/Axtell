@@ -44,6 +44,13 @@ def pluralize(number, name, plural="s"):
 
 
 
+@server.template_filter('pluralize')
+def pluralize(number, name, plural="s"):
+    if number == 1:
+        return f"{number} {name}"
+    else:
+        return f"{number} {name}{plural}"
+
 # Setup Bugsnag if info is provided
 if config.auth['bugsnag'].get('backend', ''):
     bugsnag.configure(
