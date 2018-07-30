@@ -3,6 +3,7 @@ from flask import g, abort, redirect, url_for
 from app.instances.db import db
 from app.models.Answer import Answer
 from app.models.Notification import Notification, NotificationType
+from app.helpers.answers import get_outgolfed_users
 from app.notifications import send_notification
 from app.models.Post import Post
 from app.models.Language import Language
@@ -35,22 +36,18 @@ def create_answer(post_id, code, commentary, lang_id=None, lang_name=None, encod
     db.session.add(new_answer)
     db.session.commit()
 
-    # Dispatch notification to post owner
-    send_notification(Notification(
-        recipient=post.user,
-        notification_type=NotificationType.NEW_ANSWER,
-        target_id=new_answer.id
-    ))
+    # Dispatch notification to post owner. Only dispatch if the post
+    # user isn't the same as the answer owner.
+    if post.user_id != new_answer.user_id:
+        send_notification(Notification(
+            recipient=post.user,
+            notification_type=NotificationType.NEW_ANSWER,
+            target_id=new_answer.id
+        ))
 
     # Dispatch notifications to outgolfed users
     # TODO: perhaps make this into one query somehow rather than two
-    outgolfed_users = {answer.user for answer in Answer.query.\
-        filter(
-            Answer.post_id == new_answer.post_id,
-            Answer.user_id != new_answer.user_id,
-            Answer.language_name == new_answer.language_name,
-            Answer.byte_len > new_answer.byte_len)
-    }
+    outgolfed_users = get_outgolfed_users(new_answer)
 
     for outgolfed_user in outgolfed_users:
         send_notification(Notification(

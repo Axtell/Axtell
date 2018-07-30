@@ -21,7 +21,6 @@ class User(db.Model):
 
     following_public = db.Column(db.Boolean, nullable=False, default=False)
 
-
     def follow(self, user):
         """
         Makes (self) User follow the given user. You can't follow yourself
