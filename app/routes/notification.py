@@ -2,7 +2,7 @@ from app.controllers import notifications
 from app.models.Answer import Answer
 from app.models.User import User
 from app.session.csrf import csrf_protected
-from app.helpers.render import render_json
+from app.helpers.render import render_json, render_enum
 from app.server import server
 
 from flask import abort, redirect, url_for, g

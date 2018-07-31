@@ -1,7 +1,9 @@
 import PopoverTemplate from '~/template/PopoverTemplate';
 import LoadingIcon from '~/template/PopoverTemplate';
 import LoadingTemplate from '~/template/LoadingTemplate';
+import NotificationCategoryTemplate from '~/template/NotificationCategoryTemplate';
 import Notifications from '~/models/Request/Notifications';
+import NotificationCategorizer from '~/models/NotificationCategorizer';
 import Notification from '~/models/Notification';
 
 export default class NotificationListTemplate extends PopoverTemplate {
@@ -11,8 +13,8 @@ export default class NotificationListTemplate extends PopoverTemplate {
      * @param {Object} opts - Options as in {@link PopoverTemplate}
      */
     constructor(opts) {
-        const node = <div/>;
-        super(node, {
+        const rootSwapper = new LoadingTemplate();
+        super(rootSwapper.unique(), {
             isFixed: true,
             isAlignedRight: true,
             hasResponsiveClose: true,
@@ -20,50 +22,16 @@ export default class NotificationListTemplate extends PopoverTemplate {
         });
 
         /** @private */
-        this.root = <div/>;
+        this.root = <div class="notification-list"/>;
 
         /** @private */
-        this.rootSwapper = new LoadingTemplate();
-        this.rootSwapper.loadInContext(node);
+        this.rootSwapper = rootSwapper;
 
         /**
          * Gets notifications. Do not touch this.
          * @type {Notifications}
          */
         this.notifications = new Notifications();
-
-        this._categories = [];
-    }
-
-    /**
-     * Obtains header for a date. Same header = same categorization
-     * @param {Date} date
-     * @return {String}
-     */
-    headerForDate(date) {
-        return moment(date).calendar(null, {
-            sameDay: '[Today]',
-            lastDay: '[Yesterday]',
-            lastWeek: '[Last] dddd',
-            sameElse: 'Older'
-        })
-    }
-
-    /**
-     * Finds a category by a name or returns a new category
-     * @param {string} categoryHeader
-     * @return {Object}
-     */
-    findCategory(categoryHeader) {
-        for (const category of this._categories) {
-            if (category.name === categoryHeader) {
-                return category;
-            }
-        }
-
-        const newCategory = { name: categoryHeader, items: [] };
-        this._categories.push(newCategory);
-        return newCategory;
     }
 
 
@@ -72,16 +40,18 @@ export default class NotificationListTemplate extends PopoverTemplate {
         await super.didInitialLoad();
 
         const NotificationTypes = await Notification.getTypes();
+        const categorizer = new NotificationCategorizer();
 
-        // We'll format this into an array of 'categories' i.e.
-        // days. This will be in the format: `{ name: 'Today', items: [] }`
-        // The items will be in the form `{ mostRecent: Notification, related: [] }`
+        // We won't feed more than 10 itens
         for await(const notification of this.notifications) {
-            // We'll categorize these into categories
-            const header = this.headerForDate(notification.dateCreated);
-            const category = this.findCategory(header);
-
-            category.items.push({ mostRecent: notification, related: [] })
+            categorizer.feedOnce(notification);
+            if (categorizer.rowCount > 10) break;
         }
+
+        for (const category of categorizer) {
+            new NotificationCategoryTemplate(category).loadInContext(this.root);
+        }
+
+        this.rootSwapper.controller.displayAlternate(new Template(this.root));
     }
 }

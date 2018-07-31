@@ -24,21 +24,16 @@ export default class PagedRequest extends Request {
 
     /**
      * Runs for the next page (starts at zero).
-     * @param {boolean} [format=true] - Set to false to disable formatting
      * @return {?Object} Same type as the {@link Request#format}.
      */
-    async nextPage(format = true) {
+    async nextPage() {
         this._path = `${this._sourcePath}/page/${this._page}`;
 
         const result = await this.run(false);
         this._page += 1;
         this._areMore = result.are_more;
 
-        if (format) {
-            return this.format(result.data);
-        } else {
-            return result.data;
-        }
+        return result.data.map(item => this.format(item));
     }
 
     /**

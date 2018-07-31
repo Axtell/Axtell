@@ -1,4 +1,5 @@
 import RemoteEnum, { EnumEndpoint } from '~/models/Request/RemoteEnum';
+import User from '~/models/User';
 
 /**
  * See {@link Notification.getTypes}
@@ -36,12 +37,48 @@ export default class Notification {
      * A notification
      * @param {string} options.id - Notification UUID
      * @param {User} options.recipient - Delivery user
-     * @param {} options.dateCreated - The date created
+     * @param {User} options.sender - User who sent
+     * @param {number} options.target - The ID of the target which triggered the notif
+     * @param {number} options.source - the ID of the source which caused the context for recieving the notification
+     * @param {Date} options.dateCreated - The date created
      * @param {NotificationType} options.type - the notification type
      * @param {NotificationStatus} options.status - Read status
      */
-    constructor({ id, recipient, dateCreated, type, status }) {
+    constructor({
+        id,
+        recipient,
+        sender,
+        target,
+        source,
+        dateCreated,
+        type,
+        status
+    }) {
         this._id = id;
+        this._recipient = recipient;
+        this._sender = sender;
+        this._target = target;
+        this._source = source;
+        this._dateCreated = dateCreated;
+        this._type = type;
+        this._status = status;
+    }
+
+    /**
+     * @param {Object} json
+     * @return {Notification}
+     */
+    static fromJSON(json) {
+        return new Notification({
+            id: json.id,
+            recipient: User.fromJSON(json.recipient),
+            sender: User.fromJSON(json.sender),
+            target: json.target_id,
+            source: json.source_id,
+            dateCreated: new Date(json.date_created),
+            type: json.type,
+            status: json.status
+        })
     }
 
     /**
@@ -57,6 +94,29 @@ export default class Notification {
      * @type {User}
      */
     get recipient() { return this._recipient; }
+
+    /**
+     * The notification sender
+     * @readonly
+     * @type {User}
+     */
+    get sender() { return this._sender; }
+
+    /**
+     * The target ID
+     * @readonly
+     * @type {number}
+     */
+    get target() { return this._target; }
+
+    /**
+     * The source ID. This is the post that resulted in the
+     * notification subscription. For example in "A new answer
+     * to your post". This would be the Post ID.
+     * @readonly
+     * @type {number}
+     */
+    get source() { return this._source; }
 
     /**
      * The notification creationdate

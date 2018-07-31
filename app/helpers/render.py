@@ -8,7 +8,7 @@ from app.helpers import macros
 def render_template(path, **kwargs):
     return flask_render_template(path, **kwargs)
 
-def render_paginated(pagination, predicate=lambda data: data):
+def render_paginated(pagination, predicate=lambda data: data.to_json()):
     return render_json({
         'data': [predicate(item) for item in pagination.items],
         'are_more': pagination.has_next

@@ -1,6 +1,6 @@
 import { HTTPMethod } from '~/models/Request/Request';
 import PagedRequest from '~/models/Request/PagedRequest';
-import Comment from '~/models/Comment';
+import Notification from '~/models/Notification';
 
 /**
  * Obtains a series of Notification objects
@@ -11,7 +11,7 @@ export default class Notifications extends PagedRequest {
      * @return {boolean}
      */
     format(notificationJSON) {
-        return data.deleted && data.success;
+        return Notification.fromJSON(notificationJSON);
     }
 
     /**

@@ -79,21 +79,17 @@ export default class FollowModalTemplate extends ModalViewTemplate {
     }
 
     /** @override */
-    didInitialLoad() {
-        (async () => {
+    async didInitialLoad() {
+        const areUsers = await this.nextPage(false);
 
-            const areUsers = await this.nextPage(false);
-
-            if (areUsers) {
-                // Already populated
-                this.loadingSign.controller.displayAlternate(new Template(this.userList));
-            } else {
-                this.loadingSign.controller.displayAlternate(new Template(
-                    <h3 class="user-item__empty">{ this.followType.negative } 😞</h3>
-                ));
-            }
-
-        })().catch(HandleUnhandledPromise);
+        if (areUsers) {
+            // Already populated
+            this.loadingSign.controller.displayAlternate(new Template(this.userList));
+        } else {
+            this.loadingSign.controller.displayAlternate(new Template(
+                <h3 class="user-item__empty">{ this.followType.negative } 😞</h3>
+            ));
+        }
     }
 
     /**

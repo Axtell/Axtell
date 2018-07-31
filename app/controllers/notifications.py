@@ -21,12 +21,12 @@ def get_unseen_notification_count():
     return unread_count
 
 def get_notification_page(page):
-    notifications = Notification.query.\
+    paged_notifications = Notification.query.\
         filter_by(recipient_id=g.user.id).\
-        order_by(Notification.date_created.asc()).\
+        order_by(Notification.date_created.desc()).\
         paginate(page, per_page=notifications['page_size'])
 
-    return render_paginated(notifications)
+    return render_paginated(paged_notifications)
 
 def mark_notification_read(notification_id):
     """

@@ -17,8 +17,8 @@ export const FollowedType = {
  */
 export default class FollowedUser extends PagedRequest {
     /** @override */
-    format(users) {
-        return users.map(User.fromJSON);
+    format(json) {
+        return User.fromJSON(json);
     }
 
     /**
