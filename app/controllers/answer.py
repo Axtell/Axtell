@@ -3,7 +3,7 @@ from flask import g, abort, redirect, url_for
 from app.instances.db import db
 from app.models.Answer import Answer
 from app.models.Notification import Notification, NotificationType
-from app.helpers.answers import get_outgolfed_users
+from app.helpers.answers import get_outgolfed_answers
 from app.notifications import send_notification
 from app.models.Post import Post
 from app.models.Language import Language
@@ -41,19 +41,22 @@ def create_answer(post_id, code, commentary, lang_id=None, lang_name=None, encod
     if post.user_id != new_answer.user_id:
         send_notification(Notification(
             recipient=post.user,
-            notification_type=NotificationType.NEW_ANSWER,
-            target_id=new_answer.id
+            target_id=new_answer.id,
+            sender=new_answer.user,
+            source_id=post_id,
+            notification_type=NotificationType.NEW_ANSWER
         ))
 
     # Dispatch notifications to outgolfed users
-    # TODO: perhaps make this into one query somehow rather than two
-    outgolfed_users = get_outgolfed_users(new_answer)
+    outgolfed_answers = get_outgolfed_answers(new_answer)
 
-    for outgolfed_user in outgolfed_users:
+    for outgolfed_answer in outgolfed_answers:
         send_notification(Notification(
-            recipient=outgolfed_user,
-            notification_type=NotificationType.OUTGOLFED,
-            target_id=new_answer.id
+            sender=new_answer.user,
+            target_id=new_answer.id,
+            recipient=outgolfed_answer.user,
+            source_id=outgolfed_answer.id,
+            notification_type=NotificationType.OUTGOLFED
         ))
 
     return redirect(url_for('get_post', post_id=post_id, answer_id=new_answer.id) + f"#answer-{new_answer.id}")

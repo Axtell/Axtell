@@ -29,13 +29,19 @@ class Notification(db.Model):
     id = db.Column(db.String(36), primary_key=True, default=lambda: str(UUID(bytes=rand_bytes(16))))
 
     recipient_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    recipient = db.relationship('User', backref='notifications', lazy=True)
+    recipient = db.relationship('User', foreign_keys=[recipient_id], backref='notifications', lazy=True)
+
+    sender_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    sender = db.relationship('User', foreign_keys=[sender_id], backref='sent_notifications', lazy=True)
 
     # The type of notification see the NotificationType enum class
     notification_type = db.Column(db.Enum(NotificationType), nullable=False)
 
     # An ID referencing the item which dispatches the notification
     target_id = db.Column(db.Integer, nullable=True)
+
+    # The id of the subscription source
+    source_id = db.Column(db.Integer, nullable=True)
 
     date_created = db.Column(db.DateTime, default=datetime.datetime.now)
 
@@ -102,6 +108,7 @@ class Notification(db.Model):
         return {
             'id': self.id,
             'recipient': self.user.to_json(),
+            'sender': self.sender.to_json(),
             'type': self.notification_type.value,
             'status': self.read.value,
             'target_id': self.target_id,
