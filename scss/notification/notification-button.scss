@@ -1,0 +1,32 @@
+.notification-button__container {
+    position: relative;
+    cursor: pointer;
+}
+
+.notification-button__overlay {
+    position: absolute;
+    display: block;
+
+    pointer-events: none;
+
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    left: 0;
+    right: 0;
+
+    @include square(0);
+
+    border-radius: 50%;
+
+    &.notification-button__overlay--text {
+        color: #FFF;
+        font-size: 1em;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &.notification-button__overlay--indicator-count { background: #EE2E29; }
+}

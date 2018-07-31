@@ -1,3 +1,5 @@
+import { HandleUnhandledPromise } from '~/helpers/ErrorManager';
+
 /**
  * Manages a section of HTML used with a view. See {@link TemplateType} to see
  * how you can import one
@@ -125,7 +127,7 @@ export default class Template {
      * Called when loaded the first time
      * @abstract
      */
-    didInitialLoad() { void 0; }
+    async didInitialLoad() { void 0; }
 
     /**
      * Called when the view has loaded
@@ -133,7 +135,8 @@ export default class Template {
      */
     didLoad() {
         if (this._hasLoaded === false) {
-            this.didInitialLoad();
+            this.didInitialLoad()
+                .catch(HandleUnhandledPromise);
         }
 
         this._hasLoaded = true;

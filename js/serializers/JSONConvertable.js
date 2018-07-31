@@ -7,7 +7,12 @@ export default class JSONConvertable {
      * Returns a JSON string representing the objcet
      * @return {Object} A lossless JSON-convertable object.
      */
-    get json() {
-        return ({});
-    }
+    toJSON() { return ({}); }
+
+    /**
+     * Converts a provided object to JSON.
+     * @param {Object} json
+     * @return {T} The object from a json object
+     */
+    static fromJSON() { return null; }
 }

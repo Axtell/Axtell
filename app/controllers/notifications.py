@@ -1,6 +1,6 @@
 from app.models.Notification import Notification, NotificationType, NotificationStatus
 from app.models.User import User
-from app.helpers.render import render_json
+from app.helpers.render import render_json, render_paginated
 from app.instances.db import db
 
 from flask import abort, g
@@ -13,11 +13,20 @@ def get_notification_types():
 def get_notification_statuses():
     return NotificationStatus.to_json()
 
-def get_unread_notification_count():
-    if not isinstance(g.user, User):
-        return render_error('Unauthorized'), 401
+def get_unseen_notification_count():
+    unread_count = Notification.query.\
+        filter_by(recipient_id=g.user.id, read=NotificationStatus.UNSEEN).\
+        count()
 
-    Notification.query.filter_by(recipient_id=user_id)
+    return unread_count
+
+def get_notification_page(page):
+    notifications = Notification.query.\
+        filter_by(recipient_id=g.user.id).\
+        order_by(Notification.date_created.asc()).\
+        paginate(page, per_page=notifications['page_size'])
+
+    return render_paginated(notifications)
 
 def mark_notification_read(notification_id):
     """

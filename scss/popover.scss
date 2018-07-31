@@ -44,6 +44,8 @@
     animation-timing-function: ease-out;
   }
 
+  &--align-rightward { right: 6px; }
+
   &--responsive-fixed {
     @media (max-width: $sidebar-collapse) {
       position: fixed;
@@ -57,6 +59,12 @@
 
       .action__desc { white-space: normal; }
     }
+  }
+
+  // Support the loading signs
+  .template--root {
+    padding: 1rem 2rem;
+    box-sizing: border-box;
   }
 
   .popover__close {

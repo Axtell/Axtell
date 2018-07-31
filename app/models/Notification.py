@@ -103,7 +103,9 @@ class Notification(db.Model):
             'id': self.id,
             'recipient': self.user.to_json(),
             'type': self.notification_type.value,
-            'user_id': self.user_id
+            'status': self.read.value,
+            'target_id': self.target_id,
+            'date_created': self.date_created.isoformat()
         }
 
     def __repr__(self):
