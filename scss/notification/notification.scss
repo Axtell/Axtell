@@ -1,0 +1,69 @@
+.notification {
+    border-radius: $notification-list-spacing;
+    margin-bottom: $notification-list-spacing;
+
+    box-shadow: 0 10px 32px -8px rgba($shadow-mix, 0.2);
+
+    font-size: 1rem;
+
+    padding: .7rem 1rem .5rem;
+
+    // A row of info about a notif
+    .notification__details {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        + .notification__details {
+            margin-top: 0.5rem;
+        }
+
+        .notification__detail {
+            &.notification__detail--size-wide { flex: 1; }
+            &.notification__detail--size-small svg, img {
+                height: 1.5em;
+            }
+
+            &.notification__detail--style-link { color: $accent-color; }
+            &.notification__detail--style-disabled-link {
+                color: $dim-text;
+                font-weight: 300;
+            }
+
+            &.notification__detail--style-state {
+                width: 2rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &.notification__detail--state-unread svg {
+                    @include square(8px);
+                    fill: #09F;
+                }
+
+                &.notification__detail--state-read svg {
+                    @include square(3px);
+                    fill: $dim-text;
+                }
+            }
+
+            margin: 0 4px;
+
+            img, svg {
+                height: 1.8em;
+            }
+
+            h3 {
+                font-size: 1em;
+                color: $key-text;
+                margin-bottom: (3/8) * 1em;
+            }
+
+            h4 {
+                font-size: 0.8em;
+                font-weight: 300;
+                color: $subtitle-text;
+            }
+        }
+    }
+}

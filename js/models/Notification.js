@@ -30,7 +30,7 @@ export default class Notification {
      * @return {Enum} of the {@link NotificationStatus} enumeration
      */
     static async getStatuses() {
-        return await new RemoteEnum(EnumEndpoint.NotificationStatus).run();
+        return await new RemoteEnum(EnumEndpoint.notificationStatus).run();
     }
 
     /**
@@ -79,6 +79,15 @@ export default class Notification {
             type: json.type,
             status: json.status
         })
+    }
+
+    /**
+     * Obtains responder URL
+     * @readonly
+     * @type {string}
+     */
+    get responder() {
+        return `/responder/${this.id}/${this.category}/${this.target}`;
     }
 
     /**

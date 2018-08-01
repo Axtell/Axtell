@@ -1,3 +1,5 @@
+import Notification from '~/models/Notification';
+
 /**
  * Represents a notification group
  */
@@ -6,9 +8,52 @@ export class NotificationGroup {
      * @param {Notification} primaryNotification - The primary (and most recent) notification
      * @param {Notification[]} siblings - Related notifs w/ same action
      */
-    constructor(primaryNotification, notificationGroups) {
+    constructor(primaryNotification, siblings) {
+        /** @type {Notification} */
         this.primaryNotification = primaryNotification;
-        this.notificationGroups = notificationGroups;
+
+        /** @type {Notification[]} */
+        this.siblings = siblings;
+    }
+
+    /**
+     * Returns the total count of notifications
+     * @return {number}
+     */
+    get count() { return 1 + this.siblings.length; }
+
+    /**
+     * Iterates over all groups in this
+     * @return {Generator<Notification>}
+     */
+    *[Symbol.iterator]() {
+        yield this.primaryNotification;
+        yield* this.siblings;
+    }
+
+    /**
+     * Returns if any item in the group is unread
+     * @return {NotificationStatus}
+     */
+    async getStatus() {
+        const NotificationStatus = await Notification.getStatuses();
+
+        if (this.primaryNotification.status === NotificationStatus.unseen);
+            return NotificationStatus.unseen;
+
+        const hasUnread = false;
+        for (const notification of this.siblings) {
+            if (notification.status === NotificationStatus.unseen)
+                return NotificationStatus.unseen;
+
+            if (notification.status === NotificationStatus.seen)
+                hasUnread = true;
+        }
+
+        if (hasUnread)
+            return NotificationStatus.seen;
+
+        return this.primaryNotification.status;
     }
 }
 
@@ -35,6 +80,18 @@ export class NotificationCategory {
     }
 
     /**
+     * Returns all IDs
+     * @return {Generator<string>}
+     */
+    *getIds() {
+        for (const group of this) {
+            for (const notification of group) {
+                yield notification.id;
+            }
+        }
+    }
+
+    /**
      * This iterates in sorted order
      */
     *[Symbol.iterator]() {
@@ -52,6 +109,7 @@ export default class NotificationCategorizer {
     constructor() {
         this._categories = [];
         this._groupCount = 0;
+        this._days = new Set();
     }
 
     *[Symbol.iterator]() {
@@ -70,6 +128,11 @@ export default class NotificationCategorizer {
     get rowCount() { return this._groupCount; }
 
     /**
+     * The amount of days this covers
+     */
+    get dayCount() { return this._days; }
+
+    /**
      * Takes in a notification iterator. Assumes aync
      * @param {Generator<Notification>} notificationIterator,
      */
@@ -86,7 +149,17 @@ export default class NotificationCategorizer {
     feedOnce(notification) {
         const header = this.headerForDate(notification.dateCreated);
         const category = this.findCategory(header);
+        this.registerNotificationMetadata(notification);
         this.addNotificationWithSiblings(category, notification);
+    }
+
+    /**
+     * Registers a notification as an instance
+     * @param {Notification} notification
+     */
+    registerNotificationMetadata(notification) {
+        const notificationDay = moment(notification.creationDate).startOf('day').unix()
+        this._days.add(notificationDay);
     }
 
     /**

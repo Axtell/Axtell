@@ -1,5 +1,5 @@
 import Data, { EnvKey } from '~/models/Data';
-import ErrorManager from '~/helpers/ErrorManager';
+import ErrorManager, { AnyError } from '~/helpers/ErrorManager';
 import WebAPNToken from '~/models/Request/WebAPNToken';
 
 export const PNAPNUnknownResponseState = Symbol('PN.APN.Error.UnknownResponseState');
@@ -34,7 +34,7 @@ export default class PushNotification {
      * If to use APN flow
      * @type {boolean}
      */
-    get useAPN() { return !!global.safari.pushNotification }
+    get useAPN() { return !!global.safari?.pushNotification }
 
     /**
      * If APN is setup
@@ -62,6 +62,25 @@ export default class PushNotification {
             return false;
         }
     }
+
+    /**
+     * If we should show a request
+     */
+    get shouldShowRequest() {
+        return this.needsRequest && !this.forbiddenRequest
+    }
+
+    /**
+     * Gets if the user has expressibly forbidden
+     * @type {boolean}
+     */
+    get forbiddenRequest() { return localStorage.getItem('axtell-pn-forbidden') === 'true'; }
+
+    /**
+     * Sets if the user has expressibly forbidden
+     * @type {boolean}
+     */
+    set forbiddenRequest(isForbidden) { localStorage.setItem('axtell-pn-forbidden', String(!!isForbidden)); }
 
     /**
      * If should ask for permission
@@ -116,11 +135,12 @@ export default class PushNotification {
                 }
 
                 if (!this.needsRequest) {
-                    return ErrorManager.raise('Not denied or accepted but request not needed', PNAPNUnknownResponseState);
+                    return reject(
+                        new AnyError('Not denied or accepted but request not needed', PNAPNUnknownResponseState)
+                    );
                 }
 
                 const authorizationToken = await new WebAPNToken().run();
-                console.log(authorizationToken);
                 safari.pushNotification.requestPermission(
                     this.apnURL,
                     this.webAPNId,
@@ -128,17 +148,12 @@ export default class PushNotification {
                         token: authorizationToken
                     },
                     ({ deviceToken, permission }) => {
-                        if (this.denied) { resolve(false); }
-                        if (this.hasPermissions) {
-                            // Talk with server
-                            resolve(true);
-                        }
-
-                        return ErrorManager.silent('Not denied or accepted but request completed', PNAPNUnknownResponseState);
+                        if (this.hasPermissions) { resolve(true); }
+                        else { resolve(false) };
                     }
                 )
             } else {
-                // Use service worker Push API
+                resolve(false);
             }
         });
     }

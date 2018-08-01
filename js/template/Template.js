@@ -143,9 +143,19 @@ export default class Template {
     }
 
     /**
+     * Called before loaded the first time
+     */
+    async willInitialLoad() { void 0; }
+
+    /**
      * Called right before the view will appear on screen
      */
-    willLoad() { void 0; }
+    willLoad() {
+        if (this._hasLoaded === false) {
+            this.willInitialLoad()
+                .catch(HandleUnhandledPromise);
+        }
+    }
 
     /**
      * Called before disappearing
