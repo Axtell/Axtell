@@ -1,4 +1,5 @@
 import RemoteEnum, { EnumEndpoint } from '~/models/Request/RemoteEnum';
+import Theme from '~/models/Theme';
 import User from '~/models/User';
 
 /**
@@ -50,6 +51,8 @@ export default class Notification {
     /**
      * A notification
      * @param {string} options.id - Notification UUID
+     * @param {string} options.b
+     * @param {string} options.body
      * @param {User} options.recipient - Delivery user
      * @param {User} options.sender - User who sent
      * @param {number} options.target - The ID of the target which triggered the notif
@@ -61,6 +64,8 @@ export default class Notification {
      */
     constructor({
         id,
+        title,
+        body,
         recipient,
         sender,
         target,
@@ -71,6 +76,8 @@ export default class Notification {
         status
     }) {
         this._id = id;
+        this._title = title;
+        this._body = body;
         this._recipient = recipient;
         this._sender = sender;
         this._target = target;
@@ -88,6 +95,8 @@ export default class Notification {
     static fromJSON(json) {
         return new Notification({
             id: json.id,
+            title: json.title,
+            body: json.body,
             recipient: User.fromJSON(json.recipient),
             sender: User.fromJSON(json.sender),
             target: json.target_id,
@@ -107,6 +116,28 @@ export default class Notification {
     get responder() {
         return `/responder/${this.id}/${this.category}/${this.target}`;
     }
+
+    /**
+     * Obtains Icon URL
+     * @return {string}
+     */
+    async getIconURL() {
+        const NotificationType = await Notification.getTypes();
+        const key = NotificationType.keyForValue(this.type);
+        return Theme.current.staticImageForTheme(`notification-icon/${key}`);
+    }
+
+    /**
+     * Gets the body
+     * @type {string}
+     */
+    get body() { return this._body; }
+
+    /**
+     * Gets the title
+     * @type {string}
+     */
+    getTitle() { return this._title; }
 
     /**
      * The notification UUID

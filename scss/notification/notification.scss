@@ -3,7 +3,8 @@
     margin-bottom: $notification-list-spacing;
 
     position: relative;
-    box-shadow: 0 10px 32px -8px rgba($shadow-mix, 0.2);
+    box-shadow: 0 4px 24px -4px  rgba($shadow-mix, 0.1);
+    background: $content-bg;
 
     font-size: 1rem;
 
@@ -15,15 +16,22 @@
         flex-direction: row;
         align-items: center;
 
-        + .notification__details {
-            margin-top: 0.5rem;
-        }
+        &.notification__details--pad-top { margin-top: 0.25rem; }
+        &.notification__details--pad-bottom { margin-top: 0.25rem; }
 
         .notification__detail {
             &.notification__detail--size-wide { flex: 1; }
-            &.notification__detail--size-small svg, img {
-                height: 1.5em;
+            &.notification__detail--size-small {
+                $notification__detail--size-small: 1.5em;
+                @include square($notification__detail--size-small);
+                svg, img {
+                    @include square($notification__detail--size-small);
+                }
             }
+
+            &.notification__detail--align-top { align-self: flex-start; }
+            &.notification__detail--align-bottom { align-self: flex-end; }
+            &.notification__detail--align-center { /* default */ }
 
             &.notification__detail--style-link { color: $accent-color; }
             &.notification__detail--style-disabled-link {
@@ -49,6 +57,7 @@
 
                 &.notification__detail--state-read svg {
                     @include square(3px);
+                    visibility: hidden;
                     fill: $dim-text;
                 }
             }
@@ -59,13 +68,20 @@
                 height: 1.8em;
             }
 
-            h3 {
-                font-size: 1em;
-                color: $key-text;
-                margin-bottom: (3/8) * 1em;
+            &.notification__detail--style-detail {
+                font-size: 0.6em;
+                text-transform: uppercase;
+                color: $detail-text;
+                font-weight: bold;
             }
 
-            h4 {
+            h3, &.notification__detail--style-title {
+                font-size: 1em;
+                color: $key-text;
+                margin-bottom: (1/8) * 1em;
+            }
+
+            h4, &.notification__detail--style-description {
                 font-size: 0.8em;
                 font-weight: 300;
                 color: $subtitle-text;

@@ -1,4 +1,6 @@
 from app.instances.db import db
+from app.notifications import get_title
+from app.notifications import get_body
 from app.helpers.SerializableEnum import SerializableEnum
 from uuid import UUID
 from M2Crypto.m2 import rand_bytes
@@ -67,7 +69,7 @@ class Notification(db.Model):
         # TODO: more descriptive titles
         return {
             NotificationType.STATUS_UPDATE: lambda: "Status Update",
-            NotificationType.NEW_ANSWER: lambda: "New answer posted.",
+            NotificationType.NEW_ANSWER: lambda: get_title.new_answer(self),
             NotificationType.OUTGOLFED: lambda: "You've been outgolfed",
             NotificationType.NEW_POST_COMMENT: lambda: "New reply to your post",
             NotificationType.NEW_ANSWER_COMMENT: lambda: "New reply to your answer",
@@ -78,11 +80,11 @@ class Notification(db.Model):
     def get_body(self):
         # TODO: more descriptive bodies
         return {
-            NotificationType.STATUS_UPDATE: lambda: "You're received a brand new status update",
-            NotificationType.NEW_ANSWER: lambda: "A new answer has been posted to a challenge of yours.",
+            NotificationType.STATUS_UPDATE: lambda: "You're received a brand new status update.",
+            NotificationType.NEW_ANSWER: lambda: get_body.new_answer(self),
             NotificationType.OUTGOLFED: lambda: "One of your answers has been outgolfed!",
-            NotificationType.NEW_POST_COMMENT: lambda: "A new comment has been posted on your challenge",
-            NotificationType.NEW_ANSWER_COMMENT: lambda: "A new comment has been posted on your answer",
+            NotificationType.NEW_POST_COMMENT: lambda: "A new comment has been posted on your challenge.",
+            NotificationType.NEW_ANSWER_COMMENT: lambda: "A new comment has been posted on your answer.",
             NotificationType.ANSWER_VOTE: lambda: "A new vote has come upon your answer.",
             NotificationType.POST_VOTE: lambda: "A new vote has come upon your challenge."
         }[self.notification_type]()
@@ -107,6 +109,8 @@ class Notification(db.Model):
     def to_json(self):
         return {
             'id': self.id,
+            'title': self.get_title(),
+            'body': self.get_body(),
             'recipient': self.recipient.to_json(),
             'source_id': self.source_id,
             'sender': self.sender.to_json(),

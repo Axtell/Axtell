@@ -55,6 +55,10 @@
 
       min-width: 0 !important;
 
+      // This orks out pretty well to about the correct size.
+      max-height: calc(100% - 4.25em - 8px);
+      overflow-y: auto;
+
       &::before {
         display: none;
       }

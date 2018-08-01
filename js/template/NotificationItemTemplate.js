@@ -28,7 +28,10 @@ export default class NotificationItemTemplate extends Template {
         return (async () => {
 
             const NotificationStatus = await Notification.getStatuses();
+            const NotificationType = await Notification.getTypes();
             const status = await notificationGroup.getStatus();
+            const description = NotificationType.descriptionForValue(notificationGroup.primaryNotification.type);
+
             const unread = status !== NotificationStatus.read;
             const unreadIndicator = await SVG.load('unread');
 
@@ -56,15 +59,23 @@ export default class NotificationItemTemplate extends Template {
 
             const responder = (
                 <a href={link} target="_blank" class="notification__detail notification__detail--size-wide">
-                    <h3>{notificationGroup.count} people outgolfed your answer.</h3>
-                    <h4>Your JavaScript answer was outgolfed— try and outgolf them?</h4>
+                    <h3>{ notificationGroup.primaryNotification.getTitle() }</h3>
+                    <h4>{ notificationGroup.primaryNotification.body }</h4>
                 </a>
             );
+
+            const icon = await notificationGroup.primaryNotification.getIconURL();
 
             root.appendChild(
                 <DocumentFragment>
                     <div class="notification__details">
                         { this._unreadIconWrapper }
+                        <div class="notification__detail notification__detail--size-wide notification__detail--style-detail">{ description }</div>
+                    </div>
+                    <div class="notification__details notification__details--pad-top">
+                        <div class="notification__detail notification__detail--style-state notification__detail--align-top">
+                            <img src={icon} />
+                        </div>
                         { responder }
                         { unread ? this._markReadWrapper : <DocumentFragment/> }
                     </div>

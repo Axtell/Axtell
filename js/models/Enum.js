@@ -6,11 +6,35 @@ export default class Enum {
 
     /**
      * Creates an enum from an object of Key/ Value pairs
-     * @param {Object} object - key to raw value. Keys should be camelCase
+     * @param {Object} object - key to raw value. Keys should be camelCase should
+     *                        also be plain object not checked for inheritance.
      */
     constructor(object) {
-        this._data = object;
+        this._data = Object.create(null);
+
+        for (const key in object) {
+            this._data[object[key]] = key;
+        }
+
         Object.assign(this, object);
+    }
+
+    /**
+     * Obtains key name for value (camel case)
+     * @param {any} value - The enum value
+     */
+    keyForValue(value) {
+        return this._data[value];
+    }
+
+    /**
+     * Attempts to create human-readable name from
+     * enum key.
+     * @param {any} value - The enum value
+     */
+    descriptionForValue(value) {
+        const key = this.keyForValue(value);
+        return key.replace(/([a-z])([A-Z])/g, "$1 $2")
     }
 
     /**
