@@ -5,6 +5,7 @@ from app.models.AnswerComment import AnswerComment
 from app.models.User import User
 from app.session.user_session import set_session_user
 from flask import g
+import config
 
 # this is necessary, but PyCharm disagrees
 # noinspection PyUnresolvedReferences
@@ -55,10 +56,11 @@ class TestAnswerComments(TestFlask):
     def test_make_answer_comment(self):
         self.session.begin_nested()
 
-        short_result = self.client.post(f'/answer/{self.answer.id}/comment', data={"comment_text": "foo"})
+        short_result = self.client.post(f'/answer/{self.answer.id}/comment', data={"comment_text": "f"})
         self.assert400(short_result)
 
-        long_result = self.client.post(f'/answer/{self.answer.id}/comment', data={"comment_text": "a"*141})
+        long_result = self.client.post(f'/answer/{self.answer.id}/comment',
+                                       data={"comment_text": "a"*(config.comments.get('max_len', 140)+1)})
         self.assert400(long_result)
 
         result = self.client.post(f'/answer/{self.answer.id}/comment', data={"comment_text": "foobarbazblargh"})
