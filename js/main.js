@@ -2,6 +2,8 @@
 import 'url-search-params-polyfill';
 import 'element-dataset';
 
+import '~/modern/GeneratorExtensions';
+
 // /* from CDN */ import bugsnag from 'bugsnag-js';
 import tippy from 'tippy.js/dist/tippy.all.min.js';
 

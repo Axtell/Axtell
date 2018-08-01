@@ -42,6 +42,21 @@ export class NotificationGroup {
     }
 
     /**
+     * Returns unique senders (excluding primary).
+     * @return {Generator<User>}
+     */
+    *senders() {
+        let userIds = new Set();
+        for (const notification of this.siblings) {
+            if (userIds.has(notification.sender.id))
+                continue;
+
+            yield notification.sender;
+            userIds.add(notification.sender.id)
+        }
+    }
+
+    /**
      * Returns if any item in the group is unread
      * @return {NotificationStatus}
      */

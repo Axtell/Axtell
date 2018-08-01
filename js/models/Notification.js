@@ -51,14 +51,15 @@ export default class Notification {
     /**
      * A notification
      * @param {string} options.id - Notification UUID
-     * @param {string} options.b
-     * @param {string} options.body
+     * @param {string} options.title - Title of ntoif
+     * @param {string} options.body - Body of notif
      * @param {User} options.recipient - Delivery user
      * @param {User} options.sender - User who sent
      * @param {number} options.target - The ID of the target which triggered the notif
      * @param {number} options.source - the ID of the source which caused the context for recieving the notification
      * @param {string} options.category - The category based on a string for responder
      * @param {Date} options.dateCreated - The date created
+     * @param {string} options.plural - Plural form of type
      * @param {NotificationType} options.type - the notification type
      * @param {NotificationStatus} options.status - Read status
      */
@@ -72,6 +73,7 @@ export default class Notification {
         source,
         category,
         dateCreated,
+        plural,
         type,
         status
     }) {
@@ -85,6 +87,7 @@ export default class Notification {
         this._source = source;
         this._dateCreated = dateCreated;
         this._type = type;
+        this._plural = plural;
         this._status = status;
     }
 
@@ -103,6 +106,7 @@ export default class Notification {
             source: json.source_id,
             category: json.category,
             dateCreated: new Date(json.date_created),
+            plural: json.plural,
             type: json.type,
             status: json.status
         })
@@ -125,6 +129,20 @@ export default class Notification {
         const NotificationType = await Notification.getTypes();
         const key = NotificationType.keyForValue(this.type);
         return Theme.current.staticImageForTheme(`notification-icon/${key}`);
+    }
+
+    /**
+     * Returns the plural of the notification.
+     */
+    get plural() {
+        return this._plural;
+    }
+
+    /**
+     * Returns past participle of the notification
+     */
+    get pastParticiple() {
+        return `${this._category}ed`;
     }
 
     /**

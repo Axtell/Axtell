@@ -1,6 +1,6 @@
 .notification {
     border-radius: $notification-list-spacing;
-    margin-bottom: $notification-list-spacing;
+    margin-bottom: $notification-list-spacing * 1.5;
 
     position: relative;
     box-shadow: 0 4px 24px -4px  rgba($shadow-mix, 0.1);
@@ -64,8 +64,20 @@
 
             margin: 0 4px;
 
-            img, svg {
+            &:not(.notification__detail--size-noverrideimg) img, svg {
                 height: 1.8em;
+            }
+
+            &.notification__detail--style-timestamp {
+                font-size: 0.6em;
+                color: $detail-text;
+            }
+
+            &.notification__detail--style-type {
+                font-size: 0.6em;
+                text-transform: uppercase;
+                color: $detail-text;
+                font-weight: bold;
             }
 
             &.notification__detail--style-detail {
@@ -85,6 +97,7 @@
                 font-size: 0.8em;
                 font-weight: 300;
                 color: $subtitle-text;
+                display: block;
             }
         }
     }

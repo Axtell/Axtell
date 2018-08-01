@@ -47,6 +47,9 @@
   &--align-rightward { right: 6px; }
 
   &--responsive-fixed {
+    max-height: 550px;
+    overflow-y: scroll;
+
     @media (max-width: $sidebar-collapse) {
       position: fixed;
       top: 3rem;
@@ -57,7 +60,6 @@
 
       // This orks out pretty well to about the correct size.
       max-height: calc(100% - 4.25em - 8px);
-      overflow-y: auto;
 
       &::before {
         display: none;

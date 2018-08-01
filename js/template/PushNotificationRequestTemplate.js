@@ -35,7 +35,7 @@ export default class PushNotificationRequestTemplate extends Template {
                             <h4>Get notified about outgolfs and other events right to your desktop. We don't spam</h4>
                         </div>
                     </div>
-                    <div class="notification__details">
+                    <div class="notification__details notification__details--pad-top">
                         <div class="notification__detail notification__detail--size-wide"></div>
                         { enableButton }
                         { hideButton }

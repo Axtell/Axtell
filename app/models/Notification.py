@@ -89,6 +89,20 @@ class Notification(db.Model):
             NotificationType.POST_VOTE: lambda: "A new vote has come upon your challenge."
         }[self.notification_type]()
 
+    def get_plural(self):
+        """
+        Gets plural of notification type
+        """
+        return {
+            NotificationType.STATUS_UPDATE: lambda: "updates",
+            NotificationType.NEW_ANSWER: lambda: "new answers",
+            NotificationType.OUTGOLFED: lambda: "outgolfs",
+            NotificationType.NEW_POST_COMMENT: lambda: "new comments",
+            NotificationType.NEW_ANSWER_COMMENT: lambda: "new comments",
+            NotificationType.ANSWER_VOTE: lambda: "votes",
+            NotificationType.POST_VOTE: lambda: "votes"
+        }[self.notification_type]()
+
     def to_apns_json(self):
         """
         Returns APNS compliant JSON payload
@@ -111,6 +125,7 @@ class Notification(db.Model):
             'id': self.id,
             'title': self.get_title(),
             'body': self.get_body(),
+            'plural': self.get_plural(),
             'recipient': self.recipient.to_json(),
             'source_id': self.source_id,
             'sender': self.sender.to_json(),

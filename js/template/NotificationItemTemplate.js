@@ -65,12 +65,32 @@ export default class NotificationItemTemplate extends Template {
             );
 
             const icon = await notificationGroup.primaryNotification.getIconURL();
+            const relativeDate = moment(notificationGroup.primaryNotification.dateCreated).fromNow();
+
+            let otherNotifications = <DocumentFragment/>;
+            if (notificationGroup.siblings.length > 0) {
+                const uniqueUsers = [...notificationGroup.senders().take(4)];
+
+                otherNotifications = (
+                    <div class="notification__details notification__details--pad-top">
+                        <div class="notification__detail notification__detail--size-noverrideimg avatar-list">
+                            { uniqueUsers.map(user => (
+                                <img src={user.avatar} />
+                            )) }
+                        </div>
+                        <div class="notification__detail notification__detail--style-detail">
+                            { notificationGroup.siblings.length } other { notificationGroup.primaryNotification.plural }
+                        </div>
+                    </div>
+                );
+            }
 
             root.appendChild(
                 <DocumentFragment>
                     <div class="notification__details">
                         { this._unreadIconWrapper }
-                        <div class="notification__detail notification__detail--size-wide notification__detail--style-detail">{ description }</div>
+                        <div class="notification__detail notification__detail--size-wide notification__detail--style-type">{ description }</div>
+                        <div class="notification__detail notification__detail--style-timestamp">{ relativeDate }</div>
                     </div>
                     <div class="notification__details notification__details--pad-top">
                         <div class="notification__detail notification__detail--style-state notification__detail--align-top">
@@ -79,6 +99,7 @@ export default class NotificationItemTemplate extends Template {
                         { responder }
                         { unread ? this._markReadWrapper : <DocumentFragment/> }
                     </div>
+                    { otherNotifications }
                 </DocumentFragment>
             );
 
