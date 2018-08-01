@@ -111,6 +111,7 @@ class Notification(db.Model):
             'source_id': self.source_id,
             'sender': self.sender.to_json(),
             'target_id': self.target_id,
+            'category': self.get_target_descriptor(),
             'date_created': self.date_created.isoformat(),
             'type': self.notification_type.value,
             'status': self.read.value

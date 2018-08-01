@@ -30,6 +30,11 @@
                 font-weight: 300;
             }
 
+            &.notification__detail--style-button {
+                color: $dim-text;
+                fill: currentColor;
+            }
+
             &.notification__detail--style-state {
                 width: 2rem;
                 display: flex;

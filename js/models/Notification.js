@@ -12,6 +12,20 @@ import User from '~/models/User';
  */
 
 /**
+ * @typedef {Object} NotificationCategory
+ * @property {string} status
+ * @property {string} answer
+ * @property {string} postComment
+ * @property {string} answerComment
+ */
+export const NotificationCategory = {
+    status: 'status',
+    answer: 'answer',
+    postComment: 'post_comment',
+    answerComment: 'answer_comment'
+};
+
+/**
  * Represents a notification
  * @implements {JSONConvertable}
  */
@@ -40,6 +54,7 @@ export default class Notification {
      * @param {User} options.sender - User who sent
      * @param {number} options.target - The ID of the target which triggered the notif
      * @param {number} options.source - the ID of the source which caused the context for recieving the notification
+     * @param {string} options.category - The category based on a string for responder
      * @param {Date} options.dateCreated - The date created
      * @param {NotificationType} options.type - the notification type
      * @param {NotificationStatus} options.status - Read status
@@ -50,6 +65,7 @@ export default class Notification {
         sender,
         target,
         source,
+        category,
         dateCreated,
         type,
         status
@@ -58,6 +74,7 @@ export default class Notification {
         this._recipient = recipient;
         this._sender = sender;
         this._target = target;
+        this._category = category;
         this._source = source;
         this._dateCreated = dateCreated;
         this._type = type;
@@ -75,6 +92,7 @@ export default class Notification {
             sender: User.fromJSON(json.sender),
             target: json.target_id,
             source: json.source_id,
+            category: json.category,
             dateCreated: new Date(json.date_created),
             type: json.type,
             status: json.status
@@ -96,6 +114,13 @@ export default class Notification {
      * @type {string}
      */
     get id() { return this._id; }
+
+    /**
+     * Obtains the category
+     * @readonly
+     * @type {NotificationCategory}
+     */
+    get category() { return this._category; }
 
     /**
      * The notification recipient

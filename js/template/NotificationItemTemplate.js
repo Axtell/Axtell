@@ -31,6 +31,7 @@ export default class NotificationItemTemplate extends Template {
             }
 
             const state = unread ? 'unread' : 'read';
+            const link = notificationGroup.primaryNotification.responder;
 
             root.appendChild(
                 <DocumentFragment>
@@ -38,11 +39,11 @@ export default class NotificationItemTemplate extends Template {
                         <div class={`notification__detail notification__detail--style-state notification__detail--state-${state}`}>
                             { unreadIndicator }
                         </div>
-                        <a class="notification__detail notification__detail--size-wide">
+                        <a href={link} target="_blank" class="notification__detail notification__detail--size-wide">
                             <h3>{notificationGroup.count} people outgolfed your answer.</h3>
                             <h4>Your JavaScript answer was outgolfed— try and outgolf them?</h4>
                         </a>
-                        <div class="notification__detail notification__detail--size-small">
+                        <div class="notification__detail notification__detail--size-small notification__detail--style-button">
                             { markRead }
                         </div>
                     </div>
