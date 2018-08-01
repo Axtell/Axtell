@@ -21,6 +21,8 @@ export default class NotificationBubbleViewController extends ViewController {
         this._countText = document.createTextNode('');
         this._overlayText = <div class="notification-button__overlay notification-button__overlay--text"><span>{ this._countText }</span></div>;
 
+        this._showingCount = false;
+
         bubble.appendChild(this._overlay);
         bubble.appendChild(this._overlayText);
 
@@ -56,9 +58,14 @@ export default class NotificationBubbleViewController extends ViewController {
      * @param {number} count
      */
     async showCount(count) {
-        const anime = await import('animejs');
 
         this._countText.data = String(count);
+
+        if (this._showingCount) return;
+
+        this._showingCount = true;
+        const anime = await import('animejs');
+
         anime.timeline()
             .add({
                 targets: this._overlay,
@@ -82,6 +89,7 @@ export default class NotificationBubbleViewController extends ViewController {
      * Hides the count of unseen notifs
      */
     async hideCount() {
+        this._showingCount = false;
         const anime = await import('animejs');
 
         anime.timeline()

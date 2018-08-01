@@ -168,10 +168,15 @@ export default class Notification {
 
     /*
      * The notification read status
-     * @readonly
      * @type {NotificationStatus}
      */
     get status() { return this._status; }
+
+    /**
+     * Sets the status of this notification
+     * @type {NotificationStatus}
+     */
+    set status(newStatus) { this._status = newStatus; }
 
     /**
      * Obtains the payload of the notification if possible.

@@ -36,7 +36,7 @@ export default class PushNotificationRequestTemplate extends Template {
                         </div>
                     </div>
                     <div class="notification__details">
-                        <div class="notification__detail notification__detail--wide"></div>
+                        <div class="notification__detail notification__detail--size-wide"></div>
                         { enableButton }
                         { hideButton }
                     </div>

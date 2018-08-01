@@ -54,6 +54,11 @@ export default class PopoverViewController extends ViewController {
         untrigger?.addEventListener("click", (event) => {
             if (this._isActive) {
                 let target = event.target;
+
+                // Target is not in DOM
+                if (!(document.body.contains(event.target) || event.target === document.body)) { return }
+
+                // Target is outside of popover
                 if (!this._node.contains(untrigger) && (
                     this._node.contains(target) ||
                     this._trigger.contains(target)

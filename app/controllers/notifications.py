@@ -28,7 +28,7 @@ def get_notification_page(page):
 
     return render_paginated(paged_notifications)
 
-def mark_notification_read(notification_id):
+def mark_notification_status(notification_id, status):
     """
     Marks a give notification as read.
     """
@@ -39,10 +39,12 @@ def mark_notification_read(notification_id):
     notifications = Notification.query.\
         filter_by(recipient_id=g.user.id, id=notification_id)
 
-    notifications.update({'read': NotificationStatus.READ})
+    notifications.update({'read': status})
     db.session.commit()
 
-def mark_all_notifications_seen():
+    return render_json({'status': status.value})
+
+def mark_all_notifications_status(status):
     """
     Marks all notifications as seen. Requires
     authorized user
@@ -51,12 +53,19 @@ def mark_all_notifications_seen():
     if not isinstance(g.user, User):
         return render_error('Unauthorized'), 401
 
-    Notification.query.\
-        filter_by(recipient=g.user, read=NotificationStatus.UNSEEN).\
-        update({'read': NotificationStatus.SEEN})
-    db.session.commit()
+    if status == NotificationStatus.SEEN:
+        Notification.query.\
+            filter_by(recipient=g.user, read=NotificationStatus.UNSEEN).\
+            update({'read': status})
+    else:
+        Notification.query.\
+            filter_by(recipient=g.user).\
+            update({'read': status})
 
-def mark_notifications_seen(notifications):
+    db.session.commit()
+    return render_json({'status': status.value})
+
+def mark_notifications_status(notifications, status):
     """
     Marks a list of notification IDs as seen. Requires
     authorized user in session
@@ -65,9 +74,19 @@ def mark_notifications_seen(notifications):
     if not isinstance(g.user, User):
         return render_error('Unauthorized'), 401
 
-    Notification.query.filter(
-        Notification.recipient == g.user,
-        Notification.id.in_(notifications),
-        Notification.read == NotificationStatus.UNSEEN
-    ).update({'read': NotificationStatus.SEEN})
+    if status == NotificationStatus.SEEN:
+        # Basically we won't want "read" messages going to
+        # "seen" state
+        Notification.query.filter(
+            Notification.recipient == g.user,
+            Notification.id.in_(notifications),
+            Notification.read == NotificationStatus.UNSEEN
+        ).update({'read': NotificationStatus.SEEN}, synchronize_session=False)
+    else:
+        Notification.query.filter(
+            Notification.recipient == g.user,
+            Notification.id.in_(notifications)
+        ).update({'read': status}, synchronize_session=False)
+
     db.session.commit()
+    return render_json({'status': status.value})

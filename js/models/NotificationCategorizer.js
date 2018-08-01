@@ -32,16 +32,26 @@ export class NotificationGroup {
     }
 
     /**
+     * Returns all IDs
+     * @return {Generator<string>}
+     */
+    *getIds() {
+        for (const notification of this) {
+            yield notification.id;
+        }
+    }
+
+    /**
      * Returns if any item in the group is unread
      * @return {NotificationStatus}
      */
     async getStatus() {
         const NotificationStatus = await Notification.getStatuses();
 
-        if (this.primaryNotification.status === NotificationStatus.unseen);
+        if (this.primaryNotification.status === NotificationStatus.unseen)
             return NotificationStatus.unseen;
 
-        const hasUnread = false;
+        let hasUnread = false;
         for (const notification of this.siblings) {
             if (notification.status === NotificationStatus.unseen)
                 return NotificationStatus.unseen;
@@ -80,14 +90,35 @@ export class NotificationCategory {
     }
 
     /**
+     * Returns if any item in the group is unread
+     * @return {NotificationStatus}
+     */
+    async getStatus() {
+        const NotificationStatus = await Notification.getStatuses();
+
+        let hasUnread = false;
+        for (const notificationGroup of this) {
+            const status = await notificationGroup.getStatus();
+            if (status === NotificationStatus.unseen)
+                return NotificationStatus.unseen;
+
+            if (status === NotificationStatus.seen)
+                hasUnread = true;
+        }
+
+        if (hasUnread)
+            return NotificationStatus.seen;
+
+        return NotificationStatus.read;
+    }
+
+    /**
      * Returns all IDs
      * @return {Generator<string>}
      */
     *getIds() {
         for (const group of this) {
-            for (const notification of group) {
-                yield notification.id;
-            }
+            yield* group.getIds();
         }
     }
 

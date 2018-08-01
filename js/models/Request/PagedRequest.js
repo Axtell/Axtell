@@ -29,7 +29,7 @@ export default class PagedRequest extends Request {
     async nextPage() {
         this._path = `${this._sourcePath}/page/${this._page}`;
 
-        const result = await this.run(false);
+        const result = await this.run({ formatted: false });
         this._page += 1;
         this._areMore = result.are_more;
 

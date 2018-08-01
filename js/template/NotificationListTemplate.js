@@ -2,8 +2,10 @@ import Template from '~/template/Template';
 import PopoverTemplate from '~/template/PopoverTemplate';
 import LoadingIcon from '~/template/PopoverTemplate';
 import LoadingTemplate from '~/template/LoadingTemplate';
+import { HandleUnhandledPromise } from '~/helpers/ErrorManager';
 
 import PushNotificationRequestTemplate from '~/template/PushNotificationRequestTemplate';
+import MarkNotificationStatus, { NotificationMarkAll } from '~/models/Request/MarkNotificationStatus';
 import NotificationCategoryTemplate from '~/template/NotificationCategoryTemplate';
 import NotificationCategorizer from '~/models/NotificationCategorizer';
 import Notifications from '~/models/Request/Notifications';
@@ -70,5 +72,18 @@ export default class NotificationListTemplate extends PopoverTemplate {
         }
 
         this.rootSwapper.controller.displayAlternate(new Template(this.root));
+    }
+
+    /** @override */
+    didLoad() {
+        super.didLoad();
+
+        (async () => {
+
+            const NotificationStatus = await Notification.getStatuses();
+            const markStatus = new MarkNotificationStatus(NotificationMarkAll, NotificationStatus.seen);
+            await markStatus.run({ useBeacon: true });
+
+        })().catch(HandleUnhandledPromise);
     }
 }

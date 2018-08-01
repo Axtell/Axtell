@@ -2,6 +2,7 @@
     border-radius: $notification-list-spacing;
     margin-bottom: $notification-list-spacing;
 
+    position: relative;
     box-shadow: 0 10px 32px -8px rgba($shadow-mix, 0.2);
 
     font-size: 1rem;

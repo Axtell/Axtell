@@ -53,6 +53,8 @@
       left: 8px; // standard padding
       right: 8px;
 
+      min-width: 0 !important;
+
       &::before {
         display: none;
       }
