@@ -1,4 +1,5 @@
 from app.models.Post import Post
+from app.models.Answer import Answer
 
 """
 This includes helper functions which obtains
@@ -18,3 +19,14 @@ def new_answer(notification):
         post_name = post.title
 
     return f"A new answer has been posted to {post_name}"
+
+def outgolfed(notification):
+    outgolfed_answer = Answer.query.filter_by(id=notification.source_id).first()
+    if not isinstance(outgolfed_answer, Answer):
+        return f"Outgolfed on a challenge"
+
+    post = Post.query.filter_by(id=outgolfed_answer.post_id).first()
+    if not isinstance(post, Post):
+        return f"Outgolfed on a challenge"
+
+    return f"Outgolfed on {post.name}"

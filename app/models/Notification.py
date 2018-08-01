@@ -70,7 +70,7 @@ class Notification(db.Model):
         return {
             NotificationType.STATUS_UPDATE: lambda: "Status Update",
             NotificationType.NEW_ANSWER: lambda: get_title.new_answer(self),
-            NotificationType.OUTGOLFED: lambda: "You've been outgolfed",
+            NotificationType.OUTGOLFED: lambda: get_title.outgolfed(self),
             NotificationType.NEW_POST_COMMENT: lambda: "New reply to your post",
             NotificationType.NEW_ANSWER_COMMENT: lambda: "New reply to your answer",
             NotificationType.ANSWER_VOTE: lambda: "Someone voted on your answer",
@@ -82,7 +82,7 @@ class Notification(db.Model):
         return {
             NotificationType.STATUS_UPDATE: lambda: "You're received a brand new status update.",
             NotificationType.NEW_ANSWER: lambda: get_body.new_answer(self),
-            NotificationType.OUTGOLFED: lambda: "One of your answers has been outgolfed!",
+            NotificationType.OUTGOLFED: lambda: get_body.outgolfed(self),
             NotificationType.NEW_POST_COMMENT: lambda: "A new comment has been posted on your challenge.",
             NotificationType.NEW_ANSWER_COMMENT: lambda: "A new comment has been posted on your answer.",
             NotificationType.ANSWER_VOTE: lambda: "A new vote has come upon your answer.",
