@@ -55,7 +55,6 @@ def get_temporary_id_user(authorization_token):
     """
     redis_key = pn_redis_id_prefix + authorization_token
     user_id = redis_db.get(redis_key)
-    print(user_id)
 
     if user_id is None:
         return None
