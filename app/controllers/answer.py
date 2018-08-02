@@ -3,8 +3,8 @@ from flask import g, abort, redirect, url_for
 from app.instances.db import db
 from app.models.Answer import Answer
 from app.models.Notification import Notification, NotificationType
-from app.helpers.answers import get_outgolfed_answers
 from app.notifications.send_notification import send_notification
+from app.helpers.answers import get_outgolfed_answers
 from app.models.Post import Post
 from app.models.Language import Language
 from config import posts

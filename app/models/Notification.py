@@ -71,8 +71,8 @@ class Notification(db.Model):
             NotificationType.STATUS_UPDATE: lambda: "Status Update",
             NotificationType.NEW_ANSWER: lambda: get_title.new_answer(self),
             NotificationType.OUTGOLFED: lambda: get_title.outgolfed(self),
-            NotificationType.NEW_POST_COMMENT: lambda: "New reply to your post",
-            NotificationType.NEW_ANSWER_COMMENT: lambda: "New reply to your answer",
+            NotificationType.NEW_POST_COMMENT: lambda: get_title.post_comment(self),
+            NotificationType.NEW_ANSWER_COMMENT: lambda: get_title.answer_comment(self),
             NotificationType.ANSWER_VOTE: lambda: "Someone voted on your answer",
             NotificationType.POST_VOTE: lambda: "Someone voted on your post"
         }[self.notification_type]()
