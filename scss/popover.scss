@@ -47,9 +47,6 @@
   &--align-rightward { right: 6px; }
 
   &--responsive-fixed {
-    max-height: 550px;
-    overflow-y: scroll;
-
     @media (max-width: $sidebar-collapse) {
       position: fixed;
       top: 3rem;

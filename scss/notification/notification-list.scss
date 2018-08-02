@@ -1,4 +1,7 @@
 $notification-list-spacing: 0.5rem;
 .notification-list {
     padding: $notification-list-spacing;
+
+    max-height: 550px;
+    overflow-y: scroll;
 }
