@@ -19,7 +19,7 @@ export default class FollowUser extends Request {
         const action = shouldFollow ? 'follow' : 'unfollow';
 
         super({
-            path: `/user/${user.id}/${action}`,
+            path: `/user/${action}/${user.id}`,
             method: HTTPMethod.POST
         });
 

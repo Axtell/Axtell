@@ -28,7 +28,7 @@ export default class FollowedUser extends PagedRequest {
      */
     constructor(user, followedType) {
         super({
-            path: `/user/${user.id}/${followedType}`,
+            path: `/user/${followedType}/${user.id}`,
             method: HTTPMethod.GET
         });
 

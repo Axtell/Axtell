@@ -35,7 +35,7 @@ def webapn_get_identification():
 
     return render_json({'token': authorization_token})
 
-@server.route("/static/webapn/v<int:version>/pushPackages/<web_apn_id>", methods=['POST'])
+@server.route("/webapn/v<int:version>/pushPackages/<web_apn_id>", methods=['POST'])
 def webapn_get_push_package(version, web_apn_id):
     if not supports_web_apn(web_apn_id) or not push_notifications.is_valid_webapn_version(version):
         return abort(404)
@@ -63,7 +63,7 @@ def webapn_get_push_package(version, web_apn_id):
 
     return send_file(pushpackage, attachment_filename='Axtell.pushpackage', as_attachment=True)
 
-@server.route("/static/webapn/v<int:version>/devices/<device_token>/registrations/<web_apn_id>", methods=['POST'])
+@server.route("/webapn/v<int:version>/devices/<device_token>/registrations/<web_apn_id>", methods=['POST'])
 def webapn_add_registration(version, device_token, web_apn_id):
     if not supports_web_apn(web_apn_id) or not push_notifications.is_valid_webapn_version(version):
         return abort(404)
@@ -95,7 +95,7 @@ def webapn_add_registration(version, device_token, web_apn_id):
 
     return ('OK', 200)
 
-@server.route("/static/webapn/v<int:version>/devices/<device_token>/registrations/<web_apn_id>", methods=['DELETE'])
+@server.route("/webapn/v<int:version>/devices/<device_token>/registrations/<web_apn_id>", methods=['DELETE'])
 def webapn_delete_registration(version, device_token, web_apn_id):
     if not supports_web_apn(web_apn_id) or not push_notifications.is_valid_webapn_version(version):
         return abort(404)
@@ -125,7 +125,7 @@ def webapn_delete_registration(version, device_token, web_apn_id):
 
     return ('OK', 200)
 
-@server.route("/static/webapn/v<int:version>/log", methods=['POST'])
+@server.route("/webapn/v<int:version>/log", methods=['POST'])
 def webapn_log(version):
     if not push_notifications.is_valid_webapn_version(version):
         return abort(404)

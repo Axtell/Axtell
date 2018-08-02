@@ -48,7 +48,7 @@ export default class PushNotification {
      */
     get apnURL() {
         if (!this.backendSupportsAPN) return null;
-        return `${Data.shared.envValueForKey(EnvKey.host)}/static/webapn`
+        return `${Data.shared.envValueForKey(EnvKey.host)}/webapn`
     }
 
     /**

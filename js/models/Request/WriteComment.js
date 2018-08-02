@@ -23,7 +23,7 @@ export default class WriteCommentRequest extends Request {
      */
     constructor({ type, id, value, parentComment = null }) {
         super({
-            path: `/${type}/${id}/comment`,
+            path: `/${type}/comment/${id}`,
             method: HTTPMethod.POST,
             formData: {
                 comment_text: value,

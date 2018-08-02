@@ -1,4 +1,4 @@
-from app.helpers.render import render_template
+“from app.helpers.render import render_template
 from app.controllers import user
 from app.models.User import User
 from app.server import server
@@ -19,20 +19,20 @@ def get_profile(user_id):
     return user.get_profile(user_id)
 
 
-@server.route("/user/<int:user_id>/followers/page/<int:page>", methods=['GET'])
+@server.route("/user/followers/<int:user_id>/page/<int:page>", methods=['GET'])
 @csrf_protected
 def get_followers(user_id, page):
     return user.get_followers(user_id, page=page)
 
 
-@server.route("/user/<int:user_id>/following/page/<int:page>", methods=['GET'])
+@server.route("/user/following/<int:user_id>/page/<int:page>", methods=['GET'])
 @csrf_protected
 def get_following(user_id, page):
     return user.get_following(user_id, page=page)
 
 
 
-@server.route("/user/<int:target_user_id>/follow", methods=['POST'])
+@server.route("/user/follow/<int:target_user_id>", methods=['POST'])
 def follow_user(target_user_id):
     if not isinstance(g.user, User):
         return render_error('Unauthorized'), 401
@@ -40,7 +40,7 @@ def follow_user(target_user_id):
     return user.follow(g.user.id, target_user_id)
 
 
-@server.route("/user/<int:target_user_id>/unfollow", methods=['POST'])
+@server.route("/user/unfollow/<int:target_user_id>", methods=['POST'])
 def unfollow_user(target_user_id):
     if not isinstance(g.user, User):
         return render_error('Unauthorized'), 401

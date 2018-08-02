@@ -6,7 +6,7 @@ from app.helpers.render import render_json
 from app.session.csrf import csrf_protected
 
 
-@server.route("/post/<int:post_id>/comment", methods=["POST"])
+@server.route("/post/comment/<int:post_id>", methods=["POST"])
 @csrf_protected
 def write_post_comment(post_id):
     comment_text = request.form["comment_text"]
@@ -15,7 +15,7 @@ def write_post_comment(post_id):
     return render_json(new_comment.to_json())
 
 
-@server.route("/answer/<int:answer_id>/comment", methods=["POST"])
+@server.route("/answer/comment/<int:answer_id>", methods=["POST"])
 @csrf_protected
 def write_answer_comment(answer_id):
     comment_text = request.form["comment_text"]
