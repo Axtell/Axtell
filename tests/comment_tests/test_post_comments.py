@@ -51,14 +51,14 @@ class TestPostComments(TestFlask):
     def test_make_post_comment(self):
         self.session.begin_nested()
 
-        short_result = self.client.post(f'/post/{self.post.id}/comment', data={"comment_text": "f"})
+        short_result = self.client.post(f'/post/comment/{self.post.id}', data={"comment_text": "f"})
         self.assert400(short_result)
 
-        long_result = self.client.post(f'/post/{self.post.id}/comment',
+        long_result = self.client.post(f'/post/comment/{self.post.id}',
                                        data={"comment_text": "a"*(config.comments.get('max_len', 140)+1)})
         self.assert400(long_result)
 
-        result = self.client.post(f'/post/{self.post.id}/comment', data={"comment_text": "foobarbazblargh"})
+        result = self.client.post(f'/post/comment/{self.post.id}', data={"comment_text": "foobarbazblargh"})
         self.assert200(result)
 
         comment_id = self.post.comments[0].id

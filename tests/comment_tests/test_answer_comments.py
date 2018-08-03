@@ -56,14 +56,14 @@ class TestAnswerComments(TestFlask):
     def test_make_answer_comment(self):
         self.session.begin_nested()
 
-        short_result = self.client.post(f'/answer/{self.answer.id}/comment', data={"comment_text": "f"})
+        short_result = self.client.post(f'/answer/comment/{self.answer.id}', data={"comment_text": "f"})
         self.assert400(short_result)
 
-        long_result = self.client.post(f'/answer/{self.answer.id}/comment',
+        long_result = self.client.post(f'/answer/comment/{self.answer.id}',
                                        data={"comment_text": "a"*(config.comments.get('max_len', 140)+1)})
         self.assert400(long_result)
 
-        result = self.client.post(f'/answer/{self.answer.id}/comment', data={"comment_text": "foobarbazblargh"})
+        result = self.client.post(f'/answer/comment/{self.answer.id}', data={"comment_text": "foobarbazblargh"})
         self.assert200(result)
 
         comment_id = self.answer.comments[0].id
