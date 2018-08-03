@@ -1,4 +1,4 @@
-“from app.helpers.render import render_template
+from app.helpers.render import render_template
 from app.controllers import user
 from app.models.User import User
 from app.server import server

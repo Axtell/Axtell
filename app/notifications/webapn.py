@@ -82,7 +82,7 @@ def create_website_json(device):
         "urlFormatString": canonical_host + unquote(responder_url),
         "authenticationToken": device.id,
         # We can't use url_for beacuse the base URL shouldn't be a route
-        "webServiceURL": canonical_host + "/static/webapn"
+        "webServiceURL": canonical_host + "/webapn"
     })
 
 
