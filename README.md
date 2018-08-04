@@ -72,10 +72,22 @@ To integrate with iOS and macOS's Push Notification service you'll first need an
 
 Additionally the certificate (.p12) should be placed in the cwd of the server (i.e. the root) named 'webapn.p12' the password can be placed in a text file 'webapn.passsord' (will be trimmed).
 
-You may need to clear your web-servers/reverse-proxy's cache since the `/static/webapn` routes qualify for caching (and they should). The app will automatically generate the bundles etc. as applicable
+You may need to clear your web-servers/reverse-proxy's cache since the `/static/webapn` routes qualify for caching (and they should). The app will automatically generate the bundles etc. as applicable.
 
 #### Setting up APNS
-To integrate with APNS you'll need to enter your Apple Developer Team ID in the `config.py` under notifications. Additionally you need to place your APN key in the root directory of Axtell (i.e. execution CWD) as `apns.p8`
+To integrate with APNS you'll need to enter your Apple Developer Team ID in the `config.py` under notifications. Additionally you need to place your APN key in the root directory of Axtell (i.e. execution CWD) as `apns.p8`. Fort hsi provide the `apns_key_id` and `apns_team_id` and `web_apn_id` under `notifications`
+
+#### Setting up Web Push
+Web Push is a protocol for push notifications that extends to Chrome, Firefox, and potentially more browsers. This uses service workers to dispatch notifications. To setup Web Push you need to generate a VAPID key pair which can be done by running these OpenSSL commands:
+
+```
+openssl ecparam -name prime256v1 -genkey -noout -out webpush-private.pem
+openssl ec -in webpush-private.pem -pubout -out webpush-public.pem
+```
+
+These files are searched for in the root directory and are used for encrypting things such as Web Push messages.
+
+Additionally you will need to supply the `notifications.support_email` config field.
 
 ### 3. Build
 You will need to build the assets (CSS and JS) before running Axtell. You can do this using:

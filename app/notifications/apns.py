@@ -1,3 +1,6 @@
+"""
+Communicates with APNS.
+"""
 from app.server import server
 
 from hyper import HTTPConnection
@@ -10,10 +13,6 @@ from os import path, getcwd
 from json import dumps as json_dumps, loads as json_loads
 
 import bugsnag
-
-"""
-Communicates with APNS.
-"""
 
 apns_key = 'apns.p8'
 apns_expiration = timedelta(days=1).total_seconds()
@@ -29,6 +28,7 @@ def create_apns_jwt():
 
     jwt = JWT(
         header={
+            'typ': 'JWT',
             'alg': 'ES256',
             'kid': notifications['apns_key_id']
         },
@@ -47,6 +47,7 @@ def send_notification(device, notification):
         return ""
 
     authorization_jwt = create_apns_jwt()
+    print(authorization_jwt)
     notification_json = json_dumps(notification.to_apns_json())
 
     headers = {

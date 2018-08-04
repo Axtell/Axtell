@@ -1,0 +1,21 @@
+import Request, { HTTPMethod } from '~/models/Request/Request';
+
+/**
+ * Obtains the Web Push certificate/public key
+ */
+export default class WebPushKey extends Request {
+
+    /** @override */
+    format(data) {
+        return new Uint8Array(data);
+    }
+
+    constructor() {
+        super({
+            path: '/static/webpush/key',
+            method: HTTPMethod.GET,
+            responseType: 'arraybuffer'
+        })
+    }
+
+}

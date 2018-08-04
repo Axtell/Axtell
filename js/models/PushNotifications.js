@@ -1,6 +1,8 @@
 import Data, { EnvKey } from '~/models/Data';
 import ErrorManager, { AnyError } from '~/helpers/ErrorManager';
 import WebAPNToken from '~/models/Request/WebAPNToken';
+import serviceWorker, { Workers } from '~/helpers/ServiceWorkers';
+import WebPushKey from '~/models/Request/WebPushKey';
 
 export const PNAPNUnknownResponseState = Symbol('PN.APN.Error.UnknownResponseState');
 
@@ -31,10 +33,30 @@ export default class PushNotification {
     }
 
     /**
+     * Checks if PNs are supported
+     * @type {boolean}
+     */
+    get supportsPNs() {
+        return this.usePush || this.useAPN;
+    }
+
+    /**
+     * If to use Push flow
+     * @type {string}
+     */
+    get usePush() { return !!('PushManager' in window); }
+
+    /**
      * If to use APN flow
      * @type {boolean}
      */
     get useAPN() { return !!global.safari?.pushNotification }
+
+    /**
+     * If Push is setup. We will always assume true
+     * @type {boolean}
+     */
+    get backendSupportsPush() { return true; }
 
     /**
      * If APN is setup
@@ -52,12 +74,14 @@ export default class PushNotification {
     }
 
     /**
-     * If has permission
+     * If has permission to send notifs
      * @type {boolean}
      */
     get hasPermissions() {
         if (this.useAPN) {
             return global.safari.pushNotification.permission(this.webAPNId).permission === "granted";
+        } else if (this.usePush) {
+            return Notification.permission === 'granted';
         } else {
             return false;
         }
@@ -89,6 +113,8 @@ export default class PushNotification {
     get needsRequest() {
         if (this.useAPN) {
             return global.safari.pushNotification.permission(this.webAPNId).permission === "default";
+        } else if (this.usePush) {
+            return Notification.permission === 'default';
         } else {
             return false;
         }
@@ -102,6 +128,8 @@ export default class PushNotification {
         // If we don't have perms and can't ask then yeah...
         if (this.useAPN) {
             return global.safari.pushNotification.permission(this.webAPNId).permission === "denied";
+        } else if (this.usePush) {
+            return Notification.permission === 'denied';
         } else {
             return false;
         }
@@ -119,25 +147,24 @@ export default class PushNotification {
      */
     requestPriviledge() {
         return new Promise(async (resolve, reject) => {
+            if (this.hasPermissions) {
+                // Setup APN
+                return resolve(true)
+            }
+
+            // If we don't have permission then ¯\_(ツ)_/¯
+            if (this.denied) { return resolve(false) }
+
+            if (!this.needsRequest) {
+                return reject(
+                    new AnyError('Not denied or accepted but request not needed', PNAPNUnknownResponseState)
+                );
+            }
+
             if (this.useAPN) {
-                // Use APN api
-                if (this.hasPermissions) {
-                    // Setup APN
-                    return resolve(true)
-                }
-
-                // If we don't have permission then ¯\_(ツ)_/¯
-                if (this.denied) { return resolve(false) }
-
                 if (!this.backendSupportsAPN) {
                     alert("Axtell instance is not configured for APN");
                     return resolve(false);
-                }
-
-                if (!this.needsRequest) {
-                    return reject(
-                        new AnyError('Not denied or accepted but request not needed', PNAPNUnknownResponseState)
-                    );
                 }
 
                 const authorizationToken = await new WebAPNToken().run();
@@ -152,6 +179,26 @@ export default class PushNotification {
                         else { resolve(false) };
                     }
                 )
+            } else if (this.usePush) {
+
+                const key = await new WebPushKey().run();
+                const registration = await serviceWorker(Workers.pushNotifications);
+
+                // Request permission
+                const permission = await new Promise((resolve, reject) => {
+                    const promise = Notification.requestPermission(resolve);
+                    if (promise) promise.then(resolve, reject);
+                });
+
+                if (!this.hasPermissions) resolve(false);
+
+                const pushSubscription = await registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: key
+                });
+
+                console.log(pushSubscription);
+
             } else {
                 resolve(false);
             }
