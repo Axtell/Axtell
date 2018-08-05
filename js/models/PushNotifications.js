@@ -197,7 +197,7 @@ export default class PushNotification {
                     applicationServerKey: key
                 });
 
-                console.log(pushSubscription);
+                console.log(window.p = pushSubscription);
 
             } else {
                 resolve(false);

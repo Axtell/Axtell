@@ -47,7 +47,6 @@ def send_notification(device, notification):
         return ""
 
     authorization_jwt = create_apns_jwt()
-    print(authorization_jwt)
     notification_json = json_dumps(notification.to_apns_json())
 
     headers = {
