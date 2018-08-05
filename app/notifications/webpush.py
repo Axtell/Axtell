@@ -12,7 +12,8 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
-from base64 import urlsafe_b64encode
+from base64 import urlsafe_b64encode, urlsafe_b64decode
+from json import dumps as json_dumps
 from urllib.parse import urlparse
 from datetime import timedelta
 from os import path, getcwd
@@ -56,6 +57,13 @@ def encrypt_payload(message, client_pub_key, auth):
     """
     This is quite a bit but for more information I wrote
     a blog post https://blog.vihan.org/the-push-protocol/
+
+    Brief overview is we take our private and client public key
+    which are ECC keys on the P-256 NIST curve and we perform a
+    diffie-hellman (ECDH) key exchange to obtain a shared
+    secret to generate a HKDF key which is derived with various
+    content types to obtain the encryption parameters for an
+    AES-128-GCM cipher.
 
     :param bytes message: Binary message
     :param bytes client_pub_key:
@@ -107,14 +115,26 @@ def encrypt_payload(message, client_pub_key, auth):
 
     return encrypted_payload, salt
 
-def send_notification(notification, endpoint, client_pub_key, auth):
+def send_notification(notification, endpoint, client_encoded_public_key, auth):
     # Get the auth JWT IDing server
     jwt = create_webpush_jwt(endpoint)
 
-    # Get pub key
-    public_key = urlsafe_b64encode(get_public_key())
+    payload = json_dumps(notification.to_push_json()).encode('utf8')
 
-    requests.post(endpoint, headers={
+    server_public_key = get_public_key()
+    client_public_key = urlsafe_b64decode(client_encoded_public_key)
+
+    # Encrypt the payload
+    encrypted_payload, salt = encrypt_payload(payload, client_public_key, auth)
+
+    # Get pub key
+    server_encoded_public_key = urlsafe_b64encode(server_public_key)
+
+    requests.post(endpoint, data=encrypted_payload, headers={
         'Authorization': f'WebPush {jwt}',
-        'Crypto-Key': f'p256edsa={public_key}.'
+        'Encryption': f'salt={salt}',
+        'Content-Length': len(encrypted_payload),
+        'Content-Type': 'application/octet-stream',
+        'Content-Encoding': 'aesgcm',
+        'Crypto-Key': f'dh={client_encoded_public_key}; p256edsa={server_encoded_public_key}',
     })

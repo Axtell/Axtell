@@ -120,6 +120,13 @@ class Notification(db.Model):
             }
         }
 
+    def to_push_json(self):
+        return {
+            'id': self.id,
+            'title': self.get_title(),
+            'body': self.get_body()
+        }
+
     def to_json(self):
         return {
             'id': self.id,
