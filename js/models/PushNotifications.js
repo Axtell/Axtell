@@ -1,5 +1,6 @@
 import Data, { EnvKey } from '~/models/Data';
 import ErrorManager, { AnyError } from '~/helpers/ErrorManager';
+import WebPushNewDevice from '~/models/Request/WebPushNewDevice';
 import WebAPNToken from '~/models/Request/WebAPNToken';
 import serviceWorker, { Workers } from '~/helpers/ServiceWorkers';
 import WebPushKey from '~/models/Request/WebPushKey';
@@ -37,6 +38,8 @@ export default class PushNotification {
      * @type {boolean}
      */
     get supportsPNs() {
+        // Chrome implementation is buggy, disabled for now.
+        if (window.chrome) return false;
         return this.usePush || this.useAPN;
     }
 
@@ -198,7 +201,11 @@ export default class PushNotification {
                 });
 
                 console.log(window.p = pushSubscription);
+                // Submit to server
+                const deviceId = await new WebPushNewDevice(pushSubscription).run();
+                console.log(deviceId);
 
+                resolve(true);
             } else {
                 resolve(false);
             }

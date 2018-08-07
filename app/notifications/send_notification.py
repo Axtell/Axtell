@@ -1,7 +1,9 @@
 from app.instances.db import db
-from app.notifications import apns
+from app.notifications import apns, webpush
 from app.models.Notification import Notification
-from app.models.PushNotificationDevice import PNProvider
+from app.models.APNDevice import APNProvider
+
+from base64 import urlsafe_b64decode
 
 def send_notification(notification):
     """
@@ -16,11 +18,21 @@ def send_notification(notification):
 
     # Send to all Push Notification devices
     recipient = notification.recipient
-    push_notification_devices = recipient.pn_devices
 
-    for device in push_notification_devices:
+    # Send to all APNS devices
+    apn_devices = recipient.apn_devices
+    for device in apn_devices:
         result = {
-            PNProvider.WEB_APN:
+            APNProvider.WEB_APN:
                 lambda: apns.send_notification(device=device, notification=notification)
         }[device.provider]()
 
+    # Send to all Push devices
+    push_devices = recipient.push_devices
+    for device in push_devices:
+        webpush.send_notification(
+            notification,
+            endpoint=device.endpoint,
+            client_encoded_public_key=device.client_pub,
+            auth=urlsafe_b64decode(device.auth)
+        )

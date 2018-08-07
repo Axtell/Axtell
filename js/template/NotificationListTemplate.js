@@ -5,6 +5,7 @@ import LoadingTemplate from '~/template/LoadingTemplate';
 import { HandleUnhandledPromise } from '~/helpers/ErrorManager';
 
 import PushNotificationRequestTemplate from '~/template/PushNotificationRequestTemplate';
+import NoNewNotificationsTemplate from '~/template/NoNewNotificationsTemplate';
 import MarkNotificationStatus, { NotificationMarkAll } from '~/models/Request/MarkNotificationStatus';
 import NotificationCategoryTemplate from '~/template/NotificationCategoryTemplate';
 import NotificationCategorizer from '~/models/NotificationCategorizer';
@@ -68,6 +69,14 @@ export default class NotificationListTemplate extends PopoverTemplate {
             if (categorizer.dayCount > 3) break;
         }
 
+        // If they aren't any notifications
+        if (categorizer.rowCount === 0) {
+            // Show the bell
+            const noNewNotifications = await new NoNewNotificationsTemplate();
+            noNewNotifications.loadInContext(this.root);
+        }
+
+        // None of these will be called if no notifs
         for (const category of categorizer) {
             const categoryTemplate = await new NotificationCategoryTemplate(category);
             categoryTemplate.loadInContext(this.root);

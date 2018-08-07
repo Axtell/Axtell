@@ -1,4 +1,4 @@
-from app.models.PushNotificationDevice import PushNotificationDevice
+from app.models.APNDevice import APNDevice
 from app.instances.db import db, redis_db
 from app.models.User import User
 
@@ -15,22 +15,22 @@ def is_valid_webapn_version(version):
     return version == 1 or version == 2
 
 
-def add_push_notification_device(user, provider):
-    device = PushNotificationDevice(provider=provider, user=user)
+def add_apn_device(user, provider):
+    device = APNDevice(provider=provider, user=user)
     db.session.add(device)
     db.session.commit()
     return device
 
 
-def delete_push_notification_device(authorization_token, provider):
+def delete_apn_device(authorization_token, provider):
     """
     Deletes a device.
 
     :return: boolean if removed
     """
 
-    device = PushNotificationDevice.query.filter_by(id=authorization_token, provider=provider).first()
-    if not isinstance(device, PushNotificationDevice):
+    device = APNDevice.query.filter_by(uuid=authorization_token, provider=provider).first()
+    if not isinstance(device, APNDevice):
         return False
 
     db.session.delete(device)
@@ -38,10 +38,10 @@ def delete_push_notification_device(authorization_token, provider):
     return True
 
 
-def set_push_notification_device(authorization_token, provider, device_token):
-    device = PushNotificationDevice.query.filter_by(id=authorization_token, provider=provider).first()
+def set_apn_device(authorization_token, provider, device_token):
+    device = APNDevice.query.filter_by(uuid=authorization_token, provider=provider).first()
 
-    if not isinstance(device, PushNotificationDevice):
+    if not isinstance(device, APNDevice):
         return None
 
     device.device_id = device_token

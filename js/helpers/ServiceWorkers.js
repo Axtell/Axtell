@@ -16,7 +16,7 @@ export default function serviceWorker(name) {
     return new Promise((resolve, reject) => {
         if ('serviceWorker' in navigator) {
             navigator
-                .serviceWorker.register(`${PUBLIC_PATH}/axtell.${name}.js`)
+                .serviceWorker.register(`${PUBLIC_PATH}/axtell.sw.${name}.js`)
                 .then(resolve, reject);
         } else {
             reject(new TypeError('ServiceWorkers not available'));

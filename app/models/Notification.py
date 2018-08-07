@@ -28,7 +28,8 @@ class Notification(db.Model):
     __tablename__ = 'notifications'
     __table_args__ = {'extend_existing': True}
 
-    id = db.Column(db.String(36), primary_key=True, default=lambda: str(UUID(bytes=rand_bytes(16))))
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    uuid = db.Column(db.String(36), unique=True, nullable=False, default=lambda: str(UUID(bytes=rand_bytes(16))))
 
     recipient_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     recipient = db.relationship('User', foreign_keys=[recipient_id], backref='notifications', lazy='joined')
@@ -116,20 +117,20 @@ class Notification(db.Model):
                     'body': self.get_body(),
                     'action': 'View'
                 },
-                'url-args': [self.id, self.get_target_descriptor(), target]
+                'url-args': [self.uuid, self.get_target_descriptor(), target]
             }
         }
 
     def to_push_json(self):
         return {
-            'id': self.id,
+            'id': self.uuid,
             'title': self.get_title(),
             'body': self.get_body()
         }
 
     def to_json(self):
         return {
-            'id': self.id,
+            'id': self.uuid,
             'title': self.get_title(),
             'body': self.get_body(),
             'plural': self.get_plural(),

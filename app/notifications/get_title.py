@@ -41,4 +41,4 @@ def outgolfed(notification):
     if not isinstance(post, Post):
         return f"Outgolfed on a challenge"
 
-    return f"Outgolfed on {post.name}"
+    return f"Outgolfed on {post.title}"

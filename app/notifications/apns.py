@@ -61,7 +61,7 @@ def send_notification(device, notification):
     conn = HTTPConnection(apns_server)
     conn.request('POST', url, body=notification_json, headers=headers)
 
-    server.logger.info(f'Notification (APNS) dispatched {notification.id} -> {device.device_id}')
+    server.logger.info(f'Notification (APNS) dispatched {notification.uuid} -> {device.device_id}')
 
     resp = conn.get_response()
     response_status = resp.status
@@ -82,4 +82,4 @@ def send_notification(device, notification):
                 meta_data={"apns_rejection": {"reason": reason}}
             )
 
-        server.logger.error(f'Notification (APNS) rejected {notification.id} -> {device.device_id}:\n{reason}')
+        server.logger.error(f'Notification (APNS) rejected {notification.uuid} -> {device.device_id}:\n{reason}')
