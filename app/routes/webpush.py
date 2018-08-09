@@ -14,8 +14,3 @@ def get_webpush_pubkey():
 def webpush_register_device():
     auth_json = request.get_json(silent=True)
     return webpush.add_webpush_device(auth_json)
-
-@server.route("/webpush/device/<int:device_id>", methods=['DELETE'])
-@csrf_protected
-def webpush_remove_device(device_id):
-    return webpush.remove_webpush_device(device_id)
