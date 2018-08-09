@@ -163,7 +163,7 @@ def create_answer_comment(answer_id, parent_comment, comment_text):
     send_notification(Notification(
         sender_id=new_comment.user_id,
         target_id=new_comment.id,
-        recipient_id=post.user_id,
+        recipient_id=answer.user_id,
         source_id=None,
         notification_type=NotificationType.NEW_ANSWER_COMMENT
     ))
