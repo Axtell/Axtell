@@ -42,7 +42,7 @@ def outgolfed(notification):
     if not isinstance(outgolfed_answer, Answer) or not isinstance(new_answer, Answer):
         return f"One of your answers has been outgolfed!"
 
-    language = answer.get_language()
+    language = outgolfed_answer.get_language()
     if not isinstance(language, Language):
         language_name = ""
     else:

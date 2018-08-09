@@ -37,7 +37,7 @@ def mark_notification_status(notification_id, status):
         return render_error('Unauthorized'), 401
 
     notifications = Notification.query.\
-        filter_by(recipient_id=g.user.id, id=notification_id)
+        filter_by(recipient_id=g.user.id, uuid=notification_id)
 
     notifications.update({'read': status})
     db.session.commit()
@@ -79,13 +79,13 @@ def mark_notifications_status(notifications, status):
         # "seen" state
         Notification.query.filter(
             Notification.recipient == g.user,
-            Notification.id.in_(notifications),
+            Notification.uuid.in_(notifications),
             Notification.read == NotificationStatus.UNSEEN
         ).update({'read': NotificationStatus.SEEN}, synchronize_session=False)
     else:
         Notification.query.filter(
             Notification.recipient == g.user,
-            Notification.id.in_(notifications)
+            Notification.uuid.in_(notifications)
         ).update({'read': status}, synchronize_session=False)
 
     db.session.commit()

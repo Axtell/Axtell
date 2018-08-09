@@ -1,8 +1,8 @@
 from app.server import server
 from app.notifications.webapn import supports_web_apn, create_pushpackage_zip
-from app.controllers import push_notifications
+from app.controllers import webapn
 from app.helpers.render import render_json
-from app.models.PushNotificationDevice import PushNotificationDevice, PNProvider
+from app.models.APNDevice import APNDevice, APNProvider
 from app.session.csrf import csrf_protected
 from app.models.User import User
 from config import notifications
@@ -31,13 +31,13 @@ def webapn_get_identification():
         return abort(401)
 
     # Generate a short-term expiring token
-    authorization_token = push_notifications.generate_temporary_id()
+    authorization_token = webapn.generate_temporary_id()
 
     return render_json({'token': authorization_token})
 
 @server.route("/webapn/v<int:version>/pushPackages/<web_apn_id>", methods=['POST'])
 def webapn_get_push_package(version, web_apn_id):
-    if not supports_web_apn(web_apn_id) or not push_notifications.is_valid_webapn_version(version):
+    if not supports_web_apn(web_apn_id) or not webapn.is_valid_webapn_version(version):
         return abort(404)
 
     # Validate authorization token (associated with user)
@@ -48,7 +48,7 @@ def webapn_get_push_package(version, web_apn_id):
         return abort(401)
 
     # Get the user behind the temporary token
-    user = push_notifications.get_temporary_id_user(authorization_token)
+    user = webapn.get_temporary_id_user(authorization_token)
 
     if not isinstance(user, User):
         return abort(403)
@@ -56,7 +56,7 @@ def webapn_get_push_package(version, web_apn_id):
     # Now we create a 'device' this represents PNs for one device
     # this includes an 'auth token' which is a secure association
     # between the device and the authorized user
-    device = push_notifications.add_push_notification_device(user=user, provider=PNProvider.WEB_APN)
+    device = webapn.add_apn_device(user=user, provider=APNProvider.WEB_APN)
 
     # Create the pushpackage with all this data
     pushpackage = create_pushpackage_zip(device=device)
@@ -65,7 +65,7 @@ def webapn_get_push_package(version, web_apn_id):
 
 @server.route("/webapn/v<int:version>/devices/<device_token>/registrations/<web_apn_id>", methods=['POST'])
 def webapn_add_registration(version, device_token, web_apn_id):
-    if not supports_web_apn(web_apn_id) or not push_notifications.is_valid_webapn_version(version):
+    if not supports_web_apn(web_apn_id) or not webapn.is_valid_webapn_version(version):
         return abort(404)
 
     authorization_header = request.headers.get('Authorization', None)
@@ -83,21 +83,21 @@ def webapn_add_registration(version, device_token, web_apn_id):
     if len(authorization_token) != 36:
         return abort(400)
 
-    device = push_notifications.\
-        set_push_notification_device(
+    device = webapn.\
+        set_apn_device(
             authorization_token=authorization_token,
-            provider=PNProvider.WEB_APN,
+            provider=APNProvider.WEB_APN,
             device_token=device_token
         )
 
-    if not isinstance(device, PushNotificationDevice):
+    if not isinstance(device, APNDevice):
         return abort(403)
 
     return ('OK', 200)
 
 @server.route("/webapn/v<int:version>/devices/<device_token>/registrations/<web_apn_id>", methods=['DELETE'])
 def webapn_delete_registration(version, device_token, web_apn_id):
-    if not supports_web_apn(web_apn_id) or not push_notifications.is_valid_webapn_version(version):
+    if not supports_web_apn(web_apn_id) or not webapn.is_valid_webapn_version(version):
         return abort(404)
 
     authorization_header = request.headers.get('Authorization', None)
@@ -114,10 +114,10 @@ def webapn_delete_registration(version, device_token, web_apn_id):
     if len(authorization_token) != 36:
         return abort(400)
 
-    did_delete = push_notifications.\
-        delete_push_notification_device(
+    did_delete = webapn.\
+        delete_apn_device(
             authorization_token=authorization_token,
-            provider=PNProvider.WEB_APN
+            provider=APNProvider.WEB_APN
         )
 
     if not did_delete:
@@ -127,7 +127,7 @@ def webapn_delete_registration(version, device_token, web_apn_id):
 
 @server.route("/webapn/v<int:version>/log", methods=['POST'])
 def webapn_log(version):
-    if not push_notifications.is_valid_webapn_version(version):
+    if not webapn.is_valid_webapn_version(version):
         return abort(404)
 
     logs = request.get_json(silent=True)["logs"]

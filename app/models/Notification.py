@@ -28,7 +28,8 @@ class Notification(db.Model):
     __tablename__ = 'notifications'
     __table_args__ = {'extend_existing': True}
 
-    id = db.Column(db.String(36), primary_key=True, default=lambda: str(UUID(bytes=rand_bytes(16))))
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    uuid = db.Column(db.String(36), unique=True, nullable=False, default=lambda: str(UUID(bytes=rand_bytes(16))))
 
     recipient_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     recipient = db.relationship('User', foreign_keys=[recipient_id], backref='notifications', lazy='joined')
@@ -103,6 +104,21 @@ class Notification(db.Model):
             NotificationType.POST_VOTE: lambda: "votes"
         }[self.notification_type]()
 
+    def is_overwriting(self):
+        """
+        Gets if this notification type should be grouped and
+        have older instances discarded.
+        """
+        return {
+            NotificationType.STATUS_UPDATE: False,
+            NotificationType.NEW_ANSWER: False,
+            NotificationType.OUTGOLFED: True,
+            NotificationType.NEW_POST_COMMENT: False,
+            NotificationType.NEW_ANSWER_COMMENT: False,
+            NotificationType.ANSWER_VOTE: True,
+            NotificationType.POST_VOTE: True
+        }[self.notification_type]
+
     def to_apns_json(self):
         """
         Returns APNS compliant JSON payload
@@ -116,13 +132,25 @@ class Notification(db.Model):
                     'body': self.get_body(),
                     'action': 'View'
                 },
-                'url-args': [self.id, self.get_target_descriptor(), target]
+                'url-args': [self.uuid, self.get_target_descriptor(), target]
             }
+        }
+
+    def to_push_json(self):
+        return {
+            'id': self.uuid,
+            'title': self.get_title(),
+            'body': self.get_body(),
+            'category': self.get_target_descriptor(),
+            'source': self.source_id,
+            'target': self.target_id,
+            'overwriting': self.is_overwriting(),
+            'date': self.date_created.isoformat()
         }
 
     def to_json(self):
         return {
-            'id': self.id,
+            'id': self.uuid,
             'title': self.get_title(),
             'body': self.get_body(),
             'plural': self.get_plural(),

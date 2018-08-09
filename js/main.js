@@ -17,6 +17,7 @@ import Data from "~/models/Data";
 import Random from "~/modern/Random";
 import Auth from "~/models/Auth";
 import PushNotifications from "~/models/PushNotifications";
+import WebPushKey from "~/models/Request/WebPushKey";
 import Template from "~/template/Template";
 import AnimationController, { Animation } from "~/controllers/AnimationController";
 
@@ -64,6 +65,7 @@ window.addEventListener("unhandledrejection", (error) => {
 
                 PushNotifications,
                 WebAPNToken,
+                WebPushKey,
 
                 KeyManager,
                 ErrorManager,

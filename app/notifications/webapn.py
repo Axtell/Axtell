@@ -12,7 +12,7 @@ from OpenSSL._util import ffi, lib
 from M2Crypto.m2 import rand_bytes
 from M2Crypto.SMIME import PKCS7_BINARY, PKCS7_DETACHED
 
-from app.models.PushNotificationDevice import PushNotificationDevice, PNProvider
+from app.models.APNDevice import APNDevice, APNProvider
 from app.server import server
 
 webapn_cert_name = "webapn.p12"
@@ -80,7 +80,7 @@ def create_website_json(device):
         "websitePushID": notifications['web_apn_id'],
         "allowedDomains": [canonical_host],
         "urlFormatString": canonical_host + unquote(responder_url),
-        "authenticationToken": device.id,
+        "authenticationToken": device.uuid,
         # We can't use url_for beacuse the base URL shouldn't be a route
         "webServiceURL": canonical_host + "/webapn"
     })

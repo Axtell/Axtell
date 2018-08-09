@@ -96,7 +96,13 @@ notifications = {
     # Apple APN Private Key ID
     'apns_key_id': '',
     # Apple Developer Team ID
-    'apple_team_id': ''
+    'apple_team_id': '',
+    # Email address to contact as notification support
+    'support_email': '',
+    # Maximum amount of push devices
+    'max_push_devices': 5,
+    # Maximum amount of APN devices
+    'max_apn_devices': 5
 }
 
 secret_skey = 'SESSION_SECRET_KEY'

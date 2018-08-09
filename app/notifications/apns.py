@@ -1,3 +1,6 @@
+"""
+Communicates with APNS.
+"""
 from app.server import server
 
 from hyper import HTTPConnection
@@ -10,10 +13,6 @@ from os import path, getcwd
 from json import dumps as json_dumps, loads as json_loads
 
 import bugsnag
-
-"""
-Communicates with APNS.
-"""
 
 apns_key = 'apns.p8'
 apns_expiration = timedelta(days=1).total_seconds()
@@ -29,6 +28,7 @@ def create_apns_jwt():
 
     jwt = JWT(
         header={
+            'typ': 'JWT',
             'alg': 'ES256',
             'kid': notifications['apns_key_id']
         },
@@ -61,7 +61,7 @@ def send_notification(device, notification):
     conn = HTTPConnection(apns_server)
     conn.request('POST', url, body=notification_json, headers=headers)
 
-    server.logger.info(f'Notification (APNS) dispatched {notification.id} -> {device.device_id}')
+    server.logger.info(f'Notification (APNS) dispatched {notification.uuid} -> {device.device_id}')
 
     resp = conn.get_response()
     response_status = resp.status
@@ -82,4 +82,4 @@ def send_notification(device, notification):
                 meta_data={"apns_rejection": {"reason": reason}}
             )
 
-        server.logger.error(f'Notification (APNS) rejected {notification.id} -> {device.device_id}:\n{reason}')
+        server.logger.error(f'Notification (APNS) rejected {notification.uuid} -> {device.device_id}:\n{reason}')
