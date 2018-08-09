@@ -12,6 +12,8 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
+from app.server import server
+
 from base64 import urlsafe_b64encode, urlsafe_b64decode
 from json import dumps as json_dumps
 from urllib.parse import urlparse
@@ -22,6 +24,7 @@ from struct import pack
 import requests
 
 from config import notifications
+import bugsnag
 
 WEBPUSH_PRIVATE_KEY_PATH = path.join(getcwd(), 'webpush-private.pem')
 WEBPUSH_PUBLIC_KEY_PATH = path.join(getcwd(), 'webpush-public.pem')
@@ -32,11 +35,9 @@ def get_public_key():
     with open(WEBPUSH_PUBLIC_KEY_PATH, 'rb') as key:
         return load_pem_public_key(key.read(), default_backend()).public_numbers().encode_point()
 
-def create_webpush_jwt(endpoint):
+def create_webpush_jwt(endpoint_url):
     with open(WEBPUSH_PRIVATE_KEY_PATH, 'rb') as key:
         jwk = JWK.from_pem(key.read())
-
-    endpoint_url = urlparse(endpoint)
 
     jwt = JWT(
         header={
@@ -77,7 +78,7 @@ def encrypt_payload(message, client_pub_key, auth):
     # const localKeysCurve = crypto.createECDH('prime256v1');
     # localKeysCurve.generateKeys();
     # const localPrivateKey = localKeysCurve.getPrivateKey();
-    local_private_key = ec.generate_private_key(ec.SECP256R1(), default_backend())
+    local_private_key = ec.generate_private_key(ec.SECP256R1, default_backend())
 
     # const localPublicKey = localKeysCurve.getPublicKey();
     local_public_key = local_private_key.public_key()
@@ -91,9 +92,6 @@ def encrypt_payload(message, client_pub_key, auth):
             client_pub_key
         ).public_key(default_backend())
     )
-
-    print('shared secret:')
-    print(shared_secret)
 
     # const authEncBuff = new Buffer('Content-Encoding: auth\0', 'utf8');
     # const prk = hkdf(subscription.keys.auth, sharedSecret, authEncBuff, 32);
@@ -123,21 +121,15 @@ def encrypt_payload(message, client_pub_key, auth):
         backend=default_backend()
     ).derive(prk)
 
-    print('nonce')
-    print(urlsafe_b64encode(nonce))
-
     # CEK = Content Encryption Key
     # this goes into AES
     cek = HKDF(
         algorithm=hashes.SHA256(),
         length=16,
         salt=salt,
-        info=b'Content-Encoding: aesgem\0' + context,
+        info=b'Content-Encoding: aesgcm\0' + context,
         backend=default_backend()
     ).derive(prk)
-
-    print('cek')
-    print(urlsafe_b64encode(cek))
 
     cipher = Cipher(algorithms.AES(cek), modes.GCM(nonce), default_backend())
     encryptor = cipher.encryptor()
@@ -147,8 +139,11 @@ def encrypt_payload(message, client_pub_key, auth):
     return encrypted_payload, local_public_key_bytes, salt
 
 def send_notification(notification, endpoint, client_encoded_public_key, auth):
+    # Parse endpoint
+    endpoint_url = urlparse(endpoint)
+
     # Get the auth JWT IDing server
-    jwt = create_webpush_jwt(endpoint)
+    jwt = create_webpush_jwt(endpoint_url)
 
     payload = json_dumps(notification.to_push_json()).encode('utf8')
 
@@ -163,36 +158,43 @@ def send_notification(notification, endpoint, client_encoded_public_key, auth):
     server_encoded_public_key = urlsafe_b64encode(server_public_key).decode('utf8')
     encoded_local_key = urlsafe_b64encode(local_public_key).decode('utf8')
 
-    def pretty_print_POST(req):
-        """
-        At this point it is completely built and ready
-        to be fired; it is "prepared".
-
-        However pay attention at the formatting used in
-        this function because it is programmed to be pretty
-        printed and may differ from the actual request.
-        """
-        print('{}\n{}\n{}\n\n{}'.format(
-            '-----------START-----------',
-            req.method + ' ' + req.url,
-            '\n'.join('{}: {}'.format(k, v) for k, v in req.headers.items()),
-            req.body,
-        ))
-
-
-    req = requests.Request('POST', endpoint, data=encrypted_payload, headers={
+    headers = {
         'Authorization': f"WebPush {jwt.strip('=')}",
-        'Encryption': f"salt={encoded_salt}",
+        'Encryption': f"salt={encoded_salt.strip('=')}",
         'Content-Length': str(len(encrypted_payload)),
         'Content-Type': "application/octet-stream",
         'Content-Encoding': "aesgcm",
-        'Crypto-Key': f"dh={encoded_local_key.strip('=')};p256ecdsa={server_encoded_public_key.strip('=')}",
+        'Crypto-Key': f"p256ecdsa={server_encoded_public_key.strip('=')};dh={encoded_local_key.strip('=')}",
         'TTL': str(int(WEBPUSH_EXPIRATION)),
         'Urgency': "normal"
-    })
-    p = req.prepare()
-    pretty_print_POST(p)
-    r = requests.Session().send(p)
+    }
 
-    print(r.status_code)
-    print(r.content)
+    # Display topic if applicable
+    if notification.is_overwriting():
+        headers['Topic'] = f"{notification.get_target_descriptor()}-{notification.source_id}"
+
+    requests.post(endpoint, data=encrypted_payload, headers=headers)
+
+    # If the status code is NOT 2xx
+    # then we'll report the error
+    if r.status_code // 100 != 2:
+        try:
+            rejection_response = r.text
+        except:
+            rejection_response = 'Error reading rejection response'
+
+        if bugsnag.configuration.api_key is not None:
+            bugsnag.notify(
+                Exception("Web Push dispatch error"),
+                meta_data={
+                    'webpush_request': {
+                        'endpoint': f'{endpoint_url.scheme}://{endpoint_url.netloc}',
+                        'status_code': r.status_code
+                    },
+                    'webpush_response': {
+                        'response': rejection_response
+                    }
+                }
+            )
+
+        server.logger.error(f'Notification (Web Push) rejected {notification.uuid} -> {endpoint_url.netloc}:\n{rejection_response}')

@@ -104,6 +104,21 @@ class Notification(db.Model):
             NotificationType.POST_VOTE: lambda: "votes"
         }[self.notification_type]()
 
+    def is_overwriting(self):
+        """
+        Gets if this notification type should be grouped and
+        have older instances discarded.
+        """
+        return {
+            NotificationType.STATUS_UPDATE: False,
+            NotificationType.NEW_ANSWER: False,
+            NotificationType.OUTGOLFED: True,
+            NotificationType.NEW_POST_COMMENT: False,
+            NotificationType.NEW_ANSWER_COMMENT: False,
+            NotificationType.ANSWER_VOTE: True,
+            NotificationType.POST_VOTE: True
+        }[self.notification_type]
+
     def to_apns_json(self):
         """
         Returns APNS compliant JSON payload
@@ -125,7 +140,12 @@ class Notification(db.Model):
         return {
             'id': self.uuid,
             'title': self.get_title(),
-            'body': self.get_body()
+            'body': self.get_body(),
+            'category': self.get_target_descriptor(),
+            'source': self.source_id,
+            'target': self.target_id,
+            'overwriting': self.is_overwriting(),
+            'date': self.date_created.isoformat()
         }
 
     def to_json(self):
