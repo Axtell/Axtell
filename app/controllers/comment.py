@@ -95,10 +95,7 @@ def create_post_comment(post_id, parent_comment, comment_text):
         #  - is the owner of the post
         #  - is the owner of the new comment
 
-        if user_id == new_comment.user_id:
-            continue
-
-        if user_id == post.user_id:
+        if user_id in (post.user_id, new_comment.user_id):
             continue
 
         send_notification(Notification(
@@ -137,7 +134,7 @@ def create_answer_comment(answer_id, parent_comment, comment_text):
     db.session.add(new_comment)
     db.session.commit()
 
-        # Get the users that we should send notification to
+    # Get the users that we should send notification to
     comments_to_notify = get_comment_notification_targets(new_comment)
 
     for user_id, comment in comments_to_notify.items():
@@ -145,10 +142,7 @@ def create_answer_comment(answer_id, parent_comment, comment_text):
         #  - is the owner of the post
         #  - is the owner of the new comment
 
-        if user_id == new_comment.user_id:
-            continue
-
-        if user_id == answer.user_id:
+        if user_id == (answer.user_id, new_comment.user_id):
             continue
 
         send_notification(Notification(

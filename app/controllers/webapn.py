@@ -12,7 +12,11 @@ pn_redis_id_time = 60 * 2 # In seconds
 
 
 def is_valid_webapn_version(version):
-    return version == 1 or version == 2
+    # Functional on both versions. As of August 2018 the WebAPN is implemented
+    # with v2 however the whole process was tested with v1. The documentation
+    # does not mention what the changes are however it appears Axtell works with
+    # both.
+    return version in (1, 2)
 
 
 def add_apn_device(user, provider):

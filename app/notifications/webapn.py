@@ -15,11 +15,11 @@ from M2Crypto.SMIME import PKCS7_BINARY, PKCS7_DETACHED
 from app.models.APNDevice import APNDevice, APNProvider
 from app.server import server
 
-webapn_cert_name = "webapn.p12"
-webapn_cert_password_name = "webapn.password"
+WEBAPN_CERT_NAME = "webapn.p12"
+WEBAPN_CERT_PASSWORD_NAME = "webapn.password"
 
-webapn_pushpackage_template = 'Axtell.pushpackage';
-webapn_payloads = [
+WEBAPN_PUSHPACKAGE_TEMPLATE = 'Axtell.pushpackage';
+WEBAPN_PAYLOADS = [
     "icon.iconset/icon_16x16.png",
     "icon.iconset/icon_16x16@2x.png",
     "icon.iconset/icon_32x32.png",
@@ -45,8 +45,8 @@ def create_signature(manifest):
     as good as it'll get.
     """
 
-    certificate_path = path.join(getcwd(), webapn_cert_name)
-    certificate_password_path = path.join(getcwd(), webapn_cert_password_name)
+    certificate_path = path.join(getcwd(), WEBAPN_CERT_NAME)
+    certificate_password_path = path.join(getcwd(), WEBAPN_CERT_PASSWORD_NAME)
 
     with open(certificate_password_path, 'r') as password_file:
         passphrase = password_file.read().strip()
@@ -114,8 +114,8 @@ def create_pushpackage_zip(device):
     zip_file = BytesIO()
 
     with ZipFile(zip_file, 'w', ZIP_DEFLATED) as zf:
-        for file in webapn_payloads:
-            zf.write(path.join(server.static_folder, webapn_pushpackage_template, file), arcname=file)
+        for file in WEBAPN_PAYLOADS:
+            zf.write(path.join(server.static_folder, WEBAPN_PUSHPACKAGE_TEMPLATE, file), arcname=file)
 
         website_json = create_website_json(device=device)
         zf.writestr("website.json", website_json)

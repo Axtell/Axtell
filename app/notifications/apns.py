@@ -14,16 +14,16 @@ from json import dumps as json_dumps, loads as json_loads
 
 import bugsnag
 
-apns_key = 'apns.p8'
-apns_expiration = timedelta(days=1).total_seconds()
+APNS_KEY = 'apns.p8'
+APNS_EXPIRATION = timedelta(days=1).total_seconds()
 
 if server.debug and not notifications.get('web_apn_id', '').startswith('web.'):
-    apns_server = 'api.development.push.apple.com:443'
+    APNS_SERVER = 'api.development.push.apple.com:443'
 else:
-    apns_server = 'api.push.apple.com:443'
+    APNS_SERVER = 'api.push.apple.com:443'
 
 def create_apns_jwt():
-    with open(path.join(getcwd(), apns_key), 'rb') as key:
+    with open(path.join(getcwd(), APNS_KEY), 'rb') as key:
         jwk = JWK.from_pem(key.read())
 
     jwt = JWT(
@@ -51,14 +51,14 @@ def send_notification(device, notification):
 
     headers = {
         'authorization': f'bearer {authorization_jwt}',
-        'apns-expiration': str(int(time() + apns_expiration)),
+        'apns-expiration': str(int(time() + APNS_EXPIRATION)),
         'apns-priority': '5',
         'apns-topic': notifications['web_apn_id']
     }
 
     url = f'/3/device/{device.device_id}'
 
-    conn = HTTPConnection(apns_server)
+    conn = HTTPConnection(APNS_SERVER)
     conn.request('POST', url, body=notification_json, headers=headers)
 
     server.logger.info(f'Notification (APNS) dispatched {notification.uuid} -> {device.device_id}')

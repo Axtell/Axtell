@@ -14,7 +14,7 @@ def create_answer(post_id, code, commentary, lang_id=None, lang_name=None, encod
     """
     Creates an answer on a given post. You may provide `lang_id` if you have a
     known language, or `lang_name` instead if you have a non-native language.
-    Do NOT provide both. This will emit a notification too
+    Do NOT provide both. This will emit a notification too.
 
      - `401` when not logged in
      - `400` when a bad `lang_id` is provided.

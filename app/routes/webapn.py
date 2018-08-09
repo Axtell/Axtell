@@ -12,9 +12,6 @@ from json import dumps as json_dumps
 
 import bugsnag
 
-webapn_redis_id_prefix = 'webapn:'
-webapn_redis_id_time = 60 * 2 # In seconds
-
 """
 Safari Push Notification routes.
 

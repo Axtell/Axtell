@@ -19,7 +19,7 @@ def get_comment_notification_targets(comment):
     notifications = {}
 
     current_comment = comment.parent
-    while isinstance(current_comment, AnswerComment) or isinstance(current_comment, PostComment):
+    while isinstance(current_comment, (AnswerComment, PostComment)):
         # Associate a user with which one of their comments is being erplied to
         notifications[current_comment.user_id] = current_comment
         current_comment = current_comment.parent

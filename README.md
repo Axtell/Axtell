@@ -35,10 +35,10 @@ You can build Axtell's JavaScript documentation using `npm run docs` which will 
 ### 1. rereqs
 To get started make sure you have the following installed:
 
- - Python 3
+ - Python 3.6 or higher
  - MySQL
  - Probably Ruby (not 100% sure if actually required)
- - `node`/`npm`
+ - `node`/`npm` (Node.js 8 or higher is reccomended)
  - Redis
  - memcached
  - OpenSSL
@@ -65,20 +65,20 @@ The setup script automatically does most of this
  1. Set `secret_skey` to some random string. It doesn't matter what it is as long as it is random.
  1. Run `mysql -u MYSQL_USERNAME -e "CREATE DATABASE ppcg;"`
 
-If you look within `config.py`, you need to fill in various API keys from google, StackExchange, etc. Additionally in the configuration file you'll see various other fields you can modify
+If you look within `config.py`, you need to fill in various API keys from Google, StackExchange, etc. Additionally in the configuration file you'll see various other fields you can modify.
 
-#### Setting up Safari Push Notifications
+#### (Optional) Setting up Safari Push Notifications
 To integrate with iOS and macOS's Push Notification service you'll first need an Apple Developer Account. In the portal you'll need to create a Web Push Notification ID. Place this token in the `notifications.web_apn_id` field in the configuration file.
 
-Additionally the certificate (.p12) should be placed in the cwd of the server (i.e. the root) named 'webapn.p12' the password can be placed in a text file 'webapn.passsord' (will be trimmed).
+Additionally the certificate (.p12) should be placed in the cwd of the server and (i.e. the root) named 'webapn.p12'. The password should be placed in a text file 'webapn.passsword' (will be trimmed).
 
 You may need to clear your web-servers/reverse-proxy's cache since the `/static/webapn` routes qualify for caching (and they should). The app will automatically generate the bundles etc. as applicable.
 
-#### Setting up APNS
-To integrate with APNS you'll need to enter your Apple Developer Team ID in the `config.py` under notifications. Additionally you need to place your APN key in the root directory of Axtell (i.e. execution CWD) as `apns.p8`. Fort hsi provide the `apns_key_id` and `apns_team_id` and `web_apn_id` under `notifications`
+#### (Optional) Setting up APNS
+If you're setting up Safari Push Notifications, for those notifications to be actually delivered you'll need to setup APNS. To integrate with APNS you'll need to enter your Apple Developer Team ID in the `config.py` under notifications. Additionally you need to place your APN key in the root directory of Axtell (i.e. execution CWD) as `apns.p8`. Fort hsi provide the `apns_key_id` and `apns_team_id` and `web_apn_id` under `notifications`
 
-#### Setting up Web Push
-Web Push is a protocol for push notifications that extends to Chrome, Firefox, and potentially more browsers. This uses service workers to dispatch notifications. To setup Web Push you need to generate a VAPID key pair which can be done by running these OpenSSL commands:
+#### (Optional) Setting up Web Push
+Web Push is a protocol for push notifications that extends to Chrome, Firefox, and potentially more browsers. This uses service workers to dispatch notifications. To setup Web Push you need to generate a VAPID key pair (same as a EC NIST P-256 key pair) which can be done by running these OpenSSL commands:
 
 ```
 openssl ecparam -name prime256v1 -genkey -noout -out webpush-private.pem
