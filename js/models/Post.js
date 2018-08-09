@@ -2,8 +2,6 @@ import Data from '~/models/Data';
 import User from '~/models/User';
 import CanonicalPostURL from '~/models/Request/CanonicalPostURL';
 
-import slugify from 'slug';
-
 export const MIN_TITLE_LENGTH = Data.shared.envValueForKey('POST_TITLE_MIN');
 export const MAX_TITLE_LENGTH = Data.shared.envValueForKey('POST_TITLE_MAX');
 export const MIN_BODY_LENGTH = Data.shared.envValueForKey('POST_BODY_MIN');
