@@ -1,5 +1,5 @@
 self.addEventListener('push', (event) => {
-    console.log('[Axtell.sw.PushNotification] Received Push');
+    console.log(`[Axtell.sw.PushNotification] Received Push ID ${notificationJSON.id}`);
 
     const notificationJSON = event.data.json();
     const notificationDate = new Date(notificationJSON.date_created);

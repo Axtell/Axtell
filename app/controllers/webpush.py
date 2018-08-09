@@ -63,16 +63,3 @@ def add_webpush_device(subscription_json):
     db.session.commit()
 
     return render_json({'device_id': push_device.id})
-
-
-def remove_webpush_device(device_id):
-    if not isinstance(g.user, User):
-        return abort(401)
-
-    PushDevice.query.\
-        filter_by(id=device_id, user_id=g.user.id).\
-        delete()
-
-    db.session.commit()
-
-    return render_json({'device_id': device_id})

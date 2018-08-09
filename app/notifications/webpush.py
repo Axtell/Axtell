@@ -12,6 +12,8 @@ from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
+from app.models.PushDevice import PushDevice
+from app.instances.db import db
 from app.server import server
 
 from base64 import urlsafe_b64encode, urlsafe_b64decode
@@ -173,11 +175,19 @@ def send_notification(notification, endpoint, client_encoded_public_key, auth):
     if notification.is_overwriting():
         headers['Topic'] = f"{notification.get_target_descriptor()}-{notification.source_id}"
 
-    requests.post(endpoint, data=encrypted_payload, headers=headers)
+    r = requests.post(endpoint, data=encrypted_payload, headers=headers)
 
     # If the status code is NOT 2xx
     # then we'll report the error
-    if r.status_code // 100 != 2:
+    if r.status_code == 410:
+        # Code of 410 means the user has unsubscribed from notifs. This means we
+        # must remove the device
+        PushDevice.query.\
+            filter_by(endpoint=endpoint).\
+            delete()
+
+        db.session.commit()
+    elif r.status_code // 100 != 2:
         try:
             rejection_response = r.text
         except:

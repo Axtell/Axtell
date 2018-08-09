@@ -2,8 +2,8 @@ import Data, { EnvKey } from '~/models/Data';
 import ErrorManager, { AnyError } from '~/helpers/ErrorManager';
 import WebPushNewDevice from '~/models/Request/WebPushNewDevice';
 import WebAPNToken from '~/models/Request/WebAPNToken';
-import serviceWorker, { Workers } from '~/helpers/ServiceWorkers';
 import WebPushKey from '~/models/Request/WebPushKey';
+import ServiceWorker from '~/helpers/ServiceWorker';
 
 export const PNAPNUnknownResponseState = Symbol('PN.APN.Error.UnknownResponseState');
 
@@ -139,30 +139,16 @@ export default class PushNotification {
     }
 
     /**
-     * Subscribes a listener to a notification WebSocket. This has
-     * undefined behavior if the user is not authorized.
-     */
-
-    /**
-     * Requests permission for *desktop* push notifications
+     * Requests permission for *desktop* push notifications. If there is already
+     * perms this will request again.
+     *
      * @async
      * @return {boolean} If priviledge was obtained or not
      */
     requestPriviledge() {
         return new Promise(async (resolve, reject) => {
-            if (this.hasPermissions) {
-                // Setup APN
-                return resolve(true)
-            }
-
             // If we don't have permission then ¯\_(ツ)_/¯
             if (this.denied) { return resolve(false) }
-
-            if (!this.needsRequest) {
-                return reject(
-                    new AnyError('Not denied or accepted but request not needed', PNAPNUnknownResponseState)
-                );
-            }
 
             if (this.useAPN) {
                 if (!this.backendSupportsAPN) {
@@ -183,9 +169,9 @@ export default class PushNotification {
                     }
                 )
             } else if (this.usePush) {
-
                 const key = await new WebPushKey().run();
-                const registration = await serviceWorker(Workers.pushNotifications);
+                const serviceWorker = await ServiceWorker.global();
+                const registration = serviceWorker.registration;
 
                 // Request permission
                 const permission = await new Promise((resolve, reject) => {
@@ -200,10 +186,8 @@ export default class PushNotification {
                     applicationServerKey: key
                 });
 
-                console.log(window.p = pushSubscription);
                 // Submit to server
                 const deviceId = await new WebPushNewDevice(pushSubscription).run();
-                console.log(deviceId);
 
                 resolve(true);
             } else {

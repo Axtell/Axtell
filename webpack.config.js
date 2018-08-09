@@ -31,7 +31,7 @@ if (!isDevelopment) {
 module.exports = {
     entry: {
         main: './js/main.js',
-        'sw.PushNotifications': './js/ServiceWorkers/PushNotifications/index.js'
+        sw: './js/ServiceWorker/index.js'
     },
     output: {
         path: path.resolve(__dirname, 'static/lib'),
