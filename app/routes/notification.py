@@ -4,17 +4,16 @@ from app.models.Notification import NotificationStatus
 from app.models.User import User
 from app.session.csrf import csrf_protected
 from app.helpers.render import render_json, render_enum
+from app.session.authorization import is_authorized_json
 from app.server import server
 
 from flask import request, abort, redirect, url_for, g
 
 
 @server.route('/notifications/status')
+@is_authorized_json
 @csrf_protected
 def notification_status():
-    if not isinstance(g.user, User):
-        return render_error('Unauthorized'), 401
-
     unseen_notifs = notifications.get_unseen_notification_count()
 
     if not isinstance(unseen_notifs, int):
@@ -33,11 +32,9 @@ def get_notification_enum_types():
     return render_enum(notifications.get_notification_types())
 
 @server.route('/notifications/all/page/<int:page>', methods=['GET'])
+@is_authorized_json
 @csrf_protected
 def get_notification_page(page):
-    if not isinstance(g.user, User):
-        return render_error('Unauthorized'), 401
-
     return notifications.get_notification_page(page)
 
 @server.route('/notifications/all/mark/<int:state>', methods=['POST'])

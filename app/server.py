@@ -18,7 +18,6 @@ import config
 class AxtellFlask(Flask):
     template_folder = "assets/templates"
 
-
 server = AxtellFlask("Axtell")
 server.secret_key = config.secret_skey
 
