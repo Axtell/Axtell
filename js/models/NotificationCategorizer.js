@@ -218,7 +218,7 @@ export default class NotificationCategorizer {
             sameDay: '[Today]',
             lastDay: '[Yesterday]',
             lastWeek: '[Last] dddd',
-            sameElse: 'Older'
+            sameElse: '[Older]'
         })
     }
 
