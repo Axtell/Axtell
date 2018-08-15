@@ -1,6 +1,5 @@
 from flask import request, session, abort
 from functools import wraps
-from app.server import server
 import config
 
 csrf_token_name = 'csrf'
@@ -16,6 +15,8 @@ def validate_csrf(csrf_token):
 def csrf_protected(f):
     @wraps(f)
     def wrap(*args, **kwargs):
+        from app.server import server
+
         actual_csrf_token = session.get(csrf_token_name, None)
 
         if 'csrf_token' in request.form:
