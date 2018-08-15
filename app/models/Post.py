@@ -4,6 +4,7 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy import select, func
 from config import posts
 from app.helpers.macros.encode import slugify
+from app.models.IndexStatus import IndexStatus
 from app.models.PostRevision import PostRevision
 from app.models.PostVote import PostVote
 import datetime
@@ -27,7 +28,18 @@ class Post(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
+    index_status = db.Column(db.Enum(IndexStatus), default=IndexStatus.UNINDEXED, nullable=False)
+
     ppcg_id = db.Column(db.Integer, nullable=True)
+
+    def get_index_json(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'body': self.body,
+            'date_created': self.date_created.isoformat(),
+            'score': self.score
+        }
 
     @hybrid_property
     def score(self):

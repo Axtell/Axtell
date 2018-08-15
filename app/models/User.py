@@ -1,5 +1,6 @@
 from app.instances.db import db
 from app.helpers.macros.gravatar import gravatar
+from app.models.IndexStatus import IndexStatus
 
 import config
 
@@ -19,7 +20,15 @@ class User(db.Model):
     posts = db.relationship('Post', backref='user')
     theme = db.Column(db.Integer, db.ForeignKey('themes.id'), nullable=True)
 
+    index_status = db.Column(db.Enum(IndexStatus), default=IndexStatus.UNINDEXED, nullable=False)
+
     following_public = db.Column(db.Boolean, nullable=False, default=False)
+
+    def get_index_json(self):
+        return {
+            'id': self.id,
+            'name': self.name
+        }
 
     def follow(self, user):
         """

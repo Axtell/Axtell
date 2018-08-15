@@ -89,6 +89,37 @@ These files are searched for in the root directory and are used for encrypting t
 
 Additionally you will need to supply the `notifications.support_email` config field.
 
+#### (Optional) Search
+Axtell search uses [Algolia](https://www.algolia.com/) to index and search Axtell content. Axtell will not index old information however in these conditions:
+
+ - The server starts
+ - Every 24 hous
+
+Axtell's Algolia worker will scan the database for unindexed items and index them in Algolia. As data comes in it will be indexed. To use Algolia you will need to provide the parameters in `auth.algolia`. **Do NOT** provide an admin key as a search key as this will allow unconditional client access to your Algolia application.
+
+Additionally the `auth.algolia.prefix` is prefixed to all index names. For a production, it's reccomended to use `prod`, and for development to use `dev`. This can be anything; if this is empty then no prefix is used but this is not recommended.
+
+#### (Optional) Bug Tracking
+Axtell uses [Bugsnag](https://www.bugsnag.com/) to track bugs. To setup bugsnag, first setup the API keys in `auth.bugsnag` in the config. To deploy JavaScript source maps to bugsnag, run:
+
+```bash
+for js_source in static/lib/axtell~*.js; do
+  JS_SOURCES+=($PROTOCOL://$HOSTNAME/$js_source@$js_source)
+done
+
+echo "SUBMITTING FRONTEND BUGSNAG SOURCEMAP..."
+http -f POST https://upload.bugsnag.com/ \
+  apiKey=$BUGSNAG_FRONTEND_API_KEY \
+  appVersion=$(git rev-parse @) \
+  minifiedUrl=$PROTOCOL://$HOSTNAME/static/lib/axtell.main.js \
+  minifiedFile@static/lib/axtell.main.js \
+  sourceMap@static/lib/axtell.main.js.map \
+  "${JS_SOURCES[@]}"
+```
+
+and pass `PROTOCOL`, `HOSTNAME` and `BUGSNAG_FRONTEND_API_KEY` as parameters.
+
+
 ### 3. Build
 You will need to build the assets (CSS and JS) before running Axtell. You can do this using:
 
