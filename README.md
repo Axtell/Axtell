@@ -89,6 +89,8 @@ These files are searched for in the root directory and are used for encrypting t
 
 Additionally you will need to supply the `notifications.support_email` config field.
 
+**Note:** They are a finite amount of Web Push devices registerable per user, you can configure this using `notifications.max_push_devices` in the config
+
 ### 3. Build
 You will need to build the assets (CSS and JS) before running Axtell. You can do this using:
 
