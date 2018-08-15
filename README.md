@@ -89,6 +89,8 @@ These files are searched for in the root directory and are used for encrypting t
 
 Additionally you will need to supply the `notifications.support_email` config field.
 
+**Note:** They are a finite amount of Web Push devices registerable per user, you can configure this using `notifications.max_push_devices` in the config
+
 #### (Optional) Search
 Axtell search uses [Algolia](https://www.algolia.com/) to index and search Axtell content. Axtell will not index old information however in these conditions:
 
@@ -118,7 +120,6 @@ http -f POST https://upload.bugsnag.com/ \
 ```
 
 and pass `PROTOCOL`, `HOSTNAME` and `BUGSNAG_FRONTEND_API_KEY` as parameters.
-
 
 ### 3. Build
 You will need to build the assets (CSS and JS) before running Axtell. You can do this using:
