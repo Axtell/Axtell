@@ -6,3 +6,6 @@ if not auth['algolia']['app-id']:
     client = None
 else:
     client = algoliasearch.Client(auth['algolia']['app-id'], auth['algolia']['admin-key'])
+
+def reindex_database():
+    pass
