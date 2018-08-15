@@ -142,7 +142,7 @@ def create_answer_comment(answer_id, parent_comment, comment_text):
         #  - is the owner of the post
         #  - is the owner of the new comment
 
-        if user_id == (answer.user_id, new_comment.user_id):
+        if user_id in (answer.user_id, new_comment.user_id):
             continue
 
         send_notification(Notification(
