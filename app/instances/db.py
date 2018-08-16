@@ -12,7 +12,7 @@ server.config['SQLALCHEMY_DATABASE_URI'] = \
     f"mysql+mysqlconnector://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/" \
     f"{db_config['database']}?charset=utf8mb4"
 server.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(server)
+db = SQLAlchemy()
 
 # Redis
 redis_db = redis.StrictRedis(**config.redis_config)

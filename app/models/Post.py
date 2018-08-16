@@ -4,9 +4,9 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy import select, func
 from config import posts
 from app.helpers.macros.encode import slugify
-from app.models.IndexStatus import IndexStatus
 from app.models.PostRevision import PostRevision
 from app.models.PostVote import PostVote
+from app.helpers.search_index import index_json, IndexStatus, gets_index
 import datetime
 from math import sqrt
 
@@ -32,14 +32,28 @@ class Post(db.Model):
 
     ppcg_id = db.Column(db.Integer, nullable=True)
 
+    @index_json
     def get_index_json(self):
+        last_revision = PostRevision.query.filter_by(post_id=post_id).order_by(PostRevision.revision_time.desc).first()
+        if isinstance(last_revision, PostRevision):
+            last_modified = last_revision.revision_time
+        else:
+            last_modified = self.date_created
+
         return {
+            'objectID': f'post-{self.id}',
             'id': self.id,
             'title': self.title,
             'body': self.body,
             'date_created': self.date_created.isoformat(),
-            'score': self.score
+            'last_modified': last_modified.isoformat(),
+            'score': self.score,
+            'author': self.user.get_index_json(root_object=False)
         }
+
+    @gets_index
+    def get_index():
+        return 'posts'
 
     @hybrid_property
     def score(self):

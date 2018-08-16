@@ -9,6 +9,8 @@ from bugsnag.flask import handle_exceptions
 import bugsnag
 
 import app.tasks.update as update
+import app.tasks.search as search
+
 from app.instances.celery import redis_url
 from app.helpers import macros
 import golflang_encodings
@@ -60,6 +62,7 @@ if server.debug and config.profile:
 
 # Get the first set of JWT keys
 update.jwt_update.delay().wait()
+search.reindex_database.delay()
 
 
 # Used to measure request duration

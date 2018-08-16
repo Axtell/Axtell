@@ -1,6 +1,6 @@
 from app.instances.db import db
 from app.helpers.macros.gravatar import gravatar
-from app.models.IndexStatus import IndexStatus
+from app.helpers.search_index import index_json, IndexStatus, gets_index
 
 import config
 
@@ -24,11 +24,17 @@ class User(db.Model):
 
     following_public = db.Column(db.Boolean, nullable=False, default=False)
 
+    @index_json
     def get_index_json(self):
         return {
+            'objectID': f'user-{self.id}',
             'id': self.id,
             'name': self.name
         }
+
+    @gets_index
+    def get_index():
+        return 'users'
 
     def follow(self, user):
         """

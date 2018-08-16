@@ -3,7 +3,7 @@ from sqlalchemy import select, func
 from sqlalchemy.ext.hybrid import hybrid_property
 import app.models.Language
 from app.models.AnswerRevision import AnswerRevision
-from app.models.AnswerVote import AnswerVote
+from app.helpers.search_index import index_json, IndexStatus, gets_index
 import datetime
 from math import sqrt
 from config import answers
@@ -35,6 +35,31 @@ class Answer(db.Model):
 
     user = db.relationship('User', backref='answers')
     post = db.relationship('Post', backref='answers', lazy=True)
+
+    @index_json
+    def get_index_json(self):
+        last_revision = AnswerRevision.query.filter_by(post_id=post_id).order_by(AnswerRevision.revision_time.desc).first()
+        if isinstance(last_revision, AnswerRevision):
+            last_modified = last_revision.revision_time
+        else:
+            last_modified = self.date_created
+
+        return {
+            'objectID': f'answer-{self.id}',
+            'id': self.id,
+            'date_created': self.date_created.isoformat(),
+            'last_modified': last_modified.isoformat(),
+            'language': self.get_language().get_id(),
+            'byte_count': self.byte_len,
+            'author': self.user.get_index_json(root_object=False),
+            'post': {
+                'id': self.post_id
+            }
+        }
+
+    @gets_index
+    def get_index():
+        return 'answers'
 
     @hybrid_property
     def byte_len(self):
