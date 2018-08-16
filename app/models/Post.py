@@ -28,7 +28,7 @@ class Post(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    index_status = db.Column(db.Enum(IndexStatus), default=IndexStatus.UNINDEXED, nullable=False)
+    index_status = db.Column(db.Enum(IndexStatus), default=IndexStatus.UNSYNCHRONIZED, nullable=False)
 
     ppcg_id = db.Column(db.Integer, nullable=True)
 

@@ -22,9 +22,9 @@ def reindex_database():
     from app.models.User import User
     from app.instances.db import db
 
-    unsynced_posts = Post.query.with_for_update().filter_by(index_status=search_index.IndexStatus.UNINDEXED).all()
-    unsynced_answers = Answer.query.with_for_update().filter_by(index_status=search_index.IndexStatus.UNINDEXED).all()
-    unsynced_users = User.query.with_for_update().filter_by(index_status=search_index.IndexStatus.UNINDEXED).all()
+    unsynced_posts = Post.query.with_for_update().filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
+    unsynced_answers = Answer.query.with_for_update().filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
+    unsynced_users = User.query.with_for_update().filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
 
     items = [*unsynced_posts, *unsynced_answers, *unsynced_users]
 
@@ -39,7 +39,7 @@ def reindex_database():
 @celery_app.task
 def syncronize_objects(items):
     """
-    Ensure you commit after calling this as this will update the indexed
+    Ensure you commit after calling this as this will update the synchronized
     constraints.
     """
 
@@ -54,7 +54,7 @@ def syncronize_objects(items):
         index.add_objects(objects)
 
     for item in items:
-        item.index_status = search_index.IndexStatus.INDEXED
+        item.index_status = search_index.IndexStatus.SYNCHRONIZED
 
 
 

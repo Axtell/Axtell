@@ -14,10 +14,8 @@ else:
 
 
 class IndexStatus(SerializableEnum):
-    UNINDEXED = 0
-    TRANSITIONING = 1
-    INDEXED = 2
-    STALE = 3
+    UNSYNCHRONIZED = 0
+    SYNCHRONIZED = 1
 
 
 def index_json(f):

@@ -31,7 +31,7 @@ class Answer(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.datetime.now)
 
-    index_status = db.Column(db.Enum(IndexStatus), default=IndexStatus.UNINDEXED, nullable=False)
+    index_status = db.Column(db.Enum(IndexStatus), default=IndexStatus.UNSYNCHRONIZED, nullable=False)
 
     user = db.relationship('User', backref='answers')
     post = db.relationship('Post', backref='answers', lazy=True)

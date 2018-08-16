@@ -20,7 +20,7 @@ class User(db.Model):
     posts = db.relationship('Post', backref='user')
     theme = db.Column(db.Integer, db.ForeignKey('themes.id'), nullable=True)
 
-    index_status = db.Column(db.Enum(IndexStatus), default=IndexStatus.UNINDEXED, nullable=False)
+    index_status = db.Column(db.Enum(IndexStatus), default=IndexStatus.UNSYNCHRONIZED, nullable=False)
 
     following_public = db.Column(db.Boolean, nullable=False, default=False)
 
