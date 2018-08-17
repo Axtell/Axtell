@@ -73,14 +73,36 @@ users = {
 }
 
 user_list = {
+    # How many users to show in a followers/following list by default
     'page_len': 5
 }
 
 comments = {
+    # Minimum comment length
     'min_len': 10,
-    'max_len': 140,
+    # Maximum comment length
+    'max_len': 240,
+    # How many top-level to comments to show by default
     'show_amt': 3,
+    # For nested comments how many comments to show by default
     'nest_amt': 1
+}
+
+notifications = {
+    # Show 5 notifications by default (same page size)
+    'page_size': 5,
+    # Apple Push Notifications ID
+    'web_apn_id': '',
+    # Apple APN Private Key ID
+    'apns_key_id': '',
+    # Apple Developer Team ID
+    'apple_team_id': '',
+    # Email address to contact as notification support
+    'support_email': '',
+    # Maximum amount of push devices
+    'max_push_devices': 5,
+    # Maximum amount of APN devices
+    'max_apn_devices': 5
 }
 
 secret_skey = 'SESSION_SECRET_KEY'

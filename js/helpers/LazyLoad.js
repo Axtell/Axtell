@@ -25,14 +25,14 @@ const LazyLoad = {
 
     stylesheet(url) {
         return this.resource(
-            <link rel="stylesheet" href={url} media="none" onload="this.media='all'"/>,
+            <link crossorigin="anonymous" rel="stylesheet" href={url} media="none" onload="this.media='all'"/>,
             url
         );
     },
 
     script(url) {
         return this.resource(
-            <script type="text/javascript" async="true" src={url}></script>,
+            <script crossorigin="anonymous" type="text/javascript" async="true" src={url}></script>,
             url
         )
     },

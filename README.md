@@ -3,20 +3,49 @@ An improved user experience for competitive programming.
 
 [![Build Status](https://travis-ci.org/Axtell/Axtell.svg?branch=master)](https://travis-ci.org/Axtell/Axtell) [![codecov](https://codecov.io/gh/Axtell/Axtell/branch/master/graph/badge.svg)](https://codecov.io/gh/Axtell/Axtell)
 
-## Setup
-### Prereqs
+## Project Structure
+An overview of the Axtell project and key components:
+
+ - Axtell backend (`app/`)
+    - Database models (`app/models`)
+    - Controllers to manage interaction logic (`app/controllers`)
+    - Routes (which talk to controllers) to serve and parse requests (`app/routes`)
+    - Socket routes (`app/socket_routes`)
+    - Session management code (`app/session`)
+    - Celery tasks (`app/tasks`). We offload more expensive tasks to Celery which manages worker processes, this includes things like the markdown renderer.
+    - Instances (`app/instances`) global object instances e.g. database or redis instances are located here
+    - Helpers (`app/helpers`). Various functions in classes that can be used generically to do things.
+        - OAuth callbacks (`app/helpers/oauth`). These are a part of OAuth login and return a profile for a new OAuth user
+        - Macros (`app/helpers/macros`). These macros are available to Jinja2 templates
+ - JavaScripts source (`js/`). This is setup similar to the Axtell backend.
+    - Controllers to manage interaction logic with HTML (`js/controllers`)
+    - Templates are JavaScript components (`js/templates`)
+    - Models are your typical models (`js/models`). Important modules:
+        - `Request` is a subclassable abstract class that centralizes all requests and handles CSRF etc.
+        - `PagedRequest` is a subclass of `Request` to interact with pages
+        - `Data` manages structured information associated with a page
+        - `Auth` manages the authorization instance of a user
+    - `js/helpers/ErrorManager` centralizes ErrorManagement and sends detailed reports to bugsnag along with pretty-printing reporting.
+ - SCSS source (`scss/`)
+ - HTML Templates (`templates/`) which are Jinja2
+
+You can build Axtell's JavaScript documentation using `npm run docs` which will create the `docs-js` directory. Additionally you may reference the [hosted API documentation](https://api.axtell.vihan.org)
+
+## Setting up Axtell
+### 1. rereqs
 To get started make sure you have the following installed:
 
- - Python 3
+ - Python 3.6 or higher
  - MySQL
- - `bundle`
- - `node`/`npm`
+ - Probably Ruby (not 100% sure if actually required)
+ - `node`/`npm` (Node.js 8 or higher is reccomended)
  - Redis
  - memcached
+ - OpenSSL
+    - macOS users should run `brew install openssl && brew link openssl --force`
 
 and the plugins (may be missing certain see `requirements.txt` for all):
 
- - Ruby gems (`bundle install`)
  - Node.js packages (`npm install`)
  - All plugins in `requirements.txt` (`pip install -r requirements.txt`)
 
@@ -27,7 +56,7 @@ additionally you need to know:
 
 You can use `setup.sh` to try to automatically setup most things. Run this with `sudo`.
 
-### Setup
+### 2. Setup
 The setup script automatically does most of this
 
  1. Copy `config.default.py` to `config.py`
@@ -36,9 +65,46 @@ The setup script automatically does most of this
  1. Set `secret_skey` to some random string. It doesn't matter what it is as long as it is random.
  1. Run `mysql -u MYSQL_USERNAME -e "CREATE DATABASE ppcg;"`
 
-If you look within `config.py`, you need to fill in various API keys from google, StackExchange, etc.
+If you look within `config.py`, you need to fill in various API keys from Google, StackExchange, etc. Additionally in the configuration file you'll see various other fields you can modify.
 
-### Run
+#### (Optional) Setting up Safari Push Notifications
+To integrate with iOS and macOS's Push Notification service you'll first need an Apple Developer Account. In the portal you'll need to create a Web Push Notification ID. Place this token in the `notifications.web_apn_id` field in the configuration file.
+
+Additionally the certificate (.p12) should be placed in the cwd of the server and (i.e. the root) named 'webapn.p12'. The password should be placed in a text file 'webapn.passsword' (will be trimmed).
+
+You may need to clear your web-servers/reverse-proxy's cache since the `/static/webapn` routes qualify for caching (and they should). The app will automatically generate the bundles etc. as applicable.
+
+#### (Optional) Setting up APNS
+If you're setting up Safari Push Notifications, for those notifications to be actually delivered you'll need to setup APNS. To integrate with APNS you'll need to enter your Apple Developer Team ID in the `config.py` under notifications. Additionally you need to place your APN key in the root directory of Axtell (i.e. execution CWD) as `apns.p8`. Fort hsi provide the `apns_key_id` and `apns_team_id` and `web_apn_id` under `notifications`
+
+#### (Optional) Setting up Web Push
+Web Push is a protocol for push notifications that extends to Chrome, Firefox, and potentially more browsers. This uses service workers to dispatch notifications. To setup Web Push you need to generate a VAPID key pair (same as a EC NIST P-256 key pair) which can be done by running these OpenSSL commands:
+
+```
+openssl ecparam -name prime256v1 -genkey -noout -out webpush-private.pem
+openssl ec -in webpush-private.pem -pubout -out webpush-public.pem
+```
+
+These files are searched for in the root directory and are used for encrypting things such as Web Push messages.
+
+Additionally you will need to supply the `notifications.support_email` config field.
+
+**Note:** They are a finite amount of Web Push devices registerable per user, you can configure this using `notifications.max_push_devices` in the config
+
+### 3. Build
+You will need to build the assets (CSS and JS) before running Axtell. You can do this using:
+
+Production build:
+```sh
+./build_all.sh
+```
+
+Debug build. This will not minify and will also enable a "watcher" program (rebuilds assets everytime you make a change):
+```sh
+./build_all_debug.sh
+```
+
+### 4. Run
 
 Make sure that your Redis server is running!
 

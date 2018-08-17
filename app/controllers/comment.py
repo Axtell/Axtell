@@ -3,6 +3,9 @@ from app.models.AnswerComment import AnswerComment
 from app.models.Post import Post
 from app.models.Answer import Answer
 from app.instances.db import db
+from app.models.Notification import Notification, NotificationType
+from app.notifications.send_notification import send_notification
+from app.helpers.comments import get_comment_notification_targets
 from flask import g, abort, redirect, url_for
 from config import comments
 
@@ -84,6 +87,34 @@ def create_post_comment(post_id, parent_comment, comment_text):
     db.session.add(new_comment)
     db.session.commit()
 
+    # Get the users that we should send notification to
+    comments_to_notify = get_comment_notification_targets(new_comment)
+
+    for user_id, comment in comments_to_notify.items():
+        # Dont notify user if:
+        #  - is the owner of the post
+        #  - is the owner of the new comment
+
+        if user_id in (post.user_id, new_comment.user_id):
+            continue
+
+        send_notification(Notification(
+            sender_id=new_comment.user_id,
+            target_id=new_comment.id,
+            recipient_id=user_id,
+            source_id=comment.id,
+            notification_type=NotificationType.NEW_POST_COMMENT
+        ))
+
+    # Notify the owner of the post
+    send_notification(Notification(
+        sender_id=new_comment.user_id,
+        target_id=new_comment.id,
+        recipient_id=post.user_id,
+        source_id=None,
+        notification_type=NotificationType.NEW_POST_COMMENT
+    ))
+
     return new_comment
 
 
@@ -102,6 +133,34 @@ def create_answer_comment(answer_id, parent_comment, comment_text):
 
     db.session.add(new_comment)
     db.session.commit()
+
+    # Get the users that we should send notification to
+    comments_to_notify = get_comment_notification_targets(new_comment)
+
+    for user_id, comment in comments_to_notify.items():
+        # Dont notify user if:
+        #  - is the owner of the post
+        #  - is the owner of the new comment
+
+        if user_id in (answer.user_id, new_comment.user_id):
+            continue
+
+        send_notification(Notification(
+            sender_id=new_comment.user_id,
+            target_id=new_comment.id,
+            recipient_id=user_id,
+            source_id=comment.id,
+            notification_type=NotificationType.NEW_ANSWER_COMMENT
+        ))
+
+    # Notify the owner of the post
+    send_notification(Notification(
+        sender_id=new_comment.user_id,
+        target_id=new_comment.id,
+        recipient_id=answer.user_id,
+        source_id=None,
+        notification_type=NotificationType.NEW_ANSWER_COMMENT
+    ))
 
     return new_comment
 

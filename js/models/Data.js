@@ -15,7 +15,10 @@ export const Key = {
  * @property {string} isDebug - If is debugging instance
  */
 export const EnvKey = {
-    isDebug: 'IS_DEBUG'
+    csrf: 'CSRF',
+    host: 'HOST',
+    isDebug: 'IS_DEBUG',
+    webAPNId: 'WEB_APN_ID',
 };
 
 /**

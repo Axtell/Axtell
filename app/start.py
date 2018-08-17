@@ -5,6 +5,7 @@ import app.server
 # Since all the work is being done by the code in the routes modules being run,
 # Nothing from the modules actually gets called from something external.
 from app.routes import *
+from app.socket_routes import *
 from app.models import *
 
 # Sets up authorization middleware.
@@ -20,4 +21,4 @@ server = app.server.server
 
 
 def run(host, port):
-    app.server.server.run(host=host, port=port)
+    server.run(host=host, port=port, ssl_context=('server.crt', 'server.key'))

@@ -2,11 +2,13 @@
 import 'url-search-params-polyfill';
 import 'element-dataset';
 
+import '~/modern/GeneratorExtensions';
+
 // /* from CDN */ import bugsnag from 'bugsnag-js';
 import tippy from 'tippy.js/dist/tippy.all.min.js';
 
 import KeyManager from "~/models/KeyManager";
-import ViewController, { AssociatedController } from "~/controllers/ViewController";
+import ViewController from "~/controllers/ViewController";
 import Normalize from "~/models/Normalize";
 import Language from "~/models/Language";
 import Theme from "~/models/Theme";
@@ -14,10 +16,13 @@ import Post from "~/models/Post";
 import Data from "~/models/Data";
 import Random from "~/modern/Random";
 import Auth from "~/models/Auth";
+import PushNotifications from "~/models/PushNotifications";
+import WebPushKey from "~/models/Request/WebPushKey";
 import Template from "~/template/Template";
 import AnimationController, { Animation } from "~/controllers/AnimationController";
 
 import Request from "~/models/Request/Request";
+import WebAPNToken from "~/models/Request/WebAPNToken";
 import Leaderboard from "~/models/Request/Leaderboard";
 
 import ErrorManager, * as ErrorData from "~/helpers/ErrorManager";
@@ -58,11 +63,14 @@ window.addEventListener("unhandledrejection", (error) => {
                 Request,
                 Leaderboard,
 
+                PushNotifications,
+                WebAPNToken,
+                WebPushKey,
+
                 KeyManager,
                 ErrorManager,
                 ErrorData,
 
-                AssociatedController,
                 AnimationController,
                 Animation,
 

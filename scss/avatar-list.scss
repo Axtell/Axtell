@@ -1,0 +1,19 @@
+.avatar-list {
+    position: relative;
+    display: inline;
+
+    font-size: 1.5rem;
+    height: 1em;
+
+    img {
+        @include square(1em);
+
+        border-radius: 50%;
+        box-sizing: border-box;
+        border: 1px solid $content-bg;
+
+        + img {
+            margin-left: -.3em;
+        }
+    }
+}

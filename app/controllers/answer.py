@@ -2,6 +2,9 @@ from flask import g, abort, redirect, url_for
 
 from app.instances.db import db
 from app.models.Answer import Answer
+from app.models.Notification import Notification, NotificationType
+from app.notifications.send_notification import send_notification
+from app.helpers.answers import get_outgolfed_answers
 from app.models.Post import Post
 from app.models.Language import Language
 from config import posts
@@ -11,14 +14,14 @@ def create_answer(post_id, code, commentary, lang_id=None, lang_name=None, encod
     """
     Creates an answer on a given post. You may provide `lang_id` if you have a
     known language, or `lang_name` instead if you have a non-native language.
-    Do NOT provide both.
+    Do NOT provide both. This will emit a notification too.
 
-     - `403` when not logged in
+     - `401` when not logged in
      - `400` when a bad `lang_id` is provided.
     """
 
     if g.user is None:
-        return abort(403)
+        return abort(401)
 
     # Ensure language exists
     if lang_id is not None and not Language.exists(lang_id):
@@ -32,6 +35,29 @@ def create_answer(post_id, code, commentary, lang_id=None, lang_name=None, encod
 
     db.session.add(new_answer)
     db.session.commit()
+
+    # Dispatch notification to post owner. Only dispatch if the post
+    # user isn't the same as the answer owner.
+    if post.user_id != new_answer.user_id:
+        send_notification(Notification(
+            recipient=post.user,
+            target_id=new_answer.id,
+            sender=new_answer.user,
+            source_id=post_id,
+            notification_type=NotificationType.NEW_ANSWER
+        ))
+
+    # Dispatch notifications to outgolfed users
+    outgolfed_answers = get_outgolfed_answers(new_answer)
+
+    for outgolfed_answer in outgolfed_answers:
+        send_notification(Notification(
+            sender=new_answer.user,
+            target_id=new_answer.id,
+            recipient=outgolfed_answer.user,
+            source_id=outgolfed_answer.id,
+            notification_type=NotificationType.OUTGOLFED
+        ))
 
     return redirect(url_for('get_post', post_id=post_id, answer_id=new_answer.id) + f"#answer-{new_answer.id}")
 

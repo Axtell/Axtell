@@ -16,7 +16,6 @@ class Auth {
      * Don't use this. Use `Auth.shared()`
      */
     constructor() {
-        this._setup = false;
         this._user = null;
 
         this._isAuthorized = null;
@@ -24,15 +23,14 @@ class Auth {
 
     /**
      * Returns global instance of `Auth`
-     * @type {Promise<Auth>}
-     * @async
+     * @type {Auth}
      */
     static get shared() {
         if (Auth._shared !== null)
             return Promise.resolve(Auth._shared);
 
         return (async () => {
-            const auth = await new Auth().setup();
+            const auth = new Auth();
             const user = auth.user;
             Auth._shared = auth;
 
@@ -57,18 +55,17 @@ class Auth {
 
     /**
      * Determines if user is authorized at the moment of call.
-     * @return {Promise<Boolean>} `Promise` but resolves to boolean.
-     * @async
+     * @return {Boolean} this is sync
      */
     get isAuthorized() {
-        return Promise.resolve(Data.shared.hasKey('me'));
+        return Data.shared.hasKey('me');
     }
 
     /**
-     * Gets the current user. This does not redo requests and caches the result.
+     * Gets the current user.
      *
-     * @type {Promise<?User>} resolves to the current logged in user. Resolves
-     *                          to `Unauthorized` if not logged in.
+     * @type {?User} the current logged in user. Resolves to `Unauthorized` if
+     *               not logged in.
      */
     get user() {
         if (this.isAuthorized) {
@@ -84,18 +81,6 @@ class Auth {
      */
     async logout() {
         await axios.post('/user/logout');
-    }
-
-    /**
-     * Sets up the authentication object. This will get the user if logged in.
-     * This won't run twice and caches its results (will reload when needed).
-     * @return {Promise} Resolves to nothing. Resolves when finished.
-     */
-    async setup() {
-        if (this._setup) return;
-        this._setup = true;
-
-        return this;
     }
 
     /**

@@ -1,0 +1,104 @@
+.notification {
+    border-radius: $notification-list-spacing;
+    margin-bottom: $notification-list-spacing * 1.5;
+
+    position: relative;
+    box-shadow: 0 4px 24px -4px  rgba($shadow-mix, 0.1);
+    background: $content-bg;
+
+    font-size: 1rem;
+
+    padding: .7rem 1rem .5rem;
+
+    // A row of info about a notif
+    .notification__details {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        &.notification__details--pad-top { margin-top: 0.25rem; }
+        &.notification__details--pad-bottom { margin-top: 0.25rem; }
+
+        .notification__detail {
+            &.notification__detail--size-wide { flex: 1; }
+            &.notification__detail--size-small {
+                $notification__detail--size-small: 1.5em;
+                @include square($notification__detail--size-small);
+                svg, img {
+                    @include square($notification__detail--size-small);
+                }
+            }
+
+            &.notification__detail--align-top { align-self: flex-start; }
+            &.notification__detail--align-bottom { align-self: flex-end; }
+            &.notification__detail--align-center { /* default */ }
+
+            &.notification__detail--style-link { color: $accent-color; }
+            &.notification__detail--style-disabled-link {
+                color: $dim-text;
+                font-weight: 300;
+            }
+
+            &.notification__detail--style-button {
+                color: $dim-text;
+                fill: currentColor;
+            }
+
+            &.notification__detail--style-state {
+                width: 2rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &.notification__detail--state-unread svg {
+                    @include square(8px);
+                    fill: #09F;
+                }
+
+                &.notification__detail--state-read svg {
+                    @include square(3px);
+                    visibility: hidden;
+                    fill: $dim-text;
+                }
+            }
+
+            margin: 0 4px;
+
+            &:not(.notification__detail--size-noverrideimg) img, svg {
+                height: 1.8em;
+            }
+
+            &.notification__detail--style-timestamp {
+                font-size: 0.6em;
+                color: $detail-text;
+            }
+
+            &.notification__detail--style-type {
+                font-size: 0.6em;
+                text-transform: uppercase;
+                color: $detail-text;
+                font-weight: bold;
+            }
+
+            &.notification__detail--style-detail {
+                font-size: 0.6em;
+                text-transform: uppercase;
+                color: $detail-text;
+                font-weight: bold;
+            }
+
+            h3, &.notification__detail--style-title {
+                font-size: 1em;
+                color: $key-text;
+                margin-bottom: (1/8) * 1em;
+            }
+
+            h4, &.notification__detail--style-description {
+                font-size: 0.8em;
+                font-weight: 300;
+                color: $subtitle-text;
+                display: block;
+            }
+        }
+    }
+}

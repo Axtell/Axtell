@@ -1,0 +1,40 @@
+.notification-category {
+    margin: 0 0.25rem;
+    padding: 0;
+    list-style: none;
+
+    > li {
+        padding: 0.5rem;
+    }
+
+    border-radius: 0.5rem;
+
+    + .notification-category {
+        margin-top: $notification-list-spacing;
+    }
+
+    // The horizontal stack (content, check, etc.)
+    .notification-category__stack {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .notification-category__stack__primary { flex: 1; }
+    }
+
+    .notification-category__title {
+        color: $title-text;
+        font-weight: $bold-weight;
+        font-size: 2rem;
+    }
+
+    .notification-category__detail {
+        color: $detail-text;
+        fill: currentcolor;
+        height: 1em;
+
+        img, svg {
+            height: 0.8em;
+        }
+    }
+}

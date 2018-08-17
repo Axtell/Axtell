@@ -15,7 +15,6 @@
     "@babel/plugin-proposal-optional-catch-binding",
     "@babel/plugin-proposal-do-expressions",
     ["@babel/plugin-transform-runtime", {
-      "polyfill": false,
       "regenerator": true
     }],
     ["module:babel-7-plugin-root-import", {

@@ -130,7 +130,7 @@ def publish_post():
         return redirect(redirect_url)
 
 
-@server.route("/post/<int:post_id>/edit", methods=['POST'])
+@server.route("/post/edit/<int:post_id>", methods=['POST'])
 @csrf_protected
 def edit_post(post_id):
     try:

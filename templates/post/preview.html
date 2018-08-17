@@ -2,6 +2,12 @@
 {% from "includes/userbox.html" import userbox %}
 
 {% block title %}Loading Preview{% endblock %}
+
+{%- block head -%}
+{{ super() }}
+<meta name="robots" content="noindex, nofollow">
+{%- endblock -%}
+
 {% block main -%}
 <div id="post">
     <div class="list-header">

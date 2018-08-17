@@ -1,6 +1,12 @@
 {% extends "layouts/page.html" %}
 
 {% block title %}Write Post{% endblock %}
+
+{%- block head -%}
+{{ super() }}
+<meta name="robots" content="noindex">
+{%- endblock -%}
+
 {% block content -%}
 <div id="post-write" class="template--root">
     {% include "svg/loading.html" %}

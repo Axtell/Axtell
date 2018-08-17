@@ -35,11 +35,12 @@ export default class Request {
 
     /**
      * Performs the request
-     * @param {boolean} [format=true] - Set to false to not format
+     * @param {Object} [o={}] - Options
+     * @param {boolean} [o.format=true] - Set to false to not format
      * @return {Promise} resolves to format of object. See return type of
      * {@link Request#format}
      */
-    async run(format = true) {
+    async run({ formatted = true } = {}) {
         let response = await axios.request({
             method: this._method,
             url: this._path,
@@ -49,7 +50,7 @@ export default class Request {
             responseType: this._responseType
         });
 
-        if (format) {
+        if (formatted) {
             return this.format(response.data);
         } else {
             return response.data;
@@ -81,6 +82,10 @@ export default class Request {
         headers = {},
         method = HTTPMethod.GET
     }) {
+        /**
+         * @protected
+         * @type {string}
+         */
         this._path = `${host || ""}${path}`;
         this._method = method;
         this._params = params;

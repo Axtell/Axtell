@@ -163,7 +163,7 @@ $nav-padding: 1em;
     }
 
     .button-section {
-      $button-padding: 1em;
+      $button-padding: 0.5em;
       @include fit;
       @include center-v-block;
 

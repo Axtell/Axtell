@@ -1,4 +1,5 @@
 import ViewController from '~/controllers/ViewController';
+import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 import KeyManager from '~/models/KeyManager';
 
 export const c = 'popvc__untrigger';
@@ -18,6 +19,12 @@ export default class PopoverViewController extends ViewController {
     constructor(root, trigger, template, untrigger = document) {
         const instance = template.unique();
         super(instance);
+
+        /**
+         * State is `true` when opening. `false` when closing
+         * @type {ActionControllerDelegate}
+         */
+        this.delegate = new ActionControllerDelegate();
 
         this._trigger = trigger;
         this._template = template;
@@ -47,6 +54,11 @@ export default class PopoverViewController extends ViewController {
         untrigger?.addEventListener("click", (event) => {
             if (this._isActive) {
                 let target = event.target;
+
+                // Target is not in DOM
+                if (!(document.body.contains(event.target) || event.target === document.body)) { return }
+
+                // Target is outside of popover
                 if (!this._node.contains(untrigger) && (
                     this._node.contains(target) ||
                     this._trigger.contains(target)
@@ -92,6 +104,7 @@ export default class PopoverViewController extends ViewController {
      */
     trigger() {
         this._template.willLoad();
+        this.delegate.didSetStateTo(this, true);
 
         this._isActive = true;
 
@@ -119,6 +132,7 @@ export default class PopoverViewController extends ViewController {
      */
     untrigger() {
         this._template.willUnload();
+        this.delegate.didSetStateTo(this, false);
 
         this._isActive = false;
 

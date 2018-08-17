@@ -76,5 +76,25 @@
 
         <h3 id="data-sharing">Data Sharing.</h3>
         <p><strong>None</strong>. Your data is never shared, never used for advertising, and never sold.</p>
+
+        <h3 id="data-sharing">Push Notifications.</h3>
+        <p>If you subscribe to Axtell push notifications, those notifications go through a third-party service. Push Notifications are sent with the unique notification ID, title, category, and description</p>
+
+        <p>If you are subscribed to Push Notifications on macOS Safari, those notifications are encrypted through SSL/TLS, authenticated with a private key from Apple, and signed with an RSA 2048-bit certificate as they are sent to Apple whom will decrypt the notification. The final delivery mechanism is at the discretion of Apple; please refer to <a rel="noopener" href="https://www.apple.com/legal/privacy/">Apple's privacy policy</a> for more information.</p>
+
+        <p>If you are subscribed to Web Push notifications, those notifications are end-to-end encrypted. While an intermediate server does exist, your notifications can never be read by it. Axtell encrypts all Web Push notifications with the AES-128 cipher where the key and IV are derived from three pairs of EC keys (based on the <a rel="noopener"  href="https://csrc.nist.gov/csrc/media/events/workshop-on-elliptic-curve-cryptography-standards/documents/papers/session6-adalier-mehmet.pdf">NIST P-256</a> curve) which engage in a <a rel="noopener" href="https://en.wikipedia.org/wiki/Diffie–Hellman_key_exchange">Diffie-Hillman key exchange</a> which is used with a <a rel="noopener" href="https://en.wikipedia.org/wiki/HKDF">HKDF SHA-256</a> function.</p>
+
+        <p>Axtell does gather and store some information when you use notifications</p>
+        <div class="privacy-column__wrapper">
+            <ul class="privacy-column privacy-column--type-positive">
+                <li class="privacy-column__nostyle"><h4>macOS Safari</h4></li>
+                <li><strong>Device ID</strong> that is random and anonymous.</li>
+            </ul>
+            <ul class="privacy-column privacy-column--type-positive">
+                <li class="privacy-column__nostyle"><h4>Web Push</h4></li>
+                <li><strong>Endpoint</strong> that your browser generate, is specific to you, and anonymous</li>
+                <li><strong>Public Key and Salt</strong> are randomly geneated by your browser browser which are used to encrypt notifications sent to you.</li>
+            </ul>
+        </div>
     </div>
 {%- endblock %}

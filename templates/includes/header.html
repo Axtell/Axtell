@@ -18,17 +18,30 @@
             {%- if not request.path.startswith(url_for('write_post')) -%}
                 <div class="section popover__container">
                     <div class="button-section">
-                        <a class="button button--pair-left button--color-accent button--responsive-title" href="{{ url_for('write_post') }}">
+                        <a class="button button--pair-left button--color-accent button--responsive-title button--shadow-none" href="{{ url_for('write_post') }}">
                             {%- include "svg/plus.html" %}
                             <span>Create Post</span>
                         </a>
-                        <div id="create-post__trigger" class="button button--pair-right button--color-accent">
+                        <div id="create-post__trigger" class="button button--pair-right button--color-accent button--shadow-none">
                             {%- include "svg/down-triangle.html" -%}
                         </div>
                         {% include "includes/header/create-post-more.html" -%}
                     </div>
                 </div>
             {%- endif %}
+
+            <!-- Notification Panel -->
+            <div class="section">
+                <div class="button-section popover__container" id="notification-wrapper">
+                    <div id="notification-segment" class="notification-button__container">
+                        <button title="Show Notifications" aria-haspopover="true" aria-label="Show Notifications" class="circle-button circle-button--style-yellow-pink circle-button--size-2">
+                            {% include "svg/bell.html" %}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Display  -->
             {%- include "includes/header/useroverview.html" -%}
         {%- else -%}
             {%- include "includes/header/authmanager.html" -%}

@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0-beta1/katex.min.css"
           crossorigin="anonymous">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js" crossorigin="anonymous"></script>
     <script>function d(t){var a=document.currentScript;a.parentNode.replaceChild(document.createTextNode(moment(t).fromNow()),a)}d</script>
 
     {% if g.user is none -%}
@@ -64,7 +64,9 @@
         'POST_TITLE_MIN': opts.posts['min_title'],
         'SE_CLIENT_ID': opts.oauth['se']['client-id'],
         'SE_KEY': opts.oauth['se']['key'],
+        'SOCKET_PORT': opts.app.port,
         'VERSION': macros.get_version_id(),
+        'WEB_APN_ID': opts.notifications['web_apn_id']
     })) }}
 
     {%- if g.user is not none -%}
@@ -136,11 +138,13 @@
     {%- if theme == 'dark' -%}
         <link type="text/css"
               href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow-night-eighties.min.css"
-              rel="stylesheet">
+              rel="stylesheet"
+              crossorigin="anonymous">
     {%- else -%}
         <link type="text/css"
               href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/tomorrow.min.css"
-              rel="stylesheet">
+              rel="stylesheet"
+              crossorigin="anonymous">
     {%- endif -%}
-    <link rel="stylesheet" href="https://unpkg.com/tippy.js@2.5.2/dist/themes/light.css" />
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@2.5.2/dist/themes/light.css" crossorigin="anonymous" />
 {%- endblock -%}

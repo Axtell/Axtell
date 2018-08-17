@@ -1,0 +1,59 @@
+@mixin circle-button-style($name, $bg) {
+  .circle-button.circle-button--style-#{$name} {
+    background: $bg;
+    color: white;
+  }
+}
+
+.circle-button {
+    display: inline-block;
+
+    border: none;
+    margin: 0;
+    padding: 0;
+
+    font-size: 1rem;
+    @include square(1em);
+    border-radius: 50%;
+
+    text-align: center;
+    line-height: 100%;
+
+    position: relative;
+
+    cursor: pointer;
+
+    &::before {
+        content: "";
+        display: block;
+        position: absolute;
+
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        border-radius: 50%;
+        box-shadow: 0 2px 8px -2px rgba($shadow-mix, 0.2);
+
+        transition: box-shadow 0.2s ease;
+    }
+
+    &:hover::before {
+        box-shadow: 0 4px 8px -2px rgba($shadow-mix, 0.3);
+    }
+
+    svg {
+        fill: currentColor;
+
+        max-width: 0.7em;
+        max-height: 0.7em;
+    }
+
+    &.circle-button--size-2 { font-size: 2rem; }
+    &.circle-button--size-3 { font-size: 3rem; }
+    &.circle-button--size-4 { font-size: 4rem; }
+}
+
+@include circle-button-style('yellow', linear-gradient( 135deg, #FDEB71 10%, #F8D800 100%));
+@include circle-button-style('yellow-pink', linear-gradient( 135deg, #F6D242 10%, #FF52E5 100%));

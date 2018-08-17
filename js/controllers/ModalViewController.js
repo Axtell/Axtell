@@ -56,7 +56,7 @@ export default class ModalViewController extends ViewController {
         const instance = template.loadInContext(dim);
 
         const listener = dim.addEventListener('click', (event) => {
-            if (event.target.parentNode && !instance.contains(event.target)) {
+            if ((document.body.contains(event.target) || event.target === document.body) && !instance.contains(event.target)) {
                 this.hide()
                     .catch(HandleUnhandledPromise);
             }
