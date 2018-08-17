@@ -127,7 +127,15 @@ def webapn_log(version):
     if not webapn.is_valid_webapn_version(version):
         return abort(404)
 
-    logs = request.get_json(silent=True)["logs"]
+    json = request.get_json(silent=True)
+    if json is None:
+        bugsnag.notify(
+            Exception("WebAPN exception"),
+            meta_data={"webapn_logs": {f"data": request.data}}
+        )
+        return ('', 204)
+    
+    logs = json["logs"]
 
     if server.debug:
         print(json_dumps(logs))
