@@ -12,7 +12,7 @@ export default class WebPushKey extends Request {
 
     constructor() {
         super({
-            path: '/static/webpush/key',
+            path: '/webpush/key',
             method: HTTPMethod.GET,
             responseType: 'arraybuffer'
         })

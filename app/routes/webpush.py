@@ -5,7 +5,7 @@ from app.controllers import webpush
 
 from flask import request
 
-@server.route("/static/webpush/key", methods=['GET'])
+@server.route("/webpush/key", methods=['GET'])
 def get_webpush_pubkey():
     return get_public_key()
 
