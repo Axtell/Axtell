@@ -145,7 +145,7 @@ class Notification(db.Model):
             'source': self.source_id,
             'target': self.target_id,
             'overwriting': self.is_overwriting(),
-            'date': self.date_created.isoformat()
+            'date': self.date_created.isoformat() + 'Z'
         }
 
     def to_json(self):
@@ -159,7 +159,7 @@ class Notification(db.Model):
             'sender': self.sender.to_json(),
             'target_id': self.target_id,
             'category': self.get_target_descriptor(),
-            'date_created': self.date_created.isoformat(),
+            'date_created': self.date_created.isoformat() + 'Z',
             'type': self.notification_type.value,
             'status': self.read.value
         }
