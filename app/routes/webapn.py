@@ -122,7 +122,7 @@ def webapn_delete_registration(version, device_token, web_apn_id):
 
     return ('OK', 200)
 
-@server.route("/webapn/v<int:version>/log", methods=['POST'])
+@server.route("/webapn/v<int:version>/log", methods=['GET', 'POST'])
 def webapn_log(version):
     if not webapn.is_valid_webapn_version(version):
         return abort(404)
