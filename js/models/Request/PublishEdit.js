@@ -41,7 +41,7 @@ export default class PublishEdit extends Request {
         }
 
         super({
-            path: `/${item.endpoint}/${item.id}/edit`,
+            path: `/${item.endpoint}/edit/${item.id}`,
             method: HTTPMethod.POST,
             data: {
                 ...options,
