@@ -6,7 +6,8 @@
   "sideEffects": [
     "./js/main.js",
     "./js/ui/**/*.js",
-    "./js/modern/**/*.js"
+    "./js/modern/**/*.js",
+    "./js/ServiceWorker/**/*.js"
   ],
   "license": "MIT",
   "devDependencies": {

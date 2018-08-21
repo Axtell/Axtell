@@ -27,7 +27,7 @@ def publish_answer():
     return answer.create_answer(post_id, code, commentary, lang_id=lang_id, lang_name=lang_name, encoding=encoding)
 
 
-@server.route('/answer/<int:answer_id>/edit', methods=['POST'])
+@server.route('/answer/edit/<int:answer_id>', methods=['POST'])
 def edit_answer(answer_id):
     try:
         return render_json(answer.revise_answer(answer_id, request.get_json()).to_json())
