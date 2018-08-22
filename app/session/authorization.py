@@ -1,4 +1,4 @@
-from app.helpers.render import render_json
+from app.helpers.render import render_json, render_error
 from app.models.User import User
 from functools import wraps
 
