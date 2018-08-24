@@ -47,22 +47,39 @@ class Answer(db.Model):
         else:
             last_modified = self.date_created
 
+        language = self.get_language()
+
         return {
             'objectID': f'answer-{self.id}',
             'id': self.id,
+            'code': self.code,
             'date_created': self.date_created.isoformat(),
             'last_modified': last_modified.isoformat(),
-            'language': self.get_language().get_id(),
+            'language': language.get_id(),
+            'language_name': language.get_display_name(),
             'byte_count': self.byte_len,
             'author': self.user.get_index_json(root_object=False),
             'post': {
-                'id': self.post_id
+                'id': self.post.id,
+                'name': self.post.title
             }
         }
 
+    @classmethod
     @gets_index
-    def get_index(self):
+    def get_index(cls):
         return 'answers'
+
+    @classmethod
+    def get_index_settings(cls):
+        return {
+            'searchableAttributes': [
+                'code',
+                'language_name',
+                'author.name',
+                'post.name'
+            ]
+        }
 
     @hybrid_property
     def byte_len(self):

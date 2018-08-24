@@ -51,9 +51,20 @@ class Post(db.Model):
             'author': self.user.get_index_json(root_object=False)
         }
 
+    @classmethod
     @gets_index
-    def get_index(self):
+    def get_index(cls):
         return 'posts'
+
+    @classmethod
+    def get_index_settings(cls):
+        return {
+            'searchableAttributes': [
+                'body',
+                'title',
+                'author.name'
+            ]
+        }
 
     @hybrid_property
     def score(self):

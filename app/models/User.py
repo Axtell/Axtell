@@ -32,9 +32,18 @@ class User(db.Model):
             'name': self.name
         }
 
+    @classmethod
     @gets_index
-    def get_index(self):
+    def get_index(cls):
         return 'users'
+
+    @classmethod
+    def get_index_settings(cls):
+        return {
+            'searchableAttributes': [
+                'name'
+            ]
+        }
 
     def follow(self, user):
         """

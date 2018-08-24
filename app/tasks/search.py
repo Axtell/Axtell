@@ -17,16 +17,29 @@ UPLOAD_QUEUE_CHUNK_SIZE = 8
 # don't want to be sending more than 64KB per request.
 UPLOAD_QUEUE_BATCH_SIZE = 4
 
+# List of models which conform to the index interface.
+INDEXABLE_MODELS = [Post, Answer, User]
+
+
 @celery_app.task
-def reindex_database():
+def initialize_indices():
+    for model in INDEXABLE_MODELS:
+        index = model.get_index()
+        index.set_settings(model.get_index_settings())
+
+
+@celery_app.task
+def reindex_database(full_reindex=False):
     if search_index.client is None:
         return
 
-    unsynced_posts = Post.query.filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
-    unsynced_answers = Answer.query.filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
-    unsynced_users = User.query.filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
+    if full_reindex:
+        indexable_items = [items for model in INDEXABLE_MODELS for item in model.query.all()]
+    else:
+        indexable_items = [
+            items for model in INDEXABLE_MODELS for item in model.query.filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
+        ]
 
-    indexable_items = [*unsynced_posts, *unsynced_answers, *unsynced_users]
     sync_targets = [(item.get_index(get_index_name=True), item.get_index_json()) for item in indexable_items]
 
     try:
