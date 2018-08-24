@@ -19,9 +19,13 @@ class IndexStatus(SerializableEnum):
 
 
 def index_json(f):
+    """
+    Obtains an index as a JSON.
+    """
+
     @wraps(f)
-    def wrap(root_object=True, *args, **kwargs):
-        result = f(*args, **kwargs)
+    def wrap(self, root_object=True, *args, **kwargs):
+        result = f(self, *args, **kwargs)
 
         if not root_object:
             result.pop('objectID', None)
@@ -32,16 +36,25 @@ def index_json(f):
 
 
 loaded_indices = {}
+def load_index(name):
+    """
+    Loads an index given algolia name
+    """
+    index = client.init_index(name)
+    loaded_indices[name] = index
+    return index
+
+
 def gets_index(f):
     """
-    Obtains an index by full name. You should use `get_index_name` before this.
-    Returns an algolia index object. If algolia is not confiured this will
-    return `None`.
+    Obtains an index by full name. You can use kwarg `get_index_name` to get by
+    name. Otherwise this Returns an algolia index object. If algolia is not
+    confiured this will return `None`.
     """
 
     @wraps(f)
-    def wrap():
-        index_name = f()
+    def wrap(self, get_index_name=False, *args, **kwargs):
+        index_name = f(self, *args, **kwargs)
         if client is not None:
             if index_name in loaded_indices:
                 return loaded_indices[index_name]
@@ -51,9 +64,10 @@ def gets_index(f):
                 else:
                     algolia_name = f"{auth['algolia']['prefix']}-{index_name}"
 
-                index = client.init_index(algolia_name)
-                loaded_indices[index_name] = index
-                return index
+                if get_index_name:
+                    return algolia_name
+
+                return load_index(algolia_name)
         else:
             return None
 

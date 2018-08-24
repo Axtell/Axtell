@@ -33,7 +33,7 @@ class User(db.Model):
         }
 
     @gets_index
-    def get_index():
+    def get_index(self):
         return 'users'
 
     def follow(self, user):

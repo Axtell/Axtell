@@ -34,7 +34,7 @@ class Post(db.Model):
 
     @index_json
     def get_index_json(self):
-        last_revision = PostRevision.query.filter_by(post_id=post_id).order_by(PostRevision.revision_time.desc).first()
+        last_revision = PostRevision.query.filter_by(post_id=self.id).order_by(PostRevision.revision_time.desc()).first()
         if isinstance(last_revision, PostRevision):
             last_modified = last_revision.revision_time
         else:
@@ -52,13 +52,13 @@ class Post(db.Model):
         }
 
     @gets_index
-    def get_index():
+    def get_index(self):
         return 'posts'
 
     @hybrid_property
     def score(self):
-        ups = sum(vote for vote in self.votes if vote.vote == 1)
-        downs = sum(vote for vote in self.votes if vote.vote == -1)
+        ups = sum(vote.vote for vote in self.votes if vote.vote == 1)
+        downs = sum(vote.vote for vote in self.votes if vote.vote == -1)
 
         n = ups + downs
 

@@ -1,61 +1,71 @@
 from app.helpers import search_index
 from app.instances.celery import celery_app
+from app.models.Post import Post
+from app.models.Answer import Answer
+from app.models.User import User
+from app.instances import db
+
+from itertools import zip_longest
 
 
 # This is how many sync tasks should be dispatched per worker. You don't want this
 # to be so small because eventually the messaging overhead will be greater than
 # the network overhead
-UPLOAD_QUEUE_CHUNK_SIZE = 30
+UPLOAD_QUEUE_CHUNK_SIZE = 8
 
-def should_process_object(item):
-    """
-    Determines if a model should be
-    sent to search index
-    """
-
-    return client is not None
+# We will batch indexes into one request so this is how many per. Generally we
+# don't want to be sending more than 64KB per request.
+UPLOAD_QUEUE_BATCH_SIZE = 4
 
 @celery_app.task
 def reindex_database():
-    pass
-    # from app.models.Post import Post
-    # from app.models.Answer import Answer
-    # from app.models.User import User
-    # from app.instances import db
+    if search_index.client is None:
+        return
 
-    # unsynced_posts = Post.query.with_for_update().filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
-    # unsynced_answers = Answer.query.with_for_update().filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
-    # unsynced_users = User.query.with_for_update().filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
+    unsynced_posts = Post.query.filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
+    unsynced_answers = Answer.query.filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
+    unsynced_users = User.query.filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
 
-    # items = [*unsynced_posts, *unsynced_answers, *unsynced_users]
+    indexable_items = [*unsynced_posts, *unsynced_answers, *unsynced_users]
+    sync_targets = [(item.get_index(get_index_name=True), item.get_index_json()) for item in indexable_items]
 
-    # syncronize_objects.chunk(
-    #     [*unsynced_posts, *unsynced_answers, *unsynced_users],
-    #     UPLOAD_QUEUE_CHUNK_SIZE
-    # ).delay().get(disable_sync_subtasks=False)
+    try:
+        synchronize_objects.chunks(
+            # This may look crazy but basically takes the `sync_targets` and
+            # splits it into chunks of size `UPLOAD_QUEUE_BATCH_SIZE`. Then the
+            # for..in wraps it in a tuple so celery understands that each instance
+            # is a single argument.
+            [(chunk,) for chunk in zip_longest(*[iter(sync_targets)] * UPLOAD_QUEUE_BATCH_SIZE)],
+            UPLOAD_QUEUE_CHUNK_SIZE
+        ).delay().get(disable_sync_subtasks=False)
+    finally:
+        for item in indexable_items:
+            item.index_status = search_index.IndexStatus.SYNCHRONIZED
 
-    # db.session.commit()
+        db.session.commit()
 
 
 @celery_app.task
-def syncronize_objects(items):
+def synchronize_objects(items):
     """
     Ensure you commit after calling this as this will update the synchronized
     constraints.
     """
 
+    # This stores the index and the items to place into that so we can combine
+    # the queries to avoid excessive requests.
     objects = dict()
 
-    for item in items:
-        if should_process_object(item):
-            index = item.get_index()
-            objects.setdefault(index, set()).add(item.to_index_json())
+    for params in items:
+        if params is None:
+            continue
 
-    for index, objects in objects:
-        index.add_objects(objects)
+        index_name, item_json = params
+        objects.setdefault(index_name, []).append(item_json)
 
-    for item in items:
-        item.index_status = search_index.IndexStatus.SYNCHRONIZED
+    for index, items in objects.items():
+        search_index.load_index(index_name).add_objects(items)
+
 
 
 

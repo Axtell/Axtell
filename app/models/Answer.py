@@ -9,6 +9,8 @@ import datetime
 from math import sqrt
 from config import answers
 
+import golflang_encodings
+
 
 class Answer(db.Model):
     """
@@ -39,7 +41,7 @@ class Answer(db.Model):
 
     @index_json
     def get_index_json(self):
-        last_revision = AnswerRevision.query.filter_by(post_id=post_id).order_by(AnswerRevision.revision_time.desc).first()
+        last_revision = AnswerRevision.query.filter_by(answer_id=self.id).order_by(AnswerRevision.revision_time.desc()).first()
         if isinstance(last_revision, AnswerRevision):
             last_modified = last_revision.revision_time
         else:
@@ -59,7 +61,7 @@ class Answer(db.Model):
         }
 
     @gets_index
-    def get_index():
+    def get_index(self):
         return 'answers'
 
     @hybrid_property
