@@ -1,6 +1,6 @@
 from app.models.Notification import Notification, NotificationType, NotificationStatus
 from app.models.User import User
-from app.helpers.render import render_json, render_paginated
+from app.helpers.render import render_json, render_paginated, render_error
 from app.instances import db
 
 from flask import abort, g
