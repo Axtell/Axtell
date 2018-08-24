@@ -34,10 +34,10 @@ def reindex_database(full_reindex=False):
         return
 
     if full_reindex:
-        indexable_items = [items for model in INDEXABLE_MODELS for item in model.query.all()]
+        indexable_items = [item for model in INDEXABLE_MODELS for item in model.query.all()]
     else:
         indexable_items = [
-            items for model in INDEXABLE_MODELS for item in model.query.filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
+            item for model in INDEXABLE_MODELS for item in model.query.filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
         ]
 
     sync_targets = [(item.get_index(get_index_name=True), item.get_index_json()) for item in indexable_items]

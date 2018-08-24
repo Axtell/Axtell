@@ -67,6 +67,9 @@ The setup script automatically does most of this
 
 If you look within `config.py`, you need to fill in various API keys from Google, StackExchange, etc. Additionally in the configuration file you'll see various other fields you can modify.
 
+#### (Optional) Setup HTTPS
+It's highly reccomend to run Axtell under a reverse proxy such as Nginx however for HTTPS, in the root directory of the Axtell instance, place a `server.crt` and `server.key` file.
+
 #### (Optional) Setting up Safari Push Notifications
 To integrate with iOS and macOS's Push Notification service you'll first need an Apple Developer Account. In the portal you'll need to create a Web Push Notification ID. Place this token in the `notifications.web_apn_id` field in the configuration file.
 

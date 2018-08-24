@@ -40,6 +40,9 @@ def load_index(name):
     """
     Loads an index given algolia name
     """
+    if name in loaded_indices:
+        return loaded_indices[name]
+
     index = client.init_index(name)
     loaded_indices[name] = index
     return index
