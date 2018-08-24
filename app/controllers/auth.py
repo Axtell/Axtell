@@ -4,7 +4,8 @@ from json import loads as json_loads
 from jwcrypto.jwt import JWT
 
 from app.helpers.render import render_json, render_error
-from app.instances.db import db, redis_db
+from app.instances import db
+from app.instances.redis import redis_db
 from app.jwkeys import jwkeys
 from app.models.User import User, UserJWTToken, UserOAuthToken
 from app.models.Login import Login

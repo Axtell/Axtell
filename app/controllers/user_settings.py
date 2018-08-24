@@ -1,6 +1,6 @@
 from validate_email import validate_email
 from app.helpers.imgur_upload import imgur_upload
-from app.instances.db import db
+from app.instances import db
 from flask import g, abort
 
 import config

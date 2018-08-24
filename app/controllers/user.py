@@ -3,7 +3,7 @@ from flask import g
 
 from app.helpers.render import render_json, render_error
 from app.models.User import User
-from app.instances.db import db
+from app.instances import db
 
 
 def get_my_profile():

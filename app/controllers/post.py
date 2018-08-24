@@ -1,6 +1,6 @@
 from flask import g, abort, url_for
 
-from app.instances.db import db
+from app.instances import db
 from app.models.Post import Post
 from app.models.Category import Category
 from app.helpers.macros.encode import slugify

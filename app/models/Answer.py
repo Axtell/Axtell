@@ -1,7 +1,8 @@
-from app.instances.db import db
+from app.instances import db
 from sqlalchemy import select, func
 from sqlalchemy.ext.hybrid import hybrid_property
 import app.models.Language
+from app.models.AnswerVote import AnswerVote
 from app.models.AnswerRevision import AnswerRevision
 from app.helpers.search_index import index_json, IndexStatus, gets_index
 import datetime

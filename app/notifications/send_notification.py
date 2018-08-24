@@ -1,4 +1,4 @@
-from app.instances.db import db
+from app.instances import db
 from app.notifications import apns, webpush
 from app.models.Notification import Notification
 from app.models.APNDevice import APNProvider

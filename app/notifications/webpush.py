@@ -13,7 +13,7 @@ from cryptography.hazmat.primitives.kdf.hkdf import HKDF
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 
 from app.models.PushDevice import PushDevice
-from app.instances.db import db
+from app.instances import db
 from app.server import server
 
 from base64 import urlsafe_b64encode, urlsafe_b64decode

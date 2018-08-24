@@ -1,6 +1,6 @@
 from flask import g, abort, redirect, url_for
 
-from app.instances.db import db
+from app.instances import db
 from app.models.Post import Post
 from app.models.Answer import Answer
 from app.models.PostVote import PostVote

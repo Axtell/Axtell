@@ -1,5 +1,6 @@
 from app.models.APNDevice import APNDevice
-from app.instances.db import db, redis_db
+from app.instances import db
+from app.instances.redis import redis_db
 from app.models.User import User
 
 from M2Crypto.m2 import rand_bytes

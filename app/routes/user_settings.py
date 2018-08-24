@@ -1,7 +1,7 @@
 from flask import session, request, redirect, g, abort
 from app.models.Theme import Theme
 from app.server import server
-from app.instances.db import db
+from app.instances import db
 from app.helpers.render import render_template
 from app.controllers import user_settings
 from app.session.csrf import csrf_protected

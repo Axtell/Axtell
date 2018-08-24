@@ -1,4 +1,4 @@
-from app.instances.db import db
+from app.instances import db
 from config import answers
 from sqlalchemy.orm import backref
 import datetime
@@ -19,6 +19,8 @@ class AnswerRevision(db.Model):
     """
     A prior revision of a post
     """
+
+    __tablename__ = 'answer_revision'
 
     answer_id = db.Column(db.Integer, db.ForeignKey('answers.id'), primary_key=True)
     revision_id = db.Column(db.Integer, primary_key=True, default=get_revision_id)

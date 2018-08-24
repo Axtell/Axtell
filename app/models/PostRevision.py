@@ -1,4 +1,4 @@
-from app.instances.db import db
+from app.instances import db
 from config import posts
 from sqlalchemy.dialects.mysql import LONGTEXT
 from sqlalchemy.orm import backref
@@ -20,6 +20,8 @@ class PostRevision(db.Model):
     """
     A prior revision of a post
     """
+
+    __tablename__ = 'post_revision'
 
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), primary_key=True)
     revision_id = db.Column(db.Integer, primary_key=True, default=get_revision_id)

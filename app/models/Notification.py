@@ -1,4 +1,4 @@
-from app.instances.db import db
+from app.instances import db
 from app.notifications import get_title
 from app.notifications import get_body
 from app.helpers.SerializableEnum import SerializableEnum

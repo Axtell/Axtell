@@ -1,4 +1,4 @@
-from app.instances.db import db
+from app.instances import db
 from app.helpers.macros.gravatar import gravatar
 from app.helpers.search_index import index_json, IndexStatus, gets_index
 

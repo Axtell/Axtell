@@ -11,6 +11,9 @@ import bugsnag
 import app.tasks.update as update
 import app.tasks.search as search
 
+from app.models import *
+from app.instances import db
+
 from app.instances.celery import redis_url
 from app.helpers import macros
 import golflang_encodings
@@ -31,6 +34,16 @@ class SignedIntegerConverter(BaseIntegerConverter):
 server.url_map.converters['sint'] = SignedIntegerConverter
 
 
+# Setup SQL models
+@server.before_first_request
+def setup_database():
+    db.Model.metadata.create_all(bind=db.engine)
+
+@server.teardown_appcontext
+def teardown_database(exception=None):
+    db.session.remove()
+
+
 # Jinja Setup
 server.jinja_env.globals['opts'] = config
 server.jinja_env.globals['is_debug'] = server.debug
@@ -42,6 +55,7 @@ def pluralize(number, name, plural="s"):
         return f"{number} {name}"
     else:
         return f"{number} {name}{plural}"
+
 
 # Setup Bugsnag if info is provided
 if config.auth['bugsnag'].get('backend', ''):

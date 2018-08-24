@@ -1,8 +1,9 @@
-from app.instances.db import db
+from app.instances import db
 from app.models.User import User
 
 
 UserFollowing = db.Table('user_following',
+    db.Model.metadata,
     db.Column('follower_id', db.Integer, db.ForeignKey(User.id)),
     db.Column('following_id', db.Integer, db.ForeignKey(User.id))
 )

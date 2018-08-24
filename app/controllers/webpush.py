@@ -1,7 +1,7 @@
 from app.models.PushDevice import PushDevice
 from app.helpers.render import render_json
 from app.models.User import User
-from app.instances.db import db
+from app.instances import db
 from cryptography.hazmat.primitives.asymmetric import ec
 
 from urllib.parse import urlparse

@@ -17,23 +17,24 @@ def should_process_object(item):
 
 @celery_app.task
 def reindex_database():
-    from app.models.Post import Post
-    from app.models.Answer import Answer
-    from app.models.User import User
-    from app.instances.db import db
+    pass
+    # from app.models.Post import Post
+    # from app.models.Answer import Answer
+    # from app.models.User import User
+    # from app.instances import db
 
-    unsynced_posts = Post.query.with_for_update().filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
-    unsynced_answers = Answer.query.with_for_update().filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
-    unsynced_users = User.query.with_for_update().filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
+    # unsynced_posts = Post.query.with_for_update().filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
+    # unsynced_answers = Answer.query.with_for_update().filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
+    # unsynced_users = User.query.with_for_update().filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
 
-    items = [*unsynced_posts, *unsynced_answers, *unsynced_users]
+    # items = [*unsynced_posts, *unsynced_answers, *unsynced_users]
 
-    syncronize_objects.chunk(
-        [*unsynced_posts, *unsynced_answers, *unsynced_users],
-        UPLOAD_QUEUE_CHUNK_SIZE
-    ).delay().get(disable_sync_subtasks=False)
+    # syncronize_objects.chunk(
+    #     [*unsynced_posts, *unsynced_answers, *unsynced_users],
+    #     UPLOAD_QUEUE_CHUNK_SIZE
+    # ).delay().get(disable_sync_subtasks=False)
 
-    db.session.commit()
+    # db.session.commit()
 
 
 @celery_app.task

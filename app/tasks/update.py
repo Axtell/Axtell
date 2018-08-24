@@ -1,4 +1,4 @@
-import redis
+from redis import StrictRedis
 from config import redis_config
 from app.jwkeys import load_keys, jwkeys
 from app.instances.celery import celery_app
@@ -17,5 +17,5 @@ def setup_periodic_tasks(sender, **kwargs):
 @celery_app.task
 def jwt_update():
     load_keys()
-    redis_conn = redis.StrictRedis(**redis_config)
+    redis_conn = StrictRedis(**redis_config)
     redis_conn.set("jwkeys", jwkeys.export())
