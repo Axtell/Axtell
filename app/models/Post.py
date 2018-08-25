@@ -45,8 +45,9 @@ class Post(db.Model):
             'id': self.id,
             'title': self.title,
             'body': self.body,
-            'date_created': self.date_created.isoformat(),
-            'last_modified': last_modified.isoformat(),
+            'slug': slugify(self.title),
+            'date_created': self.date_created.isoformat() + 'Z',
+            'last_modified': last_modified.isoformat() + 'Z',
             'score': self.score,
             'author': self.user.get_index_json(root_object=False)
         }

@@ -7,11 +7,14 @@ import '~/modern/GeneratorExtensions';
 // /* from CDN */ import bugsnag from 'bugsnag-js';
 import tippy from 'tippy.js/dist/tippy.all.min.js';
 
+import KeyManager from "~/models/KeyManager";
 import Data from "~/models/Data";
 import Auth from "~/models/Auth";
 
 import ErrorManager, * as ErrorData from "~/helpers/ErrorManager";
 import Analytics, { TimingType } from "~/models/Analytics";
+
+import '~/interactors/GlobalTriggers';
 
 // Manage unhandled errors through manager
 window.addEventListener("unhandledrejection", (error) => {

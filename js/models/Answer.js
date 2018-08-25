@@ -1,6 +1,7 @@
 import ErrorManager from '~/helpers/ErrorManager';
 import Language from '~/models/Language';
 import User from '~/models/User';
+import Post from '~/models/Post';
 
 export const INVALID_JSON = Symbol('User.Error.InvalidJSON');
 
@@ -20,8 +21,9 @@ export default class Answer {
      * @param {?number} answer.length
      * @param {?Language} answer.language
      * @param {User} answer.user
+     * @param {?Post} answer.post Parent post
      */
-    constructor({ id, code, encoding, deleted = false, length, language, commentary, user }) {
+    constructor({ id, code, encoding, deleted = false, length, language, commentary, user, post }) {
         this._id = id;
         this._code = code;
         this._encoding = encoding;
@@ -30,6 +32,7 @@ export default class Answer {
         this._length = length;
         this._language = language;
         this._user = user;
+        this._post = post;
     }
 
     /**
@@ -47,6 +50,11 @@ export default class Answer {
             user: this._user
         });
     }
+
+    /**
+     * @type {?Post}
+     */
+    get post() { return this._post; }
 
     /**
      * @type {number}
@@ -119,6 +127,23 @@ export default class Answer {
             byte_len: this.length,
             lang: this.language
         };
+    }
+
+    /**
+     * Unwraps from serach Index JSON object
+     * @param {Object} JSON Search index JSON
+     * @return {?User} Created object
+     */
+    static fromIndexJSON(json) {
+        return new Answer({
+            id: json.id,
+            code: json.code,
+            deleted: false,
+            length: json.byte_count,
+            language: Language.fromJSON(json.language),
+            user: User.fromIndexJSON(json.author),
+            post: new Post({ postId: json.post.id, title: json.post.name })
+        });
     }
 
     /**

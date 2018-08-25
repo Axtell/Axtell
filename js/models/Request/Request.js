@@ -41,20 +41,47 @@ export default class Request {
      * {@link Request#format}
      */
     async run({ formatted = true } = {}) {
-        let response = await axios.request({
-            method: this._method,
-            url: this._path,
-            data: this._data,
-            params: this._params,
-            headers: this._headers,
-            responseType: this._responseType
-        });
+        let response;
+
+        try {
+            let pendingRequest = axios.request({
+                method: this._method,
+                url: this._path,
+                data: this._data,
+                params: this._params,
+                headers: this._headers,
+                responseType: this._responseType
+            }, {
+                cancelToken: this._cancelToken.token
+            });
+
+            this._pendingRequest = pendingRequest;
+
+            response = await pendingRequest;
+        } catch(error) {
+            if (axios.isCancel(error)) {
+                this._canceled = true;
+                return null;
+            } else {
+                throw error;
+            }
+        } finally {
+            this._done = true;
+        }
+
 
         if (formatted) {
             return this.format(response.data);
         } else {
             return response.data;
         }
+    }
+
+    /**
+     * Cancels the request. Does not work with pagination
+     */
+    cancel() {
+        this._pendingRequest?.cancel(this._cancelToken);
     }
 
     /**
@@ -90,6 +117,11 @@ export default class Request {
         this._method = method;
         this._params = params;
         this._responseType = responseType;
+        this._pendingRequest = null;
+
+        this._canceled = false;
+        this._done = false;
+        this._cancelToken = axios.CancelToken.source();
 
         if (formData) {
             let formDataInstance = new FormData();

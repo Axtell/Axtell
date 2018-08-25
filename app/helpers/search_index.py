@@ -65,7 +65,7 @@ def gets_index(f):
                 if not auth['algolia']['prefix']:
                     algolia_name = index_name
                 else:
-                    algolia_name = f"{auth['algolia']['prefix']}-{index_name}"
+                    algolia_name = f"{auth['algolia']['prefix']}_{index_name}"
 
                 if get_index_name:
                     return algolia_name

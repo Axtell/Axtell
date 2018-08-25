@@ -12,11 +12,19 @@ export const Key = {
 /**
  * An env key. These are constant over a server's instance
  * @typedef {Object} EnvKey
+ * @property {string} algoliaAppId - app id for algolia
+ * @property {string} algoliaSearchKey - search key for algolia
+ * @property {string} csrf - CSRF token
  * @property {string} isDebug - If is debugging instance
+ * @property {string} host - canonical host
+ * @property {string} webAPNId - The web.id of webapns
  */
 export const EnvKey = {
+    algoliaAppId: 'ALGOLIA_APP_ID',
+    algoliaSearchKey: 'ALGOLIA_SEARCH_KEY',
     csrf: 'CSRF',
     host: 'HOST',
+    indexPrefix: 'INDEX_PREFIX',
     isDebug: 'IS_DEBUG',
     webAPNId: 'WEB_APN_ID',
 };

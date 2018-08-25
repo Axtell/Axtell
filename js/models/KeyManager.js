@@ -1,4 +1,4 @@
-import ErrorManager from '~/helpers/ErrorManager';
+import ErrorManager, { HandleUnhandledPromise } from '~/helpers/ErrorManager';
 
 export const KeyAlreadyRegistered = Symbol('KeyManager.Error.KeyAlreadyRegistered');
 
@@ -31,10 +31,10 @@ export default class KeyManager {
 
         let listener;
         if ((event.ctrlKey || event.metaKey) && (listener = this._metaListeners.get(event.key)?.[0])) {
-            listener(event);
+            Promise.resolve(listener(event)).catch(HandleUnhandledPromise);
             event.preventDefault();
         } else if (listener = this._defaultListeners.get(event.key)?.[0]) {
-            listener(event);
+            Promise.resolve(listener(event)).catch(HandleUnhandledPromise);
             event.preventDefault();
         }
     }

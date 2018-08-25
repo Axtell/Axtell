@@ -29,7 +29,8 @@ class User(db.Model):
         return {
             'objectID': f'user-{self.id}',
             'id': self.id,
-            'name': self.name
+            'name': self.name,
+            'avatar': self.avatar_url()
         }
 
     @classmethod

@@ -80,6 +80,15 @@ export default class User {
     }
 
     /**
+     * Unwraps from serach Index JSON object
+     * @param {Object} JSON Search index JSON
+     * @return {?User} Created object
+     */
+    static fromIndexJSON(json) {
+        return this.fromJSON(json);
+    }
+
+    /**
      * Unwraps a user from an API JSON object.
      * @param {Object} json User JSON object.
      * @return {?User} User object if succesful, `null` if unauthorized.

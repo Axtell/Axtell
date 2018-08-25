@@ -10,7 +10,7 @@ export default class SwappingViewController extends ViewController {
     constructor(source) {
         super(source);
 
-        this._parent = source.parentNode;
+        this._parent = null;
         this._source = source;
         this._replacee = null;
         this._displayingSource = true;
@@ -34,6 +34,10 @@ export default class SwappingViewController extends ViewController {
      * @return {HTMLElement}
      */
     displayAlternate(alternate) {
+        if (this._displayingSource) {
+            this._parent = this._source.parentNode;
+        }
+
         if (alternate === this._displayAlternateTemplate) return;
 
         const node = alternate.loadReplacingContext(
