@@ -7,26 +7,10 @@ import '~/modern/GeneratorExtensions';
 // /* from CDN */ import bugsnag from 'bugsnag-js';
 import tippy from 'tippy.js/dist/tippy.all.min.js';
 
-import KeyManager from "~/models/KeyManager";
-import ViewController from "~/controllers/ViewController";
-import Normalize from "~/models/Normalize";
-import Language from "~/models/Language";
-import Theme from "~/models/Theme";
-import Post from "~/models/Post";
 import Data from "~/models/Data";
-import Random from "~/modern/Random";
 import Auth from "~/models/Auth";
-import PushNotifications from "~/models/PushNotifications";
-import WebPushKey from "~/models/Request/WebPushKey";
-import Template from "~/template/Template";
-import AnimationController, { Animation } from "~/controllers/AnimationController";
-
-import Request from "~/models/Request/Request";
-import WebAPNToken from "~/models/Request/WebAPNToken";
-import Leaderboard from "~/models/Request/Leaderboard";
 
 import ErrorManager, * as ErrorData from "~/helpers/ErrorManager";
-
 import Analytics, { TimingType } from "~/models/Analytics";
 
 // Manage unhandled errors through manager
@@ -51,30 +35,10 @@ window.addEventListener("unhandledrejection", (error) => {
             // Make global
             const IS_DEBUG = Data.shared.envValueForKey('IS_DEBUG');
             const Classes = {
-                Normalize,
-                Language,
-                Theme,
-                Post,
                 Data,
                 Auth,
-
-                Random,
-
-                Request,
-                Leaderboard,
-
-                PushNotifications,
-                WebAPNToken,
-                WebPushKey,
-
-                KeyManager,
                 ErrorManager,
-                ErrorData,
-
-                AnimationController,
-                Animation,
-
-                Template
+                ErrorData
             };
 
             if (IS_DEBUG) {
