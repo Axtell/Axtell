@@ -66,6 +66,7 @@ export default class ModalViewController extends ViewController {
 
         const dim = <div class={`modal-view__dim ${alignmentClass}`}/>;
         const instance = template.loadInContext(dim);
+        template.didLoad();
 
         const listener = dim.addEventListener('click', (event) => {
             if ((document.body.contains(event.target) || event.target === document.body) && !instance.contains(event.target)) {
@@ -108,6 +109,8 @@ export default class ModalViewController extends ViewController {
                 easing: 'easeOutBack',
                 duration: 500
             });
+        } else {
+            instance.style.opacity = 1;
         }
 
         await timeline.finished;

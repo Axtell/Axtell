@@ -1,6 +1,7 @@
 from app.instances import db
 from sqlalchemy import select, func
 from sqlalchemy.ext.hybrid import hybrid_property
+from app.helpers.macros.encode import slugify
 import app.models.Language
 from app.models.AnswerVote import AnswerVote
 from app.models.AnswerRevision import AnswerRevision
@@ -61,9 +62,13 @@ class Answer(db.Model):
             'author': self.user.get_index_json(root_object=False),
             'post': {
                 'id': self.post.id,
-                'name': self.post.title
+                'name': self.post.title,
+                'slug': slugify(self.post.title)
             }
         }
+
+    def should_index(self):
+        return not self.deleted
 
     @classmethod
     @gets_index
@@ -74,6 +79,12 @@ class Answer(db.Model):
     def get_index_settings(cls):
         return {
             'searchableAttributes': [
+                'code',
+                'language_name',
+                'author.name',
+                'post.name'
+            ],
+            'attributesToSnippet': [
                 'code',
                 'language_name',
                 'author.name',

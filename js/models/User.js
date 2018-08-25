@@ -85,7 +85,7 @@ export default class User {
      * @return {?User} Created object
      */
     static fromIndexJSON(json) {
-        return this.fromJSON(json);
+        return User.fromJSON(json);
     }
 
     /**

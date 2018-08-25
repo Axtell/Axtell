@@ -33,6 +33,9 @@ class User(db.Model):
             'avatar': self.avatar_url()
         }
 
+    def should_index(self):
+        return True
+
     @classmethod
     @gets_index
     def get_index(cls):
@@ -42,6 +45,9 @@ class User(db.Model):
     def get_index_settings(cls):
         return {
             'searchableAttributes': [
+                'name'
+            ],
+            'attributesToSnippet': [
                 'name'
             ]
         }

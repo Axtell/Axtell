@@ -34,19 +34,19 @@ export const SearchCategories = [
     new SearchCategory({
         name: 'posts',
         title: 'Challenges',
-        color: '#3867d6',
+        color: '#0652DD',
         formatter: Post.fromIndexJSON
     }),
     new SearchCategory({
         name: 'answers',
         title: 'Answers',
-        color: '#eb3b5a',
+        color: '#F44336',
         formatter: Answer.fromIndexJSON
     }),
     new SearchCategory({
         name: 'users',
         title: 'Users',
-        color: '#8854d0',
+        color: '#9C27B0',
         formatter: User.fromIndexJSON
     })
 ];
@@ -154,7 +154,7 @@ export default class Search {
             ErrorManager.silent(error, `Failed to format object of type ${category.name}`, result);
             return null;
         }
-        return new SearchResult(category, formatted);
+        return new SearchResult(category, formatted, result);
     }
 
 }
@@ -248,6 +248,10 @@ export class MultiIndexSearch {
      */
     get areMore() { return this._areMore; }
 
+    /**
+     * Will start at the page as incremented by `next()`.
+     * @return {SearchResults}
+     */
     async *[Symbol.iterator]() {
         while (this.areMore) {
             yield* await this.next();
@@ -305,13 +309,77 @@ export class SearchResult {
      * Represents search result
      * @param {SearchCategory} category - A search category
      * @param {Object} object
+     * @param {Object} result - the result object from algolia
      */
-    constructor(category, object) {
+    constructor(category, object, result) {
         /** @type {SearchCategory}] */
         this.category = category;
 
         /** @private */
         this.object = object;
+
+        /** @private */
+        this._result = result;
+
+        /** @type {number} */
+        this.id = result.objectID;
+
+    }
+
+    /**
+     * Obtains highlight snippet for key
+     * @param {string} key - Key of item eg `author.name`
+     * @param {?Function} predicate - If key exists call the predicate and return
+     *                              the results, else fragment.
+     * @return {DocumentFragment} HTML node with <em> for highlights
+     * @throws {TypeError} If key not found
+     */
+    highlightSnippetForKey(key, predicate = null) {
+        const parts = key.split('.');
+        let lastSnippet = this._result._snippetResult;
+
+        for (let i = 0; i < parts.length; i++) {
+            lastSnippet = lastSnippet[parts[i]];
+
+            if (!lastSnippet) {
+                throw new TypeError(`section ${parts[i]} of ${key} not found in object type ${this.category.name}.`);
+            }
+        }
+
+        const value = lastSnippet.value;
+        const tempWrapper = document.createElement('span');
+        tempWrapper.innerHTML = value;
+
+        if (predicate) {
+            if (lastSnippet.matchLevel !== 'none') {
+                return predicate(tempWrapper);
+            } else {
+                return document.createDocumentFragment();
+            }
+        } else {
+            return tempWrapper;
+        }
+    }
+
+    /**
+     * Obtains the _full_ highlight
+     * @param {string} key - Key of item eg `author.name`
+     * @return {string} string of the value.
+     * @throws {TypeError} If key not found
+     */
+    highlightForKey(key) {
+        const parts = key.split('.');
+        let lastHighlight = this._result._highlightResult;
+
+        for (let i = 0; i < parts.length; i++) {
+            lastHighlight = lastHighlight[parts[i]];
+
+            if (!lastHighlight) {
+                throw new TypeError(`section ${parts[i]} of ${key} not found in object type ${this.category.name}.`);
+            }
+        }
+
+        return lastHighlight.value;
     }
 
     /**

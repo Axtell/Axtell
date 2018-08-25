@@ -59,18 +59,15 @@ def gets_index(f):
     def wrap(self, get_index_name=False, *args, **kwargs):
         index_name = f(self, *args, **kwargs)
         if client is not None:
-            if index_name in loaded_indices:
-                return loaded_indices[index_name]
+            if not auth['algolia']['prefix']:
+                algolia_name = index_name
             else:
-                if not auth['algolia']['prefix']:
-                    algolia_name = index_name
-                else:
-                    algolia_name = f"{auth['algolia']['prefix']}_{index_name}"
+                algolia_name = f"{auth['algolia']['prefix']}_{index_name}"
 
-                if get_index_name:
-                    return algolia_name
+            if get_index_name:
+                return algolia_name
 
-                return load_index(algolia_name)
+            return load_index(algolia_name)
         else:
             return None
 

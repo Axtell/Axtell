@@ -7,6 +7,7 @@ from app.helpers.macros.encode import slugify
 from app.models.PostRevision import PostRevision
 from app.models.PostVote import PostVote
 from app.helpers.search_index import index_json, IndexStatus, gets_index
+from app.tasks.markdown import render_markdown
 import datetime
 from math import sqrt
 
@@ -44,13 +45,16 @@ class Post(db.Model):
             'objectID': f'post-{self.id}',
             'id': self.id,
             'title': self.title,
-            'body': self.body,
+            'body': render_markdown(self.body, render_math=False),
             'slug': slugify(self.title),
             'date_created': self.date_created.isoformat() + 'Z',
             'last_modified': last_modified.isoformat() + 'Z',
             'score': self.score,
             'author': self.user.get_index_json(root_object=False)
         }
+
+    def should_index(self):
+        return not self.deleted
 
     @classmethod
     @gets_index
@@ -63,6 +67,11 @@ class Post(db.Model):
             'searchableAttributes': [
                 'body',
                 'title',
+                'author.name'
+            ],
+            'attributesToSnippet': [
+                'title',
+                'body:15',
                 'author.name'
             ]
         }

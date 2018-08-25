@@ -25,6 +25,12 @@ export default class SearchViewController extends ViewController {
             baseZIndex: 30,
             bumpAnimation: false
         });
+
+        /**
+         * The search template
+         * @type {?SearchTemplate}
+         */
+        this.searchTemplate = null;
     }
 
     /**
@@ -34,9 +40,12 @@ export default class SearchViewController extends ViewController {
         if (this.opened) return;
 
         const { default: SearchTemplate } = await import('~/template/Search/SearchTemplate');
+        if (this.searchTemplate === null) {
+            this.searchTemplate = new SearchTemplate();
+        }
 
         await this.modalController.present(
-            await new SearchTemplate(),
+            await this.searchTemplate,
             { alignmentClass: 'search-overlay__aligner' }
         );
     }

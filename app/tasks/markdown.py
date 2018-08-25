@@ -1,5 +1,6 @@
 from subprocess import Popen, PIPE
 from threading import local
+from struct import pack
 
 from app.instances.celery import celery_app
 from misc import md_exe
@@ -15,10 +16,10 @@ def fork_markdown_helper():
 
 
 @celery_app.task
-def render_markdown(string):
+def render_markdown(string, render_math=True):
     helper = fork_markdown_helper()
 
-    helper.stdin.write(string.encode('utf-8'))
+    helper.stdin.write(pack('B', int(render_math)) + string.encode('utf-8'))
     helper.stdin.flush()
     read_len = int.from_bytes(helper.stdout.read(4), byteorder='little')
     res = helper.stdout.read(read_len).decode('utf-8')

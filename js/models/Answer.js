@@ -142,7 +142,7 @@ export default class Answer {
             length: json.byte_count,
             language: Language.fromJSON(json.language),
             user: User.fromIndexJSON(json.author),
-            post: new Post({ postId: json.post.id, title: json.post.name })
+            post: new Post({ postId: json.post.id, title: json.post.name, slug: json.post.slug })
         });
     }
 

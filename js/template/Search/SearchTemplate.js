@@ -46,12 +46,19 @@ export default class SearchTemplate extends Template {
         return (async () => {
             root.appendChild(
                 <DocumentFragment>
-                    <div class="search-overlay">
-                        <div class="search-overlay__component search-overlay__component--type-image">
-                            { this.searchIconTemplate.unique() }
+                    <div class="search-overlay-base">
+                        <div class="search-overlay">
+                            <div class="search-overlay__component search-overlay__component--type-image">
+                                { this.searchIconTemplate.unique() }
+                            </div>
+                            <div class="search-overlay__component search-overlay__component--size-stretch search-overlay__component--type-input">
+                                { this.searchText.unique() }
+                            </div>
                         </div>
-                        <div class="search-overlay__component search-overlay__component--size-stretch search-overlay__component--type-input">
-                            { this.searchText.unique() }
+                        <div class="search-overlay__credit">
+                            <a href="https://www.algolia.com" title="Search by Algolia">
+                                <img src={Theme.current.imageForTheme('algolia/by-algolia')} alt="Search by Algolia"/>
+                            </a>
                         </div>
                     </div>
                     { this.resultContainer.unique() }
@@ -60,7 +67,7 @@ export default class SearchTemplate extends Template {
 
             // Setup search
             this.searchText
-                .observe()
+                .observeInput
                 .pipe(
                     distinctUntilChanged(),
                     debounceTime(200),
@@ -72,6 +79,12 @@ export default class SearchTemplate extends Template {
 
             return this;
         })();
+    }
+
+    /** @override */
+    didLoad() {
+        super.didLoad();
+        this.searchText.focus();
     }
 
     /**
@@ -94,9 +107,23 @@ export default class SearchTemplate extends Template {
      */
     async displayResults(results) {
         const parent = <div class="search-list"/>;
+        let isAtLeastOneResult = false;
+
         for (const [category, items] of results.categories()) {
+            if (items.length === 0) continue;
+            isAtLeastOneResult = true;
+
             new SearchCategoryTemplate(category, items).loadInContext(parent);
         }
+
+        if (!isAtLeastOneResult) {
+            parent.appendChild(
+                <div class="search-overlay-base search-result__empty">
+                    No results found
+                </div>
+            );
+        }
+
         this.resultContainer.displayAlternate(parent);
     }
 }

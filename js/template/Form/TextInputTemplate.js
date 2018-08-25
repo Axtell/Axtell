@@ -44,17 +44,22 @@ export default class TextInputTemplate extends Template {
          */
         this.isOwned = isOwned;
 
+        /**
+         * Observable for input
+         * @type {Observable}
+         */
+        this.observeInput = fromEvent(this.underlyingNode, 'input');
+
         this.underlyingNode.addEventListener("input", () => {
             this.delegate.didSetStateTo(this, this.value);
         });
     }
 
     /**
-     * Observes value
-     * @return {Observable}
+     * Sets focus
      */
-    observe() {
-        return fromEvent(this.underlyingNode, 'input');
+    focus() {
+        this.underlyingNode.focus();
     }
 
     get input() { return this.underlyingNode; }

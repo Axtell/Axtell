@@ -40,7 +40,7 @@ def reindex_database(full_reindex=False):
             item for model in INDEXABLE_MODELS for item in model.query.filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
         ]
 
-    sync_targets = [(item.get_index(get_index_name=True), item.get_index_json()) for item in indexable_items]
+    sync_targets = [(item.should_index(), item.get_index(get_index_name=True), item.get_index_json()) for item in indexable_items]
 
     try:
         synchronize_objects.chunks(
@@ -67,17 +67,29 @@ def synchronize_objects(items):
 
     # This stores the index and the items to place into that so we can combine
     # the queries to avoid excessive requests.
-    objects = dict()
+    algolia_tasks = []
 
     for params in items:
         if params is None:
             continue
 
-        index_name, item_json = params
-        objects.setdefault(index_name, []).append(item_json)
+        should_index, index_name, item_json = params
+        if should_index:
+            algolia_tasks.append({
+                'action': 'addObject',
+                'indexName': index_name,
+                'body': item_json
+            })
+        else:
+            algolia_tasks.append({
+                'action': 'deleteObject',
+                'indexName': index_name,
+                'body': {
+                    'objectID': item_json['objectID']
+                }
+            })
 
-    for index, items in objects.items():
-        search_index.load_index(index_name).add_objects(items)
+    search_index.client.batch(algolia_tasks)
 
 
 
