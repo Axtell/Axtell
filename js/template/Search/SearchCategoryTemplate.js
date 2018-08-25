@@ -20,7 +20,7 @@ function getCategoryPredicate(category) {
                 <div class="search-result__component search-result__component--type-image">
                     <img class="search-result__data search-result__data--style-avatar" src={ post.owner.avatar }/>
                 </div>
-                <div class="search-result__component search-result__component--type-stack">
+                <div class="search-result__component search-result__component--type-stack search-result__component--size-stretch">
                     <span class="search-result__data search-result__data--style-author">
                         by { post.owner.name }
                         &middot;
@@ -34,11 +34,33 @@ function getCategoryPredicate(category) {
         );
 
         case 'answers': return (answer) => (
-            <a href={answer.post.getURLSync()}></a>
+            <a href={answer.post.getURLSync()}>
+                <div class="search-result__component search-result__component--type-image">
+                    <img class="search-result__data" src={ answer.language.iconURL }/>
+                </div>
+                <div class="search-result__component search-result__component--type-stack search-result__component--size-stretch">
+                    <span class="search-result__caption">
+                        <span class="search-result__data search-result__data--style-language">{ answer.language.displayName }</span>:
+                        <span class="search-result__data search-result__data--style-unit">{ answer.length }</span>
+                        <span class="search-result__data search-result__data--style-unit-name">bytes</span>
+                    </span>
+                    <span class="search-result__caption">
+                        posted to
+                        <h5 class="search-result__data search-result__data--style-parentPost">{ answer.post.title }</h5>
+                    </span>
+                </div>
+            </a>
         );
 
         case 'users': return (user) => (
-            <a href={user.profilePage}></a>
+            <a href={user.profilePage}>
+                <div class="search-result__component search-result__component--type-image">
+                    <img class="search-result__data search-result__data--style-avatar" src={ user.avatar }/>
+                </div>
+                <div class="search-result__component search-result__component--size-stretch">
+                    <h5 class="search-result__data search-result__data--style-title">{ user.name }</h5>
+                </div>
+            </a>
         );
 
         default:

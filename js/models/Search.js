@@ -1,4 +1,5 @@
 import Data, { EnvKey } from '~/models/Data';
+import ErrorManager from '~/helpers/ErrorManager';
 import algoliasearch from 'algoliasearch/lite';
 
 import Answer from '~/models/Answer';
@@ -150,7 +151,8 @@ export default class Search {
         try {
             formatted = category.format(result);
         } catch(error) {
-
+            ErrorManager.silent(error, `Failed to format object of type ${category.name}`, result);
+            return null;
         }
         return new SearchResult(category, formatted);
     }
@@ -198,7 +200,16 @@ export class MultiIndexSearch {
                 areMore = true;
             }
 
-            resultMap.set(category, results[i].hits.map(hit => this.search.formatResult(category, hit)));
+            let formattedResults = [];
+
+            for (let j = 0; j < results[i].hits.length; j++) {
+                const formattedResult = this.search.formatResult(category, results[i].hits[j]);
+                if (formattedResult !== null) {
+                    formattedResults.push(formattedResult);
+                }
+            }
+
+            resultMap.set(category, formattedResults);
         }
 
         return new SearchResults(this.search, resultMap, areMore);
