@@ -9,6 +9,7 @@ import '~/ui/exec/exec-tio';
 
 import '~/ui/nav';
 import '~/ui/user';
+import '~/ui/search';
 import '~/ui/login';
 import '~/ui/userbox';
 import '~/ui/changelog';

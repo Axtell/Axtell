@@ -80,18 +80,20 @@ export default class SearchCategoryTemplate extends Template {
      */
     constructor(category, results) {
         const predicate = getCategoryPredicate(category);
+        const values = results.map(item => predicate(item.value, item));
 
         const root = (
             <div class="search-overlay-base search-results">
                 <h4 class="search-results__title" style={`color: ${category.color}`}>{ category.title }</h4>
                 <ul class="search-results__list">
-                    { results.map(item => (
-                        <li class="search-result">{ predicate(item.value, item) }</li>
-                    )) }
+                    { values.map(item => <li class="search-result">{ item }</li>) }
                 </ul>
             </div>
         );
 
         super(root);
+
+        /** @type {HTMLElement} */
+        this.results = values;
     }
 }

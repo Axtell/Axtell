@@ -25,6 +25,7 @@
         $userbox-avatar-icon-size: 1.2em;
         @include square($userbox-avatar-icon-size);
         background: url(/static/img/author-indicator.svg);
+        background-repeat: no-repeat;
 
         // I don't know why this works but it does so don't touch it
 

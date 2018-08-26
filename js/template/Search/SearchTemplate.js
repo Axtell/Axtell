@@ -4,11 +4,13 @@ import TextInputTemplate, { TextInputType } from '~/template/Form/TextInputTempl
 import SwappingTemplate from '~/template/SwappingTemplate';
 import LoadingIcon from '~/svg/LoadingIcon';
 import Search from '~/models/Search';
+import KeyManager from '~/models/KeyManager';
 import Theme from '~/models/Theme';
 
 import { HandleUnhandledPromise } from '~/helpers/ErrorManager';
 
-import { tap, switchMap, distinctUntilChanged, debounceTime, map } from 'rxjs/operators';
+import { merge } from 'rxjs';
+import { scan, filter, switchMap, distinctUntilChanged, debounceTime, map } from 'rxjs/operators';
 
 export default class SearchTemplate extends Template {
 
@@ -40,8 +42,12 @@ export default class SearchTemplate extends Template {
         /** @type {Search} */
         this.searchClient = Search.createClient();
 
+        /** @type {?KeyManager} */
+        this.keyManager = null;
+
+        // Keeps track of focus using keyboard
         /** @private */
-        this.pendingRequest = null;
+        this.resultFocus = null;
 
         return (async () => {
             root.appendChild(
@@ -65,17 +71,19 @@ export default class SearchTemplate extends Template {
                 </DocumentFragment>
             );
 
-            // Setup search
-            this.searchText
+            // This observer is called when new result is loaded
+            this.loadedResults = this.searchText
                 .observeInput
                 .pipe(
                     distinctUntilChanged(),
                     debounceTime(200),
                     map(event => event.target.value),
-                    switchMap(async value => await this.search(value)))
-                .subscribe(results =>
-                    this.displayResults(results)
-                        .catch(HandleUnhandledPromise));
+                    switchMap(async value => await this.search(value)));
+
+
+            this.loadedResults.subscribe(results =>
+                this.displayResults(results)
+                    .catch(HandleUnhandledPromise));
 
             return this;
         })();
@@ -85,6 +93,44 @@ export default class SearchTemplate extends Template {
     didLoad() {
         super.didLoad();
         this.searchText.focus();
+
+        this.keyManager = new KeyManager(document);
+        this.keyManager.addTarget(this.searchText.underlyingNode);
+
+        this.resultFocus = merge(
+            this.loadedResults
+                .pipe(map(() => ({ reset: true }))),
+            this.keyManager.registerObservable('ArrowDown')
+                .pipe(map(() => ({ change: 1 }))),
+            this.keyManager.registerObservable('ArrowUp')
+                .pipe(map(() => ({ change: -1 }))))
+            .pipe(
+                scan((oldIndex, { reset, change }) => reset ? -1 : Math.max(oldIndex + change, -1), -1))
+            .subscribe(::this.setResultFocus);
+    }
+
+    /**
+     * Sets focus to the nth item
+     * @param {number} index - Noop if out of range
+     */
+    setResultFocus(index) {
+        if (index === -1) {
+            this.searchText.focus();
+        } else {
+            const result = this.results[index % this.results.length];
+
+            if (!result)
+                return;
+
+            result.focus();
+        }
+    }
+
+    /** @override */
+    didUnload() {
+        super.didUnload();
+        this.keyManager.clear();
+        this.resultFocus.unsubscribe();
     }
 
     /**
@@ -106,15 +152,22 @@ export default class SearchTemplate extends Template {
      * @param {SearchResults} results
      */
     async displayResults(results) {
-        const parent = <div class="search-list"/>;
+        const parent = <div class="search-list"/>,
+            templates = [];
+
         let isAtLeastOneResult = false;
 
         for (const [category, items] of results.categories()) {
             if (items.length === 0) continue;
             isAtLeastOneResult = true;
 
-            new SearchCategoryTemplate(category, items).loadInContext(parent);
+            const template = new SearchCategoryTemplate(category, items);
+            templates.push(...template.results);
+            template.loadInContext(parent);
         }
+
+        this.results = templates;
+        this.resultIndex = -1;
 
         if (!isAtLeastOneResult) {
             parent.appendChild(

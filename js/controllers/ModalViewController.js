@@ -24,6 +24,7 @@ export default class ModalViewController extends ViewController {
 
         this._dim = null;
         this._activeTemplate = null;
+        this._activeTemplateModel = null;
         this._eventListener = null;
 
         this._removeKeyHandler = null;
@@ -77,6 +78,7 @@ export default class ModalViewController extends ViewController {
 
         this._dim = dim;
         this._eventListener = listener;
+        this._activeTemplateModel = template;
         this._activeTemplate = instance; // Set this last to avoid race condition
 
         dim.style.zIndex = this._baseZIndex;
@@ -129,8 +131,10 @@ export default class ModalViewController extends ViewController {
         this._removeKeyHandler?.();
 
         // Avoids race condition
-        const instance = this._activeTemplate;
+        const instance = this._activeTemplate,
+            template = this._activeTemplateModel;
         this._activeTemplate = null;
+        this._activeTemplateModel = null;
 
         this._dim.removeEventListener('click', this._eventListener);
 
@@ -157,6 +161,7 @@ export default class ModalViewController extends ViewController {
         }
 
         await timeline.finished;
+        template.didUnload();
 
         this.context.removeChild(this._dim);
 
