@@ -143,21 +143,25 @@ export default class ModalViewController extends ViewController {
         this._dim.style.pointerEvents = 'none'
         const timeline = anime.timeline()
             .add({
-                targets: instance,
-                opacity: [1, 0],
-                top: ['50%', '60%'],
-                easing: 'easeInBack',
-                duration: 500
-            })
-
-        if (bumpAnimation) {
-            timeline.add({
                 targets: this._dim,
                 opacity: [1, 0],
                 backdropFilter: [`blur(${MODAL_BLUR_RADIUS})`, 'blur(0px)'],
                 webkitBackdropFilter: [`blur(${MODAL_BLUR_RADIUS})`, 'blur(0px)'],
-                duration: 300
+                elasticity: 0,
+                duration: 300,
+                offset: bumpAnimation ? 400 : 0
             });
+
+        if (bumpAnimation) {
+            timeline.add({
+                targets: instance,
+                opacity: [1, 0],
+                top: ['50%', '60%'],
+                easing: 'easeInBack',
+                offset: 0,
+                duration: 500,
+                elasticity: 0
+            })
         }
 
         await timeline.finished;
