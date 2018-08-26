@@ -11,19 +11,15 @@ export class SearchCategory {
      * @param {Object} opts
      * @param {string} opts.name - Backend facing name
      * @param {string} opts.title - Title friendly to user
-     * @param {string} opts.color
      * @param {Function} opts.formatter - Takes object as arg and spits out
      *                                  full object
      */
-    constructor({ name, title, color, formatter } = {}) {
+    constructor({ name, title, formatter } = {}) {
         /** @private */
         this.name = name;
 
         /** @type {string} */
         this.title = title;
-
-        /** @type {string} */
-        this.color = color;
 
         /** @type {Function} */
         this.format = formatter;
@@ -34,19 +30,16 @@ export const SearchCategories = [
     new SearchCategory({
         name: 'posts',
         title: 'Challenges',
-        color: '#0652DD',
         formatter: Post.fromIndexJSON
     }),
     new SearchCategory({
         name: 'answers',
         title: 'Answers',
-        color: '#F44336',
         formatter: Answer.fromIndexJSON
     }),
     new SearchCategory({
         name: 'users',
         title: 'Users',
-        color: '#9C27B0',
         formatter: User.fromIndexJSON
     })
 ];
@@ -175,7 +168,10 @@ export class MultiIndexSearch {
         this.opts = indices.map(indexName => ({
             indexName: indexName,
             query: query,
-            hitsPerPage: perPage
+            params: {
+                hitsPerPage: perPage,
+                advancedSyntax: true
+            }
         }));
 
         this._areMore = true;
@@ -195,9 +191,11 @@ export class MultiIndexSearch {
         for (let i = 0; i < results.length; i++) {
             const indexName = results[i].index;
             const category = this.search.getCategoryFromFullName(indexName);
+            let categoryHasMore = false;
 
             if (results[i].page < results[i].nbPages - 1) {
                 areMore = true;
+                categoryHasMore = true;
             }
 
             let formattedResults = [];
@@ -209,7 +207,7 @@ export class MultiIndexSearch {
                 }
             }
 
-            resultMap.set(category, formattedResults);
+            resultMap.set(category, { areMore: categoryHasMore, results: formattedResults });
         }
 
         return new SearchResults(this.search, resultMap, areMore);
@@ -266,7 +264,7 @@ export class SearchResults {
     /**
      * Represents group of search results
      * @param {Search} search
-     * @param {Object[]} results From {@link MultiIndexSearch}
+     * @param {Map} results From {@link MultiIndexSearch}
      * @param {boolean} areMore
      */
     constructor(search, results, areMore) {
@@ -284,18 +282,55 @@ export class SearchResults {
     }
 
     /**
+     * Checks if category has more
+     * @param {SearchCategory} category
+     * @return {boolean} If more results exist
+     */
+    areMoreResultsForCategory(category) {
+        return this.results.get(category).areMore;
+    }
+
+    /**
+     * Returns results for a category
+     * @param {SearchCategory} category
+     * @return {SearchResult[]}
+     */
+    getResultsForCategory(category) {
+        return this.results.get(category).results;
+    }
+
+    /**
+     * Checks if category is empty
+     * @param {SearchCategory} category
+     * @return {boolean}
+     */
+    categoryHasResultsForCategory(category) {
+        return this.getResultsForCategory(category).length > 0;
+    }
+
+    /**
      * Iterates by category.
-     * @return {[SerachCategory, SearchResult[]]}
+     * @return {SearchCategory}
      */
     *categories() {
-        yield* this.results;
+        yield* this.results.keys();
+    }
+
+    /**
+     * Iterates category/result pairs
+     * @return {[SearchCategory, SearchResult[]]}
+     */
+    *resultsByCategory() {
+        for (const [category, { results }] of this.results) {
+            yield [category, results];
+        }
     }
 
     /**
      * Iterates by item
      */
     *results() {
-        for (const [category, results] of this.results) {
+        for (const [category, { results }] of this.results) {
             yield* results;
         }
     }

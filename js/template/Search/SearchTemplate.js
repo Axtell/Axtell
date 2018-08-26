@@ -142,7 +142,6 @@ export default class SearchTemplate extends Template {
         if (query === "") return null;
 
         this.searchIconTemplate.displayAlternate(this.loadingIcon);
-
         const searchResults = await this.searchClient.globalSearch(query, { perPage: 3 }).next();
         this.searchIconTemplate.restoreOriginal();
 
@@ -164,11 +163,14 @@ export default class SearchTemplate extends Template {
 
         let isAtLeastOneResult = false;
 
-        for (const [category, items] of results.categories()) {
-            if (items.length === 0) continue;
+        for (const category of results.categories()) {
+            if (!results.categoryHasResultsForCategory(category)) {
+                continue;
+            }
+
             isAtLeastOneResult = true;
 
-            const template = new SearchCategoryTemplate(category, items);
+            const template = new SearchCategoryTemplate(category, results);
             templates.push(...template.results);
             template.loadInContext(parent);
         }

@@ -1,6 +1,3 @@
-/**
- * A search category list
- */
 import Template from '~/template/Template';
 import TextInputTemplate, { TextInputType } from '~/template/Form/TextInputTemplate';
 import SwappingTemplate from '~/template/SwappingTemplate';
@@ -10,6 +7,8 @@ import Theme from '~/models/Theme';
 import ErrorManager from '~/helpers/ErrorManager';
 
 import { HandleUnhandledPromise } from '~/helpers/ErrorManager';
+
+import { Subject } from 'rxjs';
 
 export const UnknownIndex = Symbol('SearchCategoryTemplate.Error.UnknownIndex');
 
@@ -47,8 +46,8 @@ function getCategoryPredicate(category) {
                         </span>
                         by
                         <span class="search-result__data search-result__data--style-author">
-                            { answer.user.name + " " }
                             <img class="search-result__data search-result__data--style-avatar" src={ answer.user.avatar }/>
+                            { " " + answer.user.name }
                         </span>
                     </span>
                     <span class="search-result__caption search-result__caption--pad-2">
@@ -91,18 +90,23 @@ export default class SearchCategoryTemplate extends Template {
     /**
      * Creates search category template
      * @param {SearchCategory} category
-     * @param {SearchResult[]} results
+     * @param {SeachResults} results
      */
     constructor(category, results) {
         const predicate = getCategoryPredicate(category);
-        const values = results.map(item => predicate(item.value, item));
+        const values = results
+            .getResultsForCategory(category)
+            .map(item => predicate(item.value, item));
 
         const root = (
-            <div class="search-overlay-base search-results">
-                <h4 class="search-results__title" style={`color: ${category.color}`}>{ category.title }</h4>
+            <div class={`search-overlay-base search-results search-results--name-${category.name}`}>
+                <h4 class="search-results__title">{ category.title }</h4>
                 <ul class="search-results__list">
                     { values.map(item => <li class="search-result">{ item }</li>) }
                 </ul>
+                { results.areMoreResultsForCategory(category) ? (
+                    <div class="search-results__more">more results not shown</div>
+                ) : <DocumentFragment/> }
             </div>
         );
 
