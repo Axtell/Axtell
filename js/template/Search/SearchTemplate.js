@@ -138,10 +138,11 @@ export default class SearchTemplate extends Template {
      * @param {string} query
      */
     async search(query) {
+        if (query === "") return null;
+
         this.searchIconTemplate.displayAlternate(this.loadingIcon);
 
         const searchResults = await this.searchClient.globalSearch(query, { perPage: 3 }).next();
-
         this.searchIconTemplate.restoreOriginal();
 
         return searchResults;
@@ -152,6 +153,11 @@ export default class SearchTemplate extends Template {
      * @param {SearchResults} results
      */
     async displayResults(results) {
+        if (results === null) {
+            this.resultContainer.restoreOriginal();
+            return;
+        }
+
         const parent = <div class="search-list"/>,
             templates = [];
 
