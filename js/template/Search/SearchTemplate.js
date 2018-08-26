@@ -62,7 +62,7 @@ export default class SearchTemplate extends Template {
                             </div>
                         </div>
                         <div class="search-overlay__credit">
-                            <a href="https://www.algolia.com" title="Search by Algolia">
+                            <a target="_blank" href="https://www.algolia.com" title="Search by Algolia">
                                 <img src={Theme.current.imageForTheme('algolia/by-algolia')} alt="Search by Algolia"/>
                             </a>
                         </div>
