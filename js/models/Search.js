@@ -165,9 +165,26 @@ export class MultiIndexSearch {
      */
     constructor(search, query, indices, { perPage = 20 } = {}) {
         this.search = search;
+
+        // // Parse the query
+        // // Expandable in future
+        // const filters = new Map();
+        // const filterRegex = /(?:^|\s+)([a-z]+): ?("(?:\\.|[^\\"])*?"|[a-z0-9]+)/g;
+        // let queryString = query.replace(filterRegex, '').trim();
+        //
+        // let match;
+        // while (match = filterRegex.exec(query)) {
+        //     if (filterRegex.lastIndex === match.index)
+        //         filterRegex.lastIndex.lastIndex++;
+        //
+        //     const [querySection, key, value] = match;
+        //     filters.set(key, value);
+        // }
+
+        // Generate options
         this.opts = indices.map(indexName => ({
             indexName: indexName,
-            query: query,
+            query: queryString,
             params: {
                 hitsPerPage: perPage,
                 advancedSyntax: true

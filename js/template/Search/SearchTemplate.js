@@ -75,9 +75,9 @@ export default class SearchTemplate extends Template {
             this.loadedResults = this.searchText
                 .observeInput
                 .pipe(
-                    distinctUntilChanged(),
                     debounceTime(200),
                     map(event => event.target.value),
+                    distinctUntilChanged(),
                     switchMap(async value => await this.search(value)),
                     share());
 
