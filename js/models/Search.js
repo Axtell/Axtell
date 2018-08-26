@@ -184,7 +184,7 @@ export class MultiIndexSearch {
         // Generate options
         this.opts = indices.map(indexName => ({
             indexName: indexName,
-            query: queryString,
+            query: query,
             params: {
                 hitsPerPage: perPage,
                 advancedSyntax: true

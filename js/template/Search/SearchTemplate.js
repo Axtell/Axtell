@@ -2,7 +2,6 @@ import SearchCategoryTemplate from '~/template/Search/SearchCategoryTemplate';
 import Template from '~/template/Template';
 import TextInputTemplate, { TextInputType } from '~/template/Form/TextInputTemplate';
 import SwappingTemplate from '~/template/SwappingTemplate';
-import LoadingIcon from '~/svg/LoadingIcon';
 import Search from '~/models/Search';
 import KeyManager from '~/models/KeyManager';
 import Theme from '~/models/Theme';
@@ -24,11 +23,11 @@ export default class SearchTemplate extends Template {
 
         /** @type {SwappingTemplate} */
         this.searchIconTemplate = new SwappingTemplate(
-            <img src={Theme.current.imageForTheme('search')} />
+            <img src={Theme.current.imageForTheme('search')} alt="Search"/>
         );
 
-        /** @type {SVGSVGElement} */
-        this.loadingIcon = LoadingIcon.cloneNode(true);
+        /** @type {HTMLImageElement} */
+        this.loadingIcon = <img src={Theme.current.imageForTheme('loading')} alt="Loading..."/>;
 
         /** @type {TextInputTemplate} */
         this.searchText = new TextInputTemplate(TextInputType.Search, 'Find a challenge, user, answer, ...', {
