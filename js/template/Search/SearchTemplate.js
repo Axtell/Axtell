@@ -10,7 +10,7 @@ import Theme from '~/models/Theme';
 import { HandleUnhandledPromise } from '~/helpers/ErrorManager';
 
 import { merge } from 'rxjs';
-import { scan, filter, switchMap, distinctUntilChanged, debounceTime, map } from 'rxjs/operators';
+import { share, scan, filter, switchMap, distinctUntilChanged, debounceTime, map } from 'rxjs/operators';
 
 export default class SearchTemplate extends Template {
 
@@ -78,7 +78,8 @@ export default class SearchTemplate extends Template {
                     distinctUntilChanged(),
                     debounceTime(200),
                     map(event => event.target.value),
-                    switchMap(async value => await this.search(value)));
+                    switchMap(async value => await this.search(value)),
+                    share());
 
 
             this.loadedResults.subscribe(results =>

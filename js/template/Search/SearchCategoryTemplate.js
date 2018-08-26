@@ -35,7 +35,7 @@ function getCategoryPredicate(category) {
             </a>
         );
 
-        case 'answers': return (answer) => (
+        case 'answers': return (answer, result) => (
             <a tabindex="-1" href={answer.post.getURLSync()}>
                 <div class="search-result__component search-result__component--type-image">
                     <img class="search-result__data" src={ answer.language.iconURL }/>
@@ -46,6 +46,8 @@ function getCategoryPredicate(category) {
                         posted to
                         <h5 class="search-result__data search-result__data--style-parentPost">{ answer.post.title }</h5>
                     </span>
+                    { result.highlightSnippetForKey('code', (match) =>
+                        <div class="search-result__hightlighted search-result__data search-result__data--style-code">{ match }</div>) }
                 </div>
                 <div class="search-result__component">
                     <span class="search-result__data search-result__data--style-unit">{ answer.length }</span>
