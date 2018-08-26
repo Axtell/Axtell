@@ -41,13 +41,26 @@ function getCategoryPredicate(category) {
                     <img class="search-result__data" src={ answer.language.iconURL }/>
                 </div>
                 <div class="search-result__component search-result__component--type-stack search-result__component--size-stretch">
-                    <span class="search-result__data search-result__data--style-language">{ answer.language.displayName }</span>
                     <span class="search-result__caption">
+                        <span class="search-result__data search-result__data--style-language">
+                            { answer.language.displayName }
+                        </span>
+                        by
+                        <span class="search-result__data search-result__data--style-author">
+                            { answer.user.name + " " }
+                            <img class="search-result__data search-result__data--style-avatar" src={ answer.user.avatar }/>
+                        </span>
+                    </span>
+                    <span class="search-result__caption search-result__caption--pad-2">
                         posted to
                         <h5 class="search-result__data search-result__data--style-parentPost">{ answer.post.title }</h5>
+                        {" "}
+                        <time datetime={ answer.dateCreated } title={ answer.dateCreated.toISOString() }>
+                            { moment(answer.dateCreated).fromNow() }
+                        </time>
                     </span>
                     { result.highlightSnippetForKey('code', (match) =>
-                        <div class="search-result__hightlighted search-result__data search-result__data--style-code">{ match }</div>) }
+                        <div class="search-result__hightlighted search-result__data search-result__data--style-code body">{ match }</div>, 'code') }
                 </div>
                 <div class="search-result__component">
                     <span class="search-result__data search-result__data--style-unit">{ answer.length }</span>

@@ -22,8 +22,10 @@ export default class Answer {
      * @param {?Language} answer.language
      * @param {User} answer.user
      * @param {?Post} answer.post Parent post
+     * @param {?Date} answer.dateCreated
+     * @param {?Date} answer.dateModified
      */
-    constructor({ id, code, encoding, deleted = false, length, language, commentary, user, post }) {
+    constructor({ id, code, encoding, deleted = false, length, language, commentary, user, post, dateCreated, dateModified }) {
         this._id = id;
         this._code = code;
         this._encoding = encoding;
@@ -33,6 +35,8 @@ export default class Answer {
         this._language = language;
         this._user = user;
         this._post = post;
+        this._dateCreated = dateCreated;
+        this._dateModified = dateModified;
     }
 
     /**
@@ -50,6 +54,16 @@ export default class Answer {
             user: this._user
         });
     }
+
+    /**
+     * @type {?Date}
+     */
+    get dateCreated() { return this._dateCreated; }
+
+    /**
+     * @type {?Date}
+     */
+    get dateModified() { return this._dateModified; }
 
     /**
      * @type {?Post}
@@ -142,6 +156,8 @@ export default class Answer {
             length: json.byte_count,
             language: Language.fromJSON(json.language),
             user: User.fromIndexJSON(json.author),
+            dateCreated: new Date(json.date_created),
+            dateModified: new Date(json.last_modified),
             post: new Post({ postId: json.post.id, title: json.post.name, slug: json.post.slug })
         });
     }

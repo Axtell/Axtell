@@ -331,10 +331,11 @@ export class SearchResult {
      * @param {string} key - Key of item eg `author.name`
      * @param {?Function} predicate - If key exists call the predicate and return
      *                              the results, else fragment.
+     * @param {string} [type=span] - Node type to wrap in
      * @return {DocumentFragment} HTML node with <em> for highlights
      * @throws {TypeError} If key not found
      */
-    highlightSnippetForKey(key, predicate = null) {
+    highlightSnippetForKey(key, predicate = null, type = 'span') {
         const parts = key.split('.');
         let lastSnippet = this._result._snippetResult;
 
@@ -347,7 +348,7 @@ export class SearchResult {
         }
 
         const value = lastSnippet.value;
-        const tempWrapper = document.createElement('span');
+        const tempWrapper = document.createElement(type);
         tempWrapper.innerHTML = value;
 
         if (predicate) {
