@@ -89,7 +89,8 @@ class Answer(db.Model):
                 'language_name',
                 'author.name',
                 'post.name'
-            ]
+            ],
+            'separatorsToIndex': '!#()[]{}*+-_一,:;<>?@/^|%&~£¥$§€`"\'‘’“”†‡'
         }
 
     @hybrid_property
@@ -180,6 +181,8 @@ class Answer(db.Model):
 
         if 'deleted' in new_answer_data:
             self.deleted = new_answer_data['deleted']
+
+        self.index_status = IndexStatus.UNSYNCHRONIZED
 
         return self, revision
 

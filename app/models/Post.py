@@ -133,6 +133,8 @@ class Post(db.Model):
         self.deleted = new_post_data.get('deleted', self.deleted)
         self.ppcg_id = new_post_data.get('ppcg_id', self.ppcg_id)
 
+        self.index_status = IndexStatus.UNSYNCHRONIZED
+
         return self, revision
 
     def __repr__(self):

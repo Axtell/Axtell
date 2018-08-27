@@ -10,8 +10,8 @@ def setup_periodic_tasks(sender, **kwargs):
     # Every 6 hours, refresh JWT keys
     sender.add_period_task(60 * 60 * 6, jwt_update.s(), name="refresh JWT")
 
-    # Every 24 hours, reindex through database
-    sender.add_period_task(60 * 60 * 6, reindex_database.s(), name="reindex database")
+    # Every 2 minutes, reindex what's unsynchronized
+    sender.add_period_task(60 * 2, reindex_database.s(), name="reindex database")
 
 
 @celery_app.task

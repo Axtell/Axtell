@@ -40,7 +40,7 @@ def reindex_database(full_reindex=False):
             item for model in INDEXABLE_MODELS for item in model.query.filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
         ]
 
-    sync_targets = [(item.should_index(), item.get_index(get_index_name=True), item.get_index_json()) for item in indexable_items]
+    sync_targets = [(item.get_index_json(batch_object=True),) for item in indexable_items]
 
     try:
         synchronize_objects.chunks(
@@ -48,7 +48,7 @@ def reindex_database(full_reindex=False):
             # splits it into chunks of size `UPLOAD_QUEUE_BATCH_SIZE`. Then the
             # for..in wraps it in a tuple so celery understands that each instance
             # is a single argument.
-            [(chunk,) for chunk in zip_longest(*[iter(sync_targets)] * UPLOAD_QUEUE_BATCH_SIZE)],
+            [(item,) for item in zip_longest(*[iter(sync_targets)] * UPLOAD_QUEUE_BATCH_SIZE)],
             UPLOAD_QUEUE_CHUNK_SIZE
         ).delay().get(disable_sync_subtasks=False)
     finally:
@@ -59,7 +59,18 @@ def reindex_database(full_reindex=False):
 
 
 @celery_app.task
-def synchronize_objects(items):
+def delete_objects(models):
+    """
+    Removes items from the database
+    """
+
+    algolia_tasks = []
+    for item in items:
+        algolia_tasks.append()
+
+
+@celery_app.task
+def synchronize_objects(task_jsons):
     """
     Ensure you commit after calling this as this will update the synchronized
     constraints.
@@ -67,29 +78,8 @@ def synchronize_objects(items):
 
     # This stores the index and the items to place into that so we can combine
     # the queries to avoid excessive requests.
-    algolia_tasks = []
 
-    for params in items:
-        if params is None:
-            continue
-
-        should_index, index_name, item_json = params
-        if should_index:
-            algolia_tasks.append({
-                'action': 'addObject',
-                'indexName': index_name,
-                'body': item_json
-            })
-        else:
-            algolia_tasks.append({
-                'action': 'deleteObject',
-                'indexName': index_name,
-                'body': {
-                    'objectID': item_json['objectID']
-                }
-            })
-
-    search_index.client.batch(algolia_tasks)
+    search_index.client.batch([*filter(None, task_jsons)])
 
 
 

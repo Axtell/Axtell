@@ -24,8 +24,26 @@ def index_json(f):
     """
 
     @wraps(f)
-    def wrap(self, root_object=True, *args, **kwargs):
+    def wrap(self, root_object=True, batch_object=False, *args, **kwargs):
         result = f(self, *args, **kwargs)
+
+        if batch_object:
+            should_index = self.should_index()
+            index_name = self.get_index(get_index_name=True)
+
+            if should_index:
+                return {
+                    'action': 'addObject',
+                    'indexName': index_name,
+                    'body': result
+                }
+            else:
+                return {
+                    'action': 'deleteObject',
+                    'body': {
+                        'objectID': result['objectID']
+                    }
+                }
 
         if not root_object:
             result.pop('objectID', None)
