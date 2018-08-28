@@ -103,8 +103,8 @@ class Answer(db.Model):
 
     @hybrid_property
     def score(self):
-        ups = sum(vote for vote in self.votes if vote.vote == 1)
-        downs = sum(vote for vote in self.votes if vote.vote == -1)
+        ups = sum(1 for vote in self.votes if vote.vote == 1)
+        downs = sum(-1 for vote in self.votes if vote.vote == -1)
 
         n = ups + downs
 
