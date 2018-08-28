@@ -67,7 +67,6 @@ export default class ModalViewController extends ViewController {
 
         const dim = <div class={`modal-view__dim ${alignmentClass}`}/>;
         const instance = template.loadInContext(dim);
-        template.didLoad();
 
         const listener = dim.addEventListener('click', (event) => {
             if ((document.body.contains(event.target) || event.target === document.body) && !instance.contains(event.target)) {
@@ -127,6 +126,8 @@ export default class ModalViewController extends ViewController {
      */
     async hide({ bumpAnimation = this._bumpAnimation } = {}) {
         if (!this._activeTemplate) return;
+
+        this._activeTemplateModel.willUnload();
 
         this._removeKeyHandler?.();
 
