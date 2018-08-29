@@ -37,7 +37,7 @@ def reindex_database(full_reindex=False):
         indexable_items = [item for model in INDEXABLE_MODELS for item in model.query.all()]
     else:
         indexable_items = [
-            item for model in INDEXABLE_MODELS for item in model.query.with_for_update().filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
+            item for model in INDEXABLE_MODELS for item in model.query.filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
         ]
 
     sync_targets = [(item.get_index_json(batch_object=True),) for item in indexable_items]
