@@ -37,36 +37,24 @@ def reindex_database(full_reindex=False):
         indexable_items = [item for model in INDEXABLE_MODELS for item in model.query.all()]
     else:
         indexable_items = [
-            item for model in INDEXABLE_MODELS for item in model.query.filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
+            item for model in INDEXABLE_MODELS for item in model.query.with_for_update().filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
         ]
 
     sync_targets = [(item.get_index_json(batch_object=True),) for item in indexable_items]
 
-    try:
-        synchronize_objects.chunks(
-            # This may look crazy but basically takes the `sync_targets` and
-            # splits it into chunks of size `UPLOAD_QUEUE_BATCH_SIZE`. Then the
-            # for..in wraps it in a tuple so celery understands that each instance
-            # is a single argument.
-            [(item,) for item in zip_longest(*[iter(sync_targets)] * UPLOAD_QUEUE_BATCH_SIZE)],
-            UPLOAD_QUEUE_CHUNK_SIZE
-        ).delay().get(disable_sync_subtasks=False)
-    finally:
-        for item in indexable_items:
-            item.index_status = search_index.IndexStatus.SYNCHRONIZED
+    synchronize_objects.chunks(
+        # This may look crazy but basically takes the `sync_targets` and
+        # splits it into chunks of size `UPLOAD_QUEUE_BATCH_SIZE`. Then the
+        # for..in wraps it in a tuple so celery understands that each instance
+        # is a single argument.
+        [(item,) for item in zip_longest(*[iter(sync_targets)] * UPLOAD_QUEUE_BATCH_SIZE)],
+        UPLOAD_QUEUE_CHUNK_SIZE
+    ).delay().get(disable_sync_subtasks=False)
 
-        db.session.commit()
+    for item in indexable_items:
+        item.index_status = search_index.IndexStatus.SYNCHRONIZED
 
-
-@celery_app.task
-def delete_objects(models):
-    """
-    Removes items from the database
-    """
-
-    algolia_tasks = []
-    for item in items:
-        algolia_tasks.append()
+    db.session.commit()
 
 
 @celery_app.task
@@ -80,9 +68,3 @@ def synchronize_objects(task_jsons):
     # the queries to avoid excessive requests.
 
     search_index.client.batch([*filter(None, task_jsons)])
-
-
-
-
-
-

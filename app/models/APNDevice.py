@@ -19,7 +19,7 @@ class APNDevice(db.Model):
     )
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    uuid = db.Column(db.String(36), nullable=False, default=lambda: str(UUID(bytes=rand_bytes(16))))
+    uuid = db.Column(db.String(36), unique=True, nullable=False, default=lambda: str(UUID(bytes=rand_bytes(16))))
 
     device_id = db.Column(db.String(64), nullable=True)
     provider = db.Column(db.Enum(APNProvider), nullable=False)

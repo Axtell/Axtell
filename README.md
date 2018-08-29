@@ -32,7 +32,7 @@ An overview of the Axtell project and key components:
 You can build Axtell's JavaScript documentation using `npm run docs` which will create the `docs-js` directory. Additionally you may reference the [hosted API documentation](https://api.axtell.vihan.org)
 
 ## Setting up Axtell
-### 1. rereqs
+### 1. Prereqs
 To get started make sure you have the following installed:
 
  - Python 3.6 or higher
@@ -95,14 +95,14 @@ Additionally you will need to supply the `notifications.support_email` config fi
 **Note:** They are a finite amount of Web Push devices registerable per user, you can configure this using `notifications.max_push_devices` in the config
 
 #### (Optional) Search
-Axtell search uses [Algolia](https://www.algolia.com/) to index and search Axtell content. Axtell will not index old information however in these conditions:
+Axtell search uses [Algolia](https://www.algolia.com/) to index and search Axtell content. Axtell will index stale/unindexed data in these conditions:
 
  - The server starts
- - Every 24 hous
+ - Every 2 minutes
 
-Axtell's Algolia worker will scan the database for unindexed items and index them in Algolia. As data comes in it will be indexed. To use Algolia you will need to provide the parameters in `auth.algolia`. **Do NOT** provide an admin key as a search key as this will allow unconditional client access to your Algolia application.
+Axtell's Algolia worker will scan the database for unindexed items and index them in Algolia. To use Algolia you will need to provide the parameters in `auth.algolia`. **Do NOT** provide an admin key as a search key as this will allow unconditional client access to your Algolia application.
 
-Additionally the `auth.algolia.prefix` is prefixed to all index names. For a production, it's reccomended to use `prod`, and for development to use `dev`. This can be anything; if this is empty then no prefix is used but this is not recommended.
+Additionally the `auth.algolia.prefix` is prefixed to all index names. For a production, it's recommended to use `prod`, and for development to use `dev`. This can be anything; if this is empty then no prefix is used but this is not recommended.
 
 #### (Optional) Bug Tracking
 Axtell uses [Bugsnag](https://www.bugsnag.com/) to track bugs. To setup bugsnag, first setup the API keys in `auth.bugsnag` in the config. To deploy JavaScript source maps to bugsnag, run:
@@ -132,7 +132,7 @@ Production build:
 ./build_all.sh
 ```
 
-Debug build. This will not minify and will also enable a "watcher" program (rebuilds assets everytime you make a change):
+Debug build. This will not minify and will also enable a "watcher" program (rebuilds assets every time you make a change):
 ```sh
 ./build_all_debug.sh
 ```
