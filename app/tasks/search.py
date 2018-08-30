@@ -49,7 +49,7 @@ def reindex_database(full_reindex=False):
         # is a single argument.
         [(item,) for item in zip_longest(*[iter(sync_targets)] * UPLOAD_QUEUE_BATCH_SIZE)],
         UPLOAD_QUEUE_CHUNK_SIZE
-    ).delay().get(disable_sync_subtasks=False)
+    ).delay().get()
 
     for item in indexable_items:
         item.index_status = search_index.IndexStatus.SYNCHRONIZED
