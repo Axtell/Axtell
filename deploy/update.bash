@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -e
 
 # Ensure correct directory
 cd /var/www/ppcg-v2
