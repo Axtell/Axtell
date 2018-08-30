@@ -39,7 +39,7 @@ fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-target_metadata = app.instances.db.db.metadata
+target_metadata = app.instances.db.Model.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

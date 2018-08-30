@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-from app.instances.db import server
+from app.instances.db import db_uri
 
-DB_CONN = server.config['SQLALCHEMY_DATABASE_URI'].replace("+mysqlconnector", "")
+DB_CONN = db_uri.replace("+mysqlconnector", "")
 
 with open('alembic-default.ini') as infile:
     with open('alembic.ini', 'w') as outfile:
