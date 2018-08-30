@@ -78,10 +78,10 @@ class Post(db.Model):
 
     @hybrid_property
     def score(self):
-        ups = sum(vote.vote for vote in self.votes if vote.vote == 1)
-        downs = sum(vote.vote for vote in self.votes if vote.vote == -1)
+        ups = sum(1 for vote in self.votes if vote.vote == 1)
+        downs = sum(-1 for vote in self.votes if vote.vote == -1)
 
-        n = ups + downs
+        n = ups - downs
 
         if n == 0:
             return 0
@@ -97,7 +97,7 @@ class Post(db.Model):
         downs = select([func.sum(PostVote.vote)]).where(PostVote.answer_id == cls.id
                                                         and PostVote.vote == -1).label('downs')
 
-        n = ups + downs
+        n = ups - downs
 
         if n == 0:
             return 0
