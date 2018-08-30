@@ -106,7 +106,7 @@ class Answer(db.Model):
         ups = sum(1 for vote in self.votes if vote.vote == 1)
         downs = sum(-1 for vote in self.votes if vote.vote == -1)
 
-        n = ups + downs
+        n = ups - downs
 
         if n == 0:
             return 0
@@ -122,7 +122,7 @@ class Answer(db.Model):
         downs = select([func.sum(AnswerVote.vote)]).where(AnswerVote.answer_id == cls.id
                                                           and AnswerVote.vote == -1).label('downs')
 
-        n = ups + downs
+        n = ups - downs
 
         if n == 0:
             return 0
