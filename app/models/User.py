@@ -1,5 +1,6 @@
-from app.instances.db import db
+from app.instances import db
 from app.helpers.macros.gravatar import gravatar
+from app.helpers.search_index import index_json, IndexStatus, gets_index
 
 import config
 
@@ -19,7 +20,37 @@ class User(db.Model):
     posts = db.relationship('Post', backref='user')
     theme = db.Column(db.Integer, db.ForeignKey('themes.id'), nullable=True)
 
+    index_status = db.Column(db.Enum(IndexStatus), default=IndexStatus.UNSYNCHRONIZED, nullable=False)
+
     following_public = db.Column(db.Boolean, nullable=False, default=False)
+
+    @index_json
+    def get_index_json(self):
+        return {
+            'objectID': f'user-{self.id}',
+            'id': self.id,
+            'name': self.name,
+            'avatar': self.avatar_url()
+        }
+
+    def should_index(self):
+        return True
+
+    @classmethod
+    @gets_index
+    def get_index(cls):
+        return 'users'
+
+    @classmethod
+    def get_index_settings(cls):
+        return {
+            'searchableAttributes': [
+                'name'
+            ],
+            'attributesToSnippet': [
+                'name'
+            ]
+        }
 
     def follow(self, user):
         """

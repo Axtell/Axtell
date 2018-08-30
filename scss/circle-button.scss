@@ -53,7 +53,14 @@
     &.circle-button--size-2 { font-size: 2rem; }
     &.circle-button--size-3 { font-size: 3rem; }
     &.circle-button--size-4 { font-size: 4rem; }
+
+    &.circle-button--iconsize-block svg {
+        display: block;
+        margin: 0 auto;
+        width: .55em;
+    }
 }
 
 @include circle-button-style('yellow', linear-gradient( 135deg, #FDEB71 10%, #F8D800 100%));
 @include circle-button-style('yellow-pink', linear-gradient( 135deg, #F6D242 10%, #FF52E5 100%));
+@include circle-button-style('blue', linear-gradient( 135deg, #43CBFF 10%, #9708CC 100%));

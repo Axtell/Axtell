@@ -32,7 +32,7 @@ An overview of the Axtell project and key components:
 You can build Axtell's JavaScript documentation using `npm run docs` which will create the `docs-js` directory. Additionally you may reference the [hosted API documentation](https://api.axtell.vihan.org)
 
 ## Setting up Axtell
-### 1. rereqs
+### 1. Prereqs
 To get started make sure you have the following installed:
 
  - Python 3.6 or higher
@@ -67,6 +67,9 @@ The setup script automatically does most of this
 
 If you look within `config.py`, you need to fill in various API keys from Google, StackExchange, etc. Additionally in the configuration file you'll see various other fields you can modify.
 
+#### (Optional) Setup HTTPS
+It's highly reccomend to run Axtell under a reverse proxy such as Nginx however for HTTPS, in the root directory of the Axtell instance, place a `server.crt` and `server.key` file.
+
 #### (Optional) Setting up Safari Push Notifications
 To integrate with iOS and macOS's Push Notification service you'll first need an Apple Developer Account. In the portal you'll need to create a Web Push Notification ID. Place this token in the `notifications.web_apn_id` field in the configuration file.
 
@@ -91,6 +94,36 @@ Additionally you will need to supply the `notifications.support_email` config fi
 
 **Note:** They are a finite amount of Web Push devices registerable per user, you can configure this using `notifications.max_push_devices` in the config
 
+#### (Optional) Search
+Axtell search uses [Algolia](https://www.algolia.com/) to index and search Axtell content. Axtell will index stale/unindexed data in these conditions:
+
+ - The server starts
+ - Every 2 minutes
+
+Axtell's Algolia worker will scan the database for unindexed items and index them in Algolia. To use Algolia you will need to provide the parameters in `auth.algolia`. **Do NOT** provide an admin key as a search key as this will allow unconditional client access to your Algolia application.
+
+Additionally the `auth.algolia.prefix` is prefixed to all index names. For a production, it's recommended to use `prod`, and for development to use `dev`. This can be anything; if this is empty then no prefix is used but this is not recommended.
+
+#### (Optional) Bug Tracking
+Axtell uses [Bugsnag](https://www.bugsnag.com/) to track bugs. To setup bugsnag, first setup the API keys in `auth.bugsnag` in the config. To deploy JavaScript source maps to bugsnag, run:
+
+```bash
+for js_source in static/lib/axtell~*.js; do
+  JS_SOURCES+=($PROTOCOL://$HOSTNAME/$js_source@$js_source)
+done
+
+echo "SUBMITTING FRONTEND BUGSNAG SOURCEMAP..."
+http -f POST https://upload.bugsnag.com/ \
+  apiKey=$BUGSNAG_FRONTEND_API_KEY \
+  appVersion=$(git rev-parse @) \
+  minifiedUrl=$PROTOCOL://$HOSTNAME/static/lib/axtell.main.js \
+  minifiedFile@static/lib/axtell.main.js \
+  sourceMap@static/lib/axtell.main.js.map \
+  "${JS_SOURCES[@]}"
+```
+
+and pass `PROTOCOL`, `HOSTNAME` and `BUGSNAG_FRONTEND_API_KEY` as parameters.
+
 ### 3. Build
 You will need to build the assets (CSS and JS) before running Axtell. You can do this using:
 
@@ -99,7 +132,7 @@ Production build:
 ./build_all.sh
 ```
 
-Debug build. This will not minify and will also enable a "watcher" program (rebuilds assets everytime you make a change):
+Debug build. This will not minify and will also enable a "watcher" program (rebuilds assets every time you make a change):
 ```sh
 ./build_all_debug.sh
 ```

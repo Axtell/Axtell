@@ -1,4 +1,4 @@
-from app.instances.db import db
+from app.instances import db
 from sqlalchemy.dialects.mysql import TINYINT
 
 

@@ -1,0 +1,278 @@
+.search-overlay__aligner {
+    width: 100%;
+    height: 100%;
+
+    padding: 2rem;
+    box-sizing: border-box;
+
+    overflow-y: auto;
+
+    .search-overlay__positioner { margin: 0 auto; }
+}
+
+.search-overlay__positioner {
+    width: 530px;
+
+    max-width: 90%;
+
+    @media (max-width: 645px) {
+        max-width: 100%;
+    }
+}
+
+// 'Search by ___' thing
+.search-overlay__credit {
+    padding: 6px 1rem;
+    font-size: 0.9rem;
+    border-top: 1px solid mix($hover-mix, $content-bg, 5%);
+
+    img, svg {
+        height: 1em;
+        margin-bottom: -2px;
+    }
+}
+
+$search-overlay-border-radius: 4px;
+$search-overlay-box-shadow: 0px 4px 24px -12px rgba($shadow-mix, 0.6), 0 4px 32px -8px rgba($shadow-mix, 0.15);
+
+// This is any of the 'blocks' for search results
+.search-overlay-base {
+    width: 100%;
+    box-sizing: border-box;
+    background: $content-bg;
+    box-shadow: $search-overlay-box-shadow;
+    border-radius: $search-overlay-border-radius;
+}
+
+// This is the main search box
+.search-overlay {
+    $search-overlay-height: 3rem;
+
+    padding: 4px 1rem;
+    // border: 1px solid mix($hover-mix, $content-bg, 10%);
+
+    display: flex;
+    flex-direction: row;
+
+    .search-overlay__component {
+        height: $search-overlay-height;
+        box-sizing: border-box;
+        padding: 4px;
+
+        &.search-overlay__component--size-stretch { flex: 1; }
+
+
+        &.search-overlay__component--type-image {
+            padding: 12px;
+            width: $search-overlay-height;
+            img, svg { @include square(100%); }
+        }
+
+        &.search-overlay__component--type-input {
+            input {
+                height: 100%;
+                width: 100%;
+            }
+        }
+    }
+}
+
+@mixin search-result-index($name, $color) {
+    &.search-results--name-#{$name} {
+        .search-results__title { color: $color; }
+        .search-results__more { color: rgba($color, 0.7) }
+    }
+}
+
+// This represents a group of results + their title
+.search-results {
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+
+    @include search-result-index('posts', #0652DD);
+    @include search-result-index('answers', #F44336);
+    @include search-result-index('users', #9C27B0);
+
+    .search-results__more {
+        margin-top: 0.5em;
+        padding-top: 0.75em;
+
+        font-size: 0.5rem;
+        font-weight: bold;
+
+        letter-spacing: 1px;
+
+        text-transform: uppercase;
+        text-align: center;
+
+
+        border-top: 1px solid rgba($hover-mix, 0.05);
+    }
+
+    .search-results__title {
+        padding: 4px 0.5rem;
+
+        display: block;
+        box-sizing: border-box;
+
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+
+        border-bottom: 1px solid rgba($hover-mix, 0.1);
+    }
+
+    // The wrapper list of results for a category
+    .search-results__list {
+        list-style: none;
+        padding: 0;
+
+        margin-bottom: 0;
+        margin-top: 0.5rem;
+    }
+}
+
+// Represents a given search result
+.search-result a {
+    $search-result-height: 2.5rem;
+
+    display: block;
+    border-radius: $search-overlay-border-radius;
+    box-sizing: border-box;
+    padding: .5rem 1rem;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    transition: background 0.1s ease, box-shadow 0.12s ease;
+    box-shadow: 0px 4px 24px -3px rgba(0, 0, 0, 0);
+
+    border: 1px solid transparent;
+    transition: border-color 0.1s ease;
+
+    &:focus {
+        outline: none;
+        border-color: $accent-color;
+    }
+
+    &:hover, &:focus {
+        background: rgba($hover-mix, 0.04);
+        box-shadow: 0px 4px 24px -3px rgba($shadow-mix, 0.2);
+    }
+
+    .search-result__component {
+        box-sizing: border-box;
+        padding: 4px;
+
+        flex-shrink: 0;
+
+        &.search-result__component--size-stretch {
+            flex-grow: 1;
+            flex-shrink: 1;
+        }
+
+
+        &.search-result__component--type-image {
+            padding: 8px;
+            @include square($search-result-height);
+            img, svg { @include square(100%); }
+        }
+
+        &.search-result__component--type-stack {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    .search-result__caption {
+        font-size: 0.8rem;
+        color: $detail-text;
+
+        &.search-result__caption--pad-2 { margin-top: 2px; }
+        &.search-result__caption--pad-1 { margin-top: 4px; }
+    }
+
+    .search-result__data {
+        &.search-result__data--style-avatar {
+            border-radius: 50%;
+            height: 1.2em;
+            margin-bottom: -2px;
+        }
+
+        &.search-result__data--style-author {
+            color: $detail-text;
+            font-size: 0.8rem;
+        }
+
+        &.search-result__data--style-title {
+            color: $title-text;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        &.search-result__data--style-language {
+            color: $title-text;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        &.search-result__data--style-unit {
+            color: $detail-text;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        &.search-result__data--style-unit-name {
+            color: $detail-text;
+            font-size: 0.6rem;
+            margin-left: 3px;
+            text-transform: uppercase;
+        }
+
+        &.search-result__data--style-parentPost {
+            color: $subtitle-text;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        &.search-result__data--style-body {
+            color: $description-text;
+            font-size: 0.8rem;
+            margin-top: 4px;
+        }
+
+        &.search-result__data--style-code {
+            color: $description-text;
+            font-size: 0.8rem;
+            word-break: break-all;
+            font-family: $monospace;
+            margin-top: 4px;
+        }
+    }
+
+    .search-result__hightlighted {
+        * { display: inline; }
+
+        em {
+            background: #FFC312;
+            color: rgba($hover-mix, 0.8);
+            padding: .1em 4px;
+            border-radius: 2px;
+        }
+
+        line-height: 1.3em;
+    }
+}
+
+// No search results found box
+.search-result__empty {
+    margin-top: 1rem;
+    padding: 0.5rem 2rem;
+    text-align: center;
+
+    font-size: 1.2rem;
+    color: $key-text;
+    font-weight: 600;
+}

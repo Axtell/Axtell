@@ -22,3 +22,4 @@ flask-socketio>=3.0.1
 pyOpenSSL>=18.0.0
 hyper>=0.7.0
 cryptography>=2.3
+algoliasearch>=1.17.0

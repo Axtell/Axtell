@@ -7,13 +7,27 @@
         <div id="nav-links" class="section r-collapse">
             {% include "includes/header/navigation.html" %}
         </div>
+
+        <!-- Search -->
+        <div class="section">
+            <div class="button-section">
+                <button title="Search Axtell" aria-haspopover="true" aria-label="Search Axtell" class="circle-button circle-button--style-blue circle-button--size-2 circle-button--iconsize-2 circle-button--iconsize-block" id="open-search">
+                    {% include "svg/search.html" %}
+                </button>
+            </div>
+        </div>
+
         <div class="section expand"></div>
+
+        <!-- Changelog -->
         <div class="section section--pair section--pair--responsive-title section--block-h">
             <a id="changelog__trigger" class="changelog" href="#">
                 {% include "svg/changelog.html" %}
                 <span>What's new <span id="changelog__count"></span></span>
             </a>
         </div>
+
+        <!-- Create Post -->
         {%- if g.get("user") is not none -%}
             {%- if not request.path.startswith(url_for('write_post')) -%}
                 <div class="section popover__container">

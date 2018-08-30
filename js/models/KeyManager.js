@@ -1,4 +1,6 @@
-import ErrorManager from '~/helpers/ErrorManager';
+import ErrorManager, { HandleUnhandledPromise } from '~/helpers/ErrorManager';
+
+import { fromEventPattern } from 'rxjs';
 
 export const KeyAlreadyRegistered = Symbol('KeyManager.Error.KeyAlreadyRegistered');
 
@@ -11,6 +13,14 @@ export const KeyAlreadyRegistered = Symbol('KeyManager.Error.KeyAlreadyRegistere
  *  - Generic handlers
  */
 export default class KeyManager {
+    /**
+     * Creates a global instance
+     * @return {KeyManager}
+     */
+    createGlobal() {
+        return new KeyManager(document);
+    }
+
     /**
      * New key manager. Generally you want to use the global `KeyManager.shared`
      * @param {HTMLElement} target Target to watch for
@@ -25,16 +35,31 @@ export default class KeyManager {
         this._defaultListeners = new Map();
     }
 
+    /**
+     * Adds another target
+     * @param {HTMLElement} target
+     */
+    addTarget(target) {
+        target.addEventListener("keydown", this._handler);
+    }
+
+    /**
+     * Removes all listeners.
+     */
+    clear() {
+        this._metaListeners = new Map();
+        this._defaultListeners = new Map();
+    }
+
     _handle(event) {
-        // Don't do anything if propogation stopped
         if (event.defaultPrevented) return;
 
         let listener;
         if ((event.ctrlKey || event.metaKey) && (listener = this._metaListeners.get(event.key)?.[0])) {
-            listener(event);
+            Promise.resolve(listener(event)).catch(HandleUnhandledPromise);
             event.preventDefault();
         } else if (listener = this._defaultListeners.get(event.key)?.[0]) {
-            listener(event);
+            Promise.resolve(listener(event)).catch(HandleUnhandledPromise);
             event.preventDefault();
         }
     }
@@ -57,6 +82,22 @@ export default class KeyManager {
         return () => {
             listeners.splice(listeners.indexOf(callback), 1);
         }
+    }
+
+    /**
+     * Register and returns an observable
+     * @return {Observable}
+     */
+    registerObservable(key) {
+        let removeHandler;
+        return fromEventPattern(
+            (listener) => {
+                removeHandler = this.register(key, listener);
+            },
+            () => {
+                removeHandler()
+            }
+        );
     }
 
     /**

@@ -63,10 +63,10 @@ def get_post(post_id, title=None):
     # Always redirect to canonical url
     slug = slugify(matched_post.title)
 
-    # Redirect if slug is incorrect. add 'r=y' flag to avoid infinite redirection in
+    # Redirect if slug is incorrect. add 'noredirect=1' flag to avoid infinite redirection in
     # exceptional circumstances
-    if title != slug and request.args.get('r', 'n') != 'y':
-        return redirect(url_for('get_post', post_id=post_id, title=slug, **request.args, r='y'), code=301)
+    if title != slug and request.args.get('noredirect', '0') != '1':
+        return redirect(url_for('get_post', post_id=post_id, title=slug, **request.args, noredirect=1), code=301)
 
     # Render main post's markdown
     body = markdown.render_markdown.delay(matched_post.body).wait()

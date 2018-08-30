@@ -23,15 +23,20 @@ export default class Post {
      * @param {boolean} [isDeleted=false] - True if is deleted
      * @param {string} slug - Slug of post
      * @param {?User} owner - Owner of post
+     * @param {?Date} dateCreated - Date created
      */
-    constructor({ postId, title, body = null, slug = null, isDeleted = false, owner = null }) {
+    constructor({ postId, title, body = null, slug = null, isDeleted = false, owner = null, dateCreated }) {
         this._id = postId;
         this._title = title;
         this._body = body;
         this._owner = owner;
         this._slug = slug;
         this._deleted = isDeleted;
+        this._dateCreated = dateCreated;
     }
+
+    /** @type {Date} */
+    get dateCreated() { return this._dateCreated; }
 
     /** @type {boolean} */
     get isDeleted() { return this._deleted; }
@@ -74,7 +79,7 @@ export default class Post {
 
     /**
      * Returns the canonical URL
-     * @type {string}
+     * @return {string}
      */
     async getURL() {
         let slug;
@@ -84,7 +89,15 @@ export default class Post {
             slug = this._slug;
         }
 
-        return `${Data.shared.envValueForKey('HOST')}/post/${post.id}/${slug}`;
+        return `${Data.shared.envValueForKey('HOST')}/post/${this.id}/${slug}`;
+    }
+
+    /**
+     * Gets a post URL sync. May not be canonical
+     * @return {string}
+     */
+    getURLSync() {
+        return `${Data.shared.envValueForKey('HOST')}/post/${this.id}/${this._slug || ''}`
     }
 
     /**
@@ -132,6 +145,22 @@ export default class Post {
             name: this.title,
             text: description,
             url: canonicalURL,
+        });
+    }
+
+    /**
+     * Unwraps from serach Index JSON object
+     * @param {Object} JSON Search index JSON
+     * @return {?User} Created object
+     */
+    static fromIndexJSON(json) {
+        return new Post({
+            postId: json.id,
+            title: json.title,
+            body: json.body,
+            slug: json.slug,
+            owner: User.fromIndexJSON(json.author),
+            dateCreated: new Date(json.date_created)
         });
     }
 

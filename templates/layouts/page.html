@@ -45,6 +45,8 @@
 
     <meta name="data_id" content="{{ data_id }}">
     {{ data("env", macros.json_to_b64({
+        'ALGOLIA_APP_ID': opts.auth['algolia']['app-id'],
+        'ALGOLIA_SEARCH_KEY': opts.auth['algolia']['search-key'],
         'BUGSNAG': opts.auth['bugsnag'].get('frontend', ''),
         'HOST': opts.canonical_host,
         'CSRF': macros.get_csrf(),
@@ -52,6 +54,7 @@
         'COMMENT_NEST_COUNT': opts.comments['nest_amt'],
         'GAPI_KEY': opts.auth['google']['client-id'],
         'IMGUR_CLIENT_ID': opts.auth['imgur']['client-id'],
+        'INDEX_PREFIX': opts.auth['algolia']['prefix'],
         'IS_DEBUG': is_debug,
         'MAX_USERNAME_LENGTH': opts.users['max_name_len'],
         'MIN_USERNAME_LENGTH': opts.users['min_name_len'],

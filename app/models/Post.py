@@ -1,4 +1,4 @@
-from app.instances.db import db
+from app.instances import db
 from sqlalchemy.dialects.mysql import LONGTEXT
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy import select, func
@@ -6,6 +6,8 @@ from config import posts
 from app.helpers.macros.encode import slugify
 from app.models.PostRevision import PostRevision
 from app.models.PostVote import PostVote
+from app.helpers.search_index import index_json, IndexStatus, gets_index
+from app.tasks.markdown import render_markdown
 import datetime
 from math import sqrt
 
@@ -27,12 +29,57 @@ class Post(db.Model):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
+    index_status = db.Column(db.Enum(IndexStatus), default=IndexStatus.UNSYNCHRONIZED, nullable=False)
+
     ppcg_id = db.Column(db.Integer, nullable=True)
+
+    @index_json
+    def get_index_json(self):
+        last_revision = PostRevision.query.filter_by(post_id=self.id).order_by(PostRevision.revision_time.desc()).first()
+        if isinstance(last_revision, PostRevision):
+            last_modified = last_revision.revision_time
+        else:
+            last_modified = self.date_created
+
+        return {
+            'objectID': f'post-{self.id}',
+            'id': self.id,
+            'title': self.title,
+            'body': render_markdown(self.body, render_math=False),
+            'slug': slugify(self.title),
+            'date_created': self.date_created.isoformat() + 'Z',
+            'last_modified': last_modified.isoformat() + 'Z',
+            'score': self.score,
+            'author': self.user.get_index_json(root_object=False)
+        }
+
+    def should_index(self):
+        return not self.deleted
+
+    @classmethod
+    @gets_index
+    def get_index(cls):
+        return 'posts'
+
+    @classmethod
+    def get_index_settings(cls):
+        return {
+            'searchableAttributes': [
+                'body',
+                'title',
+                'author.name'
+            ],
+            'attributesToSnippet': [
+                'title',
+                'body:15',
+                'author.name'
+            ]
+        }
 
     @hybrid_property
     def score(self):
-        ups = sum(vote for vote in self.votes if vote.vote == 1)
-        downs = sum(vote for vote in self.votes if vote.vote == -1)
+        ups = sum(vote.vote for vote in self.votes if vote.vote == 1)
+        downs = sum(vote.vote for vote in self.votes if vote.vote == -1)
 
         n = ups + downs
 
@@ -85,6 +132,8 @@ class Post(db.Model):
         self.body = new_post_data.get('body', self.body)
         self.deleted = new_post_data.get('deleted', self.deleted)
         self.ppcg_id = new_post_data.get('ppcg_id', self.ppcg_id)
+
+        self.index_status = IndexStatus.UNSYNCHRONIZED
 
         return self, revision
 

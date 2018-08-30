@@ -136,7 +136,9 @@ input.text-input, [contenteditable].text-input, .text-base.text-input, .text-inp
 
   // For search dialogs
   &.text-input--type-search {
-    font-size: 1.1rem;
+    font-weight: 300;
+    font-size: 1.5rem;
+    color: $key-text;
   }
 
   // For URL inputs

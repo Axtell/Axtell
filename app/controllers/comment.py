@@ -2,7 +2,7 @@ from app.models.PostComment import PostComment
 from app.models.AnswerComment import AnswerComment
 from app.models.Post import Post
 from app.models.Answer import Answer
-from app.instances.db import db
+from app.instances import db
 from app.models.Notification import Notification, NotificationType
 from app.notifications.send_notification import send_notification
 from app.helpers.comments import get_comment_notification_targets

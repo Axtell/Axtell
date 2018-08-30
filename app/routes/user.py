@@ -53,10 +53,10 @@ def unfollow_user(target_user_id):
 def get_user(user_id, name):
     matched_user = User.query.filter_by(id=user_id).first()
 
-    # Redirect if name is incorrect. add 'r=y' flag to avoid infinite redirection in
+    # Redirect if name is incorrect. add 'noredirect=1' flag to avoid infinite redirection in
     # exceptional circumstances
-    if name != matched_user.name and request.args.get('r', 'n') != 'y':
-        return redirect(url_for('get_user', user_id=user_id, name=matched_user.name, **request.args, r='y'), code=301)
+    if name != matched_user.name and request.args.get('noredirect', '0') != '1':
+        return redirect(url_for('get_user', user_id=user_id, name=matched_user.name, **request.args, noredirect='1'), code=301)
 
     if matched_user is None:
         return abort(404)

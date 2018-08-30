@@ -51,6 +51,11 @@ $nav-padding: 1em;
         display: none;
       }
 
+      .section--pair a, .useroverview {
+        padding-left: 4px !important;
+        padding-right: 4px !important;
+      }
+
       .r-reveal {
         display: block
       }

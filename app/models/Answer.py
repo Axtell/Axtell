@@ -1,12 +1,16 @@
-from app.instances.db import db
+from app.instances import db
 from sqlalchemy import select, func
 from sqlalchemy.ext.hybrid import hybrid_property
+from app.helpers.macros.encode import slugify
 import app.models.Language
-from app.models.AnswerRevision import AnswerRevision
 from app.models.AnswerVote import AnswerVote
+from app.models.AnswerRevision import AnswerRevision
+from app.helpers.search_index import index_json, IndexStatus, gets_index
 import datetime
 from math import sqrt
 from config import answers
+
+import golflang_encodings
 
 
 class Answer(db.Model):
@@ -31,8 +35,63 @@ class Answer(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.datetime.now)
 
+    index_status = db.Column(db.Enum(IndexStatus), default=IndexStatus.UNSYNCHRONIZED, nullable=False)
+
     user = db.relationship('User', backref='answers')
     post = db.relationship('Post', backref='answers', lazy=True)
+
+    @index_json
+    def get_index_json(self):
+        last_revision = AnswerRevision.query.filter_by(answer_id=self.id).order_by(AnswerRevision.revision_time.desc()).first()
+        if isinstance(last_revision, AnswerRevision):
+            last_modified = last_revision.revision_time
+        else:
+            last_modified = self.date_created
+
+        language = self.get_language()
+
+        return {
+            'objectID': f'answer-{self.id}',
+            'id': self.id,
+            'code': self.code,
+            'date_created': self.date_created.isoformat() + 'Z',
+            'last_modified': last_modified.isoformat() + 'Z',
+            'language': language.get_id(),
+            'language_name': language.get_display_name(),
+            'byte_count': self.byte_len,
+            'author': self.user.get_index_json(root_object=False),
+            'post': {
+                'id': self.post.id,
+                'name': self.post.title,
+                'slug': slugify(self.post.title)
+            }
+        }
+
+    def should_index(self):
+        return not self.deleted
+
+    @classmethod
+    @gets_index
+    def get_index(cls):
+        return 'answers'
+
+    @classmethod
+    def get_index_settings(cls):
+        return {
+            'searchableAttributes': [
+                'code',
+                'language_name',
+                'author.name',
+                'post.name'
+            ],
+            'attributesToSnippet': [
+                'code',
+                'language_name',
+                'author.name',
+                'post.name'
+            ],
+            'separatorsToIndex': '!#()[]{}*+-_一,:;<>?@/^|%&~£¥$§€`"\'‘’“”†‡'
+        }
 
     @hybrid_property
     def byte_len(self):
@@ -122,6 +181,8 @@ class Answer(db.Model):
 
         if 'deleted' in new_answer_data:
             self.deleted = new_answer_data['deleted']
+
+        self.index_status = IndexStatus.UNSYNCHRONIZED
 
         return self, revision
 

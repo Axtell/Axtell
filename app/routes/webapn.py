@@ -134,7 +134,7 @@ def webapn_log(version):
             meta_data={"webapn_logs": {f"data": request.data}}
         )
         return ('', 204)
-    
+
     logs = json["logs"]
 
     if server.debug:

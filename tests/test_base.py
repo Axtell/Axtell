@@ -1,5 +1,5 @@
 import app.start
-import app.instances.db
+from app.instances import db
 import app.instances.celery
 import app.tasks.update
 from app.models.Theme import Theme
@@ -10,8 +10,8 @@ class TestFlask(TestCase):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.db = app.instances.db.db
-        self.db.create_all()
+        self.db = db
+        db.Model.metadata.create_all(bind=db.engine)
 
     def create_app(self):
         _app = app.start.server

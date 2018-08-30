@@ -38,6 +38,12 @@ auth = {
     'bugsnag': {
         'frontend': 'BUGSNAG_FRONTEND_API_KEY',
         'backend': 'BUGSNAG_BACKEND_API_KEY'
+    },
+    'algolia': {
+        'app-id': '',
+        'admin-key': '',
+        'search-key': '',
+        'prefix': 'test'
     }
 }
 

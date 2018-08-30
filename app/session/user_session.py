@@ -4,7 +4,7 @@ from datetime import timedelta
 
 from flask import session
 
-from app.instances.db import redis_db
+from app.instances.redis import redis_db
 from app.models.User import User
 from app.models.Theme import Theme
 

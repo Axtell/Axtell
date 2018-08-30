@@ -1,4 +1,4 @@
-from app.instances.db import db
+from app.instances import db
 from app.helpers.SerializableEnum import SerializableEnum
 
 from uuid import UUID

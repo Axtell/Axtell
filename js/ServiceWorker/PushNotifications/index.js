@@ -1,7 +1,7 @@
 self.addEventListener('push', (event) => {
     const notificationJSON = event.data.json();
     const notificationDate = new Date(notificationJSON.date_created);
-    
+
     console.log(`[Axtell.sw.PushNotification] Received Push ID ${notificationJSON.id}`);
 
     event.waitUntil(
