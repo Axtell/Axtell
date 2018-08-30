@@ -1,7 +1,6 @@
 flask>=1.0.2
 mysqlpy>=8.0
 oauthlib>=2.0.6
-Flask-SQLAlchemy>=2.3.2
 redis>=2.10.6
 jwcrypto>=0.4.2
 celery[redis,memcache]>=4.1.0
