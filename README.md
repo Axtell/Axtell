@@ -36,7 +36,7 @@ You can build Axtell's JavaScript documentation using `npm run docs` which will 
 To get started make sure you have the following installed:
 
  - Python 3.6 or higher
- - MySQL
+ - MySQL (we recommend 8.0)
  - Probably Ruby (not 100% sure if actually required)
  - `node`/`npm` (Node.js 8 or higher is reccomended)
  - Redis
