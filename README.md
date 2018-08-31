@@ -1,7 +1,6 @@
 <p align="center">
-  
+  <img alt="Axtell" src="https://user-images.githubusercontent.com/15314511/44938903-56267400-ad36-11e8-939e-2fa436926fc1.png"/>
 </p>
-<h1 align="center">Axtell</h1>
 <h3 align="center">An improved user experience for competitive programming.</h3>
 <p align="center">
   <a href="https://travis-ci.org/Axtell/Axtell"><img alt="Build Status" src="https://travis-ci.org/Axtell/Axtell.svg?branch=master"/></a>
