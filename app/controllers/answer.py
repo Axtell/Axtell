@@ -27,7 +27,8 @@ def create_answer(post_id, code, commentary, lang_id=None, lang_name=None, encod
     if lang_id is not None and not Language.exists(lang_id):
         return abort(400)
 
-    new_answer = Answer(post_id=post_id, language_name=lang_name, language_id=lang_id, code=code, commentary=commentary,
+    new_answer = Answer(post_id=post_id, language_name=lang_name, language_id=lang_id,
+                        binary_code=code.encode(encoding), commentary=commentary,
                         encoding=encoding)
     g.user.answers.append(new_answer)
     post = Post.query.filter_by(id=post_id).first()

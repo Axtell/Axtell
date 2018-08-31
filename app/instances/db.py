@@ -9,6 +9,7 @@ from math import ceil
 
 # Note: A lot is stolen from http://derrickgilland.com/posts/demystifying-flask-sqlalchemy/
 
+
 class Pagination(object):
     def __init__(self, query, page, per_page, total, items):
         self.query = query
