@@ -28,7 +28,7 @@ class AnswerRevision(db.Model):
     language_id = db.Column(db.String(answers['lang_len']), nullable=True, default=None)
     language_name = db.Column(db.String(answers['lang_len']), nullable=True, default=None)
 
-    code = db.Column(db.Text, default=None, nullable=True)
+    binary_code = db.Column(db.BLOB, default=None, nullable=True)
     commentary = db.Column(db.Text, default=None, nullable=True)
     encoding = db.Column(db.String(10), default='utf8')
     deleted = db.Column(db.Boolean, nullable=False, default=False)
@@ -45,7 +45,7 @@ class AnswerRevision(db.Model):
             'revision_id': self.revision_id,
             'language_id': self.language_id,
             'language_name': self.language_name,
-            'code': self.code,
+            'code': self.binary_code.decode(self.encoding),
             'commentary': self.commentary,
             'encoding': self.encoding,
             'deleted': self.deleted,

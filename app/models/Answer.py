@@ -27,9 +27,9 @@ class Answer(db.Model):
     language_id = db.Column(db.String(answers['lang_len']), nullable=True, default=None)
     language_name = db.Column(db.String(answers['lang_len']), nullable=True, default=None)
 
-    code = db.Column(db.Text, default=None, nullable=True)
+    binary_code = db.Column(db.BLOB, default=None, nullable=True)
     commentary = db.Column(db.Text, default=None, nullable=True)
-    encoding = db.Column(db.String(30), default='UTF-8')
+    encoding = db.Column(db.String(30), default='utf8')
     deleted = db.Column(db.Boolean, nullable=False, default=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
@@ -39,6 +39,14 @@ class Answer(db.Model):
 
     user = db.relationship('User', backref='answers')
     post = db.relationship('Post', backref='answers', lazy=True)
+
+    @property
+    def code(self):
+        return self.binary_code.decode(self.encoding)
+
+    @code.setter
+    def set_code(self, value):
+        self.binary_code = value.encode(self.encoding)
 
     @index_json
     def get_index_json(self):
@@ -95,11 +103,11 @@ class Answer(db.Model):
 
     @hybrid_property
     def byte_len(self):
-        return len(self.code.encode(self.encoding or 'utf8'))
+        return len(self.binary_code)
 
     @byte_len.expression
     def byte_len(cls):
-        return func.length(cls.code)
+        return func.length(cls.binary_code)
 
     @hybrid_property
     def score(self):
@@ -164,14 +172,16 @@ class Answer(db.Model):
         revision = AnswerRevision(answer_id=self.id,
                                   language_id=self.language_id,
                                   language_name=self.language_name,
-                                  code=self.code,
+                                  binary_code=self.binary_code,
                                   commentary=self.commentary,
                                   encoding=self.encoding,
                                   deleted=self.deleted,
                                   user_id=user.id)
 
         if 'code' in new_answer_data:
-            self.code = new_answer_data['code']
+            self.binary_code = new_answer_data['code'].encode(new_answer_data['encoding']
+                                                              or self.encoding
+                                                              or 'utf8')
 
         if 'commentary' in new_answer_data:
             self.commentary = new_answer_data['commentary']

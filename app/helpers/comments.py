@@ -24,8 +24,8 @@ def get_comment_notification_targets(comment):
         notifications[current_comment.user_id] = current_comment
         current_comment = current_comment.parent
 
-
     return notifications
+
 
 # max_depth = 1 will only load top-level comments
 def get_rendered_comments(cls, parent_id=None, max_depth=1, count=comment_config['show_amt'], **kwargs):
@@ -36,7 +36,8 @@ def get_rendered_comments(cls, parent_id=None, max_depth=1, count=comment_config
     for comment in comments:
         # Get child comments
         if max_depth > 1:
-            child_comments = get_rendered_comments(cls, parent_id=comment.id, max_depth=max_depth - 1, count=comment_config['nest_amt'], **kwargs)
+            child_comments = get_rendered_comments(cls, parent_id=comment.id, max_depth=max_depth - 1,
+                                                   count=comment_config['nest_amt'], **kwargs)
         else:
             if len(comment.children) > 0:
                 child_comments = (True, [])
@@ -52,4 +53,4 @@ def get_rendered_comments(cls, parent_id=None, max_depth=1, count=comment_config
         )
 
     # return tuple (canShowMore, renderedComments[])
-    return (comment_len > count, rendered_comments)
+    return comment_len > count, rendered_comments
