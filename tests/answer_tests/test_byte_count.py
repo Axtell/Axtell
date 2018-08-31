@@ -19,10 +19,10 @@ class TestByteCount(TestFlask):
         self.session.add(self.post)
 
     def test_byte_count(self):
-        answer = Answer(language_id="python3", language_name="Python 3", code="print('Hello, World!')",
+        answer = Answer(language_id="python3", language_name="Python 3", binary_code=b"print('Hello, World!')",
                         user_id=self.user.id)
         self.assertEqual(answer.byte_len, len("print('Hello, World!')"))
 
-        answer2 = Answer(language_id="actually", language_name="Actually", code="⌠H⌡", encoding='cp437',
+        answer2 = Answer(language_id="actually", language_name="Actually", binary_code="⌠H⌡".encode('cp437'), encoding='cp437',
                          user_id=self.user.id)
         self.assertEqual(answer2.byte_len, 3)
