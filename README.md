@@ -1,7 +1,12 @@
-# Axtell
-An improved user experience for competitive programming.
-
-[![Build Status](https://travis-ci.org/Axtell/Axtell.svg?branch=master)](https://travis-ci.org/Axtell/Axtell) [![codecov](https://codecov.io/gh/Axtell/Axtell/branch/master/graph/badge.svg)](https://codecov.io/gh/Axtell/Axtell)
+<p align="center">
+  
+</p>
+<h1 align="center">Axtell</h1>
+<h3 align="center">An improved user experience for competitive programming.</h3>
+<p align="center">
+  <a href="https://travis-ci.org/Axtell/Axtell"><img alt="Build Status" src="https://travis-ci.org/Axtell/Axtell.svg?branch=master"/></a>
+  <a href="https://codecov.io/gh/Axtell/Axtell"><img alt="codecov" src="https://codecov.io/gh/Axtell/Axtell/branch/master/graph/badge.svg"/></a>
+</p>
 
 ## Project Structure
 An overview of the Axtell project and key components:
