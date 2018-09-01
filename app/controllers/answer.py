@@ -76,6 +76,18 @@ def get_answer(answer_id):
     return answer
 
 
+def get_page(answer, order_by=(Answer.score.desc(), Answer.date_created.desc()),
+             per_page=posts.get('per_page', 10)):
+    if answer is None:
+        raise ValueError
+    # this is inefficient but it works
+    answers = Answer.query.filter_by(post_id=answer.post_id, deleted=False) \
+        .order_by(order_by).all()
+    idx = [answer.id for answer in answers].index(answer.id)
+    page = (idx // per_page) + 1
+    return page
+
+
 def revise_answer(answer_id, data):
     answer = get_answer(answer_id)
     if answer.user_id != g.user.id:
