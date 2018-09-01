@@ -164,6 +164,7 @@ export class MultiIndexSearch {
      * @param {number} [perPage=20] - Amount to load per page
      */
     constructor(search, query, indices, { perPage = 20 } = {}) {
+        /** @type {Search} */
         this.search = search;
 
         // // Parse the query
@@ -182,6 +183,7 @@ export class MultiIndexSearch {
         // }
 
         // Generate options
+        /** @private */
         this.opts = indices.map(indexName => ({
             indexName: indexName,
             query: query,
@@ -360,7 +362,7 @@ export class SearchResult {
     /**
      * Represents search result
      * @param {SearchCategory} category - A search category
-     * @param {Object} object
+     * @param {Object} object - Formatted object
      * @param {Object} result - the result object from algolia
      */
     constructor(category, object, result) {
@@ -373,7 +375,10 @@ export class SearchResult {
         /** @private */
         this._result = result;
 
-        /** @type {number} */
+        /**
+         * Unique foreign id for object
+         * @type {string}
+         */
         this.id = result.objectID;
 
     }
@@ -436,7 +441,9 @@ export class SearchResult {
     }
 
     /**
-     * Returns value
+     * Returns underlying value or object backing this result. This is the
+     * formatted local model.
+     * @return {Object}
      */
     get value() { return this.object; }
 }
