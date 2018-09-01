@@ -1,0 +1,61 @@
+@mixin fs-modal-scheme($name, $color) {
+    &.fs-modal--scheme-#{$name} .fs-modal__header {
+        color: #FFF;
+        background: $color;
+    }
+}
+
+.fs-modal {
+    z-index: 20;
+
+    position: fixed;
+
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: $main-bg;
+
+    // Because this is modal we'll start with 0 initial opacity
+    opacity: 0;
+
+    @include fs-modal-scheme('default', $theme-color);
+
+    .fs-modal__header {
+        $fs-modal__header--height: 1.5rem;
+
+        display: flex;
+        flex-direction: row;
+
+        padding: 1rem 1rem;
+
+        width: 100%;
+
+        .fs-modal__header__component {
+            box-sizing: border-box;
+
+            height: $fs-modal__header--height;
+            margin: 0 0.5rem;
+
+            &.fs-modal__header__component--type-title {
+                font-weight: 300;
+                display: flex;
+                align-items: center;
+            }
+
+            &.fs-modal__header__component--type-image {
+                padding: 4px;
+
+                svg, img {
+                    fill: currentColor;
+                    color: currentColor;
+                    @include square(100%);
+                }
+            }
+        }
+    }
+}

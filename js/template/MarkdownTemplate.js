@@ -12,6 +12,7 @@ window.addEventListener("resize", () => {
 
 /**
  * Markdown editor
+ * @implements {InputInterface}
  */
 export default class MarkdownTemplate extends Template {
     /**
@@ -39,7 +40,13 @@ export default class MarkdownTemplate extends Template {
         this._onInput = null;
     }
 
+    // MARK: - InputInterface
+    /** @override */
     get input() { return this._textarea }
+
+    /** @override */
+    get userInput() { return this._textarea }
+
 
     /** @type {boolean} */
     get autoresize() { return this._autoresize }

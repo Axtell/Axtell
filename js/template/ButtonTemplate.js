@@ -2,6 +2,9 @@ import Template from '~/template/Template';
 import { HandleUnhandledPromise } from '~/helpers/ErrorManager';
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 
+import { fromEvent } from 'rxjs';
+import { filter } from 'rxjs/operators';
+
 import tippy from 'tippy.js/dist/tippy.all.min.js';
 
 /**
@@ -25,8 +28,9 @@ export const ButtonColor = {
  */
 export default class ButtonTemplate extends Template {
     /**
+     * @param {Object} opts
      * @param {string} options.text - The text of the button
-     * @param {Element} options.icon - The icon node
+     * @param {?Element} options.icon - The icon node
      * @param {ButtonColor} options.color
      */
     constructor({ text, icon, color }) {
@@ -105,6 +109,14 @@ export default class ButtonTemplate extends Template {
         this.delegate = new ActionControllerDelegate();
 
         this._isDisabled = false;
+
+        /**
+         * Observes the click of the button
+         * @type {Observable}
+         */
+        this.observeClick = fromEvent(node, 'click')
+            .pipe(
+                filter(() => !this._isDisabled));
 
         node.addEventListener("click", () => {
             if (this._isDisabled) return;

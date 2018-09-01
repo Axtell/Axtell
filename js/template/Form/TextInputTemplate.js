@@ -10,6 +10,10 @@ export const TextInputType = {
     URL: 'text-input--type-url'
 }
 
+/**
+ * Represents a single-line text input.
+ * @implements {InputInterface}
+ */
 export default class TextInputTemplate extends Template {
     /**
      * A group of label and the input
@@ -44,15 +48,19 @@ export default class TextInputTemplate extends Template {
          */
         this.isOwned = isOwned;
 
-        /**
-         * Observable for input
-         * @type {Observable}
-         */
-        this.observeInput = fromEvent(this.underlyingNode, 'input');
+        this._observeInput = fromEvent(this.underlyingNode, 'input');
 
         this.underlyingNode.addEventListener("input", () => {
             this.delegate.didSetStateTo(this, this.value);
         });
+    }
+
+    /**
+     * Observes the value of the text input.
+     * @return {Observable}
+     */
+    observeValue() {
+        return this._observeInput;
     }
 
     /**
@@ -62,7 +70,13 @@ export default class TextInputTemplate extends Template {
         this.underlyingNode.focus();
     }
 
+
+    // MARK: - InputInterface
+    /** @override */
     get input() { return this.underlyingNode; }
+
+    /** @override */
+    get userInput() { return this.underlyingNode; }
 
     /** @override */
     didLoad() {

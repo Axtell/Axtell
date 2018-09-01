@@ -6,12 +6,20 @@ import SVG from '~/models/Request/SVG';
 import Theme from '~/models/Theme';
 import Random from '~/modern/Random';
 
+import { merge, fromEvent } from 'rxjs';
+import { share, map, distinctUntilChanged } from 'rxjs/operators';
+
 import tippy from 'tippy.js/dist/tippy.all.min.js';
 
 export default class LabelGroup extends Template {
     /**
-     * A group of label and the input
-     * @param {string} label -
+     * A group of label and the input.
+     *
+     * If you do supply a template. Ensure it has `.input` attribute which
+     * evaluates to the underling HTMLInputElement which can be observed for
+     * value updates. See {@link InputInterface}
+     *
+     * @param {string} label - The label (self-explantory)
      * @param {TextInputTemplate} input
      * @param {?string} o.tooltip Some info describing what
      * @param {?ButtonTemplate} o.button - Pass if you want to keep a button within label group for alignment purposes
@@ -44,17 +52,30 @@ export default class LabelGroup extends Template {
 
         // Input element
         const elem = input.loadInContext(root);
-        elem.id = id;
 
         /** @type {ActionControllerDelegate} */
         this.validationDelegate = new ActionControllerDelegate();
 
-        const inputTarget = elem instanceof HTMLInputElement ? elem : input.input;
+        const valueInputTarget = input.input;
+        const userInputTarget = input.userInput;
+
+        if (userInputTarget) {
+            userInputTarget.id = id;
+        }
+
+        // Observes value change
+        this._observeValue = merge(
+            fromEvent(valueInputTarget, 'input')
+                .pipe(map(event => event.target.value)),
+            fromEvent(valueInputTarget, 'change')
+                .pipe(map(event => event.target.value)))
+            .pipe(
+                share());
 
         // Live constraints
         this._constraints = [];
         if (liveConstraint) {
-            liveConstraint._elem = inputTarget;
+            liveConstraint._elem = valueInputTarget;
 
             for (const sourceValidator of liveConstraint._validators) {
                 const template = new ConstraintStateTemplate(sourceValidator.error);
@@ -66,12 +87,15 @@ export default class LabelGroup extends Template {
                 });
             }
 
-            this._liveConstraint = liveConstraint;
+            this._observeValidation = this._observeValue
+                .pipe(
+                    distinctUntilChanged(),
+                    map(() => liveConstraint.validate()),
+                    share());
 
-            inputTarget.addEventListener('input', () => {
-                this.validate();
-            });
-
+            this._observeValidation
+                .subscribe(
+                    errors => this.validate(errors))
         }
 
         // Load button
@@ -91,18 +115,43 @@ export default class LabelGroup extends Template {
         this.defineLinkedClass('padHorizontal', '!item-wrap--nopad-horizontal');
     }
 
+    /**
+     * Returns observer for the value.
+     * @return {Observable}
+     */
+    observeValue() {
+        return this._observeValue;
+    }
+
+    /**
+     * Observe the validation status. This provides list of errors
+     * @return {Observable}
+     */
+    observeValidation() {
+        return this._observeValidation;
+    }
+
+    /**
+     * Sets the value of the underlying input value if applicable. Gives no
+     * guarantee of the sync with UI.
+     * @type {any}
+     */
     get value() { return this.input.input.value; }
+
+    /**
+     * Sets the value of the type. USE of this setter is NOT reccomended.
+     * @param {any} newValue
+     */
     set value(newValue) {
         this.input.input.value = newValue;
-        this.validate();
     }
 
     /**
      * Validates the LabelGroup for live labels
+     * @param {ValidationError[]} errors
      */
-    validate() {
-        const erroredConstraints = this._liveConstraint
-            .validate()
+    validate(errors) {
+        const erroredConstraints = errors
             .map(error => error.sourceValidator);
 
         for (const { template, constraintValidator } of this._constraints) {

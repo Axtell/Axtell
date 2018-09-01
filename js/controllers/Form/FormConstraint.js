@@ -13,6 +13,7 @@ export const NoElementWithId = Symbol('Form.FormConstraint.NoElementWithId');
  * @typedef {Object} ValidationError
  * @property {HTMLElement} node - Node with error.
  * @property {string} error - String describing error
+ * @property {Validator} sourceValidator - The 'validator' object.
  */
 
 /**
@@ -102,7 +103,7 @@ export default class FormConstraint {
 
     /**
      * Runs validation on the element.
-     * @return {FormError[]} list of form errors. Empty array if none.
+     * @return {ValidationError[]} list of form errors. Empty array if none.
      */
     validate() {
         let errors = [];
