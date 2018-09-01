@@ -1,7 +1,11 @@
-# Axtell
-An improved user experience for competitive programming.
-
-[![Build Status](https://travis-ci.org/Axtell/Axtell.svg?branch=master)](https://travis-ci.org/Axtell/Axtell) [![codecov](https://codecov.io/gh/Axtell/Axtell/branch/master/graph/badge.svg)](https://codecov.io/gh/Axtell/Axtell)
+<p align="center">
+  <img alt="Axtell" src="https://user-images.githubusercontent.com/15314511/44938903-56267400-ad36-11e8-939e-2fa436926fc1.png"/>
+</p>
+<h3 align="center">An improved user experience for competitive programming.</h3>
+<p align="center">
+  <a href="https://travis-ci.org/Axtell/Axtell"><img alt="Build Status" src="https://travis-ci.org/Axtell/Axtell.svg?branch=master"/></a>
+  <a href="https://codecov.io/gh/Axtell/Axtell"><img alt="codecov" src="https://codecov.io/gh/Axtell/Axtell/branch/master/graph/badge.svg"/></a>
+</p>
 
 ## Project Structure
 An overview of the Axtell project and key components:
@@ -36,7 +40,7 @@ You can build Axtell's JavaScript documentation using `npm run docs` which will 
 To get started make sure you have the following installed:
 
  - Python 3.6 or higher
- - MySQL
+ - MySQL (we recommend 8.0)
  - Probably Ruby (not 100% sure if actually required)
  - `node`/`npm` (Node.js 8 or higher is reccomended)
  - Redis

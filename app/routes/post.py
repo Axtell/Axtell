@@ -84,9 +84,8 @@ def get_post(post_id, title=None):
     leaderboard = Leaderboard(post_id=post_id)
 
     # Get respective comments
-    answer_comments = []
-    for answer in answers.items:
-        answer_comments.append(get_rendered_comments(AnswerComment, max_depth=2, answer_id=answer.id))
+    answer_comments = [get_rendered_comments(AnswerComment, max_depth=2, answer_id=answer.id)
+                       for answer in answers.items]
 
     post_comments = get_rendered_comments(PostComment, max_depth=2, post_id=post_id)
 
