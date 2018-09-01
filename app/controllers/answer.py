@@ -82,7 +82,7 @@ def get_page(answer, order_by=(Answer.score.desc(), Answer.date_created.desc()),
         raise ValueError
     # this is inefficient but it works
     answers = Answer.query.filter_by(post_id=answer.post_id, deleted=False) \
-        .order_by(order_by).all()
+        .order_by(*order_by).all()
     idx = [answer.id for answer in answers].index(answer.id)
     page = (idx // per_page) + 1
     return page
