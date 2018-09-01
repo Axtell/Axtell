@@ -76,7 +76,9 @@ if server.debug and config.profile:
 
 # Get the first set of JWT keys
 update.jwt_update.delay().wait()
-(search.initialize_indices.si() | search.reindex_database.si()).delay()
+
+# Do search indexing
+#(search.initialize_indices.si() | search.reindex_database.si()).delay()
 
 
 # Used to measure request duration
