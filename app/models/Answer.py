@@ -179,8 +179,7 @@ class Answer(db.Model):
                                   user_id=user.id)
 
         if 'code' in new_answer_data:
-            self.binary_code = new_answer_data['code'].encode(new_answer_data['encoding']
-                                                              or self.encoding
+            self.binary_code = new_answer_data['code'].encode(new_answer_data.get('encoding', self.encoding)
                                                               or 'utf8')
 
         if 'commentary' in new_answer_data:
