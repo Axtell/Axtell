@@ -123,7 +123,7 @@ export default class Search {
      * Performs a search across indexes.
      * @param {string} query - The text for search
      * @param {Object} opts - See {@link MultiIndexSearch}
-     * @return {GlobalSearch} Use this to iterate through pages.
+     * @return {MultiIndexSearch} Use this to iterate through pages.
      */
     globalSearch(query, opts) {
         return new MultiIndexSearch(
