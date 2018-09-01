@@ -56,7 +56,7 @@ def get_answer(answer_id):
         page = answer_controller.get_page(answer)
     except ValueError:
         return abort(404)
-    return redirect(url_for('get_post', post_id=answer.post_id, p=page, a=answer_id) + f"#answer-{answer.id}", code=301)
+    return redirect(url_for('get_post', post_id=answer.post_id, p=page) + f"#answer-{answer.id}", code=301)
 
 
 @server.route("/post/<int:post_id>", defaults={"title": None})
