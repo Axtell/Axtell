@@ -14,10 +14,10 @@
 
   .lang-box__info { flex: 1; }
   .lang-box__name {
-    font-size: 1.3rem;
-    color: $key-text;
+    font-size: 1rem;
+    color: $title-text;
     font-family: $bold-font;
-    font-weight: $bold-weight;
+    font-weight: 600;
   }
 
   .lang-box__close {

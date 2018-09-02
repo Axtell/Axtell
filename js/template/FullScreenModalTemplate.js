@@ -42,8 +42,8 @@ export default class FullScreenModalTemplate extends Template {
                     </div>
                     { submitButton?.unique() || <DocumentFragment/> }
                 </div>
-                <div class="fs-modal__body content">
-                    { body }
+                <div class="fs-modal__body">
+                    <div class="content">{ body }</div>
                 </div>
             </div>
         );

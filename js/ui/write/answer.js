@@ -6,10 +6,17 @@ import ErrorManager, { HandleUnhandledPromise } from '~/helpers/ErrorManager';
 export const ANSWER_TRIGGER = document.getElementById("write-answer");
 
 if (ANSWER_TRIGGER) {
-    const template = new WriteAnswerTemplate(Post.current);
+    let template = null;
     ANSWER_TRIGGER.addEventListener('click', () => {
-        FullScreenModalController.shared
-            .present(template)
-            .catch(HandleUnhandledPromise);
+        (async () => {
+            if (template === null) {
+                const { default: WriteAnswerTemplate } = await import('~/template/WriteAnswer/WriteAnswerTemplate');
+                template = new WriteAnswerTemplate(Post.current);
+            }
+
+            FullScreenModalController.shared
+                .present(template)
+                .catch(HandleUnhandledPromise);
+        })();
     });
 }

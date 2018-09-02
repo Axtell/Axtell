@@ -20,7 +20,7 @@ export default class LabelGroup extends Template {
      * value updates. See {@link InputInterface}
      *
      * @param {string} label - The label (self-explantory)
-     * @param {TextInputTemplate} input
+     * @param {InputInterface} input
      * @param {?string} o.tooltip Some info describing what
      * @param {?ButtonTemplate} o.button - Pass if you want to keep a button within label group for alignment purposes
      * @param {FormConstraint} [o.liveConstraint=null] - Contraints already setup to show
@@ -56,27 +56,17 @@ export default class LabelGroup extends Template {
         /** @type {ActionControllerDelegate} */
         this.validationDelegate = new ActionControllerDelegate();
 
-        const valueInputTarget = input.input;
         const userInputTarget = input.userInput;
-
         if (userInputTarget) {
             userInputTarget.id = id;
         }
 
         // Observes value change
-        this._observeValue = merge(
-            fromEvent(valueInputTarget, 'input')
-                .pipe(map(event => event.target.value)),
-            fromEvent(valueInputTarget, 'change')
-                .pipe(map(event => event.target.value)))
-            .pipe(
-                share());
+        this._observeValue = input.observeValue();
 
         // Live constraints
         this._constraints = [];
         if (liveConstraint) {
-            liveConstraint._elem = valueInputTarget;
-
             for (const sourceValidator of liveConstraint._validators) {
                 const template = new ConstraintStateTemplate(sourceValidator.error);
                 template.loadInContext(root);
@@ -89,8 +79,7 @@ export default class LabelGroup extends Template {
 
             this._observeValidation = this._observeValue
                 .pipe(
-                    distinctUntilChanged(),
-                    map(() => liveConstraint.validate()),
+                    map(value => liveConstraint.validate(value)),
                     share());
 
             this._observeValidation

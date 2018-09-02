@@ -21,22 +21,9 @@ export const NoElementWithId = Symbol('Form.FormConstraint.NoElementWithId');
  */
 export default class FormConstraint {
     /**
-     * Creates a form constraint (doing nothing) for an existing element.
-     * @param {string|HTMLInputElement} elem Either an id or an existing element
+     * Creates a form constraint (doing nothing).
      */
-    constructor(elem) {
-        if (typeof elem === 'string') {
-            this._elem = document.getElementById(elem);
-            if (!this._elem) {
-                ErrorManager.raise(
-                    `Could not find any element with provided id ${elem}`,
-                    NoElementWithId
-                );
-            }
-        } else {
-            this._elem = elem;
-        }
-
+    constructor() {
         this._validators = [];
     }
 
@@ -61,7 +48,7 @@ export default class FormConstraint {
      */
     length(min, max) {
         return this.addValidator(
-            (elem) => elem.value.length >= min && elem.value.length <= max,
+            (value) => value.length >= min && value.length <= max,
             `Must be at least ${min} and at most ${max} characters long.`
         );
     }
@@ -72,7 +59,7 @@ export default class FormConstraint {
      */
     isEmail() {
         return this.addValidator(
-            (elem) => isEmail(elem.value),
+            (value) => isEmail(value),
             `Provide a valid email.`
         )
     }
@@ -84,7 +71,19 @@ export default class FormConstraint {
      */
     notEmpty(error = `Must specify a value`) {
         return this.addValidator(
-            (elem) => elem.value.length > 0,
+            (value) => value.length > 0,
+            error
+        );
+    }
+
+    /**
+     * Checks if has a value
+     * @param {string} error - Error to show
+     * @return {FormConstraint} chainable object
+     */
+    hasValue(error = `Must specify a value`) {
+        return this.addValidator(
+            value => !!value,
             error
         );
     }
@@ -96,20 +95,21 @@ export default class FormConstraint {
      */
     regex(regex) {
         return this.addValidator(
-            (elem) => regex.test(elem.value),
+            (value) => regex.test(value),
             `Must match pattern ${regex.source}`
         )
     }
 
     /**
      * Runs validation on the element.
+     * @param {any} value - Any value to run validator on
      * @return {ValidationError[]} list of form errors. Empty array if none.
      */
-    validate() {
+    validate(value) {
         let errors = [];
         for (let i = 0; i < this._validators.length; i++) {
             let validator = this._validators[i];
-            let res = validator.callback(this._elem);
+            let res = validator.callback(value);
             if (res === false) {
                 errors.push({
                     node: this._elem,

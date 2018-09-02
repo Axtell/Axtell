@@ -4,6 +4,8 @@ import { CodeMirror as LoadCodeMirror, CodeMirrorMode, CodeMirrorTheme } from '~
 import ErrorManager from '~/helpers/ErrorManager';
 import Random from '~/modern/Random';
 
+import { fromEvent } from 'rxjs';
+
 export const CodeEditorModeLoadError = Symbol('CodeEditor.Error.ModeLoad');
 export const CodeEditorThemeLoadError = Symbol('CodeEditor.Error.ThemeLoad');
 export const CodeEditorLoadError = Symbol('CodeEditor.Error.Load');
@@ -18,8 +20,11 @@ export default class CodeEditorViewController extends ViewController {
      *
      * @param {HTMLTextArea} element element id. If an HTMLElement w/o parent then appending
      * @param {CodeEditorTheme} theme Theme to use for Ace.
+     * @param {Object} [opts={}] config opts
+     * @param {?number} opts.lines - amont of lines to show
+     * @param {?number} opts.autoresize - If to autoresize the box
      */
-    constructor(element, theme = CodeEditorTheme.default) {
+    constructor(element, theme = CodeEditorTheme.default, { lines = null, autoresize = null } = {}) {
         super();
 
         return (async () => {
@@ -43,6 +48,8 @@ export default class CodeEditorViewController extends ViewController {
 
             this._editor.getWrapperElement().controller = this;
 
+            this._observeValue = fromEvent(this._editor, 'change');
+
             /**
              * @type {CodeEditorTheme}
              */
@@ -55,8 +62,19 @@ export default class CodeEditorViewController extends ViewController {
                 this.delegate.didSetStateTo(this, editor.getValue());
             });
 
+            if (lines) this.lines = lines;
+            if (autoresize) this.autoresize = autoresize;
+
             return this;
         })();
+    }
+
+    /**
+     * Obtains observable of value
+     * @return {Observable}
+     */
+    observeValue() {
+        return this._observeValue;
     }
 
     /**

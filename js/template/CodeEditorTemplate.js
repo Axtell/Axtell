@@ -3,6 +3,7 @@ import Template from '~/template/Template';
 
 /**
  * The code editor
+ * @implements {InputInterface}
  */
 export default class CodeEditorTemplate extends Template {
     /**
@@ -12,10 +13,22 @@ export default class CodeEditorTemplate extends Template {
         const container = <DocumentFragment/>;
         super(container);
 
+        /** @type {CodeEditorViewController} */
+        this.controller = null;
+
         return (async () => {
-            /** @type {CodeEditorViewController} */
             this.controller = await new CodeEditorViewController(container);
+
             return this;
         })();
     }
+
+    // MARK: - InputInterface
+    /** @override */
+    observeValue() {
+        return this.controller.observeValue();
+    }
+
+    /** @override */
+    get userInput() { return null; }
 }

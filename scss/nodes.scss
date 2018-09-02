@@ -150,6 +150,10 @@ hr {
   }
 }
 
+body .CodeMirror {
+  font-family: $monospace;
+}
+
 .body {
   color: $main-text;
   font-size: 1.2rem;

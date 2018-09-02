@@ -21,18 +21,13 @@ export default class LanguageInputTemplate extends Template {
         super(rootSwapper);
 
         /**
-         * The input type backing the language-id value
-         * @type {HTMLInputElement}
-         */
-        this.backingInput = <input type="hidden"/>;
-
-        /**
          * The input for the typical text input
          * @type {TextInputTemplate}
          */
         this.textInput = new TextInputTemplate(TextInputType.Title, 'Language Name', {
             isOwned: false,
-            isWide: true
+            isWide: true,
+            autocomplete: false
         });
 
         /**
@@ -107,7 +102,7 @@ export default class LanguageInputTemplate extends Template {
         if (languages.results.length === 0) {
             this.results.displayAlternate(
                 <div class="language-picker language-picker--empty">
-                    No results
+                    <h3>No results</h3>
                 </div>
             );
             return;
@@ -122,6 +117,7 @@ export default class LanguageInputTemplate extends Template {
 
                 fromEvent(languageNode, 'mousedown')
                     .pipe(
+                        filter(event => event.which === 1),
                         mapTo(language))
                     .subscribe(this.language);
             }
@@ -139,9 +135,6 @@ export default class LanguageInputTemplate extends Template {
     observeValue() {
         return this.language;
     }
-
-    /** @override */
-    get input() { return this.backingInput; }
 
     /** @override */
     get userInput() { return this.textInput || null; }

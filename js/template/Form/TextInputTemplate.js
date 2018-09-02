@@ -23,12 +23,14 @@ export default class TextInputTemplate extends Template {
      * @param {string} placeholder
      * @param {Object} opts
      * @param {string} opts.classes - Additional classes
-     * @param {boolean} opts.autofocus
-     * @param {boolean} opts.isOwned - If the wrapper elem manages styles
-     * @param {boolean} opts.isWide - If the text input should fill width.
+     * @param {boolean} [opts.autofocus=false]
+     * @param {boolean} [opts.autocomplete=false]
+     * @param {boolean} [opts.isOwned=false] - If the wrapper elem manages styles
+     * @param {boolean} [opts.isWide=false] - If the text input should fill width.
      */
     constructor(type, placeholder = "", {
         classes = "",
+        autocomplete = false,
         autofocus = false,
         isOwned = false,
         isWide = false
@@ -37,7 +39,8 @@ export default class TextInputTemplate extends Template {
             <input type="text"
                    class={`text-input text-input--type-clean ${type} ${classes}`}
                    placeholder={placeholder}
-                   unsafe-autofocus={autofocus} />
+                   unsafe-autofocus={autofocus}
+                   unsafe-autocomplete={autocomplete} />
         );
 
         this.delegate = new ActionControllerDelegate();
@@ -108,9 +111,6 @@ export default class TextInputTemplate extends Template {
 
 
     // MARK: - InputInterface
-    /** @override */
-    get input() { return this.underlyingNode; }
-
     /** @override */
     get userInput() { return this.underlyingNode; }
 

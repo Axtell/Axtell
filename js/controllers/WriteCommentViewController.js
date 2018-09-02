@@ -181,7 +181,7 @@ export default class WriteCommentViewController extends ViewController {
             Analytics.shared.report(EventType.commentWriteOpen(this.owner));
             this._node.parentNode.replaceChild(this._writingBox, this._node);
             this._displayingWritingBox = true;
-            this.commentText.input.input.focus();
+            this.commentText.input.userInput?.focus();
 
             this._keyBinding = KeyManager.shared.register('Escape', () => {
                 this.toggleState();
