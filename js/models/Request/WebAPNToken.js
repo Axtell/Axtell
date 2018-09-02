@@ -2,6 +2,7 @@ import Request, { HTTPMethod } from '~/models/Request/Request';
 
 /**
  * Gets WebAPN Token
+ * @extends {Request}
  */
 export default class WebAPNToken extends Request {
     /** @override */

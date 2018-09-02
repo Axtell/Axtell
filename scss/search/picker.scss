@@ -1,9 +1,9 @@
-.language-picker__container {
+.search-picker__container {
     position: relative;
-    height: $language-picker-size;
+    height: $search-picker-size;
 }
 
-.language-picker {
+.search-picker {
     position: absolute;
     left: 0;
     right: 0;
@@ -23,13 +23,13 @@
 
     z-index: 21;
 
-    .language-picker__list {
+    .search-picker__list {
         padding: 0;
         margin: 0;
         list-style: none;
     }
 
-    .language-picker__language {
+    .search-picker__language {
         cursor: pointer;
         border-radius: 6px;
 

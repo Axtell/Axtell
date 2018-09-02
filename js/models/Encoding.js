@@ -1,4 +1,5 @@
 import EncodingRequest from '~/models/Request/Encoding';
+import Encodings from '~/models/Request/Encodings';
 
 export const NATIVE_ENCODINGS = ['UTF-8', 'UTF-16', 'ISO-8859-1'];
 
@@ -76,6 +77,23 @@ export default class Encoding {
     }
 
     /**
+     * Obtains list of encodings through query
+     * @return {Promise<Set<Encoding>>}
+     */
+    static async all() {
+        if (Encoding._codepages !== null)
+            return Encoding._codepages;
+
+        const encodingNames = await new Encodings().run();
+        let encodings = [];
+        for (const encodingName of encodingNames) {
+            encodings.push(await Encoding.fromName(encodingName));
+        }
+        return encodings;
+    }
+    static _codepages = null;
+
+    /**
      * Gets from an encoding name
      * @param {string} name
      * @return {Encoding}
@@ -84,10 +102,16 @@ export default class Encoding {
         if (NATIVE_ENCODINGS.includes(name)) {
             return new Encoding(name, null);
         } else {
-            return new Encoding(
+            if (Encoding._encodingCache.has(name))
+                return Encoding._encodingCache.get(name);
+
+            const encoding = new Encoding(
                 name,
                 await new EncodingRequest(name).run()
             );
+            Encoding._encodingCache.set(name, encoding);
+            return encoding;
         }
     }
+    static _encodingCache = new Map();
 }

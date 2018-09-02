@@ -10,6 +10,7 @@ export const NotificationMarkAll = Symbol('MarkNotificationStatus.NotificationMa
 
 /**
  * This sets notification status
+ * @extends {Request}
  */
 export default class MarkNotificationStatus extends Request {
     /**

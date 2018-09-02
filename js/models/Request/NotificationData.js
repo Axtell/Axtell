@@ -2,6 +2,7 @@ import Request, { HTTPMethod } from '~/models/Request/Request';
 
 /**
  * Obtains notification data
+ * @extends {Request}
  */
 export default class Leaderboard extends Request {
     /**

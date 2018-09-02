@@ -1,5 +1,9 @@
 import PublishEdit from '~/models/Request/PublishEdit';
 
+/**
+ * Deletes a given item
+ * @extends {PublishEdit}
+ */
 export default class PublishDelete extends PublishEdit {
     /**
      * What to delete

@@ -1,17 +1,21 @@
-import Language from '~/models/Language';
+import Encoding from '~/models/Encoding';
 import SearchInputTemplate from '~/template/Form/SearchInputTemplate';
-import LanguageTemplate, { LanguageFixedTemplate } from '~/template/LanguageTemplate';
+import EncodingTemplate, { EncodingFixedTemplate } from '~/template/EncodingTemplate';
 
 /**
- * Language picker template.
+ * Encoding picker template.
  * @extends {SearchInputTemplate}
  */
-export default class LanguageInputTemplate extends SearchInputTemplate {
-    constructor() {
+export default class EncodingInputTemplate extends SearchInputTemplate {
+    /**
+     * Pass the query from {@link Encoding.query} which is async.
+     * @param {Query<Encoding>} query
+     */
+    constructor(query) {
         super({
-            query: Language.query,
-            placeholder: 'Language Name'
-        })
+            query: query,
+            placeholder: 'Encoding'
+        });
     }
 
     // MARK: - SearchInputTemplate

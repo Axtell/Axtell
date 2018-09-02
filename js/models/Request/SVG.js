@@ -5,6 +5,7 @@ const cache = new Map();
 
 /**
  * Loads an SVG
+ * @extends {Request}
  */
 export default class SVG extends Request {
     /** @type {SVGSVGElement} */

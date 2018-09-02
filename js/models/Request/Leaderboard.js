@@ -3,6 +3,7 @@ import Answer from '~/models/Answer';
 
 /**
  * Obtains a post leaderboard
+ * @extends {Request}
  */
 export default class Leaderboard extends Request {
     /**

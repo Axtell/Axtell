@@ -4,7 +4,9 @@ import ProgressButtonTemplate from '~/template/ProgressButtonTemplate';
 import LoadingTemplate from '~/template/LoadingTemplate';
 import Analytics, { EventType } from '~/models/Analytics';
 import LabelGroup from '~/template/Form/LabelGroup';
+import Encoding from '~/models/Encoding';
 import LanguageInputTemplate from '~/template/Form/LanguageInputTemplate';
+import EncodingInputTemplate from '~/template/Form/EncodingInputTemplate';
 import CodeEditorTemplate from '~/template/CodeEditorTemplate';
 import MarkdownTemplate from '~/template/MarkdownTemplate';
 import FormConstraint from '~/controllers/Form/FormConstraint';
@@ -76,38 +78,49 @@ export default class WriteAnswerTemplate extends FullScreenModalTemplate {
          * @type {?LabelGroup}
          */
         this.codeEditor = null;
+
+        /**
+         * The encoding selector
+         */
+        this.encoding = null;
     }
 
     async didInitialLoad() {
         await super.didInitialLoad();
 
-        this.codeEditor = await new CodeEditorTemplate()
+        this.codeEditor = await new CodeEditorTemplate();
+        // this.encoding = new EncodingInputTemplate(await Encoding.query());
 
+        window.l = Encoding;
 
         // Create labels
-        const labels = [
-            new LabelGroup(
-                'Language',
-                this.languageInput,
-                {
-                    liveConstraint: new FormConstraint()
-                        .hasValue('Choose a language')
-                }
-            ),
-            new LabelGroup(
-                'Code',
-                this.codeEditor
-            ),
-            new LabelGroup(
-                'Commentary',
-                this.commentary
-            )
-        ];
+        const languageLabel = new LabelGroup(
+            'Language',
+            this.languageInput,
+            {
+                liveConstraint: new FormConstraint()
+                    .hasValue('Choose a language')
+            }
+        );
+
+        const codeLabel = new LabelGroup(
+            'Code',
+            this.codeEditor
+        );
+
+        const commentaryLabel = new LabelGroup(
+            'Commentary',
+            this.commentary
+        );
 
         // Load the view
         this.root.displayAlternate(
             <div>
-                { labels.map(label => label.unique()) }
+                <div>
+                    { languageLabel.unique() }
+                </div>
+                { codeLabel.unique() }
+                { commentaryLabel.unique() }
             </div>
         );
 
@@ -123,8 +136,9 @@ export default class WriteAnswerTemplate extends FullScreenModalTemplate {
 
         // Observe validation of all fields
         this.observeValidation = combineLatest(
-            labels.map(
-                label => label.observeValidation()),
+            languageLabel.observeValidation(),
+            codeLabel.observeValidation(),
+            commentaryLabel.observeValidation(),
             // Combine is of all errors into one big error array
             (...errors) => [].concat(...errors))
             .pipe(

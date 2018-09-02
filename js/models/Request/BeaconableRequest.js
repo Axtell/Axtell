@@ -4,6 +4,7 @@ import 'navigator.sendbeacon'; // Polyfill
 /**
  * A request with beacon flag. Do note: very few features are supported.
  * Additionally the HTTPMethod is **always** POST.
+ * @extends {Request}
  */
 export default class BeaconableRequest extends Request {
     /**

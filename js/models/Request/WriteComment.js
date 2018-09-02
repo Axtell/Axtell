@@ -3,6 +3,7 @@ import Comment from '~/models/Comment';
 
 /**
  * Submits a comment
+ * @extends {Request}
  */
 export default class WriteCommentRequest extends Request {
     /**

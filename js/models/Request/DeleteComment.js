@@ -3,6 +3,7 @@ import Comment from '~/models/Comment';
 
 /**
  * Deletes a comment
+ * @extends {Request}
  */
 export default class DeleteCommentRequest extends Request {
     /**

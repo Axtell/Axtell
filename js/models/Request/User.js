@@ -6,6 +6,7 @@ const userCache = {};
 
 /**
  * Obtains a User by ID. This _does_ cache
+ * @extends {Request}
  */
 export default class UserRequest extends Request {
     /**
