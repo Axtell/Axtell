@@ -3,6 +3,9 @@ import ButtonTemplate, { ButtonColor } from '~/template/ButtonTemplate';
 import ProgressButtonTemplate from '~/template/ProgressButtonTemplate';
 import LoadingTemplate from '~/template/LoadingTemplate';
 import Analytics, { EventType } from '~/models/Analytics';
+import LabelGroup from '~/template/Form/LabelGroup';
+import LanguageInputTemplate from '~/template/Form/LanguageInputTemplate';
+import FormConstraint from '~/controllers/Form/FormConstraint';
 
 import { combineLatest } from 'rxjs';
 
@@ -19,7 +22,7 @@ export default class WriteAnswerTemplate extends FullScreenModalTemplate {
 
         super({
             title: <span>Answering <strong>{ post.title }</strong></span>,
-            body: root.unqiue()
+            body: root.unique()
         });
 
         /**
@@ -33,14 +36,28 @@ export default class WriteAnswerTemplate extends FullScreenModalTemplate {
          * @type {Post}
          */
         this.post = post;
+
+        /**
+         * These are the form elements
+         */
+        this.languageInput = new LabelGroup(
+            'Language',
+            new LanguageInputTemplate(),
+            {
+                liveConstraint: new FormConstraint()
+                    .notEmpty('Choose a language')
+            }
+        );
     }
 
     async didInitialLoad() {
         await super.didInitialLoad();
 
         // Load the view
-        root.displayAlternate(
-
+        this.root.displayAlternate(
+            <div>
+                { this.languageInput.unique() }
+            </div>
         );
     }
 

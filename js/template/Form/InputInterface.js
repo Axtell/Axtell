@@ -4,6 +4,12 @@
  */
 export default class InputInterface {
     /**
+     * Returns observable as value changes
+     * @return {Observable}
+     */
+    observeValue() { return void 0; }
+
+    /**
      * Input element backing actual value
      * @type {HTMLInputElement}
      */

@@ -1,14 +1,148 @@
 import Template from '~/template/Template';
+import Language from '~/models/Language';
+import SwappingTemplate from '~/template/SwappingTemplate';
+import TextInputTemplate, { TextInputType } from '~/template/Form/TextInputTemplate';
+import LanguageTemplate, { LanguageFixedTemplate } from '~/template/LanguageTemplate';
+
+import { combineLatest, fromEvent, BehaviorSubject } from 'rxjs';
+import { map, mapTo, filter, share, distinctUntilChanged } from 'rxjs/operators';
 
 /**
  * Language picker template.
  * @implements {InputInterface}
  */
 export default class LanguageInputTemplate extends Template {
+    /**
+     * Creates an empty language input template with no language selected.
+     */
+    constructor() {
+        const root = <div class="language-picker__container" />;
+        const rootSwapper = new SwappingTemplate(root);
+        super(rootSwapper);
+
+        /**
+         * The input type backing the language-id value
+         * @type {HTMLInputElement}
+         */
+        this.backingInput = <input type="hidden"/>;
+
+        /**
+         * The input for the typical text input
+         * @type {TextInputTemplate}
+         */
+        this.textInput = new TextInputTemplate(TextInputType.Title, 'Language Name', {
+            isOwned: false,
+            isWide: true
+        });
+
+        /**
+         * List of all results
+         * @type {Element}
+         */
+        this.results = new SwappingTemplate(<div/>);
+
+        /**
+         * Emits the language when applicable
+         * @type {BehaviorSubject}
+         */
+        this.language = new BehaviorSubject(null)
+            .pipe(
+                distinctUntilChanged(
+                    (oldLanguage, newLanguage) =>
+                        oldLanguage && newLanguage && oldLanguage.equal(newLanguage)),
+                share());
+
+        root.appendChild(
+            <DocumentFragment>
+                { this.textInput.unique() }
+                { this.results.unique() }
+            </DocumentFragment>
+        );
+
+        combineLatest(
+            this.textInput
+                .observeValue(),
+            this.textInput
+                .observeFocus())
+            .pipe(
+                map(([query, isFocused]) => isFocused ? query : ""),
+                distinctUntilChanged(),
+                map((query) => Language.query.findPage(query, {
+                    maxResults: 3,
+                    searchEmpty: false
+                })))
+            .subscribe(
+                results => this.displayLanguages(results))
+
+        this.language.subscribe(
+            language => {
+                if (language === null) {
+                    rootSwapper.restoreOriginal();
+                } else {
+                    this.textInput.focus(false);
+
+                    const languageFixedTemplate = new LanguageFixedTemplate(language);
+                    rootSwapper.displayAlternate(languageFixedTemplate);
+
+                    languageFixedTemplate
+                        .observeCancel()
+                        .pipe(
+                            mapTo(null))
+                        .subscribe(this.language);
+                }
+            })
+    }
+
+    /**
+     * Display array of languages
+     * @param {?(Language[])} languages - Iterable of languages
+     */
+    displayLanguages(languages) {
+        if (languages === null) {
+            this.results.restoreOriginal();
+            return;
+        }
+
+        // Otherwise show results
+        if (languages.results.length === 0) {
+            this.results.displayAlternate(
+                <div class="language-picker language-picker--empty">
+                    No results
+                </div>
+            );
+            return;
+        } else {
+            const list = <ul class="language-picker__list"/>;
+
+            for (const language of languages.results) {
+                const listItem = <li class="language-picker__language" />;
+                const languageTemplate = new LanguageTemplate(language);
+                const languageNode = languageTemplate.loadInContext(listItem);
+                list.appendChild(listItem);
+
+                fromEvent(languageNode, 'mousedown')
+                    .pipe(
+                        mapTo(language))
+                    .subscribe(this.language);
+            }
+
+            this.results.displayAlternate(
+                <div class="language-picker">
+                    { list }
+                </div>
+            );
+        }
+    }
+
+    // MARK: - InputInterface
+    /** @override */
+    observeValue() {
+        return this.language;
+    }
 
     /** @override */
-    get input() { this._backingInput = null; }
+    get input() { return this.backingInput; }
 
     /** @override */
-    get userInput() { return this._userInput || null; }
+    get userInput() { return this.textInput || null; }
 }

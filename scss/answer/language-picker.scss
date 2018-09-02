@@ -1,0 +1,38 @@
+.language-picker__container {
+    position: relative;
+    height: $language-picker-size;
+}
+
+.language-picker {
+    position: absolute;
+    left: 0;
+    right: 0;
+
+    // Position at bottom
+    top: 100%;
+
+    // Add some space
+    margin-top: 4px;
+
+    background: $content-bg;
+    border-radius: 6px;
+
+    box-shadow: 0px 4px 24px -12px rgba($shadow-mix, 0.6), 0 4px 32px -8px rgba($shadow-mix, 0.15);
+
+    padding: 4px;
+
+    .language-picker__list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .language-picker__language {
+        cursor: pointer;
+        border-radius: 6px;
+
+        &:hover {
+            background: rgba($accent-color, 0.1);
+        }
+    }
+}

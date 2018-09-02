@@ -1,7 +1,9 @@
 import Template from '~/template/Template';
 import Random from '~/modern/Random';
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
-import { fromEvent } from 'rxjs';
+
+import { merge, fromEvent } from 'rxjs';
+import { map, mapTo, share } from 'rxjs/operators';
 
 export const TextInputType = {
     Search: 'text-input--type-search',
@@ -22,9 +24,15 @@ export default class TextInputTemplate extends Template {
      * @param {Object} opts
      * @param {string} opts.classes - Additional classes
      * @param {boolean} opts.autofocus
-     * @param {boolean} opts.isOwned
+     * @param {boolean} opts.isOwned - If the wrapper elem manages styles
+     * @param {boolean} opts.isWide - If the text input should fill width.
      */
-    constructor(type, placeholder = "", { classes = "", autofocus = false, isOwned = false } = {}) {
+    constructor(type, placeholder = "", {
+        classes = "",
+        autofocus = false,
+        isOwned = false,
+        isWide = false
+    } = {}) {
         super(
             <input type="text"
                    class={`text-input text-input--type-clean ${type} ${classes}`}
@@ -41,6 +49,13 @@ export default class TextInputTemplate extends Template {
         this.value = null;
         this.defineLinkedInput('value');
 
+        this.defineLinkedClass('isWide', 'text-input--size-wide')
+        /**
+         * If to fill width
+         * @type {boolean}
+         */
+        this.isWide = isWide;
+
         this.defineLinkedClass('isOwned', 'text-input--owned')
         /**
          * If is owned by another style manager
@@ -48,7 +63,10 @@ export default class TextInputTemplate extends Template {
          */
         this.isOwned = isOwned;
 
-        this._observeInput = fromEvent(this.underlyingNode, 'input');
+        this._observeInput = fromEvent(this.underlyingNode, 'input')
+            .pipe(
+                map(event => event.target.value),
+                share());
 
         this.underlyingNode.addEventListener("input", () => {
             this.delegate.didSetStateTo(this, this.value);
@@ -64,10 +82,28 @@ export default class TextInputTemplate extends Template {
     }
 
     /**
-     * Sets focus
+     * Observes the focus of the text input.
+     * @return {Observable}
      */
-    focus() {
-        this.underlyingNode.focus();
+    observeFocus() {
+        return merge(
+            fromEvent(this.underlyingNode, 'focus')
+                .pipe(mapTo(true)),
+            fromEvent(this.underlyingNode, 'blur')
+                .pipe(mapTo(false))
+        );
+    }
+
+    /**
+     * Sets focus
+     * @param {boolean} [focusValue=true] false if to unfocus true if to
+     */
+    focus(focusValue = true) {
+        if (focusValue) {
+            this.underlyingNode.focus();
+        } else {
+            this.underlyingNode.blur();
+        }
     }
 
 

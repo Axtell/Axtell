@@ -53,7 +53,7 @@ export default class Language {
      * @return {HTMLElement}
      */
     icon() {
-        return <img class="icon logo" src={ this.iconURL }/>;
+        return <img src={ this.iconURL }/>;
     }
 
     /**

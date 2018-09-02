@@ -23,6 +23,11 @@
     // Because this is modal we'll start with 0 initial opacity
     opacity: 0;
 
+    // Flex so that way we can have body scroll
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
     @include fs-modal-scheme('default', $theme-color);
 
     .fs-modal__header {
@@ -57,5 +62,18 @@
                 }
             }
         }
+    }
+
+
+    // Wrapper for body to ensure correct width and padding etc.
+    .fs-modal__body {
+        flex: 1;
+
+        // Scroll just the body not anything else
+        overflow-y: auto;
+        // Scroll continously on webkit mobile
+        -webkit-overflow-scrolling: touch;
+
+        padding: 1rem;
     }
 }
