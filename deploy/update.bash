@@ -36,10 +36,13 @@ PYTHONPATH=$PYTHONPATH:/var/www/ppcg-v2 alembic upgrade head
 echo "REMOTE DEPLOY: CLEANING OLD JAVASCRIPT"
 rm -rf static/lib/*
 
-echo "REMOTE DEPLOY: RESTARTING SERVICE"
-sudo service ppcg-v2 restart
+echo "REMOTE DEPLOY: STOPPING SERVICE"
+sudo service ppcg-v2 stop
 
 echo "REMOTE DEPLOY: RESTARTING CELERY"
 celery multi stop w1 -A celery_server --logfile=w1.log --pidfile=w1.pid
 celery purge -f -A celery_server
 celery multi start w1 -A celery_server --logfile=w1.log --pidfile=w1.pid
+
+echo "REMOTE DEPLOY: STARTING SERVICE"
+sudo service ppcg-v2 start

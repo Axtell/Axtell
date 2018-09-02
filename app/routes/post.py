@@ -49,6 +49,16 @@ def get_post_preview(id):
     return render_template('post/preview.html', id=id)
 
 
+@server.route("/answer/<int:answer_id>/")
+def get_answer(answer_id):
+    answer = answer_controller.get_answer(answer_id)
+    try:
+        page = answer_controller.get_page(answer)
+    except ValueError:
+        return abort(404)
+    return redirect(url_for('get_post', post_id=answer.post_id, p=page) + f"#answer-{answer.id}", code=301)
+
+
 @server.route("/post/<int:post_id>", defaults={"title": None})
 @server.route("/post/<int:post_id>/<title>")
 def get_post(post_id, title=None):
