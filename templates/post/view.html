@@ -77,6 +77,15 @@
 
 <hr class="big">
 
+{% if g.user is not none -%}
+<div class="r-alt">
+    <button class="write-answer button button--color-accent button--align-center button--size-wide">
+        {% include "svg/pen.html" %}
+        Write answer
+    </button>
+</div>
+{%- endif %}
+
 <div id="responses">
     <div class="list-header">
         <h2>Answers</h2>
@@ -178,7 +187,7 @@
 {% block sidebar -%}
 <div class="content-sidebar fixed-aside">
     {% if g.user is not none -%}
-    <button id="write-answer" class="button button--color-accent button--align-center">
+    <button class="write-answer button button--color-accent button--align-center">
         {% include "svg/pen.html" %}
         Write answer
     </button>
