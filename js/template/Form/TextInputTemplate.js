@@ -3,7 +3,7 @@ import Random from '~/modern/Random';
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 
 import { merge, fromEvent } from 'rxjs';
-import { map, mapTo, share } from 'rxjs/operators';
+import { map, mapTo, share, startWith } from 'rxjs/operators';
 
 export const TextInputType = {
     Search: 'text-input--type-search',
@@ -69,6 +69,7 @@ export default class TextInputTemplate extends Template {
         this._observeInput = fromEvent(this.underlyingNode, 'input')
             .pipe(
                 map(event => event.target.value),
+                startWith(""),
                 share());
 
         this.underlyingNode.addEventListener("input", () => {

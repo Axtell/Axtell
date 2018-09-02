@@ -1,7 +1,7 @@
-@mixin button-style($name, $bg, $fg, $use-border: false, $prefer-active-state: false, $border-width: 1px) {
+@mixin button-style($name, $bg, $fg, $border-color: null, $prefer-active-dark: false, $prefer-active-state: false, $border-width: 1px) {
   .button.button--color-#{$name} {
-    @if $use-border {
-     border: $border-width solid $fg;
+    @if $border-color {
+      border: $border-width solid $border-color;
     } @else {
       border: $border-width solid $bg;
     }
@@ -11,7 +11,7 @@
     @if $bg == none {
       border: none;
     } @else {
-      @if not($use-border) {
+      @if not $border-color {
         border-bottom: 1px solid darken($bg, 5%);
       }
 
@@ -22,7 +22,7 @@
         $button-active-selector: ":hover";
       }
 
-      @if $use-border {
+      @if $border-color {
         &.button--pair {
           border-radius: 1em;
         }
@@ -33,14 +33,15 @@
       }
 
       &#{$button-active-selector} {
-        background: $fg;
-        @if $bg == transparent {
-          color: white;
+        @if $prefer-active-dark {
+          background: mix($bg, #000, 80%);
         } @else {
-          color: $bg;
-        }
-        path {
-          fill: currentColor;
+          background: $fg;
+          @if $bg == transparent {
+            color: white;
+          } @else {
+            color: $bg;
+          }
         }
       }
     }
@@ -75,7 +76,7 @@
   box-sizing: border-box;
   white-space: nowrap;
 
-  $button-shadow: 1px 4px rgba(0, 0, 0, 0.2), 0px -2px 4px rgba(210, 210, 210, 0.2);
+  $button-shadow: 4px 12px -6px rgba(0, 0, 0, .2);
   box-shadow: 0 $button-shadow;
 
   margin: 0;
@@ -167,6 +168,32 @@
       span { display: none }
     }
   }
+
+
+
+  // Button styles
+  &.button--style-plain {
+    height: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    font-size: 0.7rem;
+    padding: (3rem/8) (7rem/8);
+    border-radius: 4px;
+
+    vertical-align: auto;
+  }
+
+  &.button--style-minimal {
+    height: 2rem;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: .3125rem .973rem;
+    border-radius: 4px;
+
+    span { line-height: 0.9; }
+  }
 }
 
 // When using `button` root it does its own thing by default
@@ -178,8 +205,12 @@ button.button {
 @include button-style('accent', $accent-color, white);
 @include button-style('green', #2FCF8B, white);
 @include button-style('plain', none, $accent-color);
-@include button-style('accent-border', transparent, $accent-color, $use-border: true, $prefer-active-state: true);
-@include button-style('white-border', transparent, rgba(#FFF, 0.8), $use-border: true);
+@include button-style('accent-border', transparent, $accent-color, $border-color: $accent-color, $prefer-active-state: true);
+@include button-style('white-border', transparent, rgba(#FFF, 0.8), $border-color: transparent);
+@include button-style('black-on-white', #FFF, rgba(#000, 0.75), $border-color: rgba(#000, 0.1), $prefer-active-state: true);
+@include button-style('high-contrast', $hover-source, rgba($hover-mix, 0.75), $border-color: rgba($hover-mix, 0.1), $prefer-active-state: true);
+@include button-style('active-blue', $accent-color, #FFF, $border-color: transparent, $prefer-active-state: true);
+@include button-style('active-axtell', #25BCD4, #FFF, $border-color: transparent, $prefer-active-dark: true);
 
 .label-pair {
   svg {

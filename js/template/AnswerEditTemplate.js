@@ -26,8 +26,6 @@ export default class AnswerEditTemplate extends Template {
         this.actionDelegate = new ActionControllerDelegate();
 
         return (async () => {
-            const CM = await CodeMirror();
-
             const editor = await new CodeEditorTemplate();
             await editor.controller.setThemeType(CodeEditorThemeType.fromTheme(Theme.current));
             await editor.controller.setLanguage(answer.language);

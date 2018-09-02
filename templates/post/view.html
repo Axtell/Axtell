@@ -32,15 +32,15 @@
 
 {% block title %}{{ post.title|e }}{% endblock %}
 {% block main -%}
-<div id="post">
+<article id="post">
     {{ data('post', macros.json_to_b64(post.to_json(no_body=True))) }}
     <div class="list-header">
         <h1 class="list-header__item--pad-top"><a href="{{ canonical }}">{{ post.title|e }}</a></h1>
     </div>
     <div class="post-split main">
-        <div class="split-main body">
+        <article class="split-main body">
             {{ post_body|safe }}
-        </div>
+        </article>
     </div>
     <div id="post-action-list" class="post-action-list post-action-list--pad-horizontal">
         {% set vote_status = vote.get_post_vote(post.id) %}
@@ -73,8 +73,10 @@
         {%- endif %}
     </div>
     {{ commentList(post_comments) }}
-</div>
+</article>
+
 <hr class="big">
+
 <div id="responses">
     <div class="list-header">
         <h2>Answers</h2>
@@ -112,6 +114,7 @@
                 </div>
                 <div class="body">
                     {{ macros.highlight_answer(answer)|safe }}
+                    <article class="answer__commentary">{{ macros.render_markdown(answer.commentary)|safe }}</article>
                 </div>
                 <div class="post-action-list">
                     {% set vote_status = vote.get_answer_vote(answer.id) %}

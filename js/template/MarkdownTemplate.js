@@ -2,7 +2,7 @@ import MarkdownViewController from '~/controllers/MarkdownViewController';
 import Template from '~/template/Template';
 
 import { fromEvent } from 'rxjs';
-import { map, share } from 'rxjs/operators';
+import { map, share, startWith } from 'rxjs/operators';
 
 const minHeight = 16 * 8; // line-height * lines
 const reflowTargets = new Set();
@@ -35,6 +35,7 @@ export default class MarkdownTemplate extends Template {
         this._observeValue = fromEvent(textarea, 'input')
             .pipe(
                 map(event => event.target.value),
+                startWith(""),
                 share());
 
         this.defineLinkedInput('value', textarea);

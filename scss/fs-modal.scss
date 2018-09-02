@@ -1,6 +1,6 @@
-@mixin fs-modal-scheme($name, $color) {
-    &.fs-modal--scheme-#{$name} .fs-modal__header {
-        color: #FFF;
+@mixin fs-modal-scheme($name, $color, $fg) {
+    &.fs-modal--scheme-#{$name} {
+        color: $fg;
         background: $color;
     }
 }
@@ -28,39 +28,52 @@
     flex-direction: column;
     align-items: stretch;
 
-    @include fs-modal-scheme('default', $theme-color);
-
     .fs-modal__header {
         $fs-modal__header--height: 1.5rem;
-
-        display: flex;
-        flex-direction: row;
-
         padding: 1rem 1rem;
+        box-sizing: border-box;
 
         width: 100%;
 
-        .fs-modal__header__component {
-            box-sizing: border-box;
+        z-index: 29;
 
-            height: $fs-modal__header--height;
-            margin: 0 0.5rem;
+        @include fs-modal-scheme('default', #25BCD4, #FFF);
+        @include fs-modal-scheme('white', $subheader-bg, $hover-source);
 
-            &.fs-modal__header__component--type-title {
-                height: auto;
-                font-size: 1.2rem;
-                font-weight: 300;
-                display: flex;
-                align-items: center;
-            }
+        &.fs-modal__header--shadow {
+            box-shadow: 0 4px 16px -10px rgba(0, 0, 0, 0.4);
+        }
 
-            &.fs-modal__header__component--type-image {
-                padding: 4px;
+        .fs-modal__header__components {
+            display: flex;
+            flex-direction: row;
 
-                svg, img {
-                    fill: currentColor;
-                    color: currentColor;
-                    @include square(100%);
+            .fs-modal__header__component {
+                box-sizing: border-box;
+
+                height: $fs-modal__header--height;
+                margin: 0 0.5rem;
+
+                &.fs-modal__header__component--type-spacer {
+                    flex: 1;
+                }
+
+                &.fs-modal__header__component--type-title {
+                    height: auto;
+                    font-size: 1rem;
+                    font-weight: 300;
+                    display: flex;
+                    align-items: center;
+                }
+
+                &.fs-modal__header__component--type-image {
+                    @include square($fs-modal__header--height);
+
+                    svg, img {
+                        fill: currentColor;
+                        color: currentColor;
+                        @include square(100%);
+                    }
                 }
             }
         }

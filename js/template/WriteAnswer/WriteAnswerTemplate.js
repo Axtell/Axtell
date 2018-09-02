@@ -1,5 +1,5 @@
 import FullScreenModalTemplate from '~/template/FullScreenModalTemplate';
-import ButtonTemplate, { ButtonColor } from '~/template/ButtonTemplate';
+import ButtonTemplate, { ButtonColor, ButtonStyle } from '~/template/ButtonTemplate';
 import ProgressButtonTemplate from '~/template/ProgressButtonTemplate';
 import LoadingTemplate from '~/template/LoadingTemplate';
 import Analytics, { EventType } from '~/models/Analytics';
@@ -9,9 +9,12 @@ import CodeEditorTemplate from '~/template/CodeEditorTemplate';
 import MarkdownTemplate from '~/template/MarkdownTemplate';
 import FormConstraint from '~/controllers/Form/FormConstraint';
 import { HandleUnhandledPromise } from '~/helpers/ErrorManager';
+import Language from '~/models/Language';
+import Answer from '~/models/Request/Answer';
+import Theme from '~/models/Theme';
 
-import { combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { merge, combineLatest } from 'rxjs';
+import { filter, first, map, share, startWith, withLatestFrom } from 'rxjs/operators';
 
 /**
  * Instance of {@link FullScreenModalTemplate}
@@ -26,7 +29,13 @@ export default class WriteAnswerTemplate extends FullScreenModalTemplate {
 
         super({
             title: <span>Answering <strong>{ post.title }</strong></span>,
-            body: root.unique()
+            body: root.unique(),
+            icon: <img src={Theme.dark.imageForTheme('answer')}/>,
+            submitButton: new ProgressButtonTemplate({
+                text: 'Submit',
+                color: ButtonColor.activeAxtell,
+                style: ButtonStyle.plain
+            })
         });
 
         /**
@@ -46,6 +55,21 @@ export default class WriteAnswerTemplate extends FullScreenModalTemplate {
          * @type {LabelGroup}
          */
         this.languageInput = new LanguageInputTemplate();
+
+        /**
+         * Commentary field
+         * @type {MarkdownTemplate}
+         */
+        this.commentary = new MarkdownTemplate({
+            placeholder: 'Commentary',
+            autoResize: true
+        })
+
+        /**
+         * The validation observable. Only available after load
+         * @type {?Observable}
+         */
+        this.observeValidation = null;
 
         /**
          * The code editor
@@ -76,10 +100,7 @@ export default class WriteAnswerTemplate extends FullScreenModalTemplate {
             ),
             new LabelGroup(
                 'Commentary',
-                new MarkdownTemplate({
-                    placeholder: 'Commentary',
-                    autoResize: true
-                })
+                this.commentary
             )
         ];
 
@@ -90,6 +111,7 @@ export default class WriteAnswerTemplate extends FullScreenModalTemplate {
             </div>
         );
 
+        // Update syntax when language changes
         this.languageInput
             .observeValue()
             .subscribe(
@@ -98,6 +120,63 @@ export default class WriteAnswerTemplate extends FullScreenModalTemplate {
                         .controller
                         .setLanguage(language)
                         .catch(HandleUnhandledPromise));
+
+        // Observe validation of all fields
+        this.observeValidation = combineLatest(
+            labels.map(
+                label => label.observeValidation()),
+            // Combine is of all errors into one big error array
+            (...errors) => [].concat(...errors))
+            .pipe(
+                // If they are no errors then that means we're good
+                map(errors => errors.length === 0),
+                startWith(false),
+                share());
+
+        // Disable submission button when not validated.
+        this.observeValidation
+            .subscribe(
+                isComplete => this.submitButton.setIsDisabled(
+                    !isComplete,
+                    `Complete all required fields.`))
+
+        // Handles submit click
+        this.submitButton
+            // When we click the submit button...
+            .observeClick()
+            .pipe(
+                // Grab the latest values
+                withLatestFrom(
+                    // Of t he following items
+                    combineLatest(
+                        this.languageInput
+                            .observeValue(),
+                        this.codeEditor
+                            .observeValue(),
+                        this.commentary
+                            .observeValue()),
+                    // Ignore the click data
+                    (click, data) => data),
+                // Create an object from data
+                map(([language, code, commentary]) => ({ language, code, commentary })),
+                // Only able to submit once
+                first())
+            .subscribe(({ language, code, commentary }) => {
+                this.submitButton.controller.setLoadingState(true);
+                (async () => {
+
+                    const answer = new Answer({
+                        post: this.post,
+                        language: language,
+                        code: code,
+                        commentary: commentary
+                    });
+
+                    const redirectURL = await answer.run();
+                    window.location.href = redirectURL;
+
+                })().catch(HandleUnhandledPromise);
+            })
     }
 
     didLoad() {

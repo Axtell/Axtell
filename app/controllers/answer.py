@@ -60,7 +60,7 @@ def create_answer(post_id, code, commentary, lang_id=None, lang_name=None, encod
             notification_type=NotificationType.OUTGOLFED
         ))
 
-    return redirect(url_for('get_post', post_id=post_id, answer_id=new_answer.id) + f"#answer-{new_answer.id}")
+    return url_for('get_answer', answer_id=new_answer.id)
 
 
 def get_answers(post_id, page):

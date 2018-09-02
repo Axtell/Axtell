@@ -5,6 +5,7 @@ import ErrorManager from '~/helpers/ErrorManager';
 import Random from '~/modern/Random';
 
 import { fromEvent } from 'rxjs';
+import { map, share, startWith } from 'rxjs/operators';
 
 export const CodeEditorModeLoadError = Symbol('CodeEditor.Error.ModeLoad');
 export const CodeEditorThemeLoadError = Symbol('CodeEditor.Error.ThemeLoad');
@@ -48,7 +49,11 @@ export default class CodeEditorViewController extends ViewController {
 
             this._editor.getWrapperElement().controller = this;
 
-            this._observeValue = fromEvent(this._editor, 'change');
+            this._observeValue = fromEvent(this._editor, 'change')
+                .pipe(
+                    map(([editor]) => editor.getValue()),
+                    startWith(""),
+                    share());
 
             /**
              * @type {CodeEditorTheme}
@@ -133,6 +138,7 @@ export default class CodeEditorViewController extends ViewController {
         if (shouldAutoresize) {
             this._editor.getWrapperElement().style.height = 'auto';
             this._editor.setOption('viewportMargin', Infinity);
+            this._editor.refresh();
         } else {
             this._editor.setOption('viewportMargin', 10);
         }

@@ -19,12 +19,14 @@ def publish_answer():
     code = b64decode(request.form['code'])
     lang_id = request.form.get('lang_id', None)
     lang_name = request.form.get('lang_name', None)
-    encoding = request.form.get('encoding', 'utf8')
-
-    # TODO: Perhaps validate commentary exists?
+    encoding = request.form.get('encoding', 'UTF-8')
     commentary = request.form.get('commentary', "")
 
-    return answer.create_answer(post_id, code, commentary, lang_id=lang_id, lang_name=lang_name, encoding=encoding)
+    redirect_url = answer.create_answer(post_id, code, commentary, lang_id=lang_id, lang_name=lang_name, encoding=encoding)
+    if request.headers.get('Accept', '') == 'application/json':
+        return render_json({'redirect': redirect_url})
+    else:
+        return redirect(redirect_url)
 
 
 @server.route('/answer/edit/<int:answer_id>', methods=['POST'])

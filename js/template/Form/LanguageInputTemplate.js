@@ -5,7 +5,7 @@ import TextInputTemplate, { TextInputType } from '~/template/Form/TextInputTempl
 import LanguageTemplate, { LanguageFixedTemplate } from '~/template/LanguageTemplate';
 
 import { combineLatest, fromEvent, BehaviorSubject } from 'rxjs';
-import { map, mapTo, filter, share, distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, mapTo, share, startWith } from 'rxjs/operators';
 
 /**
  * Language picker template.
@@ -44,8 +44,7 @@ export default class LanguageInputTemplate extends Template {
             .pipe(
                 distinctUntilChanged(
                     (oldLanguage, newLanguage) =>
-                        oldLanguage && newLanguage && oldLanguage.equal(newLanguage)),
-                share());
+                        oldLanguage && newLanguage && oldLanguage.equal(newLanguage)));
 
         root.appendChild(
             <DocumentFragment>

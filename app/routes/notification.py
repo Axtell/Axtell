@@ -1,5 +1,8 @@
 from app.controllers import notifications
 from app.models.Answer import Answer
+from app.models.AnswerComment import AnswerComment
+from app.models.AnswerComment import AnswerComment
+from app.models.PostComment import PostComment
 from app.models.Notification import NotificationStatus
 from app.models.User import User
 from app.session.csrf import csrf_protected
@@ -91,11 +94,21 @@ def notification_responder(notification_id, name, target_id):
         if parsed_id is None:
             return abort(404)
 
-        answer = Answer.query.filter_by(id=parsed_id).first()
-        if answer is None:
+        return redirect(url_for('get_answer', answer_id=parsed_id, s=responder_parameter), code=301)
+
+    if name == 'answer_comment':
+        answer_comment = AnswerComment.query.filter_by(id=parsed_id).first()
+        if answer_comment is None:
             return abort(404)
 
-        return redirect(url_for('get_post', post_id=answer.post_id, s=responder_parameter), code=301)
+        return redirect(url_for('get_answer', answer_id=answer_comment.answer.id, s=responder_parameter), code=301)
+
+    if name == 'post_comment':
+        post_comment = PostComment.query.filter_by(id=parsed_id).first()
+        if post_comment is None:
+            return abort(404)
+
+        return redirect(url_for('get_post', post_id=post_comment.post.id, s=responder_parameter), code=301)
 
     if name == 'post':
         if parsed_id is None:

@@ -23,6 +23,12 @@ export default class CodeEditorTemplate extends Template {
         })();
     }
 
+    /** @override */
+    didLoad() {
+        super.didLoad();
+        this.controller._editor.refresh();
+    }
+
     // MARK: - InputInterface
     /** @override */
     observeValue() {

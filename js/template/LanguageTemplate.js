@@ -28,7 +28,7 @@ export class LanguageFixedTemplate extends Template {
     * @param {Language} language - Language object
      */
     constructor(language) {
-        let close = <div class="lang-box__close"><img src="/static/img/close.svg"/></div>;
+        let close = <a class="lang-box__close"><img src="/static/img/close.svg"/></a>;
 
         super(
             <div class="lang-box lang-box--fixed">

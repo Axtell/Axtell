@@ -26,6 +26,11 @@
     margin-bottom: 0;
   }
 
+  .answer__commentary {
+    padding: 1rem;
+    font-size: 1rem;
+  }
+
   .delete-button {
     // @include action-button-style(#E03830);
     @include action-button-hover(

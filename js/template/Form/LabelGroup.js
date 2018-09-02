@@ -6,8 +6,8 @@ import SVG from '~/models/Request/SVG';
 import Theme from '~/models/Theme';
 import Random from '~/modern/Random';
 
-import { merge, fromEvent } from 'rxjs';
-import { share, map, distinctUntilChanged } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { share, skip, map, distinctUntilChanged } from 'rxjs/operators';
 
 import tippy from 'tippy.js/dist/tippy.all.min.js';
 
@@ -83,8 +83,12 @@ export default class LabelGroup extends Template {
                     share());
 
             this._observeValidation
+                .pipe(
+                    skip(1))
                 .subscribe(
                     errors => this.validate(errors))
+        } else {
+            this._observeValidation = of([])
         }
 
         // Load button
@@ -125,14 +129,14 @@ export default class LabelGroup extends Template {
      * guarantee of the sync with UI.
      * @type {any}
      */
-    get value() { return this.input.input.value; }
+    get value() { return this.input.userInput.value; }
 
     /**
      * Sets the value of the type. USE of this setter is NOT reccomended.
      * @param {any} newValue
      */
     set value(newValue) {
-        this.input.input.value = newValue;
+        this.input.userInput.value = newValue;
     }
 
     /**
@@ -161,7 +165,7 @@ export default class LabelGroup extends Template {
      * @param {number} time - delay in the queue see repsective interactor fn
      */
     foreignSynchronize(interactor, key, time = 70) {
-        this.input.input.addEventListener('input', (event) => {
+        this.input.userInput.addEventListener('input', (event) => {
             interactor.queueKey(key, time, this.input.value);
         });
     }
