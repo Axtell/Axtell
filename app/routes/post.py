@@ -56,10 +56,10 @@ def get_answer(answer_id):
         page = answer_controller.get_page(answer)
     except ValueError:
         return abort(404)
-    return redirect(url_for('get_post', post_id=answer.post_id, p=page) + f"#answer-{answer.id}", code=301)
+    return redirect(url_for('get_post', post_id=answer.post_id, p=page) + f'#answer-{answer_id}', code=301)
 
 
-@server.route("/post/<int:post_id>", defaults={"title": None})
+@server.route("/post/<int:post_id>/", defaults={"title": None})
 @server.route("/post/<int:post_id>/<title>")
 def get_post(post_id, title=None):
     # Locate post
@@ -76,7 +76,8 @@ def get_post(post_id, title=None):
     # Redirect if slug is incorrect. add 'noredirect=1' flag to avoid infinite redirection in
     # exceptional circumstances
     if title != slug and request.args.get('noredirect', '0') != '1':
-        return redirect(url_for('get_post', post_id=post_id, title=slug, **request.args, noredirect=1), code=301)
+        canonical_url = url_for('get_post', p=request.args.get('p'), post_id=post_id, title=slug, noredirect=1)
+        return redirect(canonical_url, code=301)
 
     # Render main post's markdown
     body = markdown.render_markdown.delay(matched_post.body).wait()
