@@ -134,13 +134,13 @@ To track pageviews etc. you can setup Google Analytics. In the dashboard you nee
 ##### Property Settings
 
 Field | Value
---------------
+------|-------
 Advertising Features > Enable Demographics and Interest Reports | Off
 
 ##### Tracking Info
 
 Field | Value
--------------
+------|------
 Data Collection > Remarketing | Off
 Data Collection > Advertising Reporting Features | Off
 Data Collection > Advertising Reporting Features | Off
@@ -148,7 +148,7 @@ Data Collection > Advertising Reporting Features | Off
 ##### Filters
 
  Name | Type | Option | Field | Value
---------------------------------------
+------|------|--------|-------|-------
 Post Preview | Custom | Search and Replace | Request URI | Replace `/post/preview.*` with `/post/preview` **not** case sensitive |
 
 
