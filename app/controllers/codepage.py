@@ -1,8 +1,17 @@
 import golflang_encodings
+from codecs import lookup as lookup_codec
 
+def get_normalized_encoding(encoding):
+    try:
+        return lookup_codec(encoding).name
+    except LookupError:
+        return None
 
 def get_codepage(encoding):
-    if encoding.lower() in ['utf-8', 'u8', 'utf', 'utf8', 'utf-16', 'u16', 'utf16']:
+    # Normalize name
+    try:
+        normalized_name = lookup_codec(encoding)
+    except LookupError:
         return None
 
     golflang_codepages = {name.lower(): codepage

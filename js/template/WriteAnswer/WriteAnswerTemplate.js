@@ -89,9 +89,7 @@ export default class WriteAnswerTemplate extends FullScreenModalTemplate {
         await super.didInitialLoad();
 
         this.codeEditor = await new CodeEditorTemplate();
-        // this.encoding = new EncodingInputTemplate(await Encoding.query());
-
-        window.l = Encoding;
+        this.encoding = new EncodingInputTemplate(await Encoding.query());
 
         // Create labels
         const languageLabel = new LabelGroup(
@@ -100,6 +98,15 @@ export default class WriteAnswerTemplate extends FullScreenModalTemplate {
             {
                 liveConstraint: new FormConstraint()
                     .hasValue('Choose a language')
+            }
+        );
+
+        const encodingLabel = new LabelGroup(
+            'Encoding',
+            this.encoding,
+            {
+                liveConstraint: new FormConstraint()
+                    .hasValue('Choose an encoding')
             }
         );
 
@@ -116,8 +123,9 @@ export default class WriteAnswerTemplate extends FullScreenModalTemplate {
         // Load the view
         this.root.displayAlternate(
             <div>
-                <div>
+                <div class="form-grouping form-grouping--responsive-2x">
                     { languageLabel.unique() }
+                    { encodingLabel.unique() }
                 </div>
                 { codeLabel.unique() }
                 { commentaryLabel.unique() }
@@ -134,10 +142,26 @@ export default class WriteAnswerTemplate extends FullScreenModalTemplate {
                         .setLanguage(language)
                         .catch(HandleUnhandledPromise));
 
+        // Update encoding if applicable
+        this.languageInput
+            .observeValue()
+            .pipe(
+                filter(language => language !== null),
+                withLatestFrom(
+                    this.encoding
+                        .observeValue()),
+                // Only update if language doesn't have
+                filter(([language, encoding]) => encoding === null),
+                map(([language, encoding]) => language.encoding()))
+            .subscribe(newEncoding => {
+                this.encoding.value.next(newEncoding);
+            });
+
         // Observe validation of all fields
         this.observeValidation = combineLatest(
             languageLabel.observeValidation(),
             codeLabel.observeValidation(),
+            encodingLabel.observeValidation(),
             commentaryLabel.observeValidation(),
             // Combine is of all errors into one big error array
             (...errors) => [].concat(...errors))
@@ -167,15 +191,17 @@ export default class WriteAnswerTemplate extends FullScreenModalTemplate {
                             .observeValue(),
                         this.codeEditor
                             .observeValue(),
+                        this.encoding
+                            .observeValue(),
                         this.commentary
                             .observeValue()),
                     // Ignore the click data
                     (click, data) => data),
                 // Create an object from data
-                map(([language, code, commentary]) => ({ language, code, commentary })),
+                map(([language, code, encoding, commentary]) => ({ language, code, encoding, commentary })),
                 // Only able to submit once
                 first())
-            .subscribe(({ language, code, commentary }) => {
+            .subscribe(({ language, code, encoding, commentary }) => {
                 this.submitButton.controller.setLoadingState(true);
                 (async () => {
 
@@ -183,6 +209,7 @@ export default class WriteAnswerTemplate extends FullScreenModalTemplate {
                         post: this.post,
                         language: language,
                         code: code,
+                        encoding: encoding,
                         commentary: commentary
                     });
 

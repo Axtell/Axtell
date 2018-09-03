@@ -1,3 +1,15 @@
+.form-grouping {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  > * { flex: 1; }
+
+  &.form-grouping--responsive-2x {
+    @media (max-width: 600px) { flex-direction: column; }
+  }
+}
+
 .item-wrap {
   padding: 1em;
   box-sizing: border-box;

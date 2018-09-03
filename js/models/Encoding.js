@@ -1,5 +1,6 @@
 import EncodingRequest from '~/models/Request/Encoding';
 import Encodings from '~/models/Request/Encodings';
+import Query from '~/models/Query';
 
 export const NATIVE_ENCODINGS = ['UTF-8', 'UTF-16', 'ISO-8859-1'];
 
@@ -8,32 +9,21 @@ export const NATIVE_ENCODINGS = ['UTF-8', 'UTF-16', 'ISO-8859-1'];
  */
 export default class Encoding {
     /**
-     * Encoding name. If not a valid encoding undefined behavior. Reccomended to use fromName static
+     * Encoding name. If not a valid encoding undefined behavior. Recommended to use fromName static
      * @param {string} name - associated name
-     * @param {?Object} data - If a special encoding then not needed
      */
-    constructor(name, data) {
-        if (data) {
-            /** @private */
-            this.selfToUnicode = data;
-
-            /** @private */
-            this.unicodeToSelf = Object.create(null);
-
-            for (let sourcePoint in data) {
-                if (data.hasOwnProperty(sourcePoint)) {
-                    const unicodePoint = data[sourcePoint];
-                    this.unicodeToSelf[unicodePoint] = sourcePoint;
-                }
-            }
-        }
-
-        /** @private */
+    constructor(name) {
+        /**
+         * The actual name of the encoding suitable for delivering to backend
+         * @type {string}
+         */
         this.name = name;
     }
 
     /** @type {string} */
-    get displayName() { return this.name; }
+    get displayName() {
+        return this.name.replace(/_/g, '-').toUpperCase();
+    }
 
     /**
      * Byte-length of a JS string in this encoding
@@ -43,7 +33,7 @@ export default class Encoding {
     byteCount(string) {
         let byteLength = 0;
         switch(string) {
-        case 'UTF-8':
+        case 'utf-8':
             for (let i = 0; i < s.length; i++) {
                 let code = s.charCodeAt(i);
                 if (code <= 0x7f) {
@@ -63,7 +53,7 @@ export default class Encoding {
             }
             break;
 
-        case 'UTF-16':
+        case 'utf-16':
             byteLength = string.length;
             break;
 
@@ -85,33 +75,42 @@ export default class Encoding {
             return Encoding._codepages;
 
         const encodingNames = await new Encodings().run();
-        let encodings = [];
+        let encodings = new Set();
         for (const encodingName of encodingNames) {
-            encodings.push(await Encoding.fromName(encodingName));
+            encodings.add(Encoding.fromName(encodingName));
         }
+        Encoding._codepages = new Set()
         return encodings;
     }
     static _codepages = null;
+
+    /**
+     * Obtains query
+     * @return {Promise<Query<Encoding>>}
+     */
+    static async query() {
+        if (Encoding._query !== null)
+            return Encoding._query;
+
+        return Encoding._quey = new Query(
+            [...await Encoding.all()],
+            (encoding) => encoding.name
+        );
+    }
+    static _query = null;
 
     /**
      * Gets from an encoding name
      * @param {string} name
      * @return {Encoding}
      */
-    static async fromName(name) {
-        if (NATIVE_ENCODINGS.includes(name)) {
-            return new Encoding(name, null);
-        } else {
-            if (Encoding._encodingCache.has(name))
-                return Encoding._encodingCache.get(name);
+    static fromName(name) {
+        if (Encoding._encodingCache.has(name))
+            return Encoding._encodingCache.get(name);
 
-            const encoding = new Encoding(
-                name,
-                await new EncodingRequest(name).run()
-            );
-            Encoding._encodingCache.set(name, encoding);
-            return encoding;
-        }
+        const encoding = new Encoding(name);
+        Encoding._encodingCache.set(name, encoding);
+        return encoding;
     }
     static _encodingCache = new Map();
 }

@@ -21,12 +21,12 @@ export default class EncodingInputTemplate extends SearchInputTemplate {
     // MARK: - SearchInputTemplate
     /** @override */
     resultTemplateFor(result) {
-        return new LanguageTemplate(result);
+        return new EncodingTemplate(result);
     }
 
     /** @override */
     fixedTemplateFor(result) {
-        return new LanguageFixedTemplate(result);
+        return new EncodingFixedTemplate(result);
     }
 
     /** @override */

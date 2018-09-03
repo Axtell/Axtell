@@ -6,10 +6,10 @@ import Request, { HTTPMethod } from '~/models/Request/Request';
 export default class Encoding extends Request {
     /**
      * @param {Object} data
-     * @return {Object}
+     * @return {string[]}
      */
     format(data) {
-        return data;
+        return data.encodings;
     }
 
     /**

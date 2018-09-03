@@ -4,7 +4,7 @@ from app.server import server
 from app.controllers import codepage as codepage_controller
 from misc import path_for_icon, default_svg
 from jinja2.exceptions import TemplateNotFound
-from flask import abort, redirect
+from flask import request, abort, redirect, url_for
 import golflang_encodings
 
 
@@ -121,13 +121,18 @@ def get_all_encodings():
 
 @server.route("/codepage/<encoding>")
 def codepage(encoding):
-    if encoding.lower() in ['utf-8', 'u8', 'utf', 'utf8']:
+    normalized_encoding = codepage_controller.get_normalized_encoding(encoding)
+
+    if normalized_encoding != encoding and request.args.get('noredirect', '0') != '1':
+        return redirect(url_for('codepage', encoding=normalized_encoding, noredirect=1), code=301)
+
+    if normalized_encoding == 'utf-8':
         return redirect('https://en.wikipedia.org/wiki/UTF-8', code=303)
 
-    if encoding.lower() in ['utf-16', 'u16', 'utf16']:
+    if normalized_encoding == 'utf-16':
         return redirect('https://en.wikipedia.org/wiki/UTF-16', code=303)
 
-    raw_codepage = codepage_controller.get_codepage(encoding)
+    raw_codepage = codepage_controller.get_codepage(normalized_encoding)
 
     if not raw_codepage:
         return abort(404)
@@ -138,7 +143,7 @@ def codepage(encoding):
     for self_codepoint, unicode_codepoint in raw_codepage.items():
         mapped_codepage[self_codepoint // 16][self_codepoint % 16] = (chr(unicode_codepoint), unicode_codepoint)
 
-    return render_template('codepage.html', encoding=encoding, codepage=mapped_codepage)
+    return render_template('codepage.html', encoding=normalized_encoding, codepage=mapped_codepage)
 
 
 @server.route("/static/encodings/<encoding>")

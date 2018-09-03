@@ -48,7 +48,7 @@ export default class EditAnswerViewController extends PostButtonViewController {
         this.editor.displayAlternate(answerEditor);
 
         const originalByteCount = this.answerController.byteCount;
-        const answerEncoding = await this.answerController.answer.language.encoding();
+        const answerEncoding = this.answerController.answer.language.encoding();
 
         answerEditor.navigationDelegate.shouldClose = async (controller, context) => {
             if (context) {

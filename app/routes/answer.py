@@ -19,7 +19,7 @@ def publish_answer():
     code = b64decode(request.form['code'])
     lang_id = request.form.get('lang_id', None)
     lang_name = request.form.get('lang_name', None)
-    encoding = request.form.get('encoding', 'UTF-8')
+    encoding = request.form.get('encoding', 'utf-8')
     commentary = request.form.get('commentary', "")
 
     redirect_url = answer.create_answer(post_id, code, commentary, lang_id=lang_id, lang_name=lang_name, encoding=encoding)

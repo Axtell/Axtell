@@ -44,8 +44,8 @@ export default class Language {
      * User-friendly and machine encoding
      * @return {Encoding}
      */
-    async encoding() {
-        return await Encoding.fromName(languages.encoding[this.id] || 'UTF-8');
+    encoding() {
+        return Encoding.fromName(languages.encoding[this.id] || 'UTF-8');
     }
 
     /**
