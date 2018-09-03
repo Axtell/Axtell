@@ -22,13 +22,13 @@ class TestStatic(TestFlask):
         self.assertTrue(result.content_type.startswith('text/html'))
 
     def test_codepage(self):
-        result = self.client.get('/static/encodings/jelly')
+        result = self.client.get('/encodings/mapping/jelly')
         self.assertEqual(result.status_code, 200)
         codepage = {int(k): v for k, v in result.json['jelly'].items()}
         self.assertEqual(codepage, golflang_encodings.add_encodings.codepages.get('Jelly'))
 
     def test_all_encodings(self):
-        result = self.client.get('/static/encodings')
+        result = self.client.get('/encodings/all')
         self.assertEqual(result.status_code, 200)
         json_result = json.loads(result.data)
         encodings = frozenset(json_result['encodings'])
