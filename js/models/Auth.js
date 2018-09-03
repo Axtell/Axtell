@@ -1,6 +1,6 @@
 import User from '~/models/User';
 import Data from '~/models/Data';
-import { Bugsnag } from '~/helpers/ErrorManager';
+import { Bugsnag } from '~/helpers/Bugsnag';
 import axios from 'axios/dist/axios.min.js';
 
 import ModalController from '~/controllers/ModalController';

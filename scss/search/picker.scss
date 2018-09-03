@@ -23,6 +23,11 @@
 
     z-index: 21;
 
+    &.search-picker--empty {
+        padding: 0.5rem 0;
+        text-align: center;
+    }
+
     .search-picker__list {
         padding: 0;
         margin: 0;
