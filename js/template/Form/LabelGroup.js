@@ -26,13 +26,15 @@ export default class LabelGroup extends Template {
      * @param {FormConstraint} [o.liveConstraint=null] - Contraints already setup to show
      * @param {?ForeignInteractor} [o.interactor=null] - Foreign interactor to link `{ foreignInteractor: ForeignInteractor, label: String }`
      * @param {boolean} [o.hideLabel=false] - If label should be hidden
+     * @param {?number} [o.weight=null] - If in group how much weight (default is one)
      */
     constructor(label, input, {
         tooltip = "",
         button = null,
         liveConstraint = null,
         interactor = null,
-        hideLabel = false
+        hideLabel = false,
+        weight = null
     } = {}) {
         const normalizedLabel = label.toLowerCase().replace(/[^a-z]/g, '');
         const id = `lg-${normalizedLabel}-${Random.ofLength(16)}`;
@@ -101,11 +103,23 @@ export default class LabelGroup extends Template {
                 .catch(HandleUnhandledPromise);
         }
 
+        if (weight !== null) {
+            this.weight = weight;
+        }
+
         /** @type {TextInputTemplate} */
         this.input = input;
 
         this.defineLinkedClass('padTop', 'item-wrap--pad-top');
         this.defineLinkedClass('padHorizontal', '!item-wrap--nopad-horizontal');
+    }
+
+    /**
+     * Sets the weight in a group
+     * @type {number}
+     */
+    set weight(newWeight) {
+        this.underlyingNode.style.flex = `${newWeight}`;
     }
 
     /**

@@ -96,6 +96,7 @@ export default class WriteAnswerTemplate extends FullScreenModalTemplate {
             'Language',
             this.languageInput,
             {
+                weight: 2,
                 liveConstraint: new FormConstraint()
                     .hasValue('Choose a language')
             }
@@ -147,12 +148,7 @@ export default class WriteAnswerTemplate extends FullScreenModalTemplate {
             .observeValue()
             .pipe(
                 filter(language => language !== null),
-                withLatestFrom(
-                    this.encoding
-                        .observeValue()),
-                // Only update if language doesn't have
-                filter(([language, encoding]) => encoding === null),
-                map(([language, encoding]) => language.encoding()))
+                map(language => language.encoding()))
             .subscribe(newEncoding => {
                 this.encoding.value.next(newEncoding);
             });

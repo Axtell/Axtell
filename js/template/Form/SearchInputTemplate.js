@@ -59,7 +59,7 @@ export default class SearchInputTemplate extends Template {
             .pipe(
                 distinctUntilChanged(
                     (itemA, itemB) =>
-                        itemA && itemB && itemA.equal(itemB)));
+                        itemA && itemB && this.compare(itemA, itemB)));
 
         root.appendChild(
             <DocumentFragment>

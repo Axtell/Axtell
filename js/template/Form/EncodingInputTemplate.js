@@ -36,6 +36,6 @@ export default class EncodingInputTemplate extends SearchInputTemplate {
 
     /** @override */
     compare(a, b) {
-        return a.equal(b);
+        return a.name === b.name;
     }
 }
