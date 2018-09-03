@@ -17,7 +17,7 @@ export default class Encoding extends Request {
      */
     constructor() {
         super({
-            path: `/static/encodings`,
+            path: `/encodings/all`,
             method: HTTPMethod.GET
         });
     }

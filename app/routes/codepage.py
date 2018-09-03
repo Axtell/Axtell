@@ -114,7 +114,7 @@ GOLFLANG_ENCODINGS = frozenset(golflang_encodings.add_encodings.codepages.keys()
 ALL_ENCODINGS = PYTHON_STD_ENCODINGS | GOLFLANG_ENCODINGS
 
 
-@server.route("/static/encodings")
+@server.route("/encodings/all")
 def get_all_encodings():
     return render_json({'encodings': list(ALL_ENCODINGS)})
 
@@ -146,7 +146,7 @@ def codepage(encoding):
     return render_template('codepage.html', encoding=normalized_encoding, codepage=mapped_codepage)
 
 
-@server.route("/static/encodings/<encoding>")
+@server.route("/encodings/mapping/<encoding>")
 def get_encoding(encoding):
     raw_codepage = codepage_controller.get_codepage(encoding)
     if raw_codepage:
