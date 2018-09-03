@@ -22,6 +22,9 @@ export default class ProgressButtonController extends ViewController {
         /** @type {ActionControllerDelegate} */
         this.delegate = new ActionControllerDelegate();
 
+        /** @boolean */
+        this.isLoading = false;
+
         this.button.addEventListener('click', () => this.delegate.didSetStateTo(this, true));
     }
 
@@ -32,6 +35,7 @@ export default class ProgressButtonController extends ViewController {
     setLoadingState(isLoading) {
         this.delegate.didChangeProgressState(this, isLoading);
         if (isLoading) {
+            this.isLoading = true;
             this.button.classList.add('button--color-disabled');
             this._clearChildren();
 
@@ -40,6 +44,7 @@ export default class ProgressButtonController extends ViewController {
             );
 
         } else {
+            this.isLoading = false;
             this.button.classList.remove('button--color-disabled');
             this._clearChildren();
 

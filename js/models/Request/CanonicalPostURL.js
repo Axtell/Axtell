@@ -2,6 +2,7 @@ import Request from '~/models/Request/Request';
 
 /**
  * Obtains canonical URL of a post
+ * @extends {Request}
  */
 export default class CanonicalPostURL extends Request {
     /** @override */

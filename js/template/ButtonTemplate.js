@@ -2,6 +2,9 @@ import Template from '~/template/Template';
 import { HandleUnhandledPromise } from '~/helpers/ErrorManager';
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 
+import { fromEvent } from 'rxjs';
+import { filter } from 'rxjs/operators';
+
 import tippy from 'tippy.js/dist/tippy.all.min.js';
 
 /**
@@ -11,13 +14,32 @@ import tippy from 'tippy.js/dist/tippy.all.min.js';
  * @property {Object} blue - Blue background
  * @property {Object} plain - No special coloring just blue text
  * @property {Object} accentBorder - Accent border and foreground
+ * @property {Object} blackOnWhite - white button
+ * @property {Object} highContrast - always maintains max contrast
+ * @property {Object} activeBlue - non-transitioning theme color
+ * @property {Object} activeAxtell - non-transitioning theme color of axtell
  */
 export const ButtonColor = {
     green: 'green',
     accent: 'accent',
     blue: 'blue',
-    plain: null,
-    accentBorder: 'accent-border'
+    plain: 'plain',
+    accentBorder: 'accent-border',
+    blackOnWhite: 'black-on-white',
+    highContrast: 'high-contrast',
+    activeBlue: 'active-blue',
+    activeAxtell: 'active-axtell'
+};
+
+/**
+ * @typedef {Object} ButtonStyle
+ * @property {Object} normal - Normal default style
+ * @property {Object} plain - A small caps amd smaller style
+ */
+export const ButtonStyle = {
+    normal: '',
+    plain: 'plain',
+    minimal: 'minimal',
 };
 
 /**
@@ -25,30 +47,23 @@ export const ButtonColor = {
  */
 export default class ButtonTemplate extends Template {
     /**
+     * @param {Object} opts
      * @param {string} options.text - The text of the button
-     * @param {Element} options.icon - The icon node
+     * @param {?Element} options.icon - The icon node
      * @param {ButtonColor} options.color
+     * @param {ButtonStyle} [options.style=default]
      */
-    constructor({ text, icon, color }) {
+    constructor({ text, icon, color, style = ButtonStyle.normal }) {
         let node;
 
         if (icon) text = " " + text;
 
-        if (color === null) {
-            node = (
-                <button class="button button--shadow-none button--color-plain button--align-center">
-                    { icon || <DocumentFragment/> }
-                    { " " }
-                </button>
-            );
-        } else {
-            node = (
-                <button class={`button button--color-${color} button--align-center`}>
-                    { icon || <DocumentFragment/> }
-                    { " " }
-                </button>
-            );
-        }
+        node = (
+            <button class={`button button--color-${color} button--align-center button--style-${style}`}>
+                { icon || <DocumentFragment/> }
+                { " " }
+            </button>
+        );
 
         super(node);
 
@@ -106,6 +121,10 @@ export default class ButtonTemplate extends Template {
 
         this._isDisabled = false;
 
+        this._observeClick = fromEvent(node, 'click')
+            .pipe(
+                filter(() => !this._isDisabled));
+
         node.addEventListener("click", () => {
             if (this._isDisabled) return;
             this.trigger().catch(HandleUnhandledPromise);
@@ -113,6 +132,14 @@ export default class ButtonTemplate extends Template {
 
         this._message = null;
 
+    }
+
+    /**
+     * Observes the click of the button
+     * @return {Observable}
+     */
+    observeClick() {
+        return this._observeClick;
     }
 
     /**

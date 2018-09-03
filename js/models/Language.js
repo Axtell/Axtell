@@ -44,8 +44,8 @@ export default class Language {
      * User-friendly and machine encoding
      * @return {Encoding}
      */
-    async encoding() {
-        return await Encoding.fromName(languages.encoding[this.id] || 'UTF-8');
+    encoding() {
+        return Encoding.fromName(languages.encoding[this.id] || 'UTF-8');
     }
 
     /**
@@ -53,7 +53,7 @@ export default class Language {
      * @return {HTMLElement}
      */
     icon() {
-        return <img class="icon logo" src={ this.iconURL }/>;
+        return <img src={ this.iconURL }/>;
     }
 
     /**

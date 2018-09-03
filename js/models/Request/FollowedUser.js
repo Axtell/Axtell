@@ -14,6 +14,7 @@ export const FollowedType = {
 
 /**
  * Gets both **followed and following** users.
+ * @extends {Request}
  */
 export default class FollowedUser extends PagedRequest {
     /** @override */

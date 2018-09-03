@@ -18,6 +18,9 @@ export default class ProgressButtonTemplate extends ButtonTemplate {
 
     /** @override */
     async trigger() {
+        // Don't trigger if already loading
+        if (this.controller.isLoading) return;
+
         this.controller.setLoadingState(true);
 
         try {

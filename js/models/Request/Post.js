@@ -2,6 +2,7 @@ import Request, { HTTPMethod } from '~/models/Request/Request';
 
 /**
  * Describes a post.
+ * @extends {Request}
  */
 export default class Post extends Request {
     /**

@@ -4,6 +4,7 @@ import Notification from '~/models/Notification';
 
 /**
  * Obtains a series of Notification objects
+ * @extends {PagedRequest}
  */
 export default class Notifications extends PagedRequest {
     /**

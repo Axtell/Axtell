@@ -6,25 +6,43 @@ import SVG from '~/models/Request/SVG';
 import Theme from '~/models/Theme';
 import Random from '~/modern/Random';
 
+import { of } from 'rxjs';
+import { share, skip, map, distinctUntilChanged } from 'rxjs/operators';
+
 import tippy from 'tippy.js/dist/tippy.all.min.js';
 
+/**
+ * A label group is an input along with surrounding metadata. This means this
+ * manages validation, interaction, labels, and more. This also allows you to
+ * configure tooltips.
+ *
+ * The label group can mount any item that implements the {@link InputInterface}
+ * interface.
+ */
 export default class LabelGroup extends Template {
     /**
-     * A group of label and the input
-     * @param {string} label -
-     * @param {TextInputTemplate} input
+     * A group of label and the input.
+     *
+     * If you do supply a template. Ensure it has `.input` attribute which
+     * evaluates to the underling HTMLInputElement which can be observed for
+     * value updates. See {@link InputInterface}
+     *
+     * @param {string} label - The label (self-explantory)
+     * @param {InputInterface} input - The input to mount
      * @param {?string} o.tooltip Some info describing what
      * @param {?ButtonTemplate} o.button - Pass if you want to keep a button within label group for alignment purposes
      * @param {FormConstraint} [o.liveConstraint=null] - Contraints already setup to show
      * @param {?ForeignInteractor} [o.interactor=null] - Foreign interactor to link `{ foreignInteractor: ForeignInteractor, label: String }`
-     * @param {boolean} [o.hideLabel=false] - If label should be hidden
+     * @param {boolean} [o.hideLabel=false] - If label should be hidden.
+     * @param {?number} [o.weight=null] - If in group how much weight (default is one)
      */
     constructor(label, input, {
         tooltip = "",
         button = null,
         liveConstraint = null,
         interactor = null,
-        hideLabel = false
+        hideLabel = false,
+        weight = null
     } = {}) {
         const normalizedLabel = label.toLowerCase().replace(/[^a-z]/g, '');
         const id = `lg-${normalizedLabel}-${Random.ofLength(16)}`;
@@ -44,18 +62,21 @@ export default class LabelGroup extends Template {
 
         // Input element
         const elem = input.loadInContext(root);
-        elem.id = id;
 
         /** @type {ActionControllerDelegate} */
         this.validationDelegate = new ActionControllerDelegate();
 
-        const inputTarget = elem instanceof HTMLInputElement ? elem : input.input;
+        const userInputTarget = input.userInput;
+        if (userInputTarget) {
+            userInputTarget.id = id;
+        }
+
+        // Observes value change
+        this._observeValue = input.observeValue();
 
         // Live constraints
         this._constraints = [];
         if (liveConstraint) {
-            liveConstraint._elem = inputTarget;
-
             for (const sourceValidator of liveConstraint._validators) {
                 const template = new ConstraintStateTemplate(sourceValidator.error);
                 template.loadInContext(root);
@@ -66,12 +87,18 @@ export default class LabelGroup extends Template {
                 });
             }
 
-            this._liveConstraint = liveConstraint;
+            this._observeValidation = this._observeValue
+                .pipe(
+                    map(value => liveConstraint.validate(value)),
+                    share());
 
-            inputTarget.addEventListener('input', () => {
-                this.validate();
-            });
-
+            this._observeValidation
+                .pipe(
+                    skip(1))
+                .subscribe(
+                    errors => this.validate(errors))
+        } else {
+            this._observeValidation = of([])
         }
 
         // Load button
@@ -84,6 +111,10 @@ export default class LabelGroup extends Template {
                 .catch(HandleUnhandledPromise);
         }
 
+        if (weight !== null) {
+            this.weight = weight;
+        }
+
         /** @type {TextInputTemplate} */
         this.input = input;
 
@@ -91,18 +122,51 @@ export default class LabelGroup extends Template {
         this.defineLinkedClass('padHorizontal', '!item-wrap--nopad-horizontal');
     }
 
-    get value() { return this.input.input.value; }
+    /**
+     * Sets the weight in a group
+     * @type {number}
+     */
+    set weight(newWeight) {
+        this.underlyingNode.style.flex = `${newWeight}`;
+    }
+
+    /**
+     * Returns observer for the value.
+     * @return {Observable}
+     */
+    observeValue() {
+        return this._observeValue;
+    }
+
+    /**
+     * Observe the validation status. This provides list of errors
+     * @return {Observable}
+     */
+    observeValidation() {
+        return this._observeValidation;
+    }
+
+    /**
+     * Sets the value of the underlying input value if applicable. Gives no
+     * guarantee of the sync with UI.
+     * @type {any}
+     */
+    get value() { return this.input.userInput.value; }
+
+    /**
+     * Sets the value of the type. USE of this setter is NOT reccomended.
+     * @param {any} newValue
+     */
     set value(newValue) {
-        this.input.input.value = newValue;
-        this.validate();
+        this.input.userInput.value = newValue;
     }
 
     /**
      * Validates the LabelGroup for live labels
+     * @param {ValidationError[]} errors
      */
-    validate() {
-        const erroredConstraints = this._liveConstraint
-            .validate()
+    validate(errors) {
+        const erroredConstraints = errors
             .map(error => error.sourceValidator);
 
         for (const { template, constraintValidator } of this._constraints) {
@@ -123,7 +187,7 @@ export default class LabelGroup extends Template {
      * @param {number} time - delay in the queue see repsective interactor fn
      */
     foreignSynchronize(interactor, key, time = 70) {
-        this.input.input.addEventListener('input', (event) => {
+        this.input.userInput.addEventListener('input', (event) => {
             interactor.queueKey(key, time, this.input.value);
         });
     }

@@ -2,6 +2,7 @@ import Request, { HTTPMethod } from '~/models/Request/Request';
 
 /**
  * Represents an edit on a post or answer
+ * @extends {Request}
  */
 export default class PublishEdit extends Request {
     /** @override */

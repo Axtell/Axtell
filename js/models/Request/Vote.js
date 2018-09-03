@@ -10,6 +10,7 @@ const typeValues = {
 /**
  * A generic voting type
  * @abstract
+ * @extends {Request}
  */
 export default class Vote extends Request {
     /**

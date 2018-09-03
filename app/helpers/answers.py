@@ -5,6 +5,6 @@ def get_outgolfed_answers(new_answer):
         filter(
             Answer.post_id == new_answer.post_id,
             Answer.user_id != new_answer.user_id,
-            Answer.language_name == new_answer.language_name,
+            Answer.language_id == new_answer.language_id,
             Answer.byte_len > new_answer.byte_len,
             Answer.deleted == False)

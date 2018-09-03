@@ -26,6 +26,14 @@
     margin-bottom: 0;
   }
 
+  .answer__commentary {
+    padding: 0 1rem;
+    font-size: 1rem;
+
+    > *:first-child { margin-top: 1rem; }
+    > *:last-child { margin-bottom: 1rem; }
+  }
+
   .delete-button {
     // @include action-button-style(#E03830);
     @include action-button-hover(

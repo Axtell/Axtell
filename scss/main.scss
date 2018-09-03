@@ -62,6 +62,17 @@ body {
       }
     }
 
+    .r-alt {
+      display: none;
+      padding: 0 1rem 1rem;
+      box-sizing: border-box;
+      width: 100%;
+    }
+
+    @media (max-width: $sidebar-collapse) {
+      .r-alt { display: block; }
+    }
+
     // Split for RHS.
     &.content-split {
       margin: 0; // No margin as we already calculate that later
@@ -99,7 +110,7 @@ body {
       min-height: 100%;
 
       aside {
-        @media screen and (max-width: $sidebar-collapse) {
+        @media (max-width: $sidebar-collapse) {
           display: none;
         }
 
@@ -143,7 +154,6 @@ body {
 @import "comment.scss";
 @import "userbox.scss";
 @import "leaderboard.scss";
-@import "answer/write.scss";
 @import "answer/view.scss";
 @import "answer/edit.scss";
 @import "footer/footer.scss";
@@ -185,5 +195,7 @@ body {
 @import "answer/testing.scss";
 @import "modalView.scss";
 @import "circle-button.scss";
+@import "fs-modal.scss";
 @import "content-offset.scss";
 @import "user-item.scss";
+@import "search/picker.scss";

@@ -4,6 +4,7 @@ const cache = new Map();
 
 /**
  * Obtains an encoding
+ * @extends {Request}
  */
 export default class Encoding extends Request {
     /**

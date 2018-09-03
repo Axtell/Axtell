@@ -4,7 +4,7 @@ from app.server import server
 from app.controllers import codepage as codepage_controller
 from misc import path_for_icon, default_svg
 from jinja2.exceptions import TemplateNotFound
-from flask import abort, redirect
+from flask import request, abort, redirect, url_for
 import golflang_encodings
 
 
@@ -68,45 +68,45 @@ PYTHON_STD_ENCODINGS = frozenset({
     'iso2022_jp_3',
     'iso2022_jp_ext',
     'iso2022_kr',
-    'latin_1',
-    'iso8859_2',
-    'iso8859_3',
-    'iso8859_4',
-    'iso8859_5',
-    'iso8859_6',
-    'iso8859_7',
-    'iso8859_8',
-    'iso8859_9',
-    'iso8859_10',
-    'iso8859_11',
-    'iso8859_13',
-    'iso8859_14',
-    'iso8859_15',
-    'iso8859_16',
+    'latin-1',
+    'iso8859-2',
+    'iso8859-3',
+    'iso8859-4',
+    'iso8859-5',
+    'iso8859-6',
+    'iso8859-7',
+    'iso8859-8',
+    'iso8859-9',
+    'iso8859-10',
+    'iso8859-11',
+    'iso8859-13',
+    'iso8859-14',
+    'iso8859-15',
+    'iso8859-16',
     'johab',
-    'koi8_r',
-    'koi8_t',
-    'koi8_u',
+    'koi8-r',
+    'koi8-t',
+    'koi8-u',
     'kz1048',
-    'mac_cyrillic',
-    'mac_greek',
-    'mac_iceland',
-    'mac_latin2',
-    'mac_roman',
-    'mac_turkish',
+    'mac-cyrillic',
+    'mac-greek',
+    'mac-iceland',
+    'mac-latin2',
+    'mac-roman',
+    'mac-turkish',
     'ptcp154',
     'shift_jis',
     'shift_jis_2004',
     'shift_jisx0213',
-    'utf_32',
-    'utf_32_be',
-    'utf_32_le',
-    'utf_16',
-    'utf_16_be',
-    'utf_16_le',
-    'utf_7',
-    'utf_8',
-    'utf_8_sig'
+    'utf-32',
+    'utf-32-be',
+    'utf-32-le',
+    'utf-16',
+    'utf-16-be',
+    'utf-16-le',
+    'utf-7',
+    'utf-8',
+    'utf-8-sig'
 })
 
 GOLFLANG_ENCODINGS = frozenset(golflang_encodings.add_encodings.codepages.keys())
@@ -121,13 +121,18 @@ def get_all_encodings():
 
 @server.route("/codepage/<encoding>")
 def codepage(encoding):
-    if encoding.lower() in ['utf-8', 'u8', 'utf', 'utf8']:
+    normalized_encoding = codepage_controller.get_normalized_encoding(encoding)
+
+    if normalized_encoding != encoding and request.args.get('noredirect', '0') != '1':
+        return redirect(url_for('codepage', encoding=normalized_encoding, noredirect=1), code=301)
+
+    if normalized_encoding == 'utf-8':
         return redirect('https://en.wikipedia.org/wiki/UTF-8', code=303)
-    
-    if encoding.lower() in ['utf-16', 'u16', 'utf16']:
+
+    if normalized_encoding == 'utf-16':
         return redirect('https://en.wikipedia.org/wiki/UTF-16', code=303)
 
-    raw_codepage = codepage_controller.get_codepage(encoding)
+    raw_codepage = codepage_controller.get_codepage(normalized_encoding)
 
     if not raw_codepage:
         return abort(404)
@@ -138,7 +143,7 @@ def codepage(encoding):
     for self_codepoint, unicode_codepoint in raw_codepage.items():
         mapped_codepage[self_codepoint // 16][self_codepoint % 16] = (chr(unicode_codepoint), unicode_codepoint)
 
-    return render_template('codepage.html', encoding=encoding, codepage=mapped_codepage)
+    return render_template('codepage.html', encoding=normalized_encoding, codepage=mapped_codepage)
 
 
 @server.route("/static/encodings/<encoding>")

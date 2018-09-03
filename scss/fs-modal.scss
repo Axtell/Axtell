@@ -1,0 +1,94 @@
+@mixin fs-modal-scheme($name, $color, $fg) {
+    &.fs-modal--scheme-#{$name} {
+        color: $fg;
+        background: $color;
+    }
+}
+
+.fs-modal {
+    z-index: 20;
+
+    position: fixed;
+
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: $main-bg;
+
+    // Because this is modal we'll start with 0 initial opacity
+    opacity: 0;
+
+    // Flex so that way we can have body scroll
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    .fs-modal__header {
+        $fs-modal__header--height: 1.5rem;
+        padding: 1rem 1rem;
+        box-sizing: border-box;
+
+        width: 100%;
+
+        z-index: 29;
+
+        @include fs-modal-scheme('default', #25BCD4, #FFF);
+        @include fs-modal-scheme('white', $subheader-bg, $hover-source);
+
+        &.fs-modal__header--shadow {
+            box-shadow: 0 4px 16px -10px rgba(0, 0, 0, 0.4);
+        }
+
+        .fs-modal__header__components {
+            display: flex;
+            flex-direction: row;
+
+            .fs-modal__header__component {
+                box-sizing: border-box;
+
+                height: $fs-modal__header--height;
+                margin: 0 0.5rem;
+
+                &.fs-modal__header__component--type-spacer {
+                    flex: 1;
+                }
+
+                &.fs-modal__header__component--type-title {
+                    height: auto;
+                    font-size: 1rem;
+                    font-weight: 300;
+                    display: flex;
+                    align-items: center;
+                }
+
+                &.fs-modal__header__component--type-image {
+                    @include square($fs-modal__header--height);
+
+                    svg, img {
+                        fill: currentColor;
+                        color: currentColor;
+                        @include square(100%);
+                    }
+                }
+            }
+        }
+    }
+
+
+    // Wrapper for body to ensure correct width and padding etc.
+    .fs-modal__body {
+        flex: 1;
+
+        // Scroll just the body not anything else
+        overflow-y: auto;
+        // Scroll continously on webkit mobile
+        -webkit-overflow-scrolling: touch;
+
+        padding: 1rem;
+    }
+}

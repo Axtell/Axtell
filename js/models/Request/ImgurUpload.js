@@ -5,6 +5,10 @@ export const IMGUR_CLIENT_ID = Data.shared.envValueForKey('IMGUR_CLIENT_ID');
 export const IMGUR_UPLOAD_HOST = 'https://api.imgur.com';
 export const IMGUR_UPLOAD_ENDPOINT = '/3/image';
 
+/**
+ * Uploads to imgur
+ * @extends {Request}
+ */
 export default class ImgurUpload extends Request {
     /**
      * Returns the URL of the new image

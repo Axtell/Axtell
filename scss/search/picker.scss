@@ -1,0 +1,40 @@
+.search-picker__container {
+    position: relative;
+    height: $search-picker-size;
+}
+
+.search-picker {
+    position: absolute;
+    left: 0;
+    right: 0;
+
+    // Position at bottom
+    top: 100%;
+
+    // Add some space
+    margin-top: 4px;
+
+    background: $content-bg;
+    border-radius: 6px;
+
+    box-shadow: 0 4px 16px -10px rgba(0, 0, 0, .3);
+
+    padding: 4px;
+
+    z-index: 21;
+
+    .search-picker__list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    }
+
+    .search-picker__language {
+        cursor: pointer;
+        border-radius: 6px;
+
+        &:hover {
+            background: rgba($accent-color, 0.1);
+        }
+    }
+}

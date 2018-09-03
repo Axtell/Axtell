@@ -1,7 +1,9 @@
 import Template from '~/template/Template';
 import Random from '~/modern/Random';
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
-import { fromEvent } from 'rxjs';
+
+import { merge, fromEvent } from 'rxjs';
+import { map, mapTo, share, startWith } from 'rxjs/operators';
 
 export const TextInputType = {
     Search: 'text-input--type-search',
@@ -10,6 +12,10 @@ export const TextInputType = {
     URL: 'text-input--type-url'
 }
 
+/**
+ * Represents a single-line text input.
+ * @implements {InputInterface}
+ */
 export default class TextInputTemplate extends Template {
     /**
      * A group of label and the input
@@ -17,15 +23,24 @@ export default class TextInputTemplate extends Template {
      * @param {string} placeholder
      * @param {Object} opts
      * @param {string} opts.classes - Additional classes
-     * @param {boolean} opts.autofocus
-     * @param {boolean} opts.isOwned
+     * @param {boolean} [opts.autofocus=false]
+     * @param {boolean} [opts.autocomplete=false]
+     * @param {boolean} [opts.isOwned=false] - If the wrapper elem manages styles
+     * @param {boolean} [opts.isWide=false] - If the text input should fill width.
      */
-    constructor(type, placeholder = "", { classes = "", autofocus = false, isOwned = false } = {}) {
+    constructor(type, placeholder = "", {
+        classes = "",
+        autocomplete = false,
+        autofocus = false,
+        isOwned = false,
+        isWide = false
+    } = {}) {
         super(
             <input type="text"
                    class={`text-input text-input--type-clean ${type} ${classes}`}
                    placeholder={placeholder}
-                   unsafe-autofocus={autofocus} />
+                   unsafe-autofocus={autofocus}
+                   unsafe-autocomplete={autocomplete} />
         );
 
         this.delegate = new ActionControllerDelegate();
@@ -37,6 +52,13 @@ export default class TextInputTemplate extends Template {
         this.value = null;
         this.defineLinkedInput('value');
 
+        this.defineLinkedClass('isWide', 'text-input--size-wide')
+        /**
+         * If to fill width
+         * @type {boolean}
+         */
+        this.isWide = isWide;
+
         this.defineLinkedClass('isOwned', 'text-input--owned')
         /**
          * If is owned by another style manager
@@ -44,11 +66,11 @@ export default class TextInputTemplate extends Template {
          */
         this.isOwned = isOwned;
 
-        /**
-         * Observable for input
-         * @type {Observable}
-         */
-        this.observeInput = fromEvent(this.underlyingNode, 'input');
+        this._observeInput = fromEvent(this.underlyingNode, 'input')
+            .pipe(
+                map(event => event.target.value),
+                startWith(""),
+                share());
 
         this.underlyingNode.addEventListener("input", () => {
             this.delegate.didSetStateTo(this, this.value);
@@ -56,13 +78,42 @@ export default class TextInputTemplate extends Template {
     }
 
     /**
-     * Sets focus
+     * Observes the value of the text input.
+     * @return {Observable}
      */
-    focus() {
-        this.underlyingNode.focus();
+    observeValue() {
+        return this._observeInput;
     }
 
-    get input() { return this.underlyingNode; }
+    /**
+     * Observes the focus of the text input.
+     * @return {Observable}
+     */
+    observeFocus() {
+        return merge(
+            fromEvent(this.underlyingNode, 'focus')
+                .pipe(mapTo(true)),
+            fromEvent(this.underlyingNode, 'blur')
+                .pipe(mapTo(false))
+        );
+    }
+
+    /**
+     * Sets focus
+     * @param {boolean} [focusValue=true] false if to unfocus true if to
+     */
+    focus(focusValue = true) {
+        if (focusValue) {
+            this.underlyingNode.focus();
+        } else {
+            this.underlyingNode.blur();
+        }
+    }
+
+
+    // MARK: - InputInterface
+    /** @override */
+    get userInput() { return this.underlyingNode; }
 
     /** @override */
     didLoad() {

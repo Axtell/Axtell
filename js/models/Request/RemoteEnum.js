@@ -14,6 +14,7 @@ export const EnumEndpoint = {
 const cachedEnums = new Map();
 /**
  * Loads a remote enum given a url
+ * @extends {Request}
  */
 export default class RemoteEnum extends Request {
     /** @override */

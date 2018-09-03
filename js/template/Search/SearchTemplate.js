@@ -72,10 +72,9 @@ export default class SearchTemplate extends Template {
 
             // This observer is called when new result is loaded
             this.loadedResults = this.searchText
-                .observeInput
+                .observeValue()
                 .pipe(
                     debounceTime(200),
-                    map(event => event.target.value),
                     distinctUntilChanged(),
                     switchMap(async value => await this.search(value)),
                     share());

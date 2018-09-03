@@ -2,6 +2,7 @@ import Request, { HTTPMethod } from '~/models/Request/Request';
 
 /**
  * Follows **or unfollows** a user. This updates the state
+ * @extends {Request}
  */
 export default class FollowUser extends Request {
     /** @override */

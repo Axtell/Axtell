@@ -6,11 +6,12 @@ from app.models.Notification import Notification, NotificationType
 from app.notifications.send_notification import send_notification
 from app.helpers.answers import get_outgolfed_answers
 from app.models.Post import Post
+from app.controllers import codepage
 from app.models.Language import Language
 from config import posts
 
 
-def create_answer(post_id, code, commentary, lang_id=None, lang_name=None, encoding='utf8'):
+def create_answer(post_id, code, commentary, lang_id=None, lang_name=None, encoding='utf-8'):
     """
     Creates an answer on a given post. You may provide `lang_id` if you have a
     known language, or `lang_name` instead if you have a non-native language.
@@ -23,13 +24,17 @@ def create_answer(post_id, code, commentary, lang_id=None, lang_name=None, encod
     if g.user is None:
         return abort(401)
 
+    normalized_encoding = codepage.get_normalized_encoding(encoding)
+    if normalized_encoding is None:
+        return abort(400)
+
     # Ensure language exists
     if lang_id is not None and not Language.exists(lang_id):
         return abort(400)
 
     new_answer = Answer(post_id=post_id, language_name=lang_name, language_id=lang_id,
-                        binary_code=code.decode('utf8').encode(encoding), commentary=commentary,
-                        encoding=encoding)
+                        binary_code=code.decode('utf8').encode(normalized_encoding), commentary=commentary,
+                        encoding=normalized_encoding)
     g.user.answers.append(new_answer)
     post = Post.query.filter_by(id=post_id).first()
     post.answers.append(new_answer)
@@ -60,7 +65,7 @@ def create_answer(post_id, code, commentary, lang_id=None, lang_name=None, encod
             notification_type=NotificationType.OUTGOLFED
         ))
 
-    return redirect(url_for('get_post', post_id=post_id, answer_id=new_answer.id) + f"#answer-{new_answer.id}")
+    return url_for('get_answer', answer_id=new_answer.id)
 
 
 def get_answers(post_id, page):

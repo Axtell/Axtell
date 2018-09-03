@@ -2,6 +2,7 @@ import Vote from '~/models/Request/Vote';
 
 /**
  * Submits a vote request for an **answer**
+ * @extends {Vpte}
  */
 export default class AnswerVote extends Vote {
     /**

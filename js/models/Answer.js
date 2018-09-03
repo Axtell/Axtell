@@ -1,5 +1,6 @@
 import ErrorManager from '~/helpers/ErrorManager';
 import Language from '~/models/Language';
+import Data, { EnvKey } from '~/models/Data';
 import User from '~/models/User';
 import Post from '~/models/Post';
 
@@ -126,6 +127,14 @@ export default class Answer {
      * Gets if deleted
      */
     set isDeleted(isDeleted) { this._deleted = isDeleted; }
+
+    /**
+     * URL of answer
+     * @return {string}
+     */
+    getURL() {
+        return `${Data.shared.envValueForKey(EnvKey.host)}/answer/${this.id}`;
+    }
 
     /**
      * Converts to json
