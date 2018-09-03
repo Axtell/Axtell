@@ -128,6 +128,31 @@ http -f POST https://upload.bugsnag.com/ \
 
 and pass `PROTOCOL`, `HOSTNAME` and `BUGSNAG_FRONTEND_API_KEY` as parameters.
 
+#### (Optional) Google Analytics
+To track pageviews etc. you can setup Google Analytics. In the dashboard you need to do some setup:
+
+##### Property Settings
+
+Field | Value
+--------------
+Advertising Features > Enable Demographics and Interest Reports | Off
+
+##### Tracking Info
+
+Field | Value
+-------------
+Data Collection > Remarketing | Off
+Data Collection > Advertising Reporting Features | Off
+Data Collection > Advertising Reporting Features | Off
+
+##### Filters
+
+ Name | Type | Option | Field | Value
+--------------------------------------
+Post Preview | Custom | Search and Replace | Request URI | Replace `/post/preview.*` with `/post/preview` **not** case sensitive |
+
+
+
 ### 3. Build
 You will need to build the assets (CSS and JS) before running Axtell. You can do this using:
 
