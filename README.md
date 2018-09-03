@@ -183,3 +183,13 @@ Development run:
 $ celery multi start w1 -A celery_server
 $ ./debug.sh
 ```
+
+#### uWSGI
+Some notes for uWSGI configurations is that the following config options are needed:
+
+```ini
+[uwsgi]
+enable-threads = true
+wsgi-disable-file-wrapper = true
+```
+
