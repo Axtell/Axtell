@@ -3,6 +3,7 @@ from app.models.PostComment import PostComment
 from app.models.AnswerComment import AnswerComment
 from config import comments as comment_config
 
+
 def get_comment_notification_targets(comment):
     """
     Gets a list of comments that should get a notification
@@ -30,8 +31,9 @@ def get_comment_notification_targets(comment):
 # max_depth = 1 will only load top-level comments
 def get_rendered_comments(cls, parent_id=None, max_depth=1, count=comment_config['show_amt'], **kwargs):
     rendered_comments = []
-    comments = cls.query.filter_by(deleted=False, parent_id=parent_id, **kwargs).order_by(cls.date_created.desc()).limit(count).all()
-    comment_len = cls.query.filter_by(deleted=False, parent_id=parent_id, **kwargs).count()
+    comments = cls.query.filter_by(parent_id=parent_id, deleted=False, **kwargs)\
+        .order_by(cls.date_created.desc()).limit(count).all()
+    comment_len = cls.query.filter_by(parent_id=parent_id, deleted=False, **kwargs).count()
 
     for comment in comments:
         # Get child comments

@@ -39,10 +39,10 @@ class PostComment(db.Model):
         if len(self.children) == 0:
             return self
         if nest_depth is None:
-            return [self, [child.comment_tree() for child in self.children if child.deleted == False]]
+            return [self, [child.comment_tree() for child in self.children if child.deleted is False]]
         else:
             if nest_depth > 1:
-                return [self, [child.comment_tree(nest_depth-1) for child in self.children if child.deleted == False]]
+                return [self, [child.comment_tree(nest_depth-1) for child in self.children if child.deleted is False]]
 
     def __repr__(self):
         return '<PostComment(%r) by %r>' % (self.id, self.user.name)
