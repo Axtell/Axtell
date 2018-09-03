@@ -11,6 +11,14 @@ import { share, skip, map, distinctUntilChanged } from 'rxjs/operators';
 
 import tippy from 'tippy.js/dist/tippy.all.min.js';
 
+/**
+ * A label group is an input along with surrounding metadata. This means this
+ * manages validation, interaction, labels, and more. This also allows you to
+ * configure tooltips.
+ *
+ * The label group can mount any item that implements the {@link InputInterface}
+ * interface.
+ */
 export default class LabelGroup extends Template {
     /**
      * A group of label and the input.
@@ -20,12 +28,12 @@ export default class LabelGroup extends Template {
      * value updates. See {@link InputInterface}
      *
      * @param {string} label - The label (self-explantory)
-     * @param {InputInterface} input
+     * @param {InputInterface} input - The input to mount
      * @param {?string} o.tooltip Some info describing what
      * @param {?ButtonTemplate} o.button - Pass if you want to keep a button within label group for alignment purposes
      * @param {FormConstraint} [o.liveConstraint=null] - Contraints already setup to show
      * @param {?ForeignInteractor} [o.interactor=null] - Foreign interactor to link `{ foreignInteractor: ForeignInteractor, label: String }`
-     * @param {boolean} [o.hideLabel=false] - If label should be hidden
+     * @param {boolean} [o.hideLabel=false] - If label should be hidden.
      * @param {?number} [o.weight=null] - If in group how much weight (default is one)
      */
     constructor(label, input, {
