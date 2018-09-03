@@ -51,16 +51,16 @@ export default class Analytics {
      * @param {boolean} [opts.critical=false] If the error is critical to app
      */
     reportError(level, error, { critical = false } = {}) {
-        if (err?.jsError) {
+        if (error?.jsError) {
             Bugsnag?.notify(
-                err.jsError,
+                error.jsError,
                 {
-                    name: err.toString(),
+                    name: error.toString(),
                     severity: level
                 }
             );
         } else {
-            Bugsnag?.notify(err, {
+            Bugsnag?.notify(error, {
                 severity: level
             })
         }
