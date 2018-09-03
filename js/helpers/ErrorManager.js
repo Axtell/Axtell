@@ -3,29 +3,10 @@
  */
 
 import Data from '~/models/Data';
+import Analytics from '~/models/Analytics';
+import { Bugsnag } from '~/helpers/Bugsnag';
 
 const ErrorList = [];
-
-export let Bugsnag = null;
-
-const BugsnagKey = Data.shared.envValueForKey('BUGSNAG');
-if (BugsnagKey) {
-    // Even though we always include bugsnag some evil ad blockers will block
-    // bugsnag even though it is not an ad >:U
-    if (bugsnag) {
-        Bugsnag = bugsnag({
-            apiKey: BugsnagKey,
-            appVersion: Data.shared.envValueForKey('VERSION'),
-            autoCaptureSessions: true,
-            autoBreadcrumbs: true,
-            networkBreadcrumbsEnabled: true,
-            beforeSend: (report) => {
-                report.user.instance_id = Data.shared.dataId;
-            }
-        });
-        Bugsnag.metaData = {};
-    }
-}
 
 /**
  * Generic error type
@@ -68,23 +49,6 @@ export class AnyError {
     }
 }
 
-// Helper to report rollbar
-function report_manager(level, err) {
-    if (err instanceof AnyError) {
-        Bugsnag?.notify(
-            err.jsError,
-            {
-                name: err.toString(),
-                severity: level
-            }
-        );
-    } else {
-        Bugsnag?.notify(err, {
-            severity: level
-        })
-    }
-}
-
 export class ErrorManager {
     /**
      * Raises an error with native throw.
@@ -93,7 +57,7 @@ export class ErrorManager {
      */
     raise(message, id) {
         const error = new AnyError(message, id);
-        report_manager('error', error);
+        Analytics.shared.reportError('error', error, { critical: true });
         throw error;
     }
 
@@ -104,7 +68,7 @@ export class ErrorManager {
      */
     warn(message, id) {
         const error = new AnyError(message, id);
-        report_manager('warning', error);
+        Analytics.shared.reportError('warning', error);
         console.warn(error.toString());
     }
 
@@ -130,7 +94,7 @@ export class ErrorManager {
             err.jsError = error;
         }
 
-        report_manager('warning', err);
+        Analytics.shared.reportError('warning', err);
 
         err.report(...args);
     }
@@ -141,7 +105,7 @@ export class ErrorManager {
      */
     report(error) {
         if (error instanceof AnyError) {
-            report_manager('error', error);
+            Analytics.shared.reportError('error', error);
             error.report();
         } else {
             this.unhandled(error);
@@ -153,7 +117,7 @@ export class ErrorManager {
      * @param {Error|AnyError} error - An unhandled error to report.
      */
     unhandled(error) {
-        report_manager('error', error);
+        Analytics.shared.reportError('error', error, { critical: true });
         new AnyError(error.message, `Unhandled Error (${error.name})`).report(error, error.stack);
     }
 

@@ -1,4 +1,4 @@
-import { Bugsnag } from '~/helpers/ErrorManager';
+import { Bugsnag } from '~/helpers/Bugsnag';
 
 /**
  * Analytics wrapper
@@ -37,10 +37,38 @@ export default class Analytics {
             eventObject.event_label = label;
         }
 
-        Bugsnag?.leaveBreadcrumb(eventType.description || eventType.name, eventType.info || {});
+        Bugsnag?.leaveBreadcrumb(eventType.name, eventType.info || {});
 
         eventObject.event_category = eventType.category;
         this.gtag?.('event', eventType.name, eventObject);
+    }
+
+    /**
+     * Reports an error
+     * @param {string} level - `error` or `warning`
+     * @param {Error|AnyError} error
+     * @param {Object} opts - Additional options
+     * @param {boolean} [opts.critical=false] If the error is critical to app
+     */
+    reportError(level, error, { critical = false } = {}) {
+        if (err?.jsError) {
+            Bugsnag?.notify(
+                err.jsError,
+                {
+                    name: err.toString(),
+                    severity: level
+                }
+            );
+        } else {
+            Bugsnag?.notify(err, {
+                severity: level
+            })
+        }
+
+        this.gtag?.('event', 'exception', {
+            description: String(err),
+            fatal: critical
+        })
     }
 
     /**
@@ -71,12 +99,12 @@ export const EventType = {
     loginOpen: {
         category: EventCategory.userManagement,
         description: 'Open login dialog',
-        name: 'login_open'
+        name: 'Opened login dialog'
     },
     loginCancel: {
         category: EventCategory.userManagement,
         description: 'Close login dialog',
-        name: 'login_cancel'
+        name: 'Closed login dialog'
     },
     loginMethod: {
         category: EventCategory.userManagement,
@@ -87,7 +115,7 @@ export const EventType = {
     changelogOpen: {
         category: EventCategory.engagement,
         description: 'Opened changelog',
-        name: 'changelog_open'
+        name: 'Opened Changelog'
     },
 
     // ===== Answer Events =====
@@ -150,39 +178,34 @@ export const EventType = {
         category: EventCategory.comment,
         info: ty.toJSON(),
         description: 'Opened comment write box',
-        name: `write_open_${ty.endpoint}`,
+        name: `Began writting ${ty.endpoint} comment`,
         value: ty.id
     }),
     commentWriteClose: (ty) => ({
         category: EventCategory.comment,
         info: ty.toJSON(),
-        description: 'Closed comment write box',
-        name: `write_close_${ty.endpoint}`,
+        name: `Cancel writing ${ty.endpoint} cp,,emt`,
         value: ty.id
     }),
     commentWrite: (ty) => ({
         category: EventCategory.comment,
-        description: 'Submitted a comment',
         info: ty.toJSON(),
-        name: `write_${ty.endpoint}`,
+        name: `Wrote ${ty.endpoint} comment`,
         value: ty.id
     }),
     commentTooShort: {
         category: EventCategory.comment,
-        description: 'Failed to submit comment: too short',
-        name: `too_short`
+        name: `Comment too short`
     },
 
     // ===== Voting Events =====
     postVote: {
         category: EventCategory.vote,
-        description: 'Voted on a post',
-        name: 'post_vote'
+        name: 'Post vote'
     },
     answerVote: {
         category: EventCategory.vote,
-        description: 'Voted on an answer',
-        name: 'answer_vote'
+        name: 'Answer vote'
     }
 };
 
