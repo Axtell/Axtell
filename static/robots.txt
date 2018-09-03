@@ -26,7 +26,6 @@ Disallow: /leaderboard/
 Disallow: /answer/comment/
 Disallow: /answer/*/comment/
 Disallow: /answer/*/comments/
-Disallow: /static/encodings/
 Disallow: /categories
 Disallow: /encodings
 Disallow: /auth/
