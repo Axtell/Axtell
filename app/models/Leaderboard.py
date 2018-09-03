@@ -16,7 +16,7 @@ class Leaderboard:
             limit = self.default_limit
 
         query = Answer.query \
-            .filter_by(post_id=self.post_id) \
+            .filter_by(post_id=self.post_id, deleted=False) \
             .order_by(Answer.byte_len.asc())
 
         if limit > -1:
