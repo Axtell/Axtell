@@ -107,14 +107,16 @@ def create_post_comment(post_id, parent_comment, comment_text):
             notification_type=NotificationType.NEW_POST_COMMENT
         ))
 
-    # Notify the owner of the post
-    send_notification(Notification(
-        sender_id=new_comment.user_id,
-        target_id=new_comment.id,
-        recipient_id=post.user_id,
-        source_id=None,
-        notification_type=NotificationType.NEW_POST_COMMENT
-    ))
+    # Notify the owner of the post IF it isn't the same user who posted the
+    # current comment
+    if post.user_id != new_comment.user_id:
+        send_notification(Notification(
+            sender_id=new_comment.user_id,
+            target_id=new_comment.id,
+            recipient_id=post.user_id,
+            source_id=None,
+            notification_type=NotificationType.NEW_POST_COMMENT
+        ))
 
     return new_comment
 
@@ -140,7 +142,8 @@ def create_answer_comment(answer_id, parent_comment, comment_text):
 
     for user_id, comment in comments_to_notify.items():
         # Dont notify user if:
-        #  - is the owner of the post
+        #  - is the owner of the post (because we will try to notify this )
+        #     person in a later section of code
         #  - is the owner of the new comment
 
         if user_id in (answer.user_id, new_comment.user_id):
@@ -154,14 +157,16 @@ def create_answer_comment(answer_id, parent_comment, comment_text):
             notification_type=NotificationType.NEW_ANSWER_COMMENT
         ))
 
-    # Notify the owner of the post
-    send_notification(Notification(
-        sender_id=new_comment.user_id,
-        target_id=new_comment.id,
-        recipient_id=answer.user_id,
-        source_id=None,
-        notification_type=NotificationType.NEW_ANSWER_COMMENT
-    ))
+    # Notify the owner of the post IF it isn't the same user who posted the
+    # current comment
+    if answer.user_id != new_comment.user_id:
+        send_notification(Notification(
+            sender_id=new_comment.user_id,
+            target_id=new_comment.id,
+            recipient_id=answer.user_id,
+            source_id=None,
+            notification_type=NotificationType.NEW_ANSWER_COMMENT
+        ))
 
     return new_comment
 
