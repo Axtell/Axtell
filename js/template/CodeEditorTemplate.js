@@ -1,4 +1,5 @@
-import CodeEditorViewController from '~/controllers/CodeEditorViewController';
+import CodeEditorViewController, { CodeEditorThemeType } from '~/controllers/CodeEditorViewController';
+import Theme from '~/models/Theme';
 import Template from '~/template/Template';
 
 /**
@@ -27,6 +28,11 @@ export default class CodeEditorTemplate extends Template {
     didLoad() {
         super.didLoad();
         this.controller._editor.refresh();
+    }
+
+    /** @override */
+    async didInitialLoad() {
+        this.controller.setThemeType(CodeEditorThemeType.fromTheme(Theme.current));
     }
 
     // MARK: - InputInterface
