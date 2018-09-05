@@ -37,7 +37,7 @@
 
         z-index: 29;
 
-        @include fs-modal-scheme('default', #25BCD4, #FFF);
+        @include fs-modal-scheme('default', $header-bg, #FFF);
         @include fs-modal-scheme('white', $subheader-bg, $hover-source);
 
         &.fs-modal__header--shadow {
