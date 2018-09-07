@@ -211,5 +211,4 @@ python -m unittest discover tests -vf --locals
 Axtell is able to run thanks to the generosity of the following companies:
 
 <a href="https://www.algolia.com"><img alt="Algolia" src="https://www.algolia.com/static_assets/images/v3/shared/logos/algolia/logo-algolia-nebula-blue-whitespaces-bf76438c.svg" height="80"></a>&nbsp;
-<a href="https://bugsnag.com"><img alt="Bugsnag" src="https://dka575ofm4ao0.cloudfront.net/pages-transactional_logos/retina/5227/JnJzriMRjuc8VGOYDCFR" height="40"></a>&nbsp;
-<a href="https://www.browserstack.com"><img src="https://i.imgur.com/BTG22W1.png" alt="BrowserStack" height="40"></a>
+<a href="https://bugsnag.com"><img alt="Bugsnag" src="https://dka575ofm4ao0.cloudfront.net/pages-transactional_logos/retina/5227/JnJzriMRjuc8VGOYDCFR" height="40"></a>
