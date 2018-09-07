@@ -35,7 +35,7 @@ An overview of the Axtell project and key components:
 
 You can build Axtell's JavaScript documentation using `npm run docs` which will create the `docs-js` directory. Additionally you may reference the [hosted API documentation](https://api.axtell.vihan.org)
 
-## Setting up Axtell
+## Installing Axtell
 ### 1. Prereqs
 To get started make sure you have the following installed:
 
@@ -191,6 +191,20 @@ Some notes for uWSGI configurations is that the following config options are nee
 [uwsgi]
 enable-threads = true
 wsgi-disable-file-wrapper = true
+```
+
+## Building Documentation
+After installing the dependencies. You can build the documentation using:
+
+```sh
+npx esdoc
+```
+
+## Run Tests
+If you wish to run tests locally you can run:
+
+```sh
+python -m unittest discover tests -vf --locals
 ```
 
 ## Special Thanks

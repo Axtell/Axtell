@@ -40,6 +40,7 @@ def index_json(f):
             else:
                 return {
                     'action': 'deleteObject',
+                    'indexName': index_name,
                     'body': {
                         'objectID': result['objectID']
                     }

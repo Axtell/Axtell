@@ -28,7 +28,7 @@ oauth_config = {
 def auth_hack():
     if not app_config.get('debug', False):
         return abort(404)
-    user = User.query.filter_by(id=2).first()
+    user = User.query.first()
     user_session.set_session_user(user)
     g.user = user
 
