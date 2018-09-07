@@ -68,3 +68,5 @@ def synchronize_objects(task_jsons):
     # the queries to avoid excessive requests.
 
     search_index.client.batch([*filter(None, task_jsons)])
+    
+    return True
