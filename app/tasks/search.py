@@ -23,6 +23,9 @@ INDEXABLE_MODELS = [Post, Answer, User]
 
 @celery_app.task
 def initialize_indices():
+    if search_index.client is None:
+        return
+    
     for model in INDEXABLE_MODELS:
         index = model.get_index()
         index.set_settings(model.get_index_settings())
