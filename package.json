@@ -9,7 +9,7 @@
     "./js/modern/**/*.js",
     "./js/models/**/*.js",
     "./js/ServiceWorker/**/*.js",
-    "./js/triggers/GlobalTriggers"
+    "./js/interactors/GlobalTriggers.js"
   ],
   "license": "MIT",
   "devDependencies": {
