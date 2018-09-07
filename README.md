@@ -200,11 +200,34 @@ After installing the dependencies. You can build the documentation using:
 npx esdoc
 ```
 
-## Run Tests
+## Run Server Tests
 If you wish to run tests locally you can run:
 
 ```sh
 python -m unittest discover tests -vf --locals
+```
+## Run UI App Tests
+These tests are written with Nightwatch, you may run locally using the following
+command. Do note that they are complex dependencies required:
+
+```sh
+npx nightwatch --env default
+```
+
+To run ensure these env vars are provided:
+
+```sh
+AXTELL_URL  # Root path of Axtell to use.
+```
+
+### Using Sauce Labs
+To run using Sauce Labs, first setup Sauce Connect. Then ensure these env vars
+are provided:
+
+```sh
+SAUCE_USERNAME
+SAUCE_ACCESS_KEY
+SAUCE_TUNNEL_IDENTIFIER
 ```
 
 ## Special Thanks

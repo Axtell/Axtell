@@ -13,29 +13,29 @@ cache:
   - node_modules
   - static/node_modules
 install:
-  - npm i
-  - bundle install
-  - pip install -r requirements.txt
-  - pip install codecov coverage
-  - pip install httpie
-  - mysql -u root -e 'CREATE DATABASE ppcg;'
-  - cp config.default.py config.py
-  - sed -i "s/MYSQL_USERNAME/root/" config.py
-  - sed -i "s/MYSQL_PASSWORD//" config.py
-  - sed -i "s/REDIS_PASSWORD//" config.py
-  - sed -i "s/IMGUR_CLIENT_ID/$IMGUR_CLIENT_ID/" config.py
-  - sed -i "s/GOOGLE_CLIENT_ID/$GOOGLE_CLIENT_ID/" config.py
-  - sed -i "s/BUGSNAG_FRONTEND_API_KEY/$BUGSNAG_FRONTEND_API_KEY/" config.py
-  - sed -i "s/BUGSNAG_BACKEND_API_KEY/$BUGSNAG_BACKEND_API_KEY/" config.py
-  - celery multi start w1 -A celery_server --logfile=celery.log --pidfile=celery.pid
-  - ./build_all.sh
+- npm i
+- bundle install
+- pip install -r requirements.txt
+- pip install codecov coverage
+- pip install httpie
+- mysql -u root -e 'CREATE DATABASE ppcg;'
+- cp config.default.py config.py
+- sed -i "s/MYSQL_USERNAME/root/" config.py
+- sed -i "s/MYSQL_PASSWORD//" config.py
+- sed -i "s/REDIS_PASSWORD//" config.py
+- sed -i "s/IMGUR_CLIENT_ID/$IMGUR_CLIENT_ID/" config.py
+- sed -i "s/GOOGLE_CLIENT_ID/$GOOGLE_CLIENT_ID/" config.py
+- sed -i "s/BUGSNAG_FRONTEND_API_KEY/$BUGSNAG_FRONTEND_API_KEY/" config.py
+- sed -i "s/BUGSNAG_BACKEND_API_KEY/$BUGSNAG_BACKEND_API_KEY/" config.py
+- celery multi start w1 -A celery_server --logfile=celery.log --pidfile=celery.pid
+- "./build_all.sh"
 script:
-  - coverage run -m unittest discover tests -vf --locals
-  - rm celery.pid
-  - rm celery.log
+- coverage run -m unittest discover tests -vf --locals
+- rm celery.pid
+- rm celery.log
 after_success:
-  - celery multi stop w1 -A celery_server --logfile=celery.log --pidfile=celery.pid
-  - codecov
+- celery multi stop w1 -A celery_server --logfile=celery.log --pidfile=celery.pid
+- codecov
 deploy:
   skip_cleanup: true
   provider: script
@@ -43,6 +43,12 @@ deploy:
   on:
     branch: master
 after_deploy:
-  - bash deploy/docs.bash
+- bash deploy/docs.bash
 before_deploy:
-  - openssl aes-256-cbc -K $encrypted_f68e3fa50bfd_key -iv $encrypted_f68e3fa50bfd_iv -in deploy/id_rsa.enc -out deploy/id_rsa -d
+- openssl aes-256-cbc -K $encrypted_f68e3fa50bfd_key -iv $encrypted_f68e3fa50bfd_iv
+  -in deploy/id_rsa.enc -out deploy/id_rsa -d
+addons:
+  sauce_connect:
+    username: vihan
+    access_key:
+      secure: ci+draQNO4t2xt2Pqlo5Jr9Ess6oZyh2FNvWBCXdPDfH3jGcm+BVTtNTzRdXi19lgW6g8Q6Jk6csiNqLhJJtgR++pP54C6zJJ9wrBllUGJeWeWcc1I9Xqw3Xf/e250PCZcQyaS2ExNR8IQ8TVs/BKFQLojx3kgGiWZZiSU1kn2FUVYzu32/XCb9RDzptLNm89fgVB95hFcBSozJXCLEoSjOi7oiM7Bvr88mtOuoQxFWPqLcvZbMccyh9Cu7PtPozAEsuTcpXx7JeEq8Z4PKGksYPTdLcA5omYeTm977ehhv9toV73Ohjyd02JJtyrE+QAClZbs0iIVCIVFReg6lVX5X7WgKRTJ0ix+j8Z8tR6o2nRFSL/HMWzMitles7580f9DIJrrxxuvM1DqMfNR0KbGL3VD/BgOiTBzQgW0mhlbFQ8EWIpZnNfgN52VhtXBwiGl/gM9JowyDGyfcyULFFYMiIfPIgfNSjC2J7o5NfVgw+lLkzTOZ4ZuXcUlI2tDcfwkYIJ+5jDL+PW79p766iXQspczx/mMYv2Pn07zT9u8rG0lKJ1tmtA7EU1YY+5FBkZjRhLs4Ynu4V0T3xPo4u/nEO+2n8NlhF9Q7KEccxp6WM4UA8SbWiNGScWv2W4uwVfxh4eyAoCJc0iRqLgVZO8NlajfpWeHyjAJ5qR6SFFUU=
