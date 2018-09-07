@@ -15,7 +15,7 @@ UPLOAD_QUEUE_CHUNK_SIZE = 8
 
 # We will batch indexes into one request so this is how many per. Generally we
 # don't want to be sending more than 64KB per request.
-UPLOAD_QUEUE_BATCH_SIZE = 4
+UPLOAD_QUEUE_BATCH_SIZE = 3
 
 # List of models which conform to the index interface.
 INDEXABLE_MODELS = [Post, Answer, User]
@@ -40,13 +40,13 @@ def reindex_database(full_reindex=False):
             item for model in INDEXABLE_MODELS for item in model.query.filter_by(index_status=search_index.IndexStatus.UNSYNCHRONIZED).all()
         ]
 
-    sync_targets = [(item.get_index_json(batch_object=True),) for item in indexable_items]
+    sync_targets = [item.get_index_json(batch_object=True) for item in indexable_items]
 
     synchronize_objects.chunks(
         # This may look crazy but basically takes the `sync_targets` and
         # splits it into chunks of size `UPLOAD_QUEUE_BATCH_SIZE`. Then the
         # for..in wraps it in a tuple so celery understands that each instance
-        # is a single argument.
+        # is a single argument. Why use chunks? Just avoids doing a lot of messages
         [(item,) for item in zip_longest(*[iter(sync_targets)] * UPLOAD_QUEUE_BATCH_SIZE)],
         UPLOAD_QUEUE_CHUNK_SIZE
     ).delay().get(disable_sync_subtasks=False)
