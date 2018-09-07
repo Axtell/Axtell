@@ -25,7 +25,7 @@ INDEXABLE_MODELS = [Post, Answer, User]
 def initialize_indices():
     if search_index.client is None:
         return
-
+    
     for model in INDEXABLE_MODELS:
         index = model.get_index()
         index.set_settings(model.get_index_settings())
@@ -71,3 +71,5 @@ def synchronize_objects(task_jsons):
     # the queries to avoid excessive requests.
 
     search_index.client.batch([*filter(None, task_jsons)])
+    
+    return True

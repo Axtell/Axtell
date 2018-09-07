@@ -78,7 +78,7 @@ if server.debug and config.profile:
 update.jwt_update.delay().wait()
 
 # Do search indexing
-(search.initialize_indices.si() | search.reindex_database.si()).delay()
+search.initialize_indices.delay().wait()
 
 
 # Used to measure request duration
