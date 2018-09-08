@@ -1,7 +1,9 @@
 from flask import g, abort, url_for
+from sqlalchemy import func
 
 from app.instances import db
 from app.models.Post import Post
+from app.models.Answer import Answer
 from app.models.Category import Category
 from app.helpers.macros.encode import slugify
 from config import posts
@@ -36,7 +38,9 @@ def create_post(title, body, categories, ppcg_id=None):
 
 
 def get_posts(page):
-    page = Post.query \
+    page = db.session.query(Post, func.count(Answer.id)) \
+        .outerjoin(Answer, Post.id == Answer.post_id) \
+        .group_by(Post.id) \
         .filter_by(deleted=False) \
         .order_by(Post.date_created.desc()) \
         .paginate(page, per_page=posts['per_page'], error_out=False)

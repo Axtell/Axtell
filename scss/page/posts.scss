@@ -52,6 +52,67 @@
     // Matches the color
     color: $big-link;
   }
+
+  // Metrics list of views, etc.
+  .post-item__metrics {
+    list-style: none;
+    padding: 0;
+
+    .post-item__metric {
+      display: inline-block;
+      font-size: 1rem;
+
+      margin-right: 16px;
+
+      svg, img {
+        vertical-align: middle;
+        height: 2em;
+      }
+
+      // The progress bar
+      .post-item__metric__bar  {
+        display: inline-block;
+        vertical-align: middle;
+        box-sizing: border-box;
+
+        $post-item__metric__bar--height: 12px;
+        height: $post-item__metric__bar--height;
+        border-radius: $post-item__metric__bar--height / 2;
+        width: 130px;
+        max-width: 100%;
+        padding: 2px;
+        background: rgba($hover-mix, 0.1);
+
+        > div {
+          border-radius: $post-item__metric__bar--height / 2;
+          height: 100%;
+        }
+      }
+
+      // Numeric value
+      .post-item__metric__value {
+        color: $detail-text;
+        font-size: 1.2em;
+        vertical-align: middle;
+      }
+
+      .post-item__metric__unit {
+        color: $key-text;
+        vertical-align: middle;
+        text-transform: uppercase;
+        font-weight: bold;
+        letter-spacing: 1px;
+        font-size: 0.5em;
+      }
+
+      .post-item__metric__stack {
+        display: inline-block;
+        vertical-align: middle;
+
+        .post-item__metric__unit { display: block; }
+      }
+    }
+  }
 }
 
 .post-item__split_container {

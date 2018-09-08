@@ -8,8 +8,10 @@ from app.models.PostRevision import PostRevision
 from app.models.PostVote import PostVote
 from app.helpers.search_index import index_json, IndexStatus, gets_index
 from app.tasks.markdown import render_markdown
+from app.helpers.view_counts import get_post_views
 import datetime
-from math import sqrt
+from math import sqrt, e, exp
+from config import hotness
 
 
 class Post(db.Model):
@@ -56,6 +58,22 @@ class Post(db.Model):
     def should_index(self):
         return not self.deleted
 
+    def get_view_count(self):
+        return get_post_views(self.id)
+
+    def get_hotness(self, views, answers):
+        """
+        Gets hotness value on scale of [0, 1]
+        """
+
+        time_delta = datetime.datetime.now() - self.date_created
+
+        view_component = 1 / (1 + exp(-views / hotness['view_weight'])) * 0.5
+        answer_component = 1 / (1 + exp(-answers / hotness['answer_weight'])) * 2
+        time_component = 1 / exp(time_delta.days / hotness['time_weight'])
+
+        return (view_component + answer_component + time_component) / 3
+
     @classmethod
     @gets_index
     def get_index(cls):
@@ -92,9 +110,9 @@ class Post(db.Model):
 
     @score.expression
     def score(cls):
-        ups = select([func.sum(PostVote.vote)]).where(PostVote.answer_id == cls.id
+        ups = select([func.sum(PostVote.vote)]).where(PostVote.post_id == cls.id
                                                       and PostVote.vote == 1).label('ups')
-        downs = select([func.sum(PostVote.vote)]).where(PostVote.answer_id == cls.id
+        downs = select([func.sum(PostVote.vote)]).where(PostVote.post_id == cls.id
                                                         and PostVote.vote == -1).label('downs')
 
         n = ups - downs

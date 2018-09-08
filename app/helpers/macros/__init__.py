@@ -7,6 +7,7 @@ from app.helpers.macros.encode import *
 from app.helpers.macros.render import *
 from app.helpers.macros.uuid import *
 from app.helpers.macros.csrf import *
+from app.helpers.view_counts import *
 
 
 version_id = None

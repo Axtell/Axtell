@@ -128,8 +128,32 @@ http -f POST https://upload.bugsnag.com/ \
 
 and pass `PROTOCOL`, `HOSTNAME` and `BUGSNAG_FRONTEND_API_KEY` as parameters.
 
+#### (Optional) Google
+To use Google Sign in and/or analytics setup google using:
+
+ 1. Create a Google Cloud project ([create a GC project](https://console.cloud.google.com/projectcreate))
+ 2. Setup the [OAuth consent screen](https://console.cloud.google.com/apis/credentials/consent)
+ 3. Create an [OAuth client ID](https://console.cloud.google.com/apis/credentials/oauthclient)
+    - You can leave the 'Authorized redirect URLs' empty.\
+ 4. Add this client ID to `auth.google.client-id`
+
 #### (Optional) Google Analytics
-To track pageviews etc. you can setup Google Analytics. In the dashboard you need to do some setup:
+To do this you must follow Google setup instructions. To track pageviews etc.
+you can setup Google Analytics. Google analytics are used for the displayed view
+counts etc.
+
+ 1. Setup [Google Analytics](https://analytics.google.com).
+ 2. Setup, in `auth.google`, the `analytics-id` to the property ID and `view-id` to the view ID.
+ 3. Login to the Google Cloud project created.
+ 4. Navigate to the [Analytics API registration page](https://console.developers.google.com/flows/enableapi?apiid=analytics&credential=client_key)
+ 5. Now, [create an Analytics Service Account](https://console.developers.google.com/apis/credentials/wizard?api=analytics.googleapis.com)
+    - Set the role to 'Viewer'
+    - If prompted download the key as JSON
+ 6. Next, [enable the GA API](https://console.developers.google.com/apis/library/analyticsreporting.googleapis.com)
+ 7. Add the file to the root project directory as `ga.json`
+ 8. Take the email address from the service account you created earlier and add it to the analytics project
+
+The privacy settings Axtell uses are:
 
 ##### Property Settings
 
@@ -150,6 +174,7 @@ Data Collection > Advertising Reporting Features | Off
  Name | Type | Option | Field | Value
 ------|------|--------|-------|-------
 Post Preview | Custom | Search and Replace | Request URI | Replace `/post/preview.*` with `/post/preview` **not** case sensitive |
+Challenge | Custom | Search and Replace | Request URI | Replace `^/post/([0-9]+).*$` with `/post/\1` **not** case sensitive |
 
 
 

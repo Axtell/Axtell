@@ -30,7 +30,8 @@ memcached_config = {
 auth = {
     'google': {
         'client-id': 'GOOGLE_CLIENT_ID',
-        'analytics-id': 'GOOGLE_ANALYTICS_CLIENT_ID'
+        'analytics-id': 'GOOGLE_ANALYTICS_CLIENT_ID',
+        'view-id': ''
     },
     'imgur': {
         'client-id': 'IMGUR_CLIENT_ID'
@@ -66,6 +67,12 @@ posts = {
     'max_title': 60,
     'max_tags': 5,
     'per_page': 10
+}
+
+hotness = {
+    'answer_weight': 4, # After 4 answers will become more significant
+    'view_weight': 200, # After 600 views weight will become more significant
+    'time_weight': 20 # In days
 }
 
 answers = {

@@ -19,7 +19,12 @@
     </div>
     <div class="main">
         <ul class="posts">
-            {% for post in posts.items -%}
+            {% for post, answer_count in posts.items -%}
+                {% set view_count = post.get_view_count() %}
+                {% set hotness = post.get_hotness(views=view_count, answers=answer_count) %}
+                {% set hotness_percent = '{0:.2f}%'.format(hotness * 100) %}
+                {% set inv_hotness_percent = '{0:.2f}%'.format(1 / hotness * 100) %}
+                {% set lerp_hotness_percent = '{0:.2f}%'.format(1 / hotness * 40) %}
                 <li>
                     <a href="{{ url_for('get_post', post_id=post.id, title=macros.slugify(post.title)) }}"
                        class="post-item post-item__split_container"
@@ -38,6 +43,33 @@
 
                             <!-- Add the preview -->
                             <p class="post-item__description post-item__section post-item__section--pad-top">{{ macros.render_markdown(post.body[:1000]) | striptags | truncate(250) }}</p>
+
+                            <!-- Info -->
+                            <ul class="post-item__section post-item__section--pad-top post-item__metrics">
+                                <li class="post-item__metric">
+                                    {% include "svg/hot.html" %}
+                                    <span class="post-item__metric__stack">
+                                        <div class="post-item__metric__bar post-item__metric__bar--hotness" title="{{ hotness_percent }} hotness">
+                                            <div style="width: {{ hotness_percent }}; background: linear-gradient(to right, #4C66D6 0%, #bf1358 {{ lerp_hotness_percent }}, #F75B36 {{ inv_hotness_percent }});"></div>
+                                        </div>
+                                        <span class="post-item__metric__unit">hotness</span>
+                                    </span>
+                                </li>
+                                <li class="post-item__metric">
+                                    {% include "svg/eye.html" %}
+                                    <span class="post-item__metric__stack">
+                                        <span class="post-item__metric__value">{{ macros.format_view_count(view_count) }}</span>
+                                        <span class="post-item__metric__unit">views</span>
+                                    </span>
+                                </li>
+                                <li class="post-item__metric">
+                                    {% include "svg/answer.html" %}
+                                    <span class="post-item__metric__stack">
+                                        <span class="post-item__metric__value">{{ answer_count }}</span>
+                                        <span class="post-item__metric__unit">answers</span>
+                                    </span>
+                                </li>
+                            </ul>
                         </div>
                     </a>
                 </li>
