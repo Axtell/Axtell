@@ -68,9 +68,9 @@ class Post(db.Model):
 
         time_delta = datetime.datetime.now() - self.date_created
 
-        view_component = 1 / (1 + exp(-views / hotness['view_weight'])) * 0.5
-        answer_component = 1 / (1 + exp(-answers / hotness['answer_weight'])) * 2
-        time_component = 1 / exp(time_delta.days / hotness['time_weight'])
+        view_component = 1 - exp(-views / hotness['view_weight']) * 0.5
+        answer_component = 1 - exp(-answers / hotness['answer_weight']) * 2
+        time_component = exp(-time_delta.days / hotness['time_weight'])
 
         return (view_component + answer_component + time_component) / 3
 
