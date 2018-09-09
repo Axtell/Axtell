@@ -18,7 +18,7 @@
           crossorigin="anonymous">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.1/moment.min.js" crossorigin="anonymous"></script>
-    <script>function d(t){var a=document.currentScript;a.parentNode.replaceChild(document.createTextNode(moment.utc(t).fromNow()),a)}d</script>
+    <script>function d(t){var a=document.currentScript,u=moment.utc(t),n=document.createElement('time');n.title=u.toString();n.dateTime=u.toISOString()+'Z';n.appendChild(document.createTextNode(u.fromNow()));a.parentNode.replaceChild(n,a)}d</script>
 
     {% if g.user is none -%}
         <script src="https://apis.google.com/js/api:client.js"></script>
