@@ -58,6 +58,16 @@
     list-style: none;
     padding: 0;
 
+    &.post-item__metrics--style-inactive .post-item__metric {
+      svg, path {
+        fill: $detail-text;
+      }
+
+      // svg, img {
+      //   @include square(1em);
+      // }
+    }
+
     .post-item__metric {
       display: inline-block;
       font-size: 1rem;
@@ -65,8 +75,9 @@
       margin-right: 16px;
 
       svg, img {
+        margin-right: 4px;
         vertical-align: middle;
-        height: 1.5em;
+        @include square(1em);
       }
 
       // The progress bar
@@ -75,12 +86,12 @@
         vertical-align: middle;
         box-sizing: border-box;
 
-        $post-item__metric__bar--height: 12px;
+        $post-item__metric__bar--height: 4px;
         height: $post-item__metric__bar--height;
         border-radius: $post-item__metric__bar--height / 2;
         width: 130px;
         max-width: 100%;
-        padding: 2px;
+        padding: 1px;
         background: rgba($hover-mix, 0.1);
 
         > div {
@@ -92,7 +103,7 @@
       // Numeric value
       .post-item__metric__value {
         color: $detail-text;
-        font-size: 1.2em;
+        font-size: 1em;
         vertical-align: middle;
       }
 
@@ -119,7 +130,23 @@
   display: flex;
   flex-direction: row;
 
-  .post-item__split {
+  &.post-item__split_container--wrap {
+    flex-wrap: wrap;
+  }
+
+  &.post-item__split_container--responsive {
+    align-items: center;
+
+    @media (max-width: 700px) {
+      flex-direction: column;
+      align-items: flex-start;
+      > .post-item__split + .post-item__split {
+        margin-left: 2.75rem;
+      }
+    }
+  }
+
+  > .post-item__split {
     &.post-item__split--size-wide { flex: 1; }
     &.post-item__split--pad-left { padding-left: 12px; }
     &.post-item__split--pad-right { padding-right: 12px; }

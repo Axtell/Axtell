@@ -27,34 +27,27 @@
                 {% set lerp_hotness_percent = '{0:.2f}%'.format(1 / hotness * 40) %}
                 <li>
                     <a href="{{ url_for('get_post', post_id=post.id, title=macros.slugify(post.title)) }}"
-                       class="post-item post-item__split_container"
+                       class="post-item post-item__split_container post-item__split_container--responsive"
                        title="{{ post.title }}">
-                        <div class="post-item__split post-item__split--pad-right">
-                            <img src="{{ post.user.avatar_url() }}"
-                                 class="post-item__avatar userbox--trigger-author" data-userid="{{ post.user.id }}">
+                        <div class="post-item__split post-item__split--size-wide post-item__split_container post-item__split--pad-right">
+                            <div class="post-item__split post-item__split--pad-right">
+                                <img src="{{ post.user.avatar_url() }}"
+                                     class="post-item__avatar userbox--trigger-author" data-userid="{{ post.user.id }}">
+                            </div>
+                            <div class="post-item__split post-item__split--size-wide">
+                                <span class="post-item__caption post-item__section">
+                                    <span class="post-item__author">{{ post.user.name }}</span>
+                                    &middot;
+                                    {{ time(post.date_created) }}
+                                </span>
+                                <h4 class="post-item__title post-item__section">{{ post.title }}</h4>
+
+                                <!-- Add the preview -->
+                                <p class="post-item__description post-item__section post-item__section--pad-top">{{ macros.render_markdown(post.body[:1000]) | striptags | truncate(250) }}</p>
+                            </div>
                         </div>
-                        <div class="post-item__split post-item__split--size-wide">
-                            <span class="post-item__caption post-item__section">
-                                <span class="post-item__author">{{ post.user.name }}</span>
-                                &middot;
-                                {{ time(post.date_created) }}
-                            </span>
-                            <h4 class="post-item__title post-item__section">{{ post.title }}</h4>
-
-                            <!-- Add the preview -->
-                            <p class="post-item__description post-item__section post-item__section--pad-top">{{ macros.render_markdown(post.body[:1000]) | striptags | truncate(250) }}</p>
-
-                            <!-- Info -->
-                            <ul class="post-item__section post-item__section--pad-top post-item__metrics">
-                                <li class="post-item__metric">
-                                    {% include "svg/hot.html" %}
-                                    <span class="post-item__metric__stack">
-                                        <div class="post-item__metric__bar post-item__metric__bar--hotness" title="{{ hotness_percent }} hotness">
-                                            <div style="width: {{ hotness_percent }}; background: linear-gradient(to right, #4C66D6 0%, #bf1358 {{ lerp_hotness_percent }}, #F75B36 {{ inv_hotness_percent }});"></div>
-                                        </div>
-                                        <span class="post-item__metric__unit">hotness</span>
-                                    </span>
-                                </li>
+                        <div class="post-item__split">
+                            <ul class="post-item__section post-item__section--pad-top post-item__metrics post-item__metrics--style-inactive">
                                 <li class="post-item__metric">
                                     {% include "svg/eye.html" %}
                                     <span class="post-item__metric__stack">
@@ -63,10 +56,21 @@
                                     </span>
                                 </li>
                                 <li class="post-item__metric">
-                                    {% include "svg/answer.html" %}
+                                    {% include "svg/answer-round.html" %}
                                     <span class="post-item__metric__stack">
                                         <span class="post-item__metric__value">{{ answer_count }}</span>
                                         <span class="post-item__metric__unit">answers</span>
+                                    </span>
+                                </li>
+                            </ul>
+                            <ul class="post-item__section post-item__section--pad-top post-item__metrics">
+                                <li class="post-item__metric">
+                                    {% include "svg/hot.html" %}
+                                    <span class="post-item__metric__stack">
+                                        <div class="post-item__metric__bar post-item__metric__bar--hotness" title="{{ hotness_percent }} hotness">
+                                            <div style="width: {{ hotness_percent }}; background: linear-gradient(to right, #4C66D6 0%, #bf1358 {{ lerp_hotness_percent }}, #F75B36 {{ inv_hotness_percent }});"></div>
+                                        </div>
+                                        <span class="post-item__metric__unit">hotness</span>
                                     </span>
                                 </li>
                             </ul>
