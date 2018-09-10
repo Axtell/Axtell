@@ -147,6 +147,7 @@ ppcg-v2.log.*
 *.key
 *.pem
 *.der
+ga.json
 
 # Web APN push package
 static/Axtell.pushpackage/manifest.json

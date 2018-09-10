@@ -66,7 +66,7 @@ export default class Analytics {
         }
 
         this.gtag?.('event', 'exception', {
-            description: String(err),
+            description: String(error),
             fatal: critical
         })
     }
