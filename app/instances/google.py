@@ -22,4 +22,6 @@ def get_analytics():
     Obtains Google Analytics cred object
     """
     credentials = get_credentials('ga.json', ['https://www.googleapis.com/auth/analytics.readonly'])
+    if credentials is None:
+        return None
     return build('analyticsreporting', 'v4', credentials=credentials)
