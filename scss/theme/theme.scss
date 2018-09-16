@@ -2,6 +2,9 @@ $level-1-margin: 40%;
 $lower-theme-gutter: $level-1-margin;
 
 .splash {
+  // Avoids scroll lag
+  contain: paint;
+  
   // Backgrounds
   background:
     $bg-level-1 bottom / auto $level-1-margin repeat-x, // Level 1 background (mountains, ice, etc.)
