@@ -1,5 +1,6 @@
 import requests
 from config import oauth
+from html import unescape as html_unescape
 
 
 def stackexchange(auth_token):
@@ -13,7 +14,7 @@ def stackexchange(auth_token):
         }
     ).json().get('items')[0]
     return user.get('user_id'), {
-        'name': user.get('display_name'),
+        'name': html_unescape(user.get('display_name')),
         'avatar': user.get('profile_image'),
         'email': None
     }
