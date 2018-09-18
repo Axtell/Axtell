@@ -43,6 +43,9 @@ echo "REMOTE DEPLOY: RESTARTING CELERY"
 celery multi stop w1 -A celery_server --logfile=w1.log --pidfile=w1.pid
 celery purge -f -A celery_server
 celery multi start w1 -A celery_server --logfile=w1.log --pidfile=w1.pid --loglevel=DEBUG
+pkill $( cat beat.pid )
+rm beat.pid
+celery -A celery_server beat --logfile=beat.log --pidfile=beat.pid --detach
 
 echo "REMOTE DEPLOY: STARTING SERVICE"
 sudo service ppcg-v2 start
