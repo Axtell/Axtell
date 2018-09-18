@@ -53,4 +53,4 @@ echo "REMOTE DEPLOY: STARTING SERVICE"
 sudo service ppcg-v2 start
 
 echo "REMOTE DEPLOY: STARTING CELERY BEAT SERVER"
-celery -A celery_server beat --logfile=beat.log --pidfile=beat.pid --detach
+celery beat -A celery_server --pidfile=beat.pid --logfile=beat.log --loglevel=DEBUG --detach
