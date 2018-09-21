@@ -41,7 +41,7 @@ def get_posts(page):
     page = db.session.query(Post, func.count(Answer.id)) \
         .outerjoin(Answer, Post.id == Answer.post_id) \
         .group_by(Post.id) \
-        .filter_by(Post.deleted == False) \
+        .filter(Post.deleted == False) \
         .order_by(Post.date_created.desc()) \
         .paginate(page, per_page=posts['per_page'], error_out=False)
 
