@@ -52,5 +52,5 @@ celery multi start w1 -A celery_server --logfile=w1.log --pidfile=w1.pid --logle
 echo "REMOTE DEPLOY: STARTING SERVICE"
 sudo service ppcg-v2 start
 
-echo "REMOTE DEPLOY: STARTING CELERY BEAT SERVER"
-celery beat -A celery_server --pidfile=beat.pid --logfile=beat.log --loglevel=DEBUG --detach
+# echo "REMOTE DEPLOY: STARTING CELERY BEAT SERVER"
+# celery beat -A celery_server --pidfile=beat.pid --logfile=beat.log --loglevel=DEBUG --detach
