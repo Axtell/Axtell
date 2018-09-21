@@ -49,7 +49,7 @@ def get_posts(page):
 
 
 def get_post(post_id):
-    post = Post.query.filter(id=post_id).first()
+    post = Post.query.filter_by(id=post_id).first()
     return post
 
 
