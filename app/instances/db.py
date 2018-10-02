@@ -64,7 +64,7 @@ db_uri = \
     f"mysql+mysqlconnector://{db_config['user']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/" \
     f"{db_config['database']}?charset=utf8mb4"
 
-engine = create_engine(db_uri)
+engine = create_engine(db_uri, pool_recycle=3600)
 session = scoped_session(sessionmaker(bind=engine, query_cls=BaseQuery))
 
 Model = declarative_base()
