@@ -1,58 +1,12 @@
+// Handle override
+.override ~ footer .footer:not(.footer--secondary) {
+  border-top: none;
+}
+
 footer {
-  padding: 3rem;
-  background: $footer-background;
+  padding: 4rem;
 
-  $footer-fg: rgba(#FFF, 0.8);
-
-  a {
-    color: $footer-fg;
-    fill: $footer-fg;
-
-    font-size: 1rem;
-
-    transition: all 0.1s ease-in;
-
-    svg {
-      height: 1.6rem;
-    }
-
-    &:hover {
-      color: #FFF;
-      fill: #FFF;
-    }
-  }
-
-  li.title {
-    font-size: 1rem;
-    text-transform: uppercase;
-    font-weight: bold;
-    padding-bottom: 0.7rem;
-
-    color: $footer-fg;
-  }
-
-  li {
-    padding-bottom: 5px;
-  }
-
-  .item {
-    margin: 1rem;
-  }
-
-  .stretch {
-    flex: 1;
-    @media screen and (max-width: $collapse-width) { flex: 0 0 0; }
-  }
-
-  .own {
-    align-self: center;
-    @media screen and (max-width: $collapse-width) {
-      width: 100%;
-      text-align: center;
-    }
-  }
-
-  #footer-primary {
+  .footer {
     // In the cast it is a <ul>
     list-style: none;
 
@@ -61,19 +15,95 @@ footer {
     flex-wrap: wrap;
     justify-content: start;
 
-    .wide {
-      text-align: center;
-      flex: 1;
+    border-top: 1px solid mix($hover-mix, $main-bg, 8%);
+    padding-top: 3rem;
+
+    // If not primary so add additioanl space
+    &.footer--secondary {
+      margin-top: 4rem;
     }
 
-    li {
+    .footer__section {
       list-style: none;
-    }
-  }
+      padding-bottom: 5px;
+      padding-left: 0;
 
-  #copy {
-    text-align: center;
-    color: rgba(#FFF, 0.7);
-    font-weight: 300;
+      &:not(:last-child) {
+        margin-right: 3.5rem;
+      }
+
+      // The header of the section
+      h3 {
+        color: mix($hover-mix, $key-text, 30%);
+        font-weight: 700;
+        font-size: 1.2rem;
+        line-height: 2;
+        margin-bottom: 8px;
+      }
+    }
+
+    // Section that is for a single node
+    .footer__section--isolated {
+      align-self: center;
+      @media screen and (max-width: $collapse-width) {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    // A section that is inline
+    .footer__section--inline {
+      margin: 0 1em;
+      padding: 0;
+      list-style: none;
+      align-self: center;
+
+      > li {
+        display: inline-block;
+        padding: 0 4px;
+      }
+    }
+
+    // Links
+    .footer__inline {
+      color: $detail-text;
+      font-size: 0.94rem;
+      font-weight: 500;
+      line-height: 1.75;
+      align-self: center;
+      vertical-align: middle;
+
+      // Aligns so that not off-middle
+      margin-top: 2px;
+
+      &.footer__inline--hover {
+        transition: all 0.2s ease;
+        &:hover {
+          color: $accent-color;
+        }
+      }
+
+      &.footer__inline--weight-light { font-weight: 300; }
+
+      &.footer__inline--color-light { color: $detail-text; }
+      &.footer__inline--color-dark { color: $key-text; }
+
+      &.footer__inline--size-small { font-size: 0.8rem; }
+
+      &.footer__inline--img-small { svg { height: 1.2em; } }
+      &.footer__inline--img-big { svg { height: 2rem; } }
+
+      svg {
+        vertical-align: middle;
+        fill: currentColor;
+        height: 1.6rem;
+      }
+    }
+
+    // Section which expands
+    .footer__stretch {
+      flex: 1;
+      @media screen and (max-width: $collapse-width) { flex: 0 0 0; }
+    }
   }
 }
