@@ -107,31 +107,43 @@
             <main class="content">{% block content %}{% endblock %}</main>
         {%- endblock %}
         <footer>
-            <div class="content" id="footer-primary">
-                <ul class="item">
-                    <li class="title">Resources</li>
-                    <li><a href="https://axtell.fider.io/">Feedback</a></li>
-                    <li><a href="https://goo.gl/forms/rr7SuEYwjWSbG4Y63">Propose Language</a></li>
-                    <li><a href="https://github.com/Axtell/Axtell/issues/new?labels=bug">Report Bug</a></li>
+            <div class="footer content">
+                <ul class="footer__section">
+                    <li><h3>Resources</h3></li>
+                    <li><a class="footer__inline footer__inline--hover" href="https://axtell.fider.io/">Feedback</a></li>
+                    <li><a class="footer__inline footer__inline--hover" href="https://goo.gl/forms/rr7SuEYwjWSbG4Y63">Propose Language</a></li>
                 </ul>
 
-                <ul class="item">
-                    <li class="title">Help</li>
-                    <li><a href="{{ url_for('help') }}">Help Center</a></li>
-                    <li><a href="{{ url_for('help_page', path='privacy') }}">Privacy</a></li>
+                <ul class="footer__section">
+                    <li><h3>Help</h3></li>
+                    <li><a class="footer__inline footer__inline--hover" href="{{ url_for('help') }}">Help Center</a></li>
+                    <li><a class="footer__inline footer__inline--hover" href="{{ url_for('help_page', path='privacy') }}">Privacy</a></li>
                 </ul>
 
-                <ul class="item">
-                    <li class="title">Links</li>
-                    <li><a href="https://chat.stackexchange.com/rooms/68212/axtell">Chatroom</a></li>
+                <ul class="footer__section">
+                    <li><h3>Social</h3></li>
+                    <li><a class="footer__inline footer__inline--hover" href="https://chat.stackexchange.com/rooms/68212/axtell">Chatroom</a></li>
                 </ul>
 
-                <a class="stretch"></a>
+                <ul class="footer__section">
+                    <li><h3>Development</h3></li>
+                    <li><a class="footer__inline footer__inline--hover" href="https://github.com/Axtell/Axtell">GitHub</a></li>
+                    <li><a class="footer__inline footer__inline--hover" href="https://github.com/Axtell/Axtell/issues/new?labels=bug">Report Bug</a></li>
+                </ul>
 
-                <a class="item own" href="https://github.com/Axtell/Axtell">{% include "svg/github.html" %}</a>
+                <a class="footer__stretch"></a>
+
+                <a class="footer__section--isolated footer__inline footer__inline--hover" href="https://github.com/Axtell/Axtell">{% include "svg/github.html" %}</a>
             </div>
-            <div id="copy">
-                <span>Copyright &copy; 2018 Axtell</span>
+
+            <div class="footer content footer--secondary">
+                <span class="footer__inline footer__inline--weight-light footer__inline--size-small footer__inline--color-light">&copy; 2018 Axtell</span>
+                <ul class="footer__section--inline">
+                    <li><a class="footer__inline footer__inline--img-small footer__inline--hover" href="https://github.com/Axtell/Axtell">{% include "svg/github.html" %}</a></li>
+                    <li><a class="footer__inline footer__inline--img-small footer__inline--hover" href="https://chat.stackexchange.com/rooms/68212/axtell">{% include "svg/stackexchange-bare.html" %}</a></li>
+                </ul>
+                <span class="footer__stretch"></span>
+                <span class="footer__inline footer__inline--weight-light footer__inline--size-small footer__inline--color-light">Axtell is licensed under <a class="footer__inline footer__inline--weight-light footer__inline--color-dark footer__inline--size-small" href="https://github.com/Axtell/Axtell/blob/master/LICENSE">MIT</a>.</span>
             </div>
         </footer>
     </div>
