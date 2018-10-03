@@ -1,0 +1,28 @@
+{% extends "layouts/page.html" %}
+
+{% block title %}Categories{% endblock %}
+{% block content -%}
+    <div class="list-header">
+        <h1>{{ section_name }}.</h1>
+    </div>
+
+    {% if caption is not none %}
+        <div class="list-header list-header--style-caption">
+            <h2 class="header--style-caption">{{ caption }}</h2>
+        </div>
+    {% endif %}
+
+    <div class="main">
+        <article class="body">
+            {{ html | safe }}
+        </article>
+    </div>
+{%- endblock %}
+
+{% block footer -%}
+<div class="footer content footer--primary-inline">
+    <span class="footer__inline footer__inline--weight-light footer__inline--color-light">See any fixes or improvements you could make?</span>&nbsp;
+    <a class="footer__inline footer__inline--color-accent" href="https://https://github.com/Axtell/Axtell/edit/master/docs/{{ path_name }}.md">Submit an edit!</a>
+</div>
+{{ super() }}
+{%- endblock %}

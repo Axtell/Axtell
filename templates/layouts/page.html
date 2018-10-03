@@ -107,6 +107,7 @@
             <main class="content">{% block content %}{% endblock %}</main>
         {%- endblock %}
         <footer>
+            {% block footer -%}
             <div class="footer content">
                 <ul class="footer__section">
                     <li><h3>Resources</h3></li>
@@ -145,6 +146,7 @@
                 <span class="footer__stretch"></span>
                 <span class="footer__inline footer__inline--weight-light footer__inline--size-small footer__inline--color-light">Axtell is licensed under <a class="footer__inline footer__inline--weight-light footer__inline--color-dark footer__inline--size-small" href="https://github.com/Axtell/Axtell/blob/master/LICENSE">MIT</a>.</span>
             </div>
+            {%- endblock %}
         </footer>
     </div>
 
