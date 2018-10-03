@@ -22,10 +22,10 @@ def render_docs(string):
     helper.stdin.write(string.encode('utf-8'))
     helper.stdin.flush()
 
-    frontmatter_params = dict()
-
     markdown_len = int.from_bytes(helper.stdout.read(4), byteorder='little')
     markdown = helper.stdout.read(markdown_len).decode('utf-8')
+
+    frontmatter_params = dict()
 
     frontmatter_param_count = int.from_bytes(helper.stdout.read(4), byteorder='little')
     for _ in range(frontmatter_param_count):
@@ -37,4 +37,16 @@ def render_docs(string):
 
         frontmatter_params[frontmatter_key] = frontmatter_value
 
-    return markdown, frontmatter_params
+    headings = dict()
+
+    headings_count = int.from_bytes(helper.stdout.read(4), byteorder='little')
+    for _ in range(headings_count):
+        headings_key_len = int.from_bytes(helper.stdout.read(4), byteorder='little')
+        headings_key = helper.stdout.read(headings_key_len).decode('utf-8')
+
+        headings_value_len = int.from_bytes(helper.stdout.read(4), byteorder='little')
+        headings_value = helper.stdout.read(headings_value_len).decode('utf-8')
+
+        headings[headings_key] = headings_value
+
+    return markdown, frontmatter_params, headings

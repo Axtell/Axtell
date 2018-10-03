@@ -5,6 +5,8 @@
 
 var md = require('./markdown-renderer'),
     frontMatter = require('markdown-it-front-matter'),
+    slug = require('slug'),
+    anchor = require('markdown-it-anchor'),
     os = require('os')
 
 md.set({ html: true });
@@ -14,6 +16,16 @@ md.use(frontMatter, (frontMatter) => {
     lastFrontMatter = frontMatter
 });
 
+let headers;
+md.use(anchor, {
+    slugify: text => slug(text, {
+        lower: true
+    }),
+    callback: (_, { slug, title }) => {
+        headers.push([ title, slug ])
+    }
+})
+
 
 process.stdin.resume();
 process.stdin.on('data', function (chunk) {
@@ -21,9 +33,13 @@ process.stdin.on('data', function (chunk) {
     const renderString = chunk.toString('utf8');
 
     lastFrontMatter = '';
-    let buffer = Buffer.from(md.render(renderString));
-    let frontMatter = lastFrontMatter;
+    headers = [];
 
+    let renderOutput = md.render(renderString);
+    let buffer = Buffer.from(renderOutput);
+
+    let frontMatter = lastFrontMatter;
+    let headings = headers;
 
     // Parse front matter
     let frontMatterParams = [];
@@ -52,6 +68,7 @@ process.stdin.on('data', function (chunk) {
     // Raw bytes
     process.stdout.write(buffer);
 
+    // Pass params
     let paramsLength = Buffer.allocUnsafe(4);
     paramsLength.writeInt32LE(frontMatterParams.length, 0);
     process.stdout.write(paramsLength);
@@ -59,6 +76,29 @@ process.stdin.on('data', function (chunk) {
     for (let i = 0; i < frontMatterParams.length; i++) {
         let key = frontMatterParams[i][0];
         let value = frontMatterParams[i][1];
+
+        let keyLength = Buffer.allocUnsafe(4);
+        keyLength.writeInt32LE(key.length, 0);
+        process.stdout.write(keyLength);
+
+        process.stdout.write(Buffer.from(key, 'utf8'));
+
+        let valueLength = Buffer.allocUnsafe(4);
+        valueLength.writeInt32LE(value.length, 0);
+        process.stdout.write(valueLength);
+
+        process.stdout.write(Buffer.from(value, 'utf8'))
+    }
+
+
+    // Pass headers
+    let headersLength = Buffer.allocUnsafe(4);
+    headersLength.writeInt32LE(headings.length, 0);
+    process.stdout.write(headersLength);
+
+    for (let i = 0; i < headings.length; i++) {
+        let key = headings[i][0];
+        let value = headings[i][1];
 
         let keyLength = Buffer.allocUnsafe(4);
         keyLength.writeInt32LE(key.length, 0);

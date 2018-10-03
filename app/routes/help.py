@@ -19,7 +19,7 @@ def help_page(path):
 
     section_name, doc_name = breadcrumbs
 
-    html, frontmatter_params = help_center.render_doc_path(path, breadcrumbs=breadcrumbs)
+    html, frontmatter_params, headings = help_center.render_doc_path(path, breadcrumbs=breadcrumbs)
 
     caption = frontmatter_params.get('caption')
 
@@ -28,6 +28,7 @@ def help_page(path):
         'path_name': path,
         'section_name': section_name,
         'doc_name': doc_name,
+        'headings': headings,
         'caption': caption,
         'html': html
     })

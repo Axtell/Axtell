@@ -6,11 +6,20 @@
         <h1>{{ section_name }}.</h1>
     </div>
 
-    {% if caption is not none %}
+    {%- if caption is not none -%}
         <div class="list-header list-header--style-caption">
             <h2 class="header--style-caption">{{ caption }}</h2>
         </div>
-    {% endif %}
+    {%- endif -%}
+
+    <div class="doc-headers">
+        <strong class="doc-headers__name">Contents</strong>
+        <ul class="doc-headers__list">
+            {%- for name, slug in headings.items() -%}
+                <li class="doc-headers__list__item"><a href="#{{ slug }}">{{ name|replace('.', '') }}</a></li>
+            {%- endfor -%}
+        </ul>
+    </div>
 
     <div class="main">
         <article class="body">

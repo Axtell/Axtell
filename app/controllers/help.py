@@ -25,6 +25,6 @@ def render_doc_path(doc_path, breadcrumbs):
 
     # We know the file exists because we checked the manual dir structure.
     with open(md_file, 'r') as file:
-        html, frontmatter_params = render_docs.delay(file.read()).wait()
+        html, frontmatter_params, headings = render_docs.delay(file.read()).wait()
 
-    return html, frontmatter_params
+    return html, frontmatter_params, headings

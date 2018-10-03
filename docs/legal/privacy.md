@@ -25,23 +25,22 @@ This data can always be seen on your profile or in your user settings.
 
 
 ### Tracking.
-<h3 id="tracking">Tracking.</h3>
-        <p>Axtell will collect some data in the background. This outlines what data we collect</p>
-        <div class="privacy-column__wrapper">
-            <ul class="privacy-column privacy-column--type-positive">
-                <li class="privacy-column__nostyle"><h4>We do track</h4></li>
-                <li><strong>errors</strong> that occur so we can fix them.</li>
-                <li><strong>IP</strong> is stored for security and identifying sock-puppets.</li>
-                <li><strong>usage data</strong> such as view counts of posts and feature usage.</li>
-                <li><strong>speed data</strong>, specifically how much time pages took to load.</li>
-                <li><strong>device information</strong>, that is device type (mobile, desktop) and browser (Firefox, Safari, etc.)</li>
-            </ul>
-            <ul class="privacy-column privacy-column--type-negative">
-                <li class="privacy-column__nostyle"><h4>We never track</h4></li>
-                <li><strong>your demographics</strong></li>
-                <li><strong>intra-site behavior</strong></li>
-            </ul>
-        </div>
+Axtell will collect some data in the background. This outlines what data we collect
+<div class="privacy-column__wrapper">
+    <ul class="privacy-column privacy-column--type-positive">
+        <li class="privacy-column__nostyle"><h4>We do track</h4></li>
+        <li><strong>errors</strong> that occur so we can fix them.</li>
+        <li><strong>IP</strong> is stored for security and identifying sock-puppets.</li>
+        <li><strong>usage data</strong> such as view counts of posts and feature usage.</li>
+        <li><strong>speed data</strong>, specifically how much time pages took to load.</li>
+        <li><strong>device information</strong>, that is device type (mobile, desktop) and browser (Firefox, Safari, etc.)</li>
+    </ul>
+    <ul class="privacy-column privacy-column--type-negative">
+        <li class="privacy-column__nostyle"><h4>We never track</h4></li>
+        <li><strong>your demographics</strong></li>
+        <li><strong>intra-site behavior</strong></li>
+    </ul>
+</div>
 
 ### Usage Tracking.
 Axtell tracks your usage of the website by tracking view counts and events. This data is **never** shared with any third-parties and usage tracking is anonymized. Certain events may also be transmitted with error tracking (e.g. if you were writing a comment while the error occured) to provide context for errors.
