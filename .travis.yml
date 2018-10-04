@@ -2,6 +2,8 @@ dist: xenial
 language: python
 python:
   - '3.6'
+node_js:
+  - node
 services:
   - mysql
   - redis-server
