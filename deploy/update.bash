@@ -29,6 +29,9 @@ echo "REMOTE DEPLOY: UPDATING PYTHON PACKAGES"
 source venv/bin/activate
 pip3 install -r requirements.txt
 
+echo "REMOTE DEPLOY: UPDATING NPM PACKAGES"
+npm install --production
+
 echo "REMOTE DEPLOY: ALEMBIC UPGRADES"
 PYTHONPATH=$PYTHONPATH:/var/www/ppcg-v2 alembic revision --autogenerate -m "$(git log --format=%B -n 1)"
 PYTHONPATH=$PYTHONPATH:/var/www/ppcg-v2 alembic upgrade head
