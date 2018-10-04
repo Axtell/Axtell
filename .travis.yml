@@ -3,7 +3,8 @@ language: python
 python:
   - '3.6'
 node_js:
-  - node
+  - 10
+  - 8
 services:
   - mysql
   - redis-server
@@ -14,6 +15,7 @@ cache:
   directories:
     - "$HOME/.npm"
 install:
+  - npm i -g npm
   - npm ci
   - bundle install
   - pip install -r requirements.txt
