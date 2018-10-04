@@ -6,7 +6,7 @@
         text-transform: uppercase;
         letter-spacing: 1px;
         font-weight: bold;
-        font-size: 0.9rem;
+        font-size: 0.75rem;
     }
 
     .doc-headers__list {
@@ -16,7 +16,7 @@
 
         .doc-headers__list__item {
             font-size: 0.95rem;
-            line-height: 1;
+            line-height: 1.4;
             padding: 4px 0;
 
             &, a { color: $accent-color; }

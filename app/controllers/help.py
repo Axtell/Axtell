@@ -1,13 +1,20 @@
 from app.tasks.docs import render_docs
 from os import getcwd, path
+from collections import OrderedDict
 
 doc_structure = {
-    'Getting Started': {
-        'What is Axtell?': 'intro/getting-started'
-    },
-    'Legal': {
-        'Privacy Policy': 'legal/privacy'
-    }
+    'Getting Started': OrderedDict([
+        ('What is Axtell?', 'intro/getting-started'),
+    ]),
+    'Legal': OrderedDict([
+        ('Privacy Policy', 'legal/privacy'),
+    ]),
+    'FAQ': OrderedDict([
+        ('General FAQ', 'faq/general-faq'),
+        ('Answering', 'faq/answering'),
+        ('Challenges', 'faq/challenges'),
+        ('Languages', 'faq/languages'),
+    ]),
 }
 
 doc_root = path.join(getcwd(), 'docs')

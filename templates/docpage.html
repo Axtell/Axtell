@@ -37,6 +37,7 @@
             </div>
         {%- endif -%}
 
+        {%- if headings|length > 1 -%}
         <div class="doc-headers">
             <strong class="doc-headers__name">Contents</strong>
             <ul class="doc-headers__list">
@@ -45,6 +46,7 @@
                 {%- endfor -%}
             </ul>
         </div>
+        {%- endif -%}
 
         <div class="main">
             <article class="body">

@@ -16,9 +16,8 @@
             margin-left: 1rem;
             overflow: hidden;
 
-            transition: max-height 0.2s ease;
-            max-height: 0;
-            &.help-navigation__open { max-height: 100px; }
+            height: 0;
+            &.help-navigation__open { height: auto; }
         }
     }
 

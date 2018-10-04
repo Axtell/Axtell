@@ -1,5 +1,6 @@
 import ViewController from '~/controllers/ViewController';
 
+import anime from 'animejs';
 import { fromEvent } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -39,6 +40,9 @@ export default class HelpCenterNavigationViewController extends ViewController {
                 ])
         );
 
+        /** @private */
+        this.animationQueue = null;
+
         // Initialize RxJS
         fromEvent(this.sections, 'click')
             .pipe(
@@ -46,9 +50,28 @@ export default class HelpCenterNavigationViewController extends ViewController {
                 map(title => this.titlePairs.get(title)))
             .subscribe(
                 (section) => {
+
+                this.beginQueue();
+
                 this.closeAllSections();
                 this.toggleSection(section, true);
+
+                this.finishQueue();
             });
+    }
+
+    /**
+     * Begin animation queue
+     */
+    beginQueue() {
+        this.animationQueue = anime.timeline({ autoplay: false });
+    }
+
+    /**
+     * Finishes queue and plays animation
+     */
+    finishQueue() {
+        this.animationQueue.play();
     }
 
     /**
@@ -57,11 +80,15 @@ export default class HelpCenterNavigationViewController extends ViewController {
      * @param {boolean} isOpen
      */
     toggleSection(section, isOpen) {
-        if (isOpen) {
-            section.classList.add(ACTIVE_SECTION_CLASS_NAME);
-        } else {
-            section.classList.remove(ACTIVE_SECTION_CLASS_NAME);
-        }
+        this.animationQueue.add({
+            targets: section,
+            easing: 'easeOutCubic',
+            elasticity: 0,
+            height: isOpen ? section.scrollHeight : 0,
+            offset: 0,
+            duration: 200,
+            begin: () => section.classList.add(ACTIVE_SECTION_CLASS_NAME)
+        });
     }
 
     /**
