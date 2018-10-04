@@ -7,7 +7,8 @@ var md = require('./markdown-renderer'),
     frontMatter = require('markdown-it-front-matter'),
     slug = require('slug'),
     anchor = require('markdown-it-anchor'),
-    os = require('os')
+    container = require('markdown-it-container'),
+    os = require('os');
 
 md.set({ html: true });
 
@@ -24,7 +25,7 @@ md.use(anchor, {
     callback: (_, { slug, title }) => {
         headers.push([ title, slug ])
     }
-})
+});
 
 
 process.stdin.resume();

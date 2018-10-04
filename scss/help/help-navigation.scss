@@ -1,0 +1,55 @@
+.help-navigation {
+    padding: 2rem 1rem;
+
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+
+        // A given section item
+        li {
+            margin: 4px 0;
+        }
+
+        // Second depth ULs can have some indent
+        ul {
+            margin-left: 1rem;
+            overflow: hidden;
+
+            transition: max-height 0.2s ease;
+            max-height: 0;
+            &.help-navigation__open { max-height: 100px; }
+        }
+    }
+
+    font-weight: 500;
+    font-size: 1rem;
+    line-height: 2;
+
+    // Section header
+    .help-navigation__title {
+        color: $title-text;
+    }
+
+    // A link
+    .help-navigation__link {
+        color: $subtitle-text;
+        font-size: 0.9em;
+        font-weight: 400;
+        line-height: 1.6;
+
+        transition: margin-left 0.2s ease,
+                    color 0.2s ease;
+        margin-left: 0;
+
+        &.help-navigation__active {
+            font-weight: 500;
+            color: $accent-color;
+        }
+
+        &:hover:not(.help-navigation__active) {
+            margin-left: 1px;
+            color: $key-text;
+        }
+    }
+}

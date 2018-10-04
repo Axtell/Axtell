@@ -5,8 +5,10 @@ export const NO_DATA_TAG = Symbol('Data.Error.NoDataTag');
 /**
  * A global key (not env related).
  * @typedef {Object} Key
+ * @property {string} helpCenter - Object for help center page data.
  */
 export const Key = {
+    helpCenter: 'helpCenter'
 };
 
 /**
