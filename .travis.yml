@@ -1,19 +1,22 @@
 dist: xenial
 language: python
 python:
-- '3.6'
+  - '3.6'
+node_js:
+  - 10
+  - 8
 services:
-- mysql
-- redis-server
-- memcached
+  - mysql
+  - redis-server
+  - memcached
 cache:
   bundler: true
   pip: true
   directories:
-  - node_modules
-  - static/node_modules
+    - "$HOME/.npm"
 install:
-  - npm i
+  - npm i -g npm
+  - npm ci
   - bundle install
   - pip install -r requirements.txt
   - pip install codecov coverage

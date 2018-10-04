@@ -1,0 +1,66 @@
+{% extends "layouts/page.html" %}
+
+{% block title %}Categories{% endblock %}
+
+{% block base_content -%}
+{{ data('helpCenter', macros.json_to_b64({'path': path_name})) }}
+
+<div class="content content-division">
+    <aside class="content-division__aside--width-sidebar">
+        <nav class="help-navigation" id="help-navigation">
+            <ul>
+                {%- for doc_section_name, doc_section in doc_structure.items() -%}
+                {% set doc_section_is_active = doc_section_name == section_name %}
+                    <li>
+                        <a class="help-navigation__title" data-navigation-target="{{ loop.index }}">{{ doc_section_name }}</a>
+                        <ul id="navigation-target-{{ loop.index }}"
+                            class="{{ 'help-navigation__open' if doc_section_is_active else '' }}">
+                            {%- for doc_name, doc_path in doc_section.items() -%}
+                            {% set doc_path_is_active = doc_path == path_name %}
+                                <li><a class="help-navigation__link{{ ' help-navigation__active' if doc_path_is_active else '' }}" href="{{ url_for('help_page', path=doc_path) }}">{{ doc_name }}</a></li>
+                            {%- endfor -%}
+                        </ul>
+                    </li>
+                {%- endfor -%}
+            </ul>
+        </nav>
+    </aside>
+
+    <main>
+        <div class="list-header">
+            <h1>{{ doc_name }}.</h1>
+        </div>
+
+        {%- if caption is not none -%}
+            <div class="list-header list-header--style-caption">
+                <h2 class="header--style-caption">{{ caption }}</h2>
+            </div>
+        {%- endif -%}
+
+        {%- if headings|length > 1 -%}
+        <div class="doc-headers">
+            <strong class="doc-headers__name">Contents</strong>
+            <ul class="doc-headers__list">
+                {%- for name, slug in headings.items() -%}
+                    <li class="doc-headers__list__item"><a href="#{{ slug }}">{{ name|replace('.', '') }}</a></li>
+                {%- endfor -%}
+            </ul>
+        </div>
+        {%- endif -%}
+
+        <div class="main">
+            <article class="body">
+                {{ html | safe }}
+            </article>
+        </div>
+    </main>
+</div>
+{%- endblock %}
+
+{% block footer -%}
+<div class="footer content footer--primary-inline">
+    <span class="footer__inline footer__inline--weight-light footer__inline--color-light">See any fixes or improvements you could make?</span>&nbsp;
+    <a class="footer__inline footer__inline--color-accent" href="https://github.com/Axtell/Axtell/edit/master/docs/{{ path_name }}.md">Submit an edit!</a>
+</div>
+{{ super() }}
+{%- endblock %}

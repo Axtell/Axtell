@@ -180,12 +180,15 @@ body {
 @import "template-animations.scss";
 @import "post-details.scss";
 @import "import-indicator.scss";
-@import "help-topics.scss";
+@import "help/help-topics.scss";
+@import "help/doc-headers.scss";
+@import "help/help-navigation.scss";
 @import "privacy.scss";
 @import "codepage-table.scss";
 @import "header/help-header.scss";
 @import "swipe-menu.scss";
 @import "search/search-overlay.scss";
+@import "content-division.scss";
 @import "CodeMirror.scss";
 @import "notification/notification-list.scss";
 @import "notification/notification-category.scss";

@@ -4,6 +4,7 @@ import pkgutil
 
 md_exe = path.join(path.dirname(__file__), 'markdown.js')
 hljs_exe = path.join(path.dirname(__file__), 'highlight.js')
+docs_exe = path.join(path.dirname(__file__), 'docs-renderer.js')
 lang_path = path.join(path.dirname(__file__), 'languages.json')
 icon_template_path = path.join(path.dirname(__file__), 'logo-template.svg')
 

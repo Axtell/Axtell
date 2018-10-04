@@ -2,11 +2,11 @@
 {% from "includes/more.html" import more %}
 {% from "includes/time.html" import time %}
 
-{% macro help_topic(title, description, id) -%}
+{% macro help_topic(title, description, icon, id) -%}
     <div class="help-topics__topic">
         <div class="help-topics__topic__content">
             <div class="help-topics__topic__column help-topics__topic__icon_wrap">
-                {% include 'svg/' + id + '.html' %}
+                {% include 'svg/' + icon + '.html' %}
             </div>
             <div class="help-topics__topic__column help-topics__topic__column--flex">
                 <h4>{{ title }}</h4>
@@ -28,8 +28,8 @@
     <div class="main">
         <h3>Topics</h3>
         <div class="help-topics">
-            {{ help_topic('FAQ', '"What is Axtell, code-golf?" and other frequently asked questions', id='faq') }}
-            {{ help_topic('Privacy', 'Learn about what we do with data. Axtell never shares your data, and never collects PII.', id='privacy') }}
+            {{ help_topic('FAQ', '"What is Axtell, code-golf?" and other frequently asked questions', icon='faq', id='faq/general-faq') }}
+            {{ help_topic('Privacy', 'Learn about what we do with data. Axtell never shares your data, and never collects PII.', icon='privacy', id='legal/privacy') }}
         </div>
     </div>
 {%- endblock %}

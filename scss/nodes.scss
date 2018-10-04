@@ -4,7 +4,6 @@ a {
 
   &.title {
     color: $title-text;
-    font-family: $bold-font;
     font-weight: $bold-weight;
   }
 }
@@ -20,13 +19,12 @@ a {
 }
 
 b, strong {
-  font-family: $bold-font;
+  font-weight: 500;
 }
 
 h1, h2, h3, h4, h5, h6 {
   color: $title-text;
   font-weight: 500;
-  font-family: $bold-font;
   margin: 0;
   display: inline-block;
 
@@ -92,13 +90,11 @@ h2, h3 {
 h4 {
   font-size: 1.4em;
   font-weight: 500;
-  font-family: $bold-font;
 }
 
 h5 {
   font-weight: 300;
   font-size: 1.4em;
-  font-family: $light-font;
 }
 
 span.label {
@@ -164,7 +160,7 @@ body .CodeMirror {
 
 .body {
   color: $main-text;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
 
   @import "body.scss";
 }

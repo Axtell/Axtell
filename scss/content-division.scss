@@ -1,0 +1,11 @@
+.content-division {
+    display: flex;
+    flex-direction: row;
+
+    aside {
+        &.content-division__aside--width-sidebar { width: 280px; }
+        &.content-division__aside--width-dynamic { width: 25%; }
+    }
+
+    main { flex: 1; }
+}

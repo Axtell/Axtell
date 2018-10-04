@@ -4,6 +4,7 @@ import '~/ui/views/markdown';
 import '~/ui/views/answer';
 import '~/ui/views/sticky';
 import '~/ui/views/post';
+import '~/ui/views/helpCenter';
 import '~/ui/views/form';
 import '~/ui/exec/exec-tio';
 

@@ -11,19 +11,6 @@ def home():
     return render_template('index.html')
 
 
-@server.route("/help")
-def help():
-    return render_template('help.html')
-
-
-@server.route("/help/<path:path>")
-def help_page(path):
-    try:
-        return render_template(f'help/{path}.html')
-    except TemplateNotFound:
-        return abort(404)
-
-
 @server.route("/lang/logo/<lang_id>.svg")
 def lang_logo(lang_id):
     if not Language.exists(lang_id):

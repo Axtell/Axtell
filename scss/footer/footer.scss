@@ -1,5 +1,5 @@
 // Handle override
-.override ~ footer .footer:not(.footer--secondary) {
+.override ~ footer .footer:not(:first-of-type) {
   border-top: none;
 }
 
@@ -19,9 +19,11 @@ footer {
     padding-top: 3rem;
 
     // If not primary so add additioanl space
-    &.footer--secondary {
+    &:not(:first-of-type) {
       margin-top: 4rem;
     }
+
+    &.footer--primary-inline { margin-bottom: -1rem; }
 
     .footer__section {
       list-style: none;
@@ -87,6 +89,7 @@ footer {
 
       &.footer__inline--color-light { color: $detail-text; }
       &.footer__inline--color-dark { color: $key-text; }
+      &.footer__inline--color-accent { color: $accent-color; }
 
       &.footer__inline--size-small { font-size: 0.8rem; }
 
