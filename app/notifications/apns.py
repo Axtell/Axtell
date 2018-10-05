@@ -2,6 +2,7 @@
 Communicates with APNS.
 """
 from app.server import server
+from app.instances import db
 
 from hyper import HTTPConnection
 from config import notifications
@@ -73,6 +74,13 @@ def send_notification(device, notification):
     if response_status != 200:
         try:
             reason = json_loads(response_body)['reason']
+
+            # If reason is 'BadDeviceToken' this means the user has likely
+            # unsubscribed so we'll remove their device subscription
+            if reason == 'BadDeviceToken':
+                db.session.delete(device)
+                db.session.commit()
+
         except ValueError:
             reason = "unknown"
 
