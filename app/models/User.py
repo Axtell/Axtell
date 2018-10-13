@@ -1,6 +1,7 @@
 from app.instances import db
 from app.helpers.macros.gravatar import gravatar
 from app.helpers.search_index import index_json, IndexStatus, gets_index
+from app.helpers.SerializableEnum import SerializableEnum
 
 import config
 
@@ -109,33 +110,44 @@ class User(db.Model):
         return '<User({!r}) "{!r}">'.format(self.id, self.name)
 
 
-class UserOAuthToken(db.Model):
+class AuthTokenType(SerializableEnum):
+    OAUTH = 0
+    JWT = 1
+
+
+class UserAuthToken(db.Model):
     """
-    Represents an OAuth login token based on an ID the OAuth provider can provide
-    which uniquely identifies the user, along with a unique id.
-    """
-
-    __tablename__ = 'user_oauth_token'
-
-    provider_id = db.Column(db.String(15), primary_key=True, nullable=False)
-    identity = db.Column(db.String(255), primary_key=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
-    user = db.relationship(User, backref=db.backref('oauth_tokens', lazy=True))
-
-
-class UserJWTToken(db.Model):
-    """
-    Represents an authentication scheme for a user based on a JWT-key style with
-    an issuer and an identity. You **must** validate the key before inserting it
-    here.
+    Represents an authentication scheme for a user based on a JWT-key or OAuth
+    style with an issuer and an identity. You **must** validate the key before
+    inserting it here.
     """
 
-    __tablename__ = 'user_jwt_tokens'
+    __tablename__ = 'user_auth_tokens'
 
-    identity = db.Column(db.String(255), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, unique=True, autoincrement=True)
+
+    # Auth method type
+    auth_method = db.Column(db.Enum(AuthTokenType), nullable=False)
+
+    # Who gives identity and who they are said to be
+    identity = db.Column(db.String(255), nullable=False)
     issuer = db.Column(db.String(255), nullable=False)
+
+    # User-facing identifier
+    identifier = db.Column(db.String(255), nullable=False)
+
+    # Connects to Axtell user
     user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
-    user = db.relationship(User, backref=db.backref('jwt_tokens', lazy=True))
+    user = db.relationship(User, backref=db.backref('auth_tokens', lazy=True))
+
+
+    def to_json(self):
+        return {
+            'method': self.auth_method.value,
+            'issuer': self.issuer,
+            'identifier': self.identifier
+        }
+
 
     def __repr__(self):
         return '<UserToken for {!r}>'.format(self.user_id)

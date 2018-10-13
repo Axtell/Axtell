@@ -4,6 +4,7 @@ from app.controllers import auth
 from app.helpers.render import render_error, render_json, render_template
 from app.server import server
 from app.session.user_session import remove_session_user
+from app.session.csrf import csrf_protected
 import config
 
 from app.helpers.macros.encode import b64_to_json
@@ -55,6 +56,17 @@ def auth_login_oauth():
             return oauth_errors
         else:
             return redirect(state.get('redirect', url_for('home')), 303)
+
+
+@server.route("/auth/methods/list", methods=['GET'])
+@csrf_protected
+def auth_method_list():
+    if g.user is None:
+        return abort(401)
+
+    methods = auth.get_auth_methods(user=g.user)
+
+    return render_json({'methods': methods})
 
 
 @server.route("/auth/logout", methods=['POST'])

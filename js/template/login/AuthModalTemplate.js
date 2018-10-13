@@ -47,6 +47,7 @@ export default class AuthModalTemplate extends ModalViewTemplate {
             this._login(id_token, {
                 name: profile.getName(),
                 email: profile.getEmail(),
+                identifier: profile.getEmail(),
                 avatar: profile.getImageUrl()
             });
         });

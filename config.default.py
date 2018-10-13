@@ -49,10 +49,14 @@ auth = {
 }
 
 oauth = {
-    'se': {
+    'stackexchange.com': {
         'client-id': 'SE_CLIENT_ID',
         'client-secret': 'SE_CLIENT_SECRET',
         'key': 'SE_KEY'
+    },
+    'github.com': {
+        'client-id': 'GITHUB_CLIENT_ID',
+        'client-secret': 'GITHUB_CLIENT_SECRET'
     }
 }
 

@@ -3,11 +3,12 @@ from json import loads as json_loads
 
 from jwcrypto.jwt import JWT
 
+from app.helpers.oauth.config import oauth_config
 from app.helpers.render import render_json, render_error
 from app.instances import db
 from app.instances.redis import redis_db
 from app.jwkeys import jwkeys
-from app.models.User import User, UserJWTToken, UserOAuthToken
+from app.models.User import User, AuthTokenType, UserAuthToken
 from app.models.Login import Login
 from app.session import user_session
 from app.helpers import oauth
@@ -15,14 +16,6 @@ from app.helpers import oauth
 from config import canonical_host, oauth as oauth_data, app as app_config
 from json import loads as json_parse
 import requests
-
-# OAuth provider info
-oauth_config = {
-    'se': {
-        'token': 'https://stackexchange.com/oauth/access_token/json',
-        'auth': oauth.stackexchange
-    }
-}
 
 
 def auth_hack():
@@ -38,24 +31,27 @@ def auth_hack():
     db.session.commit()
 
 
-def get_or_set_user(jwt_token=None, oauth_token=None, profile={}):
+def get_or_set_user(auth_token=None, profile={}):
     """
     This will take an auth object and login the user. If the user does not
     exist, it will save (persist) the auth and create a new account using the
     profile details.
     """
 
-    if jwt_token:
-        token = UserJWTToken.query.filter_by(identity=jwt_token.identity, issuer=jwt_token.issuer).first()
-    elif oauth_token:
-        token = UserOAuthToken.query.filter_by(identity=oauth_token.identity, provider_id=oauth_token.provider_id).first()
+    if auth_token:
+        existing_auth_token = UserAuthToken.query.\
+            filter_by(
+                auth_method=auth_token.auth_method,
+                identity=auth_token.identity,
+                issuer=auth_token.issuer
+            ).first()
     else:
         return abort(500)
 
     user = None
-    if token is not None:
+    if existing_auth_token:
         # This means the user exists
-        user = token.user
+        user = existing_auth_token.user
     else:
         # This means the user does not exist and we must create it.
         name = profile.get('name')
@@ -67,10 +63,7 @@ def get_or_set_user(jwt_token=None, oauth_token=None, profile={}):
 
         user = User(name=name, email=email, avatar=profile.get('avatar'))
 
-        if jwt_token:
-            user.jwt_tokens.append(jwt_token)
-        elif oauth_token:
-            user.oauth_tokens.append(oauth_token)
+        user.auth_tokens.append(auth_token)
 
         db.session.add(user)
         db.session.commit()
@@ -95,9 +88,10 @@ def set_user_oauth(code, provider, client_side=False):
 
     oauth_callback = oauth_provider.get('token')
     oauth_login = oauth_provider.get('auth')
+    oauth_provider_identifier = provider
 
-    oauth_id = oauth_data.get(provider).get('client-id')
-    oauth_secret = oauth_data.get(provider).get('client-secret')
+    oauth_id = oauth_data.get(oauth_provider_identifier).get('client-id')
+    oauth_secret = oauth_data.get(oauth_provider_identifier).get('client-secret')
 
     try:
         # Get the auth key. By polling the provider we both validate
@@ -110,6 +104,9 @@ def set_user_oauth(code, provider, client_side=False):
                 'redirect_uri': canonical_host + url_for('auth_login_oauth'),
                 'client_id': oauth_id,
                 'client_secret': oauth_secret
+            },
+            headers={
+                'Accept': 'application/json'
             }
         ).json().get('access_token', '')
     except:
@@ -129,11 +126,19 @@ def set_user_oauth(code, provider, client_side=False):
         # this is our fault since we validated
         return render_error('Could not obtain OAuth profile.'), 500
 
+    if 'identifier' not in profile:
+        return render_error('Could not obtain identifier'), 400
+
     # Model instance for the token
     # Links together the provider, provider's ID, and our user ID
-    token = UserOAuthToken(provider_id=provider, identity=oauth_identity)
+    token = UserAuthToken(
+        auth_method=AuthTokenType.OAUTH,
+        issuer=oauth_provider_identifier,
+        identity=oauth_identity,
+        identifier=profile.get('identifier')
+    )
 
-    get_or_set_user(oauth_token=token, profile=profile)
+    return get_or_set_user(auth_token=token, profile=profile)
 
 
 def set_user_jwt(auth_key, profile):
@@ -165,7 +170,22 @@ def set_user_jwt(auth_key, profile):
     if not issuer or not subject:
         return render_error('malformed. Missing iss or sub'), 400
 
+    if 'identifier' not in profile:
+        return render_error('malformed. Missing identifier'), 400
+
     # If we are here that means we have validated a valid login attempt. Now we
     # will delegate to another method
-    token = UserJWTToken(identity=subject, issuer=issuer)
-    return get_or_set_user(jwt_token=token, profile=profile)
+    token = UserAuthToken(
+        auth_method=AuthTokenType.JWT,
+        identity=subject,
+        issuer=issuer,
+        identifier=profile.get('identifier')
+    )
+
+    return get_or_set_user(auth_token=token, profile=profile)
+
+
+def get_auth_methods(user):
+    auth_tokens = UserAuthToken.query.filter_by(user=user)
+
+    return [token.to_json() for token in auth_tokens]
