@@ -3,6 +3,20 @@ import isEmail from 'validator/lib/isEmail';
 
 export const NoElementWithId = Symbol('Form.FormConstraint.NoElementWithId');
 
+function leadingToLower(text) {
+    return text[0].toLowerCase() + text.substring(1)
+}
+
+function flatttenValidatorDescription(validator) {
+    return validator._validators.map((validator, index) => {
+        if (index > 0) {
+            return leadingToLower(validator.error);
+        } else {
+            return validator.error;
+        }
+    }).join(" and ");
+}
+
 /**
  * @typedef {Object} Validator
  * @property {Function} callback - Runs validator given element.
@@ -32,8 +46,9 @@ export default class FormConstraint {
      * @param {Function} callback Validator to call. Passed element for first
      *                             arg.
      * @param {string} error String to print on error if the validation fails.
+     * @param {Object} opts additional options
      */
-    addValidator(callback, error) {
+    addValidator(callback, error, {  } = {}) {
         this._validators.push({ callback, error });
         return this;
     }
@@ -49,7 +64,51 @@ export default class FormConstraint {
     length(min, max) {
         return this.addValidator(
             (value) => value.length >= min && value.length <= max,
-            `Must be at least ${min} and at most ${max} characters long.`
+            `Must be at least ${min} and at most ${max} characters long`
+        );
+    }
+
+    /**
+     * Allows the value to either follow validations or be empty. Empty is
+     * defined as null or having no length.
+     *
+     * @return {FormConstraint} chainable object.
+     */
+    isEmpty() {
+        return this.addValidator(
+            (value) => value === null || value.length === 0,
+            `Is empty`
+        );
+    }
+
+    /**
+     * Adds an OR validator.
+     * @param {FormConstraint} caseA - The first case
+     * @param {FormConstraint} caseB - The second case
+     * @return {FormConstraint} chainable object.
+     */
+    or(caseA, caseB) {
+        // Create the text
+        const caseAText = flatttenValidatorDescription(caseA);
+        const caseBText = flatttenValidatorDescription(caseB);
+
+        const text = `${caseAText} or ${leadingToLower(caseBText)}`;
+
+        return this.addValidator(
+            (value) => caseA.validate(value).length === 0 || caseB.validate(value).length === 0,
+            text
+        );
+    }
+
+    /**
+     * Flatten a validator into a single one
+     * @param {FormConstraint} constraint
+     * @return {FormConstraint} chainable object
+     */
+    flatten(constraint) {
+        return this.addValidator(
+            (value) => constraint.validate(value).length === 0,
+            flatttenValidatorDescription(constraint)
         );
     }
 
@@ -60,7 +119,7 @@ export default class FormConstraint {
     isEmail() {
         return this.addValidator(
             (value) => isEmail(value),
-            `Provide a valid email.`
+            `Provide a valid email`
         )
     }
 
@@ -110,6 +169,7 @@ export default class FormConstraint {
         for (let i = 0; i < this._validators.length; i++) {
             let validator = this._validators[i];
             let res = validator.callback(value);
+
             if (res === false) {
                 errors.push({
                     node: this._elem,

@@ -7,17 +7,17 @@
 
 <div class="content content-division">
     <aside class="content-division__aside--width-sidebar">
-        <nav class="help-navigation" id="help-navigation">
+        <nav class="sidebar-navigation" id="help-navigation">
             <ul>
                 {%- for doc_section_name, doc_section in doc_structure.items() -%}
                 {% set doc_section_is_active = doc_section_name == section_name %}
                     <li>
-                        <a class="help-navigation__title" data-navigation-target="{{ loop.index }}">{{ doc_section_name }}</a>
+                        <a class="sidebar-navigation__title" data-navigation-target="{{ loop.index }}">{{ doc_section_name }}</a>
                         <ul id="navigation-target-{{ loop.index }}"
-                            class="{{ 'help-navigation__open' if doc_section_is_active else '' }}">
+                            class="{{ 'sidebar-navigation__open' if doc_section_is_active else '' }}">
                             {%- for doc_name, doc_path in doc_section.items() -%}
                             {% set doc_path_is_active = doc_path == path_name %}
-                                <li><a class="help-navigation__link{{ ' help-navigation__active' if doc_path_is_active else '' }}" href="{{ url_for('help_page', path=doc_path) }}">{{ doc_name }}</a></li>
+                                <li><a class="sidebar-navigation__link{{ ' sidebar-navigation__active' if doc_path_is_active else '' }}" href="{{ url_for('help_page', path=doc_path) }}">{{ doc_name }}</a></li>
                             {%- endfor -%}
                         </ul>
                     </li>

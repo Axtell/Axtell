@@ -23,7 +23,7 @@ class Auth {
 
     /**
      * Returns global instance of `Auth`
-     * @type {Auth}
+     * @type {Promise<Auth>}
      */
     static get shared() {
         if (Auth._shared !== null)

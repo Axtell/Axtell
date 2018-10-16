@@ -1,4 +1,4 @@
-.help-navigation {
+.sidebar-navigation {
     padding: 2rem 1rem;
 
     ul {
@@ -17,7 +17,7 @@
             overflow: hidden;
 
             height: 0;
-            &.help-navigation__open { height: auto; }
+            &.sidebar-navigation__open { height: auto; }
         }
     }
 
@@ -26,12 +26,12 @@
     line-height: 2;
 
     // Section header
-    .help-navigation__title {
+    .sidebar-navigation__title {
         color: $title-text;
     }
 
     // A link
-    .help-navigation__link {
+    .sidebar-navigation__link {
         color: $subtitle-text;
         font-size: 0.9em;
         font-weight: 400;
@@ -41,12 +41,12 @@
                     color 0.2s ease;
         margin-left: 0;
 
-        &.help-navigation__active {
+        &.sidebar-navigation__active {
             font-weight: 500;
             color: $accent-color;
         }
 
-        &:hover:not(.help-navigation__active) {
+        &:hover:not(.sidebar-navigation__active) {
             margin-left: 1px;
             color: $key-text;
         }

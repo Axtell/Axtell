@@ -6,9 +6,11 @@ export const NO_DATA_TAG = Symbol('Data.Error.NoDataTag');
  * A global key (not env related).
  * @typedef {Object} Key
  * @property {string} helpCenter - Object for help center page data.
+ * @property {string} settingsContext - If is user settings screen
  */
 export const Key = {
-    helpCenter: 'helpCenter'
+    helpCenter: 'helpCenter',
+    settingsContext: 'settingsContext'
 };
 
 /**
@@ -20,6 +22,8 @@ export const Key = {
  * @property {string} isDebug - If is debugging instance
  * @property {string} host - canonical host
  * @property {string} webAPNId - The web.id of webapns
+ * @property {string} minUsernameLength - minimum username length
+ * @property {string} maxUsernameLength - maximum username length
  */
 export const EnvKey = {
     algoliaAppId: 'ALGOLIA_APP_ID',
@@ -29,6 +33,8 @@ export const EnvKey = {
     indexPrefix: 'INDEX_PREFIX',
     isDebug: 'IS_DEBUG',
     webAPNId: 'WEB_APN_ID',
+    minUsernameLength: 'MIN_USERNAME_LENGTH',
+    maxUsernameLength: 'MAX_USERNAME_LENGTH',
 };
 
 /**

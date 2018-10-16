@@ -7,7 +7,7 @@ import Theme from '~/models/Theme';
 import Random from '~/modern/Random';
 
 import { of } from 'rxjs';
-import { share, skip, map, distinctUntilChanged } from 'rxjs/operators';
+import { tap, shareReplay, share, skip, map, distinctUntilChanged } from 'rxjs/operators';
 
 import tippy from 'tippy.js/dist/tippy.all.min.js';
 
@@ -29,6 +29,7 @@ export default class LabelGroup extends Template {
      *
      * @param {string} label - The label (self-explantory)
      * @param {InputInterface} input - The input to mount
+     * @param {Object} o - additional options.
      * @param {?string} o.tooltip Some info describing what
      * @param {?ButtonTemplate} o.button - Pass if you want to keep a button within label group for alignment purposes
      * @param {FormConstraint} [o.liveConstraint=null] - Contraints already setup to show
@@ -90,7 +91,7 @@ export default class LabelGroup extends Template {
             this._observeValidation = this._observeValue
                 .pipe(
                     map(value => liveConstraint.validate(value)),
-                    share());
+                    shareReplay());
 
             this._observeValidation
                 .pipe(
