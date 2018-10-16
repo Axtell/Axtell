@@ -9,7 +9,7 @@
 
 {% block title %}{{ user.name }}'s Profile{% endblock %}
 {% block base_content -%}
-{{ data("profile_user", macros.json_to_b64(user.to_json(current_user=g.user))) }}
+{{ data("profile_user", user.to_json(current_user=g.user)) }}
 <main class="profile">
     <section class="profile__column profile__column--sizing-noshrink">
         <div>

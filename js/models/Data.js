@@ -7,10 +7,12 @@ export const NO_DATA_TAG = Symbol('Data.Error.NoDataTag');
  * @typedef {Object} Key
  * @property {string} helpCenter - Object for help center page data.
  * @property {string} settingsContext - If is user settings screen
+ * @property {string} userEmail - The email of the user
  */
 export const Key = {
     helpCenter: 'helpCenter',
-    settingsContext: 'settingsContext'
+    settingsContext: 'settingsContext',
+    userEmail: 'userEmail'
 };
 
 /**
@@ -86,13 +88,18 @@ export default class Data {
         return env[key];
     }
 
+    /** @private */
+    keyNameForKey(key) {
+        return `data-${this._id}:${key}`;
+    }
+
     /**
      * Check if key exists
      * @param {string} key
      * @return {boolean} true if exists
      */
     hasKey(key) {
-        return !!window[this._id + key];
+        return !!document.getElementsByTagName('meta')[this.keyNameForKey(key)];
     }
 
     /**
@@ -101,6 +108,6 @@ export default class Data {
      * @return {?string}
      */
     valueForKey(key) {
-        return window[this._id + key] || null;
+        return document.getElementsByTagName('meta')[this.keyNameForKey(key)]?.content || null;
     }
 }

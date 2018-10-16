@@ -12,6 +12,7 @@
 {%- endblock %}
 
 {% block body %}
-{{ data('settingsContext', g.request_start_time|int) }}
+{{ data_value('settingsContext', g.request_start_time|int) }}
+{{ data_value('userEmail', g.user.email) }}
 {{ super() }}
 {% endblock %}

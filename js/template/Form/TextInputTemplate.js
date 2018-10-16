@@ -3,7 +3,7 @@ import Random from '~/modern/Random';
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 
 import { merge, fromEvent } from 'rxjs';
-import { map, mapTo, share, startWith } from 'rxjs/operators';
+import { map, mapTo, shareReplay, startWith } from 'rxjs/operators';
 
 /**
  * @typedef {Object} TextInputType
@@ -82,7 +82,7 @@ export default class TextInputTemplate extends Template {
             .pipe(
                 map(event => event.target.value),
                 startWith(...(initialValue ? ["", initialValue] : "")),
-                share());
+                shareReplay());
 
         this.underlyingNode.addEventListener("input", () => {
             this.delegate.didSetStateTo(this, this.value);
