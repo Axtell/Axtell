@@ -1,0 +1,8 @@
+{% set data_id = macros.rand_key() %}
+{% macro data(name, value) -%}
+{{ data_value(name, macros.json_to_str(value)) }}
+{%- endmacro %}
+
+{% macro data_value(name, value) -%}
+<meta name="data-{{ data_id }}:{{name}}" itemprop="axtell:data:{{ name }}" content="{{ value if value is not none else "" }}"/>
+{%- endmacro %}

@@ -73,8 +73,8 @@ export default class User {
      * Check if is current user
      * @return {boolean}
      */
-    async isMe() {
-        const auth = await Auth.shared;
+    isMe() {
+        const auth = Auth.shared;
         if (auth.isAuthorized === false) return false;
         return auth.user.id === this.id;
     }

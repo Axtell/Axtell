@@ -1,9 +1,10 @@
 {% extends "layouts/page.html" %}
+{% from "includes/data.html" import data, data_value %}
 
 {% block title %}Categories{% endblock %}
 
 {% block base_content -%}
-{{ data('helpCenter', macros.json_to_b64({'path': path_name})) }}
+{{ data('helpCenter', {'path': path_name}) }}
 
 <div class="content content-division">
     <aside class="content-division__aside--width-sidebar">

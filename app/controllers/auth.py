@@ -13,7 +13,7 @@ from app.models.Login import Login
 from app.session import user_session
 from app.helpers import oauth
 
-from config import canonical_host, oauth as oauth_data, app as app_config
+from config import canonical_host, auth as oauth_data, app as app_config
 from json import loads as json_parse
 import requests
 
@@ -31,12 +31,14 @@ def auth_hack():
     db.session.commit()
 
 
-def get_or_set_user(auth_token=None, profile={}):
+def get_or_set_user(auth_token=None, profile={}, auth_opts={}):
     """
     This will take an auth object and login the user. If the user does not
     exist, it will save (persist) the auth and create a new account using the
     profile details.
     """
+
+    is_append_flow = auth_opts.get('append', False)
 
     if auth_token:
         existing_auth_token = UserAuthToken.query.\
@@ -49,10 +51,29 @@ def get_or_set_user(auth_token=None, profile={}):
         return abort(500)
 
     user = None
-    if existing_auth_token:
+    if existing_auth_token is not None and existing_auth_token.user is not None:
+        # If the login method already belongs to another thing
+        if is_append_flow:
+            return render_error("Already used method", error_type='duplicate_method'), 403
+
+        # Set to existing auth token
+        auth_token = existing_auth_token
+
         # This means the user exists
         user = existing_auth_token.user
     else:
+        # If append flow + the user doesn't exist (good), w'ell just add the user
+        if is_append_flow:
+            if not isinstance(g.user, User):
+                return render_error("Not authorized", error_type='unauthorized'), 400
+
+            # Let's add the auth token to current user
+            g.user.auth_tokens.append(auth_token)
+            db.session.commit()
+            db.session.reload(auth_token)
+
+            return render_json({'id': auth_token.id})
+
         # This means the user does not exist and we must create it.
         name = profile.get('name')
         email = profile.get('email')
@@ -68,16 +89,19 @@ def get_or_set_user(auth_token=None, profile={}):
         db.session.add(user)
         db.session.commit()
 
+        # Reload auth token object
+        db.session.reload(auth_token)
+
     user_session.set_session_user(user)
     g.user = user
 
     ip_address = getattr(request, 'access_route', [request.remote_addr])[0]
-    login = Login(ip_address=ip_address, user_id=g.user.id)
+    login = Login(ip_address=ip_address, user_id=g.user.id, login_method_id=auth_token.id)
     db.session.add(login)
     db.session.commit()
 
 
-def set_user_oauth(code, provider, client_side=False):
+def set_user_oauth(code, provider, client_side=False, auth_opts={}):
     """
     Logs in an OAuth redirect request given the `provider` describing the type
     """
@@ -103,15 +127,16 @@ def set_user_oauth(code, provider, client_side=False):
                 'code': code,
                 'redirect_uri': canonical_host + url_for('auth_login_oauth'),
                 'client_id': oauth_id,
-                'client_secret': oauth_secret
+                'client_secret': oauth_secret,
+                'grant_type': 'authorization_code'
             },
             headers={
                 'Accept': 'application/json'
             }
-        ).json().get('access_token', '')
-    except:
+        ).json()['access_token']
+    except Exception as e:
         # Errors mean we couldn't get access key
-        return render_error('Could not obtain OAuth access token.'), 403
+        return render_error('Could not obtain OAuth access token. ' + repr(e)), 403
 
     # If we're client-side we'll stop here
     if client_side:
@@ -121,10 +146,10 @@ def set_user_oauth(code, provider, client_side=False):
         # Get identity key, this is something that allows us
         # to uniquely identify the user
         oauth_identity, profile = oauth_login(auth_key)
-    except:
+    except Exception as e:
         # If we get here that means we could not get profile
         # this is our fault since we validated
-        return render_error('Could not obtain OAuth profile.'), 500
+        return render_error('Could not obtain OAuth profile. ' + repr(e)), 500
 
     if 'identifier' not in profile:
         return render_error('Could not obtain identifier'), 400
@@ -138,10 +163,10 @@ def set_user_oauth(code, provider, client_side=False):
         identifier=profile.get('identifier')
     )
 
-    return get_or_set_user(auth_token=token, profile=profile)
+    return get_or_set_user(auth_token=token, profile=profile, auth_opts=auth_opts)
 
 
-def set_user_jwt(auth_key, profile):
+def set_user_jwt(auth_key, profile, auth_opts={}):
     """
     Logs in (or signs up) a new user given its JWT and a default profile
     """
@@ -182,7 +207,27 @@ def set_user_jwt(auth_key, profile):
         identifier=profile.get('identifier')
     )
 
-    return get_or_set_user(auth_token=token, profile=profile)
+    return get_or_set_user(auth_token=token, profile=profile, auth_opts=auth_opts)
+
+
+def remove_auth_method(id, user):
+    """
+    Removes auth method for user
+    """
+    auth_tokens = UserAuthToken.query.filter_by(user_id=user.id).all()
+
+    if len(auth_tokens) <= 1:
+        # You can't remove auth token if you only have 1
+        return render_error('not enough tokens'), 412
+
+    selected_token = next((auth_token for auth_token in auth_tokens if auth_token.id == id), None)
+    if not isinstance(selected_token, UserAuthToken):
+        return render_error('invalid method'), 404
+
+    db.session.delete(selected_token)
+    db.session.commit()
+
+    return render_json({ 'id': id })
 
 
 def get_auth_methods(user):

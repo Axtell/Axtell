@@ -2,6 +2,7 @@ from app.instances import db
 from app.helpers.macros.gravatar import gravatar
 from app.helpers.search_index import index_json, IndexStatus, gets_index
 from app.helpers.SerializableEnum import SerializableEnum
+from app.models.Login import Login
 
 import config
 
@@ -142,12 +143,18 @@ class UserAuthToken(db.Model):
 
 
     def to_json(self):
+        # Get the time of most recent login
+        latest_login = next(iter(self.logins), None)
+        latest_login_time = latest_login and latest_login.time.isoformat()
+
         return {
+            'id': self.id,
             'method': self.auth_method.value,
             'issuer': self.issuer,
+            'last_used': latest_login_time,
             'identifier': self.identifier
         }
 
 
     def __repr__(self):
-        return '<UserToken for {!r}>'.format(self.user_id)
+        return f'<UserToken for {self.user}>'

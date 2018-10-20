@@ -13,7 +13,7 @@ const NAVIGATION_HIERARCHY = {
         },
         'Manage Logins': {
             subtitle: 'Change or add login providers.',
-            view: () => import('~/template/ProfileSettings/ProfileSettingsViewProfile')
+            view: () => import('~/template/ProfileSettings/ProfileSettingsViewLogins')
         },
     },
     'Appearance': {

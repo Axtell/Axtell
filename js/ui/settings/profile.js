@@ -8,7 +8,7 @@ export const isProfileSettingScreen = Data.shared.hasKey(Key.settingsContext);
 if (isProfileSettingScreen) {
 
     (async () => {
-        const auth = await Auth.shared;
+        const auth = Auth.shared;
         const user = auth.user;
 
         if (!user) {

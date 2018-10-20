@@ -66,7 +66,7 @@ def get_post_views(post_id):
                         "expression": "ga:pageviews"
                     }
                 ],
-                "viewId": auth['google']['view-id'],
+                "viewId": auth['google.com']['view-id'],
                 "dimensionFilterClauses": [
                     {
                         "filters": [

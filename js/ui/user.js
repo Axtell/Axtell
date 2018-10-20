@@ -4,7 +4,7 @@ import Auth from '~/models/Auth';
 
 (async () => {
 
-    const auth = await Auth.shared;
+    const auth = Auth.shared;
 
     if (auth.isAuthorized) {
         const userInfo = new PopoverViewController(

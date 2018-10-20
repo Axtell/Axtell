@@ -8,11 +8,13 @@ export const NO_DATA_TAG = Symbol('Data.Error.NoDataTag');
  * @property {string} helpCenter - Object for help center page data.
  * @property {string} settingsContext - If is user settings screen
  * @property {string} userEmail - The email of the user
+ * @property {string} loginData - OAuth datas ONLY available when not logged in.
  */
 export const Key = {
     helpCenter: 'helpCenter',
     settingsContext: 'settingsContext',
-    userEmail: 'userEmail'
+    userEmail: 'userEmail',
+    loginData: 'loginData'
 };
 
 /**
@@ -74,7 +76,7 @@ export default class Data {
     encodedJSONForKey(key) {
         const value = this.valueForKey(key);
         if (value === null) return null;
-        else return JSON.parse(Buffer.from(value, 'base64').toString('utf8'));
+        else return JSON.parse(value);
     }
 
     _envCache = null;

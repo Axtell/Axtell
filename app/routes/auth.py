@@ -20,7 +20,9 @@ def auth_login_jwt():
     if not json or 'token' not in json:
         return render_error('bad json')
 
-    jwt_errors = auth.set_user_jwt(json['token'], json.get('profile'))
+    auth_opts = json.get('authConfig', {})
+
+    jwt_errors = auth.set_user_jwt(json['token'], json.get('profile', {}), auth_opts=auth_opts)
     if jwt_errors is not None:
         return jwt_errors
     else:
@@ -39,9 +41,13 @@ def auth_login_oauth():
         return abort(400)
 
     provider = state.get('provider')
+    auth_opts = state.get('authConfig', {})
+
+    is_client_flow =  state.get('target_client', False)
+    oauth_result  = auth.set_user_oauth(code, provider=provider, client_side=is_client_flow, auth_opts=auth_opts)
 
     if state.get('target_client', False):
-        auth_key = auth.set_user_oauth(code, provider=provider, client_side=True)
+        auth_key = oauth_result
         if isinstance(auth_key, str):
             return render_template('client_oauth/success.html', auth_key=auth_key)
         elif auth_key is None:
@@ -50,7 +56,7 @@ def auth_login_oauth():
             # In this case auth_key is errors
             return auth_key
     else:
-        oauth_errors = auth.set_user_oauth(code, provider=provider, client_side=False)
+        oauth_errors = oauth_result
 
         if oauth_errors is not None:
             return oauth_errors
@@ -67,6 +73,14 @@ def auth_method_list():
     methods = auth.get_auth_methods(user=g.user)
 
     return render_json({'methods': methods})
+
+
+@server.route("/auth/method/<int:id>/remove", methods=['POST'])
+def auth_method_remove(id):
+    if g.user is None:
+        return abort(401)
+
+    return auth.remove_auth_method(id=id, user=g.user)
 
 
 @server.route("/auth/logout", methods=['POST'])

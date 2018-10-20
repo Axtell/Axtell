@@ -27,11 +27,22 @@ def encode_oauth(provider):
     scopes = provider_config.get('scopes')
 
     return f'{authorize_url}?' + urlencode([*{
-        'client_id': config.oauth.get(provider).get('client-id'),
+        'client_id': config.auth.get(provider).get('client-id'),
         'scope': " ".join(scopes),
         'state': encode_state(provider),
         'redirect_uri': config.canonical_host + url_for('auth_login_oauth')
     }.items()])
+
+def oauth_data():
+    return {
+        'sites': {
+            site_id: {
+                **{k: v for k, v in site_data.items() if k != 'auth'},
+                'client': config.auth.get(site_id).get('client-id')
+            } for site_id, site_data in oauth_config.items()
+        },
+        'redirect_uri': config.canonical_host + url_for('auth_login_oauth')
+    }
 
 def slugify(string):
     return slugify_str(sub(r"[']", '', string))

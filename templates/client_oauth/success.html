@@ -6,6 +6,7 @@
     <script>
         if (window.opener) {
             window.opener.postMessage({
+                oauth: true,
                 success: true,
                 authKey: '{{ auth_key }}'
             },'*');

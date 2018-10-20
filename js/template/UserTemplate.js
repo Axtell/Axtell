@@ -23,12 +23,12 @@ export default class UserTemplate extends Template {
 
         return (async () => {
 
-            const auth = await Auth.shared;
-            const isAuthorized = await auth.isAuthorized;
+            const auth = Auth.shared;
+            const isAuthorized = auth.isAuthorized;
 
             let followColumn = <DocumentFragment/>;
 
-            if (isAuthorized && !await user.isMe()) {
+            if (isAuthorized && !user.isMe()) {
                 const followButton = new ButtonTemplate({
                     icon: await SVG.load(user.isFollowing ? 'unfollow' : 'follow'),
                     text: user.isFollowing ? 'Unfollow' : 'Follow',

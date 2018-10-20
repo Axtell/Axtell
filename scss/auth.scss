@@ -46,7 +46,7 @@
 
       white-space: nowrap;
 
-      svg {
+      img, svg {
         @include square(1.5rem);
         margin-right: 12px;
         fill: #FFFFFF;

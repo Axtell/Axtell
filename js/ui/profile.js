@@ -29,9 +29,9 @@ if (profileUserData) {
         });
 
 
-        const auth = await Auth.shared;
+        const auth = Auth.shared;
 
-        if (await auth.isAuthorized) {
+        if (auth.isAuthorized) {
             // Setup follow button
             const followButtonNode = document.getElementById(FOLLOW_BUTTON_ID);
             followButtonNode && new FollowButtonController(followButtonNode, auth, profileUser);
