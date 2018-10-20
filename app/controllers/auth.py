@@ -69,10 +69,11 @@ def get_or_set_user(auth_token=None, profile={}, auth_opts={}):
 
             # Let's add the auth token to current user
             g.user.auth_tokens.append(auth_token)
+            db.session.add(auth_token)
             db.session.commit()
-            db.session.reload(auth_token)
+            db.session.refresh(auth_token)
 
-            return render_json({'id': auth_token.id})
+            return
 
         # This means the user does not exist and we must create it.
         name = profile.get('name')
@@ -90,7 +91,7 @@ def get_or_set_user(auth_token=None, profile={}, auth_opts={}):
         db.session.commit()
 
         # Reload auth token object
-        db.session.reload(auth_token)
+        db.session.refresh(auth_token)
 
     user_session.set_session_user(user)
     g.user = user
@@ -138,8 +139,10 @@ def set_user_oauth(code, provider, client_side=False, auth_opts={}):
         # Errors mean we couldn't get access key
         return render_error('Could not obtain OAuth access token. ' + repr(e)), 403
 
-    # If we're client-side we'll stop here
-    if client_side:
+    is_append_flow = auth_opts.get('append', False)
+
+    # If we're client-side we'll stop here UNLESS we are appending
+    if client_side and not is_append_flow:
         return auth_key
 
     try:

@@ -25,7 +25,6 @@ def stackexchange(auth_token):
 
 
 def google(auth_token):
-    print('auth token: ' + auth_token)
     account = requests.get(
         'https://www.googleapis.com/oauth2/v3/tokeninfo',
         params={

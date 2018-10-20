@@ -16,10 +16,12 @@ import { tap, exhaustMap, share } from 'rxjs/operators';
  */
 export default class AuthModalTemplate extends ModalViewTemplate {
     /**
-     * @param {?string} subtitle - Some description explaining why opened
+     * @param {Object} modalOptions
+     * @param {?string} modalOptions.title - A title of the modal.
+     * @param {?string} modalOptions.subtitle - Some description explaining why opened
      * @param {Object} [options={}] custom oauth opts for {@link Auth.oauthEndpointForSite}
      */
-    constructor(subtitle = null, options = {}) {
+    constructor({ title = 'Login or Signup.', subtitle = 'Access Axtell using any of the following providers.' } = {}, options = {}) {
         const google = new LoginMethodSelectorTemplate({
             siteClass: 'google',
             siteImage: 'google',
@@ -47,8 +49,8 @@ export default class AuthModalTemplate extends ModalViewTemplate {
                 </div>
             </div>,
             {
-                title: 'Login or Signup.',
-                subtite: 'Access Axtell using any of the following providers.'
+                title: title,
+                subtite: subtitle
             }
         );
 

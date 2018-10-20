@@ -76,6 +76,7 @@ class Auth {
                     map(data => data.success),
                     tap(() => authWindow.postMessage({ received: true }, '*')))
                 .subscribe(isAuthorizationSuccess => {
+                    console.log(isAuthorizationSuccess);
                     if (isAuthorizationSuccess) {
                         resolve();
                     } else {

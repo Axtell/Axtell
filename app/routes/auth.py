@@ -43,11 +43,20 @@ def auth_login_oauth():
     provider = state.get('provider')
     auth_opts = state.get('authConfig', {})
 
-    is_client_flow =  state.get('target_client', False)
-    oauth_result  = auth.set_user_oauth(code, provider=provider, client_side=is_client_flow, auth_opts=auth_opts)
+    is_client_flow = state.get('clientOnly', False)
+    is_append_flow = auth_opts.get('append', False)
+    oauth_result = auth.set_user_oauth(code, provider=provider, client_side=is_client_flow, auth_opts=auth_opts)
 
-    if state.get('target_client', False):
+    if state.get('clientOnly', False):
         auth_key = oauth_result
+
+        # Seperate behavior for append flow
+        if is_append_flow:
+            if auth_key is None:
+                return render_template('client_oauth/success.html', auth_key=auth_key)
+            else:
+                return render_template('client_oauth/failed.html', error_message=auth_key.get_json().get('message', ''))
+
         if isinstance(auth_key, str):
             return render_template('client_oauth/success.html', auth_key=auth_key)
         elif auth_key is None:

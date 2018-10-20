@@ -210,6 +210,7 @@ button.button {
 @include button-style('black-on-white', #FFF, rgba(#000, 0.75), $border-color: rgba(#000, 0.1), $prefer-active-state: true);
 @include button-style('high-contrast', $hover-source, rgba($hover-mix, 0.75), $border-color: rgba($hover-mix, 0.1), $prefer-active-state: true);
 @include button-style('red', #FFF, rgba(#e03830, 0.75), $border-color: rgba(#e03830, 0.1), $prefer-active-state: true);
+@include button-style('minimal-green', #FFF, #2FCF8B, $border-color: #2FCF8B, $prefer-active-state: true);
 @include button-style('active-blue', $accent-color, #FFF, $border-color: transparent, $prefer-active-state: true);
 @include button-style('active-axtell', #25BCD4, #FFF, $border-color: transparent, $prefer-active-dark: true);
 

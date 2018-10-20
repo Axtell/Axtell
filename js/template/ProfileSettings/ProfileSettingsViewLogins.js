@@ -1,8 +1,11 @@
+import ModalViewController from '~/controllers/ModalViewController';
+import AuthModalTemplate from '~/template/login/AuthModalTemplate';
 import ProfileSettingsView from '~/template/ProfileSettings/ProfileSettingsView';
 import LoginMethods from '~/models/Request/LoginMethods';
 import RemoveLoginMethod from '~/models/Request/RemoveLoginMethod';
 import LoginMethodTemplate from '~/template/LoginMethodTemplate';
 import LoadingTemplate from '~/template/LoadingTemplate';
+import ButtonTemplate, { ButtonColor, ButtonStyle } from '~/template/ButtonTemplate';
 import HeaderTemplate from '~/template/HeaderTemplate';
 
 import { merge } from 'rxjs/index';
@@ -22,12 +25,48 @@ export default class ProfileSettingsViewLogins extends ProfileSettingsView {
 
         this.loginSwapper = new LoadingTemplate();
         this.loginSwapper.loadInContext(root);
+
+        const addMethodButton = new ButtonTemplate({
+            text: "Add Login",
+            color: ButtonColor.minimalGreen,
+            style: ButtonStyle.minimal
+        });
+
+        addMethodButton.isWide = true;
+        addMethodButton.hasPaddedHorizontal = true;
+
+        addMethodButton.loadInContext(root);
+
+        /** @type {ButtonTemplate} */
+        this.addMethodButton = addMethodButton;
     }
 
     /** @overrude */
     async didInitialLoad() {
         super.didInitialLoad();
 
+        // Watch add method button
+        const addAuthMethodTemplate = new AuthModalTemplate({
+            title: 'Add Login.',
+            subtitle: 'Add an authorization method'
+        }, {
+            clientOnly: true,
+            authConfig: {
+                append: true
+            }
+        });
+
+        // Open 'add login' dialog
+        this.addMethodButton
+            .observeClick()
+            .pipe(
+                exhaustMap(async () => {
+                    ModalViewController.shared.present(addAuthMethodTemplate);
+                }))
+            .subscribe();
+
+
+        // Create the login methods
         const loginMethods = await new LoginMethods().run();
         const loginTemplates = loginMethods
             .sort((a, b) => b.lastUsed - a.lastUsed)

@@ -67,6 +67,7 @@
     {%- if g.user is not none -%}
     {{ data("me", g.user.to_json()) }}
     {%- endif -%}
+    {{ data('loginData', macros.oauth_data()) }}
 
     <script async src="/static/lib/axtell.main.js?v={{ macros.get_version_id() }}"></script>
 {%- endblock %}

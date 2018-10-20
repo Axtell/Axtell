@@ -3,6 +3,10 @@ export const siteMetadata = new Map([
         siteName: 'Google',
         siteIcon: 'login-method/google'
     }],
+    ['google.com', {
+        siteName: 'Google',
+        siteIcon: 'login-method/google'
+    }],
     ['stackexchange.com', {
         siteName: 'Stack Exchange',
         siteIcon: 'login-method/stackexchange'
