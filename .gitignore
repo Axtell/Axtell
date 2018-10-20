@@ -110,7 +110,7 @@ ENV/
 w1*
 
 # Sensitive configuration details
-config.py
+/config.py
 /key
 deploy.txt
 alembic.ini
