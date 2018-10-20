@@ -14,7 +14,7 @@ class Login(db.Model):
     time = db.Column(db.DateTime, default=datetime.datetime.now, nullable=False)
     ip_address = db.Column(db.String(40), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    login_method_id = db.Column(db.Integer, db.ForeignKey('user_auth_tokens.id', ondelete='SET NULL'), nullable=False)
+    login_method_id = db.Column(db.Integer, db.ForeignKey('user_auth_tokens.id'), nullable=True)
 
     user = db.relationship('User', backref='logins', order_by='desc(Login.time)', lazy=True)
     login_method = db.relationship('UserAuthToken', backref='logins', order_by='desc(Login.time)', lazy=True)
