@@ -50,7 +50,7 @@ export default class LoginMethodTemplate extends Template {
                 <img class="login-method__column login-method__column--size-icon login-method__column--pad-around login-method__column--align-center" src={ Theme.current.staticImageForTheme(loginMethod.siteIcon) }/>
                 <div class="login-method__column login-method__column--size-primary">
                     <span class="login-method__data login-method__data--style-primary">{ loginMethod.siteName }</span>
-                    <span class="login-method__data login-method__data--style-detail">{ loginMethod.identifier }</span>
+                    <span class="login-method__data login-method__data--style-value">{ loginMethod.identifier }</span>
                     <span class={`login-method__data login-method__data--style-detail ${usedRecently ? 'login-method__data--style-detail-highlight' : ""}`}>Last used { lastUsed }</span>
                 </div>
                 <div class="login-method__column login-method__column--align-center">

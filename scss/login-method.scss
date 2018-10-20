@@ -32,6 +32,13 @@
                 color: $title-text;
             }
 
+            &.login-method__data--style-value {
+                font-weight: 400;
+                font-family: $monospace;
+                color: $key-text;
+                font-size: 0.9rem;
+            }
+
             &.login-method__data--style-detail {
                 font-weight: 400;
                 color: $key-text;
