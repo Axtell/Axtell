@@ -82,7 +82,7 @@ export default class AuthModalTemplate extends ModalViewTemplate {
                 .observeClick()
                 .pipe(
                     exhaustMap(
-                        () => auth.authorizeOAuth('stackexchange.com', options))),
+                        () => auth.authorizeOAuth('github.com', options))),
             this.providers.google
                 .observeClick()
                 .pipe(
