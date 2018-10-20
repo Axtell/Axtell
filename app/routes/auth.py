@@ -55,7 +55,13 @@ def auth_login_oauth():
             if auth_key is None:
                 return render_template('client_oauth/success.html', auth_key=auth_key)
             else:
-                return render_template('client_oauth/failed.html')
+                if isinstance(oauth_result, tuple):
+                    response, = oauth_result
+                    error_message = response.get_json().get('message', '')
+                else:
+                    error_message = 'unknown error'
+                
+                return render_template('client_oauth/failed.html', error_message=error_message)
 
         if isinstance(auth_key, str):
             return render_template('client_oauth/success.html', auth_key=auth_key)
