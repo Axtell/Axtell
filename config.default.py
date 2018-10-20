@@ -28,10 +28,19 @@ memcached_config = {
 }
 
 auth = {
-    'google': {
+    'google.com': {
         'client-id': 'GOOGLE_CLIENT_ID',
         'analytics-id': 'GOOGLE_ANALYTICS_CLIENT_ID',
         'view-id': ''
+    },
+    'stackexchange.com': {
+        'client-id': 'SE_CLIENT_ID',
+        'client-secret': 'SE_CLIENT_SECRET',
+        'key': 'SE_KEY'
+    },
+    'github.com': {
+        'client-id': 'GITHUB_CLIENT_ID',
+        'client-secret': 'GITHUB_CLIENT_SECRET'
     },
     'imgur': {
         'client-id': 'IMGUR_CLIENT_ID'
@@ -45,14 +54,6 @@ auth = {
         'admin-key': '',
         'search-key': '',
         'prefix': 'test'
-    }
-}
-
-oauth = {
-    'se': {
-        'client-id': 'SE_CLIENT_ID',
-        'client-secret': 'SE_CLIENT_SECRET',
-        'key': 'SE_KEY'
     }
 }
 

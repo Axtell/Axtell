@@ -6,9 +6,15 @@ export const NO_DATA_TAG = Symbol('Data.Error.NoDataTag');
  * A global key (not env related).
  * @typedef {Object} Key
  * @property {string} helpCenter - Object for help center page data.
+ * @property {string} settingsContext - If is user settings screen
+ * @property {string} userEmail - The email of the user
+ * @property {string} loginData - OAuth datas ONLY available when not logged in.
  */
 export const Key = {
-    helpCenter: 'helpCenter'
+    helpCenter: 'helpCenter',
+    settingsContext: 'settingsContext',
+    userEmail: 'userEmail',
+    loginData: 'loginData'
 };
 
 /**
@@ -20,6 +26,8 @@ export const Key = {
  * @property {string} isDebug - If is debugging instance
  * @property {string} host - canonical host
  * @property {string} webAPNId - The web.id of webapns
+ * @property {string} minUsernameLength - minimum username length
+ * @property {string} maxUsernameLength - maximum username length
  */
 export const EnvKey = {
     algoliaAppId: 'ALGOLIA_APP_ID',
@@ -29,6 +37,8 @@ export const EnvKey = {
     indexPrefix: 'INDEX_PREFIX',
     isDebug: 'IS_DEBUG',
     webAPNId: 'WEB_APN_ID',
+    minUsernameLength: 'MIN_USERNAME_LENGTH',
+    maxUsernameLength: 'MAX_USERNAME_LENGTH',
 };
 
 /**
@@ -66,7 +76,7 @@ export default class Data {
     encodedJSONForKey(key) {
         const value = this.valueForKey(key);
         if (value === null) return null;
-        else return JSON.parse(Buffer.from(value, 'base64').toString('utf8'));
+        else return JSON.parse(value);
     }
 
     _envCache = null;
@@ -80,13 +90,18 @@ export default class Data {
         return env[key];
     }
 
+    /** @private */
+    keyNameForKey(key) {
+        return `data-${this._id}:${key}`;
+    }
+
     /**
      * Check if key exists
      * @param {string} key
      * @return {boolean} true if exists
      */
     hasKey(key) {
-        return !!window[this._id + key];
+        return !!document.getElementsByTagName('meta')[this.keyNameForKey(key)];
     }
 
     /**
@@ -95,6 +110,6 @@ export default class Data {
      * @return {?string}
      */
     valueForKey(key) {
-        return window[this._id + key] || null;
+        return document.getElementsByTagName('meta')[this.keyNameForKey(key)]?.content || null;
     }
 }

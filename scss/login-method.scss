@@ -1,0 +1,53 @@
+.login-method__wrapper {
+    display: block;
+    padding: 1rem;
+}
+
+.login-method {
+
+    display: flex;
+    flex-direction: row;
+
+    padding: 1rem 2rem;
+    background: $content-bg;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px -12px rgba($shadow-mix, 0.3);
+    margin-bottom: 2rem;
+
+    .login-method__column {
+        &.login-method__column--size-primary { flex: 1 }
+        &.login-method__column--size-icon { @include square(2rem); }
+
+        &.login-method__column--pad-around { padding: 1rem 1rem 1rem 0; }
+
+        &.login-method__column--align-center { align-self: center; }
+
+        .login-method__data {
+            display: block;
+            font-weight: 400;
+            line-height: 1.5;
+
+            &.login-method__data--style-primary {
+                font-weight: 600;
+                color: $title-text;
+            }
+
+            &.login-method__data--style-value {
+                font-weight: 400;
+                font-family: $monospace;
+                color: $key-text;
+                font-size: 0.9rem;
+            }
+
+            &.login-method__data--style-detail {
+                font-weight: 400;
+                color: $key-text;
+
+                &.login-method__data--style-detail-highlight {
+                    color: mix($key-text, #0F0, 70%);
+                }
+            }
+        }
+    }
+
+}

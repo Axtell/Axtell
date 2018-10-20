@@ -1,16 +1,90 @@
 import User from '~/models/User';
-import Data from '~/models/Data';
+import Data, { Key } from '~/models/Data';
 import { Bugsnag } from '~/helpers/Bugsnag';
 import axios from 'axios/dist/axios.min.js';
 
 import ModalController from '~/controllers/ModalController';
 import AuthModalTemplate from '~/template/login/AuthModalTemplate';
 
+import { from, fromEvent } from 'rxjs/index';
+import { filter, first, map, tap } from 'rxjs/operators';
+
+const oauthData = Data.shared.encodedJSONForKey(Key.loginData);
+
+/**
+ * @typedef {Object} AuthConfig
+ * @property {boolean} [append=false] - If logged in, append to current user.
+ */
+
 /**
  * Manages authorization use `Auth.shared()` to get global instance
  */
 class Auth {
     static Unauthorized = Symbol('Auth.Unauthorized');
+
+    /**
+     * OAuth endpoint
+     * @param {string} site - Site ID
+     * @param {Object} options
+     * @param {boolean} [options.clientOnly=false] - A boolean specifying it to use client flow.
+     * @param {AuthConfig} [options.authConfig={}] - authorization config
+     * @return {string} URL to put into link
+     */
+    static oauthEndpointForSite(site, { clientOnly = false, authConfig = {} } = {}) {
+        const siteData = oauthData.sites[site];
+        const options = {
+            provider: site,
+            redirect: location.href,
+            clientOnly: clientOnly,
+            authConfig: authConfig
+        };
+
+        return `${siteData.authorize}?${Object.entries({
+            client_id: siteData.client,
+            scope: siteData.scopes.join(" "),
+            state: Buffer.from(JSON.stringify(options)).toString('base64'),
+            redirect_uri: oauthData.redirect_uri,
+            response_type: 'code'
+        }).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join('&')}`;
+    }
+
+    /**
+     * Authorizes for an OAuth site with auth config using CLIENT flow.
+     * @param {string} site - site ID
+     * @param {Object} [options] - Options for {@link Auth.oauthEndpointForSite}
+     * @return {Promise<string>} Resolves to auth key.
+     * @async
+     */
+    authorizeOAuth(site, options = {}) {
+        return new Promise((resolve, reject) => {
+            const endpoint = Auth.oauthEndpointForSite(site, options);
+
+            // If we're using a server side flow then we'll stick to that
+            if (!options.clientOnly) {
+                window.location.href = endpoint;
+                return;
+            }
+
+            const authWindow = window.open(endpoint, `Login to Axtell`, 'width=800,height=800,toolbar=0,menubar=0');
+
+            fromEvent(window, 'message')
+                .pipe(
+                    filter(event => event.source === authWindow),
+                    map(event => event.data || {}),
+                    filter(data => data.oauth),
+                    first(),
+                    map(data => data.success),
+                    tap(() => authWindow.postMessage({ received: true }, '*')))
+                .subscribe(isAuthorizationSuccess => {
+                    console.log(isAuthorizationSuccess);
+                    if (isAuthorizationSuccess) {
+                        resolve();
+                    } else {
+                        reject();
+                    }
+                });
+        });
+    }
 
     /**
      * Don't use this. Use `Auth.shared()`
@@ -23,34 +97,32 @@ class Auth {
 
     /**
      * Returns global instance of `Auth`
-     * @type {Auth}
+     * @type {Promise<Auth>}
      */
     static get shared() {
         if (Auth._shared !== null)
-            return Promise.resolve(Auth._shared);
+            return Auth._shared;
 
-        return (async () => {
-            const auth = new Auth();
-            const user = auth.user;
-            Auth._shared = auth;
+        const auth = new Auth();
+        const user = auth.user;
+        Auth._shared = auth;
 
-            // Since now that the auth it setup, we'll setup bugsnag user info
-            if (Bugsnag) {
-                if (user !== Auth.Unauthorized) {
-                    Bugsnag.user = {
-                        authorized: true,
-                        id: user.id,
-                        name: user.name
-                    };
-                } else {
-                    Bugsnag.user = {
-                        authorized: false
-                    };
-                }
+        // Since now that the auth it setup, we'll setup bugsnag user info
+        if (Bugsnag) {
+            if (user !== Auth.Unauthorized) {
+                Bugsnag.user = {
+                    authorized: true,
+                    id: user.id,
+                    name: user.name
+                };
+            } else {
+                Bugsnag.user = {
+                    authorized: false
+                };
             }
+        }
 
-            return auth;
-        })();
+        return auth;
     }
 
     /**
@@ -125,17 +197,20 @@ export class AuthJWTToken {
     /**
      * @param {string} jwt - Base-64 JWT representing a OpenID auth JSON.
      * @param {AuthProfile} profile - Profile information
+     * @param {Object} options - auth options
      */
-    constructor(authToken, profile) {
+    constructor(authToken, profile, options) {
         this._authToken = authToken;
         this._profile = profile;
+        this._options = options;
     }
 
     /** @override */
     get json() {
         return {
             token: this._authToken,
-            profile: this._profile
+            profile: this._profile,
+            authConfig: this._options
         };
     }
 }

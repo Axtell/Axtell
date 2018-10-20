@@ -16,6 +16,8 @@ import tippy from 'tippy.js/dist/tippy.all.min.js';
  * @property {Object} accentBorder - Accent border and foreground
  * @property {Object} blackOnWhite - white button
  * @property {Object} highContrast - always maintains max contrast
+ * @property {Object} minimalGreen - green version of high contrast.
+ * @property {Object} red - red version of high contrast.
  * @property {Object} activeBlue - non-transitioning theme color
  * @property {Object} activeAxtell - non-transitioning theme color of axtell
  */
@@ -27,6 +29,8 @@ export const ButtonColor = {
     accentBorder: 'accent-border',
     blackOnWhite: 'black-on-white',
     highContrast: 'high-contrast',
+    red: 'red',
+    minimalGreen: 'minimal-green',
     activeBlue: 'active-blue',
     activeAxtell: 'active-axtell'
 };
@@ -35,6 +39,7 @@ export const ButtonColor = {
  * @typedef {Object} ButtonStyle
  * @property {Object} normal - Normal default style
  * @property {Object} plain - A small caps amd smaller style
+ * @property {Object} minimal - Modern style w/ border and slight bevel effect
  */
 export const ButtonStyle = {
     normal: '',

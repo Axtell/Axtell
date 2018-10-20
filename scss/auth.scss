@@ -46,7 +46,7 @@
 
       white-space: nowrap;
 
-      svg {
+      img, svg {
         @include square(1.5rem);
         margin-right: 12px;
         fill: #FFFFFF;
@@ -54,6 +54,7 @@
 
       @include am-provider("google", #F94A4E);
       @include am-provider("stackexchange", #255192);
+      @include am-provider("github", #24292E);
     }
   }
 }

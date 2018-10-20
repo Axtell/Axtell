@@ -1,51 +1,24 @@
-import ViewController from '~/controllers/ViewController';
-import ProgressButtonController from '~/controllers/ProgressButtonController';
-import { AJAXFormControllerDelegate } from '~/delegate/FormControllerDelegate';
-import FormConstraint from '~/controllers/Form/FormConstraint';
-import ErrorManager from '~/helpers/ErrorManager';
+import Data, { Key } from '~/models/Data';
+import Auth from '~/models/Auth';
+import ErrorManager, {HandleUnhandledPromise} from '~/helpers/ErrorManager';
+import SwappingViewController from '~/controllers/SwappingViewController';
 
-import User from '~/models/User';
+export const isProfileSettingScreen = Data.shared.hasKey(Key.settingsContext);
 
-export const PROFILE_FORM_ID = 'sf-profile';
-export const DISPLAY_NAME_ID = 'settings-profile-displayname';
-export const EMAIL_ID = 'settings-profile-email';
+if (isProfileSettingScreen) {
 
-export const SAVE_BUTTON_ID = 'save-profile';
+    (async () => {
+        const auth = Auth.shared;
+        const user = auth.user;
 
-let viewController;
-if (viewController = ViewController.of(PROFILE_FORM_ID)) {
-    const saveButton = new ProgressButtonController(
-        document.getElementById(SAVE_BUTTON_ID)
-    );
-
-    viewController.addConstraints([
-        new FormConstraint(DISPLAY_NAME_ID)
-            .length(User.MIN_USERNAME_LENGTH, User.MAX_USERNAME_LENGTH),
-
-        new FormConstraint(EMAIL_ID)
-            .isEmail()
-    ]);
-
-    viewController.delegate = new class extends AJAXFormControllerDelegate {
-        formWillSubmit(controller) {
-            controller.clearDisplays();
-            return super.formWillSubmit(controller);
+        if (!user) {
+            location.href = '/';
         }
 
-        formDidError(controller, errors) {
-            controller.display(errors);
-        }
+        const mount = new SwappingViewController(document.getElementById("user-settings-mount"));
 
-        setProgressState(controller, state) {
-            saveButton.setLoadingState(state);
-        }
+        const { default: ProfileSettingsTemplate } = await import('~/template/ProfileSettings/ProfileSettingsTemplate');
+        mount.displayAlternate(new ProfileSettingsTemplate(user));
+    })().catch(HandleUnhandledPromise);
 
-        didSubmissionSuccess(controller, data) {
-            // window.location.reload();
-        }
-
-        didSubmissionError(controller, error) {
-            ErrorManager.unhandled(error);
-        }
-    };
 }

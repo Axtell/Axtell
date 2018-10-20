@@ -3,12 +3,21 @@ import Random from '~/modern/Random';
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 
 import { merge, fromEvent } from 'rxjs';
-import { map, mapTo, share, startWith } from 'rxjs/operators';
+import { map, mapTo, shareReplay, startWith } from 'rxjs/operators';
 
+/**
+ * @typedef {Object} TextInputType
+ * @property {string} Search - for search bars
+ * @property {string} Title - for challenge titles
+ * @property {string} Email - for emails
+ * @property {string} Name - for names.
+ * @property {string} URL - for URLs
+ */
 export const TextInputType = {
     Search: 'text-input--type-search',
     Title: 'text-input--type-title',
     Email: '',
+    Name: '',
     URL: 'text-input--type-url'
 }
 
@@ -24,6 +33,7 @@ export default class TextInputTemplate extends Template {
      * @param {Object} opts
      * @param {string} opts.classes - Additional classes
      * @param {boolean} [opts.autofocus=false]
+     * @param {?string} [opts.initialValue=""] - Starting value
      * @param {boolean} [opts.autocomplete=false]
      * @param {boolean} [opts.isOwned=false] - If the wrapper elem manages styles
      * @param {boolean} [opts.isWide=false] - If the text input should fill width.
@@ -32,11 +42,13 @@ export default class TextInputTemplate extends Template {
         classes = "",
         autocomplete = false,
         autofocus = false,
+        initialValue = "",
         isOwned = false,
         isWide = false
     } = {}) {
         super(
             <input type="text"
+                   unsafe-value={initialValue}
                    class={`text-input text-input--type-clean ${type} ${classes}`}
                    placeholder={placeholder}
                    unsafe-autofocus={autofocus}
@@ -49,7 +61,7 @@ export default class TextInputTemplate extends Template {
          * Value of the input
          * @type {string}
          */
-        this.value = null;
+        this.value = initialValue;
         this.defineLinkedInput('value');
 
         this.defineLinkedClass('isWide', 'text-input--size-wide')
@@ -69,8 +81,8 @@ export default class TextInputTemplate extends Template {
         this._observeInput = fromEvent(this.underlyingNode, 'input')
             .pipe(
                 map(event => event.target.value),
-                startWith(""),
-                share());
+                startWith(...(initialValue ? ["", initialValue] : "")),
+                shareReplay());
 
         this.underlyingNode.addEventListener("input", () => {
             this.delegate.didSetStateTo(this, this.value);

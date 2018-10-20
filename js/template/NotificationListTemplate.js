@@ -48,6 +48,7 @@ export default class NotificationListTemplate extends PopoverTemplate {
 
         // Prevent from getting smaller
         this.underlyingNode.style.minWidth = '370px'; // Minimum width
+
         // Force re-compute
         this.underlyingNode.getBoundingClientRect();
         this.underlyingNode.style.minWidth = getComputedStyle(this.underlyingNode).width;

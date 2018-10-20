@@ -32,7 +32,7 @@ export default class CommentTemplate extends Template {
             let subComments = <DocumentFragment/>;
             let seeMoreButton = <DocumentFragment/>;
 
-            const isOwnComment = await comment.owner.isMe();
+            const isOwnComment = comment.owner.isMe();
 
             /** @type {Comment} */
             this.comment = comment;

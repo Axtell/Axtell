@@ -1,14 +1,6 @@
 {% extends "layouts/layout.html" %}
 {% from "includes/header.html" import header %}
-
-{% set data_id = macros.rand_key() %}
-{% macro data(name, value) -%}
-<script>var {{ data_id }}{{name}}={{ macros.json_to_str(value) | safe }};</script>
-{%- endmacro %}
-
-{% macro data_value(name, value) -%}
-<script>var {{ data_id }}{{name}}={{ value }};</script>
-{%- endmacro %}
+{% from "includes/data.html" import data_id, data, data_value %}
 
 {% set theme = session.get('theme', 'light') %}
 
@@ -24,8 +16,8 @@
         <script src="https://apis.google.com/js/api:client.js"></script>
     {%- endif %}
 
-    {% if opts.auth['google'].get('analytics-id', '') not in ['GOOGLE_ANALYTICS_CLIENT_ID', ''] -%}
-    {% set analytics_id = opts.auth['google']['analytics-id'] %}
+    {% if opts.auth['google.com'].get('analytics-id', '') not in ['GOOGLE_ANALYTICS_CLIENT_ID', ''] -%}
+    {% set analytics_id = opts.auth['google.com']['analytics-id'] %}
     <script src="https://www.googletagmanager.com/gtag/js?id={{ analytics_id }}"></script>
     <script>
     window.dataLayer = window.dataLayer || [];
@@ -37,14 +29,14 @@
     {%- endif %}
 
     <link rel=stylesheet type=text/css href="/static/css/all-{{ theme }}.css?v={{ macros.get_version_id() }}">
-    {{ data("theme", theme) }}
+    {{ data_value("theme", theme) }}
 
     {%- if opts.auth['bugsnag'].get('frontend', '') not in ['BUGSNAG_FRONTEND_API_KEY', ''] -%}
     <script src="//d2wy8f7a9ursnm.cloudfront.net/v4/bugsnag.min.js"></script>
     {%- endif -%}
 
     <meta name="data_id" content="{{ data_id }}">
-    {{ data("env", macros.json_to_b64({
+    {{ data("env", {
         'ALGOLIA_APP_ID': opts.auth['algolia']['app-id'],
         'ALGOLIA_SEARCH_KEY': opts.auth['algolia']['search-key'],
         'BUGSNAG': opts.auth['bugsnag'].get('frontend', ''),
@@ -52,7 +44,7 @@
         'CSRF': macros.get_csrf(),
         'COMMENT_COUNT': opts.comments['show_amt'],
         'COMMENT_NEST_COUNT': opts.comments['nest_amt'],
-        'GAPI_KEY': opts.auth['google']['client-id'],
+        'GAPI_KEY': opts.auth['google.com']['client-id'],
         'IMGUR_CLIENT_ID': opts.auth['imgur']['client-id'],
         'INDEX_PREFIX': opts.auth['algolia']['prefix'],
         'IS_DEBUG': is_debug,
@@ -65,16 +57,17 @@
         'POST_BODY_MIN': opts.posts['min_len'],
         'POST_TITLE_MAX': opts.posts['max_title'],
         'POST_TITLE_MIN': opts.posts['min_title'],
-        'SE_CLIENT_ID': opts.oauth['se']['client-id'],
-        'SE_KEY': opts.oauth['se']['key'],
+        'SE_CLIENT_ID': opts.auth['stackexchange.com']['client-id'],
+        'SE_KEY': opts.auth['stackexchange.com']['key'],
         'SOCKET_PORT': opts.app.port,
         'VERSION': macros.get_version_id(),
         'WEB_APN_ID': opts.notifications['web_apn_id']
-    })) }}
+    }) }}
 
     {%- if g.user is not none -%}
-    {{ data("me", macros.json_to_b64(g.user.to_json())) }}
+    {{ data("me", g.user.to_json()) }}
     {%- endif -%}
+    {{ data('loginData', macros.oauth_data()) }}
 
     <script async src="/static/lib/axtell.main.js?v={{ macros.get_version_id() }}"></script>
 {%- endblock %}

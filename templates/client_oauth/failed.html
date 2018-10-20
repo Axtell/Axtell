@@ -9,7 +9,7 @@
     </div>
     <script>
         if (window.opener) {
-            window.opener.postMessage({ success: false },'*');
+            window.opener.postMessage({ oauth: true, success: false, message: '{{ error_message }}' },'*');
             window.addEventListener("message", (event) => {
                 if(event.source === window.opener) {
                     if (event.data && event.data.received) {

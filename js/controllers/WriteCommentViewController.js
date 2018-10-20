@@ -175,7 +175,7 @@ export default class WriteCommentViewController extends ViewController {
             this._submitHandler?.();
         } else {
             // When we try to display box
-            const auth = await Auth.shared;
+            const auth = Auth.shared;
             if (!await auth.ensureLoggedIn()) return;
 
             Analytics.shared.report(EventType.commentWriteOpen(this.owner));

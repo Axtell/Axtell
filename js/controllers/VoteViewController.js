@@ -93,9 +93,9 @@ export default class VoteViewController extends ViewController {
             this.setLoading(true);
 
             // Check if logged in at all
-            let auth = await Auth.shared;
+            let auth = Auth.shared;
 
-            if (await auth.isAuthorized) {
+            if (auth.isAuthorized) {
                 let response = await voteRequest.run();
 
                 this.setVoteTotal(response.total);

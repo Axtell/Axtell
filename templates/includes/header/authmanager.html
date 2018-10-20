@@ -1,28 +1,9 @@
+{% from "includes/data.html" import data, data_value %}
 <div class="section r-tight" id="authmanager">
     <div id="auth-trigger" class="button-section">
         <button id="am-login" class="button button--color-accent">
             {% include "svg/user.html" %}
             <span>Login</span>
         </button>
-    </div>
-    <div id="ammd-auth" class="template">
-        <div id="providers">
-            <div id="am-pgoogle" class="am-provider am-provider--site-google">
-                {% include "svg/google.html" %}
-                <span>Google Login</span>
-            </div>
-
-            <a href="https://stackexchange.com/oauth?client_id={{
-                opts.oauth.get('se').get('client-id')
-            }}&scope=&state={{
-                macros.encode_state('se')
-            }}&redirect_uri={{
-                opts.canonical_host + url_for('auth_login_oauth')
-            }}" class="am-provider am-provider--site-stackexchange"
-                rel="nofollow">
-                {% include "svg/stackexchange-bare.html" %}
-                <span>Stack Exchange Login</span>
-            </a>
-        </div>
     </div>
 </div>

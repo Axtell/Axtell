@@ -218,6 +218,35 @@ enable-threads = true
 wsgi-disable-file-wrapper = true
 ```
 
+#### DB Migrations with Alembic
+If any changes are made to the DB in ORM the DB will need to be migrated to new
+columns etc. To setup alembic use:
+
+```bash
+python3 ./alembic_setup.py
+```
+
+Now run alembic:
+
+```bash
+alembic revision --autogenerate
+alembic upgrade head
+```
+
+If you encounter any issues where the DB goes out of sync with alembic try running:
+
+```bash
+alembic stamp head
+```
+
+alternatively if the alembic loses track of versions you may need to run:
+
+```bash
+mysql -u MYSQL_USERNAME -p DB_NAME -e "DROP TABLE alembic_version;"
+```
+
+**Note:** All alembic commands may need to be prefixed with `PYTHONPATH=$(pwd)` if you encounter directory issues.
+
 ## Building Documentation
 After installing the dependencies. You can build the documentation using:
 

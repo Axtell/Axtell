@@ -20,6 +20,8 @@ Disallow: /user/followers
 Disallow: /user/following
 Disallow: /user/follow
 Disallow: /user/unfollow
+Disallow: /auth/methods/
+Disallow: /auth/method/
 Disallow: /notifications/
 Disallow: /notification/
 Disallow: /leaderboard/

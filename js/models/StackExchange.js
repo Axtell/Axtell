@@ -17,7 +17,7 @@ export default class StackExchangege {
                 `&scope=` +
                 `&state=${btoa(JSON.stringify({
                     provider: 'se',
-                    target_client: true
+                    clientOnly: true
                 }))}` +
                 `&redirect_uri=${Data.shared.envValueForKey('OAUTH_CALLBACK')}`,
                 'Axtell authentication for Stack Exchange',
