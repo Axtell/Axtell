@@ -56,7 +56,7 @@ def auth_login_oauth():
                 return render_template('client_oauth/success.html', auth_key=auth_key)
             else:
                 if isinstance(oauth_result, tuple):
-                    response, = oauth_result
+                    response = oauth_result[0]
                     error_message = response.get_json().get('message', '')
                 else:
                     error_message = 'unknown error'
