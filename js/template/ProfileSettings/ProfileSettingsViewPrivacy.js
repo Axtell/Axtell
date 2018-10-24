@@ -2,20 +2,22 @@ import ProfileSettingsView from '~/template/ProfileSettings/ProfileSettingsView'
 import { ButtonColor, ButtonStyle } from '~/template/ButtonTemplate';
 import ProgressButtonTemplate from '~/template/ProgressButtonTemplate';
 import ModifyUser from '~/models/Request/ModifyUser';
+import PrivacySettings from '~/models/Request/PrivacySettings';
 
-import TextInputTemplate, { TextInputType } from '~/template/Form/TextInputTemplate';
+import LoadingTemplate from '~/template/LoadingTemplate';
+import CheckboxInputTemplate from '~/template/Form/CheckboxInputTemplate';
 import Data, { Key, EnvKey } from '~/models/Data';
 import FormConstraint from '~/controllers/Form/FormConstraint';
 import LabelGroup from '~/template/Form/LabelGroup';
 import Theme from '~/models/Theme';
 
-import { combineLatest } from 'rxjs/index';
+import { of, combineLatest } from 'rxjs/index';
 import { withLatestFrom, exhaustMap, tap, distinctUntilChanged, map, startWith, share } from 'rxjs/operators';
 
 /**
- * Main profile setting page
+ * Main privacy settings page
  */
-export default class ProfileSettingsViewProfile extends ProfileSettingsView {
+export default class ProfileSettingsViewPrivacy extends ProfileSettingsView {
     /** @override */
     constructor(data) {
         const root = <div/>,
@@ -29,11 +31,9 @@ export default class ProfileSettingsViewProfile extends ProfileSettingsView {
             button: saveButton
         });
 
-        /**
-         * Root template
-         * @type {HTMLDivElement}
-         */
-        this.root = root;
+        /** @private */
+        this.swapper = new LoadingTemplate();
+        this.swapper.loadInContext(root);
 
         /**
          * Status of the current view's validation
@@ -49,42 +49,25 @@ export default class ProfileSettingsViewProfile extends ProfileSettingsView {
     async didInitialLoad() {
         await super.didInitialLoad();
 
-        const displayNameInput = new LabelGroup(
-            'Name',
-            new TextInputTemplate(TextInputType.Name, 'John Doe', {
-                initialValue: this.user.name,
+        const root = <div/>;
+
+        const privacySettings = await new PrivacySettings().run();
+
+        const followingIsPublic = new LabelGroup(
+            'Show who I am following publicly.',
+            new CheckboxInputTemplate({
+                isEnabled: privacySettings.followingIsPublic
             }),
             {
-                tooltip: 'This is your display name seen by everyone',
-                liveConstraint: new FormConstraint()
-                    .length(
-                        Data.shared.envValueForKey(EnvKey.minUsernameLength),
-                        Data.shared.envValueForKey(EnvKey.maxUsernameLength)
-                    )
+                isHorizontalStyle: true,
+                tooltip: 'You can choose to publicaly hide who you follow or you may make this private. The people who you follow can always see you follow them.'
             }
         );
-        displayNameInput.loadInContext(this.root);
+        followingIsPublic.loadInContext(root);
 
-        const emailInput = new LabelGroup(
-            'Email',
-            new TextInputTemplate(TextInputType.Email, 'johnd@example.com', {
-                initialValue: Data.shared.valueForKey(Key.userEmail),
-            }),
-            {
-                tooltip: 'This is your email which is private and only used for administrative purposes.',
-                liveConstraint: new FormConstraint()
-                    .or(
-                        new FormConstraint().isEmail(),
-                        new FormConstraint().isEmpty()
-                    )
-            }
-        );
-        emailInput.loadInContext(this.root);
+        this.swapper.displayAlternate(root);
 
-        this.observeValidation = FormConstraint.observeValidation(
-            displayNameInput.observeValidation(),
-            emailInput.observeValidation()
-        );
+        this.observeValidation = of(true);
 
         // Add save button
         this.saveButton
@@ -92,16 +75,14 @@ export default class ProfileSettingsViewProfile extends ProfileSettingsView {
             .pipe(
                 withLatestFrom(
                     combineLatest(
-                        displayNameInput.observeValue(),
-                        emailInput.observeValue(),
-                        (name, email) => ({ name, email })),
+                        followingIsPublic.observeValue(),
+                        (followingIsPublic) => ({ followingIsPublic })),
                     (click, data) => data),
-                exhaustMap(async ({ name, email }) => {
+                exhaustMap(async ({ followingIsPublic }) => {
                     this.saveButton.controller.setLoadingState(true);
 
                     const modifyUser = new ModifyUser({
-                        name,
-                        email
+                        followingIsPublic
                     });
 
                     await modifyUser.run();

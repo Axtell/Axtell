@@ -184,6 +184,22 @@ export default class Template {
     }
 
     /**
+     * Prepends the template in a context
+     * @param {HTMLElement} parent - Will be appended to this node.
+     * @param {boolean} allowDupliacte If should allow to be loaded multiple times
+     * @return {HTMLElement} rendered element
+     */
+    prependInContext(parent, allowDuplicate = true) {
+        if (!allowDuplicate && this._hasLoaded) return;
+
+        let elem = this.unique();
+        this.willLoad();
+        parent.insertBefore(elem, parent.firstChild);
+        this.didLoad();
+        return elem;
+    }
+
+    /**
      * Creates a field w/ updating text
      * @param {string} name The field name
      * @param {string} defaultValue The default value

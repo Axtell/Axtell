@@ -1,6 +1,9 @@
 import ErrorManager from '~/helpers/ErrorManager';
 import isEmail from 'validator/lib/isEmail';
 
+import { combineLatest } from 'rxjs/index';
+import { map, startWith, share } from 'rxjs/operators';
+
 export const NoElementWithId = Symbol('Form.FormConstraint.NoElementWithId');
 
 function leadingToLower(text) {
@@ -34,6 +37,22 @@ function flatttenValidatorDescription(validator) {
  * Specifies what constraints a given form field must satisfy
  */
 export default class FormConstraint {
+
+    /**
+     * Takes list of observers over which to observe validation.
+     * @param  {...Observable<ValidationError[]>} validationObservers
+     * @return {Observable<boolean>} emits beginning with false
+     */
+    static observeValidation(...validationObservers) {
+        return combineLatest(
+            validationObservers,
+            (...errors) => [].concat(...errors))
+            .pipe(
+                map(errors => errors.length === 0),
+                startWith(false),
+                share());
+    }
+
     /**
      * Creates a form constraint (doing nothing).
      */

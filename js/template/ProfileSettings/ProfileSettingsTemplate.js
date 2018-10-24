@@ -15,9 +15,18 @@ const NAVIGATION_HIERARCHY = {
             subtitle: 'Change or add login providers.',
             view: () => import('~/template/ProfileSettings/ProfileSettingsViewLogins')
         },
+        'Privacy': {
+            subtitle: 'Configure your privacy settings',
+            view: () => import('~/template/ProfileSettings/ProfileSettingsViewPrivacy')
+        }
     },
-    'Appearance': {
-        'My Themes': {}
+    'Notifications': {
+        'Settings': {
+            subtitle: 'Configure your notifications'
+        },
+        'Push Notifications': {
+            subtitle: 'Manage your push notification devices.'
+        }
     }
 };
 
