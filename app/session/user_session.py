@@ -10,12 +10,11 @@ from app.models.User import User
 from app.models.Login import Login
 from app.models.Theme import Theme
 
-session_user_key = 'uid'
+SESSION_USER_KEY = 'uid'
 
-redis_session_prefix = 'sid'
+REDIS_SESSION_PREFIX = 'sid'
 
-redis_user_id_key = 'uid'
-redis_login_id_key = 'login'
+REDIS_USER_ID_KEY = 'uid'
 
 # In seconds.
 session_time = int(timedelta(days=1).total_seconds())
@@ -26,12 +25,11 @@ def get_session_user(current_session=None):
         current_session = session
 
     # If there is a session ID.
-    if session_user_key in current_session:
+    if SESSION_USER_KEY in current_session:
         # Look it up in redis
-        session_id = current_session[session_user_key]
-        redis_key = f'{redis_session_prefix}:{session_id}'
-        user_id = redis_db.hget(redis_key, redis_user_id_key)
-
+        session_id = current_session[SESSION_USER_KEY]
+        redis_key = f'{REDIS_SESSION_PREFIX}:{session_id}'
+        user_id = redis_db.hget(redis_key, REDIS_USER_ID_KEY)
         # If the session id is bogus, remove it
         if user_id is None:
             remove_session_key(session_id, current_session=current_session)
@@ -55,10 +53,10 @@ def get_session_login(current_session=None):
         current_session = session
 
     # If there is a session ID.
-    if session_user_key in current_session:
+    if SESSION_USER_KEY in current_session:
         # Look it up in redis
-        session_id = current_session[session_user_key]
-        redis_key = f'{redis_session_prefix}:{session_id}'
+        session_id = current_session[SESSION_USER_KEY]
+        redis_key = f'{REDIS_SESSION_PREFIX}:{session_id}'
         login_id = redis_db.hget(redis_key, redis_login_id_key)
 
         # If the session id is bogus, remove it
@@ -81,8 +79,8 @@ def get_session_login(current_session=None):
 def reset_session_time(current_session=None):
     if current_session is None:
         current_session = session
-    session_id = current_session[session_user_key]
-    redis_key = f'{redis_session_prefix}:{session_id}'
+    session_id = current_session[SESSION_USER_KEY]
+    redis_key = f'{REDIS_SESSION_PREFIX}:{session_id}'
     redis_db.expire(redis_key, session_time)
 
 
@@ -102,21 +100,20 @@ def set_session_user(user, current_session=None):
         user_theme = user_theme.name
 
     session_id = f'{time}:{UUID(bytes=rand_bytes(16))}'
-    redis_session_key = f'{redis_session_prefix}:{session_id}'
+    redis_session_key = f'{REDIS_SESSION_PREFIX}:{session_id}'
 
     pipe = redis_db.pipeline()
 
     # Add this to redis
     # Associate the session key with the user
-    pipe.hset(redis_session_key, redis_user_id_key, user_id)
-
+    pipe.hset(redis_session_key, REDIS_USER_ID_KEY, user_id)
     # Expire session when applicable
     pipe.expire(redis_session_key, session_time)
 
     pipe.execute()
 
     # Set on session
-    current_session[session_user_key] = session_id
+    current_session[SESSION_USER_KEY] = session_id
     current_session['theme'] = user_theme
 
 
@@ -127,11 +124,11 @@ def remove_session_user(current_session=None):
     if current_session is None:
         current_session = session
 
-    if session_user_key not in current_session:
+    if SESSION_USER_KEY not in current_session:
         return
 
     # Get session ID
-    session_id = current_session[session_user_key]
+    session_id = current_session[SESSION_USER_KEY]
 
     remove_session_key(session_id, current_session=current_session)
 
@@ -141,7 +138,7 @@ def remove_session_key(session_id, current_session=None):
         current_session = session
 
     # Remove session ID from redis
-    redis_db.delete(f'{redis_session_prefix}:{session_id}')
+    redis_db.delete(f'{REDIS_SESSION_PREFIX}:{session_id}')
 
     # Remove the session key
-    current_session.pop(session_user_key, None)
+    current_session.pop(SESSION_USER_KEY, None)
