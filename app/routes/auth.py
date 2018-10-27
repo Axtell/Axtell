@@ -60,7 +60,7 @@ def auth_login_oauth():
                     error_message = response.get_json().get('message', '')
                 else:
                     error_message = 'unknown error'
-                
+
                 return render_template('client_oauth/failed.html', error_message=error_message)
 
         if isinstance(auth_key, str):

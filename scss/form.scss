@@ -30,6 +30,17 @@
   &.item-wrap--nopad-vertical { padding-top: 0; padding-bottom: 0; }
   &.item-wrap--nopad-horizontal { padding-left: 0; padding-right: 0; }
 
+  &.item-wrap--orientation-horizontal {
+    flex-direction: row;
+    input { flex: 1 0 auto; }
+    dl {
+      flex: 1 1 auto;
+      margin-left: 8px;
+    }
+  }
+
+  &.item-wrap--orientation-vertical { /* default */ }
+
   &.item-wrap--pad-left { padding-left: 2rem; }
   &.item-wrap--pad-right { padding-right: 2rem; }
   &.item-wrap--pad-top { padding-top: 2rem; }
@@ -104,11 +115,31 @@
     text-transform: none;
   }
 
+  &.label-group--style-group {
+    font-weight: 400;
+    text-transform: none;
+    font-size: 1rem;
+
+    dt {
+      color: $key-text;
+      fill: $key-text;
+      font-size: 1em;
+      font-weight: 500;
+    }
+
+    dd {
+      color: $detail-text;
+      font-size: 0.9em;
+    }
+  }
+
   color: $label-tag;
   fill: $label-tag;
   font-weight: bold;
 
-  label {
+  dl { margin: 0; }
+
+  dt {
     vertical-align: middle;
     display: block;
 
@@ -119,6 +150,8 @@
 
     margin-bottom: 4px;
   }
+
+  dd { margin: 0; }
 }
 
 input.text-input, [contenteditable].text-input, .text-base.text-input, .text-input {

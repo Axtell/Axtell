@@ -1,8 +1,9 @@
 from flask import session, request, redirect, g, abort
 from app.models.Theme import Theme
+from app.models.User import User
 from app.server import server
 from app.instances import db
-from app.helpers.render import render_template
+from app.helpers.render import render_template, render_json
 from app.controllers import user_settings
 from app.session.csrf import csrf_protected
 
@@ -82,10 +83,13 @@ def set_profile_preferences():
     if g.user is None:
         return abort(401)
 
+    data = request.get_json()
+
     try:
-        new_email = request.form.get('settings-profile-email', g.user.email)
-        new_name = request.form.get('settings-profile-displayname', g.user.name)
-        avatar_url = request.form.get('avatar-url', g.user.avatar)
+        new_email = data.get('settings-profile-email', g.user.email)
+        new_name = data.get('settings-profile-displayname', g.user.name)
+        avatar_url = data.get('avatar-url', g.user.avatar)
+        following_is_public = data.get('settings-privacy-public-following', g.user.following_public)
     except KeyError:
         return abort(400)
 
@@ -93,4 +97,15 @@ def set_profile_preferences():
         user_settings.set_email(new_email) or \
         user_settings.set_name(new_name) or \
         user_settings.set_avatar(avatar_url) or \
+        user_settings.set_following_is_public(following_is_public) or \
         do_redirect()
+
+
+@server.route("/preferences/privacy", methods=['GET'])
+@csrf_protected
+def get_privacy_preferences():
+    if not isinstance(g.user, User):
+        return abort(401)
+
+    privacy_preferences = user_settings.get_privacy_settings(g.user)
+    return render_json(privacy_preferences)

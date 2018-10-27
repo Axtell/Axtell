@@ -24,6 +24,7 @@ export const TextInputType = {
 /**
  * Represents a single-line text input.
  * @implements {InputInterface}
+ * @extends {Template}
  */
 export default class TextInputTemplate extends Template {
     /**

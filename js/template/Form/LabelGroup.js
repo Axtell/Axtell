@@ -30,7 +30,12 @@ export default class LabelGroup extends Template {
      * @param {string} label - The label (self-explantory)
      * @param {InputInterface} input - The input to mount
      * @param {Object} o - additional options.
-     * @param {?string} o.tooltip Some info describing what
+     * @param {?string} o.tooltip Some info describing what this does. Do note if
+     *                            you select the horizontal style. This will appear
+     *                            as an inline description.
+     * @param {boolean} [o.isHorizontalStyle=false] - Uses 'horizontal' style. Places
+     *                                              title and description on the side.
+     *                                              used for things such as checkbox.
      * @param {?ButtonTemplate} o.button - Pass if you want to keep a button within label group for alignment purposes
      * @param {FormConstraint} [o.liveConstraint=null] - Contraints already setup to show
      * @param {?ForeignInteractor} [o.interactor=null] - Foreign interactor to link `{ foreignInteractor: ForeignInteractor, label: String }`
@@ -42,27 +47,37 @@ export default class LabelGroup extends Template {
         button = null,
         liveConstraint = null,
         interactor = null,
+        isHorizontalStyle = false,
         hideLabel = false,
         weight = null
     } = {}) {
         const normalizedLabel = label.toLowerCase().replace(/[^a-z]/g, '');
         const id = `lg-${normalizedLabel}-${Random.ofLength(16)}`;
-        const tooltipPlaceholder = <span class="label-group__tooltip" title={tooltip}></span>
+        const tooltipPlaceholder = tooltip && !isHorizontalStyle ? <span class="label-group__tooltip" title={tooltip}></span> : <DocumentFragment/>;
 
         const interactorNode = interactor ? (
             <span class="preview-wrap"><a href={ interactor.foreignInteractor.link } target="_blank">{ interactor.label }</a></span>
         ) : <DocumentFragment/>;
 
+        let orientation = isHorizontalStyle ? 'horizontal' : 'vertical';
+        let description = isHorizontalStyle ? <dd>{ tooltip }</dd> : <DocumentFragment/>;
+        let style = isHorizontalStyle ? 'group' : 'clean';
+
         const root = (
-            <div class="item-wrap label-group label-group--style-clean">
-                { !hideLabel ? <label for={id}>{ label }{" "}{ tooltipPlaceholder }{ interactorNode }</label> : <DocumentFragment/>  }
+            <div class={`item-wrap label-group label-group--style-${style} item-wrap--orientation-${orientation}`}>
+                { !hideLabel ? (
+                    <dl>
+                        <dt><label for={id}>{ label }{" "}{ tooltipPlaceholder }{ interactorNode }</label></dt>
+                        { description }
+                    </dl>
+                ) : <DocumentFragment/>  }
             </div>
         );
 
-        super(root);
-
         // Input element
-        const elem = input.loadInContext(root);
+        const elem = isHorizontalStyle ? input.prependInContext(root) : input.loadInContext(root);
+
+        super(root);
 
         /** @type {ActionControllerDelegate} */
         this.validationDelegate = new ActionControllerDelegate();

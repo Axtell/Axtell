@@ -12,17 +12,21 @@ export default class ModifyUser extends Request {
     /**
      * **Requires** authorization
      * @param {Object} profile
-     * @param {string} [profile.email] - User email
-     * @param {string} [profile.name] - User display name
+     * @param {?string} profile.email - User email
+     * @param {?string} profile.name - User display name
+     * @param {?boolean} profile.followingIsPublic - If following is public
      */
-    constructor({ email, name }) {
+    constructor({ email = null, name = null, followingIsPublic = null }) {
+        const opts = {};
+
+        if (email !== null) opts['settings-profile-email'] = email;
+        if (name !== null) opts['settings-profile-displayname'] = name;
+        if (followingIsPublic !== null) opts['settings-privacy-public-following'] = followingIsPublic;
+
         super({
             path: `/preferences/profile`,
             method: HTTPMethod.POST,
-            formData: {
-                'settings-profile-email': email,
-                'settings-profile-displayname': name
-            }
+            data: opts
         });
     }
 }
