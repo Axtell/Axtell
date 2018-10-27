@@ -28,8 +28,16 @@ export default class NavigationTemplate extends Template {
      * Takes dyadic-tuple in form of array. Followed by elements and if the
      * second element is href, this is used when emitting clicks.
      * @param {Array<Array<string, string>>} nav Navigation data
+     * @param {Object} opts initialization options
+     * @param {?Array<?string, ?string>} firstItem - Array in form of section name
+     *                                and item name.
      */
-    constructor(nav) {
+    constructor(nav, {
+        firstItem: [
+            firstSectionName = nav[0][0],
+            firstItemName = nav[0][1][0][0]
+        ] = []
+    } = {}) {
         const root = <nav class="sidebar-navigation"/>;
 
         super(root);
@@ -99,8 +107,6 @@ export default class NavigationTemplate extends Template {
         navigationController = new SidebarNavigationViewController(root);
 
         /** @private */
-        const firstSectionName = nav[0][0];
-        const firstItemName = nav[0][1][0][0];
         this.firstItem = [firstSectionName, firstItemName];
 
         /** @private */

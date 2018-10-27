@@ -1,6 +1,7 @@
 import Template from '~/template/Template';
 import NavigationTemplate from '~/template/NavigationTemplate';
 import SwappingTemplate from '~/template/SwappingTemplate';
+import HashManager from '~/models/HashManager';
 
 import { from } from 'rxjs/index';
 import { map, switchMap, tap, publishReplay, publishLast } from 'rxjs/operators';
@@ -11,13 +12,19 @@ const NAVIGATION_HIERARCHY = {
             subtitle: 'Change your username, avatar, and other profile settings.',
             view: () => import('~/template/ProfileSettings/ProfileSettingsViewProfile')
         },
+        'Privacy': {
+            subtitle: 'Configure your privacy settings',
+            view: () => import('~/template/ProfileSettings/ProfileSettingsViewPrivacy')
+        }
+    },
+    'Security': {
         'Manage Logins': {
             subtitle: 'Change or add login providers.',
             view: () => import('~/template/ProfileSettings/ProfileSettingsViewLogins')
         },
-        'Privacy': {
-            subtitle: 'Configure your privacy settings',
-            view: () => import('~/template/ProfileSettings/ProfileSettingsViewPrivacy')
+        'Active Sessions': {
+            subtitle: 'Manage or remove active Axtell sessions.',
+            view: () => import('~/template/ProfileSettings/ProfileSettingsViewSessions')
         }
     },
     'Notifications': {
@@ -43,7 +50,12 @@ export default class ProfileSettingsTemplate extends Template {
         super(root);
 
         /** @type {NavigationTemplate} */
-        this.navigation = new NavigationTemplate(NavigationTemplate.navFromObject(NAVIGATION_HIERARCHY));
+        this.navigation = new NavigationTemplate(NavigationTemplate.navFromObject(NAVIGATION_HIERARCHY), {
+            firstItem: [
+                HashManager.shared.getNavigationValue(0),
+                HashManager.shared.getNavigationValue(1)
+            ]
+        });
 
         /** @type {SwappingTemplate} */
         this.swapper = new SwappingTemplate();
@@ -72,6 +84,8 @@ export default class ProfileSettingsTemplate extends Template {
                                     itemName: itemName,
                                     sectionName: sectionName }))))))
             .subscribe(view => {
+                HashManager.shared.setNavigationValue(0, view.section);
+                HashManager.shared.setNavigationValue(1, view.title);
                 this.swapper.displayAlternate(view);
             });
     }
