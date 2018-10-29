@@ -40,7 +40,7 @@ def setup_database():
     db.Model.metadata.create_all(bind=db.engine)
     # SQLAlchemy doesn't have native support for MySQL views,
     # so we use raw SQL here - need to find a better method eventually
-    db.execute("""
+    db.session.execute("""
     CREATE OR REPLACE VIEW `duplicate_users` AS
         SELECT
             `login_ips`.`ip_address` AS `ip_address`,
