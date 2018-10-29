@@ -38,6 +38,26 @@ server.url_map.converters['sint'] = SignedIntegerConverter
 @server.before_first_request
 def setup_database():
     db.Model.metadata.create_all(bind=db.engine)
+    # SQLAlchemy doesn't have native support for MySQL views,
+    # so we use raw SQL here - need to find a better method eventually
+    db.execute("""
+    CREATE OR REPLACE VIEW `duplicate_users` AS
+        SELECT
+            `login_ips`.`ip_address` AS `ip_address`,
+            GROUP_CONCAT(`login_ips`.`user_id`
+                SEPARATOR ',') AS `user_ids`,
+            GROUP_CONCAT(QUOTE(`users`.`name`)
+                SEPARATOR ',') AS `usernames`
+        FROM
+            ((SELECT DISTINCT
+                `logins`.`ip_address` AS `ip_address`,
+                    `logins`.`user_id` AS `user_id`
+            FROM
+                `logins`) `login_ips`
+            JOIN `users` ON ((`users`.`id` = `login_ips`.`user_id`)))
+        GROUP BY `login_ips`.`ip_address`
+        HAVING (COUNT(`login_ips`.`user_id`) > 1)
+    """)
 
 @server.teardown_appcontext
 def teardown_database(exception=None):

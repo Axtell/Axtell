@@ -69,4 +69,3 @@ session = scoped_session(sessionmaker(bind=engine, query_cls=BaseQuery))
 
 Model = declarative_base()
 Model.query = session.query_property()
-

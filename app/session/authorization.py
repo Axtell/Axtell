@@ -18,3 +18,19 @@ def is_authorized_json(f):
         return f(*args, **kwargs)
 
     return wrap
+
+
+def is_admin_json(f):
+    """
+    Decorator to check if user is an admin and
+    return a JSON response if not
+    """
+
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if not isinstance(g.user, User) or not g.user.is_admin:
+            return render_error('Unauthorized'), 401
+
+        return f(*args, **kwargs)
+
+    return wrap
