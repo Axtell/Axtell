@@ -5,7 +5,7 @@ from ast import literal_eval
 def get_duplicate_users():
     # SQLAlchemy doesn't have native support for MySQL views,
     # so we use raw SQL here - need to find a better method eventually
-    result = db.session.execute('SELECT * FROM duplicate_users')
+    result = db.engine.execute('SELECT * FROM duplicate_users')
     data = []
     for row in result:
         user_ids = literal_eval(row[1])
