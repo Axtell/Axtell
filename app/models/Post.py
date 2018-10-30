@@ -1,11 +1,13 @@
 from app.instances import db
 from sqlalchemy.dialects.mysql import LONGTEXT
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy import select, func
+from sqlalchemy import select, func, desc
 from config import posts
 from app.helpers.macros.encode import slugify
 from app.models.PostRevision import PostRevision
 from app.models.PostVote import PostVote
+from app.models.Answer import Answer
+from app.models.AnswerRevision import AnswerRevision
 from app.helpers.search_index import index_json, IndexStatus, gets_index
 from app.tasks.markdown import render_markdown
 from app.helpers.view_counts import get_post_views
@@ -123,6 +125,37 @@ class Post(db.Model):
         z = 1.0
         phat = ups / n
         return (phat + z * z / (2 * n) - z * func.sqrt((phat * (1 - phat) + z * z / (4 * n)) / n)) / (1 + z * z / n)
+
+    @hybrid_property
+    def age(self):
+        last_revision = PostRevision.query.filter_by(post_id=self.id).order_by(PostRevision.revision_time.desc()).first()
+        if isinstance(last_revision, PostRevision):
+            last_modified = last_revision.revision_time
+        else:
+            last_modified = self.date_created
+        
+        return last_modified
+
+    @age.expression
+    def age(cls):
+        last_revision = select([func.coalesce(PostRevision.revision_time, cls.date_created)]).\
+                            where(PostRevision.post_id == cls.id).\
+                            order_by(PostRevision.revision_time.desc()).\
+                            limit(1)[0]
+        return last_revision[0]
+
+    @hybrid_property
+    def activity(self):
+        last_answer_revision = select([func.coalesce(AnswerRevision.revision_time, Answer.date_created)].label('last_revision')).\
+                                select_from(Answer.join(AnswerRevision)).\
+                                where(Answer.post_id == self.id).\
+                                order_by(desc('last_revision')).\
+                                limit(1)
+        if len(last_answer_revision) == 0:
+            return self.age()
+        else:
+            return last_answer_revision[0][0]
+
 
     def to_json(self, no_body=False):
         json = {
