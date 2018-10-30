@@ -12,7 +12,7 @@
 {% block base_content -%}
 {{ data("profile_user", user.to_json(current_user=g.user)) }}
 <main class="profile">
-    <section class="profile__column profile__column--sizing-noshrink">
+    <section class="profile__column profile__column--sizing-noshrink profile__column--max-width-5">
         <div>
             <div class="profile__avatar">
                 <img src="{{ user.avatar_url() }}" />
