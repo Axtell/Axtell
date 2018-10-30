@@ -1,0 +1,19 @@
+structure:
+  - name: Getting Started
+    contents:
+      - name: What is Axtell?
+        path: intro/getting-started
+  - name: Legal
+    contents:
+      - name: Privacy Policy
+        path: legal/privacy
+  - name: FAQ
+    contents:
+        - name: General FAQ
+          path: faq/general-faq
+        - name: Answering
+          path: faq/answering
+        - name: Challenges
+          path: faq/challenges
+        - name: Languages
+          path: faq/languages
