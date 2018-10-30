@@ -24,7 +24,7 @@ def help_page(path):
     caption = frontmatter_params.get('caption')
 
     return render_template('docpage.html', **{
-        'doc_structure': help_center.doc_structure,
+        'doc_structure': help_center.DOC_STRUCTURE,
         'path_name': path,
         'section_name': section_name,
         'doc_name': doc_name,

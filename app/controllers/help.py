@@ -1,34 +1,29 @@
 from app.tasks.docs import render_docs
 from os import getcwd, path
 from collections import OrderedDict
+from yaml import load as yaml_load
 
-doc_structure = {
-    'Getting Started': OrderedDict([
-        ('What is Axtell?', 'intro/getting-started'),
-    ]),
-    'Legal': OrderedDict([
-        ('Privacy Policy', 'legal/privacy'),
-    ]),
-    'FAQ': OrderedDict([
-        ('General FAQ', 'faq/general-faq'),
-        ('Answering', 'faq/answering'),
-        ('Challenges', 'faq/challenges'),
-        ('Languages', 'faq/languages'),
-    ]),
-}
+DOC_ROOT = path.join(getcwd(), 'docs')
+DOC_INDEX_PATH = path.join(DOC_ROOT, 'index.yml')
+DOC_STRUCTURE = yaml_load(open(DOC_INDEX_PATH).read())['structure']
 
-doc_root = path.join(getcwd(), 'docs')
 
 def get_breadcrumbs(doc_path):
-    for section_name, section in doc_structure.items():
-        for ref_doc_name, ref_doc_path in section.items():
-            if ref_doc_path == doc_path:
-                return section_name, ref_doc_name
+    for section in DOC_STRUCTURE:
+        section_name = section['name']
+        section_items = section['contents']
+
+        for section_item in section_items:
+            document_name = section_item['name']
+            document_path = section_item['path']
+
+            if document_path == doc_path:
+                return section_name, document_name
 
     return None
 
 def render_doc_path(doc_path, breadcrumbs):
-    md_file = path.join(doc_root, doc_path + '.md')
+    md_file = path.join(DOC_ROOT, doc_path + '.md')
 
     # We know the file exists because we checked the manual dir structure.
     with open(md_file, 'r') as file:
