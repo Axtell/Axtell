@@ -48,6 +48,14 @@ def get_posts(page):
     return page
 
 
+def get_feed_posts():
+    return Post.query.\
+        filter_by(deleted=False).\
+        order_by(Post.date_created.desc()).\
+        limit(posts['per_page']).\
+        all()
+
+
 def get_post(post_id):
     post = Post.query.filter_by(id=post_id).first()
     return post

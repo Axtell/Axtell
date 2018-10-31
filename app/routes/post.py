@@ -1,4 +1,5 @@
 from flask import request, redirect, url_for, g, abort
+from werkzeug.contrib.atom import AtomFeed
 
 import app.tasks.markdown as markdown
 from app.controllers import post, answer as answer_controller, vote
@@ -10,7 +11,7 @@ from app.models.PostComment import PostComment
 from app.models.Leaderboard import Leaderboard
 from app.server import server
 from app.session.csrf import csrf_protected
-from config import canonical_host
+from config import canonical_host, posts
 
 from re import match
 
@@ -57,6 +58,40 @@ def get_answer(answer_id):
     except ValueError:
         return abort(404)
     return redirect(url_for('get_post', post_id=answer.post_id, p=page) + f'#answer-{answer_id}', code=301)
+
+
+@server.route("/posts/feed")
+def get_posts_feed():
+    self_url = canonical_host + url_for('get_posts_feed')
+    per_page = posts['per_page']
+
+    feed = AtomFeed(
+        title='Latest challenges - Axtell.',
+        subtitle=f'most recent {per_page} posts from Axtell',
+        feed_url=canonical_host + url_for('get_posts_feed'),
+        links=[
+            {'rel': 'self', 'href': self_url, 'type': 'application/atom+xml'},
+            {'rel': 'alternate', 'href': url_for('get_posts'), 'type': 'text/html'}
+        ])
+
+    latest_posts = post.get_feed_posts()
+    for feed_post in latest_posts:
+        rendered_body = markdown.render_markdown.delay(feed_post.body).wait()
+        post_url = url_for('get_post', post_id=feed_post.id)
+
+        feed.add(
+            title=feed_post.title,
+            content=rendered_body,
+            content_type='html',
+            url=post_url,
+            published=feed_post.date_created,
+            updated=feed_post.date_created,
+            author={'name': feed_post.user.name, 'uri': url_for('get_user', user_id=feed_post.user.id)},
+            links=[
+                {'rel': 'alternate', 'href': post_url, 'type': 'text/html'}
+            ])
+
+    return feed.get_response()
 
 
 @server.route("/post/<int:post_id>/", defaults={"title": None})
