@@ -1,8 +1,9 @@
-from app.helpers.render import render_json, render_error
+from app.helpers.render import render_error
 from app.models.User import User
 from functools import wraps
 
-from flask import g
+from flask import g, abort
+
 
 def is_authorized_json(f):
     """
@@ -20,7 +21,7 @@ def is_authorized_json(f):
     return wrap
 
 
-def is_admin_json(f):
+def is_admin(f):
     """
     Decorator to check if user is an admin and
     return a JSON response if not
@@ -28,8 +29,10 @@ def is_admin_json(f):
 
     @wraps(f)
     def wrap(*args, **kwargs):
-        if not isinstance(g.user, User) or not g.user.is_admin:
-            return render_error('Unauthorized'), 401
+        if not isinstance(g.user, User):
+            return abort(401)
+        if not g.user.is_admin:
+            return abort(403)
 
         return f(*args, **kwargs)
 
