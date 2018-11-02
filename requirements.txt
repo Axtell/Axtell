@@ -25,3 +25,4 @@ algoliasearch>=1.17.0
 google-api-python-client>=1.7.4
 google-auth>=1.5.1
 google-auth-httplib2>=0.0.3
+pyyaml>=3.13

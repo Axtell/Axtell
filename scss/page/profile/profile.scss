@@ -49,6 +49,12 @@ body #content main.profile {
     &.profile__column--base-width-4 { flex-basis: (100% / 4); }
     &.profile__column--base-width-5 { flex-basis: (100% / 5); }
 
+    &.profile__column--max-width-1 { max-width: (100% / 1); }
+    &.profile__column--max-width-2 { max-width: (100% / 2); }
+    &.profile__column--max-width-3 { max-width: (100% / 3); }
+    &.profile__column--max-width-4 { max-width: (100% / 4); }
+    &.profile__column--max-width-5 { max-width: (100% / 5); }
+
     // self-explantory
     &.profile__column--sizing-noshrink { flex-shrink: 0; }
     &.profile__column--sizing-nogrow { flex-grow: 0; }

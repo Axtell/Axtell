@@ -22,18 +22,6 @@ const NAVIGATION_HIERARCHY = {
             subtitle: 'Change or add login providers.',
             view: () => import('~/template/ProfileSettings/ProfileSettingsViewLogins')
         },
-        'Active Sessions': {
-            subtitle: 'Manage or remove active Axtell sessions.',
-            view: () => import('~/template/ProfileSettings/ProfileSettingsViewSessions')
-        }
-    },
-    'Notifications': {
-        'Settings': {
-            subtitle: 'Configure your notifications'
-        },
-        'Push Notifications': {
-            subtitle: 'Manage your push notification devices.'
-        }
     }
 };
 
