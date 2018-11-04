@@ -24,7 +24,8 @@ class User(db.Model):
 
     index_status = db.Column(db.Enum(IndexStatus), default=IndexStatus.UNSYNCHRONIZED, nullable=False)
 
-    following_public = db.Column(db.Boolean, nullable=False, default=False)
+    following_public = db.Column(db.Boolean, nullable=False, default=True)
+    linked_stackexchange_public = db.Column(db.Boolean, nullable=False, default=False)
 
     @index_json
     def get_index_json(self):

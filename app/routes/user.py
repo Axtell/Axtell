@@ -1,6 +1,6 @@
 from app.helpers.render import render_template
 from app.controllers import user
-from app.models.User import User
+from app.models.User import User, UserAuthToken
 from app.server import server
 
 
@@ -55,10 +55,16 @@ def get_user(user_id, name):
 
     if matched_user is None:
         return abort(404)
-    
+
     # Redirect if name is incorrect. add 'noredirect=1' flag to avoid infinite redirection in
     # exceptional circumstances
     if name != matched_user.name and request.args.get('noredirect', '0') != '1':
         return redirect(url_for('get_user', user_id=user_id, name=matched_user.name, **request.args, noredirect='1'), code=301)
 
-    return render_template('user.html', user=matched_user)
+    stackexchange_login = UserAuthToken.\
+        query.\
+        filter_by(user_id=user_id, issuer='stackexchange.com').\
+        order_by(UserAuthToken.id.desc()).\
+        first() if matched_user.linked_stackexchange_public else None
+
+    return render_template('user.html', user=matched_user, stackexchange_login=stackexchange_login)

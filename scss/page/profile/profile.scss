@@ -172,6 +172,19 @@ body #content main.profile {
 
       .profile__data__item__value {
         color: $key-text;
+
+        span {
+          vertical-align: middle;
+        }
+
+        img, svg {
+          vertical-align: middle;
+          fill: currentColor;
+          margin-top: 1px;
+          margin-left: -3px;
+          max-height: 1.1em;
+          max-width: 1em;
+        }
       }
     }
   }

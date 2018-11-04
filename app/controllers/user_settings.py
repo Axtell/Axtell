@@ -57,5 +57,18 @@ def set_following_is_public(following_is_public):
     g.user.following_public = following_is_public
     db.session.commit()
 
+def set_linked_stackexchange_is_public(linked_stackexchange_is_public):
+    if g.user is None:
+        return abort(403)
+
+    if not isinstance(linked_stackexchange_is_public, bool):
+        return abort(401)
+
+    g.user.linked_stackexchange_public = linked_stackexchange_is_public
+    db.session.commit()
+
 def get_privacy_settings(user):
-    return {'following_is_public': user.following_public}
+    return {
+        'following_is_public': user.following_public,
+        'linked_stackexchange_is_public': user.linked_stackexchange_public
+    }

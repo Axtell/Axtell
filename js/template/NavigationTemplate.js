@@ -49,8 +49,8 @@ export default class NavigationTemplate extends Template {
                 distinctUntilChanged());
 
         const sections = nav.map(([sectionName, items]) => {
-            const sectionItems = items.map(([itemName, target = '#']) => {
-                const link = <a class="sidebar-navigation__link" href={target}>{ itemName }</a>;
+            const sectionItems = items.map(([itemName]) => {
+                const link = <a class="sidebar-navigation__link">{ itemName }</a>;
 
                 fromEvent(link, 'click')
                     .pipe(

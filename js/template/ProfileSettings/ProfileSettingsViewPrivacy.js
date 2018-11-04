@@ -65,6 +65,18 @@ export default class ProfileSettingsViewPrivacy extends ProfileSettingsView {
         );
         followingIsPublic.loadInContext(root);
 
+        const linkedStackexchangeIsPublic = new LabelGroup(
+            'Publically display Stack Exchange accounts.',
+            new CheckboxInputTemplate({
+                isEnabled: privacySettings.linkedStackexchangeIsPublic
+            }),
+            {
+                isHorizontalStyle: true,
+                tooltip: 'You can choose to display linked Stack Exchange accounts publically on your profile.'
+            }
+        );
+        linkedStackexchangeIsPublic.loadInContext(root);
+
         this.swapper.displayAlternate(root);
 
         this.observeValidation = of(true);
@@ -76,14 +88,19 @@ export default class ProfileSettingsViewPrivacy extends ProfileSettingsView {
                 withLatestFrom(
                     combineLatest(
                         followingIsPublic.observeValue(),
-                        (followingIsPublic) => ({ followingIsPublic })),
+                        linkedStackexchangeIsPublic.observeValue(),
+                        (
+                            followingIsPublic,
+                            linkedStackexchangeIsPublic
+                        ) => ({
+                            followingIsPublic,
+                            linkedStackexchangeIsPublic
+                        })),
                     (click, data) => data),
-                exhaustMap(async ({ followingIsPublic }) => {
+                exhaustMap(async (data) => {
                     this.saveButton.controller.setLoadingState(true);
 
-                    const modifyUser = new ModifyUser({
-                        followingIsPublic
-                    });
+                    const modifyUser = new ModifyUser(data);
 
                     await modifyUser.run();
 
