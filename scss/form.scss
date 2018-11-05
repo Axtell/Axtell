@@ -32,7 +32,7 @@
 
   &.item-wrap--orientation-horizontal {
     flex-direction: row;
-    input { flex: 1 0 auto; }
+    input { flex: 0 0 auto; }
     dl {
       flex: 1 1 auto;
       margin-left: 8px;

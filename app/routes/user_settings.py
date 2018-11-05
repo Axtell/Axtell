@@ -90,6 +90,7 @@ def set_profile_preferences():
         new_name = data.get('settings-profile-displayname', g.user.name)
         avatar_url = data.get('avatar-url', g.user.avatar)
         following_is_public = data.get('settings-privacy-public-following', g.user.following_public)
+        linked_stackexchange_is_public = data.get('settings-privacy-public-linked-stackexchange', g.user.linked_stackexchange_public)
     except KeyError:
         return abort(400)
 
@@ -98,6 +99,7 @@ def set_profile_preferences():
         user_settings.set_name(new_name) or \
         user_settings.set_avatar(avatar_url) or \
         user_settings.set_following_is_public(following_is_public) or \
+        user_settings.set_linked_stackexchange_is_public(linked_stackexchange_is_public) or \
         do_redirect()
 
 

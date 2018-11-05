@@ -86,6 +86,17 @@
                     <span class="profile__data__item__value">{{ user.posts|length }}</span>
                 </div>
             </li>
+            {% if user.linked_stackexchange_public and stackexchange_login is not none -%}
+            <li class="profile__data__item">
+                {% include "svg/stackexchange.html" %}
+                <div class="profile__data__item__stack">
+                    <span class="profile__data__item__key">Stack Exchange</span>
+                    <a class="profile__data__item__value" href="https://codegolf.stackexchange.com/u/{{ stackexchange_login.identity }}" rel="noopener" target="_blank">
+                        {{ more(stackexchange_login.identifier) }}
+                    </a>
+                </div>
+            </li>
+            {%- endif %}
         </ul>
     </section>
     <section class="profile__column profile__column--responsive-width-2">
