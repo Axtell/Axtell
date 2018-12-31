@@ -11,8 +11,8 @@ def get_duplicate_users():
         user_ids = literal_eval(row[1])
         user_names = literal_eval(row[2])
         users = map(
-            lambda user: {id: str(user[0]), name: user[1]},
+            lambda user: {'id': str(user[0]), 'name': user[1]},
             zip(user_ids, user_names)
         )
-        data.append({ip: row[0], users: users})
+        data.append({'ip': row[0], 'users': users})
     return data
