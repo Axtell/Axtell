@@ -31,3 +31,5 @@ Disallow: /answer/*/comments/
 Disallow: /categories
 Disallow: /encodings
 Disallow: /auth/
+Disallow: /admin
+Disallow: /admin/*
