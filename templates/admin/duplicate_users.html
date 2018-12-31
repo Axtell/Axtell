@@ -11,11 +11,11 @@
                 </tr>
             </thead>
             <tbody>
-                {% for datum in data %}
+                {% for datum in users_data %}
                     <tr>
                         <td>{{ datum.ip }}</td>
                         <td>
-                            {% for user in data.users %}
+                            {% for user in datum.users %}
                             <a href='/users/data/{{ user.id }}'>{{ user.name }}</a><br>
                             {% endfor %}
                         </td>

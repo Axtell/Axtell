@@ -7,4 +7,4 @@ import app.controllers.admin as admin_controller
 @is_admin
 @server.route("/admin/duplicate_users")
 def duplicate_users():
-    return render_template('admin/duplicate_users.html', data=admin_controller.get_duplicate_users())
+    return render_template('admin/duplicate_users.html', users_data=admin_controller.get_duplicate_users())
