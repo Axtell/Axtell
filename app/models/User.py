@@ -27,6 +27,8 @@ class User(db.Model):
     following_public = db.Column(db.Boolean, nullable=False, default=True)
     linked_stackexchange_public = db.Column(db.Boolean, nullable=False, default=False)
 
+    is_admin = db.Column(db.Boolean, nullable=False, default=False)
+
     @index_json
     def get_index_json(self):
         return {

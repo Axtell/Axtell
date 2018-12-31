@@ -1,0 +1,27 @@
+{% extends "layouts/page.html" %}
+
+{% block title %}Duplicate Users{% endblock %}
+{% block base_content %}
+    <div id="duplicate-users">
+        <table>
+            <thead>
+                <tr>
+                    <th>IP Address</th>
+                    <th>Users</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for datum in data %}
+                    <tr>
+                        <td>{{ datum.ip }}</td>
+                        <td>
+                            {% for user in data.users %}
+                            <a href='/users/data/{{ user.id }}'>{{ user.name }}</a><br>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
