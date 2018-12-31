@@ -2,19 +2,19 @@
 
 {% block title %}Duplicate Users{% endblock %}
 {% block base_content %}
-    <div id="duplicate-users">
-        <table>
+    <div class="duplicate-users">
+        <table class="duplicate-users__table">
             <thead>
                 <tr>
-                    <th>IP Address</th>
-                    <th>Users</th>
+                    <th class="duplicate-users__th">IP Address</th>
+                    <th class="duplicate-users__th">Users</th>
                 </tr>
             </thead>
             <tbody>
                 {% for datum in users_data %}
                     <tr>
-                        <td>{{ datum.ip }}</td>
-                        <td>
+                        <td class="duplicate-users__td">{{ datum.ip }}</td>
+                        <td class="duplicate-users__td">
                             {% for user in datum.users %}
                             <a href='/users/data/{{ user.id }}'>{{ user.name }}</a><br>
                             {% endfor %}
