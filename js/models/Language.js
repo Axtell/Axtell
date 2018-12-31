@@ -3,6 +3,7 @@ import ErrorManager from '~/helpers/ErrorManager';
 
 import Normalize from '~/models/Normalize';
 import Encoding from '~/models/Encoding';
+import Data from '~/models/Data';
 import Query from '~/models/Query';
 
 export const InvalidLanguage = Symbol('LanguageError.InvalidLanguage');
@@ -38,6 +39,13 @@ export default class Language {
      */
     get displayName() {
         return (this.info && this.info.display) || (this.id[0].toUpperCase() + this.id.substr(1));
+    }
+
+    /**
+     * Returns absolute URL of the answer.
+     */
+    get url() {
+        return `${Data.shared.envValueForKey('HOST')}/answer/${this.id}`
     }
 
     /**

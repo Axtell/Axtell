@@ -132,7 +132,7 @@ export default class Answer {
      * URL of answer
      * @return {string}
      */
-    getURL() {
+    get url() {
         return `${Data.shared.envValueForKey(EnvKey.host)}/answer/${this.id}`;
     }
 

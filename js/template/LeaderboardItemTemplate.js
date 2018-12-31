@@ -15,9 +15,9 @@ export default class LeaderboardItemTemplate extends Template {
             <tr>
                 <td class="counter">{ index }.</td>
                 <td class="item-id">
-                    { answer.language.icon() }
+                    <img class="icon" src={answer.language.iconURL} />
                     <span class="item-anchor">
-                        <a>{ answer.language.displayName }</a>
+                        <a href={answer.url}>{ answer.language.displayName }</a>
                         <span class="author">by <span>{ answer.user.name }</span></span>
                     </span>
                 </td>
