@@ -103,27 +103,30 @@ export default class SearchInputTemplate extends Template {
 
     /**
      * Display array of results
-     * @param {?(T[])} results - Iterable of results
+     * @param {?(T[])} resultObject - Iterable of results
      */
-    displayResults(results) {
-        if (results === null) {
+    displayResults(resultObject) {
+        if (resultObject === null) {
+            // This means we should hide results
             this.results.restoreOriginal();
             return;
         }
 
+        const { areMore, results } = resultObject;
+
         // Otherwise show results
-        if (results.results.length === 0) {
+        if (results.length === 0) {
             this.results.displayAlternate(
                 <div class="search-picker search-picker--empty">
-                    <h3>No results</h3>
+                    No results
                 </div>
             );
             return;
         } else {
             const list = <ul class="search-picker__list"/>;
 
-            for (const result of results.results) {
-                const listItem = <li class="search-picker__language" />;
+            for (const result of results) {
+                const listItem = <li class="search-picker__item" />;
                 const template = this.resultTemplateFor(result);
                 const node = template.loadInContext(listItem);
                 list.appendChild(listItem);
@@ -133,6 +136,12 @@ export default class SearchInputTemplate extends Template {
                         filter(event => event.which === 1),
                         mapTo(result))
                     .subscribe(this.value);
+            }
+
+            if (areMore) {
+                list.appendChild(
+                    <li class="search-picker__hidden">more results not shown</li>
+                );
             }
 
             this.results.displayAlternate(
