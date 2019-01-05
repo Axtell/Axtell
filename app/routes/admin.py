@@ -21,7 +21,7 @@ def delete_post(id):
     if success:
         return redirect("/posts")
     else:
-        return abort(404)
+        return abort(400)
 
 @is_admin
 @server.route("/answer/nuke/<int:post_id>", methods=["DELETE"])
@@ -30,4 +30,4 @@ def delete_answer(id):
     if post_id:
         return redirect(f"/post/{post_id}")
     else:
-        return abort(404)
+        return abort(400)
