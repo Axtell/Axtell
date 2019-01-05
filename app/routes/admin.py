@@ -3,6 +3,10 @@ from app.helpers.render import render_template
 from app.server import server
 import app.controllers.admin as admin_controller
 
+@is_admin
+@server.route("/admin")
+def admin_homepage():
+    return render_template('admin/index.html')
 
 @is_admin
 @server.route("/admin/duplicate_users")
