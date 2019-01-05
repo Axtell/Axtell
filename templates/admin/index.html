@@ -1,0 +1,13 @@
+{% extends "layouts/page.html" %}
+
+{% block title %}Admin Homepage{% endblock %}
+{% block content %}
+    <div class="list-header">
+        <h1>Admin Tools.</h1>
+    </div>
+    <div class="main">
+        <ul>
+            <li><a href="{{ url_for('duplicate_users') }}">Duplicate Users</a></li>
+        </ul>
+    </div>
+{% endblock %}

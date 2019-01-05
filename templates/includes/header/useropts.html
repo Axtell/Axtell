@@ -24,6 +24,18 @@
         </a>
     </li>
     <li class="seperator"></li>
+    {% if g.user.is_admin %}
+    <li class="action action--color-dark-blue">
+        <a class="action__root action__rel" href="{{ url_for('admin_homepage') }}">
+            {% include "svg/admin-tools.html" %}
+            <div class="action__desc">
+                <span class="action__title">Admin Tools</span>
+                <p class="action__desc--dim">Access list of admin tools.</p>
+            </div>
+        </a>
+    </li>
+    <li class="seperator"></li>
+    {% endif %}
     <li class="action action--color-purple">
         {% if theme == 'dark' -%}
         <form class="action__root" method="POST" action="{{ url_for('set_light_theme') }}?redirect={{ request.url|e }}">

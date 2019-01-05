@@ -95,6 +95,7 @@ li.seperator {
 }
 
 @include action-theme('blue', #09F);
+@include action-theme('dark-blue', #1B1464);
 @include action-theme('green', #49CF92);
 @include action-theme('red', #E03830);
 @include action-theme('purple', #B669C0);
