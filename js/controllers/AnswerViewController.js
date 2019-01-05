@@ -52,6 +52,21 @@ export default class AnswerViewController extends ViewController {
             await this.setAnswer(state);
         };
 
+        /** @type {NukeItemViewController} */
+        this.nukeController = NukeItemViewController.forClass(
+            'nuke-button',
+            (btn) => [{
+                trigger: btn,
+                item: this._answer
+            }],
+            answer
+        )[0];
+
+        if (this.nukeController)
+            this.nukeController.delegate.didSetStateTo = async (controller, state) =>  {
+            await this.setAnswer(state);
+        };
+
         /** @type {EditAnswerViewController} */
         this.editAnswerController = EditAnswerViewController.forClass(
             'golf-button',

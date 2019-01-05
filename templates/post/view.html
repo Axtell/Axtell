@@ -147,6 +147,14 @@
                         </div>
                     </div>
                     {%- endif %}
+                    {% if g.user.is_admin %}
+                    <div class="action-button action-button--hovcol-red nuke-button">
+                        <div class="action-icon__group">
+                            {% include "svg/nuke.html" %}
+                            <span>Nuke</span>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
                 <div class="post-details post-details--nopad-horizontal">
                     {{ userbox(answer.user, answer.date_created, classes="post-detail-item") }}
