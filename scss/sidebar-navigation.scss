@@ -38,7 +38,7 @@
         line-height: 1.6;
 
         transition: margin-left 0.2s ease,
-                    color 0.2s ease;
+        color 0.2s ease;
         margin-left: 0;
 
         &.sidebar-navigation__active {
@@ -47,7 +47,7 @@
         }
 
         &:hover:not(.sidebar-navigation__active) {
-            margin-left: 1px;
+            margin-left: 3px;
             color: $key-text;
         }
     }
