@@ -132,6 +132,7 @@ body #content main.profile {
 
     .profile__data__item {
       font-size: 1rem;
+      white-space: nowrap;
 
       + .profile__data__item {
         margin-top: 1rem;

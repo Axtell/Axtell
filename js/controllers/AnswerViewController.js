@@ -4,6 +4,7 @@ import CommentListViewController from '~/controllers/CommentListViewController';
 import DeleteItemViewController from '~/controllers/DeleteItemViewController';
 import EditAnswerViewController from '~/controllers/EditAnswerViewController';
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
+import NukeItemViewController from '~/controllers/NukeItemViewController';
 
 import Data from '~/models/Data';
 import Answer from '~/models/Answer';
@@ -52,6 +53,21 @@ export default class AnswerViewController extends ViewController {
             await this.setAnswer(state);
         };
 
+        /** @type {NukeItemViewController} */
+        this.nukeController = NukeItemViewController.forClass(
+            'nuke-button',
+            (btn) => [{
+                trigger: btn,
+                item: this._answer
+            }],
+            answer
+        )[0];
+
+        if (this.nukeController)
+            this.nukeController.delegate.didSetStateTo = async (controller) =>  {
+            this.isDeleted = true;
+        };
+
         /** @type {EditAnswerViewController} */
         this.editAnswerController = EditAnswerViewController.forClass(
             'golf-button',
@@ -85,7 +101,7 @@ export default class AnswerViewController extends ViewController {
 
     /**
      * Sets if deleted or no. This does NOT affect the model use a Request.
-     * @return {[type]} [description]
+     * @type {boolean}
      */
     set isDeleted(isDeleted) {
         if (this._deleted === isDeleted) return;

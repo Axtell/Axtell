@@ -1,6 +1,9 @@
 from flask import g, abort, redirect, url_for, render_template
 from app.instances import db
 from ast import literal_eval
+from app.models.Post import Post
+from app.models.Answer import Answer
+from app.instances import db
 
 def get_duplicate_users():
     # SQLAlchemy doesn't have native support for MySQL views,
@@ -16,3 +19,22 @@ def get_duplicate_users():
         )
         data.append({'ip': row[0], 'users': users})
     return data
+
+
+def delete_post(id):
+    post = Post.query.filter_by(id=id).first()
+    if post:
+        db.session.delete(post)
+        db.session.commit()
+        return True
+    return False
+
+
+def delete_answer(id):
+    answer = Answer.query.filter_by(id=id).first()
+    if answer:
+        post_id = answer.post_id
+        db.session.delete(answer)
+        db.session.commit()
+        return post_id
+    return False
