@@ -132,8 +132,8 @@
                 <div class="post-action-list">
                     {% set vote_status = vote.get_answer_vote(answer.id) %}
                     {{ votebuttons(vote_status, is_own=answer.user == g.user) }}
-                    {% if answer.user == g.user -%}
                     <div class="post-action-list__spacer"></div>
+                    {% if answer.user == g.user -%}
                     <div class="golf-button action-button">
                         <div class="action-icon__group">
                             {% include "svg/edit.html" %}

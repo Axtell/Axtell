@@ -1,7 +1,6 @@
 import PostButtonViewController from '~/controllers/PostButtonViewController';
 import ErrorManager, { HandleUnhandledPromise } from '~/helpers/ErrorManager';
-import PublishDelete from '~/models/Request/PublishDelete';
-import Analytics, { EventType } from '~/models/Analytics';
+import PublishNuke from '~/models/Request/PublishNuke';
 import ActionControllerDelegate from '~/delegate/ActionControllerDelegate';
 
 export default class NukeItemViewController extends PostButtonViewController {
