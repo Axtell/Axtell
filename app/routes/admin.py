@@ -15,7 +15,7 @@ def duplicate_users():
     return render_template('admin/duplicate_users.html', users_data=admin_controller.get_duplicate_users())
 
 @is_admin
-@server.route("/post/nuke/<int:post_id>", methods=["DELETE"])
+@server.route("/post/nuke/<int:id>", methods=["DELETE"])
 def delete_post(id):
     success = admin_controller.delete_post(id)
     if success:
@@ -24,7 +24,7 @@ def delete_post(id):
         return abort(400)
 
 @is_admin
-@server.route("/answer/nuke/<int:post_id>", methods=["DELETE"])
+@server.route("/answer/nuke/<int:id>", methods=["DELETE"])
 def delete_answer(id):
     post_id = admin_controller.delete_answer(id)
     if post_id:
