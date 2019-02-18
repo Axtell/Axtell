@@ -38,6 +38,10 @@ def get_or_set_user(auth_token=None, profile={}, auth_opts={}):
     profile details.
     """
 
+    if isinstance(g.user, User) and g.user.deleted:
+        g.user = None
+        return abort(403)
+
     is_append_flow = auth_opts.get('append', False)
 
     if auth_token:
@@ -62,7 +66,7 @@ def get_or_set_user(auth_token=None, profile={}, auth_opts={}):
         # This means the user exists
         user = existing_auth_token.user
     else:
-        # If append flow + the user doesn't exist (good), w'ell just add the user
+        # If append flow + the user doesn't exist (good), we'll just add the user
         if is_append_flow:
             if not isinstance(g.user, User):
                 return render_error("Not authorized", error_type='unauthorized'), 400
@@ -230,7 +234,7 @@ def remove_auth_method(id, user):
     db.session.delete(selected_token)
     db.session.commit()
 
-    return render_json({ 'id': id })
+    return render_json({'id': id})
 
 
 def get_auth_methods(user):
