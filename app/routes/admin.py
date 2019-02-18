@@ -39,6 +39,7 @@ def delete_answer(id):
 
 
 @is_admin
+@csrf_protected
 @server.route("/admin/merge_users", methods=["POST"])
 def merge_users():
     source_ids = request.form['source_ids']

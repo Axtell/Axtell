@@ -40,7 +40,7 @@ def get_or_set_user(auth_token=None, profile={}, auth_opts={}):
 
     if isinstance(g.user, User) and g.user.deleted:
         g.user = None
-        return abort(403)
+        return abort(401)
 
     is_append_flow = auth_opts.get('append', False)
 
@@ -65,6 +65,10 @@ def get_or_set_user(auth_token=None, profile={}, auth_opts={}):
 
         # This means the user exists
         user = existing_auth_token.user
+
+        # make sure existing user isn't deleted
+        if user.deleted:
+            return abort(401)
     else:
         # If append flow + the user doesn't exist (good), we'll just add the user
         if is_append_flow:
