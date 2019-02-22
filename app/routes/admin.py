@@ -44,12 +44,8 @@ def delete_answer(id):
 def merge_users():
     source_ids = request.form['source_ids']
     target_id = request.form['target_id']
-    try:
-        admin_controller.merge_users(source_ids, target_id)
-        return render_json({'source_ids': source_ids, 'target_id': target_id, 'merge_users': True})
-    except:
-        return abort(400)
-
+    admin_controller.merge_users(source_ids, target_id)
+    return render_json({'source_ids': source_ids, 'target_id': target_id, 'merge_users': True})
 
 @is_admin
 @csrf_protected
@@ -58,7 +54,7 @@ def delete_user(user_id):
     try:
         admin_controller.delete_user(user_id)
         return render_json({'user_id': user_id, 'nuke_user': True})
-    except:
+    except ValueError:
         return abort(400)
 
 
@@ -66,8 +62,5 @@ def delete_user(user_id):
 @csrf_protected
 @server.route("/user/reset_votes/<int:user_id>", methods=["POST"])
 def reset_votes(user_id):
-    try:
-        admin_controller.reset_votes(user_id)
-        return render_json({'user_id': user_id, 'reset_votes': True})
-    except:
-        return abort(400)
+    admin_controller.reset_votes(user_id)
+    return render_json({'user_id': user_id, 'reset_votes': True})
