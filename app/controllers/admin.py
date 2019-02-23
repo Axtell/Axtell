@@ -3,7 +3,11 @@ from app.instances import db
 from ast import literal_eval
 from app.models.Post import Post
 from app.models.Answer import Answer
+from app.models.User import User
+from app.models.PostVote import PostVote
+from app.models.AnswerVote import AnswerVote
 from app.instances import db
+
 
 def get_duplicate_users():
     # SQLAlchemy doesn't have native support for MySQL views,
@@ -38,3 +42,40 @@ def delete_answer(id):
         db.session.commit()
         return post_id
     return False
+
+
+def merge_users(sources, target):
+    Post.update().where(Post.user_id in sources).values(user_id=target).execute()
+    Answer.update().where(Answer.user_id in sources).values(user_id=target).execute()
+    db.session.commit()
+
+
+def delete_user(user_id):
+    if user_id == g.user.id:
+        # do not allow users to nuke themselves
+        raise ValueError
+
+    # anonymize posts and answers
+    Post.update().where(Post.user_id == user_id).values(deleted=True).execute()
+    Answer.update().where(Answer.user_id == user_id).values(deleted=True).execute()
+
+    # remove personal/preference data from user and set deleted flag
+    User.update().where(User.id == user_id).values(name='user_{}'.format(user_id),
+                                                   email='',
+                                                   avatar=None,
+                                                   theme=None,
+                                                   is_admin=False,
+                                                   deleted=True)
+
+    # remove votes
+    PostVote.delete().where(PostVote.user_id == user_id).execute()
+    AnswerVote.delete().where(AnswerVote.user_id == user_id).execute()
+
+    db.session.commit()
+
+
+def reset_votes(user_id):
+    PostVote.delete().where(PostVote.user_id == user_id).execute()
+    AnswerVote.delete().where(AnswerVote.user_id == user_id).execute()
+
+    db.session.commit()
