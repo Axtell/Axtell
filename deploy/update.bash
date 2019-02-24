@@ -42,14 +42,20 @@ rm -rf static/lib/*
 echo "REMOTE DEPLOY: STOPPING SERVICE"
 sudo service ppcg-v2 stop
 
-echo "REMOTE DEPLOY: RESTARTING CELERY"
+echo "REMOTE DEPLOY: KILLING CELERY"
 sudo -E env "PATH=$PATH" celery multi stop w1 -A celery_server --logfile=w1.log --pidfile=w1.pid
 if [ -e beat.pid ]
 then
+  echo "REMOTE DEPLOY: KILLING CELERY BEAT";
   sudo kill $( cat beat.pid );
+  echo "REMOTE DEPLOY: REMOVING beat.pid";
   sudo rm beat.pid;
 fi
+
+echo "REMOTE DEPLOY: CELERY PURGE"
 sudo -E env "PATH=$PATH" celery purge -f -A celery_server
+
+echo "REMOTE DEPLOY: STARTING CELERY"
 sudo -E env "PATH=$PATH" celery multi start w1 -A celery_server --logfile=w1.log --pidfile=w1.pid --loglevel=DEBUG
 
 echo "REMOTE DEPLOY: STARTING SERVICE"
