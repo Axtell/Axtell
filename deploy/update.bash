@@ -43,14 +43,14 @@ echo "REMOTE DEPLOY: STOPPING SERVICE"
 sudo service ppcg-v2 stop
 
 echo "REMOTE DEPLOY: RESTARTING CELERY"
-sudo celery multi stop w1 -A celery_server --logfile=w1.log --pidfile=w1.pid
+sudo -E env "PATH=$PATH" celery multi stop w1 -A celery_server --logfile=w1.log --pidfile=w1.pid
 if [ -e beat.pid ]
 then
   sudo kill $( cat beat.pid );
   sudo rm beat.pid;
 fi
-sudo celery purge -f -A celery_server
-sudo celery multi start w1 -A celery_server --logfile=w1.log --pidfile=w1.pid --loglevel=DEBUG
+sudo -E env "PATH=$PATH" celery purge -f -A celery_server
+sudo -E env "PATH=$PATH" celery multi start w1 -A celery_server --logfile=w1.log --pidfile=w1.pid --loglevel=DEBUG
 
 echo "REMOTE DEPLOY: STARTING SERVICE"
 sudo service ppcg-v2 start
