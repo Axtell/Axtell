@@ -31,6 +31,7 @@ pip3 install -r requirements.txt
 
 echo "REMOTE DEPLOY: UPDATING NPM PACKAGES"
 npm install --production
+npm update caniuse-lite browserslist
 
 echo "REMOTE DEPLOY: ALEMBIC UPGRADES"
 PYTHONPATH=$PYTHONPATH:/var/www/ppcg-v2 alembic revision --autogenerate -m "$(git log --format=%B -n 1)"
