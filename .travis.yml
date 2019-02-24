@@ -17,6 +17,7 @@ cache:
 install:
   - npm i -g npm
   - npm ci
+  - npm update caniuse-lite browserslist
   - bundle install
   - pip install -r requirements.txt
   - pip install codecov coverage
