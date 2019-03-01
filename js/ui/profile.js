@@ -41,7 +41,10 @@ if (profileUserData) {
             followButtonNode && new FollowButtonController(followButtonNode, auth, profileUser);
 
             if (auth.user.isAdmin) {
-                new AdminUserActionController(ADMIN_NUKE_TRIGGER_ID, profileUser, AdminUserActionType.nuke);
+                if (!profileUser.isMe()) {
+                    new AdminUserActionController(ADMIN_NUKE_TRIGGER_ID, profileUser, AdminUserActionType.nuke);
+                }
+
                 new AdminUserActionController(ADMIN_RESET_VOTES_TRIGGER_ID, profileUser, AdminUserActionType.resetVotes);
             }
         }

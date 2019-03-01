@@ -132,6 +132,7 @@
             <div class="profile__section__body">
                 <div class="profile__section__item">
 
+                    {%- if g.user != user -%}
                     <div class="item-wrap label-group label-group--style-button-description">
                         <button id="user__mod__nuke" class="button button--color-red button--align-center button--style-minimal button--size-wide">
                             {% include "svg/nuke.html" %}
@@ -142,6 +143,8 @@
                             on the server.
                         </label>
                     </div>
+
+                    {%- endif -%}
 
                     <div class="item-wrap label-group label-group--style-button-description">
                         <button id="user__mod__reset_votes" class="button button--color-red button--align-center button--style-minimal button--size-wide">
