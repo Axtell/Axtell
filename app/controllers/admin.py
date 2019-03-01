@@ -45,8 +45,8 @@ def delete_answer(id):
 
 
 def merge_users(sources, target):
-    Post.update().where(Post.user_id in sources).values(user_id=target).execute()
-    Answer.update().where(Answer.user_id in sources).values(user_id=target).execute()
+    Post.query.filter_by(user_id in sources).update({'user_id':target})
+    Answer.query.filter_by(user_id in sources).update({'user_id':target})
     db.session.commit()
 
 
@@ -56,26 +56,26 @@ def delete_user(user_id):
         raise ValueError
 
     # anonymize posts and answers
-    Post.update().where(Post.user_id == user_id).values(deleted=True).execute()
-    Answer.update().where(Answer.user_id == user_id).values(deleted=True).execute()
+    Post.query.filter_by(user_id=user_id).update({'deleted': True})
+    Answer.query.filter_by(user_id=user_id).update({'deleted': True})
 
     # remove personal/preference data from user and set deleted flag
-    User.update().where(User.id == user_id).values(name='user_{}'.format(user_id),
-                                                   email='',
-                                                   avatar=None,
-                                                   theme=None,
-                                                   is_admin=False,
-                                                   deleted=True)
+    User.query.filter_by(id=user_id).update({'name':'user_{}'.format(user_id),
+                                             'email':'',
+                                             'avatar':None,
+                                             'theme':None,
+                                             'is_admin':False,
+                                             'deleted':True})
 
     # remove votes
-    PostVote.delete().where(PostVote.user_id == user_id).execute()
-    AnswerVote.delete().where(AnswerVote.user_id == user_id).execute()
+    PostVote.query.filter_by(user_id=user_id).delete()
+    AnswerVote.query.filter_by(user_id=user_id).delete()
 
     db.session.commit()
 
 
 def reset_votes(user_id):
-    PostVote.delete().where(PostVote.user_id == user_id).execute()
-    AnswerVote.delete().where(AnswerVote.user_id == user_id).execute()
+    PostVote.query.filter_by(user_id=user_id).delete()
+    AnswerVote.query.filter_by(user_id=user_id).delete()
 
     db.session.commit()
