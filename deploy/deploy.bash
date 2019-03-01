@@ -36,7 +36,7 @@ notify_build () {
     apiKey=$1 \
     appVersion=$(git rev-parse @) \
     releaseStage=production \
-    builderName=$(git show -s --format='%an') \
+    builderName="$(git show -s --format='%an')" \
     sourceControl:="{
       \"provider\": \"github\",
       \"repository\": \"https://github.com/$TRAVIS_REPO_SLUG\",

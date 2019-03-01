@@ -1,8 +1,10 @@
 from flask import request, session, abort
 from functools import wraps
+from hmac import compare_digest
 import config
 
 csrf_token_name = 'csrf'
+
 
 def validate_csrf(csrf_token):
     """
@@ -10,7 +12,8 @@ def validate_csrf(csrf_token):
     """
 
     actual_csrf_token = session.get(csrf_token_name, None)
-    return csrf_token == actual_csrf_token
+    return compare_digest(csrf_token, actual_csrf_token)
+
 
 def csrf_protected(f):
     @wraps(f)
@@ -27,7 +30,7 @@ def csrf_protected(f):
             user_csrf_token = None
 
         if not server.debug and \
-                (actual_csrf_token is None or user_csrf_token is None or user_csrf_token != actual_csrf_token):
+                (actual_csrf_token is None or user_csrf_token is None or not validate_csrf(user_csrf_token)):
             return abort(403)
 
         return f(*args, **kwargs)

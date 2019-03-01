@@ -31,6 +31,7 @@ pip3 install -r requirements.txt
 
 echo "REMOTE DEPLOY: UPDATING NPM PACKAGES"
 npm install --production
+npm update caniuse-lite browserslist
 
 echo "REMOTE DEPLOY: ALEMBIC UPGRADES"
 PYTHONPATH=$PYTHONPATH:/var/www/ppcg-v2 alembic revision --autogenerate -m "$(git log --format=%B -n 1)"
@@ -42,15 +43,21 @@ rm -rf static/lib/*
 echo "REMOTE DEPLOY: STOPPING SERVICE"
 sudo service ppcg-v2 stop
 
-echo "REMOTE DEPLOY: RESTARTING CELERY"
-celery multi stop w1 -A celery_server --logfile=w1.log --pidfile=w1.pid
+echo "REMOTE DEPLOY: KILLING CELERY"
+sudo -E env "PATH=$PATH" celery multi stop w1 -A celery_server --logfile=w1.log --pidfile=w1.pid
 if [ -e beat.pid ]
 then
-  kill $( cat beat.pid );
-  rm beat.pid;
+  echo "REMOTE DEPLOY: KILLING CELERY BEAT";
+  sudo kill $( cat beat.pid );
+  echo "REMOTE DEPLOY: REMOVING beat.pid";
+  sudo rm beat.pid;
 fi
-celery purge -f -A celery_server
-celery multi start w1 -A celery_server --logfile=w1.log --pidfile=w1.pid --loglevel=DEBUG
+
+echo "REMOTE DEPLOY: CELERY PURGE"
+sudo -E env "PATH=$PATH" celery purge -f -A celery_server
+
+echo "REMOTE DEPLOY: STARTING CELERY"
+sudo -E env "PATH=$PATH" celery multi start w1 -A celery_server --logfile=w1.log --pidfile=w1.pid --loglevel=DEBUG
 
 echo "REMOTE DEPLOY: STARTING SERVICE"
 sudo service ppcg-v2 start

@@ -29,6 +29,8 @@ class User(db.Model):
 
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
 
+    deleted = db.Column(db.Boolean, nullable=False, default=False)
+
     @index_json
     def get_index_json(self):
         return {
@@ -39,7 +41,7 @@ class User(db.Model):
         }
 
     def should_index(self):
-        return True
+        return not self.deleted
 
     @classmethod
     @gets_index
@@ -145,7 +147,6 @@ class UserAuthToken(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(User.id), nullable=False)
     user = db.relationship(User, backref=db.backref('auth_tokens', lazy=True))
 
-
     def to_json(self):
         # Get the time of most recent login
         latest_login = next(iter(self.logins), None)
@@ -158,7 +159,6 @@ class UserAuthToken(db.Model):
             'last_used': latest_login_time,
             'identifier': self.identifier
         }
-
 
     def __repr__(self):
         return f'<UserToken for {self.user}>'

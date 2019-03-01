@@ -36,7 +36,7 @@ def get_session_user(current_session=None):
             return
 
         # Otherwise lookup user in DB
-        matched_user = User.query.filter_by(id=user_id).first()
+        matched_user = User.query.filter_by(id=user_id, deleted=False).first()
 
         # If no DB entry for the user. Redis & session id are both bogus, delete
         # them

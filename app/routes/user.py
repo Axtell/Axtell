@@ -1,4 +1,4 @@
-from app.helpers.render import render_template
+from app.helpers.render import render_template, render_error
 from app.controllers import user
 from app.models.User import User, UserAuthToken
 from app.server import server
@@ -31,7 +31,6 @@ def get_following(user_id, page):
     return user.get_following(user_id, page=page)
 
 
-
 @server.route("/user/follow/<int:target_user_id>", methods=['POST'])
 def follow_user(target_user_id):
     if not isinstance(g.user, User):
@@ -51,7 +50,7 @@ def unfollow_user(target_user_id):
 @server.route("/user/<int:user_id>", defaults={"name": None})
 @server.route("/user/<int:user_id>/<name>")
 def get_user(user_id, name):
-    matched_user = User.query.filter_by(id=user_id).first()
+    matched_user = User.query.filter_by(id=user_id, deleted=False).first()
 
     if matched_user is None:
         return abort(404)

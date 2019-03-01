@@ -11,6 +11,7 @@ from app.helpers.macros.encode import b64_to_json
 
 import requests
 
+
 # noinspection PyUnusedLocal
 @server.route("/auth/login/jwt", methods=['POST'])
 def auth_login_jwt():
