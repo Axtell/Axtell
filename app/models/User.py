@@ -97,7 +97,8 @@ class User(db.Model):
         data = {
             'id': self.id,
             'name': self.name,
-            'avatar': self.avatar_url()
+            'avatar': self.avatar_url(),
+            'is_admin': self.is_admin
         }
 
         if current_user is not None:

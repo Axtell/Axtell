@@ -115,6 +115,19 @@
     text-transform: none;
   }
 
+  // For a button with text below it. Text should go in a <label for>
+  &.label-group--style-button-description {
+    font-weight: 400;
+    text-transform: none;
+    font-size: 1rem;
+
+    span, label {
+      margin-top: 0.5rem;
+      color: $detail-text;
+      font-size: 0.9em;
+    }
+  }
+
   &.label-group--style-group {
     font-weight: 400;
     text-transform: none;

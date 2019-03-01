@@ -17,12 +17,14 @@ export default class User {
      * @param {Object} options other options
      * @param {?string} options.avatar avatar URL
      * @param {boolean} options.isFollowing - If current user is following
+     * @param {boolean} options.isAdmin - If user is admin
      */
     constructor(id, name, {
         avatar = null,
         postCount = null,
         answerCount = null,
         isFollowing = null,
+        isAdmin = null,
     } = {}) {
         this._id = id;
         this._name = name;
@@ -33,6 +35,8 @@ export default class User {
         this._answerCount = answerCount;
 
         this._isFollowing = isFollowing;
+
+        this._isAdmin = isAdmin;
     }
 
     /** @type {number} */
@@ -53,6 +57,9 @@ export default class User {
 
     /** @type {?number} */
     get answerCount() { return this._answerCount; }
+
+    /** @type {boolean} */
+    get isAdmin() { return this._isAdmin; }
 
     /** @type {string} */
     get profilePage() { return `${Data.shared.envValueForKey('HOST')}/user/${this.id}/${this.name}`; }
@@ -106,7 +113,8 @@ export default class User {
                 avatar: json.avatar,
                 postCount: json.post_count,
                 answerCount: json.answer_count,
-                isFollowing: json.is_following
+                isFollowing: json.is_following,
+                isAdmin: json.is_admin
             }
         );
     }
@@ -134,7 +142,8 @@ export default class User {
             type: 'user',
             id: this.id,
             name: this.name,
-            avatar: this.avatar
+            avatar: this.avatar,
+            is_admin: this.isAdmin,
         };
     }
 

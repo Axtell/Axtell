@@ -99,7 +99,6 @@ export default class ProfileSettingsViewLogins extends ProfileSettingsView {
                 window.location.reload();
             });
 
-
         this.loginSwapper.displayAlternate(
             <div class="login-method__wrapper">
                 { loginTemplates.map(template => template.unique()) }
