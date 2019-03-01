@@ -35,7 +35,7 @@ function getCategoryPredicate(category) {
         );
 
         case 'answers': return (answer, result) => (
-            <a tabindex="-1" href={answer.getURL()}>
+            <a tabindex="-1" href={answer.url}>
                 <div class="search-result__component search-result__component--type-image">
                     <img class="search-result__data" src={ answer.language.iconURL }/>
                 </div>
