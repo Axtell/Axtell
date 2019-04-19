@@ -4,7 +4,7 @@
 {% block title %}Profile Settings{% endblock %}
 {% block content -%}
 <div class="list-header">
-    <h1>User Settings.</h1>
+    <h1>User Settings</h1>
 </div>
 <div id="user-settings-mount" class="template--root">
     {% include "svg/loading.html" %}
@@ -15,5 +15,6 @@
 {% block body %}
 {{ data_value('settingsContext', g.request_start_time|int) }}
 {{ data_value('userEmail', g.user.email) }}
+{{ data_value('userReceiveNotifications', g.user.receive_notifications) }}
 {{ super() }}
 {% endblock %}

@@ -23,6 +23,7 @@ if server.debug and not notifications.get('web_apn_id', '').startswith('web.'):
 else:
     APNS_SERVER = 'api.push.apple.com:443'
 
+
 def create_apns_jwt():
     with open(path.join(getcwd(), APNS_KEY), 'rb') as key:
         jwk = JWK.from_pem(key.read())
@@ -42,6 +43,7 @@ def create_apns_jwt():
 
     jwt.make_signed_token(jwk)
     return jwt.serialize()
+
 
 def send_notification(device, notification):
     if not notifications['apns_key_id']:

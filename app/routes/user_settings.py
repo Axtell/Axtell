@@ -91,6 +91,7 @@ def set_profile_preferences():
         avatar_url = data.get('avatar-url', g.user.avatar)
         following_is_public = data.get('settings-privacy-public-following', g.user.following_public)
         linked_stackexchange_is_public = data.get('settings-privacy-public-linked-stackexchange', g.user.linked_stackexchange_public)
+        receive_notifications = data.get('settings-profile-receivenotifications', g.user.receive_notifications)
     except KeyError:
         return abort(400)
 
@@ -100,6 +101,7 @@ def set_profile_preferences():
         user_settings.set_avatar(avatar_url) or \
         user_settings.set_following_is_public(following_is_public) or \
         user_settings.set_linked_stackexchange_is_public(linked_stackexchange_is_public) or \
+        user_settings.set_receive_notifications(receive_notifications) or \
         do_redirect()
 
 

@@ -6,6 +6,7 @@ from uuid import UUID
 from M2Crypto.m2 import rand_bytes
 import datetime
 
+
 class NotificationType(SerializableEnum):
     STATUS_UPDATE = 0
     NEW_ANSWER = 1
@@ -15,10 +16,12 @@ class NotificationType(SerializableEnum):
     ANSWER_VOTE = 5
     POST_VOTE = 6
 
+
 class NotificationStatus(SerializableEnum):
     UNSEEN = 0
     SEEN = 1
     READ = 2
+
 
 class Notification(db.Model):
     """
