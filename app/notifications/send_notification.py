@@ -15,13 +15,15 @@ def send_notification(notification):
     :param Notification notification: the notification
     """
 
+    db.session.add(notification)
+    db.session.commit()
+    
     recipient = notification.recipient
 
     if not recipient.receive_notifications:
+        db.session.delete(notification)
+        db.session.commit()
         return
-
-    db.session.add(notification)
-    db.session.commit()
 
     # Send to all Push Notification devices
 
