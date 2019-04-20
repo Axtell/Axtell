@@ -16,14 +16,16 @@ export default class ModifyUser extends Request {
      * @param {?string} profile.name - User display name
      * @param {?boolean} profile.followingIsPublic - If following is public
      * @param {?boolean} profile.linkedStackexchangeIsPublic - If linked SE accounts are public
+     * @param {?boolean} profile.notifications - If user wants notifications
      */
-    constructor({ email = null, name = null, followingIsPublic = null, linkedStackexchangeIsPublic = null }) {
+    constructor({ email = null, name = null, followingIsPublic = null, linkedStackexchangeIsPublic = null, notifications = null }) {
         const opts = {};
 
         if (email !== null) opts['settings-profile-email'] = email;
         if (name !== null) opts['settings-profile-displayname'] = name;
         if (followingIsPublic !== null) opts['settings-privacy-public-following'] = followingIsPublic;
         if (linkedStackexchangeIsPublic !== null) opts['settings-privacy-public-linked-stackexchange'] = linkedStackexchangeIsPublic;
+        if (notifications !== null) opts['settings-profile-receivenotifications'] = notifications;
 
         super({
             path: `/preferences/profile`,

@@ -21,6 +21,7 @@ class User(db.Model):
 
     posts = db.relationship('Post', backref='user')
     theme = db.Column(db.Integer, db.ForeignKey('themes.id'), nullable=True)
+    receive_notifications = db.Column(db.Boolean, nullable=False, default=True)
 
     index_status = db.Column(db.Enum(IndexStatus), default=IndexStatus.UNSYNCHRONIZED, nullable=False)
 
@@ -106,6 +107,7 @@ class User(db.Model):
 
         if own:
             data['email'] = self.email
+            data['receive_notifications'] = self.receive_notifications
 
         if bio:
             data['post_count'] = len(self.posts)

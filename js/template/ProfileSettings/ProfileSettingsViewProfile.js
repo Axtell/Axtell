@@ -4,6 +4,7 @@ import ProgressButtonTemplate from '~/template/ProgressButtonTemplate';
 import ModifyUser from '~/models/Request/ModifyUser';
 
 import TextInputTemplate, { TextInputType } from '~/template/Form/TextInputTemplate';
+import CheckboxInputTemplate from '~/template/Form/CheckboxInputTemplate';
 import Data, { Key, EnvKey } from '~/models/Data';
 import FormConstraint from '~/controllers/Form/FormConstraint';
 import LabelGroup from '~/template/Form/LabelGroup';
@@ -81,6 +82,15 @@ export default class ProfileSettingsViewProfile extends ProfileSettingsView {
         );
         emailInput.loadInContext(this.root);
 
+        const receiveNotificationsInput = new LabelGroup(
+            'Receive Notifications',
+            new CheckboxInputTemplate({isEnabled: Data.shared.valueForKey(Key.userReceiveNotifications) == 1}),
+            {
+                tooltip: 'Choose whether or not you want to receive notifications about updates to your content.',
+            }
+        );
+        receiveNotificationsInput.loadInContext(this.root);
+
         this.observeValidation = FormConstraint.observeValidation(
             displayNameInput.observeValidation(),
             emailInput.observeValidation()
@@ -94,14 +104,16 @@ export default class ProfileSettingsViewProfile extends ProfileSettingsView {
                     combineLatest(
                         displayNameInput.observeValue(),
                         emailInput.observeValue(),
-                        (name, email) => ({ name, email })),
+                        receiveNotificationsInput.observeValue(),
+                        (name, email, notifications) => ({ name, email, notifications })),
                     (click, data) => data),
-                exhaustMap(async ({ name, email }) => {
+                exhaustMap(async ({ name, email, notifications }) => {
                     this.saveButton.controller.setLoadingState(true);
 
                     const modifyUser = new ModifyUser({
                         name,
-                        email
+                        email,
+                        notifications
                     });
 
                     await modifyUser.run();

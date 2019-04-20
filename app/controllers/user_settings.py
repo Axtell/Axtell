@@ -72,3 +72,13 @@ def get_privacy_settings(user):
         'following_is_public': user.following_public,
         'linked_stackexchange_is_public': user.linked_stackexchange_public
     }
+
+def set_receive_notifications(receive_notifications):
+    if g.user is None:
+        return abort(403)
+
+    if not isinstance(receive_notifications, bool):
+        return abort(401)
+
+    g.user.receive_notifications = receive_notifications
+    db.session.commit()

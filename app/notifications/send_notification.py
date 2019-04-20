@@ -3,7 +3,9 @@ from app.notifications import apns, webpush
 from app.models.Notification import Notification
 from app.models.APNDevice import APNProvider
 
+
 from base64 import urlsafe_b64decode
+
 
 def send_notification(notification):
     """
@@ -15,9 +17,15 @@ def send_notification(notification):
 
     db.session.add(notification)
     db.session.commit()
+    
+    recipient = notification.recipient
+
+    if not recipient.receive_notifications:
+        db.session.delete(notification)
+        db.session.commit()
+        return
 
     # Send to all Push Notification devices
-    recipient = notification.recipient
 
     # Send to all APNS devices
     apn_devices = recipient.apn_devices

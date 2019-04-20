@@ -18,6 +18,7 @@ export default class User {
      * @param {?string} options.avatar avatar URL
      * @param {boolean} options.isFollowing - If current user is following
      * @param {boolean} options.isAdmin - If user is admin
+     * @param {boolean} options.receiveNotifications - If user wants notifications
      */
     constructor(id, name, {
         avatar = null,
@@ -25,6 +26,7 @@ export default class User {
         answerCount = null,
         isFollowing = null,
         isAdmin = null,
+        receiveNotifications = null
     } = {}) {
         this._id = id;
         this._name = name;
@@ -37,6 +39,8 @@ export default class User {
         this._isFollowing = isFollowing;
 
         this._isAdmin = isAdmin;
+
+        this._receiveNotifications = receiveNotifications;
     }
 
     /** @type {number} */
@@ -77,6 +81,18 @@ export default class User {
     set isFollowing(newIsFollowing) { this._isFollowing = newIsFollowing; }
 
     /**
+     * If user wants notifications
+     * @type {boolean}
+     */
+    get receiveNotifications() { return this._receiveNotifications; }
+
+    /**
+     * If current user is following this one
+     * @type {boolean}
+     */
+    set receiveNotifications(newReceiveNotifications) { this._receiveNotifications = newReceiveNotifications; }
+
+    /**
      * Check if is current user
      * @return {boolean}
      */
@@ -114,7 +130,8 @@ export default class User {
                 postCount: json.post_count,
                 answerCount: json.answer_count,
                 isFollowing: json.is_following,
-                isAdmin: json.is_admin
+                isAdmin: json.is_admin,
+                receiveNotifications: json.receive_notifications
             }
         );
     }
@@ -144,6 +161,7 @@ export default class User {
             name: this.name,
             avatar: this.avatar,
             is_admin: this.isAdmin,
+            receive_notifications: this.receiveNotifications
         };
     }
 
