@@ -86,6 +86,7 @@ export default class ProfileSettingsViewProfile extends ProfileSettingsView {
             'Receive Notifications',
             new CheckboxInputTemplate({isEnabled: Data.shared.valueForKey(Key.userReceiveNotifications) == 1}),
             {
+                isHorizontalStyle: true,
                 tooltip: 'Choose whether or not you want to receive notifications about updates to your content.',
             }
         );
