@@ -11,7 +11,7 @@ def set_email(new_email):
     if g.user is None:
         return abort(403)
 
-    if not validate_email(new_email):
+    if new_email is not None and not validate_email(new_email):
         return abort(400)
 
     g.user.email = new_email
