@@ -4,7 +4,7 @@ This file implements the Web Push API
 
 from jwcrypto.jwt import JWT
 from jwcrypto.jwk import JWK
-from M2Crypto.m2 import rand_bytes
+from os import urandom
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.serialization import load_pem_private_key, load_pem_public_key
 from cryptography.hazmat.primitives.asymmetric import ec
@@ -75,7 +75,7 @@ def encrypt_payload(message, client_pub_key, auth):
     """
 
     # const salt = crypto.randomBytes(16);
-    salt = rand_bytes(16)
+    salt = urandom(16)
 
     # const localKeysCurve = crypto.createECDH('prime256v1');
     # localKeysCurve.generateKeys();

@@ -3,7 +3,7 @@ from app.instances import db
 from app.instances.redis import redis_db
 from app.models.User import User
 
-from M2Crypto.m2 import rand_bytes
+from os import urandom
 from uuid import UUID
 from flask import g
 
@@ -76,7 +76,7 @@ def generate_temporary_id():
     that identifies the user. This
     """
 
-    webapn_id = str(UUID(bytes=rand_bytes(16)))
+    webapn_id = str(UUID(bytes=urandom(16)))
     redis_key = pn_redis_id_prefix + webapn_id
 
     redis_db.set(redis_key, g.user.id)

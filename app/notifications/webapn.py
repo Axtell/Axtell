@@ -9,8 +9,6 @@ from urllib.parse import unquote
 from uuid import UUID
 from OpenSSL.crypto import load_pkcs12, _bio_to_string, _new_mem_buf
 from OpenSSL._util import ffi, lib
-from M2Crypto.m2 import rand_bytes
-from M2Crypto.SMIME import PKCS7_BINARY, PKCS7_DETACHED
 
 from app.models.APNDevice import APNDevice, APNProvider
 from app.server import server
@@ -64,7 +62,7 @@ def create_signature(manifest):
     output_bio = _new_mem_buf()
 
     # This is now our signature
-    pkcs7 = lib.PKCS7_sign(cert._x509, pkey._pkey, ffi.NULL, input_bio, PKCS7_BINARY | PKCS7_DETACHED)
+    pkcs7 = lib.PKCS7_sign(cert._x509, pkey._pkey, ffi.NULL, input_bio, lib.PKCS7_BINARY | lib.PKCS7_DETACHED)
 
     # i2d converts the internal OpenSSL type (AIS.1/i) to DER/d
     lib.i2d_PKCS7_bio(output_bio, pkcs7)

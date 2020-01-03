@@ -145,7 +145,7 @@ def set_user_oauth(code, provider, client_side=False, auth_opts={}):
         ).json()['access_token']
     except Exception as e:
         # Errors mean we couldn't get access key
-        return render_error('Could not obtain OAuth access token. ' + repr(e)), 403
+        return render_error('Could not obtain OAuth access token from OAuth provider.'), 403
 
     is_append_flow = auth_opts.get('append', False)
 
@@ -155,12 +155,13 @@ def set_user_oauth(code, provider, client_side=False, auth_opts={}):
 
     try:
         # Get identity key, this is something that allows us
-        # to uniquely identify the user
+        # to uniquely identify the user.
+        # The profile['identification'] is a user-readable string.
         oauth_identity, profile = oauth_login(auth_key)
     except Exception as e:
         # If we get here that means we could not get profile
         # this is our fault since we validated
-        return render_error('Could not obtain OAuth profile. ' + repr(e)), 500
+        return render_error('Could not obtain OAuth profile using provider implementation.' + str(e)), 500
 
     if 'identifier' not in profile:
         return render_error('Could not obtain identifier'), 400
@@ -179,6 +180,7 @@ def set_user_oauth(code, provider, client_side=False, auth_opts={}):
 
 def set_user_jwt(auth_key, profile, auth_opts={}):
     """
+    NOTE: JWT auth is deprecated because it's not very useful anyways.
     Logs in (or signs up) a new user given its JWT and a default profile
     """
 
