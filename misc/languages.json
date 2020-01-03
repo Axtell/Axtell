@@ -93,6 +93,7 @@
         "japt": "js",
         "r": 1,
         "ruby": 1,
+        "rust": 1,
         "roda": "rodacode",
         "arble": "lua",
         "vba": "vbnet",
@@ -206,6 +207,7 @@
         },
         "r": {},
         "ruby": {},
+        "rust": {},
         "roda": {
             "display": "Röda",
             "sn": "RÖ"
