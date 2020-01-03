@@ -1,5 +1,5 @@
 from uuid import UUID
-from M2Crypto.m2 import rand_bytes
+from os import urandom
 from datetime import timedelta
 
 from time import time
@@ -99,7 +99,7 @@ def set_session_user(user, current_session=None):
     else:
         user_theme = user_theme.name
 
-    session_id = f'{time}:{UUID(bytes=rand_bytes(16))}'
+    session_id = f'{time()}:{UUID(bytes=urandom(16))}'
     redis_session_key = f'{REDIS_SESSION_PREFIX}:{session_id}'
 
     pipe = redis_db.pipeline()

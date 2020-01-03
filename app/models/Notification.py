@@ -3,7 +3,7 @@ from app.notifications import get_title
 from app.notifications import get_body
 from app.helpers.SerializableEnum import SerializableEnum
 from uuid import UUID
-from M2Crypto.m2 import rand_bytes
+from os import urandom
 import datetime
 
 
@@ -32,7 +32,7 @@ class Notification(db.Model):
     __table_args__ = {'extend_existing': True}
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    uuid = db.Column(db.String(36), unique=True, nullable=False, default=lambda: str(UUID(bytes=rand_bytes(16))))
+    uuid = db.Column(db.String(36), unique=True, nullable=False, default=lambda: str(UUID(bytes=urandom(16))))
 
     recipient_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     recipient = db.relationship('User', foreign_keys=[recipient_id], backref='notifications', lazy='joined')

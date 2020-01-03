@@ -25,24 +25,26 @@ def stackexchange(auth_token):
 
 
 def google(auth_token):
+    # Gets the user's email and Google ID's to identify then
     account = requests.get(
-        'https://www.googleapis.com/oauth2/v3/tokeninfo',
+        'https://oauth2.googleapis.com/tokeninfo',
         params={
             'access_token': auth_token
         }
     ).json()
 
+    # Gets their name
     profile = requests.get(
-        'https://www.googleapis.com/plus/v1/people/me',
+        'https://people.googleapis.com/v1/people/me?personFields=names,photos',
         params={
             'access_token': auth_token
         }
     ).json()
 
     return account['sub'], {
-        'name': profile['displayName'],
+        'name': profile.get('names', [{}])[0].get('displayName', 'Axtell User'),
         'email': account['email'],
-        'avatar': profile.get('image', {}).get('url', ''),
+        'avatar': profile.get('photos', [{}])[0].get('url', ''),
         'identifier': account['email']
     }
 

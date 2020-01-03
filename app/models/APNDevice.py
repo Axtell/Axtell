@@ -2,7 +2,7 @@ from app.instances import db
 from app.helpers.SerializableEnum import SerializableEnum
 
 from uuid import UUID
-from M2Crypto.m2 import rand_bytes
+from os import urandom
 
 class APNProvider(SerializableEnum):
     WEB_APN = 0
@@ -19,7 +19,7 @@ class APNDevice(db.Model):
     )
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    uuid = db.Column(db.String(36), unique=True, nullable=False, default=lambda: str(UUID(bytes=rand_bytes(16))))
+    uuid = db.Column(db.String(36), unique=True, nullable=False, default=lambda: str(UUID(bytes=urandom(16))))
 
     device_id = db.Column(db.String(64), nullable=True)
     provider = db.Column(db.Enum(APNProvider), nullable=False)
