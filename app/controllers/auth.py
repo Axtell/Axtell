@@ -131,7 +131,7 @@ def set_user_oauth(code, provider, client_side=False, auth_opts={}):
         # Get the auth key. By polling the provider we both validate
         # the login request and now are able to submit requests as
         # users of the provider.
-        auth_key = requests.post(
+        access_token_response = requests.post(
             oauth_callback,
             data={
                 'code': code,
@@ -143,17 +143,19 @@ def set_user_oauth(code, provider, client_side=False, auth_opts={}):
             headers={
                 'Accept': 'application/json'
             }
-        ).json()['access_token']
+        ).json()
     except Exception as error:
         if bugsnag.configuration.api_key is not None:
-            bugsnag.notify(
-                error,
-                meta_data={
-                    'oauth': {
-                        'provider': provider
-                    }
-                }
-            )
+            bugsnag.notify(error, meta_data={'oauth':{'provider':provider}})
+
+        # Errors mean we couldn't get access key
+        return render_error('Failed to connect to OAuth provider.'), 403
+
+    try:
+        auth_key = access_token_response['access_token']
+    except Exception as error:
+        if bugsnag.configuration.api_key is not None:
+            bugsnag.notify(error, meta_data={'oauth':{'provider':provider, 'data':access_token_response}})
 
         # Errors mean we couldn't get access key
         return render_error('Could not obtain OAuth access token from OAuth provider.'), 403
