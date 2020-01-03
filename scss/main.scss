@@ -3,6 +3,11 @@
 $collapse-width: 1160px;
 $sidebar-collapse: 800px;
 
+$sidebar-bonus: 8%;
+$content-space: (100% - $page-width) / 2;
+$content-width: 100% - $content-space;
+$sidebar-width: ($content-space / $content-width) * 100% + $sidebar-bonus;
+
 html, body {
   @include full;
   @include fit;
@@ -53,11 +58,12 @@ body {
     }
 
     // Readjusts for smaller screens (removes margins)
-    @media screen and (max-width: $collapse-width) {
+    @media (max-width: $collapse-width) {
       width: 100%;
 
       &.content-split.cs-collapse {
         width: 100%;
+        max-width: auto;
         margin-left: 0;
       }
     }
@@ -84,6 +90,7 @@ body {
         align-self: stretch;
 
         width: 0px; // Prevents expansion of parent
+        max-width: 100% - $sidebar-width;
         flex: 1;
 
         > form {
@@ -99,12 +106,8 @@ body {
         @import "page/sidebar.scss";
       }
 
-      $sidebar-bonus: 8%;
-      $content-space: (100% - $page-width) / 2;
-      $content-width: 100% - $content-space;
       width: $content-width;
       margin-left: $content-space;
-      $sidebar-width: ($content-space / $content-width) * 100% + $sidebar-bonus;
 
       // We don't want footer floating with background below.
       min-height: 100%;
