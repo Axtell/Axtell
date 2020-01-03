@@ -16,6 +16,7 @@ from app.helpers import oauth
 from config import canonical_host, auth as oauth_data, app as app_config
 from json import loads as json_parse
 import requests
+import bugsnag
 
 
 def auth_hack():
@@ -144,6 +145,16 @@ def set_user_oauth(code, provider, client_side=False, auth_opts={}):
             }
         ).json()['access_token']
     except Exception as e:
+        if bugsnag.configuration.api_key is not None:
+            bugsnag.notify(
+                error,
+                meta_data={
+                    'oauth': {
+                        'provider': provider
+                    }
+                }
+            )
+
         # Errors mean we couldn't get access key
         return render_error('Could not obtain OAuth access token from OAuth provider.'), 403
 
@@ -158,10 +169,20 @@ def set_user_oauth(code, provider, client_side=False, auth_opts={}):
         # to uniquely identify the user.
         # The profile['identification'] is a user-readable string.
         oauth_identity, profile = oauth_login(auth_key)
-    except Exception as e:
+    except Exception as error:
+        if bugsnag.configuration.api_key is not None:
+            bugsnag.notify(
+                error,
+                meta_data={
+                    'oauth': {
+                        'provider': provider
+                    }
+                }
+            )
+
         # If we get here that means we could not get profile
         # this is our fault since we validated
-        return render_error('Could not obtain OAuth profile using provider implementation.' + str(e)), 500
+        return render_error('Could not obtain OAuth profile using provider implementation.'), 500
 
     if 'identifier' not in profile:
         return render_error('Could not obtain identifier'), 400
