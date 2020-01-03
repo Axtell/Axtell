@@ -39,7 +39,6 @@ export default class PushNotification {
      */
     get supportsPNs() {
         // Chrome implementation is buggy, disabled for now.
-        if (window.chrome) return false;
         return this.usePush || this.useAPN;
     }
 
