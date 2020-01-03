@@ -144,7 +144,7 @@ def set_user_oauth(code, provider, client_side=False, auth_opts={}):
                 'Accept': 'application/json'
             }
         ).json()['access_token']
-    except Exception as e:
+    except Exception as error:
         if bugsnag.configuration.api_key is not None:
             bugsnag.notify(
                 error,
