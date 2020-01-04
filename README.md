@@ -42,7 +42,7 @@ To get started make sure you have the following installed:
  - Python 3.6 or higher
  - MySQL (we recommend 8.0)
  - Probably Ruby (not 100% sure if actually required)
- - `node`/`npm` (Node.js 8 or higher is reccomended)
+ - `node`/`npm` (Node.js 8 or higher is recommended)
  - Redis
  - memcached
  - OpenSSL
@@ -57,19 +57,22 @@ additionally you need to know:
 
  - MySQL username + password
  - Redis password
-
-You can use `setup.sh` to try to automatically setup most things. Run this with `sudo`.
+ - A few keys, etc for login. see below
 
 ### 2. Setup
-The setup script automatically does most of this
 
  1. Copy `config.default.py` to `config.py`
- 1. Replace `MYSQL_USERNAME` and `MYSQL_PASSWORD` with appropriate MySQL credentials
- 1. Replace `REDIS_PASSWORD` with appropriate Redis credential
+ 1. Fill in all the values as possible in the `config.py`. See below for instructions
  1. Set `secret_skey` to some random string. It doesn't matter what it is as long as it is random.
- 1. Run `mysql -u MYSQL_USERNAME -e "CREATE DATABASE ppcg;"`
 
 If you look within `config.py`, you need to fill in various API keys from Google, StackExchange, etc. Additionally in the configuration file you'll see various other fields you can modify.
+
+#### (Optional) Recommended: Using UWSGI
+Running Axtell from flask is possible— it's fine for development purposes,
+however for any somewhat production related system it's recommended to run it
+through UWSGI (and through NGINX is even better). Axtell has an `axtell.default.ini`,
+copy this to `axtell.ini` and fill the default values. That contains everything
+to start a properly configured UWSGI setup of Axtell.
 
 #### (Optional) Setup HTTPS
 It's highly reccomend to run Axtell under a reverse proxy such as Nginx however for HTTPS, in the root directory of the Axtell instance, place a `server.crt` and `server.key` file.
@@ -209,6 +212,12 @@ $ celery multi start w1 -A celery_server
 $ ./debug.sh
 ```
 
+or if using uWSGI (you probably want to run uwsgi as a daemon):
+
+```bash
+$ uwsgi --ini axtell.ini
+```
+
 #### uWSGI
 Some notes for uWSGI configurations is that the following config options are needed:
 
@@ -217,6 +226,8 @@ Some notes for uWSGI configurations is that the following config options are nee
 enable-threads = true
 wsgi-disable-file-wrapper = true
 ```
+
+(this is reflected in the default uWSGI config already).
 
 #### DB Migrations with Alembic
 If any changes are made to the DB in ORM the DB will need to be migrated to new

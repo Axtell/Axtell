@@ -1,6 +1,14 @@
 @import "body/headers.scss";
 @import "body/figures.scss";
 
+& {
+  color: $main-text;
+  // font-weight: 300;
+  line-height: 1.6em;
+  text-rendering: optimizeLegibility;
+  hyphens: auto;
+}
+
 hr {
   border: none;
   border-top: 1px solid $subcontent-border-color;
@@ -9,10 +17,6 @@ hr {
 pre {
   margin: 0.5em 0;
   font-size: inherit;
-}
-
-code {
-  font-family: $monospace;
 }
 
 p {
@@ -51,7 +55,7 @@ blockquote {
   color: rgba($blockquote-fg, 0.7);
 
   p {
-    font-size: 1.3em;
+    font-size: 1em;
     font-family: $quote-font;
     font-style: italic;
 
@@ -59,13 +63,6 @@ blockquote {
 
     &:last-child { margin-bottom: 0; }
   }
-}
-
-li, p {
-  color: $main-text;
-  font-weight: 300;
-  line-height: 2;
-  hyphens: auto;
 }
 
 .katex-display + * {
@@ -116,4 +113,3 @@ table {
   }
 
 }
-

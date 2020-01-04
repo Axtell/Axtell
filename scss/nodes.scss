@@ -103,7 +103,6 @@ span.label {
 
 pre.hljs, .body pre {
   font-family: $monospace;
-  font-size: 15px;
   line-height: 1.3;
 
   color: $code-block-fg;
@@ -111,17 +110,30 @@ pre.hljs, .body pre {
   box-shadow: 0 4px 16px -8px rgba($shadow-mix, 0.5);
 
   background: $code-block-bg;
-  padding: 0;
+  padding: 1rem 1.5rem;
   box-sizing: border-box;
   border-radius: 8px;
   border-left: 8px solid $code-block-indent;
 
   code {
-    padding: 1rem 1.5rem;
+    background: none;
+    padding: 0;
+    border-radius: none;
+    font-size: inherit;
+    font-family: inherit;
+    vertical-align: auto;
     display: block;
     overflow-x: auto;
-    font-family: inherit;
   }
+}
+
+code {
+  vertical-align: middle;
+  background: rgba($description-text, 0.08);
+  padding: 0.125em 0.5em;
+  font-size: 0.875em;
+  border-radius: 3px;
+  font-family: $monospace;
 }
 
 hr {

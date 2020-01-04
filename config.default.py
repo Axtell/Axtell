@@ -30,6 +30,7 @@ memcached_config = {
 auth = {
     'google.com': {
         'client-id': 'GOOGLE_CLIENT_ID',
+        'client-secret': 'GOOGLE_CLIENT_SECRET',
         'analytics-id': 'GOOGLE_ANALYTICS_CLIENT_ID',
         'view-id': ''
     },

@@ -1,7 +1,6 @@
 h1, h2, h3, h4, h5, h6 {
   display: block;
-  margin-top: 0.8em;
-  margin-bottom: 0.2em;
+  margin: 1.5em 0 0.75em;
 
   &.header--nomargin-top {
     margin-top: 0;
@@ -12,13 +11,12 @@ h1 {
   font: {
     family: $bold-font;
     weight: bold;
-    size: 1.5rem;
+    size: 1.4em;
   };
 }
 
 h2, h3 {
-  font-size: 1.3rem;
-  margin: 1.5em 0 0.5rem;
+  font-size: 1.27em;
 }
 
 h4 {
