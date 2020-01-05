@@ -2,21 +2,17 @@
   "presets": [
     ["@babel/preset-env", {
       "useBuiltIns": "entry",
-      "modules": false
+      "modules": false,
+      "corejs": 3
     }]
   ],
+
   "plugins": [
-    "@babel/plugin-syntax-dynamic-import",
-    "babel-plugin-syntax-jsx",
-    ["babel-plugin-jsx-to-dom", {
-      "noWhitespaceOnly": true
-    }],
     "@babel/plugin-proposal-optional-chaining",
-    "@babel/plugin-proposal-optional-catch-binding",
+    "babel-plugin-syntax-jsx",
     "@babel/plugin-proposal-do-expressions",
-    ["@babel/plugin-transform-runtime", {
-      "regenerator": true
-    }],
+    ["@babel/plugin-transform-runtime", { "regenerator": true }],
+    "babel-plugin-wildcard",
     ["module:babel-7-plugin-root-import", {
       "paths": [
         {
@@ -29,8 +25,6 @@
         }
       ]
     }],
-    "babel-plugin-wildcard",
-    "@babel/plugin-proposal-object-rest-spread",
     ["@babel/plugin-proposal-class-properties", { "loose": true }],
     "@babel/plugin-proposal-function-bind"
   ]

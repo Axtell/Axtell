@@ -1,0 +1,9 @@
+{
+  "extends": "../.babelrc",
+  "plugins": [
+    ["babel-plugin-jsx-to-dom", { noWhitespaceOnly: true }],
+  ],
+  "exclude": [
+    "./react"
+  ]
+}
