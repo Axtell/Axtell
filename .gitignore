@@ -108,6 +108,9 @@ ENV/
 
 # Celery things
 w1*
+*.pid
+axtell.ini
+uwsgi.ini
 
 # Sensitive configuration details
 /config.py

@@ -16,9 +16,6 @@ import Analytics, { TimingType } from "~/models/Analytics";
 
 import '~/interactors/GlobalTriggers';
 
-import TestComponent from '~/react/TestComponent.js';
-import ReactDOM from 'react-dom';
-
 // Manage unhandled errors through manager
 window.addEventListener("unhandledrejection", (error) => {
     ErrorManager.unhandled(error.reason);
