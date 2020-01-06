@@ -65,6 +65,10 @@ body {
         width: 100%;
         max-width: auto;
         margin-left: 0;
+
+        > main {
+          max-width: 100%;
+        }
       }
     }
 
