@@ -16,7 +16,7 @@ export default class StackExchangege {
                 `client_id=${Data.shared.envValueForKey('SE_CLIENT_ID')}` +
                 `&scope=` +
                 `&state=${btoa(JSON.stringify({
-                    provider: 'se',
+                    provider: 'stackexchange.com',
                     clientOnly: true
                 }))}` +
                 `&redirect_uri=${Data.shared.envValueForKey('OAUTH_CALLBACK')}`,

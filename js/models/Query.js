@@ -38,7 +38,7 @@ export default class Query {
      * @param {Object} [opts={}]
      * @param {number} [opts.maxResults=5] - Max results
      * @param {number} [opts.page=1] - one-indexed
-     * @param {boolean} [opts.searchEmpty=true] - If to query empty
+     * @param {boolean} [opts.searchEmpty=true] - If to run a query if empty term
      * @return {Object}
      * @property {T[]} results
      * @property {boolean} areMore If are more
