@@ -7,6 +7,8 @@ structure:
     contents:
       - name: Privacy Policy
         path: legal/privacy
+      - name: License
+        path: legal/license
   - name: FAQ
     contents:
         - name: General FAQ
